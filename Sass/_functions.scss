@@ -1,0 +1,43 @@
+/*
+ * Exponent function (for square, cubes, etc.)
+ */
+@function exponent($base, $exponent){
+      $value: $base;
+      @if $exponent > 1{
+        @for $i from 2 through $exponent{
+          $value: $value * $base;
+        }
+      }
+      @if $exponent < 1{
+        @for $i from 0 through -$exponent{
+          $value: $value / $base;
+        }
+       }
+      @return ($value);
+}
+/*
+ * Strip units from a sass value
+ */
+@function strip-unit($value) {
+    @return $value / ($value * 0 + 1);
+}
+
+/*
+ * Typographic Modular Scale (for making prettier typography)
+ */
+@function modular-scale($i){
+    @return exponent($font-scale, $i) * $font-size;
+}
+
+/*
+ * Snapping lineheights to our vertical grid
+ */
+
+@function modular-base($i,$type-size){
+    $new-baseline: $baseline * 2;
+    $snap: (ceil($type-size / $new-baseLine ) * $new-baseLine) / $type-size;
+    @if $snap <= 1.16 {
+        $snap: (ceil($type-size / $new-baseline ) * $new-baseline * 1.5) / $type-size;
+    }
+    @return $snap;
+}
