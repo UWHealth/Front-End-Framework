@@ -20,7 +20,7 @@ $type-indented-paragraphs: false !default;
 
 // Would you like to automatically scale your Heading sizes?
 // (This can provide a more elegant typographic rhythm)
-$type-auto-scale:          false !default;
+$type-auto-scale:          true !default;
 
 // Set the ratio by which your type should grow.
 // Accepts two numbers, representing a ratio, typically associated with
@@ -77,36 +77,20 @@ $type-modular-scale:       0;
 }
 
 // Space elements by an amount based on your magic number. Pass in the property
-// to be indented as a paramater, e.g.:
+// to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
 //
 // pre {
-//     @include type-space(padding-left);
+//     @include typecsset-space(padding-left, 1);
 // }
 //
-@mixin type-space($property) {
-    #{$property}: 2 * $type-magic-number;
-    #{$property}: 2 * $type-magic-ratio + rem;
+@mixin type-space($property, $multiplier: 2) {
+    #{$property}: $multiplier * $typecsset-magic-number;
+    #{$property}: $multiplier * $typecsset-magic-ratio + rem;
 }
 
 // A small, internally-used function to remove the units from a given value.
 @function type-strip-units($number) {
     @return $number / ($number * 0 + 1);
-}
-
-// Exponent function used for modular scaling of type (removes Compass dependancy)
-@function exponent($base, $exponent){
-      $value: $base;
-      @if $exponent > 1{
-        @for $i from 2 through $exponent{
-          $value: $value * $base;
-        }
-      }
-      @if $exponent < 1{
-        @for $i from 0 through -$exponent{
-          $value: $value / $base;
-        }
-       }
-      @return ($value);
 }
 
 // Modular scale function to scale type up or down.
