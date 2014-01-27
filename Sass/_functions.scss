@@ -25,7 +25,7 @@
 /*
  * Typographic Modular Scale (for making prettier typography)
  */
-@function modular-scale($i){
+@function type-scale($i){
     @return exponent($font-scale, $i) * $font-size;
 }
 
@@ -40,4 +40,61 @@
         $snap: (ceil($type-size / $new-baseline ) * $new-baseline * 1.5) / $type-size;
     }
     @return $snap;
+}
+// Quickly generate a font-size in rems, with a pixel fallback, based on the
+// value we pass into the mixin, e.g.:
+//
+// h1 {
+//     @include type-font-size(24px);
+// }
+@mixin type-font-size($font-size, $line-height: true) {
+    font-size: $font-size;
+    font-size: ($font-size / $type-base-font-size) * 1rem;
+
+    @if $line-height == true {
+        line-height: ceil($font-size / $type-base-line-height)* $type-base-line-height;
+        line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height / $font-size);
+    }
+
+}
+
+// Space elements by an amount based on your magic number. Pass in the property
+// to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
+//
+// pre {
+//     @include typecsset-space(padding-left, 1);
+// }
+//
+@mixin type-space($property, $multiplier: 2) {
+    #{$property}: $multiplier * $type-magic-number;
+    #{$property}: $multiplier * $type-magic-ratio + rem;
+}
+
+// A small, internally-used function to remove the units from a given value.
+@function type-strip-units($number) {
+    @return $number / ($number * 0 + 1);
+}
+
+// Modular scale function to scale type up or down.
+// But first, we need strip base-type-size of its units.
+
+@function modular-scale($i){
+    @return exponent($type-modular-scale, $i)*($stripped-base-font-size)*1px;
+}
+
+// This mixin can be used externally
+// by using @include modular-scale([scale number, property]);.
+@mixin type-scale($property: font-size, $i: 1){
+    @if $type-auto-scale == false{
+        @warn "Please set $type-auto-scale to true or else type-scale is fairly meaningless.";
+    }
+    @if $property == "font-size"{
+        $font-size: modular-scale($i);
+        @include type-font-size($font-size);
+    }
+    @else{
+        $scale: modular-scale($i);
+        #{$property}: $scale;
+        #{$property}: ($scale / $type-base-font-size) * 1rem;
+    }
 }

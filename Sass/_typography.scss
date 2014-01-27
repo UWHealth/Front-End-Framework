@@ -4,15 +4,15 @@
 
 // What would you like your base font-size to be? Define in pixels; the library
 // will convert measurements to the most appropriate units (rems or unitless).
-$type-base-font-size:      16px !default;
-$type-base-line-height:    24px !default;
+$type-base-font-size:      14px !default;
+$type-base-line-height:    22px !default;
 
 // Heading sizes
-$type-h1-size:             48px !default;
-$type-h2-size:             36px !default;
-$type-h3-size:             30px !default;
-$type-h4-size:             24px !default;
-$type-h5-size:             20px !default;
+$type-h1-size:             50px !default;
+$type-h2-size:             44px !default;
+$type-h3-size:             33px !default;
+$type-h4-size:             22px !default;
+$type-h5-size:             21px !default;
 $type-h6-size:             18px !default;
 
 // Would you like indented (rather than spaced) paragraph delimiting?
@@ -20,7 +20,7 @@ $type-indented-paragraphs: false !default;
 
 // Would you like to automatically scale your Heading sizes?
 // (This can provide a more elegant typographic rhythm)
-$type-auto-scale:          true !default;
+$type-auto-scale:          false !default;
 
 // Set the ratio by which your type should grow.
 // Accepts two numbers, representing a ratio, typically associated with
@@ -28,17 +28,19 @@ $type-auto-scale:          true !default;
 // Common intervals: Perfect fourth (4,3)[default], Perfect Fifth (3,2),
 // Perfect Octave (2,1), Major Third (5,4), Major Sixth (5,3).
 // The Golden Ratio is (1.618,1).
-$type-ratio:               4,3   !default;
+$type-ratio:               1.214   !default;
 
 // Would you like to show a baseline grid? This is handy during development.
 $type-show-baseline:       false !default;
 
 // Do not modify these variables; they are internal settings upon which the
 // library depends.
+$stripped-base-font-size:  type-strip-units($type-base-font-size);
 $type-magic-number:        $type-base-line-height;
 $type-magic-ratio:         $type-base-line-height / $type-base-font-size;
 $type-headings:            6,5,4,3,2,1;
 $type-modular-scale:       0;
+
 
 //Checking for floats in $type-ratio
 @if length($type-ratio) == 2{
@@ -53,69 +55,6 @@ $type-modular-scale:       0;
 }
 
 
-//------------------------------------\\
-    // TOOLS
-//------------------------------------\\
-// type has a number of its own tools which it uses to generate its CSS
-// more efficiently.
-
-// Quickly generate a font-size in rems, with a pixel fallback, based on the
-// value we pass into the mixin, e.g.:
-//
-// h1 {
-//     @include type-font-size(24px);
-// }
-//
-@mixin type-font-size($font-size, $line-height: true) {
-    font-size: $font-size;
-    font-size: ($font-size / $type-base-font-size) * 1rem;
-
-    @if $line-height == true {
-        line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height / $font-size);
-    }
-
-}
-
-// Space elements by an amount based on your magic number. Pass in the property
-// to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
-//
-// pre {
-//     @include typecsset-space(padding-left, 1);
-// }
-//
-@mixin type-space($property, $multiplier: 2) {
-    #{$property}: $multiplier * $typecsset-magic-number;
-    #{$property}: $multiplier * $typecsset-magic-ratio + rem;
-}
-
-// A small, internally-used function to remove the units from a given value.
-@function type-strip-units($number) {
-    @return $number / ($number * 0 + 1);
-}
-
-// Modular scale function to scale type up or down.
-// But first, we need strip base-type-size of its units.
-$stripped-base-font-size: type-strip-units($type-base-font-size);
-@function modular-scale($i){
-    @return exponent($type-modular-scale, $i)*($stripped-base-font-size)*1px;
-}
-
-// This mixin can be used externally
-// by using @include modular-scale([scale number, property]);.
-@mixin type-scale($i, $property){
-    @if $type-auto-scale == false{
-        @warn "Please set $type-auto-scale to true or else type-scale is fairly meaningless.";
-    }
-    @if $property == "font-size"{
-        $font-size: modular-scale($i);
-        @include type-font-size($font-size);
-    }
-    @else{
-        $m-scale: modular-scale($i);
-        #{$property}: $m-scale;
-        #{$property}: ($m-scale / $type-base-font-size) * 1rem;
-    }
-}
 /*------------------------------------*\
     #SHARED
 \*------------------------------------*/
@@ -146,17 +85,13 @@ $stripped-base-font-size: type-strip-units($type-base-font-size);
  *    base font size.
  */
 
-@if $type-show-baseline == true {
-/**
- * 3. If you have chosen to display a baseline grid, we turn it on here.
- */
-}
-
 
 
 html {
     font-size: $type-base-font-size / 16px + em; /* [1] */
     line-height: $type-base-line-height / $type-base-font-size; /* [2] */
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
 
     // If you have chosen to display a baseline grid, we turn it on here.
     @if $type-show-baseline == true {
@@ -167,12 +102,10 @@ html {
     }
 
 }
-
 body {
+    font-size: 1em;
     margin: 0;
 }
-
-
 
 
 
@@ -196,7 +129,7 @@ body {
                                                              /* [5] */
             h#{$current-heading} {
                 @extend %type-vertical-rhythm;
-                @include type-font-size($font-size);
+                @include type-font-size($font-size, true);
             };
             $i: $i + 1;
     };
@@ -241,7 +174,7 @@ h6 {
 /*------------------------------------*\
     #LISTS
 \*------------------------------------*/
-ul, ol, dd {
+ul, ol, dd, menu {
     @extend %type-vertical-rhythm;
     @include type-space(margin-left);
 }
@@ -281,14 +214,11 @@ address {
 }
 
 
-
-
-
-/*------------------------------------*\
-    #CODE
-\*------------------------------------*/
 pre {
     @extend %type-vertical-rhythm;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 /**
@@ -300,8 +230,17 @@ kbd,
 pre,
 samp {
     font-family: monospace, monospace; /* [1] */
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
 }
 
+/**
+ * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+ */
+
+abbr[title] {
+    border-bottom: 1px dotted;
+}
 
 
 
@@ -316,10 +255,6 @@ blockquote {
     text-indent: -0.41em; /* [1] */
 }
 
-/**
- * Set up quote marks on quoting elements. This is very English-based, so we are
- * using “, ”, ‘, and ’ quotes.
- */
 blockquote {
     @extend %type-vertical-rhythm;
     quotes: "“" "”";
@@ -378,17 +313,6 @@ q   {
     }
 
 }
-
-
-
-
-
-/*------------------------------------*\
-    #TABLES
-\*------------------------------------*/
-/**
- * Crude table styles; tables are very difficult to keep on the baseline.
- */
 table {
     @extend %type-vertical-rhythm;
     width: 100%;
@@ -398,5 +322,27 @@ table {
 
 th,
 td {
-    padding: $type-base-line-height / 2;
+    padding: $type-base-line-height / 2;}
+
+b,strong{
+    font-weight: bold;}
+dfn {
+    font-style: italic;}
+small {
+    @include type-scale(-1);}
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;}
+sup {
+    top: -0.5em;
+}
+sub {
+    bottom: -0.25em;
+}
+fieldset {
+    border: 0;
+    margin: 0 2px;
+    @include type-scale(padding, -1);
 }
