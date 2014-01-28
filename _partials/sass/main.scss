@@ -4,5 +4,5 @@ $type-ratio:               1.214;
 $type-auto-scale:          true;
 $type-show-baseline:       true;
 
-@import 'functions','typography','normalize';
+@import 'utilities/functions','utilities/extend','type/typography','vendor/normalize';
 

@@ -7,7 +7,7 @@
 $type-base-font-size:      14px !default;
 $type-base-line-height:    22px !default;
 
-// Heading sizes
+// Heading sizes if you'd rather set them yourself
 $type-h1-size:             50px !default;
 $type-h2-size:             44px !default;
 $type-h3-size:             33px !default;
@@ -28,7 +28,7 @@ $type-auto-scale:          false !default;
 // Common intervals: Perfect fourth (4,3)[default], Perfect Fifth (3,2),
 // Perfect Octave (2,1), Major Third (5,4), Major Sixth (5,3).
 // The Golden Ratio is (1.618,1).
-$type-ratio:               1.214   !default;
+$type-ratio:               4,3   !default;
 
 // Would you like to show a baseline grid? This is handy during development.
 $type-show-baseline:       false !default;
@@ -53,27 +53,6 @@ $type-modular-scale:       0;
 } @else {
     $type-modular-scale:   $type-ratio;
 }
-
-
-/*------------------------------------*\
-    #SHARED
-\*------------------------------------*/
-/**
- * A lot of elements in type need to share some declarations (mainly for
- * vertical rhythm), so we `@extend` some silent classes.
- */
-%type-reset {
-    margin:  0;
-    padding: 0;
-}
-
-%type-vertical-rhythm {
-    @extend %type-reset;
-    margin-bottom: $type-magic-number;
-    margin-bottom: $type-magic-ratio + rem;
-}
-
-
 /*------------------------------------*\
     #BASE
 \*------------------------------------*/
@@ -85,9 +64,15 @@ $type-modular-scale:       0;
  *    base font size.
  */
 
-
+%type-vertical-rhythm {
+    @extend %type-reset;
+    margin-bottom: $type-magic-number;
+    margin-bottom: $type-magic-ratio + rem;
+}
 
 html {
+    @extend %type-reset;
+    @extend %font-family;
     font-size: $type-base-font-size / 16px + em; /* [1] */
     line-height: $type-base-line-height / $type-base-font-size; /* [2] */
     -ms-text-size-adjust: 100%;
@@ -104,7 +89,7 @@ html {
 }
 body {
     font-size: 1em;
-    margin: 0;
+    @extend %type-reset;
 }
 
 
