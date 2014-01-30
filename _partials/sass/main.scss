@@ -31,7 +31,7 @@ $lap-start: 481px;
 $desk-start: 941px;
 
 
-//Imports
+//Imports (must be called after variables are defined).
 
 @import 'utilities/functions','utilities/variables','utilities/extend',
         'type/fonts','type/typography',
@@ -71,4 +71,5 @@ $desk-start: 941px;
 #toggles{
     position: fixed;
     right: 0;
+    z-index: 100;
 }

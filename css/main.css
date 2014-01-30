@@ -269,4 +269,4 @@ html.grid-off .wrap:before { background-image: none; }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; padding-top: 48px; padding-top: 3.42857rem; }
 
-#toggles { position: fixed; right: 0; }
+#toggles { position: fixed; right: 0; z-index: 100; }
