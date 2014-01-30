@@ -118,11 +118,11 @@ $use-markup-fix:        true!default;
  // Would you like to show the grid? This is handy during development.
 $show-grid:             false !default;
 
-/**
- * Define your breakpoints. The first value is the prefix that shall be used for
- * your classes (e.g. `.palm--one-half`), the second value is the media query
- * that the breakpoint fires at.
- */
+
+ // Define your breakpoints. The first value is the prefix that shall be used for
+ // your classes (e.g. `.small--one-half`), the second value is the media query
+ // that the breakpoint fires at.
+
 $breakpoints: (
     'small' '(max-width: 480px)',
     'lap' '(min-width: 481px) and (max-width: 1023px)',
@@ -862,7 +862,7 @@ $class-type:            unquote(".");
                 rgba(0,0,0,0.05) percentage(11.1/12),
                 rgba(0,0,0,0.00) percentage(11.15/12),
                 rgba(0,0,0,0.00) percentage(11.99/12),
-                rgba(0,0,0,0.05) 99%,
+                rgba(0,0,0,0.05) 98%,
                 rgba(0,0,0,0.05) 100%);
     }
     html.grid-off .wrap:before{
