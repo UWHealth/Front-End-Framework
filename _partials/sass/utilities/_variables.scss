@@ -42,3 +42,47 @@ $type-modular-scale:       0;
 
 //Spacing variable for simple inclusion.
 $type-space: 2* $type-magic-ratio;
+
+//Default colors
+//Based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
+//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
+
+$brand-color-1: #063b6d !default;        //UW Blue (dark blue)
+$brand-color-1-alt: #5f82a3 !default;    //UW Steel Blue
+$brand-color-2: #d40026 !default;        //UW Red (maroonish-red)
+$brand-color-2-alt: #fe0202 !default;    //UW Fire Red (orangey-red)
+$action-color: #4c7659 !default;         //Green / Earth
+$function-color: #d4c9ad !default;       //UW Tan
+$alert-color: #b22727 !default;          //Red
+
+$brand-color-1-dark: darken(#063b6d, 10%) !default;        //Darker UW Blue (dark blue)
+$brand-color-1-alt-dark: darken(#5f82a3, 10%) !default;    //Darker UW Steel Blue
+$brand-color-2-dark: darken(#d40026, 10%) !default;        //Darker UW Red (maroonish-red)
+$brand-color-2-alt-dark: darken(#fe0202, 10%) !default;    //Darker UW Fire Red (orangey-red)
+$action-color-dark: darken(#4c7659, 10%) !default;         //Darker Green / Earth
+$function-color-dark: darken(#d4c9ad, 10%) !default;       //Darker UW Tan
+$alert-color-dark: darken(#b22727, 10%) !default;          //Darker Red
+
+$brand-color-1-darker: darken(#063b6d, 20%) !default;        //Deep UW Blue (dark blue)
+$brand-color-1-alt-darker: darken(#5f82a3, 20%) !default;    //Deep UW Steel Blue
+$brand-color-2-darker: darken(#d40026, 20%) !default;        //Deep UW Red (maroonish-red)
+$brand-color-2-alt-darker: darken(#fe0202, 20%) !default;    //Deep UW Fire Red (orangey-red)
+$action-color-darker: darken(#4c7659, 20%) !default;         //Deep Green / Earth
+$function-color-darker: darken(#d4c9ad, 20%) !default;       //Deep UW Tan
+$alert-color-darker: darken(#b22727, 20%) !default;          //Deep Red
+
+$brand-color-1-light: lighten(#063b6d, 10%) !default;        //Ligher UW Blue
+$brand-color-1-alt-light: lighten(#5f82a3, 10%) !default;    //Ligher UW Steel Blue
+$brand-color-2-light: lighten(#d40026, 10%) !default;        //Ligher UW Red (maroonish-red)
+$brand-color-2-alt-light: lighten(#fe0202, 10%) !default;    //Ligher UW Fire Red (orangey-red)
+$action-color-light: lighten(#4c7659, 10%) !default;         //Ligher Green / Earth
+$function-color-light: lighten(#d4c9ad, 10%) !default;       //Ligher UW Tan
+$alert-color-light: lighten(#b22727, 10%) !default;          //Ligher Red
+
+$brand-color-1-lighter: lighten(#063b6d, 20%) !default;        //Sky UW Blue (dark blue)
+$brand-color-1-alt-lighter: lighten(#5f82a3, 20%) !default;    //Sky UW Steel Blue
+$brand-color-2-lighter: lighten(#d40026, 20%) !default;        //Sky UW Red (maroonish-red)
+$brand-color-2-alt-lighter: lighten(#fe0202, 20%) !default;    //Sky UW Fire Red (orangey-red)
+$action-color-lighter: lighten(#4c7659, 20%) !default;         //Sky Green / Earth
+$function-color-lighter: lighten(#d4c9ad, 20%) !default;       //Sky UW Tan
+$alert-color-lighter: lighten(#b22727, 20%) !default;          //Sky Red

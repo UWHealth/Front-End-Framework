@@ -30,46 +30,28 @@ $breakpoints: (
 $lap-start: 481px;
 $desk-start: 941px;
 
+$breakpoint-has-widths: ('small', 'lap', 'port', 'desk');
+$breakpoint-has-push:   ('small', 'lap', 'port', 'desk');
+$breakpoint-has-pull:   ('small', 'lap', 'port', 'desk');
+
+
+//Colors - based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
+//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
+//The darker and ligher variations are defined in utilities/variables
+$brand-color-1: #063b6d;        //UW Blue (dark blue)
+$brand-color-2: #d40026;        //UW Red (maroonish-red)
+$action-color: #4c7659;         //Green / Earth
+$function-color: #d4c9ad;       //UW Tan
+$alert-color: #b22727;          //Red
+
 
 //Imports (must be called after variables are defined).
-
 @import 'utilities/functions','utilities/variables','utilities/extend',
         'type/fonts','type/typography',
         'vendor/normalize',
         'grid/import',
-        'components/import';
+        'components/import',
+        'app';
 
 
-//Regular CSS
-.wrap{
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 $gutter;
-    @include type-space(padding-top, 2);
-    @extend %clearfix;
-}
-.row{
-    @extend %grid;
-    @extend %clearfix;
-}
-.column{
-    @extend %grid__item;
-    @extend %one-whole;
-}
-.sidebar{
-    @extend %grid__item;
-    @extend %small--one-whole;
-    @extend %lap--one-quarter;
-    @extend %desk--one-third;
-}
-.content{
-    @extend %grid__item;
-    @extend %small--one-whole;
-    @extend %lap--three-quarters;
-    @extend %desk--two-thirds;
-}
-#toggles{
-    position: fixed;
-    right: 0;
-    z-index: 100;
-}
+

@@ -233,10 +233,12 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 /* Opera hack */
 .opera:-o-prefocus, .row { word-spacing: -0.43em; }
 
-.column, .sidebar, .content { display: inline-block; padding-left: 24px; padding-left: 1.71429rem; vertical-align: top; width: 100%; letter-spacing: normal; word-spacing: normal; }
+.column, .sidebar, .content, .color-block { display: inline-block; padding-left: 24px; padding-left: 1.71429rem; vertical-align: top; width: 100%; letter-spacing: normal; word-spacing: normal; }
 
 /** Reversed grids allow you to structure your source in the opposite order to how your rendered layout will appear. Extends `.grid`. */
 .column { width: 100%; }
+
+.color-block { width: 20%; }
 
 @media only screen and (max-width: 480px) { .sidebar, .content { width: 100%; } }
 @media only screen and (min-width: 481px) and (max-width: 940px) { .sidebar { width: 25%; }
@@ -270,3 +272,45 @@ html.grid-off .wrap:before { background-image: none; }
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; padding-top: 48px; padding-top: 3.42857rem; }
 
 #toggles { position: fixed; right: 0; z-index: 100; }
+
+.color-block { height: 25px; }
+
+.color-block:first-child { background-color: #063b6d; color: #fff; }
+
+.color-block:nth-child(40n+6) { background-color: #03213d; }
+
+.color-block:nth-child(40n+11) { background-color: #09559d; }
+
+.color-block:nth-child(40n+16) { background-color: #0b6fce; }
+
+.color-block:nth-child(40n+2) { background-color: #d40026; color: #fff; }
+
+.color-block:nth-child(40n+7) { background-color: #a1001d; }
+
+.color-block:nth-child(40n+12) { background-color: #ff0834; }
+
+.color-block:nth-child(40n+17) { background-color: #ff3b5e; }
+
+.color-block:nth-child(40n+3) { background-color: #4c7659; color: #fff; }
+
+.color-block:nth-child(40n+8) { background-color: #385742; }
+
+.color-block:nth-child(40n+13) { background-color: #609570; }
+
+.color-block:nth-child(40n+18) { background-color: #7dab8b; }
+
+.color-block:nth-child(40n+4) { background-color: #d4c9ad; }
+
+.color-block:nth-child(40n+9) { background-color: #c2b38c; }
+
+.color-block:nth-child(40n+14) { background-color: #e6dfce; }
+
+.color-block:nth-child(40n+19) { background-color: #f7f5f0; }
+
+.color-block:nth-child(40n+5) { background-color: #b22727; color: #fff; }
+
+.color-block:nth-child(40n+10) { background-color: #881e1e; }
+
+.color-block:nth-child(40n+15) { background-color: #d43838; }
+
+.color-block:nth-child(40n+20) { background-color: #dd6262; }

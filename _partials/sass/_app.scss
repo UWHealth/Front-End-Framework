@@ -1,0 +1,103 @@
+//Regular CSS
+.wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $gutter;
+    @include type-space(padding-top, 2);
+    @extend %clearfix;
+}
+.row{
+    @extend %grid;
+    @extend %clearfix;
+}
+.column{
+    @extend %grid__item;
+    @extend %one-whole;
+}
+.sidebar{
+    @extend %grid__item;
+    @extend %small--one-whole;
+    @extend %lap--one-quarter;
+    @extend %desk--one-third;
+}
+.content{
+    @extend %grid__item;
+    @extend %small--one-whole;
+    @extend %lap--three-quarters;
+    @extend %desk--two-thirds;
+}
+
+#toggles{
+    position: fixed;
+    right: 0;
+    z-index: 100;
+}
+.color-block{
+    @extend %grid__item;
+    @extend %one-fifth;
+    height: 25px;
+}
+.color-block:first-child{
+    background-color: $brand-color-1;
+    color: #fff;
+}
+.color-block:nth-child(40n+6){
+    background-color: $brand-color-1-dark;
+}
+.color-block:nth-child(40n+11){
+    background-color: $brand-color-1-light;
+}
+.color-block:nth-child(40n+16){
+    background-color: $brand-color-1-lighter;
+}
+.color-block:nth-child(40n+2){
+    background-color: $brand-color-2;
+    color: #fff;
+}
+.color-block:nth-child(40n+7){
+    background-color: $brand-color-2-dark;
+}
+.color-block:nth-child(40n+12){
+    background-color: $brand-color-2-light;
+}
+.color-block:nth-child(40n+17){
+    background-color: $brand-color-2-lighter;
+}
+.color-block:nth-child(40n+3){
+    background-color: $action-color;
+    color: #fff;
+}
+.color-block:nth-child(40n+8){
+    background-color: $action-color-dark;
+}
+.color-block:nth-child(40n+13){
+    background-color: $action-color-light;
+}
+.color-block:nth-child(40n+18){
+    background-color: $action-color-lighter;
+}
+.color-block:nth-child(40n+4){
+    background-color: $function-color;
+}
+.color-block:nth-child(40n+9){
+    background-color: $function-color-dark;
+}
+.color-block:nth-child(40n+14){
+    background-color: $function-color-light;
+}
+.color-block:nth-child(40n+19){
+    background-color: $function-color-lighter;
+}
+.color-block:nth-child(40n+5){
+    background-color: $alert-color;
+    color: #fff;
+}
+.color-block:nth-child(40n+10){
+    background-color: $alert-color-dark;
+}
+.color-block:nth-child(40n+15){
+    background-color: $alert-color-light;
+}
+.color-block:nth-child(40n+20){
+    background-color: $alert-color-lighter;
+}
