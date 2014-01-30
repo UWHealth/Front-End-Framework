@@ -1,6 +1,5 @@
-/*
- * Exponent function (for square, cubes, etc.)
- */
+// Exponent function (for square, cubes, etc.)
+
 @function exponent($base, $exponent){
       $value: $base;
       @if $exponent > 1{
@@ -15,32 +14,15 @@
        }
       @return ($value);
 }
-/*
- * Strip units from a sass value
- */
-@function strip-unit($value) {
+
+
+// Strip units from a sass value
+
+@function strip-units($value) {
     @return $value / ($value * 0 + 1);
 }
 
-/*
- * Typographic Modular Scale (for making prettier typography)
- */
-@function type-scale($i){
-    @return exponent($font-scale, $i) * $font-size;
-}
 
-/*
- * Snapping lineheights to our vertical grid
- */
-
-@function modular-base($i,$type-size){
-    $new-baseline: $baseline * 2;
-    $snap: (ceil($type-size / $new-baseLine ) * $new-baseLine) / $type-size;
-    @if $snap <= 1.16 {
-        $snap: (ceil($type-size / $new-baseline ) * $new-baseline * 1.5) / $type-size;
-    }
-    @return $snap;
-}
 // Quickly generate a font-size in rems, with a pixel fallback, based on the
 // value we pass into the mixin, e.g.:
 //
@@ -53,31 +35,38 @@
 
     @if $line-height == true {
         line-height: ceil($font-size / $type-base-line-height)* $type-base-line-height;
-        line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height / $font-size);
+        line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height) / $font-size;
     }
 
 }
 
 // Space elements by an amount based on your magic number. Pass in the property
 // to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
-//
 // pre {
-//     @include typecsset-space(padding-left, 1);
+//     @include type-space(padding-left, 1);
 // }
-//
+
 @mixin type-space($property, $multiplier: 2) {
     #{$property}: $multiplier * $type-magic-number;
     #{$property}: $multiplier * $type-magic-ratio + rem;
 }
 
-// A small, internally-used function to remove the units from a given value.
-@function type-strip-units($number) {
-    @return $number / ($number * 0 + 1);
+//Use this for padding or margin shortcuts. e.g.:
+//pre {
+//    @include type-space(padding, 1, 2, 1, 0);
+// }
+
+@mixin type-space-sc($property, $multiplier-1: 0, $multiplier-2: 0, $multiplier-3: 99, $multiplier-4: 99){
+    @if $multiplier-3 == 99{
+        $multiplier-3: $multiplier-1;
+    }
+    @if $multiplier-4 == 99{
+        $multiplier-4: $multiplier-2;
+    }
+    #{$property}: $multiplier-1 * $type-magic-number $multiplier-2 * $type-magic-number $multiplier-3 * $type-magic-number $multiplier-4 * $type-magic-number;
+    #{$property}: $multiplier-1 * $type-magic-ratio + rem $multiplier-2 * $type-magic-ratio + rem $multiplier-3 * $type-magic-ratio + rem $multiplier-4 * $type-magic-ratio + rem;
 }
-
 // Modular scale function to scale type up or down.
-// But first, we need strip base-type-size of its units.
-
 @function modular-scale($i){
     @return exponent($type-modular-scale, $i)*($stripped-base-font-size)*1px;
 }

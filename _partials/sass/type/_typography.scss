@@ -1,45 +1,4 @@
-//------------------------------------\\
-    // SETTINGS
-//------------------------------------\\
-
-// What would you like your base font-size to be? Define in pixels; the library
-// will convert measurements to the most appropriate units (rems or unitless).
-$type-base-font-size:      14px !default;
-$type-base-line-height:    22px !default;
-
-// Heading sizes if you'd rather set them yourself
-$type-h1-size:             50px !default;
-$type-h2-size:             44px !default;
-$type-h3-size:             33px !default;
-$type-h4-size:             22px !default;
-$type-h5-size:             21px !default;
-$type-h6-size:             18px !default;
-
-// Would you like indented (rather than spaced) paragraph delimiting?
-$type-indented-paragraphs: false !default;
-
-// Would you like to automatically scale your Heading sizes?
-// (This can provide a more elegant typographic rhythm)
-$type-auto-scale:          false !default;
-
-// Set the ratio by which your type should grow.
-// Accepts two numbers, representing a ratio, typically associated with
-// music intervals. You may also use floats (1.33).
-// Common intervals: Perfect fourth (4,3)[default], Perfect Fifth (3,2),
-// Perfect Octave (2,1), Major Third (5,4), Major Sixth (5,3).
-// The Golden Ratio is (1.618,1).
-$type-ratio:               4,3   !default;
-
-// Would you like to show a baseline grid? This is handy during development.
-$type-show-baseline:       false !default;
-
-// Do not modify these variables; they are internal settings upon which the
-// library depends.
-$stripped-base-font-size:  type-strip-units($type-base-font-size);
-$type-magic-number:        $type-base-line-height;
-$type-magic-ratio:         $type-base-line-height / $type-base-font-size;
-$type-headings:            6,5,4,3,2,1;
-$type-modular-scale:       0;
+//Default variables are in /utilities/_variables.scss
 
 
 //Checking for floats in $type-ratio
@@ -50,19 +9,19 @@ $type-modular-scale:       0;
     }@else{
         $type-modular-scale:   nth($type-ratio, 1)/nth($type-ratio, 2);
     }
-} @else {
+}
+@else {
     $type-modular-scale:   $type-ratio;
 }
 /*------------------------------------*\
     #BASE
 \*------------------------------------*/
-/**
- * 1. Set the base element’s `font-size` to the value of your choosing. Set in
- *    ems, assuming a browser default of 16px.
- * 2. Work out the unitless `line-height` for your project based around your
- *    desired `line-height` (defined previously in pixels), and your project’s
- *    base font size.
- */
+
+ // 1. Set the base element’s `font-size` to the value of your choosing. Set in
+ //    ems, assuming a browser default of 16px.
+ // 2. Work out the unitless `line-height` for your project based around your
+ //    desired `line-height` (defined previously in pixels), and your project’s
+ //    base font size.
 
 %type-vertical-rhythm {
     @extend %type-reset;
@@ -72,49 +31,57 @@ $type-modular-scale:       0;
 
 html {
     @extend %type-reset;
-    @extend %font-family;
-    font-size: $type-base-font-size / 16px + em; /* [1] */
-    line-height: $type-base-line-height / $type-base-font-size; /* [2] */
+    @extend %type-family;
+    font-size: $type-base-font-size / 16px + em; // [1]
+    line-height: $type-base-line-height / $type-base-font-size; // [2]
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
 
     // If you have chosen to display a baseline grid, we turn it on here.
     @if $type-show-baseline == true {
-
-        $type-baseline-size: type-strip-units($type-magic-number);
-
-        background-image: url(http://basehold.it/i/#{$type-baseline-size}); /* [3] */
+        $type-baseline-size: strip-units($type-magic-number);
+        background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
     }
-
+    // Makes sticky footers much easier.
+    width: 100%;
+    height: 100%;
 }
 body {
     font-size: 1em;
     @extend %type-reset;
 }
 
-
+//Allow a toggle for baseline image
+@if $type-show-baseline == true {
+    .baseline-off{
+        background-image:none;
+    }
+}
 
 /*------------------------------------*\
     #HEADINGS
 \*------------------------------------*/
 
-@if $type-auto-scale == true {                         /* [1] */
-/**
- * 1. If you've chosen to automatically scale your type, we set that up here.
- * 2. Using heading numbers[6-1], we create a loop.
- * 3. Use the current scale number to exponentially scale up our base-font-size.
- * 4. Invert the current value of the loop($i) for an more traditionally ordered
- *    output (h1,h2,h3,h4,h5,h6).
- * 5. Use our new modular values for input into type mixins to generate our
- *    desired, modularly-scaled css.
- */
-    @each $i in $type-headings{                         /* [2] */
-            $font-size: modular-scale($i);                   /* [3] */
-            $current-heading: nth($type-headings,$i);   /* [4] */
-                                                             /* [5] */
+@if $type-auto-scale == true {
+
+ // 1. If you've chosen to automatically scale your type, we set that up here.
+ // 2. Using heading numbers[6-1], we create a loop.
+ // 3. Use the current scale number to exponentially scale up our base-font-size.
+ // 4. Invert the current value of the loop($i) for an more traditionally ordered
+ //    output (h1,h2,h3,h4,h5,h6).
+ // 5. Use our new modular values for input into type mixins to generate our
+ //    desired, modularly-scaled css.
+
+    @each $i in $type-headings{
+            $font-size: modular-scale($i);
+            $current-heading: nth($type-headings,$i);
+
             h#{$current-heading} {
                 @extend %type-vertical-rhythm;
                 @include type-font-size($font-size, true);
+                &+p{
+                    @include type-space(margin-top, -1);
+                }
             };
             $i: $i + 1;
     };
@@ -191,9 +158,9 @@ p {
 
 }
 
-/**
- * Not strictly a paragraph, but probably doesn’t need its own section.
- */
+//
+// Not strictly a paragraph, but probably doesn’t need its own section.
+//
 address {
     @extend %type-vertical-rhythm;
 }
@@ -206,15 +173,15 @@ pre {
     word-wrap: break-word;
 }
 
-/**
- * 1. Fix an odd quirk whereby, without this, code blocks are rendered at a
- *    font-size smaller than 1em.
- */
+
+// 1. Fix an odd quirk whereby, without this, code blocks are rendered at a
+//    font-size smaller than 1em.
+
 code,
 kbd,
 pre,
 samp {
-    font-family: monospace, monospace; /* [1] */
+    font-family: monospace, monospace; // [1]
     _font-family: 'courier new', monospace;
     font-size: 1em;
 }
@@ -233,11 +200,11 @@ abbr[title] {
 /*------------------------------------*\
     #QUOTES
 \*------------------------------------*/
-/**
- * 1. Hang the opening quote of the blockquote.
- */
+//
+// 1. Hang the opening quote of the blockquote.
+//
 blockquote {
-    text-indent: -0.41em; /* [1] */
+    text-indent: -0.41em; // [1] */
 }
 
 blockquote {

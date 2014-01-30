@@ -1,11 +1,11 @@
-/* ==========================================================================
-   Silent classes used for cleaning up and consolodating code
-   ========================================================================== */
+// ==========================================================================
+//   Silent classes used for cleaning up and consolodating code
+//   ==========================================================================
 
-/*
- * Clear fix. Add @extend %clearfix to any element that needs self-clearing.
- */
-%clearfix{
+//
+// Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
+//
+%clearfix, %cf{
     *zoom: 1;
     &:before,&:after{
         display: table;
@@ -16,20 +16,20 @@
     }
 }
 
-/*
- * A lot of elements in type need to share some declarations (mainly for
- * vertical rhythm), so we `@extend` some silent classes.
- */
+//
+// A lot of elements in type need to share some declarations (mainly for
+// vertical rhythm), so we `@extend` some silent classes.
+//
 %type-reset {
     margin:  0;
     padding: 0;
 }
 
-/*
- * Font family, normal, italic and bold silent classes.
- */
-%type-font{
-    font-family: verdana, sans-serif;
+//
+// Font family, normal, italic and bold silent classes.
+//
+%type-family{
+    font-family: $font-family;
 }
 %type-normal{
     font-weight: 400;
@@ -40,4 +40,3 @@
 %type-bold{
     font-weight: 800;
 }
-

@@ -1,8 +1,74 @@
+//Typography
+
 $type-base-font-size:      14px;
-$type-base-line-height:    22px;
-$type-ratio:               1.214;
+$type-base-line-height:    24px;
 $type-auto-scale:          true;
+$type-ratio:               1.214;
+$font-family:              'Asap', verdana, helvetica, arial, sans-serif;
+
+// Show baseline grid for easier alignment;
 $type-show-baseline:       true;
 
-@import 'utilities/functions','utilities/extend','type/typography','vendor/normalize';
 
+
+//Grid
+
+$gutter:                $type-base-line-height;
+$use-silent-classes:    true;
+$push:                  true;
+$pull:                  true;
+$use-markup-fix:        false;
+$show-grid:             true;
+
+$breakpoints: (
+    'small' '(max-width: 480px)',
+    'lap' '(min-width: 481px) and (max-width: 940px)',
+    'port' '(max-width: 940px)',
+    'desk' '(min-width: 941px)'
+);
+
+$lap-start: 481px;
+$desk-start: 941px;
+
+
+//Imports
+
+@import 'utilities/functions','utilities/variables','utilities/extend',
+        'type/fonts','type/typography',
+        'vendor/normalize',
+        'grid/import',
+        'components/import';
+
+
+//Regular CSS
+.wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $gutter;
+    @include type-space(padding-top, 2);
+    @extend %clearfix;
+}
+.row{
+    @extend %grid;
+    @extend %clearfix;
+}
+.column{
+    @extend %grid__item;
+    @extend %one-whole;
+}
+.sidebar{
+    @extend %grid__item;
+    @extend %small--one-whole;
+    @extend %lap--one-quarter;
+    @extend %desk--one-third;
+}
+.content{
+    @extend %grid__item;
+    @extend %small--one-whole;
+    @extend %lap--three-quarters;
+    @extend %desk--two-thirds;
+}
+#toggles{
+    position: fixed;
+    right: 0;
+}
