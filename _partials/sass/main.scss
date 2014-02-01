@@ -38,8 +38,8 @@ $breakpoint-has-pull:   ('small', 'lap', 'port', 'desk');
 //Colors - based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
 //Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
 //The darker and ligher variations are defined in utilities/variables
-$brand-color-1: #063b6d;        //UW Blue (dark blue)
-$brand-color-2: #d40026;        //UW Red (maroonish-red)
+$primary-color: #063b6d;        //UW Blue (dark blue)
+$accent-color: #d40026;        //UW Red (maroonish-red)
 $action-color: #4c7659;         //Green / Earth
 $function-color: #d4c9ad;       //UW Tan
 $alert-color: #b22727;          //Red

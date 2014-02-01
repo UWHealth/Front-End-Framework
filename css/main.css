@@ -1,6 +1,6 @@
-.clearfix, .wrap, .row { *zoom: 1; }
-.clearfix:before, .wrap:before, .row:before, .clearfix:after, .wrap:after, .row:after { display: table; content: " "; }
-.clearfix:after, .wrap:after, .row:after { clear: both; }
+.clearfix, .wrap, .row, .fixed-row { *zoom: 1; }
+.clearfix:before, .wrap:before, .row:before, .fixed-row:before, .clearfix:after, .wrap:after, .row:after, .fixed-row:after { display: table; content: " "; }
+.clearfix:after, .wrap:after, .row:after, .fixed-row:after { clear: both; }
 
 h1, h2, h3, h4, h5, h6, ul, ol, dd, menu, p, address, pre, blockquote, table, html, body, fieldset { margin: 0; padding: 0; }
 
@@ -31,38 +31,50 @@ body { font-size: 1em; }
 h1 { font-size: 44.81673px; font-size: 3.20119rem; line-height: 48px; line-height: 1.07103; }
 h1 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
+.h1 { font-size: 44.81673px; font-size: 3.20119rem; line-height: 48px; line-height: 1.07103; }
+
 h2 { font-size: 36.91658px; font-size: 2.6369rem; line-height: 48px; line-height: 1.30023; }
 h2 + p { margin-top: -24px; margin-top: -1.71429rem; }
+
+.h2 { font-size: 36.91658px; font-size: 2.6369rem; line-height: 48px; line-height: 1.30023; }
 
 h3 { font-size: 30.40905px; font-size: 2.17207rem; line-height: 48px; line-height: 1.57848; }
 h3 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
+.h3 { font-size: 30.40905px; font-size: 2.17207rem; line-height: 48px; line-height: 1.57848; }
+
 h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 48px; line-height: 1.91627; }
 h4 + p { margin-top: -24px; margin-top: -1.71429rem; }
+
+.h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 48px; line-height: 1.91627; }
 
 h5 { font-size: 20.63314px; font-size: 1.4738rem; line-height: 24px; line-height: 1.16318; }
 h5 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
+.h5 { font-size: 20.63314px; font-size: 1.4738rem; line-height: 24px; line-height: 1.16318; }
+
 h6 { font-size: 16.996px; font-size: 1.214rem; line-height: 24px; line-height: 1.4121; }
 h6 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
-/*------------------------------------*\ #LISTS
-\*------------------------------------*/
-ul, ol, dd, menu { margin-left: 48px; margin-left: 3.42857rem; }
+.h6 { font-size: 16.996px; font-size: 1.214rem; line-height: 24px; line-height: 1.4121; }
+
+/*------------------------------- #LISTS
+-------------------------------*/
+ul, ol, dd, menu { margin-left: 24px; margin-left: 1.71429rem; }
 
 li > ul, li > ol { margin-bottom: 0; }
 
-/*------------------------------------*\ #PARAGRAPHS
-\*------------------------------------*/
+/*------------------------------- #PARAGRAPHS
+-------------------------------*/
 pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
 
 code, kbd, pre, samp { font-family: monospace, monospace; _font-family: 'courier new', monospace; font-size: 1em; }
 
-/** Address styling not present in IE 7/8/9, Safari 5, and Chrome. */
+/*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
 abbr[title] { border-bottom: 1px dotted; }
 
-/*------------------------------------*\ #QUOTES
-\*------------------------------------*/
+/*------------------------------- #QUOTES
+-------------------------------*/
 blockquote { text-indent: -0.41em; }
 
 blockquote { quotes: "“" "”"; margin-left: 48px; margin-left: 3.42857rem; }
@@ -70,7 +82,7 @@ blockquote p:before { content: "“"; content: open-quote; }
 blockquote p:after { content: ""; content: no-close-quote; }
 blockquote p:last-of-type:after { content: "”"; content: close-quote; }
 
-q { quotes: "‘" "’" "“" "”"; /** If an element opens with an inline quote, let’s hang that. */ }
+q { quotes: "‘" "’" "“" "”"; overflow: visible; /** If an element opens with an inline quote, let’s hang that. */ }
 q:before { content: "‘"; content: open-quote; }
 q:after { content: "’"; content: close-quote; }
 q q:before { content: "“"; content: open-quote; }
@@ -228,10 +240,10 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
   @page { margin: 0.5cm; }
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3 { page-break-after: avoid; } }
-.row { list-style: none; margin: 0; padding: 0; margin-left: -24px; margin-left: -1.71429rem; letter-spacing: -0.31em; }
+.row, .fixed-row { list-style: none; margin: 0; padding: 0; margin-left: -24px; margin-left: -1.71429rem; letter-spacing: -0.31em; }
 
 /* Opera hack */
-.opera:-o-prefocus, .row { word-spacing: -0.43em; }
+.opera:-o-prefocus, .row, .fixed-row { word-spacing: -0.43em; }
 
 .column, .sidebar, .content, .color-block { display: inline-block; padding-left: 24px; padding-left: 1.71429rem; vertical-align: top; width: 100%; letter-spacing: normal; word-spacing: normal; }
 
@@ -271,46 +283,48 @@ html.grid-off .wrap:before { background-image: none; }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; padding-top: 48px; padding-top: 3.42857rem; }
 
+.fixed-row { margin-left: 0; }
+
 #toggles { position: fixed; right: 0; z-index: 100; }
 
-.color-block { height: 25px; }
+.color-block { height: 25px; color: #fff; }
 
-.color-block:first-child { background-color: #063b6d; color: #fff; }
+.color-block:first-child { background-color: #063b6d; color: white; }
 
-.color-block:nth-child(40n+6) { background-color: #03213d; }
+.color-block:nth-child(40n+6) { background-color: #03213d; color: white; }
 
-.color-block:nth-child(40n+11) { background-color: #09559d; }
+.color-block:nth-child(40n+11) { background-color: #09559d; color: white; }
 
-.color-block:nth-child(40n+16) { background-color: #0b6fce; }
+.color-block:nth-child(40n+16) { background-color: #0b6fce; color: white; }
 
-.color-block:nth-child(40n+2) { background-color: #d40026; color: #fff; }
+.color-block:nth-child(40n+2) { background-color: #d40026; color: white; }
 
-.color-block:nth-child(40n+7) { background-color: #a1001d; }
+.color-block:nth-child(40n+7) { background-color: #a1001d; color: white; }
 
-.color-block:nth-child(40n+12) { background-color: #ff0834; }
+.color-block:nth-child(40n+12) { background-color: #ff0834; color: black; }
 
-.color-block:nth-child(40n+17) { background-color: #ff3b5e; }
+.color-block:nth-child(40n+17) { background-color: #ff3b5e; color: black; }
 
-.color-block:nth-child(40n+3) { background-color: #4c7659; color: #fff; }
+.color-block:nth-child(40n+3) { background-color: #4c7659; color: white; }
 
-.color-block:nth-child(40n+8) { background-color: #385742; }
+.color-block:nth-child(40n+8) { background-color: #385742; color: white; }
 
-.color-block:nth-child(40n+13) { background-color: #609570; }
+.color-block:nth-child(40n+13) { background-color: #609570; color: white; }
 
-.color-block:nth-child(40n+18) { background-color: #7dab8b; }
+.color-block:nth-child(40n+18) { background-color: #7dab8b; color: black; }
 
-.color-block:nth-child(40n+4) { background-color: #d4c9ad; }
+.color-block:nth-child(40n+4) { background-color: #d4c9ad; color: black; }
 
-.color-block:nth-child(40n+9) { background-color: #c2b38c; }
+.color-block:nth-child(40n+9) { background-color: #c2b38c; color: black; }
 
-.color-block:nth-child(40n+14) { background-color: #e6dfce; }
+.color-block:nth-child(40n+14) { background-color: #e6dfce; color: black; }
 
-.color-block:nth-child(40n+19) { background-color: #f7f5f0; }
+.color-block:nth-child(40n+19) { background-color: #f7f5f0; color: black; }
 
-.color-block:nth-child(40n+5) { background-color: #b22727; color: #fff; }
+.color-block:nth-child(40n+5) { background-color: #b22727; color: white; }
 
-.color-block:nth-child(40n+10) { background-color: #881e1e; }
+.color-block:nth-child(40n+10) { background-color: #881e1e; color: white; }
 
-.color-block:nth-child(40n+15) { background-color: #d43838; }
+.color-block:nth-child(40n+15) { background-color: #d43838; color: black; }
 
-.color-block:nth-child(40n+20) { background-color: #dd6262; }
+.color-block:nth-child(40n+20) { background-color: #dd6262; color: black; }

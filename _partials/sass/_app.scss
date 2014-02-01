@@ -26,6 +26,11 @@
     @extend %lap--three-quarters;
     @extend %desk--two-thirds;
 }
+.fixed-row{
+    @extend %grid;
+    @extend %clearfix;
+    margin-left: 0;
+}
 
 #toggles{
     position: fixed;
@@ -36,68 +41,85 @@
     @extend %grid__item;
     @extend %one-fifth;
     height: 25px;
+    color: #fff;
 }
 .color-block:first-child{
-    background-color: $brand-color-1;
-    color: #fff;
+    background-color: $primary-color;
+    color: set-text-color($primary-color);
 }
 .color-block:nth-child(40n+6){
-    background-color: $brand-color-1-dark;
+    background-color: $primary-color-dark;
+    color: set-text-color($primary-color-dark);
 }
 .color-block:nth-child(40n+11){
-    background-color: $brand-color-1-light;
+    background-color: $primary-color-light;
+    color: set-text-color($primary-color-light);
 }
 .color-block:nth-child(40n+16){
-    background-color: $brand-color-1-lighter;
+    background-color: $primary-color-lighter;
+    color: set-text-color($primary-color-lighter);
 }
 .color-block:nth-child(40n+2){
-    background-color: $brand-color-2;
-    color: #fff;
+    background-color: $accent-color;
+    color: set-text-color($accent-color);
 }
 .color-block:nth-child(40n+7){
-    background-color: $brand-color-2-dark;
+    background-color: $accent-color-dark;
+    color: set-text-color($accent-color-dark);
 }
 .color-block:nth-child(40n+12){
-    background-color: $brand-color-2-light;
+    background-color: $accent-color-light;
+    color: set-text-color($accent-color-light);
 }
 .color-block:nth-child(40n+17){
-    background-color: $brand-color-2-lighter;
+    background-color: $accent-color-lighter;
+    color: set-text-color($accent-color-lighter);
 }
 .color-block:nth-child(40n+3){
     background-color: $action-color;
-    color: #fff;
+    color: set-text-color($action-color);
 }
 .color-block:nth-child(40n+8){
     background-color: $action-color-dark;
+    color: set-text-color($action-color-dark);
 }
 .color-block:nth-child(40n+13){
     background-color: $action-color-light;
+    color: set-text-color($action-color-light);
 }
 .color-block:nth-child(40n+18){
     background-color: $action-color-lighter;
+    color: set-text-color($action-color-lighter);
 }
 .color-block:nth-child(40n+4){
     background-color: $function-color;
+    color: set-text-color($function-color);
 }
 .color-block:nth-child(40n+9){
     background-color: $function-color-dark;
+    color: set-text-color($function-color-dark);
 }
 .color-block:nth-child(40n+14){
     background-color: $function-color-light;
+    color: set-text-color($function-color-light);
 }
 .color-block:nth-child(40n+19){
     background-color: $function-color-lighter;
+    color: set-text-color($function-color-lighter);
 }
 .color-block:nth-child(40n+5){
     background-color: $alert-color;
-    color: #fff;
+    color: set-text-color($alert-color);
 }
 .color-block:nth-child(40n+10){
     background-color: $alert-color-dark;
+    color: set-text-color($alert-color-dark);
 }
 .color-block:nth-child(40n+15){
     background-color: $alert-color-light;
+    color: set-text-color($alert-color-light);
 }
 .color-block:nth-child(40n+20){
     background-color: $alert-color-lighter;
+    color: set-text-color($alert-color-lighter);
 }

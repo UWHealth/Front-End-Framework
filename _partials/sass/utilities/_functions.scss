@@ -87,3 +87,57 @@
         #{$property}: ($scale / $type-base-font-size) * 1rem;
     }
 }
+
+//Change text color based on background-color's darkness
+@function set-text-color($color) {
+    @if (lightness( $color ) > 50) {
+      @return #000000;
+    }
+    @else {
+      @return #FFFFFF;
+    }
+}
+
+//Cross-browser (including IE) opacity
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+
+//Lists
+// Turn off the bullet for an element of a list
+@mixin no-bullet {
+  list-style-image : none;
+  list-style-type  : none;
+  margin-left      : 0;
+}
+
+// turns off the bullets for an entire list
+@mixin no-bullets {
+  list-style: none;
+  li { @include no-bullet; }
+}
+
+// Make a list(ul/ol) have an image bullet.
+//
+// The mixin should be used like this for an icon that is 5x7:
+//
+//     ul.pretty
+//       +pretty-bullets("my-icon.png", 5px, 7px)
+//
+// Additionally, if the image dimensions are not provided,
+// The image dimensions will be extracted from the image itself.
+//
+//     ul.pretty
+//       +pretty-bullets("my-icon.png")
+//
+@mixin pretty-bullets($bullet-icon, $width: image-width($bullet-icon), $height: image-height($bullet-icon), $line-height: $type-base-line-height, $padding: $type-magic-number) {
+  margin-left: 0;
+  li {
+    padding-left: $padding;
+    background: image-url($bullet-icon) no-repeat ($padding - $width) / 2 ($line-height - $height) / 2;
+    list-style-type: none;
+  }
+}

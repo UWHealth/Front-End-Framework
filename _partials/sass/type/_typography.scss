@@ -58,11 +58,14 @@ body {
     }
 }
 
+
+
 /*------------------------------------*\
     #HEADINGS
 \*------------------------------------*/
 
 @if $type-auto-scale == true {
+
 
  // 1. If you've chosen to automatically scale your type, we set that up here.
  // 2. Using heading numbers[6-1], we create a loop.
@@ -76,11 +79,19 @@ body {
             $font-size: modular-scale($i);
             $current-heading: nth($type-headings,$i);
 
-            h#{$current-heading} {
+            h#{$current-heading}{
                 @extend %type-vertical-rhythm;
                 @include type-font-size($font-size, true);
-                &+p{
-                    @include type-space(margin-top, -1);
+
+                @if $type-indented-paragraphs == false{
+                    &+p{
+                        @include type-space(margin-top, -1);
+                    }
+                };
+            };
+            @if $type-scale-classes == true{
+                .h#{$current-heading}{
+                    @include type-font-size($font-size, true);
                 }
             };
             $i: $i + 1;
@@ -123,12 +134,12 @@ h6 {
 
 
 
-/*------------------------------------*\
+/*-------------------------------
     #LISTS
-\*------------------------------------*/
+-------------------------------*/
 ul, ol, dd, menu {
     @extend %type-vertical-rhythm;
-    @include type-space(margin-left);
+    @include type-space(margin-left, 1);
 }
 
 li > ul,
@@ -140,9 +151,9 @@ li > ol {
 
 
 
-/*------------------------------------*\
+/*-------------------------------
     #PARAGRAPHS
-\*------------------------------------*/
+-------------------------------*/
 p {
     @extend %type-vertical-rhythm;
 
@@ -186,9 +197,7 @@ samp {
     font-size: 1em;
 }
 
-/**
- * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
- */
+/*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
 
 abbr[title] {
     border-bottom: 1px dotted;
@@ -197,9 +206,9 @@ abbr[title] {
 
 
 
-/*------------------------------------*\
+/*-------------------------------
     #QUOTES
-\*------------------------------------*/
+-------------------------------*/
 //
 // 1. Hang the opening quote of the blockquote.
 //
@@ -235,6 +244,7 @@ blockquote {
 
 q   {
     quotes: "‘" "’" "“" "”";
+    overflow: visible;
 
     &:before {
         content: "‘";
