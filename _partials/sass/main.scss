@@ -46,8 +46,8 @@ $alert-color: #b22727;          //Red
 
 
 //Imports (must be called after variables are defined).
-@import 'utilities/functions','utilities/variables','utilities/extend',
-        'type/fonts','type/typography',
+@import 'type/fonts','utilities/functions','utilities/variables','utilities/extend',
+        'type/typography',
         'vendor/normalize',
         'grid/import',
         'components/import',

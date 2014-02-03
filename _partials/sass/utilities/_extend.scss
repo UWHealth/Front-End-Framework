@@ -2,6 +2,11 @@
 //   Silent classes used for cleaning up and consolodating code
 //   ==========================================================================
 
+%border-box{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 //
 // Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
 //

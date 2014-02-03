@@ -73,6 +73,12 @@
 
 // This mixin can be used externally
 // by using @include modular-scale([scale number, property]);.
+// This is most useful for font sizing, but can be used for any property
+// e.g.: div{
+//          @include type-scale(margin-top, 2);}
+// Would produce a margin-top value of the second value within your typographic scale.
+// If your scale is set to 1.214, your output would be: div{margin-top: 20.63314px; margin-top: 1.4738rem;}
+
 @mixin type-scale($property: font-size, $i: 1){
     @if $type-auto-scale == false{
         @warn "Please set $type-auto-scale to true or else type-scale is fairly meaningless.";

@@ -91,7 +91,7 @@ body {
             };
             @if $type-scale-classes == true{
                 .h#{$current-heading}{
-                    @include type-font-size($font-size, true);
+                    @extend h#{$current-heading};
                 }
             };
             $i: $i + 1;
@@ -291,7 +291,7 @@ b,strong{
 dfn {
     font-style: italic;}
 small {
-    @include type-scale(-1);}
+    @include type-scale(font-size,-1);}
 sub,sup {
     font-size: 75%;
     line-height: 0;

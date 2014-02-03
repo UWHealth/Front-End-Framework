@@ -1,24 +1,26 @@
+@font-face { font-family: 'Asap'; src: url("fonts/Asap-Regular-webfont.eot"); src: url("fonts/Asap-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/Asap-Regular-webfont.woff") format("woff"), url("fonts/Asap-Regular-webfont.ttf") format("truetype"), url("fonts/Asap-Regular-webfont.svg#AsapRegular") format("svg"); font-weight: 400; font-style: normal; }
+
+@font-face { font-family: 'Asap'; src: url("fonts/Asap-Italic-webfont.eot"); src: url("fonts/Asap-Italic-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/Asap-Italic-webfont.woff") format("woff"), url("fonts/Asap-Italic-webfont.ttf") format("truetype"), url("fonts/Asap-Italic-webfont.svg#AsapItalic") format("svg"); font-weight: 400; font-style: italic; }
+
+@font-face { font-family: 'Asap'; src: url("fonts/Asap-Bold-webfont.eot"); src: url("fonts/Asap-Bold-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/Asap-Bold-webfont.woff") format("woff"), url("fonts/Asap-Bold-webfont.ttf") format("truetype"), url("fonts/Asap-Bold-webfont.svg#AsapBold") format("svg"); font-weight: 700; font-style: normal; }
+
+@font-face { font-family: 'Asap'; src: url("fonts/Asap-BoldItalic-webfont.eot"); src: url("fonts/Asap-BoldItalic-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/Asap-BoldItalic-webfont.woff") format("woff"), url("fonts/Asap-BoldItalic-webfont.ttf") format("truetype"), url("fonts/Asap-BoldItalic-webfont.svg#AsapBoldItalic") format("svg"); font-weight: 700; font-style: italic; }
+
+*, *:before, *:after { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
 .clearfix, .wrap, .row, .fixed-row { *zoom: 1; }
 .clearfix:before, .wrap:before, .row:before, .fixed-row:before, .clearfix:after, .wrap:after, .row:after, .fixed-row:after { display: table; content: " "; }
 .clearfix:after, .wrap:after, .row:after, .fixed-row:after { clear: both; }
 
-h1, h2, h3, h4, h5, h6, ul, ol, dd, menu, p, address, pre, blockquote, table, html, body, fieldset { margin: 0; padding: 0; }
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, ul, ol, dd, menu, p, address, pre, blockquote, table, html, body, fieldset { margin: 0; padding: 0; }
 
 html, button, input, select, textarea { font-family: "Asap", verdana, helvetica, arial, sans-serif; }
 
 .button { font-weight: 800; }
 
-@font-face { font-family: 'Asap'; src: url(fonts/"Asap-Regular-webfont.eot"); src: url(fonts/"Asap-Regular-webfont.eot?#iefix") format("embedded-opentype"), url(fonts/"Asap-Regular-webfont.woff") format("woff"), url(fonts/"Asap-Regular-webfont.ttf") format("truetype"), url(fonts/"Asap-Regular-webfont.svg#AsapRegular") format("svg"); font-weight: 400; font-style: normal; }
-
-@font-face { font-family: 'Asap'; src: url(fonts/"Asap-Italic-webfont.eot"); src: url(fonts/"Asap-Italic-webfont.eot?#iefix") format("embedded-opentype"), url(fonts/"Asap-Italic-webfont.woff") format("woff"), url(fonts/"Asap-Italic-webfont.ttf") format("truetype"), url(fonts/"Asap-Italic-webfont.svg#AsapItalic") format("svg"); font-weight: 400; font-style: italic; }
-
-@font-face { font-family: 'Asap'; src: url(fonts/"Asap-Bold-webfont.eot"); src: url(fonts/"Asap-Bold-webfont.eot?#iefix") format("embedded-opentype"), url(fonts/"Asap-Bold-webfont.woff") format("woff"), url(fonts/"Asap-Bold-webfont.ttf") format("truetype"), url(fonts/"Asap-Bold-webfont.svg#AsapBold") format("svg"); font-weight: 700; font-style: normal; }
-
-@font-face { font-family: 'Asap'; src: url(fonts/"Asap-BoldItalic-webfont.eot"); src: url(fonts/"Asap-BoldItalic-webfont.eot?#iefix") format("embedded-opentype"), url(fonts/"Asap-BoldItalic-webfont.woff") format("woff"), url(fonts/"Asap-BoldItalic-webfont.ttf") format("truetype"), url(fonts/"Asap-BoldItalic-webfont.svg#AsapBoldItalic") format("svg"); font-weight: 700; font-style: italic; }
-
 /*------------------------------------*\ #BASE
 \*------------------------------------*/
-h1, h2, h3, h4, h5, h6, ul, ol, dd, menu, p, address, pre, blockquote, table { margin-bottom: 24px; margin-bottom: 1.71429rem; }
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, ul, ol, dd, menu, p, address, pre, blockquote, table { margin-bottom: 24px; margin-bottom: 1.71429rem; }
 
 html { font-size: 0.875em; line-height: 1.71429; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; background-image: url(http://basehold.it/i/24); width: 100%; height: 100%; }
 
@@ -28,35 +30,23 @@ body { font-size: 1em; }
 
 /*------------------------------------*\ #HEADINGS
 \*------------------------------------*/
-h1 { font-size: 44.81673px; font-size: 3.20119rem; line-height: 48px; line-height: 1.07103; }
-h1 + p { margin-top: -24px; margin-top: -1.71429rem; }
+h1, .h1 { font-size: 44.81673px; font-size: 3.20119rem; line-height: 48px; line-height: 1.07103; }
+h1 + p, .h1 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
-.h1 { font-size: 44.81673px; font-size: 3.20119rem; line-height: 48px; line-height: 1.07103; }
+h2, .h2 { font-size: 36.91658px; font-size: 2.6369rem; line-height: 48px; line-height: 1.30023; }
+h2 + p, .h2 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
-h2 { font-size: 36.91658px; font-size: 2.6369rem; line-height: 48px; line-height: 1.30023; }
-h2 + p { margin-top: -24px; margin-top: -1.71429rem; }
+h3, .h3 { font-size: 30.40905px; font-size: 2.17207rem; line-height: 48px; line-height: 1.57848; }
+h3 + p, .h3 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
-.h2 { font-size: 36.91658px; font-size: 2.6369rem; line-height: 48px; line-height: 1.30023; }
+h4, .h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 48px; line-height: 1.91627; }
+h4 + p, .h4 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
-h3 { font-size: 30.40905px; font-size: 2.17207rem; line-height: 48px; line-height: 1.57848; }
-h3 + p { margin-top: -24px; margin-top: -1.71429rem; }
+h5, .h5 { font-size: 20.63314px; font-size: 1.4738rem; line-height: 24px; line-height: 1.16318; }
+h5 + p, .h5 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
-.h3 { font-size: 30.40905px; font-size: 2.17207rem; line-height: 48px; line-height: 1.57848; }
-
-h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 48px; line-height: 1.91627; }
-h4 + p { margin-top: -24px; margin-top: -1.71429rem; }
-
-.h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 48px; line-height: 1.91627; }
-
-h5 { font-size: 20.63314px; font-size: 1.4738rem; line-height: 24px; line-height: 1.16318; }
-h5 + p { margin-top: -24px; margin-top: -1.71429rem; }
-
-.h5 { font-size: 20.63314px; font-size: 1.4738rem; line-height: 24px; line-height: 1.16318; }
-
-h6 { font-size: 16.996px; font-size: 1.214rem; line-height: 24px; line-height: 1.4121; }
-h6 + p { margin-top: -24px; margin-top: -1.71429rem; }
-
-.h6 { font-size: 16.996px; font-size: 1.214rem; line-height: 24px; line-height: 1.4121; }
+h6, .h6 { font-size: 16.996px; font-size: 1.214rem; line-height: 24px; line-height: 1.4121; }
+h6 + p, .h6 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
 /*------------------------------- #LISTS
 -------------------------------*/
@@ -97,7 +87,7 @@ b, strong { font-weight: bold; }
 
 dfn { font-style: italic; }
 
-small { -1: 16.996px; -1: 1.214rem; }
+small { font-size: 11.53213px; font-size: 0.82372rem; line-height: 24px; line-height: 2.08114; }
 
 sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
 
@@ -106,8 +96,6 @@ sup { top: -0.5em; }
 sub { bottom: -0.25em; }
 
 fieldset { border: 0; margin: 0 2px; padding: 11.53213px; padding: 0.82372rem; }
-
-*, *:before, *:after { box-sizing: border-box; }
 
 /* ========================================================================== HTML5 display definitions ========================================================================== */
 /** Correct `block` display not defined in IE 6/7/8/9 and Firefox 3. */
@@ -238,8 +226,8 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
   tr, img { page-break-inside: avoid; }
   img { max-width: 100% !important; }
   @page { margin: 0.5cm; }
-  p, h2, h3 { orphans: 3; widows: 3; }
-  h2, h3 { page-break-after: avoid; } }
+  p, h2, .h2, h3, .h3 { orphans: 3; widows: 3; }
+  h2, .h2, h3, .h3 { page-break-after: avoid; } }
 .row, .fixed-row { list-style: none; margin: 0; padding: 0; margin-left: -24px; margin-left: -1.71429rem; letter-spacing: -0.31em; }
 
 /* Opera hack */
