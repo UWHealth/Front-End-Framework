@@ -25,7 +25,7 @@ h1 + p, .h1 + p, h2 + p, .h2 + p, h3 + p, .h3 + p, h4 + p, .h4 + p, h5 + p, .h5 
 
 html, button, input, select, textarea { font-family: "Asap", verdana, helvetica, arial, sans-serif; }
 
-.button { font-weight: 800; }
+.button { font-weight: 800; -webkit-font-smoothing: antialiased; }
 
 /*----------------------------------- $SETUP
 ------------------------------------*/
@@ -47,7 +47,7 @@ h2, .h2 { font-size: 36.91658px; font-size: 2.6369rem; line-height: 1.30023; }
 
 h3, .h3 { font-size: 30.40905px; font-size: 2.17207rem; line-height: 1.57848; }
 
-h4, .h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 1.91627; }
+h4, .h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 1.4372; }
 
 h5, .h5 { font-size: 20.63314px; font-size: 1.4738rem; line-height: 1.16318; }
 
@@ -97,7 +97,7 @@ b, strong { font-weight: bold; }
 
 dfn { font-style: italic; }
 
-small { font-size: 11.53213px; font-size: 0.82372rem; line-height: 2.08114; }
+small { font-size: 11.53213px; font-size: 0.82372rem; line-height: 1.04057; }
 
 sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
 
@@ -137,7 +137,7 @@ a:active, a:hover { outline: 0; }
 fieldset { border: 0; margin: 0 2px; padding: 12px; padding: 0.85714rem; }
 
 /** Address styling not present in IE 6/7/8/9. */
-mark { background: #e6dfce; color: #063b6d; }
+mark { background: #e6dfce; color: #063b6d; padding: 4px 3px; margin-left: -3px; }
 
 /** Address CSS quotes not supported in IE 6/7. */
 q { quotes: none; }
@@ -266,13 +266,13 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 
 .align_center { float: none; margin: 0 auto; }
 
-.button { cursor: pointer; display: inline-block; box-shadow: inset 0px 1px 0px 0px #ffffff; background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf)); background: -moz-linear-gradient(center top, #ededed 5%, #dfdfdf 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf'); background-color: #ededed; border-radius: 2px; border: 1px solid #dcdcdc; color: #777777; line-height: 46.8px; line-height: 3.34286rem; padding: 0px 12px 0px 12px; padding: 0rem 0.85714rem 0rem 0.85714rem; text-decoration: none; text-align: center; text-shadow: 1px 1px 0px #ffffff; }
+.button { cursor: pointer; display: inline-block; box-shadow: inset 0px -1px 0px 0px #d4c9ad; background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c2b38c), color-stop(1, #c6b792)); background: -moz-linear-gradient(center top, #c2b38c 5%, #c6b792 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$button-color-bg', endColorstr='$button-color-secondary'); background-color: #c2b38c; border-radius: 2px; border: 1px solid #cbbe9c; color: white; line-height: 46.8px; line-height: 3.34286rem; padding: 0px 12px 0px 12px; padding: 0rem 0.85714rem 0rem 0.85714rem; text-decoration: none; text-align: center; text-shadow: 1px 1px 0px #877547; }
 
-.button:hover, .button:active { background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed'); background-color: #dfdfdf; }
+.button:hover, .button:active { color: white; background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c6b792), color-stop(1, #c2b38c)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$button-color-secondary', endColorstr='$button-color-bg'); background-color: #c6b792; }
 
-.button:active { position: relative; top: 1px; background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0.05, #c9c9c9), to(#dadada)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c9c9c9', endColorstr='#dadada'); background-color: #c9c9c9; box-shadow: inset 0px -1px 0px 0px #ddd; text-shadow: -1px -1px 0px #ddd; border-color: #cbcbcb; }
+.button:active { position: relative; top: 1px; background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0.05, #bdac82), to(#baa87b)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($button-color-secondary ,  5%)', endColorstr='darken($button-color-bg, 5%)'); background-color: #bdac82; color: #ede9de; box-shadow: inset 0px -1px 0px 0px #d0c5a6; text-shadow: -1px -1px 0px #877547; border-color: #c6b792; }
 
-.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; padding-top: 48px; padding-top: 3.42857rem; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px 48px; padding-top: 48px; padding-top: 3.42857rem; }
 
 .fixed-row { margin-left: 0; }
 
@@ -280,9 +280,9 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 
 .island img, .island .img { float: left; display: inline-block; }
 
-#toggles { position: fixed; right: 0; z-index: 100; }
+#toggles { position: fixed; top: -1px; right: -1px; z-index: 100; background-color: #fff; border: 1px solid #ddd; padding: 5px 10px; border-radius: 0px 0px 0px 3px; }
 
-.color-block { padding-left: 0; text-align: center; height: 25px; color: #fff; overflow: hidden; }
+.color-block { text-align: center; min-height: 25px; color: #fff; overflow: hidden; padding: 5px 0; }
 
 .color-block:first-child { background-color: #063b6d; color: white; }
 
@@ -292,6 +292,8 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 
 .color-block:nth-child(40n+16) { background-color: #0b6fce; color: white; }
 
+.color-block:nth-child(40n+21) { background-color: #01070c; color: white; }
+
 .color-block:nth-child(40n+2) { background-color: #d40026; color: white; }
 
 .color-block:nth-child(40n+7) { background-color: #a1001d; color: white; }
@@ -299,6 +301,8 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 .color-block:nth-child(40n+12) { background-color: #ff0834; color: black; }
 
 .color-block:nth-child(40n+17) { background-color: #ff3b5e; color: black; }
+
+.color-block:nth-child(40n+22) { background-color: #6e0014; color: white; }
 
 .color-block:nth-child(40n+3) { background-color: #4c7659; color: white; }
 
@@ -308,6 +312,8 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 
 .color-block:nth-child(40n+18) { background-color: #7dab8b; color: black; }
 
+.color-block:nth-child(40n+23) { background-color: #24382a; color: white; }
+
 .color-block:nth-child(40n+4) { background-color: #d4c9ad; color: black; }
 
 .color-block:nth-child(40n+9) { background-color: #c2b38c; color: black; }
@@ -315,6 +321,8 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 .color-block:nth-child(40n+14) { background-color: #e6dfce; color: black; }
 
 .color-block:nth-child(40n+19) { background-color: #f7f5f0; color: black; }
+
+.color-block:nth-child(40n+24) { background-color: #b19d6a; color: black; }
 
 .color-block:nth-child(40n+5) { background-color: #b22727; color: white; }
 
@@ -324,15 +332,17 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 
 .color-block:nth-child(40n+20) { background-color: #dd6262; color: black; }
 
+.color-block:nth-child(40n+25) { background-color: #5e1515; color: white; }
+
 @media only screen and (max-width: 480px) { h1, .h1 { font-size: 35.9123px; font-size: 2.56516rem; line-height: 1.33659; }
   h2, .h2 { font-size: 30.69427px; font-size: 2.19245rem; line-height: 1.56381; }
-  h3, .h3 { font-size: 26.23442px; font-size: 1.87389rem; line-height: 1.82966; }
+  h3, .h3 { font-size: 26.23442px; font-size: 1.87389rem; line-height: 1.37224; }
   h4, .h4 { font-size: 22.42258px; font-size: 1.60161rem; line-height: 1.07035; }
   h5, .h5 { font-size: 19.1646px; font-size: 1.3689rem; line-height: 1.25231; }
   h6, .h6 { font-size: 16.38px; font-size: 1.17rem; line-height: 1.4652; } }
 @media only screen and (min-width: 481px) and (max-width: 640px) { h1, .h1 { font-size: 41.80378px; font-size: 2.98598rem; line-height: 1.14822; }
   h2, .h2 { font-size: 34.83648px; font-size: 2.48832rem; line-height: 1.37787; }
   h3, .h3 { font-size: 29.0304px; font-size: 2.0736rem; line-height: 1.65344; }
-  h4, .h4 { font-size: 24.192px; font-size: 1.728rem; line-height: 1.98413; }
+  h4, .h4 { font-size: 24.192px; font-size: 1.728rem; line-height: 1.4881; }
   h5, .h5 { font-size: 20.16px; font-size: 1.44rem; line-height: 1.19048; }
   h6, .h6 { font-size: 16.8px; font-size: 1.2rem; line-height: 1.42857; } }

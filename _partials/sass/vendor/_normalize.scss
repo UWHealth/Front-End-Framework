@@ -96,6 +96,8 @@ fieldset {
 mark {
     background: $function-color-light;
     color: pick_best_color($function-color-light, ($brand-color, $accent-color-dark));
+    padding: 4px 3px;
+    margin-left: -3px;
 }
 
 /**

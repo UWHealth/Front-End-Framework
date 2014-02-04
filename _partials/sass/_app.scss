@@ -7,7 +7,7 @@
 .wrap{
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 $gutter;
+    padding: 0 $gutter $gutter*2;
     @include type-space(padding-top, 2);
     @extend %clearfix;
 }
@@ -53,17 +53,22 @@
 
 #toggles{
     position: fixed;
-    right: 0;
+    top: -1px;
+    right: -1px;
     z-index: 100;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 0px 0px 0px 3px;
 }
 .color-block{
     @extend %grid__item;
     @extend %one-fifth;
-    padding-left: 0;
     text-align: center;
-    height: 25px;
+    min-height: 25px;
     color: #fff;
     overflow: hidden;
+    padding: 5px 0;
 }
 .color-block:first-child{
     background-color: $primary-color;
@@ -81,6 +86,10 @@
     background-color: $primary-color-lighter;
     color: set-text-color($primary-color-lighter);
 }
+.color-block:nth-child(40n+21){
+    background-color: $primary-color-darker;
+    color: set-text-color($primary-color-darker);
+}
 .color-block:nth-child(40n+2){
     background-color: $accent-color;
     color: set-text-color($accent-color);
@@ -96,6 +105,10 @@
 .color-block:nth-child(40n+17){
     background-color: $accent-color-lighter;
     color: set-text-color($accent-color-lighter);
+}
+.color-block:nth-child(40n+22){
+    background-color: $accent-color-darker;
+    color: set-text-color($accent-color-darker);
 }
 .color-block:nth-child(40n+3){
     background-color: $action-color;
@@ -113,6 +126,10 @@
     background-color: $action-color-lighter;
     color: set-text-color($action-color-lighter);
 }
+.color-block:nth-child(40n+23){
+    background-color: $action-color-darker;
+    color: set-text-color($action-color-darker);
+}
 .color-block:nth-child(40n+4){
     background-color: $function-color;
     color: set-text-color($function-color);
@@ -128,6 +145,10 @@
 .color-block:nth-child(40n+19){
     background-color: $function-color-lighter;
     color: set-text-color($function-color-lighter);
+}
+.color-block:nth-child(40n+24){
+    background-color: $function-color-darker;
+    color: set-text-color($function-color-darker);
 }
 .color-block:nth-child(40n+5){
     background-color: $alert-color;
@@ -145,10 +166,14 @@
     background-color: $alert-color-lighter;
     color: set-text-color($alert-color-lighter);
 }
+.color-block:nth-child(40n+25){
+    background-color: $alert-color-darker;
+    color: set-text-color($alert-color-darker);
+}
 
 @include grid-media-query(small){
-    @include auto-scale(1.17);
+    @include headings-scale(1.17);
 };
 @include grid-media-query(smallish){
-    @include auto-scale(1.2);
+    @include headings-scale(1.2);
 };

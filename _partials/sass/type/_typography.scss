@@ -142,7 +142,7 @@ body {
 
 @if $type-auto-scale == true {  //[1]
 
-    @include auto-scale($type-ratio);
+    @include headings-scale($type-ratio);
 
 }
 @else{

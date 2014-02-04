@@ -48,4 +48,5 @@
 }
 %type-bold{
     font-weight: 800;
+    -webkit-font-smoothing: antialiased;
 }

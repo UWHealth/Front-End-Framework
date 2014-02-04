@@ -3,7 +3,8 @@
 //------------------------------------
 
  // CONTENTS
- // INTRODUCTION.........How the type system works.
+ // INTRODUCTION.........Explanation.
+ // REFERENCE............List of functions and how to use them.
  // MATH.................Complex calculations and variables.
  // HELPERS..............Simple functions to fix some features missing in Sass.
  // TYPOGRAPHY...........Most often referenced from within type/_typography.scss.
@@ -17,6 +18,69 @@
 //------------------------------------
 
 // General functions to make Sass a little more powerful. Taken from various places.
+
+//------------------------------------
+//    $REFERENCE
+//------------------------------------
+//NOTE: Words in brackets[] represent values. Can either be strings, numbers, or variables.
+
+ // exponent.......Exponentially multiply (cube, square, etc) a number.
+ //                exponent([number-you-want-to-multiply], [exponent]);
+
+ // pow............A more robust exponent multiplication which allows for decimal-based exponents.
+ //    ............This replaces Compass' pow() function.
+ //                pow([number-you-want-to-multiply], [exponent]);
+
+ //gcd.............Greatest Common Divisor calculation (useful for calculating grids and widths)
+ //                gcd([first-number], [second-number])
+
+ //nth_root........Advanced calculation for squareroots, cuberoots, etc. of a value.
+ //                nth_root([number-you-want-to-find-the-root-of], [root-divisor]);
+
+ //sqrt............Find the square root of a value.
+ //                sqrt([number-you-want-the-square-root-of]);
+
+ //rand............Generate a random number.
+ //                rand();
+
+ // golden.........Generate the golden ratio.
+ //                golden();
+
+ // strip-units....Remove px,em,rem, etc. from a value. Usually a variable.
+ //                strip-units([value-you-want-units-removed-from]);
+
+ // opacity........MIXIN used to generate cross-browser opacity (including IE8)
+ //                @include opacity([decimal-number-you-need-for-opacity]);
+
+ // rems...........MIXIN used to generate rem value with a pixel fall-back (only accepts pixel values).
+ //                @include([property-you-want-to-give-a-value], [pixel-value]);
+
+ //type-font-size..MIXIN used for generating font-sizes and line-heights that line up to the baseline grid.
+ //                @include([font-size-in-pixels]);
+
+ //type-space......MIXIN used for generating spacing that cooresponds to the baseline grid.
+ //          ......The values you enter should be value-less as they will be calculated as multiples.
+ //                @include type-space([property-you-want-to-give-a-value], [multiple-of-spacing]);
+
+ //type-space-sc...MIXIN used for generating spacing for properties that accept shortcut values (e.g. padding: 2px 3px 4px 5px).
+ //             ...The values you enter should be value-less as they will be calculated as multiples.
+ //                @include type-space([property-you-want-to-give-a-value], [top-value], [right-value], [bottom-value], [left-value]);
+ //                NOTE: This also accepts just a vertical(top) value and horizontal(right)-value. Assumes bottom = top, and left = right.
+
+ //modular-scale...Generates a pixel value that is an exponent of a ratio (defaults to $type-ratio value).
+ //                modular-scale([number-on-the-scale-you-want], [ratio-to-use-as-scale]);
+
+ //type-scale......MIXIN for generating numbers for properties on the typographic scale (with a rem value and pixel fallback).
+ //                @include type-scale([property-you-want-to-use], [number-on-the-scale]);
+
+ //headings-scale..MIXIN for generating heading sizes on a typographic scale. Accepts any scale ratio.
+ //                @include headings-scale([scale-you-want-to-base-font-sizes-on]);
+
+ //set-text-color..Generates either white or black based on the lightness of the color you pass it (Accepts HEX values).
+ //                set-text-color([color-you-need-to-test-contrast-of]);
+
+ //pick_best_color..Outputs the color with the highest contrast to the first color you pass it (Accepts multiple color options).
+ //                 pick_best_color([color-you-need-to-test-contrast-of], (color-option-1, color-option-2, color-option-3));
 
 
 
@@ -52,12 +116,12 @@ $iter: 50;
 
 //More advanced exponent function — very similar to Compass' pow() function, except all SASS-based.
 @function pow($base, $exponent, $prec: 12) {
-  // Handles decimal exponents by trying to convert them into a fraction and then use a nthRoot-algorithm for parts of the calculation
+  // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
   @if (floor($exponent) != $exponent) {
     $prec2 : pow(10, $prec);
     $exponent: round($exponent * $prec2);
     $denominator: gcd($exponent, $prec2);
-    @return nthRoot(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
+    @return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
   }
 
   $value: $base;
@@ -86,7 +150,7 @@ $iter: 50;
 
 
 //Nth Root Function
-@function nthRoot($num, $n: 2, $prec: 12) {
+@function nth_root($num, $n: 2, $prec: 12) {
   // From: http://rosettacode.org/wiki/Nth_root#JavaScript
   $x: 1;
 
@@ -98,7 +162,6 @@ $iter: 50;
 }
 
 //Square Root functions
-
 @function sqrt($number) {
   $guess: rand();
   $root: $guess;
@@ -124,6 +187,9 @@ $iter: 50;
 @function ϕ() {
   @return golden();
 }
+
+$golden_ratio:  golden();
+
 
 //------------------------------------
 //    $HELPERS
@@ -178,7 +244,17 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
     font-size: ($font-size / $type-base-font-size) * 1rem;
 
     @if $line-height == true {
-        line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height) / $font-size;
+        $estimated-line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height) / $font-size;
+
+        // If line-height is too large, divide it in half.
+        // Ultimately, this creates type that requires two line-lengths to rebalance the baseline grid.
+        // This is a better alternative to 2x line-heights.
+
+        @if $estimated-line-height > 1.8{
+            $estimated-line-height: ceil($font-size / ($type-base-line-height / 2)) * ($type-base-line-height / 2) / $font-size;
+        }
+
+        line-height: $estimated-line-height;
     }
 }
 
@@ -193,19 +269,20 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
     #{$property}: $multiplier * $type-magic-ratio + rem;
 }
 
-//Use this for padding or margin shortcuts. e.g.:
-//pre {
+// Same as above, but for shortcut properties.
+// Use this for padding or margin shortcuts. e.g.:
+// pre {
 //    @include type-space(padding, 1, 2, 1, 0);
 // }
-@mixin type-space-sc($property, $multiplier-1: 0, $multiplier-2: 0, $multiplier-3: 999, $multiplier-4: 999){
-    @if $multiplier-3 == 999{
-        $multiplier-3: $multiplier-1;
+@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: 999, $left: 999){
+    @if $bottom == 999{
+        $bottom: $top;
     }
-    @if $multiplier-4 == 999{
-        $multiplier-4: $multiplier-2;
+    @if $left == 999{
+        $left: $right;
     }
-    #{$property}: $multiplier-1 * $type-magic-number $multiplier-2 * $type-magic-number $multiplier-3 * $type-magic-number $multiplier-4 * $type-magic-number;
-    #{$property}: $multiplier-1 * $type-magic-ratio + rem $multiplier-2 * $type-magic-ratio + rem $multiplier-3 * $type-magic-ratio + rem $multiplier-4 * $type-magic-ratio + rem;
+    #{$property}: ($top * $type-magic-number) ($right * $type-magic-number) ($bottom * $type-magic-number) ($left * $type-magic-number);
+    #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem ($bottom * $type-magic-ratio) + rem ($left * $type-magic-ratio) + rem;
 }
 
 
@@ -216,7 +293,7 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 //------------------------------------
 
 // Modular scale function to scale type up or down.
-@function modular-scale($i,$scale: $type-ratio){
+@function modular-scale($i, $scale: $type-ratio){
     $modular-scale: $scale;
     @return exponent($modular-scale, $i)*($stripped-base-font-size)*1px;
 }
@@ -230,22 +307,31 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 // Would produce a margin-top value of the second value within your typographic scale.
 // If your scale is set to 3,4, your output would be: div{margin-top: 20.63314px; margin-top: 1.4738rem;}
 
-@mixin type-scale($property: font-size, $i: 1){
+@mixin type-scale($property: font-size, $mod-scale-value: 1){
     @if $type-auto-scale == false{
         @warn "Please set $type-auto-scale to true or else type-scale is fairly meaningless.";
     }
     @if $property == "font-size"{
-        $font-size: modular-scale($i);
+        $font-size: modular-scale($mod-scale-value);
         @include type-font-size($font-size, true);
     }
     @else{
-        $scale: modular-scale($i);
+        $scale: modular-scale($mod-scale-value);
         #{$property}: $scale;
         #{$property}: ($scale / $type-base-font-size) * 1rem;
     }
 }
 
-@mixin auto-scale($scale){
+@mixin headings-scale($scale: $type-ratio){
+    //Checking for floats in $scale
+    @if length($scale) == 2{
+    // Making sure we don't have a ratio below 1.
+        @if nth($scale,1) < nth($scale,2){
+            $scale:   nth($scale, 2)/nth($scale, 1);
+        }@else{
+            $scale:   nth($scale, 1)/nth($scale, 2);
+        }
+    }
     $type-ratio: $scale;
     @each $i in $type-headings{  //[2]
             $font-size: modular-scale($i);  //[3]
