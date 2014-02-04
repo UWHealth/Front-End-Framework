@@ -3,8 +3,8 @@
 }
 
 /* ==========================================================================
-   HTML5 display definitions
-   ========================================================================== */
+/*   HTML5 display definitions
+/* ========================================================================== */
 
 /**
  * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
@@ -55,13 +55,10 @@ textarea {
  * Address margins handled incorrectly in IE 6/7.
  */
 
-body {
-    margin: 0;
-}
 
-/* ==========================================================================
-   Links
-   ========================================================================== */
+/* ========================================================================== */
+/*   Links
+/* ========================================================================== */
 a{
     cursor: pointer;
 }
@@ -88,7 +85,8 @@ a:hover {
 
 fieldset {
     border: 0;
-    @extend %type-reset;
+    margin: 0 2px;
+    @include type-space(padding, .5);
 }
 
 /**
@@ -96,18 +94,8 @@ fieldset {
  */
 
 mark {
-    background: #ff0;
-    color: #000;
-}
-
-/**
- * Address margins set differently in IE 6/7.
- */
-
-p,
-pre {
-    margin: 0;
-    @include type-space(margin-bottom, 1);
+    background: $function-color-light;
+    color: pick_best_color($function-color-light, ($brand-color, $accent-color-dark));
 }
 
 /**
@@ -232,7 +220,7 @@ select {
     text-transform: none;
 }
 
-/**
+/*
  * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
  *    and `video` controls.
  * 2. Correct inability to style clickable `input` types in iOS.
@@ -243,12 +231,12 @@ select {
  */
 
 button,
-html input[type="button"], /* 1 */
+html input[type="button"], // [1]
 input[type="reset"],
 input[type="submit"] {
-    -webkit-appearance: button; /* 2 */
-    cursor: pointer; /* 3 */
-    *overflow: visible;  /* 4 */
+    -webkit-appearance: button; // [2]
+    cursor: pointer; // [3]
+    *overflow: visible;  // [4]
 }
 
 /**
@@ -256,8 +244,9 @@ input[type="submit"] {
  */
 
 button[disabled],
-html input[disabled] {
-    cursor: default;
+html input[disabled],
+.disabled{
+    cursor: default !important;
 }
 
 /**
@@ -390,7 +379,7 @@ hr {
     height: 1px;
     border: 0;
     border-top: 1px solid #ccc;
-    @include type-space-sc(margin, 1, 0);
+    @include type-space-sc(margin, .96, 0);
     padding: 0;
 }
 
@@ -401,9 +390,9 @@ hr {
     padding: 0.2em 0;
 }
 
-/* ==========================================================================
-   Media Queries
-   ========================================================================== */
+/* ========================================================================== */
+/*   Media Queries                                                            */
+/* ========================================================================== */
 
 @media print,
        (-o-min-device-pixel-ratio: 5/4),
@@ -411,15 +400,15 @@ hr {
        (min-resolution: 120dpi) {
 
 }
-/*
- * Make Windows 8 snapped view show properly
- */
+//
+// Make Windows 8 snapped view show properly
+//
 @-ms-viewport{width:device-width; zoom: 1.0;}
 
 
-/* ==========================================================================
-   Print styles
-   ========================================================================== */
+/* ========================================================================== */
+/*   Print styles                                                             */
+/* ========================================================================== */
 
 @media print {
     * {

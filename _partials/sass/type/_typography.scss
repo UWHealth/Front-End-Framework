@@ -1,27 +1,89 @@
-//Default variables are in /utilities/_variables.scss
+//------------------------------------
+//    $Typography
+//------------------------------------
+
+ // CONTENTS
+ // INTRODUCTION.........How the type system works.
+ // VARIABLES............Your settings.
+ // SETUP................Silent classes and functions.
+ // BASE.................Additional normalization for HTML and BODY
+ // HEADINGS.............Create the headings with modular scale or pre-defined sizes
+ // LISTS................Add typographic rhythm principles to lists.
+ // PARAGRAPHS...........Paragraph, and paragraph-like elements.
+ // QUOTES...............Blockquote styling.
+ // TABLES...............Table and table-cell styles.
+ // NORMALIZE............Type-specific definitions pulled from normalize.css.
 
 
-//Checking for floats in $type-ratio
-@if length($type-ratio) == 2{
-// Making sure we don't have a ratio below 1.
-    @if nth($type-ratio,1) < nth($type-ratio,2){
-        $type-modular-scale:   nth($type-ratio, 2)/nth($type-ratio, 1);
-    }@else{
-        $type-modular-scale:   nth($type-ratio, 1)/nth($type-ratio, 2);
-    }
-}
-@else {
-    $type-modular-scale:   $type-ratio;
-}
-/*------------------------------------*\
-    #BASE
-\*------------------------------------*/
+//------------------------------------\\
+//    $INTRODUCTION
+//------------------------------------\\
 
- // 1. Set the base element’s `font-size` to the value of your choosing. Set in
- //    ems, assuming a browser default of 16px.
- // 2. Work out the unitless `line-height` for your project based around your
- //    desired `line-height` (defined previously in pixels), and your project’s
- //    base font size.
+// Based on https://github.com/csswizardry/typecsset;
+// A small, unopinionated library for creating beautifully set type
+// on the web. Typecsset gives perfect vertical rhythm at any configurable font
+// size, as well as many other typographical niceties.
+
+
+
+//------------------------------------\\
+//    $VARIABLES
+//------------------------------------\\
+
+//!!!! NOTE: All of the real variables are in /utilities/_variables.scss \\
+//!!!! What follows is just for reference. !!!!! \\
+
+// What would you like your base font-size to be? Define in pixels; the library
+// will convert measurements to the most appropriate units (rems or unitless).
+//$type-base-font-size:      14px !default;
+//$type-base-line-height:    22px !default;
+
+// Heading sizes if you'd rather set them yourself (set $type-auto-scale to false).
+//$type-h1-size:             50px !default;
+//$type-h2-size:             44px !default;
+//$type-h3-size:             33px !default;
+//$type-h4-size:             22px !default;
+//$type-h5-size:             21px !default;
+//$type-h6-size:             18px !default;
+
+// Would you like indented (rather than spaced) paragraph delimiting?
+//$type-indented-paragraphs: false !default;
+
+// Set the ratio by which your type should grow.
+// Accepts two numbers, representing a ratio, typically associated with
+// music intervals. You may also use floats (1.33).
+// Common intervals: Perfect fourth (4,3)[default], Perfect Fifth (3,2),
+// Perfect Octave (2,1), Major Third (5,4), Major Sixth (5,3).
+// The Golden Ratio is (1.618,1).
+//$type-ratio:               4,3   !default;
+
+// Would you like to show a baseline grid? This is handy during development.
+//$type-show-baseline:       false !default;
+
+
+
+
+/*-----------------------------------
+    $SETUP
+------------------------------------*/
+
+// Just here for reference.
+// Real functions live within utilities/_functions.scss
+
+// @mixin typecsset-font-size($font-size, $line-height: true) {
+//    font-size: $font-size;
+//    font-size: ($font-size / $typecsset-base-font-size) * 1rem;
+
+//    @if $line-height == true {
+//        line-height: ceil($font-size / $typecsset-base-line-height) * ($typecsset-base-line-height / $font-size);
+//    }
+//
+// }
+
+// A small, internally-used function to remove the units from a given value.
+// @function typecsset-strip-units($number) {
+//    @return $number / ($number * 0 + 1);
+// }
 
 %type-vertical-rhythm {
     @extend %type-reset;
@@ -29,16 +91,21 @@
     margin-bottom: $type-magic-ratio + rem;
 }
 
-html {
-    @extend %type-reset;
-    @extend %type-family;
-    font-size: $type-base-font-size / 16px + em; // [1]
-    line-height: $type-base-line-height / $type-base-font-size; // [2]
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
 
-    // If you have chosen to display a baseline grid, we turn it on here.
-    @if $type-show-baseline == true {
+
+/*-----------------------------------
+    $BASE
+------------------------------------*/
+ html {
+   @extend %type-reset;
+   @extend %type-family;
+   font-size: $type-base-font-size / 16px + em; // [1]
+   line-height: $type-base-line-height / $type-base-font-size; // [2]
+    -ms-text-size-adjust: 100%;
+   -webkit-text-size-adjust: 100%;
+
+// If you have chosen to display a baseline grid, we turn it on here.
+   @if $type-show-baseline == true {
         $type-baseline-size: strip-units($type-magic-number);
         background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
     }
@@ -47,8 +114,8 @@ html {
     height: 100%;
 }
 body {
-    font-size: 1em;
-    @extend %type-reset;
+   font-size: 1em;
+   @extend %type-reset;
 }
 
 //Allow a toggle for baseline image
@@ -60,13 +127,9 @@ body {
 
 
 
-/*------------------------------------*\
-    #HEADINGS
-\*------------------------------------*/
-
-@if $type-auto-scale == true {
-
-
+/*------------------------------------
+    $HEADINGS
+------------------------------------*/
  // 1. If you've chosen to automatically scale your type, we set that up here.
  // 2. Using heading numbers[6-1], we create a loop.
  // 3. Use the current scale number to exponentially scale up our base-font-size.
@@ -74,28 +137,12 @@ body {
  //    output (h1,h2,h3,h4,h5,h6).
  // 5. Use our new modular values for input into type mixins to generate our
  //    desired, modularly-scaled css.
+ // 6. If followed by a paragraph, create a closer larger top margin, but smaller bottom margin.
+ // 7. If classed headings, create them by extending everything above.
 
-    @each $i in $type-headings{
-            $font-size: modular-scale($i);
-            $current-heading: nth($type-headings,$i);
+@if $type-auto-scale == true {  //[1]
 
-            h#{$current-heading}{
-                @extend %type-vertical-rhythm;
-                @include type-font-size($font-size, true);
-
-                @if $type-indented-paragraphs == false{
-                    &+p{
-                        @include type-space(margin-top, -1);
-                    }
-                };
-            };
-            @if $type-scale-classes == true{
-                .h#{$current-heading}{
-                    @extend h#{$current-heading};
-                }
-            };
-            $i: $i + 1;
-    };
+    @include auto-scale($type-ratio);
 
 }
 @else{
@@ -103,31 +150,61 @@ body {
 h1 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h1-size);
+    @if $type-scale-classes == true{
+        .h1{
+            @extend h1;
+        }
+   }
 }
 
 h2 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h2-size);
+    @if $type-scale-classes == true{
+        .h2{
+            @extend h2;
+        }
+   }
 }
 
 h3 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h3-size);
+    @if $type-scale-classes == true{
+        .h3{
+            @extend h3;
+        }
+   }
 }
 
 h4 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h4-size);
+    @if $type-scale-classes == true{
+        .h4{
+            @extend h4;
+        }
+   }
 }
 
 h5 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h5-size);
+    @if $type-scale-classes == true{
+        .h5{
+            @extend h5;
+        }
+   }
 }
 
 h6 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h6-size);
+    @if $type-scale-classes == true{
+        .h6{
+            @extend h6;
+        }
+   }
 }
 }
 
@@ -135,7 +212,7 @@ h6 {
 
 
 /*-------------------------------
-    #LISTS
+    $LISTS
 -------------------------------*/
 ul, ol, dd, menu {
     @extend %type-vertical-rhythm;
@@ -152,7 +229,7 @@ li > ol {
 
 
 /*-------------------------------
-    #PARAGRAPHS
+    $PARAGRAPHS
 -------------------------------*/
 p {
     @extend %type-vertical-rhythm;
@@ -207,7 +284,7 @@ abbr[title] {
 
 
 /*-------------------------------
-    #QUOTES
+    $QUOTES
 -------------------------------*/
 //
 // 1. Hang the opening quote of the blockquote.
@@ -219,7 +296,7 @@ blockquote {
 blockquote {
     @extend %type-vertical-rhythm;
     quotes: "“" "”";
-    @include type-space(margin-left);
+    @include type-space(margin-left, 1);
 
     p {
 
@@ -266,15 +343,21 @@ q   {
         content: close-quote;
     }
 
-    /**
-     * If an element opens with an inline quote, let’s hang that.
-     */
+    //
+    // If an element opens with an inline quote, let’s hang that.
+    //
     &:first-child {
         display: inline-block;
         text-indent: -0.22em;
     }
 
 }
+
+
+/*-------------------------------
+    $TABLES
+-------------------------------*/
+
 table {
     @extend %type-vertical-rhythm;
     width: 100%;
@@ -284,8 +367,16 @@ table {
 
 th,
 td {
-    padding: $type-base-line-height / 2;}
+    padding: $type-base-line-height / 2;
+    text-align: left;
+    border: 0;
+    border-bottom: 1px solid $function-color;
+}
 
+
+/*-------------------------------*/
+/*    $NORMALIZE                 */
+/*-------------------------------*/
 b,strong{
     font-weight: bold;}
 dfn {
@@ -303,8 +394,4 @@ sup {
 sub {
     bottom: -0.25em;
 }
-fieldset {
-    border: 0;
-    margin: 0 2px;
-    @include type-scale(padding, -1);
-}
+

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face { font-family: 'Asap'; src: url("fonts/Asap-Regular-webfont.eot"); src: url("fonts/Asap-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/Asap-Regular-webfont.woff") format("woff"), url("fonts/Asap-Regular-webfont.ttf") format("truetype"), url("fonts/Asap-Regular-webfont.svg#AsapRegular") format("svg"); font-weight: 400; font-style: normal; }
 
 @font-face { font-family: 'Asap'; src: url("fonts/Asap-Italic-webfont.eot"); src: url("fonts/Asap-Italic-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/Asap-Italic-webfont.woff") format("woff"), url("fonts/Asap-Italic-webfont.ttf") format("truetype"), url("fonts/Asap-Italic-webfont.svg#AsapItalic") format("svg"); font-weight: 400; font-style: italic; }
@@ -6,55 +7,59 @@
 
 @font-face { font-family: 'Asap'; src: url("fonts/Asap-BoldItalic-webfont.eot"); src: url("fonts/Asap-BoldItalic-webfont.eot?#iefix") format("embedded-opentype"), url("fonts/Asap-BoldItalic-webfont.woff") format("woff"), url("fonts/Asap-BoldItalic-webfont.ttf") format("truetype"), url("fonts/Asap-BoldItalic-webfont.svg#AsapBoldItalic") format("svg"); font-weight: 700; font-style: italic; }
 
+.wrap { position: relative; }
+
+html .wrap:before { z-index: -1; content: ''; margin: 0; position: absolute; top: 0; left: 0; padding-top: 100%; display: table-cell; background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.05) 0.5%, rgba(0, 0, 0, 0) 1%, rgba(0, 0, 0, 0) 8.25%, rgba(0, 0, 0, 0.05) 8.33333%, rgba(0, 0, 0, 0.05) 9.16667%, rgba(0, 0, 0, 0) 9.58333%, rgba(0, 0, 0, 0) 16.58333%, rgba(0, 0, 0, 0.05) 16.66667%, rgba(0, 0, 0, 0.05) 17.5%, rgba(0, 0, 0, 0) 17.91667%, rgba(0, 0, 0, 0) 24.91667%, rgba(0, 0, 0, 0.05) 25%, rgba(0, 0, 0, 0.05) 25.83333%, rgba(0, 0, 0, 0) 26.25%, rgba(0, 0, 0, 0) 33.25%, rgba(0, 0, 0, 0.05) 33.33333%, rgba(0, 0, 0, 0.05) 34.16667%, rgba(0, 0, 0, 0) 34.58333%, rgba(0, 0, 0, 0) 41.58333%, rgba(0, 0, 0, 0.05) 41.66667%, rgba(0, 0, 0, 0.05) 42.5%, rgba(0, 0, 0, 0) 42.91667%, rgba(0, 0, 0, 0) 49.91667%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 50.83333%, rgba(0, 0, 0, 0) 51.25%, rgba(0, 0, 0, 0) 58.25%, rgba(0, 0, 0, 0.05) 58.33333%, rgba(0, 0, 0, 0.05) 59.16667%, rgba(0, 0, 0, 0) 59.58333%, rgba(0, 0, 0, 0) 66.58333%, rgba(0, 0, 0, 0.05) 66.66667%, rgba(0, 0, 0, 0.05) 67.5%, rgba(0, 0, 0, 0) 67.91667%, rgba(0, 0, 0, 0) 74.91667%, rgba(0, 0, 0, 0.05) 75%, rgba(0, 0, 0, 0.05) 75.83333%, rgba(0, 0, 0, 0) 76.25%, rgba(0, 0, 0, 0) 83.25%, rgba(0, 0, 0, 0.05) 83.33333%, rgba(0, 0, 0, 0.05) 84.16667%, rgba(0, 0, 0, 0) 84.58333%, rgba(0, 0, 0, 0) 91.58333%, rgba(0, 0, 0, 0.05) 91.66667%, rgba(0, 0, 0, 0.05) 92.5%, rgba(0, 0, 0, 0) 92.91667%, rgba(0, 0, 0, 0) 99.91667%, rgba(0, 0, 0, 0.05) 98%, rgba(0, 0, 0, 0.05) 100%); }
+
+html.grid-off .wrap:before { background-image: none; }
+
 *, *:before, *:after { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
-.clearfix, .wrap, .row, .fixed-row { *zoom: 1; }
-.clearfix:before, .wrap:before, .row:before, .fixed-row:before, .clearfix:after, .wrap:after, .row:after, .fixed-row:after { display: table; content: " "; }
-.clearfix:after, .wrap:after, .row:after, .fixed-row:after { clear: both; }
+.clearfix, .wrap, .row-narrow, .row, .fixed-row { *zoom: 1; }
+.clearfix:before, .wrap:before, .row-narrow:before, .row:before, .fixed-row:before, .clearfix:after, .wrap:after, .row-narrow:after, .row:after, .fixed-row:after { display: table; content: " "; }
+.clearfix:after, .wrap:after, .row-narrow:after, .row:after, .fixed-row:after { clear: both; }
 
-h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, ul, ol, dd, menu, p, address, pre, blockquote, table, html, body, fieldset { margin: 0; padding: 0; }
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, ul, ol, dd, menu, p, address, pre, blockquote, table, html, body { margin: 0; padding: 0; }
+
+h1 + p, .h1 + p, h2 + p, .h2 + p, h3 + p, .h3 + p, h4 + p, .h4 + p, h5 + p, .h5 + p, h6 + p, .h6 + p { margin-top: -24px; margin-top: -1.71429rem; }
 
 html, button, input, select, textarea { font-family: "Asap", verdana, helvetica, arial, sans-serif; }
 
 .button { font-weight: 800; }
 
-/*------------------------------------*\ #BASE
-\*------------------------------------*/
+/*----------------------------------- $SETUP
+------------------------------------*/
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, ul, ol, dd, menu, p, address, pre, blockquote, table { margin-bottom: 24px; margin-bottom: 1.71429rem; }
 
+/*----------------------------------- $BASE
+------------------------------------*/
 html { font-size: 0.875em; line-height: 1.71429; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; background-image: url(http://basehold.it/i/24); width: 100%; height: 100%; }
 
 body { font-size: 1em; }
 
 .baseline-off { background-image: none; }
 
-/*------------------------------------*\ #HEADINGS
-\*------------------------------------*/
-h1, .h1 { font-size: 44.81673px; font-size: 3.20119rem; line-height: 48px; line-height: 1.07103; }
-h1 + p, .h1 + p { margin-top: -24px; margin-top: -1.71429rem; }
+/*------------------------------------ $HEADINGS
+------------------------------------*/
+h1, .h1 { font-size: 44.81673px; font-size: 3.20119rem; line-height: 1.07103; }
 
-h2, .h2 { font-size: 36.91658px; font-size: 2.6369rem; line-height: 48px; line-height: 1.30023; }
-h2 + p, .h2 + p { margin-top: -24px; margin-top: -1.71429rem; }
+h2, .h2 { font-size: 36.91658px; font-size: 2.6369rem; line-height: 1.30023; }
 
-h3, .h3 { font-size: 30.40905px; font-size: 2.17207rem; line-height: 48px; line-height: 1.57848; }
-h3 + p, .h3 + p { margin-top: -24px; margin-top: -1.71429rem; }
+h3, .h3 { font-size: 30.40905px; font-size: 2.17207rem; line-height: 1.57848; }
 
-h4, .h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 48px; line-height: 1.91627; }
-h4 + p, .h4 + p { margin-top: -24px; margin-top: -1.71429rem; }
+h4, .h4 { font-size: 25.04864px; font-size: 1.78919rem; line-height: 1.91627; }
 
-h5, .h5 { font-size: 20.63314px; font-size: 1.4738rem; line-height: 24px; line-height: 1.16318; }
-h5 + p, .h5 + p { margin-top: -24px; margin-top: -1.71429rem; }
+h5, .h5 { font-size: 20.63314px; font-size: 1.4738rem; line-height: 1.16318; }
 
-h6, .h6 { font-size: 16.996px; font-size: 1.214rem; line-height: 24px; line-height: 1.4121; }
-h6 + p, .h6 + p { margin-top: -24px; margin-top: -1.71429rem; }
+h6, .h6 { font-size: 16.996px; font-size: 1.214rem; line-height: 1.4121; }
 
-/*------------------------------- #LISTS
+/*------------------------------- $LISTS
 -------------------------------*/
 ul, ol, dd, menu { margin-left: 24px; margin-left: 1.71429rem; }
 
 li > ul, li > ol { margin-bottom: 0; }
 
-/*------------------------------- #PARAGRAPHS
+/*------------------------------- $PARAGRAPHS
 -------------------------------*/
 pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
 
@@ -63,31 +68,36 @@ code, kbd, pre, samp { font-family: monospace, monospace; _font-family: 'courier
 /*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
 abbr[title] { border-bottom: 1px dotted; }
 
-/*------------------------------- #QUOTES
+/*------------------------------- $QUOTES
 -------------------------------*/
 blockquote { text-indent: -0.41em; }
 
-blockquote { quotes: "“" "”"; margin-left: 48px; margin-left: 3.42857rem; }
+blockquote { quotes: "“" "”"; margin-left: 24px; margin-left: 1.71429rem; }
 blockquote p:before { content: "“"; content: open-quote; }
 blockquote p:after { content: ""; content: no-close-quote; }
 blockquote p:last-of-type:after { content: "”"; content: close-quote; }
 
-q { quotes: "‘" "’" "“" "”"; overflow: visible; /** If an element opens with an inline quote, let’s hang that. */ }
+q { quotes: "‘" "’" "“" "”"; overflow: visible; }
 q:before { content: "‘"; content: open-quote; }
 q:after { content: "’"; content: close-quote; }
 q q:before { content: "“"; content: open-quote; }
 q q:after { content: "”"; content: close-quote; }
 q:first-child { display: inline-block; text-indent: -0.22em; }
 
+/*------------------------------- $TABLES
+-------------------------------*/
 table { width: 100%; border-collapse: collapse; border-spacing: 0; }
 
-th, td { padding: 12px; }
+th, td { padding: 12px; text-align: left; border: 0; border-bottom: 1px solid #d4c9ad; }
 
+/*-------------------------------*/
+/*    $NORMALIZE                 */
+/*-------------------------------*/
 b, strong { font-weight: bold; }
 
 dfn { font-style: italic; }
 
-small { font-size: 11.53213px; font-size: 0.82372rem; line-height: 24px; line-height: 2.08114; }
+small { font-size: 11.53213px; font-size: 0.82372rem; line-height: 2.08114; }
 
 sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
 
@@ -95,9 +105,9 @@ sup { top: -0.5em; }
 
 sub { bottom: -0.25em; }
 
-fieldset { border: 0; margin: 0 2px; padding: 11.53213px; padding: 0.82372rem; }
-
-/* ========================================================================== HTML5 display definitions ========================================================================== */
+/* ==========================================================================
+/*   HTML5 display definitions
+/* ========================================================================== */
 /** Correct `block` display not defined in IE 6/7/8/9 and Firefox 3. */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
 
@@ -112,9 +122,9 @@ audio:not([controls]) { display: none; height: 0; }
 
 /** Address `font-family` inconsistency between `textarea` and other form elements. */
 /** Address margins handled incorrectly in IE 6/7. */
-body { margin: 0; }
-
-/* ========================================================================== Links ========================================================================== */
+/* ========================================================================== */
+/*   Links
+/* ========================================================================== */
 a { cursor: pointer; }
 
 /** Address `outline` inconsistency between Chrome and other browsers. */
@@ -124,13 +134,10 @@ a:focus { outline: thin dotted; }
 a:active, a:hover { outline: 0; }
 
 /** Address styling not present in Safari 5 and Chrome. */
-fieldset { border: 0; }
+fieldset { border: 0; margin: 0 2px; padding: 12px; padding: 0.85714rem; }
 
 /** Address styling not present in IE 6/7/8/9. */
-mark { background: #ff0; color: #000; }
-
-/** Address margins set differently in IE 6/7. */
-p, pre { margin: 0; margin-bottom: 24px; margin-bottom: 1.71429rem; }
+mark { background: #e6dfce; color: #063b6d; }
 
 /** Address CSS quotes not supported in IE 6/7. */
 q { quotes: none; }
@@ -165,11 +172,11 @@ button, input { line-height: normal; }
 /** Address inconsistent `text-transform` inheritance for `button` and `select`. All other form control elements do not inherit `text-transform` values. Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+. Correct `select` style inheritance in Firefox 4+ and Opera. */
 button, select { text-transform: none; }
 
-/** 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. 2. Correct inability to style clickable `input` types in iOS. 3. Improve usability and consistency of cursor style between image-type `input` and others. 4. Remove inner spacing in IE 7 without affecting normal text inputs. Known issue: inner spacing remains in IE 6. */
-button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; /* 2 */ cursor: pointer; /* 3 */ *overflow: visible; /* 4 */ }
+/* 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio` and `video` controls. 2. Correct inability to style clickable `input` types in iOS. 3. Improve usability and consistency of cursor style between image-type `input` and others. 4. Remove inner spacing in IE 7 without affecting normal text inputs. Known issue: inner spacing remains in IE 6. */
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; cursor: pointer; *overflow: visible; }
 
 /** Re-set default cursor for disabled elements. */
-button[disabled], html input[disabled] { cursor: default; }
+button[disabled], html input[disabled], .disabled { cursor: default !important; }
 
 /** 1. Address box sizing set to content-box in IE 8/9. 2. Remove excess padding in IE 8/9. 3. Remove excess padding in IE 7. Known issue: excess padding remains in IE 6. */
 input[type="checkbox"], input[type="radio"] { box-sizing: border-box; /* 1 */ padding: 0; /* 2 */ *height: 13px; /* 3 */ *width: 13px; /* 3 */ }
@@ -206,15 +213,18 @@ html, button, input, select, textarea { color: #222; }
 
 ::selection { background: #b3d4fc; text-shadow: none; }
 
-hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 24px 0px 24px 0px; margin: 1.71429rem 0rem 1.71429rem 0rem; padding: 0; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 23.04px 0px 23.04px 0px; margin: 1.64571rem 0rem 1.64571rem 0rem; padding: 0; }
 
 .chromeframe { margin: 0.2em 0; background: #ccc; color: #000; padding: 0.2em 0; }
 
-/* ========================================================================== Media Queries ========================================================================== */
-/* Make Windows 8 snapped view show properly */
+/* ========================================================================== */
+/*   Media Queries                                                            */
+/* ========================================================================== */
 @-ms-viewport { width: device-width; zoom: 1.0; }
 
-/* ========================================================================== Print styles ========================================================================== */
+/* ========================================================================== */
+/*   Print styles                                                             */
+/* ========================================================================== */
 @media print { * { background: transparent !important; color: #000 !important; /* Black prints faster: h5bp.com/s */ box-shadow: none !important; text-shadow: none !important; }
   a, a:visited { text-decoration: underline; }
   a[href]:after { content: " (" attr(href) ")"; }
@@ -235,28 +245,21 @@ hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin:
 
 .column, .sidebar, .content, .color-block { display: inline-block; padding-left: 24px; padding-left: 1.71429rem; vertical-align: top; width: 100%; letter-spacing: normal; word-spacing: normal; }
 
-/** Reversed grids allow you to structure your source in the opposite order to how your rendered layout will appear. Extends `.grid`. */
+.row-narrow { margin-left: -12px; margin-left: -0.85714rem; }
+.row-narrow > .column, .row-narrow > .sidebar, .row-narrow > .content, .row-narrow > .color-block { padding-left: 12px; padding-left: 0.85714rem; }
+
 .column { width: 100%; }
 
 .color-block { width: 20%; }
 
 @media only screen and (max-width: 480px) { .sidebar, .content { width: 100%; } }
-@media only screen and (min-width: 481px) and (max-width: 940px) { .sidebar { width: 25%; }
+@media only screen and (min-width: 481px) and (max-width: 640px) { .sidebar, .content { width: 50%; } }
+@media only screen and (min-width: 641px) and (max-width: 940px) { .sidebar { width: 25%; }
   .content { width: 75%; } }
 @media only screen and (min-width: 941px) { .sidebar { width: 33.333%; }
   .content { width: 66.666%; } }
 /*------------------------------------*\ $PUSH
 \*------------------------------------*/
-[class*="push--"] { position: relative; }
-
-[class*="pull--"] { position: relative; }
-
-.wrap { position: relative; }
-
-html .wrap:before { z-index: -1; content: ''; width: 100%; height: 100%; margin: 0 24px; position: absolute; top: 0; left: 0; padding-top: 100%; display: table-cell; background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.05) 0.5%, rgba(0, 0, 0, 0) 1%, rgba(0, 0, 0, 0) 8.25%, rgba(0, 0, 0, 0.05) 8.33333%, rgba(0, 0, 0, 0.05) 9.16667%, rgba(0, 0, 0, 0) 9.58333%, rgba(0, 0, 0, 0) 16.58333%, rgba(0, 0, 0, 0.05) 16.66667%, rgba(0, 0, 0, 0.05) 17.5%, rgba(0, 0, 0, 0) 17.91667%, rgba(0, 0, 0, 0) 24.91667%, rgba(0, 0, 0, 0.05) 25%, rgba(0, 0, 0, 0.05) 25.83333%, rgba(0, 0, 0, 0) 26.25%, rgba(0, 0, 0, 0) 33.25%, rgba(0, 0, 0, 0.05) 33.33333%, rgba(0, 0, 0, 0.05) 34.16667%, rgba(0, 0, 0, 0) 34.58333%, rgba(0, 0, 0, 0) 41.58333%, rgba(0, 0, 0, 0.05) 41.66667%, rgba(0, 0, 0, 0.05) 42.5%, rgba(0, 0, 0, 0) 42.91667%, rgba(0, 0, 0, 0) 49.91667%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05) 50.83333%, rgba(0, 0, 0, 0) 51.25%, rgba(0, 0, 0, 0) 58.25%, rgba(0, 0, 0, 0.05) 58.33333%, rgba(0, 0, 0, 0.05) 59.16667%, rgba(0, 0, 0, 0) 59.58333%, rgba(0, 0, 0, 0) 66.58333%, rgba(0, 0, 0, 0.05) 66.66667%, rgba(0, 0, 0, 0.05) 67.5%, rgba(0, 0, 0, 0) 67.91667%, rgba(0, 0, 0, 0) 74.91667%, rgba(0, 0, 0, 0.05) 75%, rgba(0, 0, 0, 0.05) 75.83333%, rgba(0, 0, 0, 0) 76.25%, rgba(0, 0, 0, 0) 83.25%, rgba(0, 0, 0, 0.05) 83.33333%, rgba(0, 0, 0, 0.05) 84.16667%, rgba(0, 0, 0, 0) 84.58333%, rgba(0, 0, 0, 0) 91.58333%, rgba(0, 0, 0, 0.05) 91.66667%, rgba(0, 0, 0, 0.05) 92.5%, rgba(0, 0, 0, 0) 92.91667%, rgba(0, 0, 0, 0) 99.91667%, rgba(0, 0, 0, 0.05) 98%, rgba(0, 0, 0, 0.05) 100%); }
-
-html.grid-off .wrap:before { background-image: none; }
-
 .align_left { float: left; margin-right: 24px; margin-right: 1.71429rem; }
 
 .align_right { float: right; margin-left: 24px; margin-left: 1.71429rem; }
@@ -273,9 +276,13 @@ html.grid-off .wrap:before { background-image: none; }
 
 .fixed-row { margin-left: 0; }
 
+.island h1, .island .h1, .island p { overflow: hidden; word-break: break-word; }
+
+.island img, .island .img { float: left; display: inline-block; }
+
 #toggles { position: fixed; right: 0; z-index: 100; }
 
-.color-block { height: 25px; color: #fff; }
+.color-block { padding-left: 0; text-align: center; height: 25px; color: #fff; overflow: hidden; }
 
 .color-block:first-child { background-color: #063b6d; color: white; }
 
@@ -297,7 +304,7 @@ html.grid-off .wrap:before { background-image: none; }
 
 .color-block:nth-child(40n+8) { background-color: #385742; color: white; }
 
-.color-block:nth-child(40n+13) { background-color: #609570; color: white; }
+.color-block:nth-child(40n+13) { background-color: #609570; color: black; }
 
 .color-block:nth-child(40n+18) { background-color: #7dab8b; color: black; }
 
@@ -316,3 +323,16 @@ html.grid-off .wrap:before { background-image: none; }
 .color-block:nth-child(40n+15) { background-color: #d43838; color: black; }
 
 .color-block:nth-child(40n+20) { background-color: #dd6262; color: black; }
+
+@media only screen and (max-width: 480px) { h1, .h1 { font-size: 35.9123px; font-size: 2.56516rem; line-height: 1.33659; }
+  h2, .h2 { font-size: 30.69427px; font-size: 2.19245rem; line-height: 1.56381; }
+  h3, .h3 { font-size: 26.23442px; font-size: 1.87389rem; line-height: 1.82966; }
+  h4, .h4 { font-size: 22.42258px; font-size: 1.60161rem; line-height: 1.07035; }
+  h5, .h5 { font-size: 19.1646px; font-size: 1.3689rem; line-height: 1.25231; }
+  h6, .h6 { font-size: 16.38px; font-size: 1.17rem; line-height: 1.4652; } }
+@media only screen and (min-width: 481px) and (max-width: 640px) { h1, .h1 { font-size: 41.80378px; font-size: 2.98598rem; line-height: 1.14822; }
+  h2, .h2 { font-size: 34.83648px; font-size: 2.48832rem; line-height: 1.37787; }
+  h3, .h3 { font-size: 29.0304px; font-size: 2.0736rem; line-height: 1.65344; }
+  h4, .h4 { font-size: 24.192px; font-size: 1.728rem; line-height: 1.98413; }
+  h5, .h5 { font-size: 20.16px; font-size: 1.44rem; line-height: 1.19048; }
+  h6, .h6 { font-size: 16.8px; font-size: 1.2rem; line-height: 1.42857; } }

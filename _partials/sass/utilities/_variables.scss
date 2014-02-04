@@ -1,3 +1,28 @@
+//------------------------------------
+//    $Global Variables
+//------------------------------------
+
+ // CONTENTS
+ // INTRODUCTION.........What and Why.
+ // TYPOGRAPHY...........Default typography variables.
+ // GRID.................Default grid variables. See /grid/_grids.scss.
+ // COLORS...............Default colors along with ligher/darker versions.
+
+
+//------------------------------------
+//    $INTRODUCTION
+//------------------------------------
+
+// All variables defined here are defaults.
+// They can, therefor be overridden at the top of main.scss.
+
+
+//------------------------------------
+//    $TYPOGRAPHY
+//------------------------------------
+
+//See /type/_typography.scss for where these variables are mostly used.
+
 $font-family: helvetica, arial, sans-serif !default;
 
 // What would you like your base font-size to be? Define in pixels; the library
@@ -5,23 +30,9 @@ $font-family: helvetica, arial, sans-serif !default;
 $type-base-font-size:      14px !default;
 $type-base-line-height:    22px !default;
 
-// Heading sizes if you'd rather set them yourself
-$type-h1-size:             50px !default;
-$type-h2-size:             44px !default;
-$type-h3-size:             33px !default;
-$type-h4-size:             22px !default;
-$type-h5-size:             21px !default;
-$type-h6-size:             18px !default;
-
-// Would you like indented (rather than spaced) paragraph delimiting?
-$type-indented-paragraphs: false !default;
-
 // Would you like to automatically scale your Heading sizes?
-// (This can provide a more elegant typographic rhythm)
+// This can provide a more elegant typographic rhythm and is recommended to stay at true.
 $type-auto-scale:          true !default;
-
-//Create heading classes for sizing (e.g. .h1,.h2,etc.)?
-$type-scale-classes:       true !default;
 
 // Set the ratio by which your type should grow.
 // Accepts two numbers, representing a ratio, typically associated with
@@ -31,12 +42,28 @@ $type-scale-classes:       true !default;
 // The Golden Ratio is (1.618,1).
 $type-ratio:               4,3   !default;
 
+// Heading sizes if you'd rather set them yourself (set $type-auto-scale to false).
+$type-h1-size:             modular-scale(6) !default;
+$type-h2-size:             modular-scale(5) !default;
+$type-h3-size:             modular-scale(4) !default;
+$type-h4-size:             modular-scale(3) !default;
+$type-h5-size:             modular-scale(2) !default;
+$type-h6-size:             modular-scale(1) !default;
+
+//Create heading classes for sizing (e.g. .h1,.h2,etc.)?
+$type-scale-classes:       true !default;
+
+// Would you like indented (rather than spaced) paragraph delimiting?
+$type-indented-paragraphs: false !default;
+
 // Would you like to show a baseline grid? This is handy during development.
 $type-show-baseline:       false !default;
 
+// Would you like to show the grid? This is handy during development.
+$show-grid:                false !default;
+
 // Do not modify these variables; they are internal settings upon which the
 // library depends.
-$stripped-base-font-size:  strip-units($type-base-font-size);
 $type-magic-number:        $type-base-line-height;
 $type-magic-ratio:         $type-base-line-height / $type-base-font-size;
 $type-headings:            6,5,4,3,2,1;
@@ -46,12 +73,129 @@ $type-modular-scale:       0;
 //Spacing variable for simple inclusion.
 $type-space: 2* $type-magic-ratio;
 
-//Default colors
+//Checking for floats in $type-ratio
+@if length($type-ratio) == 2{
+// Making sure we don't have a ratio below 1.
+    @if nth($type-ratio,1) < nth($type-ratio,2){
+        $type-modular-scale:   nth($type-ratio, 2)/nth($type-ratio, 1);
+    }@else{
+        $type-modular-scale:   nth($type-ratio, 1)/nth($type-ratio, 2);
+    }
+}
+@else {
+    $type-modular-scale:   $type-ratio;
+}
+
+// Create vertical rhythms that are more appropriate for headings inside text blocks.
+// Adds 2/3 of the vertical rhythm to the top and 1/3 to bottom so headings appear
+// closer to their sibling paragraphs. Creates better proximity.
+%type-vertical-rhythm-headings{
+    padding: 0;
+    margin-bottom: $type-magic-number * .5;
+    margin-bottom: ($type-magic-ratio * .5) + rem;
+    margin-top: $type-magic-number * -.25;
+    margin-top: ($type-magic-ratio * -.25) + rem;
+}
+
+//------------------------------------
+//    $GRID
+//------------------------------------
+
+// If you are building a non-responsive site but would still like to use
+// csswizardry-grids, set this to ‘false’:
+$responsive:            true!default;
+
+
+
+ // Is this build mobile first? Setting to ‘true’ means that all grids will be
+ // 100% width if you do not apply a more specific class to them.
+
+$mobile-first:          true!default;
+
+
+
+ // Set the spacing between your grid items.
+
+$gutter:                24px!default;
+
+
+
+ // Would you like Sass’ silent classes, or regular CSS classes?
+
+$use-silent-classes:    false!default;
+
+
+
+ // Would you like push and pull classes enabled?
+
+$push:                  false!default;
+$pull:                  false!default;
+
+
+
+ // Using `inline-block` means that the grid items need their whitespace removing
+ // in order for them to work correctly. Set the following to true if you are
+ // going to achieve this by manually removing/commenting out any whitespace in
+ // your HTML yourself.
+
+ // Setting this to false invokes a hack which cannot always be guaranteed,
+ // please see the following for more detail:
+
+ // github.com/csswizardry/csswizardry-grids/commit/744d4b23c9d2b77d605b5991e54a397df72e0688
+ // github.com/csswizardry/inuit.css/issues/170#issuecomment-14859371
+
+$use-markup-fix:        true!default;
+
+
+ // Define your breakpoints. The first value is the prefix that shall be used for
+ // your classes (e.g. `.small--one-half`), the second value is the media query
+ // that the breakpoint fires at.
+
+$breakpoints: (
+    'small' '(max-width: 480px)',
+    'lap' '(min-width: 481px) and (max-width: 1023px)',
+    'port' '(max-width: 1023px)',
+    'desk' '(min-width: 1024px)'
+)!default;
+
+
+
+// Define which namespaced breakpoints you would like to generate for each of
+// widths, push and pull. This is handy if you only need pull on, say, desk, or
+// you only need a new width breakpoint at mobile sizes. It allows you to only
+// compile as much CSS as you need. All are turned on by default, but you can
+// add and remove breakpoints at will.
+
+// Push and pull shall only be used if `$push` and/or `$pull` and `$responsive`
+// have been set to ‘true’.
+
+$breakpoint-has-widths: ('small', 'lap', 'port', 'desk')!default;
+$breakpoint-has-push:   ('small', 'lap', 'port', 'desk')!default;
+$breakpoint-has-pull:   ('small', 'lap', 'port', 'desk')!default;
+
+
+
+ // You do not need to edit anything from this line onward; csswizardry-grids is
+ // good to go. Happy griddin’!
+
+$class-type:            unquote(".");
+
+@if $use-silent-classes == true{
+    $class-type:        unquote("%");
+}
+
+
+
+
+//------------------------------------
+//    $COLORS
+//------------------------------------
 //Based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
 //Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
 
 $primary-color: #063b6d !default;        //UW Blue (dark blue)
 $primary-color-alt: #5f82a3 !default;    //UW Steel Blue
+$brand-color: $primary-color;
 $accent-color: #d40026 !default;        //UW Red (maroonish-red)
 $accent-color-alt: #fe0202 !default;    //UW Fire Red (orangey-red)
 $action-color: #4c7659 !default;         //Green / Earth

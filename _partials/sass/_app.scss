@@ -1,9 +1,18 @@
-//Regular CSS
+//--------------------------------\\
+//    Application-specific CSS
+//---------------------------------\\
+
+// Put all of your normal/application-specific CSS here.
+
 .wrap{
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 $gutter;
     @include type-space(padding-top, 2);
+    @extend %clearfix;
+}
+.row-narrow{
+    @extend %grid--narrow;
     @extend %clearfix;
 }
 .row{
@@ -17,12 +26,14 @@
 .sidebar{
     @extend %grid__item;
     @extend %small--one-whole;
+    @extend %smallish--one-half;
     @extend %lap--one-quarter;
     @extend %desk--one-third;
 }
 .content{
     @extend %grid__item;
     @extend %small--one-whole;
+    @extend %smallish--one-half;
     @extend %lap--three-quarters;
     @extend %desk--two-thirds;
 }
@@ -30,6 +41,14 @@
     @extend %grid;
     @extend %clearfix;
     margin-left: 0;
+}
+.island h1, .island p{
+    overflow: hidden;
+    word-break: break-word;
+}
+.island img, .island .img{
+    float: left;
+    display: inline-block;
 }
 
 #toggles{
@@ -40,8 +59,11 @@
 .color-block{
     @extend %grid__item;
     @extend %one-fifth;
+    padding-left: 0;
+    text-align: center;
     height: 25px;
     color: #fff;
+    overflow: hidden;
 }
 .color-block:first-child{
     background-color: $primary-color;
@@ -123,3 +145,10 @@
     background-color: $alert-color-lighter;
     color: set-text-color($alert-color-lighter);
 }
+
+@include grid-media-query(small){
+    @include auto-scale(1.17);
+};
+@include grid-media-query(smallish){
+    @include auto-scale(1.2);
+};

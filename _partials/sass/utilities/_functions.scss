@@ -1,50 +1,192 @@
-// Exponent function (for square, cubes, etc.)
+//------------------------------------
+//    $Functions
+//------------------------------------
 
-@function exponent($base, $exponent){
-      $value: $base;
-      @if $exponent > 1{
-        @for $i from 2 through $exponent{
-          $value: $value * $base;
-        }
-      }
-      @if $exponent < 1{
-        @for $i from 0 through -$exponent{
-          $value: $value / $base;
-        }
-       }
-      @return ($value);
+ // CONTENTS
+ // INTRODUCTION.........How the type system works.
+ // MATH.................Complex calculations and variables.
+ // HELPERS..............Simple functions to fix some features missing in Sass.
+ // TYPOGRAPHY...........Most often referenced from within type/_typography.scss.
+ // MODULAR SCALE........Making typographic scaling more harmonious.
+ // COLORS...............Calculating color differences.
+ // LISTS................Mixins for easier control of lists.
+
+
+//------------------------------------
+//    $INTRODUCTION
+//------------------------------------
+
+// General functions to make Sass a little more powerful. Taken from various places.
+
+
+
+//------------------------------------
+//    $MATH
+//------------------------------------
+
+// All functions taken from SassyMath:
+// https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss
+
+//Useful variables for calculating math functions
+$pi: 3.1415926535897932384626433832795028841971693993751;
+$π: $pi;
+$e: 2.71828182845904523536028747135266249775724709369995;
+
+$iter: 50;
+
+// Exponent function (for square, cubes, etc.)
+@function exponent($base, $exponent) {
+  // reset value
+  $value: $base;
+  // positive intergers get multiplied
+  @if $exponent > 1 {
+    @for $i from 2 through $exponent {
+      $value: $value * $base; } }
+  // negitive intergers get divided. A number divided by itself is 1
+  @if $exponent < 1 {
+    @for $i from 0 through -$exponent {
+      $value: $value / $base; } }
+  // return the last value written
+  @return $value;
+}
+
+//More advanced exponent function — very similar to Compass' pow() function, except all SASS-based.
+@function pow($base, $exponent, $prec: 12) {
+  // Handles decimal exponents by trying to convert them into a fraction and then use a nthRoot-algorithm for parts of the calculation
+  @if (floor($exponent) != $exponent) {
+    $prec2 : pow(10, $prec);
+    $exponent: round($exponent * $prec2);
+    $denominator: gcd($exponent, $prec2);
+    @return nthRoot(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
+  }
+
+  $value: $base;
+  @if $exponent > 1 {
+    @for $i from 2 through $exponent {
+      $value: $value * $base;
+    }
+  } @else if $exponent < 1 {
+    @for $i from 0 through -$exponent {
+      $value: $value / $base;
+    }
+  }
+
+  @return $value;
+}
+//Greatest Common Divisor
+@function gcd($a, $b) {
+  // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
+  @if ($b != 0) {
+    @return gcd($b, $a % $b);
+  } @else {
+    @return abs($a);
+  }
 }
 
 
-// Strip units from a sass value
 
+//Nth Root Function
+@function nthRoot($num, $n: 2, $prec: 12) {
+  // From: http://rosettacode.org/wiki/Nth_root#JavaScript
+  $x: 1;
+
+  @for $i from 0 through $prec {
+    $x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
+  }
+
+  @return $x;
+}
+
+//Square Root functions
+
+@function sqrt($number) {
+  $guess: rand();
+  $root: $guess;
+  @for $i from 1 through $iter {
+    $root: $root - (pow($root, 2) - $number) / (2 * $root);
+  }
+  @return $root;
+}
+@function √($number) {
+  @return sqrt($number);
+}
+
+//Random number generator.
+@function rand() {
+  @return 4;
+}
+
+//Golden Ratio generator.
+
+@function golden() {
+  @return 1/2 + sqrt(5) / 2;
+}
+@function ϕ() {
+  @return golden();
+}
+
+//------------------------------------
+//    $HELPERS
+//------------------------------------
+
+// Strip units from a sass value
+// Taken from:
+// http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
 @function strip-units($value) {
     @return $value / ($value * 0 + 1);
 }
 
+// Cross-browser (including IE) opacity
+// Taken from:
+// https://gist.github.com/jgv/745754
+@mixin opacity($trans) {
+  filter: alpha(opactiy=($trans * 100));
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$trans * 100})";
+  -moz-opacity: $trans;
+  -khtml-opacity: $trans;
+  opacity: $trans;
+}
+
+// REM generator
+// Used to create a property with a rem value and PX fallback
+@mixin rems($property, $size){
+    #{$property}: $size;                                                              //[1]
+    #{$property}: ($size / $type-base-font-size) * 1rem;
+}
+
+//------------------------------------
+//    $TYPOGRAPHY
+//------------------------------------
+
+//Variable for easier reference:
+$stripped-base-font-size:  strip-units($type-base-font-size);
 
 // Quickly generate a font-size in rems, with a pixel fallback, based on the
 // value we pass into the mixin, e.g.:
-//
 // h1 {
 //     @include type-font-size(24px);
 // }
+// 1. Set the base element’s `font-size` to the value of your choosing. Set in
+//    ems, assuming a browser default of 16px.
+// 2. Work out the unitless `line-height` for your project based around your
+//    desired `line-height` (defined previously in pixels), and your project’s
+//    base font size.
+
+
 @mixin type-font-size($font-size, $line-height: true) {
-    font-size: $font-size;
+    font-size: $font-size;                                                              //[1]
     font-size: ($font-size / $type-base-font-size) * 1rem;
 
     @if $line-height == true {
-        line-height: ceil($font-size / $type-base-line-height)* $type-base-line-height;
         line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height) / $font-size;
     }
-
 }
 
-// Space elements by an amount based on your magic number. Pass in the property
-// to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
-// pre {
-//     @include type-space(padding-left, 1);
-// }
+ // Space elements by an amount based on your magic number. Pass in the property
+ // to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
+ // pre {
+ //     @include type-space(padding-left, 1);
+ // }
 
 @mixin type-space($property, $multiplier: 2) {
     #{$property}: $multiplier * $type-magic-number;
@@ -55,29 +197,38 @@
 //pre {
 //    @include type-space(padding, 1, 2, 1, 0);
 // }
-
-@mixin type-space-sc($property, $multiplier-1: 0, $multiplier-2: 0, $multiplier-3: 99, $multiplier-4: 99){
-    @if $multiplier-3 == 99{
+@mixin type-space-sc($property, $multiplier-1: 0, $multiplier-2: 0, $multiplier-3: 999, $multiplier-4: 999){
+    @if $multiplier-3 == 999{
         $multiplier-3: $multiplier-1;
     }
-    @if $multiplier-4 == 99{
+    @if $multiplier-4 == 999{
         $multiplier-4: $multiplier-2;
     }
     #{$property}: $multiplier-1 * $type-magic-number $multiplier-2 * $type-magic-number $multiplier-3 * $type-magic-number $multiplier-4 * $type-magic-number;
     #{$property}: $multiplier-1 * $type-magic-ratio + rem $multiplier-2 * $type-magic-ratio + rem $multiplier-3 * $type-magic-ratio + rem $multiplier-4 * $type-magic-ratio + rem;
 }
+
+
+
+
+//------------------------------------
+//    $MODULAR SCALE
+//------------------------------------
+
 // Modular scale function to scale type up or down.
-@function modular-scale($i){
-    @return exponent($type-modular-scale, $i)*($stripped-base-font-size)*1px;
+@function modular-scale($i,$scale: $type-ratio){
+    $modular-scale: $scale;
+    @return exponent($modular-scale, $i)*($stripped-base-font-size)*1px;
 }
 
-// This mixin can be used externally
-// by using @include modular-scale([scale number, property]);.
+// This is essentially the same function as above,
+// BUT it can be used externally.
+// By using @include type-scale([property], [scale number]);.
 // This is most useful for font sizing, but can be used for any property
 // e.g.: div{
 //          @include type-scale(margin-top, 2);}
 // Would produce a margin-top value of the second value within your typographic scale.
-// If your scale is set to 1.214, your output would be: div{margin-top: 20.63314px; margin-top: 1.4738rem;}
+// If your scale is set to 3,4, your output would be: div{margin-top: 20.63314px; margin-top: 1.4738rem;}
 
 @mixin type-scale($property: font-size, $i: 1){
     @if $type-auto-scale == false{
@@ -85,7 +236,7 @@
     }
     @if $property == "font-size"{
         $font-size: modular-scale($i);
-        @include type-font-size($font-size);
+        @include type-font-size($font-size, true);
     }
     @else{
         $scale: modular-scale($i);
@@ -94,9 +245,43 @@
     }
 }
 
-//Change text color based on background-color's darkness
+@mixin auto-scale($scale){
+    $type-ratio: $scale;
+    @each $i in $type-headings{  //[2]
+            $font-size: modular-scale($i);  //[3]
+            $current-heading: nth($type-headings,$i); //[4]
+
+            h#{$current-heading}{
+                @extend %type-vertical-rhythm;
+                @include type-font-size($font-size, true); //[5]
+            & + p{
+                @extend %negative-top; //[6]
+            }
+            }
+
+            @if $type-scale-classes == true{
+                .h#{$current-heading}{
+                    @extend h#{$current-heading};  //[7]
+                }
+            };
+            $i: $i + 1;
+    };
+}
+
+//------------------------------------
+//    $COLORS
+//------------------------------------
+
+// Change text color based on background-color's darkness, e.g.:
+// div{
+//    background-color: #f8cd12;
+//    color: set-text-color(#f8cd12);
+//    }
+//  Your text color would be black because #f8cd12 and #00000 contain enough contrast to be readable.
+//  This will ONLY give you black or white. Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
+
 @function set-text-color($color) {
-    @if (lightness( $color ) > 50) {
+    @if (lightness( $color ) > 45) {
       @return #000000;
     }
     @else {
@@ -104,15 +289,74 @@
     }
 }
 
-//Cross-browser (including IE) opacity
-@mixin opacity($opacity) {
-  opacity: $opacity;
-  $opacity-ie: $opacity * 100;
-  filter: alpha(opacity=$opacity-ie); //IE8
+//Complex comparing colors for contrast
+//Taken from: https://gist.github.com/voxpelli/6304812
+//USAGE:
+// div{
+//    background-color: #f8cd12;
+//    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
+//    }
+// The function would test the colors and find that #2c2c2c is the best.
+
+@function pick_best_color($base, $colors, $tolerance: 0) {
+  $contrast: color_contrast($base, nth($colors, 1));
+  $best: nth($colors, 1);
+
+  @for $i from 2 through length($colors) {
+    $current_contrast: color_contrast($base, nth($colors, $i));
+    @if ($current_contrast - $contrast > $tolerance) {
+      $contrast: color_contrast($base, nth($colors, $i));
+      $best: nth($colors, $i);
+    }
+  }
+
+  @if ($contrast < 3) {
+    @warn "Contrast ratio of #{$best} on #{$base} is pretty bad, just #{$contrast}";
+  }
+
+  @return $best;
 }
 
+@function color_luminance($color) {
+  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+  $rgba: red($color), green($color), blue($color);
+  $rgba2: ();
 
-//Lists
+  @for $i from 1 through 3 {
+    $rgb: nth($rgba, $i);
+    $rgb: $rgb / 255;
+
+    $rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
+
+    $rgba2: append($rgba2, $rgb);
+  }
+
+  @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
+}
+
+@function color_contrast($color1, $color2) {
+  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+  $luminance1: color_luminance($color1) + .05;
+  $luminance2: color_luminance($color2) + .05;
+  $ratio: $luminance1 / $luminance2;
+
+  @if $luminance2 > $luminance1 {
+    $ratio: 1 / $ratio;
+  }
+
+  $ratio: round($ratio * 10) / 10;
+
+  @return $ratio;
+}
+
+//------------------------------------
+//    $LISTS
+//------------------------------------
+// http://compass-style.org/reference/compass/typography/lists/
+
+
 // Turn off the bullet for an element of a list
 @mixin no-bullet {
   list-style-image : none;
@@ -146,4 +390,79 @@
     background: image-url($bullet-icon) no-repeat ($padding - $width) / 2 ($line-height - $height) / 2;
     list-style-type: none;
   }
+}
+
+// NOTE FROM CHRIS:
+// This is strictly for development and is prone to being terrible
+// if $show-grid is set to True, create a rough background image to show gutters/grid guides.
+@if $show-grid == true{
+    $grid-gutter: $gutter;
+    .wrap{
+        position: relative;
+    }
+    html .wrap:before{
+        z-index: -1;
+        content: '';
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-top: 100%;
+        display: table-cell;
+        background-image:
+            -webkit-linear-gradient(left,
+                rgba(0,0,0,0.05) 0%,
+                rgba(0,0,0,0.05) 0.5%,
+                rgba(0,0,0,0.00) 1%,
+                rgba(0,0,0,0.00) percentage(.99/12),
+                rgba(0,0,0,0.05) percentage(1/12),
+                rgba(0,0,0,0.05) percentage(1.1/12),
+                rgba(0,0,0,0.00) percentage(1.15/12),
+                rgba(0,0,0,0.00) percentage(1.99/12),
+                rgba(0,0,0,0.05) percentage(2/12),
+                rgba(0,0,0,0.05) percentage(2.1/12),
+                rgba(0,0,0,0.00) percentage(2.15/12),
+                rgba(0,0,0,0.00) percentage(2.99/12),
+                rgba(0,0,0,0.05) percentage(3/12),
+                rgba(0,0,0,0.05) percentage(3.1/12),
+                rgba(0,0,0,0.00) percentage(3.15/12),
+                rgba(0,0,0,0.00) percentage(3.99/12),
+                rgba(0,0,0,0.05) percentage(4/12),
+                rgba(0,0,0,0.05) percentage(4.1/12),
+                rgba(0,0,0,0.00) percentage(4.15/12),
+                rgba(0,0,0,0.00) percentage(4.99/12),
+                rgba(0,0,0,0.05) percentage(5/12),
+                rgba(0,0,0,0.05) percentage(5.1/12),
+                rgba(0,0,0,0.00) percentage(5.15/12),
+                rgba(0,0,0,0.00) percentage(5.99/12),
+                rgba(0,0,0,0.05) percentage(6/12),
+                rgba(0,0,0,0.05) percentage(6.1/12),
+                rgba(0,0,0,0.00) percentage(6.15/12),
+                rgba(0,0,0,0.00) percentage(6.99/12),
+                rgba(0,0,0,0.05) percentage(7/12),
+                rgba(0,0,0,0.05) percentage(7.1/12),
+                rgba(0,0,0,0.00) percentage(7.15/12),
+                rgba(0,0,0,0.00) percentage(7.99/12),
+                rgba(0,0,0,0.05) percentage(8/12),
+                rgba(0,0,0,0.05) percentage(8.1/12),
+                rgba(0,0,0,0.00) percentage(8.15/12),
+                rgba(0,0,0,0.00) percentage(8.99/12),
+                rgba(0,0,0,0.05) percentage(9/12),
+                rgba(0,0,0,0.05) percentage(9.1/12),
+                rgba(0,0,0,0.00) percentage(9.15/12),
+                rgba(0,0,0,0.00) percentage(9.99/12),
+                rgba(0,0,0,0.05) percentage(10/12),
+                rgba(0,0,0,0.05) percentage(10.1/12),
+                rgba(0,0,0,0.00) percentage(10.15/12),
+                rgba(0,0,0,0.00) percentage(10.99/12),
+                rgba(0,0,0,0.05) percentage(11/12),
+                rgba(0,0,0,0.05) percentage(11.1/12),
+                rgba(0,0,0,0.00) percentage(11.15/12),
+                rgba(0,0,0,0.00) percentage(11.99/12),
+                rgba(0,0,0,0.05) 98%,
+                rgba(0,0,0,0.05) 100%);
+    }
+    html.grid-off .wrap:before{
+        background-image: none;
+    }
 }

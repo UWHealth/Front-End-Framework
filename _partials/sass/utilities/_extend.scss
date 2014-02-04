@@ -1,6 +1,6 @@
 // ==========================================================================
 //   Silent classes used for cleaning up and consolodating code
-//   ==========================================================================
+// ==========================================================================
 
 %border-box{
     -webkit-box-sizing: border-box;
@@ -29,9 +29,13 @@
     margin:  0;
     padding: 0;
 }
-
+//Used for headings+p, or indented paragraphs.
+%negative-top{
+    @include type-space(margin-top, -1)
+}
 //
-// Font family, normal, italic and bold silent classes.
+// Font family, normal, italic and bold silent classes/extensions.
+// Use these for DRYer CSS output.
 //
 %type-family{
     font-family: $font-family;
