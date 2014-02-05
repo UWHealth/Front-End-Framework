@@ -295,7 +295,7 @@ blockquote {
 
 blockquote {
     @extend %type-vertical-rhythm;
-    quotes: "“" "”";
+    quotes: '“' '”';
     @include type-space(margin-left, 1);
 
     p {

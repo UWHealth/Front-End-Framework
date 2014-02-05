@@ -72,7 +72,7 @@ abbr[title] { border-bottom: 1px dotted; }
 -------------------------------*/
 blockquote { text-indent: -0.41em; }
 
-blockquote { quotes: "“" "”"; margin-left: 24px; margin-left: 1.71429rem; }
+blockquote { quotes: '“' '”'; margin-left: 24px; margin-left: 1.71429rem; }
 blockquote p:before { content: "“"; content: open-quote; }
 blockquote p:after { content: ""; content: no-close-quote; }
 blockquote p:last-of-type:after { content: "”"; content: close-quote; }
@@ -164,7 +164,7 @@ form { margin: 0; }
 legend { border: 0; /* 1 */ padding: 0; white-space: normal; /* 2 */ *margin-left: -7px; /* 3 */ }
 
 /** 1. Correct font size not being inherited in all browsers. 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5, and Chrome. 3. Improve appearance and consistency in all browsers. */
-button, input, select, textarea { font-size: 100%; /* 1 */ margin: 0; /* 2 */ vertical-align: baseline; /* 3 */ *vertical-align: middle; /* 3 */ }
+button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
 
 /** Address Firefox 3+ setting `line-height` on `input` using `!important` in the UA stylesheet. */
 button, input { line-height: normal; }
