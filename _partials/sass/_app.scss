@@ -1,0 +1,179 @@
+//--------------------------------\\
+//    Application-specific CSS
+//---------------------------------\\
+
+// Put all of your normal/application-specific CSS here.
+
+.wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $gutter $gutter*2;
+    @include type-space(padding-top, 2);
+    @extend %clearfix;
+}
+.row-narrow{
+    @extend %grid--narrow;
+    @extend %clearfix;
+}
+.row{
+    @extend %grid;
+    @extend %clearfix;
+}
+.column{
+    @extend %grid__item;
+    @extend %one-whole;
+}
+.sidebar{
+    @extend %grid__item;
+    @extend %small--one-whole;
+    @extend %smallish--one-half;
+    @extend %lap--one-quarter;
+    @extend %desk--one-third;
+}
+.content{
+    @extend %grid__item;
+    @extend %small--one-whole;
+    @extend %smallish--one-half;
+    @extend %lap--three-quarters;
+    @extend %desk--two-thirds;
+}
+.fixed-row{
+    @extend %grid;
+    @extend %clearfix;
+    margin-left: 0;
+}
+.island h1, .island p{
+    overflow: hidden;
+    word-break: break-word;
+}
+.island img, .island .img{
+    float: left;
+    display: inline-block;
+}
+
+#toggles{
+    position: fixed;
+    top: -1px;
+    right: -1px;
+    z-index: 100;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 0px 0px 0px 3px;
+}
+.color-block{
+    @extend %grid__item;
+    @extend %one-fifth;
+    text-align: center;
+    min-height: 25px;
+    color: #fff;
+    overflow: hidden;
+    padding: 5px 0;
+}
+.color-block:first-child{
+    background-color: $primary-color;
+    color: set-text-color($primary-color);
+}
+.color-block:nth-child(40n+6){
+    background-color: $primary-color-dark;
+    color: set-text-color($primary-color-dark);
+}
+.color-block:nth-child(40n+11){
+    background-color: $primary-color-light;
+    color: set-text-color($primary-color-light);
+}
+.color-block:nth-child(40n+16){
+    background-color: $primary-color-lighter;
+    color: set-text-color($primary-color-lighter);
+}
+.color-block:nth-child(40n+21){
+    background-color: $primary-color-darker;
+    color: set-text-color($primary-color-darker);
+}
+.color-block:nth-child(40n+2){
+    background-color: $accent-color;
+    color: set-text-color($accent-color);
+}
+.color-block:nth-child(40n+7){
+    background-color: $accent-color-dark;
+    color: set-text-color($accent-color-dark);
+}
+.color-block:nth-child(40n+12){
+    background-color: $accent-color-light;
+    color: set-text-color($accent-color-light);
+}
+.color-block:nth-child(40n+17){
+    background-color: $accent-color-lighter;
+    color: set-text-color($accent-color-lighter);
+}
+.color-block:nth-child(40n+22){
+    background-color: $accent-color-darker;
+    color: set-text-color($accent-color-darker);
+}
+.color-block:nth-child(40n+3){
+    background-color: $action-color;
+    color: set-text-color($action-color);
+}
+.color-block:nth-child(40n+8){
+    background-color: $action-color-dark;
+    color: set-text-color($action-color-dark);
+}
+.color-block:nth-child(40n+13){
+    background-color: $action-color-light;
+    color: set-text-color($action-color-light);
+}
+.color-block:nth-child(40n+18){
+    background-color: $action-color-lighter;
+    color: set-text-color($action-color-lighter);
+}
+.color-block:nth-child(40n+23){
+    background-color: $action-color-darker;
+    color: set-text-color($action-color-darker);
+}
+.color-block:nth-child(40n+4){
+    background-color: $function-color;
+    color: set-text-color($function-color);
+}
+.color-block:nth-child(40n+9){
+    background-color: $function-color-dark;
+    color: set-text-color($function-color-dark);
+}
+.color-block:nth-child(40n+14){
+    background-color: $function-color-light;
+    color: set-text-color($function-color-light);
+}
+.color-block:nth-child(40n+19){
+    background-color: $function-color-lighter;
+    color: set-text-color($function-color-lighter);
+}
+.color-block:nth-child(40n+24){
+    background-color: $function-color-darker;
+    color: set-text-color($function-color-darker);
+}
+.color-block:nth-child(40n+5){
+    background-color: $alert-color;
+    color: set-text-color($alert-color);
+}
+.color-block:nth-child(40n+10){
+    background-color: $alert-color-dark;
+    color: set-text-color($alert-color-dark);
+}
+.color-block:nth-child(40n+15){
+    background-color: $alert-color-light;
+    color: set-text-color($alert-color-light);
+}
+.color-block:nth-child(40n+20){
+    background-color: $alert-color-lighter;
+    color: set-text-color($alert-color-lighter);
+}
+.color-block:nth-child(40n+25){
+    background-color: $alert-color-darker;
+    color: set-text-color($alert-color-darker);
+}
+
+@include grid-media-query(small){
+    @include headings-scale(1.17);
+};
+@include grid-media-query(smallish){
+    @include headings-scale(1.2);
+};

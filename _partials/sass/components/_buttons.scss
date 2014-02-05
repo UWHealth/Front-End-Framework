@@ -1,0 +1,38 @@
+$button-color-bg: $function-color-dark;
+$button-color-secondary: lighten($function-color-dark, 2%);
+$button-color-text: lighten($function-color-lighter, 23%);
+.button {
+    cursor: pointer;
+    display: inline-block;
+    box-shadow:inset 0px -1px 0px 0px lighten($button-color-bg, 10%);
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, $button-color-bg), color-stop(1, $button-color-secondary) );
+    background:-moz-linear-gradient( center top, $button-color-bg 5%, $button-color-secondary 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='$button-color-bg', endColorstr='$button-color-secondary');
+    background-color: $button-color-bg;
+    border-radius: 2px;
+    border: 1px solid lighten($button-color-bg, 5%);
+    color: $button-color-text;
+    @extend %type-bold;
+    @include type-space(line-height, 1.95);
+    @include type-space-sc(padding, 0, .5);
+    text-decoration:none;
+    text-align:center;
+    text-shadow: 1px 1px 0px pick_best_color($button-color-text,($button-color-secondary,darken($button-color-text,25%),lighten($button-color-text,25%),darken($button-color-bg,25%),lighten($button-color-bg,25%)));
+}
+.button:hover, .button:active {
+    color: lighten($button-color-text, 5%);
+    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, $button-color-secondary), color-stop(1, $button-color-bg) );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='$button-color-secondary', endColorstr='$button-color-bg');
+    background-color: $button-color-secondary;
+}
+.button:active {
+    position:relative;
+    top: 1px;
+    background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0.05, darken($button-color-secondary ,  5%)), to(darken($button-color-bg, 5%)));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($button-color-secondary ,  5%)', endColorstr='darken($button-color-bg, 5%)');
+    background-color: darken($button-color-secondary, 5%);
+    color: darken($button-color-text, 10%);
+    box-shadow: inset 0px -1px 0px 0px lighten($button-color-bg, 8%);
+    text-shadow: -1px -1px 0px pick_best_color(darken($button-color-text, 10%),($button-color-secondary,darken($button-color-text,25%),lighten($button-color-text,25%),darken($button-color-bg,25%),lighten($button-color-bg,25%)));;
+    border-color: lighten($button-color-bg, 2%);
+}

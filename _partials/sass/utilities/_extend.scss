@@ -1,0 +1,52 @@
+// ==========================================================================
+//   Silent classes used for cleaning up and consolodating code
+// ==========================================================================
+
+%border-box{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+//
+// Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
+//
+%clearfix, %cf{
+    *zoom: 1;
+    &:before,&:after{
+        display: table;
+        content: " ";
+    }
+    &:after{
+        clear: both;
+    }
+}
+
+//
+// A lot of elements in type need to share some declarations (mainly for
+// vertical rhythm), so we `@extend` some silent classes.
+//
+%type-reset {
+    margin:  0;
+    padding: 0;
+}
+//Used for headings+p, or indented paragraphs.
+%negative-top{
+    @include type-space(margin-top, -1)
+}
+//
+// Font family, normal, italic and bold silent classes/extensions.
+// Use these for DRYer CSS output.
+//
+%type-family{
+    font-family: $font-family;
+}
+%type-normal{
+    font-weight: 400;
+}
+%type-italic{
+    font-style: italic;
+}
+%type-bold{
+    font-weight: 800;
+    -webkit-font-smoothing: antialiased;
+}

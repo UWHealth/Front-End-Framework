@@ -1,0 +1,554 @@
+//------------------------------------
+//    $Functions
+//------------------------------------
+
+ // CONTENTS
+ // INTRODUCTION.........Explanation.
+ // REFERENCE............List of functions and how to use them.
+ // MATH.................Complex calculations and variables.
+ // HELPERS..............Simple functions to fix some features missing in Sass.
+ // TYPOGRAPHY...........Most often referenced from within type/_typography.scss.
+ // MODULAR SCALE........Making typographic scaling more harmonious.
+ // COLORS...............Calculating color differences.
+ // LISTS................Mixins for easier control of lists.
+
+
+//------------------------------------
+//    $INTRODUCTION
+//------------------------------------
+
+// General functions to make Sass a little more powerful. Taken from various places.
+
+//------------------------------------
+//    $REFERENCE
+//------------------------------------
+//NOTE: Words in brackets[] represent values. Can either be strings, numbers, or variables.
+
+ // exponent.......Exponentially multiply (cube, square, etc) a number.
+ //                exponent([number-you-want-to-multiply], [exponent]);
+
+ // pow............A more robust exponent multiplication which allows for decimal-based exponents.
+ //    ............This replaces Compass' pow() function.
+ //                pow([number-you-want-to-multiply], [exponent]);
+
+ //gcd.............Greatest Common Divisor calculation (useful for calculating grids and widths)
+ //                gcd([first-number], [second-number])
+
+ //nth_root........Advanced calculation for squareroots, cuberoots, etc. of a value.
+ //                nth_root([number-you-want-to-find-the-root-of], [root-divisor]);
+
+ //sqrt............Find the square root of a value.
+ //                sqrt([number-you-want-the-square-root-of]);
+
+ //rand............Generate a random number.
+ //                rand();
+
+ // golden.........Generate the golden ratio.
+ //                golden();
+
+ // strip-units....Remove px,em,rem, etc. from a value. Usually a variable.
+ //                strip-units([value-you-want-units-removed-from]);
+
+ // opacity........MIXIN used to generate cross-browser opacity (including IE8)
+ //                @include opacity([decimal-number-you-need-for-opacity]);
+
+ // rems...........MIXIN used to generate rem value with a pixel fall-back (only accepts pixel values).
+ //                @include([property-you-want-to-give-a-value], [pixel-value]);
+
+ //type-font-size..MIXIN used for generating font-sizes and line-heights that line up to the baseline grid.
+ //                @include([font-size-in-pixels]);
+
+ //type-space......MIXIN used for generating spacing that cooresponds to the baseline grid.
+ //          ......The values you enter should be value-less as they will be calculated as multiples.
+ //                @include type-space([property-you-want-to-give-a-value], [multiple-of-spacing]);
+
+ //type-space-sc...MIXIN used for generating spacing for properties that accept shortcut values (e.g. padding: 2px 3px 4px 5px).
+ //             ...The values you enter should be value-less as they will be calculated as multiples.
+ //                @include type-space([property-you-want-to-give-a-value], [top-value], [right-value], [bottom-value], [left-value]);
+ //                NOTE: This also accepts just a vertical(top) value and horizontal(right)-value. Assumes bottom = top, and left = right.
+
+ //modular-scale...Generates a pixel value that is an exponent of a ratio (defaults to $type-ratio value).
+ //                modular-scale([number-on-the-scale-you-want], [ratio-to-use-as-scale]);
+
+ //type-scale......MIXIN for generating numbers for properties on the typographic scale (with a rem value and pixel fallback).
+ //                @include type-scale([property-you-want-to-use], [number-on-the-scale]);
+
+ //headings-scale..MIXIN for generating heading sizes on a typographic scale. Accepts any scale ratio.
+ //                @include headings-scale([scale-you-want-to-base-font-sizes-on]);
+
+ //set-text-color..Generates either white or black based on the lightness of the color you pass it (Accepts HEX values).
+ //                set-text-color([color-you-need-to-test-contrast-of]);
+
+ //pick_best_color..Outputs the color with the highest contrast to the first color you pass it (Accepts multiple color options).
+ //                 pick_best_color([color-you-need-to-test-contrast-of], (color-option-1, color-option-2, color-option-3));
+
+
+
+//------------------------------------
+//    $MATH
+//------------------------------------
+
+// All functions taken from SassyMath:
+// https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss
+
+//Useful variables for calculating math functions
+$pi: 3.1415926535897932384626433832795028841971693993751;
+$π: $pi;
+$e: 2.71828182845904523536028747135266249775724709369995;
+
+$iter: 50;
+
+// Exponent function (for square, cubes, etc.)
+@function exponent($base, $exponent) {
+  // reset value
+  $value: $base;
+  // positive intergers get multiplied
+  @if $exponent > 1 {
+    @for $i from 2 through $exponent {
+      $value: $value * $base; } }
+  // negitive intergers get divided. A number divided by itself is 1
+  @if $exponent < 1 {
+    @for $i from 0 through -$exponent {
+      $value: $value / $base; } }
+  // return the last value written
+  @return $value;
+}
+
+//More advanced exponent function — very similar to Compass' pow() function, except all SASS-based.
+@function pow($base, $exponent, $prec: 12) {
+  // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
+  @if (floor($exponent) != $exponent) {
+    $prec2 : pow(10, $prec);
+    $exponent: round($exponent * $prec2);
+    $denominator: gcd($exponent, $prec2);
+    @return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
+  }
+
+  $value: $base;
+  @if $exponent > 1 {
+    @for $i from 2 through $exponent {
+      $value: $value * $base;
+    }
+  } @else if $exponent < 1 {
+    @for $i from 0 through -$exponent {
+      $value: $value / $base;
+    }
+  }
+
+  @return $value;
+}
+//Greatest Common Divisor
+@function gcd($a, $b) {
+  // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
+  @if ($b != 0) {
+    @return gcd($b, $a % $b);
+  } @else {
+    @return abs($a);
+  }
+}
+
+
+
+//Nth Root Function
+@function nth_root($num, $n: 2, $prec: 12) {
+  // From: http://rosettacode.org/wiki/Nth_root#JavaScript
+  $x: 1;
+
+  @for $i from 0 through $prec {
+    $x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
+  }
+
+  @return $x;
+}
+
+//Square Root functions
+@function sqrt($number) {
+  $guess: rand();
+  $root: $guess;
+  @for $i from 1 through $iter {
+    $root: $root - (pow($root, 2) - $number) / (2 * $root);
+  }
+  @return $root;
+}
+@function √($number) {
+  @return sqrt($number);
+}
+
+//Random number generator.
+@function rand() {
+  @return 4;
+}
+
+//Golden Ratio generator.
+
+@function golden() {
+  @return 1/2 + sqrt(5) / 2;
+}
+@function ϕ() {
+  @return golden();
+}
+
+$golden_ratio:  golden();
+
+
+//------------------------------------
+//    $HELPERS
+//------------------------------------
+
+// Strip units from a sass value
+// Taken from:
+// http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
+@function strip-units($value) {
+    @return $value / ($value * 0 + 1);
+}
+
+// Cross-browser (including IE) opacity
+// Taken from:
+// https://gist.github.com/jgv/745754
+@mixin opacity($trans) {
+  filter: alpha(opactiy=($trans * 100));
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$trans * 100})";
+  -moz-opacity: $trans;
+  -khtml-opacity: $trans;
+  opacity: $trans;
+}
+
+// REM generator
+// Used to create a property with a rem value and PX fallback
+@mixin rems($property, $size){
+    #{$property}: $size;                                                              //[1]
+    #{$property}: ($size / $type-base-font-size) * 1rem;
+}
+
+//------------------------------------
+//    $TYPOGRAPHY
+//------------------------------------
+
+//Variable for easier reference:
+$stripped-base-font-size:  strip-units($type-base-font-size);
+
+// Quickly generate a font-size in rems, with a pixel fallback, based on the
+// value we pass into the mixin, e.g.:
+// h1 {
+//     @include type-font-size(24px);
+// }
+// 1. Set the base element’s `font-size` to the value of your choosing. Set in
+//    ems, assuming a browser default of 16px.
+// 2. Work out the unitless `line-height` for your project based around your
+//    desired `line-height` (defined previously in pixels), and your project’s
+//    base font size.
+
+
+@mixin type-font-size($font-size, $line-height: true) {
+    font-size: $font-size;                                                              //[1]
+    font-size: ($font-size / $type-base-font-size) * 1rem;
+
+    @if $line-height == true {
+        $estimated-line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height) / $font-size;
+
+        // If line-height is too large, divide it in half.
+        // Ultimately, this creates type that requires two line-lengths to rebalance the baseline grid.
+        // This is a better alternative to 2x line-heights.
+
+        @if $estimated-line-height > 1.8{
+            $estimated-line-height: ceil($font-size / ($type-base-line-height / 2)) * ($type-base-line-height / 2) / $font-size;
+        }
+
+        line-height: $estimated-line-height;
+    }
+}
+
+ // Space elements by an amount based on your magic number. Pass in the property
+ // to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
+ // pre {
+ //     @include type-space(padding-left, 1);
+ // }
+
+@mixin type-space($property, $multiplier: 2) {
+    #{$property}: $multiplier * $type-magic-number;
+    #{$property}: $multiplier * $type-magic-ratio + rem;
+}
+
+// Same as above, but for shortcut properties.
+// Use this for padding or margin shortcuts. e.g.:
+// pre {
+//    @include type-space(padding, 1, 2, 1, 0);
+// }
+@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: 999, $left: 999){
+    @if $bottom == 999{
+        $bottom: $top;
+    }
+    @if $left == 999{
+        $left: $right;
+    }
+    #{$property}: ($top * $type-magic-number) ($right * $type-magic-number) ($bottom * $type-magic-number) ($left * $type-magic-number);
+    #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem ($bottom * $type-magic-ratio) + rem ($left * $type-magic-ratio) + rem;
+}
+
+
+
+
+//------------------------------------
+//    $MODULAR SCALE
+//------------------------------------
+
+// Modular scale function to scale type up or down.
+@function modular-scale($i, $scale: $type-ratio){
+    $modular-scale: $scale;
+    @return exponent($modular-scale, $i)*($stripped-base-font-size)*1px;
+}
+
+// This is essentially the same function as above,
+// BUT it can be used externally.
+// By using @include type-scale([property], [scale number]);.
+// This is most useful for font sizing, but can be used for any property
+// e.g.: div{
+//          @include type-scale(margin-top, 2);}
+// Would produce a margin-top value of the second value within your typographic scale.
+// If your scale is set to 3,4, your output would be: div{margin-top: 20.63314px; margin-top: 1.4738rem;}
+
+@mixin type-scale($property: font-size, $mod-scale-value: 1){
+    @if $type-auto-scale == false{
+        @warn "Please set $type-auto-scale to true or else type-scale is fairly meaningless.";
+    }
+    @if $property == "font-size"{
+        $font-size: modular-scale($mod-scale-value);
+        @include type-font-size($font-size, true);
+    }
+    @else{
+        $scale: modular-scale($mod-scale-value);
+        #{$property}: $scale;
+        #{$property}: ($scale / $type-base-font-size) * 1rem;
+    }
+}
+
+@mixin headings-scale($scale: $type-ratio){
+    //Checking for floats in $scale
+    @if length($scale) == 2{
+    // Making sure we don't have a ratio below 1.
+        @if nth($scale,1) < nth($scale,2){
+            $scale:   nth($scale, 2)/nth($scale, 1);
+        }@else{
+            $scale:   nth($scale, 1)/nth($scale, 2);
+        }
+    }
+    $type-ratio: $scale;
+    @each $i in $type-headings{  //[2]
+            $font-size: modular-scale($i);  //[3]
+            $current-heading: nth($type-headings,$i); //[4]
+
+            h#{$current-heading}{
+                @extend %type-vertical-rhythm;
+                @include type-font-size($font-size, true); //[5]
+            & + p{
+                @extend %negative-top; //[6]
+            }
+            }
+
+            @if $type-scale-classes == true{
+                .h#{$current-heading}{
+                    @extend h#{$current-heading};  //[7]
+                }
+            };
+            $i: $i + 1;
+    };
+}
+
+//------------------------------------
+//    $COLORS
+//------------------------------------
+
+// Change text color based on background-color's darkness, e.g.:
+// div{
+//    background-color: #f8cd12;
+//    color: set-text-color(#f8cd12);
+//    }
+//  Your text color would be black because #f8cd12 and #00000 contain enough contrast to be readable.
+//  This will ONLY give you black or white. Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
+
+@function set-text-color($color) {
+    @if (lightness( $color ) > 45) {
+      @return #000000;
+    }
+    @else {
+      @return #FFFFFF;
+    }
+}
+
+//Complex comparing colors for contrast
+//Taken from: https://gist.github.com/voxpelli/6304812
+//USAGE:
+// div{
+//    background-color: #f8cd12;
+//    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
+//    }
+// The function would test the colors and find that #2c2c2c is the best.
+
+@function pick_best_color($base, $colors, $tolerance: 0) {
+  $contrast: color_contrast($base, nth($colors, 1));
+  $best: nth($colors, 1);
+
+  @for $i from 2 through length($colors) {
+    $current_contrast: color_contrast($base, nth($colors, $i));
+    @if ($current_contrast - $contrast > $tolerance) {
+      $contrast: color_contrast($base, nth($colors, $i));
+      $best: nth($colors, $i);
+    }
+  }
+
+  @if ($contrast < 3) {
+    @warn "Contrast ratio of #{$best} on #{$base} is pretty bad, just #{$contrast}";
+  }
+
+  @return $best;
+}
+
+@function color_luminance($color) {
+  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+  $rgba: red($color), green($color), blue($color);
+  $rgba2: ();
+
+  @for $i from 1 through 3 {
+    $rgb: nth($rgba, $i);
+    $rgb: $rgb / 255;
+
+    $rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
+
+    $rgba2: append($rgba2, $rgb);
+  }
+
+  @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
+}
+
+@function color_contrast($color1, $color2) {
+  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+  $luminance1: color_luminance($color1) + .05;
+  $luminance2: color_luminance($color2) + .05;
+  $ratio: $luminance1 / $luminance2;
+
+  @if $luminance2 > $luminance1 {
+    $ratio: 1 / $ratio;
+  }
+
+  $ratio: round($ratio * 10) / 10;
+
+  @return $ratio;
+}
+
+//------------------------------------
+//    $LISTS
+//------------------------------------
+// http://compass-style.org/reference/compass/typography/lists/
+
+
+// Turn off the bullet for an element of a list
+@mixin no-bullet {
+  list-style-image : none;
+  list-style-type  : none;
+  margin-left      : 0;
+}
+
+// turns off the bullets for an entire list
+@mixin no-bullets {
+  list-style: none;
+  li { @include no-bullet; }
+}
+
+// Make a list(ul/ol) have an image bullet.
+//
+// The mixin should be used like this for an icon that is 5x7:
+//
+//     ul.pretty
+//       +pretty-bullets("my-icon.png", 5px, 7px)
+//
+// Additionally, if the image dimensions are not provided,
+// The image dimensions will be extracted from the image itself.
+//
+//     ul.pretty
+//       +pretty-bullets("my-icon.png")
+//
+@mixin pretty-bullets($bullet-icon, $width: image-width($bullet-icon), $height: image-height($bullet-icon), $line-height: $type-base-line-height, $padding: $type-magic-number) {
+  margin-left: 0;
+  li {
+    padding-left: $padding;
+    background: image-url($bullet-icon) no-repeat ($padding - $width) / 2 ($line-height - $height) / 2;
+    list-style-type: none;
+  }
+}
+
+// NOTE FROM CHRIS:
+// This is strictly for development and is prone to being terrible
+// if $show-grid is set to True, create a rough background image to show gutters/grid guides.
+@if $show-grid == true{
+    $grid-gutter: $gutter;
+    .wrap{
+        position: relative;
+    }
+    html .wrap:before{
+        z-index: -1;
+        content: '';
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-top: 100%;
+        display: table-cell;
+        background-image:
+            -webkit-linear-gradient(left,
+                rgba(0,0,0,0.05) 0%,
+                rgba(0,0,0,0.05) 0.5%,
+                rgba(0,0,0,0.00) 1%,
+                rgba(0,0,0,0.00) percentage(.99/12),
+                rgba(0,0,0,0.05) percentage(1/12),
+                rgba(0,0,0,0.05) percentage(1.1/12),
+                rgba(0,0,0,0.00) percentage(1.15/12),
+                rgba(0,0,0,0.00) percentage(1.99/12),
+                rgba(0,0,0,0.05) percentage(2/12),
+                rgba(0,0,0,0.05) percentage(2.1/12),
+                rgba(0,0,0,0.00) percentage(2.15/12),
+                rgba(0,0,0,0.00) percentage(2.99/12),
+                rgba(0,0,0,0.05) percentage(3/12),
+                rgba(0,0,0,0.05) percentage(3.1/12),
+                rgba(0,0,0,0.00) percentage(3.15/12),
+                rgba(0,0,0,0.00) percentage(3.99/12),
+                rgba(0,0,0,0.05) percentage(4/12),
+                rgba(0,0,0,0.05) percentage(4.1/12),
+                rgba(0,0,0,0.00) percentage(4.15/12),
+                rgba(0,0,0,0.00) percentage(4.99/12),
+                rgba(0,0,0,0.05) percentage(5/12),
+                rgba(0,0,0,0.05) percentage(5.1/12),
+                rgba(0,0,0,0.00) percentage(5.15/12),
+                rgba(0,0,0,0.00) percentage(5.99/12),
+                rgba(0,0,0,0.05) percentage(6/12),
+                rgba(0,0,0,0.05) percentage(6.1/12),
+                rgba(0,0,0,0.00) percentage(6.15/12),
+                rgba(0,0,0,0.00) percentage(6.99/12),
+                rgba(0,0,0,0.05) percentage(7/12),
+                rgba(0,0,0,0.05) percentage(7.1/12),
+                rgba(0,0,0,0.00) percentage(7.15/12),
+                rgba(0,0,0,0.00) percentage(7.99/12),
+                rgba(0,0,0,0.05) percentage(8/12),
+                rgba(0,0,0,0.05) percentage(8.1/12),
+                rgba(0,0,0,0.00) percentage(8.15/12),
+                rgba(0,0,0,0.00) percentage(8.99/12),
+                rgba(0,0,0,0.05) percentage(9/12),
+                rgba(0,0,0,0.05) percentage(9.1/12),
+                rgba(0,0,0,0.00) percentage(9.15/12),
+                rgba(0,0,0,0.00) percentage(9.99/12),
+                rgba(0,0,0,0.05) percentage(10/12),
+                rgba(0,0,0,0.05) percentage(10.1/12),
+                rgba(0,0,0,0.00) percentage(10.15/12),
+                rgba(0,0,0,0.00) percentage(10.99/12),
+                rgba(0,0,0,0.05) percentage(11/12),
+                rgba(0,0,0,0.05) percentage(11.1/12),
+                rgba(0,0,0,0.00) percentage(11.15/12),
+                rgba(0,0,0,0.00) percentage(11.99/12),
+                rgba(0,0,0,0.05) 98%,
+                rgba(0,0,0,0.05) 100%);
+    }
+    html.grid-off .wrap:before{
+        background-image: none;
+    }
+}
