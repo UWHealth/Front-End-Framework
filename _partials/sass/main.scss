@@ -1,59 +1,17 @@
 @charset "UTF-8";
 
-//Typography
-
-$type-base-font-size:      14px;
-$type-base-line-height:    24px;
-$type-auto-scale:          true;
-$type-ratio:               1.214;
-$font-family:              'Asap', verdana, helvetica, arial, sans-serif;
-
-// Show baseline grid for easier alignment;
-$type-show-baseline:       true;
-
-
-
-//Grid
-
-$gutter:                $type-base-line-height;
-$use-silent-classes:    true;
-$push:                  true;
-$pull:                  true;
-$use-markup-fix:        false;
-$show-grid:             true;
-
-$breakpoints: (
-    'small' '(max-width: 480px)',
-    'smallish''(min-width: 481px) and (max-width: 640px)',
-    'lap' '(min-width: 641px) and (max-width: 940px)',
-    'port' '(max-width: 940px)',
-    'desk' '(min-width: 941px)'
-);
-
-
-
-$breakpoint-has-widths: ('small', 'smallish', 'lap', 'port', 'desk');
-$breakpoint-has-push:   ('small', 'smallish', 'lap', 'port', 'desk');
-$breakpoint-has-pull:   ('small', 'smallish', 'lap', 'port', 'desk');
-
-
-//Colors - based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
-//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
-//The darker and ligher variations are defined in utilities/variables
-$primary-color: #063b6d;        //UW Blue (dark blue)
-$accent-color: #d40026;        //UW Red (maroonish-red)
-$action-color: #4c7659;         //Green / Earth
-$function-color: #d4c9ad;       //UW Tan
-$alert-color: #b22727;          //Red
-
-
 //Imports (must be called after variables are defined).
-@import 'type/fonts','utilities/variables', 'utilities/functions','utilities/extend',
-        'type/typography',
-        'vendor/normalize',
-        'grid/import',
-        'components/import',
-        'app';
+@import 'config',
+        'type/_fonts',
+        'utilities/_variables',
+        'utilities/_functions',
+        'utilities/_extend',
+        'colors/_colors',
+        'type/_typography',
+        'vendor/_normalize',
+        'grid/_import',
+        'components/_import',
+        '_app';
 
 
 

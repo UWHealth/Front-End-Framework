@@ -7,46 +7,96 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-//
+
+
+//Mixin to used for media-query-scoped extends.
+//e.g.: @include %clearfix or @include %small--clearfix;
+
+@mixin device-type($namespace:""){
 // Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
 //
-%clearfix, %cf{
-    *zoom: 1;
-    &:before,&:after{
-        display: table;
-        content: " ";
+    %#{$namespace}clearfix, %#{$namespace}cf{
+        *zoom: 1;
+        &:before,&:after{
+            display: table;
+            content: " ";
+        }
+        &:after{
+            clear: both;
+        }
     }
-    &:after{
-        clear: both;
-    }
-}
 
-//
-// A lot of elements in type need to share some declarations (mainly for
-// vertical rhythm), so we `@extend` some silent classes.
-//
-%type-reset {
-    margin:  0;
-    padding: 0;
+    //
+    // A lot of elements in typography need to share some declarations (mainly for
+    // vertical rhythm), so we `@extend` some silent classes.
+    //
+    %#{$namespace}type-reset {
+        margin:  0;
+        padding: 0;
+    }
+    //Used for headings+p, or indented paragraphs.
+    %#{$namespace}negative-top{
+        @include type-space(margin-top, -1)
+    }
+    //
+    // Font family, normal, italic and bold silent classes/extensions.
+    // Use these for DRYer CSS output.
+    //
+    %#{$namespace}type-family{
+        font-family: $font-family;
+    }
+    %#{$namespace}type-normal{
+        font-weight: 400;
+    }
+    %#{$namespace}type-italic{
+        font-style: italic;
+    }
+    %#{$namespace}type-bold{
+        font-weight: 800;
+        -webkit-font-smoothing: antialiased;
+    }
+    %#{$namespace}naked-list{
+        @include no-bullets;
+    }
+
+ //Alignment
+    %#{$namespace}align_left{
+        float: left;
+        @include type-space(margin-right, 1);
+    }
+    %#{$namespace}align_right{
+        float: right;
+        @include type-space(margin-left, 1);
+    }
+    %#{$namespace}align_center{
+        float: none;
+        margin: 0 auto;
+    }
+
+    //Hide Visually. Usefuly for Accessiblity.
+    //Use when for type that describes a purely visual function.
+    %#{$namespace}hide_visually {
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+
+    //Use an image instead of text, but keep the text in the DOM for
+    //screen readers.
+    //Particularly useful for logos. e.g.
+    // .logo{
+    //   @include %image-replace;
+    //   background: url(image/logo.png) no-repeat;
+    // }
+    %#{$namespace}replace_image{
+        text-indent: 102%;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 }
-//Used for headings+p, or indented paragraphs.
-%negative-top{
-    @include type-space(margin-top, -1)
-}
-//
-// Font family, normal, italic and bold silent classes/extensions.
-// Use these for DRYer CSS output.
-//
-%type-family{
-    font-family: $font-family;
-}
-%type-normal{
-    font-weight: 400;
-}
-%type-italic{
-    font-style: italic;
-}
-%type-bold{
-    font-weight: 800;
-    -webkit-font-smoothing: antialiased;
-}
+@include device-type();

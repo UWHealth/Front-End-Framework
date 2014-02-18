@@ -107,7 +107,9 @@
 // If you have chosen to display a baseline grid, we turn it on here.
    @if $type-show-baseline == true {
         $type-baseline-size: strip-units($type-magic-number);
-        background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+        &.baseline-on{
+            background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+        }
     }
     // Makes sticky footers much easier.
     width: 100%;

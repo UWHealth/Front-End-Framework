@@ -486,7 +486,7 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
     .wrap{
         position: relative;
     }
-    html .wrap:before{
+    .grid-on .wrap:before{
         z-index: -1;
         content: '';
         margin: 0;

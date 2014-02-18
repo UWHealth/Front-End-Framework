@@ -125,6 +125,9 @@ $gutter:                24px!default;
 $use-silent-classes:    false!default;
 
 
+ // Would you like to use floats instead of inline block?
+$use-floats:             false!default;
+
 
  // Would you like push and pull classes enabled?
 
@@ -187,49 +190,4 @@ $class-type:            unquote(".");
 
 
 
-//------------------------------------
-//    $COLORS
-//------------------------------------
-//Based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
-//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
 
-$primary-color: #063b6d !default;        //UW Blue (dark blue)
-$primary-color-alt: #5f82a3 !default;    //UW Steel Blue
-$brand-color: $primary-color;
-$accent-color: #d40026 !default;        //UW Red (maroonish-red)
-$accent-color-alt: #fe0202 !default;    //UW Fire Red (orangey-red)
-$action-color: #4c7659 !default;         //Green / Earth
-$function-color: #d4c9ad !default;       //UW Tan
-$alert-color: #b22727 !default;          //Red
-
-$primary-color-dark: darken(#063b6d, 10%) !default;        //Darker UW Blue (dark blue)
-$primary-color-alt-dark: darken(#5f82a3, 10%) !default;    //Darker UW Steel Blue
-$accent-color-dark: darken(#d40026, 10%) !default;        //Darker UW Red (maroonish-red)
-$accent-color-alt-dark: darken(#fe0202, 10%) !default;    //Darker UW Fire Red (orangey-red)
-$action-color-dark: darken(#4c7659, 10%) !default;         //Darker Green / Earth
-$function-color-dark: darken(#d4c9ad, 10%) !default;       //Darker UW Tan
-$alert-color-dark: darken(#b22727, 10%) !default;          //Darker Red
-
-$primary-color-darker: darken(#063b6d, 20%) !default;        //Deep UW Blue (dark blue)
-$primary-color-alt-darker: darken(#5f82a3, 20%) !default;    //Deep UW Steel Blue
-$accent-color-darker: darken(#d40026, 20%) !default;        //Deep UW Red (maroonish-red)
-$accent-color-alt-darker: darken(#fe0202, 20%) !default;    //Deep UW Fire Red (orangey-red)
-$action-color-darker: darken(#4c7659, 20%) !default;         //Deep Green / Earth
-$function-color-darker: darken(#d4c9ad, 20%) !default;       //Deep UW Tan
-$alert-color-darker: darken(#b22727, 20%) !default;          //Deep Red
-
-$primary-color-light: lighten(#063b6d, 10%) !default;        //Ligher UW Blue
-$primary-color-alt-light: lighten(#5f82a3, 10%) !default;    //Ligher UW Steel Blue
-$accent-color-light: lighten(#d40026, 10%) !default;        //Ligher UW Red (maroonish-red)
-$accent-color-alt-light: lighten(#fe0202, 10%) !default;    //Ligher UW Fire Red (orangey-red)
-$action-color-light: lighten(#4c7659, 10%) !default;         //Ligher Green / Earth
-$function-color-light: lighten(#d4c9ad, 10%) !default;       //Ligher UW Tan
-$alert-color-light: lighten(#b22727, 10%) !default;          //Ligher Red
-
-$primary-color-lighter: lighten(#063b6d, 20%) !default;        //Sky UW Blue (dark blue)
-$primary-color-alt-lighter: lighten(#5f82a3, 20%) !default;    //Sky UW Steel Blue
-$accent-color-lighter: lighten(#d40026, 20%) !default;        //Sky UW Red (maroonish-red)
-$accent-color-alt-lighter: lighten(#fe0202, 20%) !default;    //Sky UW Fire Red (orangey-red)
-$action-color-lighter: lighten(#4c7659, 20%) !default;         //Sky Green / Earth
-$function-color-lighter: lighten(#d4c9ad, 20%) !default;       //Sky UW Tan
-$alert-color-lighter: lighten(#b22727, 20%) !default;          //Sky Red

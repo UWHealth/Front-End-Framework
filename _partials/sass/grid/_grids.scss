@@ -69,6 +69,10 @@
 //    $VARIABLES
 //------------------------------------
 
+ //Number of columns
+ // Only change if it's absolutely necessary. Anything other than twelve will require much more processing.
+$columns:                 12 !default;
+
  // If you are building a non-responsive site but would still like to use
  // csswizardry-grids, set this to ‘false’:
 $responsive:            true!default;
@@ -94,10 +98,15 @@ $use-silent-classes:    false!default;
 
 
 
+ // Would you like to use floats instead of inline block?
+$use-floats:             false!default;
+
+
  // Would you like push and pull classes enabled?
 
 $push:                  false!default;
 $pull:                  false!default;
+
 
 
 
@@ -213,12 +222,12 @@ $class-type:            unquote(".");
     margin:0;                       // [2]
     padding:0;                      // [2]
     @include rems(margin-left, -$gutter);
-    @if $use-markup-fix != true{
+    @if $use-markup-fix and $use-floats != true{
         letter-spacing:-0.31em;
     }
 }
 
-@if $use-markup-fix != true{
+@if $use-markup-fix and $use-floats != true{
     /* Opera hack */
     .opera:-o-prefocus,
     #{$class-type}grid{
@@ -235,14 +244,19 @@ $class-type:            unquote(".");
     // 5. Required to combine fluid widths and fixed gutters.
     //
     #{$class-type}grid__item{
-        display:inline-block;           // [1]
+        @if $use-floats != true {
+            display:inline-block;     // [1]
+        }@else{
+            display: block;
+            float: left;
+        }
         @include rems(padding-left, $gutter); //[2]
         vertical-align:top;             // [3]
         @if $mobile-first == true{
             width:100%;                 // [4]
         }
 
-        @if $use-markup-fix != true{
+        @if $use-markup-fix and $use-floats != true{
             letter-spacing:normal;
             word-spacing:normal;
         }
@@ -254,12 +268,19 @@ $class-type:            unquote(".");
 // how your rendered layout will appear. Extends `.grid`.
 //
 #{$class-type}grid--rev{
-    direction:rtl;
-    text-align:left;
-
-    > #{$class-type}grid__item{
-        direction:ltr;
+    @if $use-floats != true {
+        direction:rtl;
         text-align:left;
+
+        > #{$class-type}grid__item{
+            direction:ltr;
+            text-align:left;
+        }
+    }@else{
+        > #{$class-type}grid__item{
+            float: right;
+            text-align:left;
+        }
     }
 }
 
@@ -281,10 +302,15 @@ $class-type:            unquote(".");
 // Align the entire grid to the right. Extends `.grid`.
 //
 #{$class-type}grid--right{
-    text-align:right;
+    @if $use-floats != true {
+        text-align:right;
 
-    > #{$class-type}grid__item{
-        text-align:left;
+        > #{$class-type}grid__item{
+            text-align:left;
+        }
+    }@else{
+        float: right;
+
     }
 }
 
@@ -293,11 +319,14 @@ $class-type:            unquote(".");
 // Centered grids align grid items centrally without needing to use push or pull
 // classes. Extends `.grid`.
 //
+// Not availabe
 #{$class-type}grid--center{
-    text-align:center;
+    @if $use-floats != true {
+        text-align:center;
 
-    > #{$class-type}grid__item{
-        text-align:left;
+        > #{$class-type}grid__item{
+            text-align:left;
+        }
     }
 }
 
@@ -355,6 +384,75 @@ $class-type:            unquote(".");
 @mixin device-type($namespace:""){
 
 
+    @if $columns != 12{
+        $human-readable_numerators: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty;
+        $human-readable_denominators: whole, halve, third, quarter, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nineteenth, twentieth;
+
+        $denomination: $columns;
+
+        @for $i from 1 to $columns {   // Iterate through $columns.
+
+            @while $denomination > 0 {  // Iterate through $human-readable_numerators as many times as there are columns.
+
+                @for $numeration from 1 to $denomination{ //Iterate through $human-readable_denominators as many up to its numerator - 1.
+
+                    $numerator: nth($human-readable_numerators, $numeration); //Create numerator (first number, e.g. 'two').
+                    /*#{$numerator}*/
+                    $denominator: nth($human-readable_denominators, $denomination); //Create denominator (second number, e.g. 'twelfths').
+                    $width: percentage($numeration / $denomination); //Divide first number(numerator) by second number(denominator).
+
+                    @if $numeration == 1{  //To maintain human-readability, we check to see if the fraction starts with anything other than a 1, and then add an 's' to the second number (e.g. two-thirteenths).
+                        @if $denominator != 'halve'{ // We check for the denominator to be a halve. If not, proceed as normal.
+                            #{$class-type}#{$namespace}#{$numerator}-#{$denominator} {
+                                width: $width;
+                            }
+                            #{$class-type}push--#{$namespace}one-#{$denominator}{
+                                left: $width; @include silent-relative();
+                            }
+                            #{$class-type}pull--#{$namespace}one-#{$denominator}{
+                                right: $width; @include silent-relative();
+                            }
+                        /*#{$class-type}#{$namespace}#{$numerator}-#{$denominator}*/
+                        }@else{ // If the denominator is a 'halve', then change it to read 'half'.
+                            #{$class-type}#{$namespace}one-half {
+                                width: 50%;
+                            }
+                            #{$class-type}push--#{$namespace}one-half{
+                                left: 50%; @include silent-relative();
+                            }
+                            #{$class-type}pull--#{$namespace}one-half{
+                                right: 50%; @include silent-relative();
+                            }
+                        }
+
+                    }@else{
+                        #{$class-type}#{$namespace}#{$numerator}-#{$denominator}s {
+                            width: $width;
+                        }
+                        #{$class-type}push--#{$namespace}#{$numerator}-#{$denominator}s {
+                            left: $width; @include silent-relative();
+                        }
+                        #{$class-type}pull--#{$namespace}#{$numerator}-#{$denominator}s {
+                            right: $width; @include silent-relative();
+                        }//If the numerator does start with a 1, we do not add an 's' to the denominator.
+                    /*#{$class-type}#{$namespace}#{$numerator}-#{$denominator}s*/
+                    }
+
+                }
+                $denomination: $denomination - 1;
+            }
+        }
+        #{$class-type}#{$namespace}one-whole            { width:100%; }
+        #{$class-type}pull--#{$namespace}one-whole      { left: 100%; @include silent-relative(); }
+        #{$class-type}pull--#{$namespace}one-whole      { right: 100%; @include silent-relative(); }
+        #{$class-type}#{$namespace}one-fourth           { width:25%; }
+        #{$class-type}#{$namespace}two-fourths          { @extend #{$class-type}#{$namespace}two-quarters; }
+        #{$class-type}#{$namespace}three-fourths        { @extend #{$class-type}#{$namespace}three-quarters; }
+        #{$class-type}pull--#{$namespace}two-fourths    { @extend #{$class-type}pull--#{$namespace}two-fourths; }
+        #{$class-type}pull--#{$namespace}three-fourths  { @extend #{$class-type}pull--#{$namespace}three-fourths; }
+
+
+    }@else{
 
     // Whole
 
@@ -365,7 +463,7 @@ $class-type:            unquote(".");
     // Halves
 
     #{$class-type}#{$namespace}one-half          { width:50%; }
-    #{$class-type}#{$namespace}one-twos          { width:50%; }
+    #{$class-type}#{$namespace}one-twos          { @extend #{$class-type}#{$namespace}one-half; }
 
 
 
@@ -412,7 +510,7 @@ $class-type:            unquote(".");
     #{$class-type}#{$namespace}two-sevenths       { width:28.57143%; }
     #{$class-type}#{$namespace}three-sevenths     { width:42.85714%; }
     #{$class-type}#{$namespace}four-sevenths      { width:57.14286%; }
-    #{$class-type}#{$namespace}five-sevents       { width:71.42857%; }
+    #{$class-type}#{$namespace}five-sevenths      { width:71.42857%; }
     #{$class-type}#{$namespace}six-sevenths       { width:85.71429%; }
 
 
@@ -458,15 +556,15 @@ $class-type:            unquote(".");
 
     //Elevenths
 
-    #{$class-type}#{$namespace}one-eleventh        { width: 9.0909%; }
-    #{$class-type}#{$namespace}two-eleventh        { width:18.1818%; }
-    #{$class-type}#{$namespace}three-eleventh      { width:27.2727%; }
-    #{$class-type}#{$namespace}four-eleventh       { width:36.3636%; }
-    #{$class-type}#{$namespace}five-eleventh       { width:45.4545%; }
-    #{$class-type}#{$namespace}six-eleventh        { width:54.5454%; }
-    #{$class-type}#{$namespace}seven-eleventh      { width:63.6363%; }
-    #{$class-type}#{$namespace}eight-eleventh      { width:72.7272%; }
-    #{$class-type}#{$namespace}nine-eleventh       { width:90.9090%; }
+    #{$class-type}#{$namespace}one-eleventh         { width: 9.0909%; }
+    #{$class-type}#{$namespace}two-elevenths        { width:18.1818%; }
+    #{$class-type}#{$namespace}three-elevenths      { width:27.2727%; }
+    #{$class-type}#{$namespace}four-elevenths       { width:36.3636%; }
+    #{$class-type}#{$namespace}five-elevenths       { width:45.4545%; }
+    #{$class-type}#{$namespace}six-elevenths        { width:54.5454%; }
+    #{$class-type}#{$namespace}seven-elevenths      { width:63.6363%; }
+    #{$class-type}#{$namespace}eight-elevenths      { width:72.7272%; }
+    #{$class-type}#{$namespace}nine-elevenths       { width:90.9090%; }
 
 
     // Twelfths
@@ -483,7 +581,7 @@ $class-type:            unquote(".");
     #{$class-type}#{$namespace}ten-twelfths      { @extend #{$class-type}#{$namespace}five-sixths; }
     #{$class-type}#{$namespace}eleven-twelfths   { width:91.666%; }
 
-
+    }
 }
 
 //------------------------------------
@@ -590,7 +688,7 @@ $class-type:            unquote(".");
     #{$class-type}push--#{$namespace}two-sevenths       { left:28.57143%; @include silent-relative(); }
     #{$class-type}push--#{$namespace}three-sevenths     { left:42.85714%; @include silent-relative(); }
     #{$class-type}push--#{$namespace}four-sevenths      { left:57.14286%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}five-sevents       { left:71.42857%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}five-sevenths      { left:71.42857%; @include silent-relative(); }
     #{$class-type}push--#{$namespace}six-sevenths       { left:85.71429%; @include silent-relative(); }
 
 
@@ -635,14 +733,14 @@ $class-type:            unquote(".");
     //Elevenths
 
     #{$class-type}push--#{$namespace}one-eleventh        { left: 9.0909%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}two-eleventh        { left:18.1818%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}three-eleventh      { left:27.2727%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}four-eleventh       { left:36.3636%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}five-eleventh       { left:45.4545%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}six-eleventh        { left:54.5454%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}seven-eleventh      { left:63.6363%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}eight-eleventh      { left:72.7272%; @include silent-relative(); }
-    #{$class-type}push--#{$namespace}nine-eleventh       { left:90.9090%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}two-elevenths       { left:18.1818%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}three-elevenths     { left:27.2727%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}four-elevenths      { left:36.3636%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}five-elevenths      { left:45.4545%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}six-elevenths       { left:54.5454%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}seven-elevenths     { left:63.6363%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}eight-elevenths     { left:72.7272%; @include silent-relative(); }
+    #{$class-type}push--#{$namespace}nine-elevenths      { left:90.9090%; @include silent-relative(); }
 
 
     // Twelfths
@@ -692,7 +790,7 @@ $class-type:            unquote(".");
 
 @mixin pull-setup($namespace: ""){
 
-
+@if $columns == 12{
     #{$class-type}pull--#{$namespace}one-whole           { right:100%; @include silent-relative(); }
 
 
@@ -728,6 +826,12 @@ $class-type:            unquote(".");
     #{$class-type}pull--#{$namespace}five-sixths         { right:83.333%; @include silent-relative(); }
 
 
+    #{$class-type}pull--#{$namespace}one-seventh        { right:14.28571%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}two-sevenths       { right:28.57143%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}three-sevenths     { right:42.85714%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}four-sevenths      { right:57.14286%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}five-sevenths      { right:71.42857%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}six-sevenths       { right:85.71429%; @include silent-relative(); }
 
     #{$class-type}pull--#{$namespace}one-eighth          { right:12.5%; @include silent-relative(); }
     #{$class-type}pull--#{$namespace}two-eighths         { @extend #{$class-type}pull--#{$namespace}one-quarter; }
@@ -737,7 +841,14 @@ $class-type:            unquote(".");
     #{$class-type}pull--#{$namespace}six-eighths         { @extend #{$class-type}pull--#{$namespace}three-quarters; }
     #{$class-type}pull--#{$namespace}seven-eighths       { right:87.5%; @include silent-relative(); }
 
-
+    #{$class-type}pull--#{$namespace}one-ninth            { right:11.11%; }
+    #{$class-type}pull--#{$namespace}two-ninths           { right:22.22%; }
+    #{$class-type}pull--#{$namespace}three-ninths         { @extend #{$class-type}pull--#{$namespace}one-third; }
+    #{$class-type}pull--#{$namespace}four-ninths          { right:44.44%; }
+    #{$class-type}pull--#{$namespace}five-ninths          { right:55.55%; }
+    #{$class-type}pull--#{$namespace}six-ninths           { @extend #{$class-type}pull--#{$namespace}two-thirds; }
+    #{$class-type}pull--#{$namespace}seven-ninths         { right:77.77%; }
+    #{$class-type}pull--#{$namespace}eight-ninths         { right:88.88%; }
 
     #{$class-type}pull--#{$namespace}one-tenth           { right:10%; @include silent-relative(); }
     #{$class-type}pull--#{$namespace}two-tenths          { @extend #{$class-type}pull--#{$namespace}one-fifth; }
@@ -749,7 +860,15 @@ $class-type:            unquote(".");
     #{$class-type}pull--#{$namespace}eight-tenths        { @extend #{$class-type}pull--#{$namespace}four-fifths; }
     #{$class-type}pull--#{$namespace}nine-tenths         { right:90%; @include silent-relative(); }
 
-
+    #{$class-type}pull--#{$namespace}one-eleventh        { right: 9.0909%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}two-elevenths       { right:18.1818%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}three-elevenths     { right:27.2727%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}four-elevenths      { right:36.3636%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}five-elevenths      { right:45.4545%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}six-elevenths       { right:54.5454%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}seven-elevenths     { right:63.6363%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}eight-elevenths     { right:72.7272%; @include silent-relative(); }
+    #{$class-type}pull--#{$namespace}nine-elevenths      { right:90.9090%; @include silent-relative(); }
 
     #{$class-type}pull--#{$namespace}one-twelfth         { right:8.333%; @include silent-relative(); }
     #{$class-type}pull--#{$namespace}two-twelfths        { @extend #{$class-type}pull--#{$namespace}one-sixth; }
@@ -762,6 +881,7 @@ $class-type:            unquote(".");
     #{$class-type}pull--#{$namespace}nine-twelfths       { @extend #{$class-type}pull--#{$namespace}three-quarters; }
     #{$class-type}pull--#{$namespace}ten-twelfths        { @extend #{$class-type}pull--#{$namespace}five-sixths; }
     #{$class-type}pull--#{$namespace}eleven-twelfths     { right:91.666%; @include silent-relative(); }
+    }
 }
 
 @if $pull == true{

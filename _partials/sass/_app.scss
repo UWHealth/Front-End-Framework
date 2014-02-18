@@ -3,13 +3,14 @@
 //---------------------------------\\
 
 // Put all of your normal/application-specific CSS here.
-
 .wrap{
+    width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 $gutter $gutter*2;
-    @include type-space(padding-top, 2);
+    display: block !important;
+    @include type-space-sc(padding, 1, 0);
     @extend %clearfix;
+    float: none;
 }
 .row-narrow{
     @extend %grid--narrow;
@@ -25,31 +26,73 @@
 }
 .sidebar{
     @extend %grid__item;
-    @extend %small--one-whole;
-    @extend %smallish--one-half;
-    @extend %lap--one-quarter;
-    @extend %desk--one-third;
+    @extend %smalls--one-whole;
+    @extend %lap--one-third;
+    @extend %desk--one-quarter;
 }
 .content{
     @extend %grid__item;
-    @extend %small--one-whole;
-    @extend %smallish--one-half;
-    @extend %lap--three-quarters;
-    @extend %desk--two-thirds;
+    @extend %smalls--one-whole;
+    @extend %lap--two-thirds;
+    @extend %desk--three-quarters;
 }
+
+.add-on{
+    @extend %grid__item;
+    @extend %one-whole;
+    @extend %smallish--one-third;
+    @extend %lap--one-sixth;
+    @extend %bigs--one-sixth;
+}
+.wide-content{
+    @extend %grid__item;
+    @extend %grid--right;
+    @extend %smallish--two-thirds;
+    @extend %lap--five-sixths;
+    @extend %bigs--five-sixths;
+}
+
+
 .fixed-row{
     @extend %grid;
     @extend %clearfix;
     margin-left: 0;
 }
-.island h1, .island p{
+.island{
     overflow: hidden;
-    word-break: break-word;
+    & > .img{
+        float:left;
+        word-break: break-word;
+        display: inline-block;
+        margin-right: $gutter;
+    }
+    & .img + *{
+        overflow: hidden;
+    }
 }
-.island img, .island .img{
-    float: left;
+
+.media_block{
+    @extend .island;
+}
+.breadcrumbs{
+    @extend %grid__item;
+    @extend %one-whole;
+    @extend %type-reset;
+    @include type-space-sc(margin, 0,0,1,0);
+}
+.breadcrumb, .inline-list li{
     display: inline-block;
+    white-space: nowrap;
+    @include type-space(padding-right, .25);
 }
+.breadcrumb:after{
+    content: "\25B8"; display: inline-block; @include type-space(padding-left, .25);
+}
+.naked-list{
+    @include no-bullets;
+    margin-left: 0;
+}
+
 
 #toggles{
     position: fixed;
@@ -64,6 +107,7 @@
 .color-block{
     @extend %grid__item;
     @extend %one-fifth;
+    @extend %small--one-half;
     text-align: center;
     min-height: 25px;
     color: #fff;
@@ -173,7 +217,13 @@
 
 @include grid-media-query(small){
     @include headings-scale(1.17);
+    .wrap{
+        width: 95%;
+    }
 };
-@include grid-media-query(smallish){
+@include grid-media-query(port){
     @include headings-scale(1.2);
+    .wrap{
+        width: 90%;
+    }
 };

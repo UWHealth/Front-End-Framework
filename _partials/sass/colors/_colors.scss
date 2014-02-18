@@ -1,0 +1,52 @@
+//------------------------------------
+//    $COLORS
+//------------------------------------
+//Based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
+//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
+
+$primary-color: #063b6d !default;        //UW Blue (dark blue)
+$primary-color-alt: #5f82a3 !default;    //UW Steel Blue
+$brand-color: $primary-color;
+$accent-color: #d40026 !default;        //UW Red (maroonish-red)
+$accent-color-alt: #fe0202 !default;    //UW Fire Red (orangey-red)
+$action-color: #4c7659 !default;         //Green / Earth
+$function-color: #d4c9ad !default;       //UW Tan
+$alert-color: #b22727 !default;          //Red
+$border-color: #8a9095 !default;         //Grey
+
+
+$primary-color-dark: darken($primary-color, 10%)                  !default;    //Darker UW Blue (dark blue)
+$primary-color-alt-dark: darken($primary-color-alt, 10%)          !default;    //Darker UW Steel Blue
+$accent-color-dark: darken($accent-color, 10%)                    !default;    //Darker UW Red (maroonish-red)
+$accent-color-alt-dark: darken($accent-color-alt, 10%)            !default;    //Darker UW Fire Red (orangey-red)
+$action-color-dark: darken($action-color, 10%)                    !default;    //Darker Green / Earth
+$function-color-dark: darken($function-color, 10%)                !default;    //Darker UW Tan
+$alert-color-dark: darken($alert-color, 10%)                      !default;    //Darker Red
+$border-color-dark: darken($border-color, 10%)                    !default;       //Blueish-Gray
+
+$primary-color-darker: darken($primary-color, 10%)              !default;    //Deep UW Blue (dark blue)
+$primary-color-alt-darker: darken($primary-color-alt, 10%)      !default;    //Deep UW Steel Blue
+$accent-color-darker: darken($accent-color, 10%)                !default;    //Deep UW Red (maroonish-red)
+$accent-color-alt-darker: darken($accent-color-alt, 10%)        !default;    //Deep UW Fire Red (orangey-red)
+$action-color-darker: darken($action-color, 10%)                !default;    //Deep Green / Earth
+$function-color-darker: darken($function-color, 10%)            !default;    //Deep UW Tan
+$alert-color-darker: darken($alert-color, 10%)                  !default;    //Deep Red
+$border-color-darker: darken($border-color, 10%)                !default;      //
+
+$primary-color-light: lighten($primary-color, 10%)               !default;    //Ligher UW Blue
+$primary-color-alt-light: lighten($primary-color-alt, 10%)      !default;    //Ligher UW Steel Blue
+$accent-color-light: lighten($accent-color, 10%)                 !default;    //Ligher UW Red (maroonish-red)
+$accent-color-alt-light: lighten($accent-color-alt, 10%)         !default;    //Ligher UW Fire Red (orangey-red)
+$action-color-light: lighten($action-color, 10%)                 !default;    //Ligher Green / Earth
+$function-color-light: lighten($function-color, 10%)             !default;    //Ligher UW Tan
+$alert-color-light: lighten($alert-color, 10%)                     !default;    //Ligher Red
+$border-color-light: lighten($border-color, 10%)                !default;      //Lighter Grey
+
+$primary-color-lighter: lighten($primary-color, 20%)               !default;    //Ligher UW Blue
+$primary-color-alt-lighter: lighten($primary-color-alt, 20%)       !default;    //Ligher UW Steel Blue
+$accent-color-lighter: lighten($accent-color, 20%)                 !default;    //Ligher UW Red (maroonish-red)
+$accent-color-alt-lighter: lighten($accent-color-alt, 20%)         !default;    //Ligher UW Fire Red (orangey-red)
+$action-color-lighter: lighten($action-color, 20%)                 !default;    //Ligher Green / Earth
+$function-color-lighter: lighten($function-color, 20%)             !default;    //Ligher UW Tan
+$alert-color-lighter: lighten($alert-color, 20%)                 !default;    //Ligher Red
+$border-color-lighter: lighten($border-color, 20%)                !default;      //Lighter Grey

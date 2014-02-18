@@ -61,6 +61,11 @@ textarea {
 /* ========================================================================== */
 a{
     cursor: pointer;
+    color: $accent-color;
+    &:hover,
+      &:focus {
+        color: $accent-color-light;
+      }
 }
 /**
  * Address `outline` inconsistency between Chrome and other browsers.
