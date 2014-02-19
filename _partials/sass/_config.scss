@@ -10,7 +10,6 @@ $font-family:              'Asap', verdana, helvetica, arial, sans-serif;
 $type-show-baseline:       true;
 
 
-
 //Grid
 
 $gutter:                $type-base-line-height;
@@ -20,29 +19,29 @@ $pull:                  true;
 $use-markup-fix:        false;
 $use-floats:            true;
 $show-grid:             true;
-
+$columns:                 13; //Using anything other than 12 may cause a bit of slow down during processing.
 
 $breakpoints: (
-    'small' '(max-width: 480px)',
-    'smallish''(min-width: 481px) and (max-width: 640px)',
-    'smalls' '(max-width:640px)',
-    'bigs' '(min-width: 641px)',
-    'lap' '(min-width: 641px) and (max-width: 940px)',
-    'desk' '(min-width: 941px)'
+    'smalls' '(max-width:640px)',                            //Everything up to 640px. Mostly phones.
+    'small' '(max-width: 480px)',                            //Up to 480px. Overrides Smalls. Small Phones, including iPhone.
+    'smallish''(min-width: 481px) and (max-width: 640px)',     //Between 480 and 640px. Overrides Smalls. Large phones/phablets.
+    'bigs' '(min-width: 641px)',                            //Everything larger than 640px. Tablets and Desktops.
+    'lap' '(min-width: 641px) and (max-width: 940px)',        //640-940px. Overrides Bigs. Mostly Tablets and small laptops.
+    'desk' '(min-width: 941px)'                                //940 and Up. Overrides Bigs. Large Tablets and Desktops.
 );
 
-
-
-$breakpoint-has-widths: ('small', 'smallish', 'smalls', 'lap', 'bigs', 'desk');
-$breakpoint-has-push:   ('small', 'smallish', 'smalls', 'lap', 'bigs', 'desk');
-$breakpoint-has-pull:   ('small', 'smallish', 'smalls', 'lap', 'bigs', 'desk');
+// Give grid-abilities to breakpoints.
+// The more breakpoints defined here will result in longer preprocessing times.
+$breakpoint-has-widths: ('smalls', 'small', 'smallish', 'lap', 'bigs', 'desk');
+$breakpoint-has-push:   ('smalls', 'smallish', 'lap', 'bigs', 'desk');
+$breakpoint-has-pull:   ('smalls', 'smallish', 'lap', 'bigs', 'desk');
 
 
 //Colors - based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
 //Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
 //The darker and ligher variations are defined in utilities/variables
 $primary-color: #063b6d;        //UW Blue (dark blue)
-$accent-color: #d40026;        //UW Red (maroonish-red)
+$accent-color: #d40026;         //UW Red (maroonish-red)
 $action-color: #4c7659;         //Green / Earth
 $function-color: #d4c9ad;       //UW Tan
-$alert-color: #b22727;          //Red
+$alert-color: #b22727;          //Desaturated Red

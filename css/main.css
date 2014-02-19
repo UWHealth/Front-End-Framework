@@ -674,42 +674,39 @@ hr {
     padding-left: 12px;
     padding-left: 0.85714rem; }
 
-.column, .add-on, .breadcrumbs {
-  width: 100%; }
-
 .color-block {
   width: 20%; }
 
+.column, .add-on, .breadcrumbs {
+  width: 100%; }
+
+@media only screen and (max-width: 640px) {
+  .sidebar, .content {
+    width: 100%; } }
 @media only screen and (max-width: 480px) {
   .color-block {
     width: 50%; } }
 @media only screen and (min-width: 481px) and (max-width: 640px) {
   .add-on {
-    width: 33.333%; }
+    width: 33.33333%; }
 
   .wide-content {
-    width: 66.666%; } }
-@media only screen and (max-width: 640px) {
-  .sidebar, .content {
-    width: 100%; } }
+    width: 66.66667%; } }
 @media only screen and (min-width: 641px) and (max-width: 940px) {
-  .sidebar {
-    width: 33.333%; }
-
-  .content {
-    width: 66.666%; }
-
   .add-on {
-    width: 16.666%; }
+    width: 16.66667%; }
 
   .wide-content {
-    width: 83.333%; } }
+    width: 83.33333%; }
+
+  .sidebar, .content {
+    width: 50%; } }
 @media only screen and (min-width: 641px) {
   .add-on {
-    width: 16.666%; }
+    width: 16.66667%; }
 
   .wide-content {
-    width: 83.333%; } }
+    width: 83.33333%; } }
 @media only screen and (min-width: 941px) {
   .sidebar {
     width: 25%; }

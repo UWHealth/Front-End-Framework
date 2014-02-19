@@ -71,7 +71,7 @@
 
  //Number of columns
  // Only change if it's absolutely necessary. Anything other than twelve will require much more processing.
-$columns:                 12 !default;
+$columns:                 12!default;
 
  // If you are building a non-responsive site but would still like to use
  // csswizardry-grids, set this to ‘false’:
@@ -160,7 +160,9 @@ $class-type:            unquote(".");
 @if $use-silent-classes == true{
     $class-type:        unquote("%");
 }
+$human-readable_numerators: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty;
 
+$human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nineteenth, twentieth;
 
 
 
@@ -383,74 +385,71 @@ $class-type:            unquote(".");
 
 @mixin device-type($namespace:""){
 
+    //
+    // Automatic Grids. Created by Chris Lee, not found on the internet.
+    // If columns are defined as anything other than 12, then we must calculate our grids.
+    // Ultimately, these loops limit themselves upon iteration.
+    // This makes it so there can only be one fewer versions of the denominator (e.g. one-third, two-thirds).
+    //
+    // Just FOR REFERENCE: A numerator is the first (top) number in a fraction. The denominator is the second (bottom) number.
+    //
+    // [1] Loop through the $columns.
+    // [2] Loop through $divisor (same number as $columns). This acts as the second number in our column fraction.
+    // [3a]Loop through $divisor before it decreases by 1 from the previous loop.
+    // [3b]After widths are defined, subtract 1 from $divisor.
+    // [4] Assign the numerator and denominator of our fraction to human-readable versions (e.g. three, four, third, quarter, etc.).
+    // [5] Check if the numerator equals 1 (one). If so, we keep our singular human-readable numerators and denominators (e.g. one-twelfth).
+    // [6] If the numerator is larger than 1(one), add an 's' to our selector (e.g. two-eighths).
+    //
+    //
 
     @if $columns != 12{
-        $human-readable_numerators: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty;
-        $human-readable_denominators: whole, halve, third, quarter, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nineteenth, twentieth;
 
-        $denomination: $columns;
+        $divisor: $columns;
 
-        @for $i from 1 to $columns {   // Iterate through $columns.
+        @for $i from 1 to $columns {                                               // [1]
 
-            @while $denomination > 0 {  // Iterate through $human-readable_numerators as many times as there are columns.
+            @while $divisor > 0 {                                                  // [2]
 
-                @for $numeration from 1 to $denomination{ //Iterate through $human-readable_denominators as many up to its numerator - 1.
+                @for $numerator from 1 to $divisor{                                // [3a]
 
-                    $numerator: nth($human-readable_numerators, $numeration); //Create numerator (first number, e.g. 'two').
-                    /*#{$numerator}*/
-                    $denominator: nth($human-readable_denominators, $denomination); //Create denominator (second number, e.g. 'twelfths').
-                    $width: percentage($numeration / $denomination); //Divide first number(numerator) by second number(denominator).
+                    $numerators: nth($human-readable_numerators, $numerator);      // [4]
+                    //Create numerator (first number, e.g. 'two').
 
-                    @if $numeration == 1{  //To maintain human-readability, we check to see if the fraction starts with anything other than a 1, and then add an 's' to the second number (e.g. two-thirteenths).
-                        @if $denominator != 'halve'{ // We check for the denominator to be a halve. If not, proceed as normal.
-                            #{$class-type}#{$namespace}#{$numerator}-#{$denominator} {
-                                width: $width;
-                            }
-                            #{$class-type}push--#{$namespace}one-#{$denominator}{
-                                left: $width; @include silent-relative();
-                            }
-                            #{$class-type}pull--#{$namespace}one-#{$denominator}{
-                                right: $width; @include silent-relative();
-                            }
-                        /*#{$class-type}#{$namespace}#{$numerator}-#{$denominator}*/
-                        }@else{ // If the denominator is a 'halve', then change it to read 'half'.
-                            #{$class-type}#{$namespace}one-half {
-                                width: 50%;
-                            }
-                            #{$class-type}push--#{$namespace}one-half{
-                                left: 50%; @include silent-relative();
-                            }
-                            #{$class-type}pull--#{$namespace}one-half{
-                                right: 50%; @include silent-relative();
-                            }
-                        }
+                    $denominator: nth($human-readable_denominators, $divisor);
+                    //Create denominator (second number, e.g. 'twelfths').
 
-                    }@else{
-                        #{$class-type}#{$namespace}#{$numerator}-#{$denominator}s {
+                    $width: percentage($numerator / $divisor);
+                    //Divide first number(numerator) by second number(denominator).
+
+                    @if $numerator == 1{                                          // [5]
+                        #{$class-type}#{$namespace}#{$numerators}-#{$denominator} {
                             width: $width;
                         }
-                        #{$class-type}push--#{$namespace}#{$numerator}-#{$denominator}s {
-                            left: $width; @include silent-relative();
-                        }
-                        #{$class-type}pull--#{$namespace}#{$numerator}-#{$denominator}s {
-                            right: $width; @include silent-relative();
-                        }//If the numerator does start with a 1, we do not add an 's' to the denominator.
-                    /*#{$class-type}#{$namespace}#{$numerator}-#{$denominator}s*/
-                    }
 
+                    }@else{                                                        // [6]
+                        #{$class-type}#{$namespace}#{$numerators}-#{$denominator}s {
+                            width: $width;
+                        }
+
+                    }
                 }
-                $denomination: $denomination - 1;
+                $divisor: $divisor - 1; //[3b]
             }
         }
+
         #{$class-type}#{$namespace}one-whole            { width:100%; }
-        #{$class-type}pull--#{$namespace}one-whole      { left: 100%; @include silent-relative(); }
-        #{$class-type}pull--#{$namespace}one-whole      { right: 100%; @include silent-relative(); }
-        #{$class-type}#{$namespace}one-fourth           { width:25%; }
+        #{$class-type}#{$namespace}one-fourth           { @extend #{$class-type}#{$namespace}one-quarter; }
         #{$class-type}#{$namespace}two-fourths          { @extend #{$class-type}#{$namespace}two-quarters; }
         #{$class-type}#{$namespace}three-fourths        { @extend #{$class-type}#{$namespace}three-quarters; }
-        #{$class-type}pull--#{$namespace}two-fourths    { @extend #{$class-type}pull--#{$namespace}two-fourths; }
-        #{$class-type}pull--#{$namespace}three-fourths  { @extend #{$class-type}pull--#{$namespace}three-fourths; }
-
+        #{$class-type}push--#{$namespace}one-whole      { left: 100%; @include silent-relative(); }
+        #{$class-type}push--#{$namespace}one-fourth     { @extend #{$class-type}push--#{$namespace}one-quarter; }
+        #{$class-type}push--#{$namespace}two-fourths    { @extend #{$class-type}push--#{$namespace}two-quarters; }
+        #{$class-type}push--#{$namespace}three-fourths  { @extend #{$class-type}push--#{$namespace}three-quarters; }
+        #{$class-type}pull--#{$namespace}one-whole      { left: 100%; @include silent-relative(); }
+        #{$class-type}pull--#{$namespace}one-fourth     { @extend #{$class-type}pull--#{$namespace}one-quarter; }
+        #{$class-type}pull--#{$namespace}two-fourths    { @extend #{$class-type}pull--#{$namespace}two-quarters; }
+        #{$class-type}pull--#{$namespace}three-fourths  { @extend #{$class-type}pull--#{$namespace}three-quarters; }
 
     }@else{
 
@@ -618,7 +617,6 @@ $class-type:            unquote(".");
         }
     }
 
-
 }
 
 
@@ -632,9 +630,49 @@ $class-type:            unquote(".");
  // Push classes, to move grid items over to the right by certain amounts.
 
 @mixin push-setup($namespace: ""){
+    @if $columns != 12{
+        $divisor: $columns;
+
+        @for $i from 1 to $columns {                                               // [1]
+
+            @while $divisor > 0 {                                                  // [2]
+
+                @for $numerator from 1 to $divisor{                                // [3a]
+
+                    $numerators: nth($human-readable_numerators, $numerator);      // [4]
+                    //Create numerator (first number, e.g. 'two').
+
+                    $denominator: nth($human-readable_denominators, $divisor);
+                    //Create denominator (second number, e.g. 'twelfths').
+
+                    $width: percentage($numerator / $divisor);
+                    //Divide first number(numerator) by second number(denominator).
+
+                    @if $numerator == 1{                                          // [5]
+
+                        #{$class-type}push--#{$namespace}#{$numerators}-#{$denominator} {
+                            left: $width; @include silent-relative();
+                        }
+
+                    }@else{                                                        // [6]
+
+                        #{$class-type}push--#{$namespace}#{$numerators}-#{$denominator}s {
+                            left: $width; @include silent-relative();
+                        }
+
+                    }
+                }
+                $divisor: $divisor - 1; //[3b]
+            }
+        }
+
+        #{$class-type}push--#{$namespace}one-whole      { left: 100%; @include silent-relative(); }
+        #{$class-type}push--#{$namespace}one-fourth     { @extend #{$class-type}push--#{$namespace}one-quarter; }
+        #{$class-type}push--#{$namespace}two-fourths    { @extend #{$class-type}push--#{$namespace}two-quarters; }
+        #{$class-type}push--#{$namespace}three-fourths  { @extend #{$class-type}push--#{$namespace}three-quarters; }
 
 
-     // Whole
+    }@else{
 
     #{$class-type}push--#{$namespace}one-whole           { left:100%; @include silent-relative(); }
 
@@ -756,6 +794,7 @@ $class-type:            unquote(".");
     #{$class-type}push--#{$namespace}nine-twelfths       { @extend #{$class-type}push--#{$namespace}three-quarters; }
     #{$class-type}push--#{$namespace}ten-twelfths        { @extend #{$class-type}push--#{$namespace}five-sixths; }
     #{$class-type}push--#{$namespace}eleven-twelfths     { left:91.666%; @include silent-relative(); }
+    }
 }
 
 @if $push == true {
@@ -790,13 +829,51 @@ $class-type:            unquote(".");
 
 @mixin pull-setup($namespace: ""){
 
-@if $columns == 12{
+@if $columns != 12{
+        $divisor: $columns;
+
+        @for $i from 1 to $columns {                                               // [1]
+
+            @while $divisor > 0 {                                                  // [2]
+
+                @for $numerator from 1 to $divisor{                                // [3a]
+
+                    $numerators: nth($human-readable_numerators, $numerator);      // [4]
+                    //Create numerator (first number, e.g. 'two').
+
+                    $denominator: nth($human-readable_denominators, $divisor);
+                    //Create denominator (second number, e.g. 'twelfths').
+
+                    $width: percentage($numerator / $divisor);
+                    //Divide first number(numerator) by second number(denominator).
+
+                    @if $numerator == 1{                                          // [5]
+
+                        #{$class-type}pull--#{$namespace}#{$numerators}-#{$denominator} {
+                            right: $width; @include silent-relative();
+                        }
+
+                    }@else{                                                        // [6]
+
+                        #{$class-type}pull--#{$namespace}#{$numerators}-#{$denominator}s {
+                            right: $width; @include silent-relative();
+                        }
+                    }
+                }
+                $divisor: $divisor - 1; //[3b]
+            }
+        }
+
+        #{$class-type}pull--#{$namespace}one-fourth     { @extend #{$class-type}pull--#{$namespace}one-quarter; }
+        #{$class-type}pull--#{$namespace}two-fourths    { @extend #{$class-type}pull--#{$namespace}two-quarters; }
+        #{$class-type}pull--#{$namespace}three-fourths  { @extend #{$class-type}pull--#{$namespace}three-quarters; }
+
+    }@else{
+
     #{$class-type}pull--#{$namespace}one-whole           { right:100%; @include silent-relative(); }
 
 
-
     #{$class-type}pull--#{$namespace}one-half            { right:50%; @include silent-relative(); }
-
 
 
     #{$class-type}pull--#{$namespace}one-third           { right:33.333%; @include silent-relative(); }

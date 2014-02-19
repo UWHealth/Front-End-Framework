@@ -27,13 +27,13 @@
 .sidebar{
     @extend %grid__item;
     @extend %smalls--one-whole;
-    @extend %lap--one-third;
+    @extend %lap--one-half;
     @extend %desk--one-quarter;
 }
 .content{
     @extend %grid__item;
     @extend %smalls--one-whole;
-    @extend %lap--two-thirds;
+    @extend %lap--one-half;
     @extend %desk--three-quarters;
 }
 
