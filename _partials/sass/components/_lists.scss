@@ -1,0 +1,23 @@
+.list-bordered {
+  @include type-space(margin-bottom, 1);
+  @if $use-floats == true{
+    @extend %clearfix;
+  }
+  > li {
+    @extend %grid__item;
+    border-top: 1px solid $border-color;
+    @include type-space-sc(padding, .5, .5)
+  }
+  > li:first-child {
+    border-top: 1px solid transparent;
+  }
+}
+
+.list-inline {
+  @include type-space(margin-bottom, 1);
+  > li {
+    display: inline-block;
+    vertical-align: middle;
+    @include type-space(padding-right, .5);
+  }
+}
