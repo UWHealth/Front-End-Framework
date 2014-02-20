@@ -61,10 +61,10 @@ textarea {
 /* ========================================================================== */
 a{
     cursor: pointer;
-    color: $accent-color;
+    color: $link-color;
     &:hover,
       &:focus {
-        color: $accent-color-light;
+        color: lighten($link-color, 15%);
       }
 }
 /**

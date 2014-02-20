@@ -23,9 +23,23 @@
         }
         &:after{
             clear: both;
+            height: 0px;
+            width: 0px;
         }
     }
+    %#{$namespace}island{
+        overflow: hidden;
+        & > .img{
+            float:left;
+            word-break: break-word;
+            display: inline-block;
+            margin-right: $gutter;
+        }
+        & .img + *, & .body{
+            overflow: hidden;
+        }
 
+    }
     //
     // A lot of elements in typography need to share some declarations (mainly for
     // vertical rhythm), so we `@extend` some silent classes.

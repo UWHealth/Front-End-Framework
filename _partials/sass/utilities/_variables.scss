@@ -14,7 +14,7 @@
 //------------------------------------
 
 // All variables defined here are defaults.
-// They can, therefor be overridden at the top of main.scss.
+// They can, therefore be overridden in config.scss.
 
 
 //------------------------------------
@@ -66,36 +66,26 @@ $show-grid:                false !default;
 // library depends.
 $type-magic-number:        $type-base-line-height;
 $type-magic-ratio:         $type-base-line-height / $type-base-font-size;
+
+@if $type-base-font-size > $type-base-line-height {
+
+    $type-magic-number:        ceil($type-base-font-size / $type-base-line-height) * ($type-base-line-height);
+    $type-magic-ratio:         ceil($type-base-font-size / $type-base-line-height) * ($type-base-line-height) / $type-base-font-size;
+
+    @if $type-magic-ratio < 1.2 {
+        $type-magic-number:        ceil($type-base-font-size / ($type-base-line-height * 2)) * ($type-base-line-height * 2);
+        $type-magic-ratio:         ceil($type-base-font-size / ($type-base-line-height * 2)) * ($type-base-line-height * 2) / $type-base-font-size;
+
+    }
+
+}
 $type-headings:            6,5,4,3,2,1;
 $type-modular-scale:       0;
 
 
 //Spacing variable for simple inclusion.
-$type-space: 2* $type-magic-ratio;
+$type-space: 2 * $type-magic-ratio;
 
-//Checking for floats in $type-ratio
-@if length($type-ratio) == 2{
-// Making sure we don't have a ratio below 1.
-    @if nth($type-ratio,1) < nth($type-ratio,2){
-        $type-modular-scale:   nth($type-ratio, 2)/nth($type-ratio, 1);
-    }@else{
-        $type-modular-scale:   nth($type-ratio, 1)/nth($type-ratio, 2);
-    }
-}
-@else {
-    $type-modular-scale:   $type-ratio;
-}
-
-// Create vertical rhythms that are more appropriate for headings inside text blocks.
-// Adds 2/3 of the vertical rhythm to the top and 1/3 to bottom so headings appear
-// closer to their sibling paragraphs. Creates better proximity.
-%type-vertical-rhythm-headings{
-    padding: 0;
-    margin-bottom: $type-magic-number * .5;
-    margin-bottom: ($type-magic-ratio * .5) + rem;
-    margin-top: $type-magic-number * -.25;
-    margin-top: ($type-magic-ratio * -.25) + rem;
-}
 
 //------------------------------------
 //    $GRID
@@ -178,16 +168,11 @@ $breakpoint-has-pull:   ('small', 'lap', 'port', 'desk')!default;
 
 
 
- // You do not need to edit anything from this line onward; csswizardry-grids is
- // good to go. Happy griddin’!
+//------------------------------------
+//    $COLORS
+//------------------------------------
 
-$class-type:            unquote(".");
 
-@if $use-silent-classes == true{
-    $class-type:        unquote("%");
-}
-
-@import '../colors/colors'
 
 
 
