@@ -1,7 +1,7 @@
 //Typography
 
 $type-base-font-size:      14px;
-$type-base-line-height:    24px;
+$type-base-line-height:    10.5px;
 $type-auto-scale:          true;
 $type-ratio:               1.214;
 $font-family:              'Asap', verdana, helvetica, arial, sans-serif;
@@ -12,12 +12,12 @@ $type-show-baseline:       true;
 
 //Grid
 
-$gutter:                $type-base-line-height;
+$gutter:                21px;
 $use-silent-classes:    true;
 $push:                  true;
 $pull:                  true;
-$use-markup-fix:        false;
-$use-floats:            true;
+$use-markup-fix:        false; //Setting this to true while not using floats means there can be no whitespce between grid items.
+$use-floats:            false;
 $show-grid:             true;
 $columns:                 13; //Using anything other than 12 may cause a bit of slow down during processing.
 
@@ -40,8 +40,12 @@ $breakpoint-has-pull:   ('smalls', 'smallish', 'lap', 'bigs', 'desk');
 //Colors - based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
 //Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
 //The darker and ligher variations are defined in utilities/variables
-$primary-color: #063b6d;        //UW Blue (dark blue)
-$accent-color: #d40026;         //UW Red (maroonish-red)
-$action-color: #4c7659;         //Green / Earth
-$function-color: #d4c9ad;       //UW Tan
-$alert-color: #b22727;          //Desaturated Red
+
+@import 'colors/colors';
+
+$primary-color: #063b6d;            //UW Blue (dark blue)
+$accent-color: #d40026;             //UW Red (maroonish-red)
+$action-color: #4c7659;             //Green / Earth
+$function-color: #d4c9ad;           //UW Tan
+$alert-color: #b22727;              //Desaturated Red
+$link-color: $accent-color;          //Try to make sure this references another color variable.

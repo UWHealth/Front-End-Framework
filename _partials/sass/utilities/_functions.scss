@@ -238,8 +238,31 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 //    desired `line-height` (defined previously in pixels), and your project’s
 //    base font size.
 
+//Checking for floats in $type-ratio
+@if length($type-ratio) == 2{
+// Making sure we don't have a ratio below 1.
+    @if nth($type-ratio,1) < nth($type-ratio,2){
+        $type-modular-scale:   nth($type-ratio, 2)/nth($type-ratio, 1);
+    }@else{
+        $type-modular-scale:   nth($type-ratio, 1)/nth($type-ratio, 2);
+    }
+}
+@else {
+    $type-modular-scale:   $type-ratio;
+}
 
-@mixin type-font-size($font-size, $line-height: true) {
+// Create vertical rhythms that are more appropriate for headings inside text blocks.
+// Adds 2/3 of the vertical rhythm to the top and 1/3 to bottom so headings appear
+// closer to their sibling paragraphs. Creates better proximity.
+%type-vertical-rhythm-headings{
+    padding: 0;
+    margin-bottom: $type-magic-number * .5;
+    margin-bottom: ($type-magic-ratio * .5) + rem;
+    margin-top: $type-magic-number * -.25;
+    margin-top: ($type-magic-ratio * -.25) + rem;
+}
+
+@mixin type-font-size($font-size, $line-height: true, $body: false) {
     font-size: $font-size;                                                              //[1]
     font-size: ($font-size / $type-base-font-size) * 1rem;
 
@@ -252,9 +275,23 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 
         @if $estimated-line-height > 1.8{
             $estimated-line-height: ceil($font-size / ($type-base-line-height / 2)) * ($type-base-line-height / 2) / $font-size;
-        }
 
-        line-height: $estimated-line-height;
+        }@else if $estimated-line-height < 1.1 {
+            $estimated-line-height: ceil($font-size / ($type-base-line-height * 2)) * ($type-base-line-height * 2) / $font-size;
+        }
+        //This is only used for body type.
+        @if $body == true and $estimated-line-height < 1.35{
+            $estimated-line-height: ceil($font-size / ($type-base-line-height * 4)) * ($type-base-line-height * 4) / $font-size;
+        }
+        //If body type is being defined, use unitless line-heights.
+        @if $body == true {
+            line-height: $estimated-line-height;
+        }
+        //If not, use unitless line-heights for fallback, but future-proof with rems.
+        @else{
+            line-height: $estimated-line-height;
+            line-height: strip-units($estimated-line-height * $font-size) / $stripped-base-font-size + rem;
+        }
     }
 }
 
@@ -274,15 +311,22 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 // pre {
 //    @include type-space(padding, 1, 2, 1, 0);
 // }
-@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: 999, $left: 999){
-    @if $bottom == 999{
+@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: x, $left: x){
+    @if $bottom == x{
         $bottom: $top;
     }
-    @if $left == 999{
+    @if $left == x{
         $left: $right;
     }
-    #{$property}: ($top * $type-magic-number) ($right * $type-magic-number) ($bottom * $type-magic-number) ($left * $type-magic-number);
-    #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem ($bottom * $type-magic-ratio) + rem ($left * $type-magic-ratio) + rem;
+    // If top and bottom are equal, only generate first and second properties
+    // This cuts down on file size a little bit.
+    @if $right == $left and $top == $bottom{
+        #{$property}: ($top * $type-magic-number) ($right * $type-magic-number);
+        #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem;
+    }@else{
+        #{$property}: ($top * $type-magic-number) ($right * $type-magic-number) ($bottom * $type-magic-number) ($left * $type-magic-number);
+        #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem ($bottom * $type-magic-ratio) + rem ($left * $type-magic-ratio) + rem;
+    }
 }
 
 
@@ -346,7 +390,7 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
             }
 
             @if $type-scale-classes == true{
-                .h#{$current-heading}{
+                %h#{$current-heading}, .h#{$current-heading}{
                     @extend h#{$current-heading};  //[7]
                 }
             };

@@ -70,7 +70,7 @@
 // Just here for reference.
 // Real functions live within utilities/_functions.scss
 
-// @mixin typecsset-font-size($font-size, $line-height: true) {
+// @mixin type-font-size($font-size, $line-height: true) {
 //    font-size: $font-size;
 //    font-size: ($font-size / $typecsset-base-font-size) * 1rem;
 
@@ -100,7 +100,7 @@
    @extend %type-reset;
    @extend %type-family;
    font-size: $type-base-font-size / 16px + em; // [1]
-   line-height: $type-base-line-height / $type-base-font-size; // [2]
+
     -ms-text-size-adjust: 100%;
    -webkit-text-size-adjust: 100%;
 
@@ -116,7 +116,7 @@
     height: 100%;
 }
 body {
-   font-size: 1em;
+   @include type-font-size($type-base-font-size, true, true);
    @extend %type-reset;
 }
 
