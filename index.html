@@ -63,16 +63,23 @@
                 <mark>Grid Test - Sidebar</mark> dolor sit amet consectetur.
                 </h4>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</p>
             </aside>
             <article class="content">
                  <div class="row">
                     <div class="wide-content column">
                         <h3><mark>Grid Test - Main Content</mark> ipsum dolor sit amet.</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</p>
-                        <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</p>
+
+                        <a href="#main" class="accordion_tab" data-tab="main">Main</a>
+                        <div id="main" class="tab_content"><h5><mark>Tabs Test</mark></h5>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
+                        </div>
+
+                        <a href="#other" class="accordion_tab" data-tab="other">Other</a>
+                        <div id="other" class="tab_content"><p>
+                            Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
+
+                        </div>
                     </div>
                     <aside class="add-on column" role="complementary">
                         <small><mark><strong>Grid Test - Add-on</strong></mark> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</small>
@@ -85,6 +92,25 @@
         </div>
         <h6>
         <mark>Colors</mark> Totam, voluptatum, vel, in fuga rerum quo accusantium distinctio saepe voluptate fugiat eveniet commodi officiis sapiente odio expedita sit blanditiis assumenda cupiditate voluptates autem ex consequuntur eius fugit rem neque omnis obcaecati!     </h6>
+                        <a href="#tab1" class="accordion_tab side_tabs" data-tab="tab1">Tab 1</a>
+                        <div id="tab1" class="tab_content"><h5><mark>Tabs Test</mark></h5>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
+                        </div>
+
+                        <a href="#tab2" class="accordion_tab side_tabs" data-tab="tab2">Tab 2</a>
+                        <div id="tab2" class="tab_content"><p>
+                            Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
+
+                                <a href="#tab3" class="accordion_tab" data-tab="tab3">Tab 3</a>
+                                <div id="tab3" class="tab_content"><h5><mark>Tabs Test</mark></h5>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
+                                </div>
+                                <a href="#tab4" class="accordion_tab" data-tab="tab4">Tab 4</a>
+                                <div id="tab4" class="tab_content"><h5><mark>Tabs4 Test</mark></h5>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
+                                </div>
+
+                        </div>
         <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, odio, incidunt, sapiente repellat reprehenderit minus nam labore soluta odit repellendus architecto laudantium neque vitae maxime totam libero vero quibusdam dignissimos.</p>
         <div class="fixed-row">
@@ -142,6 +168,13 @@
          <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
          <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.1.0.min.js"><\/script>')</script>
          <!--<![endif]-->
+         <script type="text/javascript">
+            $(function() {
+                $("body").accordionTabs({
+                    "speed": 150
+                });
+            });
+        </script>
 <!--======================
         End jQuery
 ==========================-->
@@ -154,5 +187,6 @@
             g.src='http://www.google-analytics.com/ga.js';
             s.parentNode.insertBefore(g,s)}(document,'script'));
         </script>
+
     </body>
 </html>

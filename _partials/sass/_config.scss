@@ -4,7 +4,8 @@ $type-base-font-size:      14px;
 $type-base-line-height:    10.5px;
 $type-auto-scale:          true;
 $type-ratio:               1.214;
-$font-family:              'Asap', verdana, helvetica, arial, sans-serif;
+$primary-font-family:      'Asap', verdana, helvetica, arial, sans-serif;
+$secondary-font-family:     Georgia, serif;
 
 // Show baseline grid for easier alignment;
 $type-show-baseline:       true;
@@ -41,11 +42,13 @@ $breakpoint-has-pull:   ('smalls', 'smallish', 'lap', 'bigs', 'desk');
 //Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
 //The darker and ligher variations are defined in utilities/variables
 
-@import 'colors/colors';
+
 
 $primary-color: #063b6d;            //UW Blue (dark blue)
 $accent-color: #d40026;             //UW Red (maroonish-red)
 $action-color: #4c7659;             //Green / Earth
 $function-color: #d4c9ad;           //UW Tan
 $alert-color: #b22727;              //Desaturated Red
-$link-color: $accent-color;          //Try to make sure this references another color variable.
+$link-color: darken($accent-color,5%);         //It's rare that you need to make this something other than one of the above variables.
+
+@import 'colors/colors';

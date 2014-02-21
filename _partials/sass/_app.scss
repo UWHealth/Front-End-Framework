@@ -56,9 +56,9 @@
     @extend %grid;
     margin-left: 0;
 }
-
 .media_block{
-    @extend %island;
+    @extend %media_block;
+    @extend %cf;
 }
 .breadcrumbs{
     @extend %grid__item;
@@ -200,13 +200,13 @@
     color: set-text-color($alert-color-darker);
 }
 
-@include grid-media-query(small){
+@include media-query(small){
     @include headings-scale(1.17);
     .wrap{
         width: 95%;
     }
 };
-@include grid-media-query(smallish){
+@include media-query(smallish){
     @include headings-scale(1.2);
     .wrap{
         width: 93%;

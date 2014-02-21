@@ -21,9 +21,10 @@
 //    $TYPOGRAPHY
 //------------------------------------
 
-//See /type/_typography.scss for where these variables are mostly used.
+//See /utilities/_extend.scss for where these variables are most useful.
 
-$font-family: helvetica, arial, sans-serif !default;
+$primary-font-family:   helvetica, arial, sans-serif !default;
+$secondary-font-family: georgia, serif !default;
 
 // What would you like your base font-size to be? Define in pixels; the library
 // will convert measurements to the most appropriate units (rems or unitless).
