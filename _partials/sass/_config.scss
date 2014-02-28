@@ -2,7 +2,7 @@
 
 $type-base-font-size:      14px;
 $type-base-line-height:    10.5px;
-$type-auto-scale:          true;
+$type-auto-scale:          false;
 $type-ratio:               1.214;
 $primary-font-family:      'Asap', verdana, helvetica, arial, sans-serif;
 $secondary-font-family:     Georgia, serif;
@@ -51,4 +51,4 @@ $function-color: #d4c9ad;           //UW Tan
 $alert-color: #b22727;              //Desaturated Red
 $link-color: darken($accent-color,5%);         //It's rare that you need to make this something other than one of the above variables.
 
-@import 'colors/colors';
+

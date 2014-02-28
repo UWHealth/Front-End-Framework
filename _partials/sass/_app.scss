@@ -12,6 +12,19 @@
     @extend %clearfix;
     float: none;
 }
+@include media-query(small){
+    @include headings-scale(1.17);
+    .wrap{
+        width: 95%;
+    }
+}
+@include media-query(smallish){
+    @include headings-scale(1.2);
+    .wrap{
+        width: 93%;
+    }
+}
+
 .row-narrow{
     @extend %grid--narrow;
 }
@@ -60,24 +73,6 @@
     @extend %media_block;
     @extend %cf;
 }
-.breadcrumbs{
-    @extend %grid__item;
-    @extend %one-whole;
-    @extend %type-reset;
-    @include type-space-sc(margin, 0,0,1,0);
-}
-.breadcrumb, .inline-list li{
-    display: inline-block;
-    white-space: nowrap;
-    @include type-space(padding-right, .25);
-}
-.breadcrumb:after{
-    content: "\25B8"; display: inline-block; @include type-space(padding-left, .25);
-}
-.naked-list{
-    @include no-bullets;
-    margin-left: 0;
-}
 
 #toggles{
     position: fixed;
@@ -94,10 +89,10 @@
     @extend %one-fifth;
     @extend %small--one-half;
     text-align: center;
-    min-height: 25px;
     color: #fff;
     overflow: hidden;
-    padding: 5px 0;
+    @include type-space-sc(padding, .5, .25);
+    @include type-space(height, 3);
 }
 .color-block:first-child{
     background-color: $primary-color;
@@ -200,15 +195,3 @@
     color: set-text-color($alert-color-darker);
 }
 
-@include media-query(small){
-    @include headings-scale(1.17);
-    .wrap{
-        width: 95%;
-    }
-};
-@include media-query(smallish){
-    @include headings-scale(1.2);
-    .wrap{
-        width: 93%;
-    }
-};

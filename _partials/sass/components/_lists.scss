@@ -21,3 +21,22 @@
     @include type-space(padding-right, .5);
   }
 }
+
+.breadcrumbs{
+    @extend %grid__item;
+    @extend %one-whole;
+    @extend %type-reset;
+    @include type-space-sc(margin, 0,0,1,0);
+}
+.breadcrumb, .inline-list li{
+    display: inline-block;
+    white-space: nowrap;
+    @include type-space(padding-right, .25);
+}
+.breadcrumb:after{
+    content: "\25B8"; display: inline-block; @include type-space(padding-left, .25);
+}
+.naked-list{
+    @include no-bullets;
+    margin-left: 0;
+}

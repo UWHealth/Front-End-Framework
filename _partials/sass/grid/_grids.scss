@@ -233,7 +233,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     }
 }
 
-@if $use-markup-fix !=true and $use-floats != true{
+@if $use-markup-fix != true and $use-floats != true{
     /* Opera hack */
     .opera:-o-prefocus,
     #{$class-type}grid{
@@ -268,6 +268,13 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
         }
     }
 
+// Special class for grid items that need to behave like both grids and grid__items.
+#{$class-type}grid--grid__item{
+    @extend #{$class-type}grid;
+    @extend #{$class-type}grid__item;
+    padding-left: 0;
+    margin-left: 0;
+}
 
 //
 // Reversed grids allow you to structure your source in the opposite order to
@@ -451,14 +458,6 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
         #{$class-type}#{$namespace}one-fourth           { @extend #{$class-type}#{$namespace}one-quarter; }
         #{$class-type}#{$namespace}two-fourths          { @extend #{$class-type}#{$namespace}two-quarters; }
         #{$class-type}#{$namespace}three-fourths        { @extend #{$class-type}#{$namespace}three-quarters; }
-        #{$class-type}push--#{$namespace}one-whole      { left: 100%; @include silent-relative(); }
-        #{$class-type}push--#{$namespace}one-fourth     { @extend #{$class-type}push--#{$namespace}one-quarter; }
-        #{$class-type}push--#{$namespace}two-fourths    { @extend #{$class-type}push--#{$namespace}two-quarters; }
-        #{$class-type}push--#{$namespace}three-fourths  { @extend #{$class-type}push--#{$namespace}three-quarters; }
-        #{$class-type}pull--#{$namespace}one-whole      { left: 100%; @include silent-relative(); }
-        #{$class-type}pull--#{$namespace}one-fourth     { @extend #{$class-type}pull--#{$namespace}one-quarter; }
-        #{$class-type}pull--#{$namespace}two-fourths    { @extend #{$class-type}pull--#{$namespace}two-quarters; }
-        #{$class-type}pull--#{$namespace}three-fourths  { @extend #{$class-type}pull--#{$namespace}three-quarters; }
 
     }@else{
 

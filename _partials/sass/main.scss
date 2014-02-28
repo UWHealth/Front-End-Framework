@@ -1,16 +1,16 @@
 @charset "UTF-8";
 
 //Imports (must be called after variables are defined).
-@import 'config',
+@import 'utilities/_functions',
+        'config',
         'utilities/_variables',
+        'colors/_colors',
         'type/_fonts',
-        'utilities/_functions',
         'utilities/_extend',
         'type/_typography',
         'vendor/_normalize',
         'grid/_import',
         'components/_import',
-        '_app';
-
+        'app';
 
 

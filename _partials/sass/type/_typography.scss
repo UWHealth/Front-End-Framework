@@ -11,7 +11,6 @@
  // LISTS................Add typographic rhythm principles to lists.
  // PARAGRAPHS...........Paragraph, and paragraph-like elements.
  // QUOTES...............Blockquote styling.
- // TABLES...............Table and table-cell styles.
  // NORMALIZE............Type-specific definitions pulled from normalize.css.
 
 
@@ -152,6 +151,9 @@ body {
 h1 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h1-size);
+    & + p{
+        @extend %negative-top; //[6]
+    }
     @if $type-scale-classes == true{
         .h1{
             @extend h1;
@@ -162,6 +164,9 @@ h1 {
 h2 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h2-size);
+    & + p{
+        @extend %negative-top; //[6]
+    }
     @if $type-scale-classes == true{
         .h2{
             @extend h2;
@@ -172,6 +177,9 @@ h2 {
 h3 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h3-size);
+    & + p{
+        @extend %negative-top; //[6]
+    }
     @if $type-scale-classes == true{
         .h3{
             @extend h3;
@@ -182,6 +190,9 @@ h3 {
 h4 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h4-size);
+    & + p{
+        @extend %negative-top; //[6]
+    }
     @if $type-scale-classes == true{
         .h4{
             @extend h4;
@@ -192,6 +203,9 @@ h4 {
 h5 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h5-size);
+    & + p{
+        @extend %negative-top; //[6]
+    }
     @if $type-scale-classes == true{
         .h5{
             @extend h5;
@@ -202,6 +216,9 @@ h5 {
 h6 {
     @extend %type-vertical-rhythm;
     @include type-font-size($type-h6-size);
+    & + p{
+        @extend %negative-top; //[6]
+    }
     @if $type-scale-classes == true{
         .h6{
             @extend h6;
@@ -356,24 +373,7 @@ q   {
 }
 
 
-/*-------------------------------
-    $TABLES
--------------------------------*/
 
-table {
-    @extend %type-vertical-rhythm;
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-th,
-td {
-    padding: $type-base-line-height / 2;
-    text-align: left;
-    border: 0;
-    border-bottom: 1px solid $function-color;
-}
 
 
 /*-------------------------------*/
