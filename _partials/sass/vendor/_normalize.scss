@@ -61,6 +61,11 @@ textarea {
 /* ========================================================================== */
 a{
     cursor: pointer;
+    color: $link-color;
+    &:hover,
+      &:focus {
+        color: lighten($link-color, 15%);
+      }
 }
 /**
  * Address `outline` inconsistency between Chrome and other browsers.
@@ -311,21 +316,6 @@ textarea {
     resize: vertical;
 }
 
-
-.ir {
-    background-color: transparent;
-    border: 0;
-    overflow: hidden;
-    *text-indent: -9999px;
-}
-
-.ir:before {
-    content: "";
-    display: block;
-    width: 0;
-    height: 150%;
-}
-
 .hidden {
     display: none !important;
     visibility: hidden;
@@ -407,6 +397,12 @@ hr {
 //
 @-ms-viewport{width:device-width; zoom: 1.0;}
 
+@media screen and (max-width: 320px) {
+    @-ms-viewport { width: 320px; }
+}
+@media screen and (min-width: 768px) and (max-width: 959px) {
+    @-ms-viewport { width: 768px; }
+}
 
 /* ========================================================================== */
 /*   Print styles                                                             */

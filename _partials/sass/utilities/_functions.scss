@@ -224,8 +224,7 @@ $golden_ratio:  golden();
 //    $TYPOGRAPHY
 //------------------------------------
 
-//Variable for easier reference:
-$stripped-base-font-size:  strip-units($type-base-font-size);
+
 
 // Quickly generate a font-size in rems, with a pixel fallback, based on the
 // value we pass into the mixin, e.g.:
@@ -238,8 +237,7 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 //    desired `line-height` (defined previously in pixels), and your project’s
 //    base font size.
 
-
-@mixin type-font-size($font-size, $line-height: true) {
+@mixin type-font-size($font-size, $line-height: true, $body: false) {
     font-size: $font-size;                                                              //[1]
     font-size: ($font-size / $type-base-font-size) * 1rem;
 
@@ -252,9 +250,23 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 
         @if $estimated-line-height > 1.8{
             $estimated-line-height: ceil($font-size / ($type-base-line-height / 2)) * ($type-base-line-height / 2) / $font-size;
-        }
 
-        line-height: $estimated-line-height;
+        }@else if $estimated-line-height < 1.1 {
+            $estimated-line-height: ceil($font-size / ($type-base-line-height * 2)) * ($type-base-line-height * 2) / $font-size;
+        }
+        //This is only used for body type.
+        @if $body == true and $estimated-line-height < 1.35{
+            $estimated-line-height: ceil($font-size / ($type-base-line-height * 4)) * ($type-base-line-height * 4) / $font-size;
+        }
+        //If body type is being defined, use unitless line-heights.
+        @if $body == true {
+            line-height: $estimated-line-height;
+        }
+        //If not, use unitless line-heights for fallback, but future-proof with rems.
+        @else{
+            line-height: $estimated-line-height;
+            line-height: strip-units($estimated-line-height * $font-size) / $stripped-base-font-size + rem;
+        }
     }
 }
 
@@ -274,18 +286,28 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 // pre {
 //    @include type-space(padding, 1, 2, 1, 0);
 // }
-@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: 999, $left: 999){
-    @if $bottom == 999{
+@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: x, $left: x){
+    @if $bottom == x{
         $bottom: $top;
     }
-    @if $left == 999{
+    @if $left == x{
         $left: $right;
     }
-    #{$property}: ($top * $type-magic-number) ($right * $type-magic-number) ($bottom * $type-magic-number) ($left * $type-magic-number);
-    #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem ($bottom * $type-magic-ratio) + rem ($left * $type-magic-ratio) + rem;
+    // If top and bottom are equal, only generate first and second properties
+    // This cuts down on file size a little bit.
+    @if $right == $left and $top == $bottom{
+        #{$property}: ($top * $type-magic-number) ($right * $type-magic-number);
+        #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem;
+    }@else{
+        #{$property}: ($top * $type-magic-number) ($right * $type-magic-number) ($bottom * $type-magic-number) ($left * $type-magic-number);
+        #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem ($bottom * $type-magic-ratio) + rem ($left * $type-magic-ratio) + rem;
+    }
 }
 
-
+//Same as above, but in function form
+@function type-space($multiplier: 2){
+    @return $multiplier * $type-magic-number;
+}
 
 
 //------------------------------------
@@ -295,7 +317,8 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 // Modular scale function to scale type up or down.
 @function modular-scale($i, $scale: $type-ratio){
     $modular-scale: $scale;
-    @return exponent($modular-scale, $i)*($stripped-base-font-size)*1px;
+    $stripped-base-font-size:  strip-units($type-base-font-size);
+    @return exponent($modular-scale, $i)*($stripped-base-font-size) * 1px;
 }
 
 // This is essentially the same function as above,
@@ -308,9 +331,6 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
 // If your scale is set to 3,4, your output would be: div{margin-top: 20.63314px; margin-top: 1.4738rem;}
 
 @mixin type-scale($property: font-size, $mod-scale-value: 1){
-    @if $type-auto-scale == false{
-        @warn "Please set $type-auto-scale to true or else type-scale is fairly meaningless.";
-    }
     @if $property == "font-size"{
         $font-size: modular-scale($mod-scale-value);
         @include type-font-size($font-size, true);
@@ -346,7 +366,7 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
             }
 
             @if $type-scale-classes == true{
-                .h#{$current-heading}{
+                %h#{$current-heading}, .h#{$current-heading}{
                     @extend h#{$current-heading};  //[7]
                 }
             };
@@ -396,9 +416,9 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
     }
   }
 
-  @if ($contrast < 3) {
-    @warn "Contrast ratio of #{$best} on #{$base} is pretty bad, just #{$contrast}";
-  }
+//  @if ($contrast < 3) {
+//    @warn "Contrast ratio of #{$best} on #{$base} is pretty bad, just #{$contrast}";
+//  }
 
   @return $best;
 }
@@ -476,79 +496,4 @@ $stripped-base-font-size:  strip-units($type-base-font-size);
     background: image-url($bullet-icon) no-repeat ($padding - $width) / 2 ($line-height - $height) / 2;
     list-style-type: none;
   }
-}
-
-// NOTE FROM CHRIS:
-// This is strictly for development and is prone to being terrible
-// if $show-grid is set to True, create a rough background image to show gutters/grid guides.
-@if $show-grid == true{
-    $grid-gutter: $gutter;
-    .wrap{
-        position: relative;
-    }
-    html .wrap:before{
-        z-index: -1;
-        content: '';
-        margin: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding-top: 100%;
-        display: table-cell;
-        background-image:
-            -webkit-linear-gradient(left,
-                rgba(0,0,0,0.05) 0%,
-                rgba(0,0,0,0.05) 0.5%,
-                rgba(0,0,0,0.00) 1%,
-                rgba(0,0,0,0.00) percentage(.99/12),
-                rgba(0,0,0,0.05) percentage(1/12),
-                rgba(0,0,0,0.05) percentage(1.1/12),
-                rgba(0,0,0,0.00) percentage(1.15/12),
-                rgba(0,0,0,0.00) percentage(1.99/12),
-                rgba(0,0,0,0.05) percentage(2/12),
-                rgba(0,0,0,0.05) percentage(2.1/12),
-                rgba(0,0,0,0.00) percentage(2.15/12),
-                rgba(0,0,0,0.00) percentage(2.99/12),
-                rgba(0,0,0,0.05) percentage(3/12),
-                rgba(0,0,0,0.05) percentage(3.1/12),
-                rgba(0,0,0,0.00) percentage(3.15/12),
-                rgba(0,0,0,0.00) percentage(3.99/12),
-                rgba(0,0,0,0.05) percentage(4/12),
-                rgba(0,0,0,0.05) percentage(4.1/12),
-                rgba(0,0,0,0.00) percentage(4.15/12),
-                rgba(0,0,0,0.00) percentage(4.99/12),
-                rgba(0,0,0,0.05) percentage(5/12),
-                rgba(0,0,0,0.05) percentage(5.1/12),
-                rgba(0,0,0,0.00) percentage(5.15/12),
-                rgba(0,0,0,0.00) percentage(5.99/12),
-                rgba(0,0,0,0.05) percentage(6/12),
-                rgba(0,0,0,0.05) percentage(6.1/12),
-                rgba(0,0,0,0.00) percentage(6.15/12),
-                rgba(0,0,0,0.00) percentage(6.99/12),
-                rgba(0,0,0,0.05) percentage(7/12),
-                rgba(0,0,0,0.05) percentage(7.1/12),
-                rgba(0,0,0,0.00) percentage(7.15/12),
-                rgba(0,0,0,0.00) percentage(7.99/12),
-                rgba(0,0,0,0.05) percentage(8/12),
-                rgba(0,0,0,0.05) percentage(8.1/12),
-                rgba(0,0,0,0.00) percentage(8.15/12),
-                rgba(0,0,0,0.00) percentage(8.99/12),
-                rgba(0,0,0,0.05) percentage(9/12),
-                rgba(0,0,0,0.05) percentage(9.1/12),
-                rgba(0,0,0,0.00) percentage(9.15/12),
-                rgba(0,0,0,0.00) percentage(9.99/12),
-                rgba(0,0,0,0.05) percentage(10/12),
-                rgba(0,0,0,0.05) percentage(10.1/12),
-                rgba(0,0,0,0.00) percentage(10.15/12),
-                rgba(0,0,0,0.00) percentage(10.99/12),
-                rgba(0,0,0,0.05) percentage(11/12),
-                rgba(0,0,0,0.05) percentage(11.1/12),
-                rgba(0,0,0,0.00) percentage(11.15/12),
-                rgba(0,0,0,0.00) percentage(11.99/12),
-                rgba(0,0,0,0.05) 98%,
-                rgba(0,0,0,0.05) 100%);
-    }
-    html.grid-off .wrap:before{
-        background-image: none;
-    }
 }

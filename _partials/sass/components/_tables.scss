@@ -1,0 +1,26 @@
+table {
+    @extend %type-vertical-rhythm;
+    width:100%;
+    background-color:transparent;
+    border-collapse:collapse;
+    border-spacing:0;
+    margin-bottom: $gutter;
+
+    & th,
+    & td {
+        padding: ($type-base-line-height / 2) 0;
+        text-align:left;
+        vertical-align:top;
+        border: 0;
+        border-bottom: 1px solid #ddd;
+    }
+    & th {
+        font-weight: bold;
+    }
+    & thead th {
+        vertical-align:bottom;
+    }
+    &.fixed{
+        table-layout: fixed;
+    }
+}

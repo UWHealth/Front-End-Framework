@@ -1,6 +1,39 @@
 // ==========================================================================
-//   Silent classes used for cleaning up and consolodating code
+//   Silent classes and mixins used for cleaning up and consolodating code
 // ==========================================================================
+
+//------------------------------------
+//    $MEDIA QUERIES
+//------------------------------------
+//
+// Enclose a block of code with a media query as named in `$breakpoints`.
+// To create more consolodated code, most (if not all) media queries should be called through
+// this mixin.
+//
+@mixin media-query($media-query){
+    $breakpoint-found: false;
+
+    @each $breakpoint in $breakpoints{
+        $name: nth($breakpoint, 1);
+        $declaration: nth($breakpoint, 2);
+
+        @if $media-query == $name and $declaration{
+            $breakpoint-found: true;
+
+            @media only screen and #{$declaration}{
+                @content;
+            }
+        }
+    }
+
+    @if $breakpoint-found == false{
+        @warn "Breakpoint ‘#{$media-query}’ does not exist"
+    }
+}
+
+//------------------------------------
+//    $SIMPLE MIXINS
+//------------------------------------
 
 %border-box{
     -webkit-box-sizing: border-box;
@@ -11,42 +44,165 @@
 // Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
 //
 %clearfix, %cf{
-    *zoom: 1;
-    &:before,&:after{
-        display: table;
-        content: " ";
+        *zoom: 1;
+        &:before,&:after{
+            display: table;
+            content: " ";
+        }
+        &:after{
+            clear: both;
+            height: 0px;
+            width: 0px;
+        }
     }
-    &:after{
-        clear: both;
-    }
+
+//Use an image instead of text, but keep the text in the DOM for
+//screen readers.
+//Particularly useful for logos. e.g.
+// .logo{
+//   @include %image-replace;
+//   background: url(image/logo.png) no-repeat;
+// }
+%replace_image{
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: transparent;
+    border: 0;
+    *text-indent: -9999px;
+}
+%replace_image:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+}
+//Hide Visually. Usefuly for Accessiblity.
+//Used for text which describes a purely visual function.
+// e.g. Adding 'Current page' to the current nav item (which is usually indicated by something visual.
+%hide_visually {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
+// Font family declaration.
+// Allows for cleaner, consolodated code.
+
+%type-family{
+    font-family: $primary-font-family;
+}
+%secondary_type-family{
+    font-family: $secondary-font-family;
+}
 //
-// A lot of elements in type need to share some declarations (mainly for
+// A lot of elements in typography need to share some declarations (mainly for
 // vertical rhythm), so we `@extend` some silent classes.
 //
 %type-reset {
-    margin:  0;
+        margin:  0;
+        padding: 0;
+}
+
+// Create vertical rhythms that are more appropriate for headings inside text blocks.
+// Adds 2/3 of the vertical rhythm to the top and 1/3 to bottom so headings appear
+// closer to their sibling paragraphs. Creates better proximity.
+%type-vertical-rhythm-headings{
     padding: 0;
+    margin-bottom: $type-magic-number * .5;
+    margin-bottom: ($type-magic-ratio * .5) + rem;
+    margin-top: $type-magic-number * -.25;
+    margin-top: ($type-magic-ratio * -.25) + rem;
 }
-//Used for headings+p, or indented paragraphs.
-%negative-top{
-    @include type-space(margin-top, -1)
+
+//------------------------------------
+//    $RESPONSIVE MIXINS
+//------------------------------------
+//Mixin to used for media-query-scoped extends.
+//e.g.: @extend %island or @include %small--island;
+
+@mixin responsive-helpers($namespace:""){
+
+
+    //Media block.
+    // Taken from: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
+    // Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.
+
+    %#{$namespace}media_block{
+        & > .img{
+            float:left;
+            word-break: break-word;
+            display: inline-block;
+            margin-right: $gutter;
+        }
+        & .img + *, & .media-body{
+            overflow: hidden;
+        }
+
+    }
+
+
+    //Used for headings+p, or indented paragraphs.
+    %#{$namespace}negative-top{
+        @include type-space(margin-top, -1)
+    }
+    //
+    // Font family, normal, italic and bold silent classes/extensions.
+    // Use these for DRYer CSS output.
+    //
+
+    %#{$namespace}type-normal{
+        font-weight: 400;
+    }
+    %#{$namespace}type-italic{
+        font-style: italic;
+    }
+    %#{$namespace}type-bold{
+        font-weight: 800;
+        -webkit-font-smoothing: antialiased;
+    }
+    %#{$namespace}naked-list{
+        @include no-bullets;
+    }
+
+ //Alignment
+    %#{$namespace}align_left{
+        float: left;
+        @include type-space(margin-right, 1);
+    }
+    %#{$namespace}align_right{
+        float: right;
+        @include type-space(margin-left, 1);
+    }
+    %#{$namespace}align_center{
+        float: none;
+        margin: 0 auto;
+    }
+    %#{$namespace}float_left{
+        float: left;
+    }
+    %#{$namespace}float_right{
+        float: right;
+    }
+    %#{$namespace}float_none{
+        float: none;
+    }
 }
-//
-// Font family, normal, italic and bold silent classes/extensions.
-// Use these for DRYer CSS output.
-//
-%type-family{
-    font-family: $font-family;
+
+
+//Making the above mixins responsive.
+
+@include responsive-helpers();
+
+@if $responsive == true{
+    @each $name in $breakpoint-has-widths {
+        @include media-query($name) {
+           @include responsive-helpers('#{$name}--');
+        }
+    }
 }
-%type-normal{
-    font-weight: 400;
-}
-%type-italic{
-    font-style: italic;
-}
-%type-bold{
-    font-weight: 800;
-    -webkit-font-smoothing: antialiased;
-}
+

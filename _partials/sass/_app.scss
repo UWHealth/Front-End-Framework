@@ -3,21 +3,33 @@
 //---------------------------------\\
 
 // Put all of your normal/application-specific CSS here.
-
 .wrap{
+    width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 $gutter $gutter*2;
-    @include type-space(padding-top, 2);
+    display: block !important;
+    @include type-space-sc(padding, 1, 0);
     @extend %clearfix;
+    float: none;
 }
+@include media-query(small){
+    @include headings-scale(1.17);
+    .wrap{
+        width: 95%;
+    }
+}
+@include media-query(smallish){
+    @include headings-scale(1.2);
+    .wrap{
+        width: 93%;
+    }
+}
+
 .row-narrow{
     @extend %grid--narrow;
-    @extend %clearfix;
 }
 .row{
     @extend %grid;
-    @extend %clearfix;
 }
 .column{
     @extend %grid__item;
@@ -25,30 +37,41 @@
 }
 .sidebar{
     @extend %grid__item;
-    @extend %small--one-whole;
-    @extend %smallish--one-half;
-    @extend %lap--one-quarter;
-    @extend %desk--one-third;
+    @extend %smalls--one-whole;
+    @extend %bigs--one-quarter;
 }
 .content{
     @extend %grid__item;
-    @extend %small--one-whole;
-    @extend %smallish--one-half;
-    @extend %lap--three-quarters;
-    @extend %desk--two-thirds;
+    @extend %smalls--one-whole;
+    @extend %bigs--three-quarters;
+}
+
+.add-on{
+    @extend %grid__item;
+    @extend %one-whole;
+    @extend %smallish--one-fifth;
+    @extend %bigs--one-sixth;
+}
+.wide-content{
+    @extend %grid__item;
+    @extend %smallish--four-fifths;
+    @extend %bigs--five-sixths;
+}
+.right{
+    @extend %grid__item;
+    @extend %grid--right;
+}
+
+.button{
+    @extend %button;
 }
 .fixed-row{
     @extend %grid;
-    @extend %clearfix;
     margin-left: 0;
 }
-.island h1, .island p{
-    overflow: hidden;
-    word-break: break-word;
-}
-.island img, .island .img{
-    float: left;
-    display: inline-block;
+.media_block{
+    @extend %media_block;
+    @extend %cf;
 }
 
 #toggles{
@@ -64,11 +87,12 @@
 .color-block{
     @extend %grid__item;
     @extend %one-fifth;
+    @extend %small--one-half;
     text-align: center;
-    min-height: 25px;
     color: #fff;
     overflow: hidden;
-    padding: 5px 0;
+    @include type-space-sc(padding, .5, .25);
+    @include type-space(height, 3);
 }
 .color-block:first-child{
     background-color: $primary-color;
@@ -171,9 +195,3 @@
     color: set-text-color($alert-color-darker);
 }
 
-@include grid-media-query(small){
-    @include headings-scale(1.17);
-};
-@include grid-media-query(smallish){
-    @include headings-scale(1.2);
-};

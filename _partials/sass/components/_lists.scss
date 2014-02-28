@@ -1,0 +1,42 @@
+.list-bordered {
+  @include type-space(margin-bottom, 1);
+  @if $use-floats == true{
+    @extend %clearfix;
+  }
+  > li {
+    @extend %grid__item;
+    border-top: 1px solid $border-color;
+    @include type-space-sc(padding, .5, .5)
+  }
+  > li:first-child {
+    border-top: 1px solid transparent;
+  }
+}
+
+.list-inline {
+  @include type-space(margin-bottom, 1);
+  > li {
+    display: inline-block;
+    vertical-align: middle;
+    @include type-space(padding-right, .5);
+  }
+}
+
+.breadcrumbs{
+    @extend %grid__item;
+    @extend %one-whole;
+    @extend %type-reset;
+    @include type-space-sc(margin, 0,0,1,0);
+}
+.breadcrumb, .inline-list li{
+    display: inline-block;
+    white-space: nowrap;
+    @include type-space(padding-right, .25);
+}
+.breadcrumb:after{
+    content: "\25B8"; display: inline-block; @include type-space(padding-left, .25);
+}
+.naked-list{
+    @include no-bullets;
+    margin-left: 0;
+}

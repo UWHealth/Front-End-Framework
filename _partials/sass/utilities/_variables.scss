@@ -14,16 +14,17 @@
 //------------------------------------
 
 // All variables defined here are defaults.
-// They can, therefor be overridden at the top of main.scss.
+// They can, therefore be overridden in config.scss.
 
 
 //------------------------------------
 //    $TYPOGRAPHY
 //------------------------------------
 
-//See /type/_typography.scss for where these variables are mostly used.
+//See /utilities/_extend.scss for where these variables are most useful.
 
-$font-family: helvetica, arial, sans-serif !default;
+$primary-font-family:   helvetica, arial, sans-serif !default;
+$secondary-font-family: georgia, serif !default;
 
 // What would you like your base font-size to be? Define in pixels; the library
 // will convert measurements to the most appropriate units (rems or unitless).
@@ -43,7 +44,7 @@ $type-auto-scale:          true !default;
 $type-ratio:               4,3   !default;
 
 // Heading sizes if you'd rather set them yourself (set $type-auto-scale to false).
-$type-h1-size:             modular-scale(6) !default;
+$type-h1-size:             modular-scale(7) !default;
 $type-h2-size:             modular-scale(5) !default;
 $type-h3-size:             modular-scale(4) !default;
 $type-h4-size:             modular-scale(3) !default;
@@ -66,12 +67,28 @@ $show-grid:                false !default;
 // library depends.
 $type-magic-number:        $type-base-line-height;
 $type-magic-ratio:         $type-base-line-height / $type-base-font-size;
+
+@if $type-base-font-size > $type-base-line-height {
+
+    $type-magic-number:        ceil($type-base-font-size / $type-base-line-height) * ($type-base-line-height);
+    $type-magic-ratio:         ceil($type-base-font-size / $type-base-line-height) * ($type-base-line-height) / $type-base-font-size;
+
+    @if $type-magic-ratio < 1.2 {
+        $type-magic-number:        ceil($type-base-font-size / ($type-base-line-height * 2)) * ($type-base-line-height * 2);
+        $type-magic-ratio:         ceil($type-base-font-size / ($type-base-line-height * 2)) * ($type-base-line-height * 2) / $type-base-font-size;
+
+    }
+
+}
 $type-headings:            6,5,4,3,2,1;
 $type-modular-scale:       0;
 
 
 //Spacing variable for simple inclusion.
-$type-space: 2* $type-magic-ratio;
+$type-space: 2 * $type-magic-ratio;
+
+//Variable for easier reference:
+$stripped-base-font-size:  strip-units($type-base-font-size);
 
 //Checking for floats in $type-ratio
 @if length($type-ratio) == 2{
@@ -84,17 +101,6 @@ $type-space: 2* $type-magic-ratio;
 }
 @else {
     $type-modular-scale:   $type-ratio;
-}
-
-// Create vertical rhythms that are more appropriate for headings inside text blocks.
-// Adds 2/3 of the vertical rhythm to the top and 1/3 to bottom so headings appear
-// closer to their sibling paragraphs. Creates better proximity.
-%type-vertical-rhythm-headings{
-    padding: 0;
-    margin-bottom: $type-magic-number * .5;
-    margin-bottom: ($type-magic-ratio * .5) + rem;
-    margin-top: $type-magic-number * -.25;
-    margin-top: ($type-magic-ratio * -.25) + rem;
 }
 
 //------------------------------------
@@ -124,6 +130,9 @@ $gutter:                24px!default;
 
 $use-silent-classes:    false!default;
 
+
+ // Would you like to use floats instead of inline block?
+$use-floats:             false!default;
 
 
  // Would you like push and pull classes enabled?
@@ -175,61 +184,11 @@ $breakpoint-has-pull:   ('small', 'lap', 'port', 'desk')!default;
 
 
 
- // You do not need to edit anything from this line onward; csswizardry-grids is
- // good to go. Happy griddin’!
-
-$class-type:            unquote(".");
-
-@if $use-silent-classes == true{
-    $class-type:        unquote("%");
-}
-
-
-
-
 //------------------------------------
 //    $COLORS
 //------------------------------------
-//Based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
-//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
 
-$primary-color: #063b6d !default;        //UW Blue (dark blue)
-$primary-color-alt: #5f82a3 !default;    //UW Steel Blue
-$brand-color: $primary-color;
-$accent-color: #d40026 !default;        //UW Red (maroonish-red)
-$accent-color-alt: #fe0202 !default;    //UW Fire Red (orangey-red)
-$action-color: #4c7659 !default;         //Green / Earth
-$function-color: #d4c9ad !default;       //UW Tan
-$alert-color: #b22727 !default;          //Red
 
-$primary-color-dark: darken(#063b6d, 10%) !default;        //Darker UW Blue (dark blue)
-$primary-color-alt-dark: darken(#5f82a3, 10%) !default;    //Darker UW Steel Blue
-$accent-color-dark: darken(#d40026, 10%) !default;        //Darker UW Red (maroonish-red)
-$accent-color-alt-dark: darken(#fe0202, 10%) !default;    //Darker UW Fire Red (orangey-red)
-$action-color-dark: darken(#4c7659, 10%) !default;         //Darker Green / Earth
-$function-color-dark: darken(#d4c9ad, 10%) !default;       //Darker UW Tan
-$alert-color-dark: darken(#b22727, 10%) !default;          //Darker Red
 
-$primary-color-darker: darken(#063b6d, 20%) !default;        //Deep UW Blue (dark blue)
-$primary-color-alt-darker: darken(#5f82a3, 20%) !default;    //Deep UW Steel Blue
-$accent-color-darker: darken(#d40026, 20%) !default;        //Deep UW Red (maroonish-red)
-$accent-color-alt-darker: darken(#fe0202, 20%) !default;    //Deep UW Fire Red (orangey-red)
-$action-color-darker: darken(#4c7659, 20%) !default;         //Deep Green / Earth
-$function-color-darker: darken(#d4c9ad, 20%) !default;       //Deep UW Tan
-$alert-color-darker: darken(#b22727, 20%) !default;          //Deep Red
 
-$primary-color-light: lighten(#063b6d, 10%) !default;        //Ligher UW Blue
-$primary-color-alt-light: lighten(#5f82a3, 10%) !default;    //Ligher UW Steel Blue
-$accent-color-light: lighten(#d40026, 10%) !default;        //Ligher UW Red (maroonish-red)
-$accent-color-alt-light: lighten(#fe0202, 10%) !default;    //Ligher UW Fire Red (orangey-red)
-$action-color-light: lighten(#4c7659, 10%) !default;         //Ligher Green / Earth
-$function-color-light: lighten(#d4c9ad, 10%) !default;       //Ligher UW Tan
-$alert-color-light: lighten(#b22727, 10%) !default;          //Ligher Red
 
-$primary-color-lighter: lighten(#063b6d, 20%) !default;        //Sky UW Blue (dark blue)
-$primary-color-alt-lighter: lighten(#5f82a3, 20%) !default;    //Sky UW Steel Blue
-$accent-color-lighter: lighten(#d40026, 20%) !default;        //Sky UW Red (maroonish-red)
-$accent-color-alt-lighter: lighten(#fe0202, 20%) !default;    //Sky UW Fire Red (orangey-red)
-$action-color-lighter: lighten(#4c7659, 20%) !default;         //Sky Green / Earth
-$function-color-lighter: lighten(#d4c9ad, 20%) !default;       //Sky UW Tan
-$alert-color-lighter: lighten(#b22727, 20%) !default;          //Sky Red
