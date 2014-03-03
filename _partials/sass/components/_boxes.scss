@@ -1,0 +1,15 @@
+.box{
+    @extend %grid__item;
+    @include type-space-sc(padding, 1, 1);
+    @include type-space(margin-bottom, 1);
+}
+.open-box{
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    @include type-space-sc(padding, .97, 0);
+}
+.closed-box{
+    border: 1px solid #ddd;
+}

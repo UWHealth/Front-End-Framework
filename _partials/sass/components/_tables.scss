@@ -4,23 +4,65 @@ table {
     background-color:transparent;
     border-collapse:collapse;
     border-spacing:0;
-    margin-bottom: $gutter;
+    @include type-space(margin-bottom, 1);
 
     & th,
     & td {
-        padding: ($type-base-line-height / 2) 0;
+        @include type-space-sc(padding, 1, 0, .5);
         text-align:left;
         vertical-align:top;
         border: 0;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px;
+        border-top-width: 0px;
+        border-color: #ddd;
+        border-style: solid;
     }
     & th {
         font-weight: bold;
     }
     & thead th {
         vertical-align:bottom;
+        @include type-space-sc(padding, 1, 0, 0 );
     }
     &.fixed{
         table-layout: fixed;
     }
 }
+
+.striped {
+    & tr:nth-child(odd) td{
+        background-color: $function-color-lighter;
+    }
+    & td{
+        @include type-space(padding-left, .5);
+        @include type-space(padding-right, .5);
+    }
+    & th, & td{
+        border-color: $function-color-light;
+        border-style: solid;
+    }
+}
+ @include media-query(smalls){
+    .js table{
+        th{
+            display: none
+        }
+
+        td {
+            display: block;
+            border-bottom: 0;
+            padding-top: 0;
+
+            &:first-child{
+                @include type-space(padding-top, .5);
+                border-top-width: 1px;
+                @include type-space(margin-top, .5);
+            }
+            &:before{
+                content: attr(data-th)" : ";
+                font-weight: bold;
+                padding-right: .25em;
+            }
+        }
+    }
+ }

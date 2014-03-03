@@ -1,25 +1,27 @@
-.list-bordered {
-  @include type-space(margin-bottom, 1);
-  @if $use-floats == true{
-    @extend %clearfix;
-  }
-  > li {
-    @extend %grid__item;
-    border-top: 1px solid $border-color;
-    @include type-space-sc(padding, .5, .5)
-  }
-  > li:first-child {
-    border-top: 1px solid transparent;
-  }
+.bordered-list {
+    @include type-space(margin-bottom, 1);
+    @extend %grid;
+    > li {
+        @extend %grid__item;
+        border-top: 1px solid $border-color;
+        @include type-space-sc(padding, .5, .5)
+    }
+    > li:first-child {
+        border-top: 1px solid transparent;
+    }
 }
 
-.list-inline {
-  @include type-space(margin-bottom, 1);
-  > li {
-    display: inline-block;
-    vertical-align: middle;
-    @include type-space(padding-right, .5);
-  }
+.inline-list {
+    margin: 0;
+    @extend %grid--grid__item;
+
+    > li {
+        @extend %grid__item;
+        padding-left: 0;
+        width: auto;
+        vertical-align: middle;
+        @include type-space(padding-right, 1);
+    }
 }
 
 .breadcrumbs{
@@ -28,7 +30,7 @@
     @extend %type-reset;
     @include type-space-sc(margin, 0,0,1,0);
 }
-.breadcrumb, .inline-list li{
+.breadcrumb{
     display: inline-block;
     white-space: nowrap;
     @include type-space(padding-right, .25);

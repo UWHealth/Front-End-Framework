@@ -52,3 +52,12 @@ $alert-color: #b22727;              //Desaturated Red
 $link-color: darken($accent-color,5%);         //It's rare that you need to make this something other than one of the above variables.
 
 
+//Tab-box settings
+
+$tab-invert-active:                 false;
+$tab-border:                        true;
+$tab-button-bg:                     #ddd;
+$tab-content-bg:                    #fff;
+$tab-button-text:                   darken($primary-color, 10%);
+$tab-border-radius:                 2px;
+$tab-spacing:                       2px;

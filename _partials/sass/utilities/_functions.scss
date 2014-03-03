@@ -354,24 +354,25 @@ $golden_ratio:  golden();
     }
     $type-ratio: $scale;
     @each $i in $type-headings{  //[2]
-            $font-size: modular-scale($i);  //[3]
-            $current-heading: nth($type-headings,$i); //[4]
+        $font-size: modular-scale($i);  //[3]
+        $current-heading: nth($type-headings,$i); //[4]
 
-            h#{$current-heading}{
-                @extend %type-vertical-rhythm;
-                @include type-font-size($font-size, true); //[5]
+        h#{$current-heading}{
+            @extend %type-vertical-rhythm;
+            @include type-font-size($font-size, true); //[5]
+
             & + p{
                 @extend %negative-top; //[6]
             }
-            }
+        }
 
-            @if $type-scale-classes == true{
-                %h#{$current-heading}, .h#{$current-heading}{
-                    @extend h#{$current-heading};  //[7]
-                }
-            };
-            $i: $i + 1;
-    };
+        @if $type-scale-classes == true{
+            %h#{$current-heading}, .h#{$current-heading}{
+                @extend h#{$current-heading};  //[7]
+            }
+        }
+        $i: $i + 1;
+    }
 }
 
 //------------------------------------

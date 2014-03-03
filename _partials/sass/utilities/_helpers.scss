@@ -32,14 +32,26 @@
 }
 
 //------------------------------------
+//    $MULTIPLE EXTENDS
+//------------------------------------
+//
+// Eclose a list of extends with @includ add-style((border-box, extension, extension))
+// Note the double paranthesis.
+//
+@mixin add-styles($items) {
+    @each $item in $items {
+        @extend %#{$item};
+    }
+}
+
+//------------------------------------
 //    $SIMPLE MIXINS
 //------------------------------------
 
 %border-box{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
 //
 // Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
 //
@@ -76,6 +88,7 @@
     width: 0;
     height: 150%;
 }
+
 //Hide Visually. Usefuly for Accessiblity.
 //Used for text which describes a purely visual function.
 // e.g. Adding 'Current page' to the current nav item (which is usually indicated by something visual.
@@ -92,7 +105,6 @@
 
 // Font family declaration.
 // Allows for cleaner, consolodated code.
-
 %type-family{
     font-family: $primary-font-family;
 }
@@ -104,8 +116,8 @@
 // vertical rhythm), so we `@extend` some silent classes.
 //
 %type-reset {
-        margin:  0;
-        padding: 0;
+    margin:  0;
+    padding: 0;
 }
 
 // Create vertical rhythms that are more appropriate for headings inside text blocks.
@@ -123,10 +135,9 @@
 //    $RESPONSIVE MIXINS
 //------------------------------------
 //Mixin to used for media-query-scoped extends.
-//e.g.: @extend %island or @include %small--island;
+//e.g.: @extend %media_block or @include %small--media_block;
 
 @mixin responsive-helpers($namespace:""){
-
 
     //Media block.
     // Taken from: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
