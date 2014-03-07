@@ -7,6 +7,7 @@
     )
 {
     cursor: pointer;
+    vertical-align: middle;
     display: inline-block;
     background-color: $button-color-bg;
     border-radius: $border-radius;
@@ -65,9 +66,15 @@
 //Useful placeholder selector for simple button creation.
 
 %button{
-    @include button(true, darken($link-color, 5%), $link-color-dark, #fff);
+    @include button(true, darken($link-color, 5%), darken($link-color-dark,3.5%), #fff);
 }
 %big-button{
     @include type-font-size(modular-scale(2), false);
     @include type-space-sc(padding, .5, 1);
+}
+%wide-button{
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    text-align: center;
 }

@@ -1,2 +1,6 @@
 
 codekit-config.json
+
+*.scssc
+
+*.map

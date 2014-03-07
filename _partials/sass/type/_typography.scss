@@ -141,6 +141,9 @@ body {
  // 6. If followed by a paragraph, create a closer larger top margin, but smaller bottom margin.
  // 7. If classed headings, create them by extending everything above.
 
+h1,h2,h3,h4,h5,h6{
+    @extend %type-vertical-rhythm;
+}
 @if $type-auto-scale == true {  //[1]
 
     @include headings-scale($type-ratio);
@@ -148,87 +151,84 @@ body {
 }
 @else{
 
-h1 {
-    @extend %type-vertical-rhythm;
-    @include type-font-size($type-h1-size);
-    & + p{
-        @extend %negative-top; //[6]
+    h1 {
+        @extend %type-vertical-rhythm;
+        @include type-font-size($type-h1-size);
+        & + p{
+            @extend %negative-top; //[6]
+        }
     }
     @if $type-scale-classes == true{
-        .h1{
+        %h1, .h1{
             @extend h1;
         }
-   }
-}
+    }
 
-h2 {
-    @extend %type-vertical-rhythm;
-    @include type-font-size($type-h2-size);
-    & + p{
-        @extend %negative-top; //[6]
+    h2 {
+        @extend %type-vertical-rhythm;
+        @include type-font-size($type-h2-size);
+        & + p{
+            @extend %negative-top; //[6]
+        }
     }
     @if $type-scale-classes == true{
-        .h2{
+        %h2, .h2{
             @extend h2;
         }
    }
-}
 
-h3 {
-    @extend %type-vertical-rhythm;
-    @include type-font-size($type-h3-size);
-    & + p{
-        @extend %negative-top; //[6]
+    h3 {
+        @extend %type-vertical-rhythm;
+        @include type-font-size($type-h3-size);
+        & + p{
+            @extend %negative-top; //[6]
+        }
     }
     @if $type-scale-classes == true{
-        .h3{
+        %h3, .h3{
             @extend h3;
         }
    }
-}
 
-h4 {
-    @extend %type-vertical-rhythm;
-    @include type-font-size($type-h4-size);
-    & + p{
-        @extend %negative-top; //[6]
+    h4 {
+        @extend %type-vertical-rhythm;
+        @include type-font-size($type-h4-size);
+        & + p{
+            @extend %negative-top; //[6]
+        }
     }
     @if $type-scale-classes == true{
-        .h4{
+        %h4, .h4{
             @extend h4;
         }
    }
-}
 
-h5 {
-    @extend %type-vertical-rhythm;
-    @include type-font-size($type-h5-size);
-    & + p{
-        @extend %negative-top; //[6]
+    h5 {
+        @extend %type-vertical-rhythm;
+        @include type-font-size($type-h5-size);
+        & + p{
+            @extend %negative-top; //[6]
+        }
     }
     @if $type-scale-classes == true{
-        .h5{
+        %h5, .h5{
             @extend h5;
         }
    }
-}
 
-h6 {
-    @extend %type-vertical-rhythm;
-    @include type-font-size($type-h6-size);
-    & + p{
-        @extend %negative-top; //[6]
+    h6 {
+        @extend %type-vertical-rhythm;
+        @include type-font-size($type-h6-size);
+        & + p{
+            @extend %negative-top; //[6]
+        }
     }
     @if $type-scale-classes == true{
-        .h6{
+        %h6, .h6{
             @extend h6;
         }
    }
 }
-}
-
-
-
 
 /*-------------------------------
     $LISTS
@@ -374,12 +374,10 @@ q   {
 
 
 
-
-
 /*-------------------------------*/
 /*    $NORMALIZE                 */
 /*-------------------------------*/
-b,strong{
+b,strong, .bold, .strong{
     font-weight: bold;}
 dfn {
     font-style: italic;}
@@ -396,4 +394,5 @@ sup {
 sub {
     bottom: -0.25em;
 }
+
 

@@ -342,7 +342,7 @@ $golden_ratio:  golden();
     }
 }
 
-@mixin headings-scale($scale: $type-ratio){
+@mixin headings-scale($scale: $type-ratio, $name-space:""){
     //Checking for floats in $scale
     @if length($scale) == 2{
     // Making sure we don't have a ratio below 1.
@@ -356,22 +356,57 @@ $golden_ratio:  golden();
     @each $i in $type-headings{  //[2]
         $font-size: modular-scale($i);  //[3]
         $current-heading: nth($type-headings,$i); //[4]
-
-        h#{$current-heading}{
-            @extend %type-vertical-rhythm;
-            @include type-font-size($font-size, true); //[5]
-
-            & + p{
-                @extend %negative-top; //[6]
-            }
-        }
-
         @if $type-scale-classes == true{
-            %h#{$current-heading}, .h#{$current-heading}{
-                @extend h#{$current-heading};  //[7]
+            h#{$current-heading},
+            .h#{$current-heading}{
+                @include type-font-size($font-size, true);  //[7]
+
+                & + p{
+                    @extend %#{$name-space}negative-top !optional; //[6]
+                }
+            }
+        }@else{
+            h#{$current-heading}{
+                @include type-font-size($font-size, true); //[5]
+
+                & + p{
+                    @extend %#{$name-space}negative-top !optional; //[6]
+                }
             }
         }
         $i: $i + 1;
+    }
+}
+//
+// Style any number of headings in one fell swoop, e.g.:
+//
+//   .foo{
+//       @include headings(1, 3){
+//           color:#BADA55;
+//       }
+//    }
+//
+// Lifted from inuit.css: https://github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
+
+@mixin headings($from: 1, $to: 6){
+    %base-heading {
+        @content;
+    }
+
+    @if $from >= 1 and $to <= 6{
+        @if $type-scale-classes == true{
+            @for $i from $from through $to{
+                h#{$i}, .h#{$i}{
+                    @extend %base-heading;
+                }
+            }
+        }@else{
+            @for $i from $from through $to{
+                h#{$i}{
+                    @extend %base-heading;
+                }
+            }
+        }
     }
 }
 

@@ -5,23 +5,31 @@
 //------------------------------------
 //    $MEDIA QUERIES
 //------------------------------------
+
 //
 // Enclose a block of code with a media query as named in `$breakpoints`.
 // To create more consolodated code, most (if not all) media queries should be called through
 // this mixin.
-//
-@mixin media-query($media-query){
+// Multiple media-queries can be defined by using:
+// @include media-query((breakpoint, breakpoint)){
+//         [Your code here]
+// }
+
+@mixin media-query($media-queries){
     $breakpoint-found: false;
 
-    @each $breakpoint in $breakpoints{
-        $name: nth($breakpoint, 1);
-        $declaration: nth($breakpoint, 2);
+    @each $media-query in $media-queries {
 
-        @if $media-query == $name and $declaration{
-            $breakpoint-found: true;
+        @each $breakpoint in $breakpoints{
+            $name: nth($breakpoint, 1);
+            $declaration: nth($breakpoint, 2);
 
-            @media only screen and #{$declaration}{
-                @content;
+            @if $media-query == $name and $declaration{
+                $breakpoint-found: true;
+
+                @media only screen and #{$declaration}{
+                    @content;
+                }
             }
         }
     }
@@ -56,17 +64,17 @@
 // Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
 //
 %clearfix, %cf{
-        *zoom: 1;
-        &:before,&:after{
-            display: table;
-            content: " ";
-        }
-        &:after{
-            clear: both;
-            height: 0px;
-            width: 0px;
-        }
+    *zoom: 1;
+    &:before,&:after{
+        display: table;
+        content: " ";
     }
+    &:after{
+        clear: both;
+        height: 0px;
+        width: 0px;
+    }
+}
 
 //Use an image instead of text, but keep the text in the DOM for
 //screen readers.
@@ -131,6 +139,16 @@
     margin-top: ($type-magic-ratio * -.25) + rem;
 }
 
+.naked-link{
+    color: inherit;
+    text-decoration: none;
+
+    &:hover, &:focus{
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
 //------------------------------------
 //    $RESPONSIVE MIXINS
 //------------------------------------
@@ -159,6 +177,9 @@
 
     //Used for headings+p, or indented paragraphs.
     %#{$namespace}negative-top{
+        @include type-space(margin-top, -1)
+    }
+    %negative-top{
         @include type-space(margin-top, -1)
     }
     //
@@ -202,6 +223,7 @@
     %#{$namespace}float_none{
         float: none;
     }
+
 }
 
 

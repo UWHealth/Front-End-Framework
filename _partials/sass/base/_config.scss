@@ -10,6 +10,12 @@ $secondary-font-family:     Georgia, serif;
 // Show baseline grid for easier alignment;
 $type-show-baseline:       true;
 
+$type-h1-size:             modular-scale(7);
+$type-h2-size:             modular-scale(5);
+$type-h3-size:             modular-scale(4);
+$type-h4-size:             modular-scale(3);
+$type-h5-size:             modular-scale(2);
+$type-h6-size:             modular-scale(1);
 
 //Grid
 
@@ -18,9 +24,9 @@ $use-silent-classes:    true;
 $push:                  true;
 $pull:                  true;
 $use-markup-fix:        false; //Setting this to true while not using floats means there can be no whitespce between grid items.
-$use-floats:            false;
+$use-floats:            true;
 $show-grid:             true;
-$columns:                 13; //Using anything other than 12 may cause a bit of slow down during processing.
+$columns:                 12; //Using anything other than 12 may cause a bit of slow down during processing.
 
 $breakpoints: (
     'smalls' '(max-width:640px)',                            //Everything up to 640px. Mostly phones.
@@ -54,10 +60,10 @@ $link-color: darken($accent-color,5%);         //It's rare that you need to make
 
 //Tab-box settings
 
-$tab-invert-active:                 false;
+$tab-invert-active:                 true;
 $tab-border:                        true;
-$tab-button-bg:                     #ddd;
+$tab-button-bg:                     darken($function-color, 20%);
 $tab-content-bg:                    #fff;
-$tab-button-text:                   darken($primary-color, 10%);
+$tab-button-text:                   #fff;
 $tab-border-radius:                 2px;
 $tab-spacing:                       2px;
