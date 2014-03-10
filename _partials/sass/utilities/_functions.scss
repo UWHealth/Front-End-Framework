@@ -67,7 +67,7 @@
  //                @include type-space([property-you-want-to-give-a-value], [top-value], [right-value], [bottom-value], [left-value]);
  //                NOTE: This also accepts just a vertical(top) value and horizontal(right)-value. Assumes bottom = top, and left = right.
 
- //modular-scale...Generates a pixel value that is an exponent of a ratio (defaults to $type-ratio value).
+ //modular-scale...Generates a pixel value that is an exponent of a ratio (defaults to $scale-ratio value).
  //                modular-scale([number-on-the-scale-you-want], [ratio-to-use-as-scale]);
 
  //type-scale......MIXIN for generating numbers for properties on the typographic scale (with a rem value and pixel fallback).
@@ -190,6 +190,30 @@ $iter: 50;
 
 $golden_ratio:  golden();
 
+// Maths helpers.
+// From https://github.com/inuitcss/tools.functions/blob/master/_tools.functions.scss
+//
+// Halve and double numbers, returning rounded integers. E.g.:
+//
+// .foo {
+//     padding: halve(3.2px);
+// }
+//
+@function quarter($number) {
+    @return round($number / 4);
+}
+
+@function halve($number) {
+    @return round($number / 2);
+}
+
+@function double($number) {
+    @return round($number * 2);
+}
+
+@function quadruple($number) {
+    @return round($number * 4);
+}
 
 //------------------------------------
 //    $HELPERS
@@ -217,7 +241,7 @@ $golden_ratio:  golden();
 // Used to create a property with a rem value and PX fallback
 @mixin rems($property, $size){
     #{$property}: $size;                                                              //[1]
-    #{$property}: ($size / $type-base-font-size) * 1rem;
+    #{$property}: ($size / $base-font-size) * 1rem;
 }
 
 //------------------------------------
@@ -239,24 +263,24 @@ $golden_ratio:  golden();
 
 @mixin type-font-size($font-size, $line-height: true, $body: false) {
     font-size: $font-size;                                                              //[1]
-    font-size: ($font-size / $type-base-font-size) * 1rem;
+    font-size: ($font-size / $base-font-size) * 1rem;
 
     @if $line-height == true {
-        $estimated-line-height: ceil($font-size / $type-base-line-height) * ($type-base-line-height) / $font-size;
+        $estimated-line-height: ceil($font-size / $base-line-height) * ($base-line-height) / $font-size;
 
         // If line-height is too large, divide it in half.
         // Ultimately, this creates type that requires two line-lengths to rebalance the baseline grid.
         // This is a better alternative to 2x line-heights.
 
         @if $estimated-line-height > 1.8{
-            $estimated-line-height: ceil($font-size / ($type-base-line-height / 2)) * ($type-base-line-height / 2) / $font-size;
+            $estimated-line-height: ceil($font-size / ($base-line-height / 2)) * ($base-line-height / 2) / $font-size;
 
         }@else if $estimated-line-height < 1.1 {
-            $estimated-line-height: ceil($font-size / ($type-base-line-height * 2)) * ($type-base-line-height * 2) / $font-size;
+            $estimated-line-height: ceil($font-size / ($base-line-height * 2)) * ($base-line-height * 2) / $font-size;
         }
         //This is only used for body type.
         @if $body == true and $estimated-line-height < 1.35{
-            $estimated-line-height: ceil($font-size / ($type-base-line-height * 4)) * ($type-base-line-height * 4) / $font-size;
+            $estimated-line-height: ceil($font-size / ($base-line-height * 4)) * ($base-line-height * 4) / $font-size;
         }
         //If body type is being defined, use unitless line-heights.
         @if $body == true {
@@ -315,9 +339,9 @@ $golden_ratio:  golden();
 //------------------------------------
 
 // Modular scale function to scale type up or down.
-@function modular-scale($i, $scale: $type-ratio){
+@function modular-scale($i, $scale: $scale-ratio){
     $modular-scale: $scale;
-    $stripped-base-font-size:  strip-units($type-base-font-size);
+    $stripped-base-font-size:  strip-units($base-font-size) !global;
     @return exponent($modular-scale, $i)*($stripped-base-font-size) * 1px;
 }
 
@@ -338,11 +362,11 @@ $golden_ratio:  golden();
     @else{
         $scale: modular-scale($mod-scale-value);
         #{$property}: $scale;
-        #{$property}: ($scale / $type-base-font-size) * 1rem;
+        #{$property}: ($scale / $base-font-size) * 1rem;
     }
 }
 
-@mixin headings-scale($scale: $type-ratio, $name-space:""){
+@mixin headings-scale($scale: $scale-ratio, $name-space:""){
     //Checking for floats in $scale
     @if length($scale) == 2{
     // Making sure we don't have a ratio below 1.
@@ -352,7 +376,7 @@ $golden_ratio:  golden();
             $scale:   nth($scale, 1)/nth($scale, 2);
         }
     }
-    $type-ratio: $scale;
+    $scale-ratio: $scale !global;
     @each $i in $type-headings{  //[2]
         $font-size: modular-scale($i);  //[3]
         $current-heading: nth($type-headings,$i); //[4]
@@ -525,7 +549,7 @@ $golden_ratio:  golden();
 //     ul.pretty
 //       +pretty-bullets("my-icon.png")
 //
-@mixin pretty-bullets($bullet-icon, $width: image-width($bullet-icon), $height: image-height($bullet-icon), $line-height: $type-base-line-height, $padding: $type-magic-number) {
+@mixin pretty-bullets($bullet-icon, $width: image-width($bullet-icon), $height: image-height($bullet-icon), $line-height: $base-line-height, $padding: $type-magic-number) {
   margin-left: 0;
   li {
     padding-left: $padding;

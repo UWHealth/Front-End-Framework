@@ -26,35 +26,35 @@
 }
 
 .row-narrow{
-    @extend %grid--narrow;
+    @extend %grid_narrow;
 }
 .row{
     @extend %grid;
 }
 .column{
-    @extend %grid__item;
+    @extend %grid_item;
     @extend %one-whole;
 }
 .sidebar{
-    @extend %smalls--one-whole;
-    @extend %bigs--one-quarter;
+    @extend %smalls_one-whole;
+    @extend %bigs_one-quarter;
 }
 .content{
-    @extend %smalls--one-whole;
-    @extend %bigs--three-quarters;
+    @extend %smalls_one-whole;
+    @extend %bigs_three-quarters;
 }
 
 .add-on{
     @extend %one-whole;
-    @extend %smallish--one-fifth;
-    @extend %bigs--one-sixth;
+    @extend %smallish_one-fifth;
+    @extend %bigs_one-sixth;
 }
 .wide-content{
-    @extend %smallish--four-fifths;
-    @extend %bigs--five-sixths;
+    @extend %smallish_four-fifths;
+    @extend %bigs_five-sixths;
 }
 .right{
-    @extend %grid--right;
+    @extend %grid_right;
 }
 
 .button{
@@ -82,9 +82,9 @@
     border-radius: 0px 0px 0px 3px;
 }
 .color-block{
-    @extend %grid__item;
+    @extend %grid_item;
     @extend %one-fifth;
-    @extend %small--one-half;
+    @extend %small_one-half;
     text-align: center;
     color: #fff;
     overflow: hidden;

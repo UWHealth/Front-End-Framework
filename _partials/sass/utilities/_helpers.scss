@@ -234,7 +234,7 @@
 @if $responsive == true{
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
-           @include responsive-helpers('#{$name}--');
+           @include responsive-helpers('#{$name}_');
         }
     }
 }

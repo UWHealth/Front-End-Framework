@@ -27,14 +27,14 @@
     a.tabbed = function(b) {
         var c = this;
         var tabGroups = [];
-        var z = a(".tab-button");
+        var z = a(".tab_button");
 
         c.init = function() {
 
             //Set the user-set speed options.
             c.options = a.extend({}, a.tabbed.defaultOptions, b);
 
-            //Loop over all tab-buttons
+            //Loop over all tab_buttons
             for (var i=0; i < z.length; i++) {
 
                 //Select the current tab and it's next two siblings.
@@ -43,27 +43,27 @@
                 var x = a(y).next()[0];
                 var w = a(x).next()[0];
 
-                //Add the tab-buttons and siblings to tabGroups array.
+                //Add the tab_buttons and siblings to tabGroups array.
                 tabGroups.push( y , x );
 
-                //Loop over siblings until the next sibling is not a tab-button.
+                //Loop over siblings until the next sibling is not a tab_button.
                 //This is necessary to check for nested tab groups (e.g. tab-ception).
                 do {
                     w = a(x).next()[0];
                     x = a(w).next()[0];
-                    //Break loop if next sibling is not a tab-button.
-                    if (a(w).hasClass("tab-button") !== true){
+                    //Break loop if next sibling is not a tab_button.
+                    if (a(w).hasClass("tab_button") !== true){
                         break;
                     }
-                    //Add tab-buttons and siblings to tabGroups array.
+                    //Add tab_buttons and siblings to tabGroups array.
                     tabGroups.push(w,x);
 
-                }while (a(w).hasClass("tab-button") === true);
+                }while (a(w).hasClass("tab_button") === true);
 
                 //Check if we've already added this tab to a grouping.
                 if (a(y).data("tabbed") !== true ) {
 
-                    //Grab all tab-button classes (since they can be used as optional style alternatives)
+                    //Grab all tab_button classes (since they can be used as optional style alternatives)
                     var addons = a(y).attr('class');
 
                     //Add tabbed data to the group.
@@ -76,26 +76,26 @@
                 tabGroups = [];
             };
 
-            //To avoid stylistic confusion, we remove .tab-button and .button from each group.
-            a('.tabbed').removeClass('tab-button button')
+            //To avoid stylistic confusion, we remove .tab_button and .button from each group.
+            a('.tabbed').removeClass('tab_button button')
             //Add a nav element to the top of the groups.
                 .prepend("<nav class='tabs' />");
 
-            //Duplicate tab-buttons and put them inside nav.tabs
-            a(".tab-button").each(function() {
+            //Duplicate tab_buttons and put them inside nav.tabs
+            a(".tab_button").each(function() {
                 //Find the appropriate nav.tabs
                 var tabNav = a(this).closest(".tabbed").children(".tabs");
 
-                //Clone the tab-buttons and move them to nav.tabs
-                //Meanwhile add .tab and remove .tab-button classes for style purposes.
+                //Clone the tab_buttons and move them to nav.tabs
+                //Meanwhile add .tab and remove .tab_button classes for style purposes.
                 a(this).clone()
                     .appendTo(tabNav)
                     .addClass('tab')
-                    .removeClass("tab-button");
+                    .removeClass("tab_button");
             });
 
-            //Make the first tab and tab-button in each grouping the active tab.
-            a(".tabbed .tab-button:first-of-type, .tabbed .tab:first-child").addClass("active");
+            //Make the first tab and tab_button in each grouping the active tab.
+            a(".tabbed .tab_button:first-of-type, .tabbed .tab:first-child").addClass("active");
 
             //Hide all tab_content.
             a(".tab_content").hide();
@@ -105,7 +105,7 @@
             a(d).each(function(){a(this).show()});
 
             //Try to normalize heights of all tab groupings.
-            //This is particularly important for groupings with side-tabs.
+            //This is particularly important for groupings with tab_sides.
             a('.tab_content').each(function(){
                 var tabHeight = a(this).closest('.tabbed').find('.tabs:first').outerHeight();
                 var baseline = parseInt(a("body").css('line-height'), 10);
@@ -138,26 +138,26 @@
                     a(d).fadeIn(c.options.speed);
 
                     //Again doing a round-about selection,
-                    //this time for tab-buttons.
+                    //this time for tab_buttons.
                     //Removing "active" class.
                     a(this).closest('.tabbed')
-                        .find(".tab:first, .tab-button:first")
-                        .siblings(".tab,.tab-button")
+                        .find(".tab:first, .tab_button:first")
+                        .siblings(".tab,.tab_button")
                         .addBack()
                         .removeClass("active");
 
                     //Adding back the "active" class to the appropriate
                     //buttons and tab contents.
                     a(this).addClass("active");
-                    a(".tab-button[href^='" + d + "']").addClass("active");
+                    a(".tab_button[href^='" + d + "']").addClass("active");
                 }
                 e.preventDefault();
             });
 
-            //Actions for accordion tab-buttons.
+            //Actions for accordion tab_buttons.
             //Nearly identical to the previous function,
             //but with a slide effect.
-            a(".tab-button").click(function(e) {
+            a(".tab_button").click(function(e) {
                 if (a(this).hasClass('active') === false){
                     d = a(this).attr("href");
                     a(this).closest('.tabbed')
@@ -168,8 +168,8 @@
                     a(d).css("min-height","0")
                         .slideToggle(c.options.speed);
                     a(this).closest('.tabbed')
-                        .find(".tab:first, .tab-button:first")
-                        .siblings(".tab, .tab-button")
+                        .find(".tab:first, .tab_button:first")
+                        .siblings(".tab, .tab_button")
                         .addBack()
                         .removeClass("active");
                     a(this).addClass("active");

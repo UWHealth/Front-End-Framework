@@ -1,0 +1,80 @@
+@mixin spacing-helpers($namespace:"", $silent: false){
+    $selector: unquote(".");
+    
+    @if $silent == true{
+        $selector: unquote("%");
+    }
+
+    #{$selector}#{$namespace}pad_t{
+        @include type-space(padding-top, 1);
+    }
+    #{$selector}#{$namespace}pad_b{
+        @include type-space(padding-bottom, 1);
+    }
+    #{$selector}#{$namespace}pad_r{
+        @include type-space(padding-right, 1);
+    }
+    #{$selector}#{$namespace}pad_l{
+        @include type-space(padding-left, 1);
+    }
+    #{$selector}#{$namespace}pad_v{
+        @extend #{$selector}#{$namespace}pad_t;
+        @extend #{$selector}#{$namespace}pad_b;
+    }
+    #{$selector}#{$namespace}pad_h{
+        @extend #{$selector}#{$namespace}pad_l;
+        @extend #{$selector}#{$namespace}pad_r;
+    }
+    #{$selector}#{$namespace}pad{
+        @extend #{$selector}#{$namespace}pad_h;
+        @extend #{$selector}#{$namespace}pad_v;
+    }
+    #{$selector}#{$namespace}pad_n_v{
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    #{$selector}#{$namespace}pad_n_h{
+        padding-right: 0 !important;;
+        padding-left: 0 !important;
+    }
+    #{$selector}#{$namespace}pad_n{
+        @extend #{$selector}#{$namespace}pad_n_v;
+        @extend #{$selector}#{$namespace}pad_n_h;
+    }
+    #{$selector}#{$namespace}space_v{
+        @include type-space(margin-bottom, 1);
+    }
+    #{$selector}#{$namespace}space_l{
+        @include type-space(margin-left, 1);
+    }
+    #{$selector}#{$namespace}space_r{
+        @include type-space(margin-right, 1);
+    }
+    #{$selector}#{$namespace}space{
+        @extend #{$selector}#{$namespace}space_v;
+        @extend #{$selector}#{$namespace}space_l;
+        @extend #{$selector}#{$namespace}space_r;
+    }
+    #{$selector}#{$namespace}space_n_h{
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    #{$selector}#{$namespace}space_n_v{
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    #{$selector}#{$namespace}space_n{
+        @extend #{$selector}#{$namespace}space_n_h;
+        @extend #{$selector}#{$namespace}space_n_v;
+    }
+}
+
+@include spacing-helpers();
+
+@if $responsive == true{
+    @each $name in $breakpoint-has-widths {
+        @include media-query($name) {
+           @include spacing-helpers('#{$name}_', true);
+        }
+    }
+}
