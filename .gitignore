@@ -12,3 +12,5 @@ _partials/sass/layout/config.rb
 _partials/sass/components/config.rb
 
 _partials/sass/base/config.rb
+
+*.rb

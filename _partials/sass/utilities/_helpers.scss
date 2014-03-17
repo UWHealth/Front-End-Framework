@@ -123,7 +123,7 @@
 // A lot of elements in typography need to share some declarations (mainly for
 // vertical rhythm), so we `@extend` some silent classes.
 //
-%type-reset {
+%type_reset {
     margin:  0;
     padding: 0;
 }
@@ -139,7 +139,7 @@
     margin-top: ($type-magic-ratio * -.25) + rem;
 }
 
-.naked-link{
+.naked_link{
     color: inherit;
     text-decoration: none;
 
@@ -162,13 +162,13 @@
     // Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.
 
     %#{$namespace}media_block{
-        & > .img{
+        & .img{
             float:left;
             word-break: break-word;
             display: inline-block;
             margin-right: $gutter;
         }
-        & .img + *, & .media-body{
+        & .img ~ *, & .media_body{
             overflow: hidden;
         }
 
@@ -179,49 +179,23 @@
     %#{$namespace}negative-top{
         @include type-space(margin-top, -1)
     }
-    %negative-top{
-        @include type-space(margin-top, -1)
-    }
     //
     // Font family, normal, italic and bold silent classes/extensions.
     // Use these for DRYer CSS output.
     //
 
-    %#{$namespace}type-normal{
+    %#{$namespace}type_normal{
         font-weight: 400;
     }
-    %#{$namespace}type-italic{
+    %#{$namespace}type_italic{
         font-style: italic;
     }
-    %#{$namespace}type-bold{
+    %#{$namespace}type_bold{
         font-weight: 800;
         -webkit-font-smoothing: antialiased;
     }
-    %#{$namespace}naked-list{
+    %#{$namespace}naked_list{
         @include no-bullets;
-    }
-
- //Alignment
-    %#{$namespace}align_left{
-        float: left;
-        @include type-space(margin-right, 1);
-    }
-    %#{$namespace}align_right{
-        float: right;
-        @include type-space(margin-left, 1);
-    }
-    %#{$namespace}align_center{
-        float: none;
-        margin: 0 auto;
-    }
-    %#{$namespace}float_left{
-        float: left;
-    }
-    %#{$namespace}float_right{
-        float: right;
-    }
-    %#{$namespace}float_none{
-        float: none;
     }
 
 }

@@ -493,8 +493,10 @@ hr {
     height: 1px;
     border: 0;
     border-top: 1px solid #ccc;
-    @include type-space-sc(margin, .96, 0);
+    @include type-space-sc(margin, 1, 0);
     padding: 0;
+	position: relative;
+	top: -1px;
 }
 
 .chromeframe {

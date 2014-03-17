@@ -342,7 +342,7 @@ $golden_ratio:  golden();
 @function modular-scale($i, $scale: $scale-ratio){
     $modular-scale: $scale;
     $stripped-base-font-size:  strip-units($base-font-size) !global;
-    @return exponent($modular-scale, $i)*($stripped-base-font-size) * 1px;
+    @return pow($modular-scale, $i)*($stripped-base-font-size) * 1px;
 }
 
 // This is essentially the same function as above,
@@ -533,7 +533,7 @@ $golden_ratio:  golden();
 // turns off the bullets for an entire list
 @mixin no-bullets {
   list-style: none;
-  li { @include no-bullet; }
+  > li { @include no-bullet; }
 }
 
 // Make a list(ul/ol) have an image bullet.

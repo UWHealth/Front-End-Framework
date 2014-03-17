@@ -1,4 +1,4 @@
-.bordered-list {
+.list_bordered {
     @include type-space(margin-bottom, 1);
     > li {
         display: block;
@@ -10,8 +10,8 @@
     }
 }
 
-.inline-list {
-    @extend %type-reset;
+.list_inline {
+    @extend %type_reset;
 
     > li {
         display: inline-block;
@@ -24,7 +24,7 @@
 
 .breadcrumbs{
     @extend %one-whole;
-    @extend %type-reset;
+    @extend %type_reset;
     @include type-space-sc(margin, 0,0,1,0);
 }
     .breadcrumb{
@@ -38,7 +38,7 @@
             @include type-space(padding-left, .25);
         }
 
-.naked-list{
+.list_naked{
     @include no-bullets;
     margin-left: 0;
 }

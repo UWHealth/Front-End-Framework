@@ -23,7 +23,7 @@
         text-shadow: 1px 1px 0px pick_best_color($button-color-text,($button-color-secondary,darken($button-color-text,25%),lighten($button-color-text,25%),darken($button-color-bg,25%),lighten($button-color-bg,25%)));
         color: $button-color-text;
     }
-    @extend %type-bold;
+    @extend %type_bold;
     @include type-space(line-height, 1.95);
     @include type-space-sc(padding, 0, .5);
     text-decoration: none;

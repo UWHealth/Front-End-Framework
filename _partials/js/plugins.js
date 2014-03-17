@@ -65,6 +65,9 @@
 
                     //Grab all tab_button classes (since they can be used as optional style alternatives)
                     var addons = a(y).attr('class');
+					if (a(y).attr("data-tab") !== undefined){
+                            addons = addons + " " + a(y).attr("data-tab");
+                        }
 
                     //Add tabbed data to the group.
                     a(tabGroups).data("tabbed",true)
@@ -74,7 +77,7 @@
 
                 //Clear out the tabGroups array and begin the loop again.
                 tabGroups = [];
-            };
+            }
 
             //To avoid stylistic confusion, we remove .tab_button and .button from each group.
             a('.tabbed').removeClass('tab_button button')
@@ -102,7 +105,7 @@
             //Grab the hash/href value of each active tab.
             var d = ""+a(".active").map(function(){return a(this).attr("href")}).get();
             //Find cooresponding tab contents based on the hash/href ID we just grabbed and make them active.
-            a(d).each(function(){a(this).show()});
+            a(d).each(function(){a(this).show();});
 
             //Try to normalize heights of all tab groupings.
             //This is particularly important for groupings with tab_sides.
@@ -178,18 +181,18 @@
                         .addClass("active");
                 }
                 e.preventDefault();
-            })
+            });
 
         };
-        c.init()
+        c.init();
     };
     //Default options along with a targeted creation of
     a.tabbed.defaultOptions = {speed: 300};
     a.fn.tabbed = function(b) {
         return this.each(function() {
-            (new a.tabbed(b))
-        })
-    }
+            (new a.tabbed(b));
+        });
+    };
 })(jQuery);
 
 
@@ -201,7 +204,11 @@
     var z;
     for(i=0; i<all_tables.length; i++){
         var current = t(all_tables)[i];
-        z = t(current).find("th").map(function(){t(this).each(function(){return this.innerText})});
+        z = t(current).find("th").map(function(){
+			t(this).each(function(){
+					return this.innerText;
+				});
+		});
         y.push(z.prevObject);
 
         y = y[0];

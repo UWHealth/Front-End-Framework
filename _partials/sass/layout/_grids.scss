@@ -228,7 +228,6 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     @include rems(margin-left, -$gutter);
     @if $use-markup-fix != true and $use-floats != true{
         letter-spacing:-0.31em;
-        word-spacing: -0.43em;
     }
     @if $use-floats == true {
         @extend %clearfix;

@@ -85,7 +85,7 @@
 // }
 
 %type-vertical-rhythm {
-    @extend %type-reset;
+    @extend %type_reset;
     margin-bottom: $type-magic-number;
     margin-bottom: $type-magic-ratio + rem;
 }
@@ -96,7 +96,7 @@
     $BASE
 ------------------------------------*/
  html {
-   @extend %type-reset;
+   @extend %type_reset;
    @extend %type-family;
    font-size: $base-font-size / 16px + em; // [1]
 
@@ -114,9 +114,9 @@
     width: 100%;
     height: 100%;
 }
-body {
-   @include type-font-size($base-font-size, true, true);
-   @extend %type-reset;
+body, .p {
+   @include type-font-size($base-font-size);
+   @extend %type_reset;
 }
 
 //Allow a toggle for baseline image
@@ -250,12 +250,12 @@ li > ol {
 /*-------------------------------
     $PARAGRAPHS
 -------------------------------*/
-p {
+p, .p, %p {
     @extend %type-vertical-rhythm;
 
     @if $indented-paragraphs == true {
 
-        + p {
+        + p, .p, %p {
             @include type-space(text-indent);
             margin-top: -$type-magic-number;
             margin-top: -$type-magic-ratio + rem;
@@ -383,7 +383,9 @@ b,strong, .bold, .strong{
 dfn {
     font-style: italic;}
 small {
-    @include type-scale(font-size,-1);}
+    @include type-scale(font-size,-1);
+	@extend %type-vertical-rhythm;
+}
 sub,sup {
     font-size: 75%;
     line-height: 0;
