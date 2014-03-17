@@ -1,0 +1,73 @@
+//Typography
+
+$base-font-size:              16px;
+$base-line-height:            12px;
+$auto-scale-type:           false;
+$scale-ratio:               1.214;
+$primary-font-family:      'Asap', verdana, helvetica, arial, sans-serif;
+$secondary-font-family:     Georgia, serif;
+
+// Show baseline grid for easier alignment;
+$show-baseline:       true;
+
+//Used if auto-scale-type is not in use.
+//Since functions are called before config,
+//we can use functions to calculate our values.
+$type-h1-size:             modular-scale(7);
+$type-h2-size:             modular-scale(5);
+$type-h3-size:             modular-scale(4);
+$type-h4-size:             modular-scale(3);
+$type-h5-size:             modular-scale(2);
+$type-h6-size:             modular-scale(1);
+
+//Grid
+
+$gutter:                 30px;
+$use-silent-classes:     true;
+$push:                   true;
+$pull:                   true;
+$use-markup-fix:        false; //Setting this to true while not using floats means there can be no whitespce between grid items.
+$use-floats:            false;
+$columns:                  12; //Using anything other than 12 may cause a bit of slow down during processing.
+
+$breakpoints: (
+    'smalls' '(max-width:640px)',                            //Everything up to 640px. Mostly phones.
+    'small' '(max-width: 480px)',                            //Up to 480px. Overrides Smalls. Small Phones, including iPhone.
+    'smallish''(min-width: 481px) and (max-width: 640px)',     //Between 480 and 640px. Overrides Smalls. Large phones/phablets.
+    'bigs' '(min-width: 641px)',                            //Everything larger than 640px. Tablets and Desktops.
+    'lap' '(min-width: 641px) and (max-width: 940px)',        //640-940px. Overrides Bigs. Mostly Tablets and small laptops.
+    'desk' '(min-width: 941px)'                                //940 and Up. Overrides Bigs. Large Tablets and Desktops.
+);
+
+// Give grid-abilities to breakpoints.
+// The more breakpoints defined here will result in longer preprocessing times.
+$breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
+$breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
+$breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
+
+
+//Colors - based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
+//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
+//The darker and ligher variations are defined in utilities/variables
+
+
+
+$primary-color: #063b6d;            			//UW Blue (dark blue)
+$accent-color: #d40026;             			//UW Red (maroonish-red)
+$action-color: #4c7659;             			//Green / Earth
+$function-color: #d4c9ad;           			//UW Tan
+$alert-color: #b22727;              			//Desaturated Red
+$link-color: darken($accent-color, 5%);         //It's rare that you need to make this something other than one of the above variables.
+
+
+//Tab-box settings
+
+$tab-invert-active:                 false;
+$tab-border:                        true;
+$tab-single-border:                 false;
+$tab-button-bg:                     darken($function-color, 20%);
+$tab-border-color: 					$tab-button-bg;
+$tab-content-bg:                    #fff;
+$tab-button-text:                   #fff;
+$tab-border-radius:                 2px;
+$tab-spacing:                       2px;

@@ -13,53 +13,48 @@
     float: none;
 }
 @include media-query(small){
-    @include headings-scale(1.17);
+    @include headings-scale(1.17, small);
     .wrap{
         width: 95%;
     }
 }
 @include media-query(smallish){
-    @include headings-scale(1.2);
+    @include headings-scale(1.2, small);
     .wrap{
         width: 93%;
     }
 }
 
 .row-narrow{
-    @extend %grid--narrow;
+    @extend %grid_narrow;
 }
 .row{
     @extend %grid;
 }
 .column{
-    @extend %grid__item;
+    @extend %grid_item;
     @extend %one-whole;
 }
 .sidebar{
-    @extend %grid__item;
-    @extend %smalls--one-whole;
-    @extend %bigs--one-quarter;
+    @extend %smalls_one-whole;
+    @extend %bigs_one-quarter;
 }
 .content{
-    @extend %grid__item;
-    @extend %smalls--one-whole;
-    @extend %bigs--three-quarters;
+    @extend %smalls_one-whole;
+    @extend %bigs_three-quarters;
 }
 
 .add-on{
-    @extend %grid__item;
     @extend %one-whole;
-    @extend %smallish--one-fifth;
-    @extend %bigs--one-sixth;
+    @extend %smallish_one-fifth;
+    @extend %bigs_one-sixth;
 }
 .wide-content{
-    @extend %grid__item;
-    @extend %smallish--four-fifths;
-    @extend %bigs--five-sixths;
+    @extend %smallish_four-fifths;
+    @extend %bigs_five-sixths;
 }
 .right{
-    @extend %grid__item;
-    @extend %grid--right;
+    @extend %grid_right;
 }
 
 .button{
@@ -74,6 +69,8 @@
     @extend %cf;
 }
 
+
+
 #toggles{
     position: fixed;
     top: -1px;
@@ -85,9 +82,9 @@
     border-radius: 0px 0px 0px 3px;
 }
 .color-block{
-    @extend %grid__item;
+    @extend %grid_item;
     @extend %one-fifth;
-    @extend %small--one-half;
+    @extend %small_one-half;
     text-align: center;
     color: #fff;
     overflow: hidden;

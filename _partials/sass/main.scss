@@ -2,15 +2,16 @@
 
 //Imports (must be called after variables are defined).
 @import 'utilities/_functions',
-        'config',
+        'base/_config',
         'utilities/_variables',
         'colors/_colors',
         'type/_fonts',
-        'utilities/_extend',
+        'utilities/_helpers',
         'type/_typography',
         'vendor/_normalize',
-        'grid/_import',
+        'layout/_import',
         'components/_import',
-        'app';
+        //'vendor/_animate',
+        'base/_app';
 
 

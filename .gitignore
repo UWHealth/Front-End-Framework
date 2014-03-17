@@ -1,2 +1,16 @@
 
 codekit-config.json
+
+*.scssc
+
+*.map
+
+_partials/sass/utilities/config.rb
+
+_partials/sass/layout/config.rb
+
+_partials/sass/components/config.rb
+
+_partials/sass/base/config.rb
+
+*.rb

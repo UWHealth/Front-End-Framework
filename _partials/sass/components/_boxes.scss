@@ -1,0 +1,61 @@
+.box{
+    @extend %grid_item;
+    @include type-space-sc(padding, 1, 1);
+    @include type-space(margin-bottom, 1);
+
+    > :last-child{
+    	margin-bottom: 0;
+    }
+}
+.box_open{
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    @include type-space-sc(padding, .97, 0);
+}
+.box_closed{
+    border: 1px solid #ddd;
+}
+
+//Creates a responsive, square container.
+//Must have a .body inside for content.
+.box_square{
+    position: relative;
+    display:block;
+	@include media-query(smalls){
+		max-height: $base-line-height * 5;
+	}
+	overflow: hidden;
+	word-break: break-word;
+	
+	& .body{
+		position: absolute;
+		@include type-space(top,.5);
+		@include type-space(left,.5);
+		display: block;
+		text-align: left;
+		white-space: normal;
+		@include type-space(padding-right, .5)
+	}
+	
+	&:before{
+		display:block;
+		margin-top: 100%;
+		content:" ";
+		font-size: 0;	
+	}
+
+}
+//
+//Modifiers for box_square
+//
+
+// 3:4 box
+.pano:before{
+	margin-top: 75%;
+}
+// 1:2 box
+.wide:before{
+	margin-top: 50%;
+}

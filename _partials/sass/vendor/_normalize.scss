@@ -7,15 +7,27 @@
 /* ========================================================================== */
 
 /**
+ * 1. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+
+html {
+    -ms-text-size-adjust: 100%;
+ /* 2 */
+    -webkit-text-size-adjust: 100%;
+ /* 2 */
+}
+/**
  * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
+
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary {
     display: block;}
 
 /**
  * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
-audio,canvas,video {
+audio,canvas,video,progress {
     display: inline-block;
     *display: inline;
     *zoom: 1;}
@@ -31,11 +43,11 @@ audio:not([controls]) {
 }
 
 /**
- * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
- * Known issue: no IE 6 support.
+ * Address `[hidden]` styling not present in IE 8/9.
+ * Hide the `template` element in IE, Safari, and Firefox < 22.
  */
 
-[hidden] {
+[hidden], template {
     display: none;
 }
 /**
@@ -59,30 +71,33 @@ textarea {
 /* ========================================================================== */
 /*   Links
 /* ========================================================================== */
+
+/**
+ * [1] Remove the gray background color from active links in IE 10.
+ * [2] Address `outline` inconsistency between Chrome and other browsers.
+ * [3] Improve readability when focused and also mouse hovered in all browsers.
+ */
+
 a{
     cursor: pointer;
     color: $link-color;
+    background: transparent; //[1]
+
     &:hover,
-      &:focus {
+    &:focus {
         color: lighten($link-color, 15%);
       }
-}
-/**
- * Address `outline` inconsistency between Chrome and other browsers.
- */
 
-a:focus {
-    outline: thin dotted;
+    &:focus {
+        outline: thin dotted; //[2]
+    }
+
+    &:active,
+    &:hover {
+        outline: 0; //[3]
+    }
 }
 
-/**
- * Improve readability when focused and also mouse hovered in all browsers.
- */
-
-a:active,
-a:hover {
-    outline: 0;
-}
 
 /**
  * Address styling not present in Safari 5 and Chrome.
@@ -130,8 +145,8 @@ nav ol {
  */
 
 img {
-    border: 0; /* 1 */
-    -ms-interpolation-mode: bicubic; /* 2 */
+    border: 0; //[1]
+    -ms-interpolation-mode: bicubic; //[2]
     max-width: 100%;
     height: auto;
     vertical-align: middle;
@@ -162,16 +177,67 @@ figure {
    ========================================================================== */
 
 /**
- * Correct margin displayed oddly in IE 6/7.
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
  */
+
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari 5, and Chrome.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    color: inherit; //[1]
+    font: inherit; //[2]
+    margin: 0; //[3]
+}
+
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10.
+ */
+
+button {
+    overflow: visible;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8+, and Opera
+ * Correct `select` style inheritance in Firefox.
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
 
 form {
     margin: 0;
 }
 
 /**
- * Define consistent border, margin, and padding.
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
  */
+
+button,
+html input[type="button"], //[1]
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; //[2]
+    cursor: pointer; //[3]
+}
 
 
 
@@ -270,8 +336,34 @@ input[type="radio"] {
     *height: 13px; /* 3 */
     *width: 13px; /* 3 */
 }
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-    input[type="checkbox"] {top: 0.35em;}input[type="radio"] {left: 1px;}}
+
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box;
+ /* 1 */
+    padding: 0;
+ /* 2 */
+}
+
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
 /**
  * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
  * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
@@ -296,6 +388,18 @@ input[type="search"]::-webkit-search-decoration {
 }
 
 /**
+ * 1. Correct `color` not being inherited in IE 8/9.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+
+legend {
+    border: 0;
+ /* 1 */
+    padding: 0;
+ /* 2 */
+}
+
+/**
  * Remove inner padding and border in Firefox 3+.
  */
 
@@ -303,6 +407,15 @@ button::-moz-focus-inner,
 input::-moz-focus-inner {
     border: 0;
     padding: 0;
+}
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+
+input {
+    line-height: normal;
 }
 
 /**
@@ -314,6 +427,15 @@ textarea {
     overflow: auto; /* 1 */
     vertical-align: top; /* 2 */
     resize: vertical;
+}
+
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+
+optgroup {
+  font-weight: bold;
 }
 
 .hidden {
@@ -371,8 +493,10 @@ hr {
     height: 1px;
     border: 0;
     border-top: 1px solid #ccc;
-    @include type-space-sc(margin, .96, 0);
+    @include type-space-sc(margin, 1, 0);
     padding: 0;
+	position: relative;
+	top: -1px;
 }
 
 .chromeframe {
