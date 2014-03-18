@@ -50,14 +50,31 @@ $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 //Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
 //The darker and ligher variations are defined in utilities/variables
 
+$colors: (
+	primary: (
+		base: #063b6d
+	),
+	primary-alt: (
+		base: #5f82a3
+	),
+	accent: (
+		base: #d40026
+	),
+	accent-alt: (
+		base: #fe0202
+	),
+	action: (
+		base: #4c7659  
+	),
+	function: (
+		base: #d4c9ad 
+	),
+	alert: (
+		base: #b22727
+	)
+);
 
-
-$primary-color: #063b6d;            			//UW Blue (dark blue)
-$accent-color: #d40026;             			//UW Red (maroonish-red)
-$action-color: #4c7659;             			//Green / Earth
-$function-color: #d4c9ad;           			//UW Tan
-$alert-color: #b22727;              			//Desaturated Red
-$link-color: darken($accent-color, 5%);         //It's rare that you need to make this something other than one of the above variables.
+$link-color: darken(#d40026, 5%);         //It's rare that you need to make this something other than one of the above variables.
 
 
 //Tab-box settings
@@ -65,7 +82,7 @@ $link-color: darken($accent-color, 5%);         //It's rare that you need to mak
 $tab-invert-active:                 false;
 $tab-border:                        true;
 $tab-single-border:                 false;
-$tab-button-bg:                     darken($function-color, 20%);
+$tab-button-bg:                     #d4c9ad;
 $tab-border-color: 					$tab-button-bg;
 $tab-content-bg:                    #fff;
 $tab-button-text:                   #fff;
