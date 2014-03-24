@@ -2098,7 +2098,7 @@ hr {
 .list_naked {
   list-style: none;
   margin-left: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003558}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003562}}
   .list_naked > li {
     list-style-image: none;
     list-style-type: none;
@@ -2117,12 +2117,12 @@ hr {
     padding: 0px 18px;
     padding: 0rem 1.125rem;
     margin-bottom: 0;
-    background-color: #d4c9ad;
+    background-color: #b19d6a;
     color: white;
     position: relative;
     z-index: 1;
     border-bottom-width: 0 !important;
-    border: 1px solid #ede9de;
+    border: 1px solid #d4c9ad;
     margin-top: -1px;
     cursor: pointer;
     display: none; }
@@ -2137,20 +2137,20 @@ hr {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/components\/_tabs\.scss}line{font-family:\00003121}}
   .tabbed .active {
     background-color: white;
-    color: #d4c9ad;
-    border-color: #d4c9ad;
+    color: #b19d6a;
+    border-color: #b19d6a;
     border-bottom-color: transparent;
     top: 1px;
     z-index: 1; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/components\/_tabs\.scss}line{font-family:\00003136}}
     .tabbed .active:hover {
       cursor: default;
-      color: #d4c9ad; }
+      color: #b19d6a; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/components\/_tabs\.scss}line{font-family:\00003148}}
 .tab_content {
   display: block;
-  border: 1px solid #d4c9ad;
+  border: 1px solid #b19d6a;
   background-color: white;
   position: relative;
   z-index: 0;
@@ -2191,9 +2191,9 @@ hr {
   line-height: 48px;
   line-height: 3rem;
   border: 1px solid;
-  background-color: #d4c9ad;
+  background-color: #b19d6a;
   color: white;
-  border-color: #d4c9ad;
+  border-color: #b19d6a;
   text-decoration: none;
   border-bottom-color: transparent;
   border-radius: 2px 2px 0 0;
@@ -2222,7 +2222,7 @@ hr {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/components\/_tabs\.scss}line{font-family:\00003257}}
   .tab_side > .tabs .tab {
     border-radius: 2px 0 0 2px;
-    border-bottom-color: #d4c9ad;
+    border-bottom-color: #b19d6a;
     padding-left: 15px;
     top: 0;
     display: table;
@@ -2231,7 +2231,7 @@ hr {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/components\/_tabs\.scss}line{font-family:\00003278}}
   .tab_side > .tabs .active {
     border-right-color: transparent;
-    border-bottom-color: #d4c9ad; }
+    border-bottom-color: #b19d6a; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/components\/_tabs\.scss}line{font-family:\00003282}}
   .tab_side > .tabs ~ .tab_content {
     margin-left: -1px; }
@@ -2260,7 +2260,7 @@ hr {
 @media only screen and (max-width: 640px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/components\/_tabs\.scss}line{font-family:\00003323}}
   .js .tab_accordion > .tab_content {
-    border: 1px solid #d4c9ad; } }
+    border: 1px solid #b19d6a; } }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/components\/_tabs\.scss}line{font-family:\00003331}}
 .tab_content > .tabbed {
@@ -2423,7 +2423,7 @@ table {
   float: none; }
 
 @media only screen and (max-width: 480px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h1, .h1,
   .h1 {
     font-size: 41.0426272px;
@@ -2431,7 +2431,7 @@ table {
     line-height: 1.1695158;
     line-height: 3rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h2, .h2,
   .h2 {
     font-size: 35.0791686px;
@@ -2439,7 +2439,7 @@ table {
     line-height: 1.3683335;
     line-height: 3rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h3, .h3,
   .h3 {
     font-size: 29.9821954px;
@@ -2447,7 +2447,7 @@ table {
     line-height: 1.2007126;
     line-height: 2.25rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h4, .h4,
   .h4 {
     font-size: 25.625808px;
@@ -2455,7 +2455,7 @@ table {
     line-height: 1.4048338;
     line-height: 2.25rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h5, .h5,
   .h5 {
     font-size: 21.9024px;
@@ -2463,7 +2463,7 @@ table {
     line-height: 1.0957703;
     line-height: 1.5rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h6, .h6, .no-js .tab_button,
   .h6 {
     font-size: 18.72px;
@@ -2475,7 +2475,7 @@ table {
   .wrap {
     width: 95%; } }
 @media only screen and (min-width: 481px) and (max-width: 640px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h1, .h1,
   .h1 {
     font-size: 47.775744px;
@@ -2483,7 +2483,7 @@ table {
     line-height: 1.0046939;
     line-height: 3rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h2, .h2,
   .h2 {
     font-size: 39.81312px;
@@ -2491,7 +2491,7 @@ table {
     line-height: 1.2056327;
     line-height: 3rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h3, .h3,
   .h3 {
     font-size: 33.1776px;
@@ -2499,7 +2499,7 @@ table {
     line-height: 1.4467593;
     line-height: 3rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h4, .h4,
   .h4 {
     font-size: 27.648px;
@@ -2507,7 +2507,7 @@ table {
     line-height: 1.3020833;
     line-height: 2.25rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h5, .h5,
   .h5 {
     font-size: 23.04px;
@@ -2515,7 +2515,7 @@ table {
     line-height: 1.0416667;
     line-height: 1.5rem; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/Chris\/Sites\/Git\/Front-End-Framework\/_partials\/sass\/utilities\/_functions\.scss}line{font-family:\00003388}}
   h6, .h6, .no-js .tab_button,
   .h6 {
     font-size: 19.2px;

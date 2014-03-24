@@ -82,7 +82,7 @@ $link-color: darken(#d40026, 5%);         //It's rare that you need to make this
 $tab-invert-active:                 false;
 $tab-border:                        true;
 $tab-single-border:                 false;
-$tab-button-bg:                     #d4c9ad;
+$tab-button-bg:                     darken(colors(function), 20%);
 $tab-border-color: 					$tab-button-bg;
 $tab-content-bg:                    #fff;
 $tab-button-text:                   #fff;
