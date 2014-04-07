@@ -1,6 +1,6 @@
 {
 "CodeKitInfo": "This is a CodeKit 2.x project configuration file. It is designed to sync project settings across multiple machines. MODIFYING THE CONTENTS OF THIS FILE IS A POOR LIFE DECISION. If you do so, you will likely cause CodeKit to crash. This file is not useful unless accompanied by the project that created it in CodeKit 2. This file is not backwards-compatible with CodeKit 1.x. For more information, see: http:\/\/incident57.com\/codekit",
-"creatorBuild": "16844",
+"creatorBuild": "16895",
 "files": {
 	"\/_partials\/js\/jquery-2.1.0.js": {
 		"fileType": 64,
@@ -8,6 +8,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/js\/jquery-2.1.0.js",
 		"outputAbbreviatedPath": "\/js\/jquery-2.1.0.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -18,6 +19,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/js\/main.js",
 		"outputAbbreviatedPath": "\/js\/main.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -28,6 +30,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/js\/plugins.js",
 		"outputAbbreviatedPath": "\/js\/plugins.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -38,6 +41,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/kits\/_foot.kit",
 		"outputAbbreviatedPath": "\/_partials\/kits\/_foot.html",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/_partials\/kits\/_meta.kit": {
@@ -46,6 +50,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/kits\/_meta.kit",
 		"outputAbbreviatedPath": "\/_partials\/kits\/_meta.html",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/_partials\/kits\/dept-page.kit": {
@@ -54,6 +59,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/kits\/dept-page.kit",
 		"outputAbbreviatedPath": "\/dept-page.html",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1
 		},
 	"\/_partials\/kits\/index.kit": {
@@ -61,8 +67,9 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/kits\/index.kit",
-		"outputAbbreviatedPath": "\/_partials\/kits\/index.html",
-		"outputPathIsSetByUser": 0
+		"outputAbbreviatedPath": "\/index.html",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 1
 		},
 	"\/_partials\/sass\/base\/_app.scss": {
 		"createSourceMap": 0,
@@ -73,6 +80,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/base\/_app.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_app.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -88,6 +96,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/base\/_config.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_config.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -103,6 +112,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/colors\/_colors.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_colors.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -118,6 +128,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/components\/_boxes.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_boxes.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -133,6 +144,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/components\/_buttons.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_buttons.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -148,6 +160,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/components\/_import.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_import.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -163,6 +176,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/components\/_lists.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_lists.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -178,6 +192,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/components\/_tables.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_tables.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -193,6 +208,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/components\/_tabs.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_tabs.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -208,6 +224,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_alignment.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_alignment.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -223,6 +240,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_grids.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_grids.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -238,6 +256,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_import.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_import.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -253,6 +272,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_spacing.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_spacing.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -261,16 +281,17 @@
 		},
 	"\/_partials\/sass\/main.scss": {
 		"createSourceMap": 0,
-		"debugStyle": 2,
+		"debugStyle": 1,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/main.scss",
 		"outputAbbreviatedPath": "\/css\/main.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
 		"outputStyle": 0,
-		"shouldRunAutoprefixer": 0,
+		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
@@ -283,6 +304,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/type\/_fonts.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_fonts.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -298,6 +320,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/type\/_typography.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_typography.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -313,6 +336,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/utilities\/_functions.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_functions.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -328,6 +352,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/utilities\/_helpers.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_helpers.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -343,6 +368,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/utilities\/_variables.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_variables.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -358,6 +384,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/vendor\/_animate.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_animate.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -373,6 +400,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/vendor\/_normalize.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_normalize.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -388,6 +416,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/vendor\/reference\/_typecsset.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/vendor\/css\/_typecsset.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -403,6 +432,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/vendor\/reference\/csswizardry-grids\/CHANGELOG.md",
 		"outputAbbreviatedPath": "\/_partials\/sass\/vendor\/reference\/csswizardry-grids\/CHANGELOG.html",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/_partials\/sass\/vendor\/reference\/csswizardry-grids\/csswizardry-grids.scss": {
@@ -414,6 +444,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/vendor\/reference\/csswizardry-grids\/csswizardry-grids.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/vendor\/reference\/css\/csswizardry-grids.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -429,6 +460,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/vendor\/reference\/csswizardry-grids\/README.md",
 		"outputAbbreviatedPath": "\/_partials\/sass\/vendor\/reference\/csswizardry-grids\/README.html",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/css\/main.css": {
@@ -437,6 +469,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/css\/main.css",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/dept-page.html": {
@@ -445,6 +478,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/dept-page.html",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/favicons\/apple-touch-icon-114x114-precomposed.png": {
@@ -454,6 +488,7 @@
 		"initialSize": 3449,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-114x114-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-114x114-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -464,6 +499,7 @@
 		"initialSize": 3783,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-120x120-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-120x120-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -474,6 +510,7 @@
 		"initialSize": 5067,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-144x144-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-144x144-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -484,6 +521,7 @@
 		"initialSize": 5138,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-152x152-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-152x152-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -494,6 +532,7 @@
 		"initialSize": 951,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-57x57-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-57x57-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -504,6 +543,7 @@
 		"initialSize": 1011,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-60x60-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-60x60-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -514,6 +554,7 @@
 		"initialSize": 1741,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-72x72-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-72x72-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -524,6 +565,7 @@
 		"initialSize": 2003,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-76x76-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-76x76-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -534,6 +576,7 @@
 		"initialSize": 6739,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon-precomposed.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon-precomposed.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -544,6 +587,7 @@
 		"initialSize": 5138,
 		"inputAbbreviatedPath": "\/favicons\/apple-touch-icon.png",
 		"outputAbbreviatedPath": "\/favicons\/apple-touch-icon.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -554,6 +598,7 @@
 		"initialSize": 5871,
 		"inputAbbreviatedPath": "\/favicons\/favicon-160x160.png",
 		"outputAbbreviatedPath": "\/favicons\/favicon-160x160.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -564,6 +609,7 @@
 		"initialSize": 243,
 		"inputAbbreviatedPath": "\/favicons\/favicon-16x16.png",
 		"outputAbbreviatedPath": "\/favicons\/favicon-16x16.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -574,6 +620,7 @@
 		"initialSize": 10535,
 		"inputAbbreviatedPath": "\/favicons\/favicon-196x196.png",
 		"outputAbbreviatedPath": "\/favicons\/favicon-196x196.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -584,6 +631,7 @@
 		"initialSize": 496,
 		"inputAbbreviatedPath": "\/favicons\/favicon-32x32.png",
 		"outputAbbreviatedPath": "\/favicons\/favicon-32x32.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -594,6 +642,7 @@
 		"initialSize": 2795,
 		"inputAbbreviatedPath": "\/favicons\/favicon-96x96.png",
 		"outputAbbreviatedPath": "\/favicons\/favicon-96x96.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -604,6 +653,7 @@
 		"initialSize": 114699,
 		"inputAbbreviatedPath": "\/favicons\/large.png",
 		"outputAbbreviatedPath": "\/favicons\/large.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -614,6 +664,7 @@
 		"initialSize": 4221,
 		"inputAbbreviatedPath": "\/favicons\/mstile-144x144.png",
 		"outputAbbreviatedPath": "\/favicons\/mstile-144x144.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -624,6 +675,7 @@
 		"initialSize": 3934,
 		"inputAbbreviatedPath": "\/favicons\/mstile-150x150.png",
 		"outputAbbreviatedPath": "\/favicons\/mstile-150x150.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -634,6 +686,7 @@
 		"initialSize": 4374,
 		"inputAbbreviatedPath": "\/favicons\/mstile-310x150.png",
 		"outputAbbreviatedPath": "\/favicons\/mstile-310x150.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -644,6 +697,7 @@
 		"initialSize": 15263,
 		"inputAbbreviatedPath": "\/favicons\/mstile-310x310.png",
 		"outputAbbreviatedPath": "\/favicons\/mstile-310x310.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -654,6 +708,7 @@
 		"initialSize": 2631,
 		"inputAbbreviatedPath": "\/favicons\/mstile-70x70.png",
 		"outputAbbreviatedPath": "\/favicons\/mstile-70x70.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -664,6 +719,7 @@
 		"initialSize": 36123,
 		"inputAbbreviatedPath": "\/favicons\/square.png",
 		"outputAbbreviatedPath": "\/favicons\/square.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -674,6 +730,7 @@
 		"initialSize": 11179,
 		"inputAbbreviatedPath": "\/favicons\/tiny.png",
 		"outputAbbreviatedPath": "\/favicons\/tiny.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -684,6 +741,7 @@
 		"initialSize": 64437,
 		"inputAbbreviatedPath": "\/favicons\/wide.png",
 		"outputAbbreviatedPath": "\/favicons\/wide.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -693,6 +751,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/index.html",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/js\/main.min.js": {
@@ -701,6 +760,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/main.min.js",
 		"outputAbbreviatedPath": "\/js\/main.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -711,6 +771,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/plugins.min.js",
 		"outputAbbreviatedPath": "\/js\/plugins.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -721,6 +782,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/vendor\/jquery-1.10.1.min.js",
 		"outputAbbreviatedPath": "\/js\/jquery-1.10.1.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -731,6 +793,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/vendor\/jquery-2.1.0.min.js",
 		"outputAbbreviatedPath": "\/js\/jquery-2.1.0.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -741,6 +804,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/vendor\/modernizr-2.6.2-respond-1.1.0.min.js",
 		"outputAbbreviatedPath": "\/js\/modernizr-2.6.2-respond-1.1.0.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -754,6 +818,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/README.md",
 		"outputAbbreviatedPath": "\/README.html",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		}
 	},

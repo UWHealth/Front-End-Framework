@@ -113,25 +113,17 @@
 
 // Font family declaration.
 // Allows for cleaner, consolodated code.
-%type-family{
+%type_family{
     font-family: $primary-font-family;
 }
-%secondary_type-family{
+%secondary_type_family{
     font-family: $secondary-font-family;
-}
-//
-// A lot of elements in typography need to share some declarations (mainly for
-// vertical rhythm), so we `@extend` some silent classes.
-//
-%type_reset {
-    margin:  0;
-    padding: 0;
 }
 
 // Create vertical rhythms that are more appropriate for headings inside text blocks.
 // Adds 2/3 of the vertical rhythm to the top and 1/3 to bottom so headings appear
 // closer to their sibling paragraphs. Creates better proximity.
-%type-vertical-rhythm-headings{
+%vertical-rhythm-headings{
     padding: 0;
     margin-bottom: $type-magic-number * .5;
     margin-bottom: ($type-magic-ratio * .5) + rem;
@@ -162,7 +154,8 @@
     // Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.
 
     %#{$namespace}media_block{
-        & .img{
+		zoom: 1;
+        & .img, .media{
             float:left;
             word-break: break-word;
             display: inline-block;
@@ -171,13 +164,6 @@
         & .img ~ *, & .media_body{
             overflow: hidden;
         }
-
-    }
-
-
-    //Used for headings+p, or indented paragraphs.
-    %#{$namespace}negative-top{
-        @include type-space(margin-top, -1)
     }
     //
     // Font family, normal, italic and bold silent classes/extensions.

@@ -85,7 +85,7 @@
 // }
 
 %type-vertical-rhythm {
-    @extend %type_reset;
+    @extend %space_reset;
     margin-bottom: $type-magic-number;
     margin-bottom: $type-magic-ratio + rem;
 }
@@ -96,8 +96,8 @@
     $BASE
 ------------------------------------*/
  html {
-   @extend %type_reset;
-   @extend %type-family;
+   @extend %space_reset;
+   @extend %type_family;
    font-size: $base-font-size / 16px + em; // [1]
 
     -ms-text-size-adjust: 100%;
@@ -110,13 +110,10 @@
             background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
         }
     }
-    // Makes sticky footers much easier.
-    width: 100%;
-    height: 100%;
 }
 body, .p {
    @include type-font-size($base-font-size);
-   @extend %type_reset;
+   @extend %space_reset;
 }
 
 //Allow a toggle for baseline image
@@ -152,7 +149,6 @@ h1,h2,h3,h4,h5,h6{
 @else{
 
     h1 {
-        @extend %type-vertical-rhythm;
         @include type-font-size($type-h1-size);
         & + p{
             @extend %negative-top; //[6]
@@ -165,7 +161,6 @@ h1,h2,h3,h4,h5,h6{
     }
 
     h2 {
-        @extend %type-vertical-rhythm;
         @include type-font-size($type-h2-size);
         & + p{
             @extend %negative-top; //[6]
@@ -178,7 +173,6 @@ h1,h2,h3,h4,h5,h6{
    }
 
     h3 {
-        @extend %type-vertical-rhythm;
         @include type-font-size($type-h3-size);
         & + p{
             @extend %negative-top; //[6]
@@ -191,7 +185,6 @@ h1,h2,h3,h4,h5,h6{
    }
 
     h4 {
-        @extend %type-vertical-rhythm;
         @include type-font-size($type-h4-size);
         & + p{
             @extend %negative-top; //[6]
@@ -204,7 +197,6 @@ h1,h2,h3,h4,h5,h6{
    }
 
     h5 {
-        @extend %type-vertical-rhythm;
         @include type-font-size($type-h5-size);
         & + p{
             @extend %negative-top; //[6]
@@ -217,7 +209,6 @@ h1,h2,h3,h4,h5,h6{
    }
 
     h6 {
-        @extend %type-vertical-rhythm;
         @include type-font-size($type-h6-size);
         & + p{
             @extend %negative-top; //[6]
@@ -235,12 +226,12 @@ h1,h2,h3,h4,h5,h6{
 -------------------------------*/
 ul, ol, dd, menu {
     @extend %type-vertical-rhythm;
-    @include type-space(margin-left, 1);
+    @extend %space_l;
 }
 
 li > ul,
 li > ol {
-    margin-bottom: 0;
+    @extend %space_n_v;
 }
 
 
@@ -257,8 +248,7 @@ p, .p, %p {
 
         + p, .p, %p {
             @include type-space(text-indent);
-            margin-top: -$type-magic-number;
-            margin-top: -$type-magic-ratio + rem;
+            @extend %space_negative;
         }
 
     }
@@ -289,9 +279,9 @@ code,
 kbd,
 pre,
 samp {
-    font-family: monospace, monospace; // [1]
+    font-family: monospace, monospace;
     _font-family: 'courier new', monospace;
-    font-size: 1em;
+    font-size: 1em; // [1]
 }
 
 /*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
@@ -310,13 +300,13 @@ abbr[title] {
 // 1. Hang the opening quote of the blockquote.
 //
 blockquote {
-    text-indent: -0.41em; // [1] */
+    text-indent: -0.41em; // [1]
 }
 
 blockquote {
     @extend %type-vertical-rhythm;
     quotes: '“' '”';
-    @include type-space(margin-left, 1);
+    @extend %space_l;
 
     p {
 

@@ -3,6 +3,9 @@
 //---------------------------------\\
 
 // Put all of your normal/application-specific CSS here.
+html{
+	background-color: #f3f5f8;
+}
 .wrap{
     width: 90%;
     max-width: 1200px;
@@ -34,6 +37,9 @@
 .column{
     @extend %grid_item;
     @extend %one-whole;
+}
+.half{
+	@extend %one-half;
 }
 .sidebar{
     @extend %smalls_one-whole;

@@ -81,12 +81,12 @@
                         <h3><mark>Grid Test - Main Content</mark> ipsum dolor sit amet.</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</p>
 
-                        <a href="#main" class="tab_button" data-tab="tab_accordion tab_line">Main</a>
-                        <div id="main" class="tab_content bigs_pad_n_h">
-                            <h5><mark>Tabs Test</mark></h5>
+                        <a href="#main" class="tab_button" data-tab="tab_accordion tab_minimal tab_underline">Main</a>
+                        <div id="main" class="tab_content">
+                            <h5><mark>Tabs Test (tab_minimal, tab_underline)</mark></h5>
 
                             <a href="#tab5" class="tab_button" data-tab="tab_side">First</a>
-                            <div id="tab5" class="tab_content"><h5><mark>Tabs Test</mark></h5>
+                            <div id="tab5" class="tab_content"><h5><mark>Tabs Test (tab_side)</mark></h5>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
                             </div>
 
@@ -102,18 +102,22 @@
                         </div>
 
                         <a href="#other" class="tab_button">Complex Layout Example</a>
-                        <div id="other" class="tab_content bigs_pad_n_h">
+                        <div id="other" class="tab_content">
                             <div class="row">
                             	<div class="sidebar column">
-                            		<small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sequi.</small>
-                            		</div>
-                            		<div class="content column">
-                            			<small class="add-on align_right">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate assumenda cumque magni dolore vitae blanditiis!</small><!--
-                            		--><p class="wide-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, non, accusamus, harum sed fugit dolorum dolore enim corrupti totam tenetur rem rerum repellendus delectus excepturi et sunt facilis soluta necessitatibus.</p>
-                            			<p>Et, perferendis, repellat, asperiores enim esse dolorum ut provident sint reprehenderit pariatur expedita vitae quam possimus natus hic magni maxime dignissimos ducimus aperiam voluptas! Suscipit voluptas hic error cum optio?</p>
-                            			<p>Consequatur, repellat, ipsa, cum nesciunt reprehenderit quod temporibus impedit deserunt inventore atque magnam hic voluptatum vero dignissimos corrupti enim officia beatae voluptatibus ab adipisci! Libero sapiente excepturi quidem minima neque.</p>
-                            		</div>
+                            		<small>
+                            		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sequi.
+                            		</small>
+                            	</div>
+								<div class="content column">
+									<aside class="add-on align_right">
+									<small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate assumenda cumque magni dolore vitae blanditiis!</small>
+									</aside><!--
+								--><p class="wide-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, non, accusamus, harum sed fugit dolorum dolore enim corrupti totam tenetur rem rerum repellendus delectus excepturi et sunt facilis soluta necessitatibus.</p>
+									<p>Et, perferendis, repellat, asperiores enim esse dolorum ut provident sint reprehenderit pariatur expedita vitae quam possimus natus hic magni maxime dignissimos ducimus aperiam voluptas! Suscipit voluptas hic error cum optio?</p>
+									<p>Consequatur, repellat, ipsa, cum nesciunt reprehenderit quod temporibus impedit deserunt inventore atque magnam hic voluptatum vero dignissimos corrupti enim officia beatae voluptatibus ab adipisci! Libero sapiente excepturi quidem minima neque.</p>
 								</div>
+							</div>
 
                         </div>
                     </div>
@@ -127,9 +131,10 @@
             </div>
         </div>
         <h6>
-        <mark>Side Tabs</mark> Totam, voluptatum, vel, in fuga rerum quo accusantium distinctio saepe voluptate fugiat eveniet commodi officiis sapiente odio expedita sit blanditiis assumenda cupiditate voluptates autem ex consequuntur eius fugit rem neque omnis obcaecati!     </h6>
-        <a href="#tab1" class="tab_button" data-tab="tab_side tab_accordion">Tab 1</a>
-        <div id="tab1" class="tab_content"><h5><mark>Tabs Test</mark></h5>
+        <mark>Side Tabs</mark> Totam, voluptatum, vel, in fuga rerum quo accusantium distinctio saepe voluptate fugiat eveniet commodi officiis sapiente odio expedita sit blanditiis assumenda cupiditate voluptates autem ex consequuntur eius fugit rem neque omnis obcaecati!
+        </h6>
+        <a href="#tab1" class="tab_button" data-tab="tab_side tab_accordion tab_minimal">Tab 1</a>
+        <div id="tab1" class="tab_content"><h5><mark>Tabs Test (tab_side, tab_minimal)</mark></h5>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
         </div>
 
@@ -137,12 +142,12 @@
         <div id="tab2" class="tab_content"><p>
             Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
 
-                <a href="#tab3" class="tab_button">Tab 3</a>
-                <div id="tab3" class="tab_content"><h5><mark>Tabs Test</mark></h5>
+                <a href="#tab3" class="tab_button" data-tab="tab_minimal">Tab 3</a>
+                <div id="tab3" class="tab_content"><h5><mark>Tabs Test (tab_minimal)</mark></h5>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
                 </div>
-                <a href="#tab4" class="tab_button">Tab 4</a>
-                <div id="tab4" class="tab_content"><h5><mark>Tabs4 Test</mark></h5>
+                <a href="#tab4" class="tab_button column half button">Custom tab style</a>
+                <div id="tab4" class="tab_content"><h5><mark>Tabs Test(grid column, button style)</mark></h5>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
                 </div>
 
