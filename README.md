@@ -51,23 +51,31 @@ All outside plugins that cannot/should not be integrated into plugins.js should 
 ##/_partials
 This is the most important folder in the Framework. All Sass and Javascript work should originate from this folder's children.
 
+----------
 ###/_partials/kits
 ``.kit`` is a simple "language" that allows for HTML partials and imports. A [Grunt plugin][1] exists to compile these files, but feel free to turn these into any other type of HTML partial.
 
 What's worth noting is that ``_meta.kit`` and ``_foot.kit`` contain some very useful boilerplate HTML.
 
+----------
 ###/_partials/sass
 ``main.scss`` is the only file in this folder. It simply acts as an import for all the necessary ``.scss`` files and gets output to ``/css/main.css``.
 
 *Note: many folders in here contain an ``_import.scss``. This is usually called by ``main.scss`` and responsible for importing any sibling ``.scss`` files. It will not be noted below as it always does the same thing.*
+
+----------
 
 ####/_partials/sass/base
 1. ``config.scss`` contains all the variables you'll need to get started and should house any new configuration variables you plan to add. It is one of the first files imported by ``main.scss``, so it takes precedent over nearly everything else.
 2. ``app.scss`` should be where you write all of your site-/application-specific css. There is some example css to get you started, but it is unnecessary to the larger project.
 *Note: this file gets imported last, so it has access to every other function in the Framework's Sass, and can overwrite any preceeding css.*
 
+----------
+
 ####/_partials/sass/colors
 1. ``colors.scss`` is currently the only file here. It creates the various color alternates provided in ``config.scss``.
+
+----------
 
 ####/_partials/sass/components
 Anything that might be a considered a widget/module/component in an app is contained here.
@@ -77,6 +85,8 @@ Anything that might be a considered a widget/module/component in an app is conta
 3. ``lists.scss`` includes some standard boilerplate list styles including breadcrumbs, inline lists, and bordered lists.
 4. ``tables.scss`` creates some normalized styles for tables as well as a few extras for responsive tables.
 5. ``tabs.scss`` contains tabs and accordion styles. Most of which is output depending on some variables set in ``config.scss``.
+
+----------
 
 ####/_partials/sass/layout
 
