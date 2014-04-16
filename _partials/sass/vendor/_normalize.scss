@@ -6,16 +6,11 @@
 /*   HTML5 display definitions
 /* ========================================================================== */
 
-/**
- * 1. Prevent iOS text size adjust after orientation change, without disabling
- *    user zoom.
- */
-
-html {
-    -ms-text-size-adjust: 100%;
- /* 2 */
-    -webkit-text-size-adjust: 100%;
- /* 2 */
+html, body{
+// Makes sticky footers much easier.
+    width: 100%;
+    min-height: 100%;
+	position: relative;
 }
 /**
  * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
@@ -60,7 +55,7 @@ button,
 input,
 select,
 textarea {
-    @extend %type-family;
+    @extend %type_family;
 }
 
 /**
@@ -114,8 +109,8 @@ fieldset {
  */
 
 mark {
-    background: $function-color-light;
-    color: pick_best_color($function-color-light, ($brand-color, $accent-color-dark));
+    background: colors(function, light);
+    color: pick_best_color(colors(function, light), (colors(primary), colors(accent,dark)));
     padding: 4px 3px;
     margin-left: -3px;
 }

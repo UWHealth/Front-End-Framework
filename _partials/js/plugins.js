@@ -26,22 +26,27 @@
     //Using a instead of jQuery's $ to prevent conflicts.
     a.tabbed = function(b) {
         var c = this;
-        var tabGroups = [];
-        var z = a(".tab_button");
+
 
         c.init = function() {
+			var tabGroups = [],
+				z = a(".tab_button"),
+				total_tabs = z.length,
+				y,x,w,
+				addons = "";
 
             //Set the user-set speed options.
             c.options = a.extend({}, a.tabbed.defaultOptions, b);
 
             //Loop over all tab_buttons
-            for (var i=0; i < z.length; i++) {
+            for (var i=0; i < total_tabs; i++) {
 
                 //Select the current tab and it's next two siblings.
 
-                var y = z[i];
-                var x = a(y).next()[0];
-                var w = a(x).next()[0];
+                y = z[i],
+				x = a(y).next()[0],
+                w = a(x).next()[0];
+
 
                 //Add the tab_buttons and siblings to tabGroups array.
                 tabGroups.push( y , x );
@@ -64,19 +69,22 @@
                 if (a(y).data("tabbed") !== true ) {
 
                     //Grab all tab_button classes (since they can be used as optional style alternatives)
-                    var addons = a(y).attr('class');
 					if (a(y).attr("data-tab") !== undefined){
-                            addons = addons + " " + a(y).attr("data-tab");
+                           addons = a(y).attr("data-tab");
                         }
 
                     //Add tabbed data to the group.
                     a(tabGroups).data("tabbed",true)
-                    //Wrap the group in a section with the class 'tabbed' and add add-on classes if they exist.
+                    //Wrap the group in a section with the class 'tabbed'
+					//and add add-on classes if they exist.
                         .wrapAll("<section class = 'tabbed " + addons + "' />");
                 }
 
-                //Clear out the tabGroups array and begin the loop again.
-                tabGroups = [];
+                //Clear out the tabGroups array and addons
+				// and begin the loop again.
+                tabGroups.length = 0;
+				addons = "";
+
             }
 
             //To avoid stylistic confusion, we remove .tab_button and .button from each group.
@@ -103,8 +111,12 @@
             //Hide all tab_content.
             a(".tab_content").hide();
             //Grab the hash/href value of each active tab.
-            var d = ""+a(".active").map(function(){return a(this).attr("href")}).get();
-            //Find cooresponding tab contents based on the hash/href ID we just grabbed and make them active.
+            var d = ""+a(".active").map(function(){
+				return a(this).attr("href");
+			}).get();
+
+            //Find cooresponding tab contents based on the
+			// hash/href ID we just grabbed and make them active.
             a(d).each(function(){a(this).show();});
 
             //Try to normalize heights of all tab groupings.
@@ -202,7 +214,7 @@
     var all_tables = t("table");
     var y = [];
     var z;
-    for(i=0; i<all_tables.length; i++){
+    for(var i=0; i<all_tables.length; i++){
         var current = t(all_tables)[i];
         z = t(current).find("th").map(function(){
 			t(this).each(function(){
@@ -217,7 +229,44 @@
                 t(this).attr("data-th",y[j].innerText);
             });
         });
-    };
-
+    }
 })(jQuery);
+
+
+// Lighten or darken a color function
+// Adapted from: http://css-tricks.com/snippets/javascript/lighten-darken-color/
+// Usage:
+// var lightercolor = change_color("#F06D06", 20);
+// var darkerColor = change_color("#F06D06", -20);
+
+function change_color(col, amt) {
+
+    var usePound = false;
+
+    if (col[0] === "#") {
+        col = col.slice(1);
+        usePound = true;
+    }
+
+    var num = parseInt(col,16);
+
+    var r = (num >> 16) + amt;
+
+    if (r > 255) r = 255;
+    else if  (r < 0) r = 0;
+
+    var b = ((num >> 8) & 0x00FF) + amt;
+
+    if (b > 255) b = 255;
+    else if  (b < 0) b = 0;
+
+    var g = (num & 0x0000FF) + amt;
+
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
+
+    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+
+};
+
 // Place any jQuery/helper plugins in here.

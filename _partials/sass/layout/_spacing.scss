@@ -1,11 +1,6 @@
-@mixin spacing-helpers($namespace:"", $silent: false){
-    $selector: unquote(".");
-    
-    @if $silent == true{
-        $selector: unquote("%");
-    }
+@mixin spacing-helpers($namespace:""){
 
-    #{$selector}#{$namespace}pad_t{
+    %#{$namespace}pad_t, .#{$namespace}pad_t{
         @include type-space(padding-top, 1);
 		@at-root &_2{
 			@include type-space(padding-top, 2);
@@ -14,7 +9,7 @@
 			@include type-space(padding-top, .5);
 		}
     }
-    #{$selector}#{$namespace}pad_b{
+    %#{$namespace}pad_b, .#{$namespace}pad_b{
         @include type-space(padding-bottom, 1);
 		@at-root &_2{
 			@include type-space(padding-bottom, 2);
@@ -23,72 +18,74 @@
 			@include type-space(padding-bottom, .5);
 		}
     }
-    #{$selector}#{$namespace}pad_r{
-        @include type-space(padding-right, 1);
+    %#{$namespace}pad_r, .#{$namespace}pad_r{
+        @include rems(padding-right, $gutter);
 		@at-root &_2{
-			@include type-space(padding-right, 2);
+			@include rems(padding-right, ($gutter * 2) );
 		}
 		@at-root &_half{
-			@include type-space(padding-right, .5);
+			@include rems(padding-right, ($gutter / 2) );
 		}
     }
-    #{$selector}#{$namespace}pad_l{
-        @include type-space(padding-left, 1);
+    %#{$namespace}pad_l, .#{$namespace}pad_l{
+        @include rems(padding-left, $gutter);
 		@at-root &_2{
-			@include type-space(padding-left, 2);
+			@include rems(padding-left, ($gutter * 2) );
 		}
 		@at-root &_half{
-			@include type-space(padding-left, .5);
+			@include rems(padding-left, ($gutter / 2) );
 		}
     }
-    #{$selector}#{$namespace}pad_v{
-        @extend #{$selector}#{$namespace}pad_t;
-        @extend #{$selector}#{$namespace}pad_b;
+    %#{$namespace}pad_v, .#{$namespace}pad_v{
+        @extend %#{$namespace}pad_t;
+        @extend %#{$namespace}pad_b;
 		@at-root &_2{
-			@include type-space(padding-top, 2);
-			@include type-space(padding-bottom, 2);
+			@extend %#{$namespace}pad_t_2;
+        	@extend %#{$namespace}pad_b_2;
 		}
 		@at-root &_half{
-			@include type-space(padding-top, .5);
-			@include type-space(padding-bottom, .5);
+			@extend %#{$namespace}pad_t_half;
+        	@extend %#{$namespace}pad_b_half;
 		}
     }
-    #{$selector}#{$namespace}pad_h{
-        @extend #{$selector}#{$namespace}pad_l;
-        @extend #{$selector}#{$namespace}pad_r;
+    %#{$namespace}pad_h, .#{$namespace}pad_h{
+        @extend %#{$namespace}pad_l;
+        @extend %#{$namespace}pad_r;
 		@at-root &_2{
-			@include type-space(padding-left, 2);
-			@include type-space(padding-right, 2);
+			@extend %#{$namespace}pad_l_2;
+        	@extend %#{$namespace}pad_r_2;
 		}
 		@at-root &_half{
-			@include type-space(padding-left, .5);
-			@include type-space(padding-right, .5);
+			@extend %#{$namespace}pad_l_half;
+        	@extend %#{$namespace}pad_r_half;
 		}
     }
-    #{$selector}#{$namespace}pad{
-        @extend #{$selector}#{$namespace}pad_h;
-        @extend #{$selector}#{$namespace}pad_v;
+    %#{$namespace}pad, .#{$namespace}pad{
+        @extend %#{$namespace}pad_h;
+        @extend %#{$namespace}pad_v;
 		@at-root &_2{
-			@include type-space(padding, 2);
+			@extend %#{$namespace}pad_h_2;
+			@extend %#{$namespace}pad_v_2;
 		}
 		@at-root &_half{
-			@include type-space(padding, .5);
+			@extend %#{$namespace}pad_h_half;
+			@extend %#{$namespace}pad_v_half;
 		}
 
     }
-    #{$selector}#{$namespace}pad_n_v{
+    %#{$namespace}pad_n_v, .#{$namespace}pad_n_v{
         padding-top: 0 !important;
         padding-bottom: 0 !important;
     }
-    #{$selector}#{$namespace}pad_n_h{
+    %#{$namespace}pad_n_h, .#{$namespace}pad_n_h{
         padding-right: 0 !important;;
         padding-left: 0 !important;
     }
-    #{$selector}#{$namespace}pad_n{
-        @extend #{$selector}#{$namespace}pad_n_v;
-        @extend #{$selector}#{$namespace}pad_n_h;
+    %#{$namespace}pad_n, .#{$namespace}pad_n{
+        @extend %#{$namespace}pad_n_v;
+        @extend %#{$namespace}pad_n_h;
     }
-    #{$selector}#{$namespace}space_v{
+    %#{$namespace}space_v, .#{$namespace}space_v{
         @include type-space(margin-bottom, 1);
 		@at-root &_2{
 			@include type-space(margin-bottom, 2);
@@ -97,44 +94,56 @@
 			@include type-space(margin-bottom, .5);
 		}
     }
-    #{$selector}#{$namespace}space_l{
-        @include type-space(margin-left, 1);
+    %#{$namespace}space_l, .#{$namespace}space_l{
+        @include rems(margin-left, $gutter);
 		@at-root &_2{
-			@include type-space(margin-left, 2);
+			@include rems(margin-left, ($gutter * 2) );
 		}
 		@at-root &_half{
-			@include type-space(margin-left, .5);
+			@include rems(margin-left, ($gutter / 2) );
 		}
     }
-    #{$selector}#{$namespace}space_r{
-        @include type-space(margin-right, 1);
+    %#{$namespace}space_r, .#{$namespace}space_r{
+        @include rems(margin-right, $gutter);
 		@at-root &_2{
-			@include type-space(margin-right, 2);
+			@include rems(margin-right, ($gutter * 2) );
 		}
 		@at-root &_half{
-			@include type-space(margin-right, .5);
+			@include rems(margin-right, ($gutter / 2) );
 		}
     }
-    #{$selector}#{$namespace}space{
-        @extend #{$selector}#{$namespace}space_v;
-        @extend #{$selector}#{$namespace}space_l;
-        @extend #{$selector}#{$namespace}space_r;
-	
+
+	%#{$namespace}space_n_r, .#{$namespace}space_n_r{
+		margin-right: 0 !important;
+	}
+	%#{$namespace}space_n_l, .#{$namespace}space_n_l{
+		margin-left: 0 !important;
+	}
+
+    %#{$namespace}space, .#{$namespace}space{
+        @extend %#{$namespace}space_v;
+        @extend %#{$namespace}space_l;
+        @extend %#{$namespace}space_r;
+
     }
-    #{$selector}#{$namespace}space_n_h{
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+    %#{$namespace}space_n_h, .#{$namespace}space_n_h{
+        @extend %#{$namespace}space_n_r;
+        @extend %#{$namespace}space_n_l;
     }
-    #{$selector}#{$namespace}space_n_v{
+    %#{$namespace}space_n_v, .#{$namespace}space_n_v{
         margin-top: 0 !important;
         margin-bottom: 0 !important;
     }
-    #{$selector}#{$namespace}space_n{
-        @extend #{$selector}#{$namespace}space_n_h;
-        @extend #{$selector}#{$namespace}space_n_v;
+    %#{$namespace}space_n, .#{$namespace}space_n{
+        @extend %#{$namespace}space_n_h;
+        @extend %#{$namespace}space_n_v;
     }
-	#{$selector}#{$namespace}space_negative{
-		@extend %#{$namespace}negative-top;
+	%#{$namespace}space_negative, .#{$namespace}space_negative, %#{$namespace}negative-top{
+		@include type-space(margin-top, -1);
+	}
+	%#{$namespace}space_reset{
+		margin: 0;
+    	padding: 0;
 	}
 }
 
@@ -143,8 +152,7 @@
 @if $responsive == true{
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
-           @include spacing-helpers('#{$name}_', false); 
-			//Change to true if you don't want responsive spacing classes.
+           @include spacing-helpers('#{$name}_');
         }
     }
 }

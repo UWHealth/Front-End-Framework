@@ -239,9 +239,14 @@ $golden_ratio:  golden();
 
 // REM generator
 // Used to create a property with a rem value and PX fallback
-@mixin rems($property, $size){
-    #{$property}: $size;                                                              //[1]
-    #{$property}: ($size / $base-font-size) * 1rem;
+@mixin rems($properties, $size){
+	@if (unitless($size) == true){
+		$size: $size * 1px;
+	}
+    @each $property in $properties{
+		#{$property}: $size;
+		#{$property}: ($size / $base-font-size) * 1rem;
+	}
 }
 
 //------------------------------------
@@ -376,9 +381,8 @@ $golden_ratio:  golden();
             $scale:   nth($scale, 1)/nth($scale, 2);
         }
     }
-    $scale-ratio: $scale !global;
     @each $i in $type-headings{  //[2]
-        $font-size: modular-scale($i);  //[3]
+        $font-size: modular-scale($i, $scale);  //[3]
         $current-heading: nth($type-headings,$i); //[4]
         @if $type-scale-classes == true{
             h#{$current-heading},
@@ -455,6 +459,20 @@ $golden_ratio:  golden();
     }
 }
 
+// Get a color value from our color pallette. e.g.:
+// div{
+//	  background-color: colors(primary, light)
+//}
+
+@function colors($color, $tone: 'base') {
+    @return map-get(map-get($colors, $color), $tone);
+}
+
+//Same as above, but possibly more intuitive
+@function color($color, $tone: 'base') {
+    @return map-get(map-get($colors, $color), $tone);
+}
+
 //Complex comparing colors for contrast
 //Taken from: https://gist.github.com/voxpelli/6304812
 //USAGE:
@@ -475,11 +493,6 @@ $golden_ratio:  golden();
       $best: nth($colors, $i);
     }
   }
-
-//  @if ($contrast < 3) {
-//    @warn "Contrast ratio of #{$best} on #{$base} is pretty bad, just #{$contrast}";
-//  }
-
   @return $best;
 }
 
@@ -515,6 +528,19 @@ $golden_ratio:  golden();
   $ratio: round($ratio * 10) / 10;
 
   @return $ratio;
+}
+
+//Tints and Shades (adding black or white to a color)
+// Adapted from: https://gist.github.com/benfrain/7545629
+
+// Add percentage of white to a color
+@function tint($color, $percent){
+  @return mix(white, $color, $percent);
+}
+
+// Add percentage of black to a color
+@function shade($color, $percent){
+  @return mix(black, $color, $percent);
 }
 
 //------------------------------------
