@@ -36,28 +36,28 @@ html{
 }
 .column{
     @extend %grid_item;
-    @extend %one-whole;
+    @extend %one_whole;
 }
 .half{
-	@extend %one-half;
+	@extend %one_half;
 }
 .sidebar{
-    @extend %smalls_one-whole;
-    @extend %bigs_one-quarter;
+    @extend %smalls_one_whole;
+    @extend %bigs_one_quarter;
 }
 .content{
-    @extend %smalls_one-whole;
-    @extend %bigs_three-quarters;
+    @extend %smalls_one_whole;
+    @extend %bigs_three_quarters;
 }
 
 .add-on{
-    @extend %one-whole;
-    @extend %smallish_one-fifth;
-    @extend %bigs_one-sixth;
+    @extend %one_whole;
+    @extend %smallish_one_fifth;
+    @extend %bigs_one_sixth;
 }
 .wide-content{
-    @extend %smallish_four-fifths;
-    @extend %bigs_five-sixths;
+    @extend %smallish_four_fifths;
+    @extend %bigs_five_sixths;
 }
 .right{
     @extend %grid_right;
@@ -89,8 +89,8 @@ html{
 }
 .color-block{
     @extend %grid_item;
-    @extend %one-fifth;
-    @extend %small_one-half;
+    @extend %one_fifth;
+    @extend %small_one_half;
     text-align: center;
     color: #fff;
     overflow: hidden;

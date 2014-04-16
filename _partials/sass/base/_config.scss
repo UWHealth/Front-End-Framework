@@ -64,10 +64,10 @@ $colors: (
 		base: #fe0202
 	),
 	action: (
-		base: #4c7659  
+		base: #4c7659
 	),
 	function: (
-		base: #d4c9ad 
+		base: #d4c9ad
 	),
 	alert: (
 		base: #b22727
@@ -78,6 +78,10 @@ $link-color: darken(#d40026, 5%);         //It's rare that you need to make this
 
 
 //Tab-box settings
+
+//Do you want to create styles for tabs?
+//Might be unnecessary for certain projects.
+$output-tabs: 						true;
 
 $tab-invert-active:                 false;
 $tab-border:                        true;

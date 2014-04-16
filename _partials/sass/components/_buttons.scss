@@ -1,7 +1,7 @@
 @mixin button(
     $flat-button: true,
-    $button-color-bg: $link-color,
-    $button-color-secondary: $link-color-dark,
+    $button-color-bg: colors(link),
+    $button-color-secondary: colors(link,dark),
     $button-color-text: #fff,
     $border-radius: 2px
     )
