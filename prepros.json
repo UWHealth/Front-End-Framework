@@ -11,10 +11,10 @@
       "customOutput": "js/plugins.min.js",
       "type": "Js",
       "config": {
-        "autoCompile": false,
+        "autoCompile": true,
         "uglify": true,
         "mangle": true,
-        "sourcemaps": false
+        "sourcemaps": true
       }
     },
     "fd45df93": {
@@ -71,55 +71,10 @@
       "customOutput": "js/main.min.js",
       "type": "Js",
       "config": {
-        "autoCompile": false,
+        "autoCompile": true,
         "uglify": true,
         "mangle": true,
-        "sourcemaps": false
-      }
-    },
-    "8fa0fab4": {
-      "id": "8fa0fab4",
-      "pid": "ebbb92c1",
-      "name": "csswizardry-grids.scss",
-      "input": "_partials/sass/vendor/reference/csswizardry-grids/csswizardry-grids.scss",
-      "customOutput": false,
-      "type": "Scss",
-      "config": {
-        "autoCompile": false,
-        "lineNumbers": false,
-        "unixNewlines": false,
-        "sourcemaps": false,
-        "debug": false,
-        "compass": false,
-        "fullCompass": false,
-        "outputStyle": "compact",
-        "autoprefixer": true
-      }
-    },
-    "f44f4bf6": {
-      "id": "f44f4bf6",
-      "pid": "ebbb92c1",
-      "name": "CHANGELOG.md",
-      "input": "_partials/sass/vendor/reference/csswizardry-grids/CHANGELOG.md",
-      "customOutput": false,
-      "type": "Md",
-      "config": {
-        "autoCompile": false,
-        "sanitize": true,
-        "gfm": true
-      }
-    },
-    "2f0de59d": {
-      "id": "2f0de59d",
-      "pid": "ebbb92c1",
-      "name": "README.md",
-      "input": "_partials/sass/vendor/reference/csswizardry-grids/README.md",
-      "customOutput": false,
-      "type": "Md",
-      "config": {
-        "autoCompile": false,
-        "sanitize": true,
-        "gfm": true
+        "sourcemaps": true
       }
     }
   },
