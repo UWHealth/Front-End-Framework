@@ -16,9 +16,13 @@ Totally optional if you prefer using the command line.
 
 ----------
 ##Installation
-1. Clone the Github repo from https://github.com/UWHealth/Front-End-Framework.git or simply clicking the **"Clone to Desktop" button** on the right side of this page.
-2. *Optional, but recommended:* Make a branch of the Framework for whatever project you're working on. This will allow you to version control your own code modifications while still being able to pull in new Framework features if necessary.
-3. Open Prepros and Add a New Project pointing to the newly cloned directory. Prepros should recognize the prepros.json file and give you the correct configuration for Sass and Javascript compilation (including autoprefixer for our supported browsers).
+There are two potential routes for using the Framework: **1.** Branch. **2.** Fork.
+
+1. Clone the Github repo from https://github.com/UWHealth/Front-End-Framework.git or simply clicking the **"Clone to Desktop" button** on the right side of this page. From there, make a branch for whatever project you're working on. This will allow you to version control your own code modifications while still being able to pull in new Framework features if necessary.
+
+2. Create a fork of this repo. This may be preferable since it's the least likely to cause conflicts. This will also allow us to track new features with pull requests rather than straight commits. It may also be the cleaner and more robust route since pull requests are added as issues that can be tracked.
+
+After forking or cloning, open Prepros and **Add a New Project**, pointing to the newly created directory on your computer. Prepros should recognize the prepros.json file and give you the correct configuration for Sass and Javascript compilation (including autoprefixer for our supported browsers).
 
 ----------
 #Structure
