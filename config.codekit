@@ -4,14 +4,14 @@
 "files": {
 	"\/_partials\/js\/jquery-2.1.0.js": {
 		"fileType": 64,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/_partials\/js\/jquery-2.1.0.js",
 		"outputAbbreviatedPath": "\/js\/jquery-2.1.0.min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
+		"syntaxCheckerStyle": 0
 		},
 	"\/_partials\/js\/main.js": {
 		"fileType": 64,
@@ -380,8 +380,8 @@
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/_partials\/sass\/vendor\/_animate.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_animate.css",
 		"outputPathIsOutsideProject": 0,
