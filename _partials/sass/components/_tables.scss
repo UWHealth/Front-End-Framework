@@ -42,7 +42,7 @@ table {
         border-style: solid;
     }
 }
- @include media-query(smalls){
+ @include media-query(#{$smalls}){
     .js table{
         th{
             display: none
