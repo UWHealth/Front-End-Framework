@@ -55,6 +55,8 @@ $tab-border-radius:                 2px                      !default;
 //Spacing between tab buttons.
 $tab-spacing:                       2px                      !default;
 
+
+
 //------------------------------------
 //    $GENERAL
 //------------------------------------
@@ -182,7 +184,7 @@ $tab-spacing:                       2px                      !default;
 }
 //Hide normal tabs if the box changes to an accordion on mobile.
 .tab_accordion > .tabs {
-    @extend %smalls_hide;
+    @extend %#{$smalls}_hide;
 }
 
 //------------------------------------
@@ -193,11 +195,11 @@ $tab-spacing:                       2px                      !default;
 // Created by Javascript.
 .tabs{
     position: relative;
-    display: table;
 }
 
 //Inactive Top-tabs stylings.
 .tab{
+	letter-spacing: normal;
     @if $tab-inherit-button-style == true{
         @extend %button;
     }@else{
@@ -226,17 +228,17 @@ $tab-spacing:                       2px                      !default;
                 color: darken($tab-button-text, 5%);
             }
         }
-    }
+    display: inline-block;
+	vertical-align: bottom;
+	}
     border-radius: $tab-border-radius $tab-border-radius 0 0;
-    top: 2px;
-    letter-spacing: normal;
-    float: left;
-    display: table-cell;
+    position: relative;
+	top: 2px;
     cursor: pointer;
     margin-right: $tab-spacing;
 	margin-bottom: 0;
-    position: relative;
     transition: background-color 100ms ease-out, border-color 200ms ease-out;
+
 }
 
 //------------------------------------
@@ -313,9 +315,9 @@ $tab-spacing:                       2px                      !default;
     & > .tabs{
         display: table-cell;
         vertical-align: top;
-        @extend %lap_one_fifth;
-        @extend %desk_one_sixth;
-        @extend %smalls_one_quarter;
+        @extend %lap_one_fifth !optional;
+        @extend %#{$bigs}_one_sixth;
+        @extend %#{$smalls}_one_quarter;
 
         .tab{
 			top: 0;
@@ -361,23 +363,23 @@ $tab-spacing:                       2px                      !default;
 
 //Show these on mobile.
 .tab_accordion{
-    @include media-query(smalls){
+    @include media-query(#{$smalls}){
         display: block;
         margin-left: 0;
         padding-left: 0;
     }
     & > .tab_button{
-        @include media-query(smalls){
+        @include media-query(#{$smalls}){
             display: block;
             margin-left: 0;
         }
     }
     & > .tabs{
-        @include media-query(smalls){
+        @include media-query(#{$smalls}){
             display: none !important;
         }
         & ~ .tab_content{
-            @include media-query(smalls){
+            @include media-query(#{$smalls}){
                 width: 100%;
                 margin-left: 0;
             }
@@ -387,10 +389,10 @@ $tab-spacing:                       2px                      !default;
 
 .js .tab_accordion {
 	& > .tab_button{
-		@extend %bigs_hide;
+		@extend %#{$bigs}_hide;
 	}
 	& > .tab_content{
-		@include media-query(smalls){
+		@include media-query(#{$smalls}){
 			border: 1px solid $tab-border-color;
 			background-color: $tab-content-bg;
 			@include rems(padding-left, ($gutter/2));
@@ -412,8 +414,8 @@ $tab-spacing:                       2px                      !default;
 //    $NO-JS
 //------------------------------------
 .no-js .tab_button {
-	@extend %bigs_one_fifth;
-    @extend %smalls_one_whole;
+	@extend %#{$bigs}_one_fifth;
+    @extend %#{$smalls}_one_whole;
 	letter-spacing: normal;
     display: inline-block;
     @extend %h6;
@@ -423,7 +425,7 @@ $tab-spacing:                       2px                      !default;
     padding-right: $gutter;
 
     & + .tab_content{
-		@extend %bigs_four_fifths;
+		@extend %#{$bigs}_four_fifths;
 		letter-spacing: normal;
         display: inline-block;
         @include type-space(margin-top, 1);
