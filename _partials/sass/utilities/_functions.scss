@@ -381,24 +381,25 @@ $golden_ratio:  golden();
             $scale:   nth($scale, 1)/nth($scale, 2);
         }
     }
-    @each $i in $type-headings{  //[2]
-        $font-size: modular-scale($i, $scale);  //[3]
-        $current-heading: nth($type-headings,$i); //[4]
-        @if $type-scale-classes == true{
-            h#{$current-heading},
-            .h#{$current-heading}{
-                @include type-font-size($font-size, true);  //[7]
+    @each $i in $type-headings{
 
-                & + p{
-                    @extend %#{$name-space}negative-top !optional; //[6]
+		$font-size: modular-scale($i, $scale);
+		$current-heading: nth($type-headings,$i);
+
+		@if $type-scale-classes == true{
+            h#{$current-heading}, .h#{$current-heading}, %h#{$current-heading} {
+                @include type-font-size($font-size, true);
+
+                + p{
+                    @extend %#{$name-space}negative-top !optional;
                 }
             }
         }@else{
-            h#{$current-heading}{
-                @include type-font-size($font-size, true); //[5]
+            h#{$current-heading}, %h#{$current-heading}{
+                @include type-font-size($font-size, true);
 
-                & + p{
-                    @extend %#{$name-space}negative-top !optional; //[6]
+                + p{
+                    @extend %#{$name-space}negative-top !optional;
                 }
             }
         }

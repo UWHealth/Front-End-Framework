@@ -189,6 +189,18 @@ $lg-breakpoint: nth($breakpoints, length($breakpoints));
 $smalls: nth($sm-breakpoint, 1);
 $bigs: nth($lg-breakpoint, 1);
 
+
+//------------------------------------
+//		$SPACING AND ALIGNMENT
+//------------------------------------
+
+//Silent versions of these classes will always be output.
+//These options control the output of the normal css classes.
+
+$include-alignment-classes: 	false !default;
+$include-spacing-classes: 		false !default;
+
+
 //------------------------------------
 //    $COLORS
 //------------------------------------

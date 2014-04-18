@@ -1,6 +1,13 @@
+$classtype: unquote(", .");
+
+@if $include-spacing-classes == false{
+	$classtype: unquote("//") !global;
+}
+
 @mixin spacing-helpers($namespace:""){
 
-    %#{$namespace}pad_t, .#{$namespace}pad_t{
+    %#{$namespace}pad_t#{$classtype}#{$namespace}pad_t
+	{
         @include type-space(padding-top, 1);
 		@at-root &_2{
 			@include type-space(padding-top, 2);
@@ -9,7 +16,8 @@
 			@include type-space(padding-top, .5);
 		}
     }
-    %#{$namespace}pad_b, .#{$namespace}pad_b{
+    %#{$namespace}pad_b#{$classtype}#{$namespace}pad_b
+	{
         @include type-space(padding-bottom, 1);
 		@at-root &_2{
 			@include type-space(padding-bottom, 2);
@@ -18,7 +26,8 @@
 			@include type-space(padding-bottom, .5);
 		}
     }
-    %#{$namespace}pad_r, .#{$namespace}pad_r{
+    %#{$namespace}pad_r#{$classtype}#{$namespace}pad_r
+	{
         @include rems(padding-right, $gutter);
 		@at-root &_2{
 			@include rems(padding-right, ($gutter * 2) );
@@ -27,7 +36,8 @@
 			@include rems(padding-right, ($gutter / 2) );
 		}
     }
-    %#{$namespace}pad_l, .#{$namespace}pad_l{
+    %#{$namespace}pad_l#{$classtype}#{$namespace}pad_l
+	{
         @include rems(padding-left, $gutter);
 		@at-root &_2{
 			@include rems(padding-left, ($gutter * 2) );
@@ -36,7 +46,8 @@
 			@include rems(padding-left, ($gutter / 2) );
 		}
     }
-    %#{$namespace}pad_v, .#{$namespace}pad_v{
+    %#{$namespace}pad_v#{$classtype}#{$namespace}pad_v
+	{
         @extend %#{$namespace}pad_t;
         @extend %#{$namespace}pad_b;
 		@at-root &_2{
@@ -48,7 +59,8 @@
         	@extend %#{$namespace}pad_b_half;
 		}
     }
-    %#{$namespace}pad_h, .#{$namespace}pad_h{
+    %#{$namespace}pad_h#{$classtype}#{$namespace}pad_h
+	{
         @extend %#{$namespace}pad_l;
         @extend %#{$namespace}pad_r;
 		@at-root &_2{
@@ -60,7 +72,8 @@
         	@extend %#{$namespace}pad_r_half;
 		}
     }
-    %#{$namespace}pad, .#{$namespace}pad{
+    %#{$namespace}pad#{$classtype}#{$namespace}pad
+	{
         @extend %#{$namespace}pad_h;
         @extend %#{$namespace}pad_v;
 		@at-root &_2{
@@ -73,19 +86,23 @@
 		}
 
     }
-    %#{$namespace}pad_n_v, .#{$namespace}pad_n_v{
+    %#{$namespace}pad_n_v#{$classtype}#{$namespace}pad_n_v
+	{
         padding-top: 0 !important;
         padding-bottom: 0 !important;
     }
-    %#{$namespace}pad_n_h, .#{$namespace}pad_n_h{
+    %#{$namespace}pad_n_h#{$classtype}#{$namespace}pad_n_h
+	{
         padding-right: 0 !important;;
         padding-left: 0 !important;
     }
-    %#{$namespace}pad_n, .#{$namespace}pad_n{
+    %#{$namespace}pad_n#{$classtype}#{$namespace}pad_n
+	{
         @extend %#{$namespace}pad_n_v;
         @extend %#{$namespace}pad_n_h;
     }
-    %#{$namespace}space_v, .#{$namespace}space_v{
+    %#{$namespace}space_v#{$classtype}#{$namespace}space_v
+	{
         @include type-space(margin-bottom, 1);
 		@at-root &_2{
 			@include type-space(margin-bottom, 2);
@@ -94,7 +111,8 @@
 			@include type-space(margin-bottom, .5);
 		}
     }
-    %#{$namespace}space_l, .#{$namespace}space_l{
+    %#{$namespace}space_l#{$classtype}#{$namespace}space_l
+	{
         @include rems(margin-left, $gutter);
 		@at-root &_2{
 			@include rems(margin-left, ($gutter * 2) );
@@ -103,7 +121,8 @@
 			@include rems(margin-left, ($gutter / 2) );
 		}
     }
-    %#{$namespace}space_r, .#{$namespace}space_r{
+    %#{$namespace}space_r#{$classtype}#{$namespace}space_r
+	{
         @include rems(margin-right, $gutter);
 		@at-root &_2{
 			@include rems(margin-right, ($gutter * 2) );
@@ -113,38 +132,48 @@
 		}
     }
 
-	%#{$namespace}space_n_r, .#{$namespace}space_n_r{
+	%#{$namespace}space_n_r#{$classtype}#{$namespace}space_n_r
+	{
 		margin-right: 0 !important;
 	}
-	%#{$namespace}space_n_l, .#{$namespace}space_n_l{
+	%#{$namespace}space_n_l#{$classtype}#{$namespace}space_n_l
+	{
 		margin-left: 0 !important;
 	}
 
-    %#{$namespace}space, .#{$namespace}space{
+    %#{$namespace}space#{$classtype}#{$namespace}space
+	{
         @extend %#{$namespace}space_v;
         @extend %#{$namespace}space_l;
         @extend %#{$namespace}space_r;
 
     }
-    %#{$namespace}space_n_h, .#{$namespace}space_n_h{
+    %#{$namespace}space_n_h#{$classtype}#{$namespace}space_n_h
+	{
         @extend %#{$namespace}space_n_r;
         @extend %#{$namespace}space_n_l;
     }
-    %#{$namespace}space_n_v, .#{$namespace}space_n_v{
+    %#{$namespace}space_n_v#{$classtype}#{$namespace}space_n_v
+	{
         margin-top: 0 !important;
         margin-bottom: 0 !important;
     }
-    %#{$namespace}space_n, .#{$namespace}space_n{
+    %#{$namespace}space_n#{$classtype}#{$namespace}space_n
+	{
         @extend %#{$namespace}space_n_h;
         @extend %#{$namespace}space_n_v;
     }
-	%#{$namespace}space_negative, .#{$namespace}space_negative, %#{$namespace}negative-top{
+	%#{$namespace}space_negative#{$classtype}#{$namespace}space_negative
+	{
 		@include type-space(margin-top, -1);
 	}
 	%#{$namespace}space_reset{
 		margin: 0;
     	padding: 0;
 	}
+}
+%negative-top{
+	@include type-space(margin-top, -1);
 }
 
 @include spacing-helpers();

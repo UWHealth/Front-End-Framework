@@ -77,6 +77,12 @@ $colors: (
 $link-color: darken(#d40026, 5%);         //It's rare that you need to make this something other than one of the above variables.
 
 
+//Output helpers as actual classes?
+//These will be output for every breakpoint.
+
+$include-spacing-classes: 			true;
+$include-alignment-classes: 		true;
+
 //Tab-box settings
 
 //Do you want to create styles for tabs?

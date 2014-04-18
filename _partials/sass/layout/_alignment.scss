@@ -1,44 +1,56 @@
+$alignment-output: true;
+
+@if $include-alignment-classes == true{
+	$alignment-output: false !global;
+}
+
 @mixin responsive-alignment(
-	$namespace: "", $silent: false
-	)
+	$namespace: "",
+	$silent: false
+)
 {
-    
-	$selector: unquote(".");
-    
+	$selector: unquote(", .");
+
     @if $silent == true{
-        $selector: unquote("%");
+        $selector: unquote("//");
     }
-	
-	#{$selector}#{$namespace}align_left{
+
+	%#{$namespace}align_left#{$selector}#{$namespace}align_left
+	{
 		float: left !important;
 		@include type-space(margin-right, 1);
 	}
-	#{$selector}#{$namespace}align_right{
+	%#{$namespace}align_right#{$selector}#{$namespace}align_right
+	{
 		float: right !important;
 		@include type-space(margin-left, 1);
 	}
-	#{$selector}#{$namespace}align_center{
+	%#{$namespace}align_center#{$selector}#{$namespace}align_center
+	{
 		float: none !important;
 		margin: 0 auto;
 		display: block;
 	}
-	#{$selector}#{$namespace}float_left{
+	%#{$namespace}float_left#{$selector}#{$namespace}float_left
+	{
 		float: left !important;
 	}
-	#{$selector}#{$namespace}float_right{
+	%#{$namespace}float_right#{$selector}#{$namespace}float_right
+	{
 		float: right !important;
 	}
-	#{$selector}#{$namespace}float_none{
+	%#{$namespace}float_none#{$selector}#{$namespace}float_none
+	{
 		float: none !important;
 	}
 }
 
-@include responsive-alignment();
+@include responsive-alignment("", $alignment-output);
 
 @if $responsive == true{
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
-           @include responsive-alignment('#{$name}_', true);
+           @include responsive-alignment('#{$name}_', $alignment-output);
         }
     }
 }
