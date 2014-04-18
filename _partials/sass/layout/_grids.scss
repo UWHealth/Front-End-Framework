@@ -637,9 +637,9 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
 
 
-/*------------------------------------*\
-    $PUSH
-\*------------------------------------*/
+//------------------------------------\\
+//    $PUSH
+//------------------------------------\\
 
  // Push classes, to move grid items over to the right by certain amounts.
 
@@ -837,9 +837,9 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
 
 
-//
+//----------------------\\
 //   $PULL
-//
+//----------------------\\
 
 @mixin pull-setup($namespace: ""){
 

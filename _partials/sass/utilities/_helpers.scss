@@ -39,6 +39,21 @@
     }
 }
 
+//Same as above, but shorter
+@mixin breakpoint($media-queries){
+	@include media-query($media-queries){@content};
+}
+@mixin bp($media-queries){
+	@include media-query($media-queries){@content};
+}
+@mixin media($media-queries){
+	@include media-query($media-queries){@content};
+}
+@mixin mq($media-queries){
+	@include media-query($media-queries){@content};
+}
+
+
 //------------------------------------
 //    $MULTIPLE EXTENDS
 //------------------------------------
