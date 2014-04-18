@@ -1,7 +1,7 @@
 //Typography
 
-$base-font-size:              16px;
-$base-line-height:            12px;
+$base-font-size:             16px;
+$base-line-height:           24px;
 $auto-scale-type:           false;
 $scale-ratio:               1.214;
 $primary-font-family:      'Asap', verdana, helvetica, arial, sans-serif;
@@ -92,8 +92,9 @@ $output-tabs: 						true;
 $tab-invert-active:                 false;
 $tab-border:                        true;
 $tab-single-border:                 false;
-$tab-button-bg:                     darken(colors(function), 20%);
-$tab-border-color: 					$tab-button-bg;
+$tab-button-bg:                     $link-color;
+$tab-button-secondary: 				darken(colors(primary-alt), 20%);
+$tab-border-color: 					darken(colors(primary-alt), 30%);
 $tab-content-bg:                    #fff;
 $tab-button-text:                   #fff;
 $tab-border-radius:                 2px;

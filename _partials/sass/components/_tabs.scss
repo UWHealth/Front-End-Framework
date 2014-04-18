@@ -42,7 +42,12 @@ $tab-border-color:                  $tab-button-bg           !default;
 $tab-content-bg:                    $function-color-lighter  !default;
 
 //Inactive tab coloring
-$tab-button-secondary:                 pick_best_color($tab-button-bg, (lighten($tab-button-bg, 20%), lighten($tab-button-bg, 30%), darken($tab-button-bg, 10%))) !default;
+$tab-button-secondary:              pick_best_color(
+												$tab-button-bg,(
+												lighten($tab-button-bg, 20%),
+												lighten($tab-button-bg, 30%),
+												darken($tab-button-bg, 10%)))
+												!default;
 
 //Active tab_button text color.
 //Note: If invert-active is set to false,
@@ -71,78 +76,70 @@ $tab-spacing:                       2px                      !default;
 //Mobile tab_buttons
     & .tab_button {
 		letter-spacing: normal;
-        @if $tab-inherit-button-style == true{
-            @extend %button;
-        }@else {
-            line-height: 3;
-            text-decoration: none;
-			margin-bottom: 0;
-            @include type-space-sc(padding, 0, .75);
+		line-height: 3;
+		text-decoration: none;
+		margin-bottom: 0;
+		@include type-space-sc(padding, 0, .75);
 
+		@if $tab-invert-active == true{
+			background-color: $tab-button-secondary;
+			color: pick_best_color(
+					$tab-button-secondary, (
+					#fff,
+					$tab-button-text,
+					$tab-content-bg,
+					$tab-button-bg
+				) );
+		}@else{
+			background-color: $tab-button-bg;
+			color: $tab-button-text;
+			position: relative;
+			z-index: 1;
+			border-bottom-width: 0 !important;
+		}
+		@if $tab-border == true{
+			border: 1px solid darken($tab-button-secondary, 10%);
+			margin-top: -1px;
+		}
+
+		&:hover{
+			font-weight: bold;
 			@if $tab-invert-active == true{
-                background-color: $tab-button-secondary;
-                color: pick_best_color(
+				color: pick_best_color(
 						$tab-button-secondary, (
-						#fff,
-						$tab-button-text,
-						$tab-content-bg,
-						$tab-button-bg
+						#ddd,
+						darken($tab-button-text, 10%),
+						darken($tab-content-bg, 10%),
+						darken($tab-button-bg, 10%)
 					) );
-            }@else{
-                background-color: $tab-button-bg;
-                color: $tab-button-text;
-                position: relative;
-                z-index: 1;
-				border-bottom-width: 0 !important;
-            }
-            @if $tab-border == true{
-                border: 1px solid darken($tab-button-secondary, 10%);
-                margin-top: -1px;
-            }
-
-            &:hover{
-                font-weight: bold;
-                @if $tab-invert-active == true{
-                    color: pick_best_color(
-							$tab-button-secondary, (
-							#ddd,
-							darken($tab-button-text, 10%),
-							darken($tab-content-bg, 10%),
-							darken($tab-button-bg, 10%)
-						) );
-                }@else{
-                    color: pick_best_color(
-						$tab-button-bg, (
-						$tab-border-color,
-						darken($tab-button-text, 5%),
-						darken($tab-button-bg,10%)
-					) );
-                }
-            }
-			&.active{
-				@include rems(margin-bottom, -($type-magic-number));
+			}@else{
+				color: pick_best_color(
+					$tab-button-bg, (
+					$tab-border-color,
+					darken($tab-button-text, 5%),
+					darken($tab-button-bg, 10%)
+				) );
 			}
+		}
 
-        }
+		&.active{
+			@include rems(margin-bottom, -($type-magic-number));
+		}
         width: 100%;
         cursor: pointer;
         display: none;
     }
 
-//Active tab styling.
-//Inherited from active buttons if needed.
-
-	@if $tab-inherit-button-style == false{
 	//Affects all active tab styles, regardless of type.
 		& .active{
 			@if $tab-invert-active == true{
 				background-color: $tab-button-bg;
 				border-color: $tab-border-color;
-				color: $tab-button-text;
+				color: $tab-button-text !important;
 				margin-bottom: -1px;
 			}@else{
 				background-color: $tab-content-bg;
-				color: pick_best_color($tab-content-bg, ($tab-border-color, $tab-button-text, $tab-button-bg));
+				color: pick_best_color($tab-content-bg, ($tab-border-color, $tab-button-text, $tab-button-bg)) !important;
 				border-color: $tab-border-color;
 				border-bottom-color: transparent;
 			}
@@ -151,14 +148,10 @@ $tab-spacing:                       2px                      !default;
 
 			&:hover{
 				cursor: default;
-				@if $tab-invert-active == true{
-					color: $tab-button-text;
-				}@else{
-					color: pick_best_color($tab-content-bg, ($tab-button-text, $tab-button-bg));
-				}
+				font-weight: normal !important;
 			}
 		}
-	}
+
 }
  //Tab-box content style
 .tab_content{

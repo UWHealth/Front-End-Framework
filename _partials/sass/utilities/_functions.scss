@@ -266,9 +266,13 @@ $golden_ratio:  golden();
 //    desired `line-height` (defined previously in pixels), and your project’s
 //    base font size.
 
-@mixin type-font-size($font-size, $line-height: true, $body: false) {
+@mixin type-font-size($font-size, $line-height: true, $body: false, $font-base: $base-font-size) {
     font-size: $font-size;                                                              //[1]
     font-size: ($font-size / $base-font-size) * 1rem;
+
+	$bl: $type-magic-ratio * $font-base;
+	$base-line-odd: ($bl * 3) / 2;
+	$base-line-odder: ($bl * 4) / 3;
 
     @if $line-height == true {
         $estimated-line-height: ceil($font-size / $base-line-height) * ($base-line-height) / $font-size;
@@ -277,12 +281,14 @@ $golden_ratio:  golden();
         // Ultimately, this creates type that requires two line-lengths to rebalance the baseline grid.
         // This is a better alternative to 2x line-heights.
 
-        @if $estimated-line-height > 1.8{
-            $estimated-line-height: ceil($font-size / ($base-line-height / 2)) * ($base-line-height / 2) / $font-size;
-
-        }@else if $estimated-line-height < 1.1 {
-            $estimated-line-height: ceil($font-size / ($base-line-height * 2)) * ($base-line-height * 2) / $font-size;
-        }
+        @if $font-size > $base-font-size{
+			@if $estimated-line-height > 1.8{
+				$estimated-line-height: ceil($font-size / ($base-line-odder)) * ($base-line-odder) / $font-size;
+			}
+			@if $estimated-line-height > 1.8 or $estimated-line-height < 1.1{
+				$estimated-line-height: ceil($font-size / $base-line-odd) * ($base-line-odd) / $font-size;
+			}
+		}
         //This is only used for body type.
         @if $body == true and $estimated-line-height < 1.35{
             $estimated-line-height: ceil($font-size / ($base-line-height * 4)) * ($base-line-height * 4) / $font-size;

@@ -1278,9 +1278,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .no-js .tab_button, .h6, ul, ol
   margin-bottom: 1.5rem;
 }
 
-/*-----------------------------------
-    $BASE
-------------------------------------*/
 html {
   font-size: 1em;
   -ms-text-size-adjust: 100%;
@@ -1288,6 +1285,9 @@ html {
 }
 html.baseline-on {
   background-image: url(http://basehold.it/i/24);
+  background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.15)), to(transparent)) 0 0/auto 1.5em;
+  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px) 0 0/auto 1.5em;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.15) 1px, transparent 1px) 0 0/auto 1.5em;
 }
 
 body, .p {
@@ -1301,9 +1301,6 @@ body, .p {
   background-image: none;
 }
 
-/*------------------------------------
-    $HEADINGS
-------------------------------------*/
 h1, .h1 {
   font-size: 62.1800103px;
   font-size: 3.8862506rem;
@@ -1328,15 +1325,15 @@ h3, .h3 {
 h4, .h4 {
   font-size: 28.6270135px;
   font-size: 1.7891883rem;
-  line-height: 1.2575535;
-  line-height: 2.25rem;
+  line-height: 1.676738;
+  line-height: 3rem;
 }
 
 h5, .h5 {
   font-size: 23.580736px;
   font-size: 1.473796rem;
-  line-height: 1.0177799;
-  line-height: 1.5rem;
+  line-height: 1.5266699;
+  line-height: 2.25rem;
 }
 
 h6, .no-js .tab_button, .h6 {
@@ -1346,12 +1343,6 @@ h6, .no-js .tab_button, .h6 {
   line-height: 1.5rem;
 }
 
-/*-------------------------------
-    $LISTS
--------------------------------*/
-/*-------------------------------
-    $PARAGRAPHS
--------------------------------*/
 pre {
   white-space: pre;
   white-space: pre-wrap;
@@ -1435,8 +1426,8 @@ dfn {
 small {
   font-size: 13.1795717px;
   font-size: 0.8237232rem;
-  line-height: 1.36575;
-  line-height: 1.125rem;
+  line-height: 1.821;
+  line-height: 1.5rem;
 }
 
 sub, sup {
@@ -1726,9 +1717,9 @@ hr {
   border-top: 1px solid #ccc;
   margin: 24px 0px;
   margin: 1.5rem 0rem;
+  margin-top: -1px;
   padding: 0;
   position: relative;
-  top: -1px;
 }
 
 .chromeframe {
@@ -1911,12 +1902,12 @@ hr {
   margin-bottom: 0;
   padding: 0px 18px;
   padding: 0rem 1.125rem;
-  background-color: #b19d6a;
+  background-color: #bb0021;
   color: white;
   position: relative;
   z-index: 1;
   border-bottom-width: 0 !important;
-  border: 1px solid #d4c9ad;
+  border: 1px solid #263543;
   margin-top: -1px;
   width: 100%;
   cursor: pointer;
@@ -1932,20 +1923,20 @@ hr {
 }
 .tabbed .active {
   background-color: white;
-  color: #b19d6a;
-  border-color: #b19d6a;
+  color: #263543 !important;
+  border-color: #263543;
   border-bottom-color: transparent;
   top: 1px;
   z-index: 1;
 }
 .tabbed .active:hover {
   cursor: default;
-  color: #b19d6a;
+  font-weight: normal !important;
 }
 
 .tab_content {
   display: block;
-  border: 1px solid #b19d6a;
+  border: 1px solid #263543;
   background-color: white;
   position: relative;
   z-index: 0;
@@ -1976,9 +1967,9 @@ hr {
   padding-right: 15px;
   padding-right: 0.9375rem;
   border: 1px solid;
-  background-color: #b19d6a;
+  background-color: #bb0021;
   color: white;
-  border-color: #b19d6a;
+  border-color: #263543;
   text-decoration: none;
   border-bottom-color: transparent;
   display: inline-block;
@@ -2021,12 +2012,12 @@ hr {
   border-bottom-width: 2px;
   border-bottom-style: solid;
   border-bottom-color: transparent;
-  color: #e6dfce;
+  color: #394f63;
   text-indent: -7.5px;
   text-indent: -0.46875rem;
 }
 .tab_underline > .tabs .tab:hover {
-  color: #d0c4a6;
+  color: #6d2f48;
   background-color: rgba(255, 255, 255, 0.3);
   border-bottom-color: currentColor;
   position: relative;
@@ -2034,7 +2025,7 @@ hr {
 }
 .tab_underline > .tabs .active {
   opacity: 1 !important;
-  color: #b19d6a !important;
+  color: #bb0021 !important;
   border-bottom: 2px solid currentColor;
   background-color: transparent !important;
 }
@@ -2043,7 +2034,7 @@ hr {
   padding-left: 0;
   padding-right: 0;
   border-top-width: 2px;
-  border-top-color: #d8ceb4;
+  border-top-color: #929aa1;
   margin-top: -1px;
 }
 
@@ -2067,11 +2058,11 @@ hr {
   text-indent: -0.46875rem;
   border-radius: 2px 0 0 2px;
   padding-left: 15px;
-  border-bottom-color: #b19d6a;
+  border-bottom-color: #263543;
 }
 .tab_side > .tabs .active {
   border-right-color: transparent;
-  border-bottom-color: #b19d6a;
+  border-bottom-color: #263543;
 }
 .tab_side > .tabs ~ .tab_content {
   margin-left: -1px;
@@ -2104,7 +2095,7 @@ hr {
 
 @media only screen and (max-width: 640px) {
   .js .tab_accordion > .tab_content {
-    border: 1px solid #b19d6a;
+    border: 1px solid #263543;
     background-color: white;
     padding-left: 15px;
     padding-left: 0.9375rem;
@@ -2235,7 +2226,7 @@ table.fixed {
 }
 @media only screen and (max-width: 640px) {
   .box_square {
-    max-height: 60px;
+    max-height: 120px;
   }
 }
 .box_square .body {
@@ -2269,6 +2260,10 @@ html {
   background-color: #f3f5f8;
 }
 
+mark {
+  background-color: #d0dbe4;
+}
+
 .wrap {
   max-width: 1200px;
   margin: 0 auto;
@@ -2296,22 +2291,22 @@ html {
   h3, .h3, .h3 {
     font-size: 29.9821954px;
     font-size: 1.8738872rem;
-    line-height: 1.2007126;
-    line-height: 2.25rem;
+    line-height: 1.6009501;
+    line-height: 3rem;
   }
 
   h4, .h4, .h4 {
     font-size: 25.625808px;
     font-size: 1.601613rem;
-    line-height: 1.4048338;
-    line-height: 2.25rem;
+    line-height: 1.2487411;
+    line-height: 2rem;
   }
 
   h5, .h5, .h5 {
     font-size: 21.9024px;
     font-size: 1.3689rem;
-    line-height: 1.0957703;
-    line-height: 1.5rem;
+    line-height: 1.6436555;
+    line-height: 2.25rem;
   }
 
   h6, .no-js .tab_button, .h6, .h6, .no-js .tab_button {
@@ -2329,8 +2324,8 @@ html {
   h1, .h1, .h1 {
     font-size: 47.775744px;
     font-size: 2.985984rem;
-    line-height: 1.0046939;
-    line-height: 3rem;
+    line-height: 1.5070409;
+    line-height: 4.5rem;
   }
 
   h2, .h2, .h2 {
@@ -2350,15 +2345,15 @@ html {
   h4, .h4, .h4 {
     font-size: 27.648px;
     font-size: 1.728rem;
-    line-height: 1.3020833;
-    line-height: 2.25rem;
+    line-height: 1.7361111;
+    line-height: 3rem;
   }
 
   h5, .h5, .h5 {
     font-size: 23.04px;
     font-size: 1.44rem;
-    line-height: 1.0416667;
-    line-height: 1.5rem;
+    line-height: 1.5625;
+    line-height: 2.25rem;
   }
 
   h6, .no-js .tab_button, .h6, .h6, .no-js .tab_button {

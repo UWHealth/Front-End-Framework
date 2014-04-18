@@ -6,6 +6,9 @@
 html{
 	background-color: #f3f5f8;
 }
+mark{
+	background-color: darken(color(primary-alt,lightest), 5%);
+}
 .wrap{
     @extend %nine_tenths; //90%
 	@extend %smallish_eleven_twelfths; //~92%

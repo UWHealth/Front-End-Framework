@@ -92,13 +92,13 @@
 
 
 
-/*-----------------------------------
-    $BASE
-------------------------------------*/
+//-----------------------------------
+//    $BASE
+//------------------------------------
  html {
    @extend %space_reset;
    @extend %type_family;
-   font-size: $base-font-size / 16px + em; // [1]
+   font-size: $base-font-size / 16px + em;
 
     -ms-text-size-adjust: 100%;
    -webkit-text-size-adjust: 100%;
@@ -107,7 +107,8 @@
    @if $show-baseline == true {
         $type-baseline-size: strip-units($type-magic-number);
         &.baseline-on{
-            background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+			background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+			background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) 0 0 / auto $type-magic-ratio * 1em;
         }
     }
 }
@@ -125,22 +126,11 @@ body, .p {
 
 
 
-/*------------------------------------
-    $HEADINGS
-------------------------------------*/
- // 1. If you've chosen to automatically scale your type, we set that up here.
- // 2. Using heading numbers[6-1], we create a loop.
- // 3. Use the current scale number to exponentially scale up our base-font-size.
- // 4. Invert the current value of the loop($i) for an more traditionally ordered
- //    output (h1,h2,h3,h4,h5,h6).
- // 5. Use our new modular values for input into type mixins to generate our
- //    desired, modularly-scaled css.
- // 6. If followed by a paragraph, create a closer larger top margin, but smaller bottom margin.
- // 7. If classed headings, create them by extending everything above.
+//------------------------------------
+//    $HEADINGS
+//------------------------------------
 
-h1,h2,h3,h4,h5,h6{
-    @extend %type-vertical-rhythm;
-}
+
 @if $auto-scale-type == true {  //[1]
 
     @include headings-scale($scale-ratio);
@@ -149,6 +139,7 @@ h1,h2,h3,h4,h5,h6{
 @else{
 
     h1 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h1-size);
         & + p{
             @extend %negative-top; //[6]
@@ -161,6 +152,7 @@ h1,h2,h3,h4,h5,h6{
     }
 
     h2 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h2-size);
         & + p{
             @extend %negative-top; //[6]
@@ -173,6 +165,7 @@ h1,h2,h3,h4,h5,h6{
    }
 
     h3 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h3-size);
         & + p{
             @extend %negative-top; //[6]
@@ -185,6 +178,7 @@ h1,h2,h3,h4,h5,h6{
    }
 
     h4 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h4-size);
         & + p{
             @extend %negative-top; //[6]
@@ -197,6 +191,7 @@ h1,h2,h3,h4,h5,h6{
    }
 
     h5 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h5-size);
         & + p{
             @extend %negative-top; //[6]
@@ -209,6 +204,7 @@ h1,h2,h3,h4,h5,h6{
    }
 
     h6 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h6-size);
         & + p{
             @extend %negative-top; //[6]
@@ -221,9 +217,9 @@ h1,h2,h3,h4,h5,h6{
    }
 }
 
-/*-------------------------------
-    $LISTS
--------------------------------*/
+//-------------------------------
+//   $LISTS
+//-------------------------------
 ul, ol, dd, menu {
     @extend %type-vertical-rhythm;
     @extend %space_l;
@@ -238,9 +234,9 @@ li > ol {
 
 
 
-/*-------------------------------
-    $PARAGRAPHS
--------------------------------*/
+//-------------------------------
+//    $PARAGRAPHS
+//-------------------------------
 p, .p, %p {
     @extend %type-vertical-rhythm;
 
