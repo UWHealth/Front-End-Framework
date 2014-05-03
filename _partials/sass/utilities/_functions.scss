@@ -146,7 +146,15 @@ $iter: 50;
     @return abs($a);
   }
 }
-
+//Least common Multiple
+//Use with caution...if there is no LCM, then you compilation will error out.
+@function lcm($a, $b) {
+	$a: round($a);
+	$b: round($b);
+	$gcd: gcd($a, $b);
+	$result: ($a * $b) / $gcd;
+	@return $result;
+}
 
 
 //Nth Root Function
@@ -159,6 +167,11 @@ $iter: 50;
   }
 
   @return $x;
+}
+
+//Random number generator.
+@function rand() {
+  @return 4;
 }
 
 //Square Root functions
@@ -174,10 +187,7 @@ $iter: 50;
   @return sqrt($number);
 }
 
-//Random number generator.
-@function rand() {
-  @return 4;
-}
+
 
 //Golden Ratio generator.
 
@@ -198,6 +208,9 @@ $golden_ratio:  golden();
 // .foo {
 //     padding: halve(3.2px);
 // }
+//
+// Outputs:
+// .foo{padding: 2px;}
 //
 @function quarter($number) {
     @return round($number / 4);
@@ -253,56 +266,65 @@ $golden_ratio:  golden();
 //    $TYPOGRAPHY
 //------------------------------------
 
+//Baseline function. Converts to floated integer.
+@function baseline($font-size, $baseline){
+	@return ceil($font-size / $baseline) * ($baseline) / $font-size;
+}
 
-
+@function baseline-lcm($font-size, $line-height){
+	$esl: $line-height * $font-size;
+	@return lcm( $esl, $base-line-height );
+}
 // Quickly generate a font-size in rems, with a pixel fallback, based on the
 // value we pass into the mixin, e.g.:
 // h1 {
 //     @include type-font-size(24px);
 // }
 // 1. Set the base element’s `font-size` to the value of your choosing. Set in
-//    ems, assuming a browser default of 16px.
+//    rems, assuming a browser default of 16px.
 // 2. Work out the unitless `line-height` for your project based around your
 //    desired `line-height` (defined previously in pixels), and your project’s
 //    base font size.
 
-@mixin type-font-size($font-size, $line-height: true, $body: false, $font-base: $base-font-size) {
-    font-size: $font-size;                                                              //[1]
-    font-size: ($font-size / $base-font-size) * 1rem;
+@mixin type-font-size($font-size, $line-height: true,
+	$font-base: $base-font-size, $namespace: "") {
 
+	@include rems(font-size, $font-size);
+
+	$font-ratio: $font-size / $font-base;
 	$bl: $type-magic-ratio * $font-base;
-	$base-line-odd: ($bl * 3) / 2;
-	$base-line-odder: ($bl * 4) / 3;
+	$baseline-odd: $base-line-height / 2;
+	$baseline-odder: $base-line-height / 1.33333;
 
     @if $line-height == true {
-        $estimated-line-height: ceil($font-size / $base-line-height) * ($base-line-height) / $font-size;
+
+		$baseline: baseline($font-size, $base-line-height);
 
         // If line-height is too large, divide it in half.
         // Ultimately, this creates type that requires two line-lengths to rebalance the baseline grid.
         // This is a better alternative to 2x line-heights.
+		@debug "(#{$font-size}) #{$font-ratio} / #{$baseline}";
 
-        @if $font-size > $base-font-size{
-			@if $estimated-line-height > 1.8{
-				$estimated-line-height: ceil($font-size / ($base-line-odder)) * ($base-line-odder) / $font-size;
-			}
-			@if $estimated-line-height > 1.8 or $estimated-line-height < 1.1{
-				$estimated-line-height: ceil($font-size / $base-line-odd) * ($base-line-odd) / $font-size;
+        @if $font-size > $font-base {
+
+			@if $baseline >= 1.75 or $baseline < 1.2{
+				$baseline: baseline($font-size, $baseline-odd);
+
+				$lcm: baseline-lcm($font-size, $baseline);
+				@debug "( #{$font-size} ) #{$baseline * $font-size} : #{$lcm}";
+
+				@if $baseline > 1.8 or $baseline < 1.1{
+
+					$baseline: baseline($font-size, $baseline-odder);
+
+					$lcm: baseline-lcm($font-size, $baseline);
+					@debug "( #{$font-size} ) #{$baseline * $font-size} : #{$lcm}";
+				}
 			}
 		}
-        //This is only used for body type.
-        @if $body == true and $estimated-line-height < 1.35{
-            $estimated-line-height: ceil($font-size / ($base-line-height * 4)) * ($base-line-height * 4) / $font-size;
-        }
-        //If body type is being defined, use unitless line-heights.
-        @if $body == true {
-            line-height: $estimated-line-height;
-        }
-        //If not, use unitless line-heights for fallback, but future-proof with rems.
-        @else{
-            line-height: $estimated-line-height;
-            line-height: strip-units($estimated-line-height * $font-size) / $stripped-base-font-size + rem;
-        }
-    }
+
+		line-height: $baseline;
+   }
 }
 
  // Space elements by an amount based on your magic number. Pass in the property
@@ -313,7 +335,7 @@ $golden_ratio:  golden();
 
 @mixin type-space($property, $multiplier: 2) {
     #{$property}: $multiplier * $type-magic-number;
-    #{$property}: $multiplier * $type-magic-ratio + rem;
+    #{$property}: $multiplier * $type-magic-ratio * 1rem;
 }
 
 // Same as above, but for shortcut properties.
@@ -321,21 +343,21 @@ $golden_ratio:  golden();
 // pre {
 //    @include type-space(padding, 1, 2, 1, 0);
 // }
-@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: x, $left: x){
-    @if $bottom == x{
+@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: false, $left: false){
+    @if $bottom == false{
         $bottom: $top;
     }
-    @if $left == x{
+    @if $left == false{
         $left: $right;
     }
     // If top and bottom are equal, only generate first and second properties
     // This cuts down on file size a little bit.
     @if $right == $left and $top == $bottom{
         #{$property}: ($top * $type-magic-number) ($right * $type-magic-number);
-        #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem;
+        #{$property}: ($top * $type-magic-ratio) * 1rem ($right * $type-magic-ratio) * 1rem;
     }@else{
         #{$property}: ($top * $type-magic-number) ($right * $type-magic-number) ($bottom * $type-magic-number) ($left * $type-magic-number);
-        #{$property}: ($top * $type-magic-ratio) + rem ($right * $type-magic-ratio) + rem ($bottom * $type-magic-ratio) + rem ($left * $type-magic-ratio) + rem;
+        #{$property}: ($top * $type-magic-ratio) * 1rem ($right * $type-magic-ratio) * 1rem ($bottom * $type-magic-ratio) * 1rem ($left * $type-magic-ratio) * 1rem;
     }
 }
 
@@ -343,7 +365,68 @@ $golden_ratio:  golden();
 @function type-space($multiplier: 2){
     @return $multiplier * $type-magic-number;
 }
+// Style any number of headings in one fell swoop, e.g.:
+//
+//   .foo{
+//       @include headings(1, 3){
+//           color:#BADA55;
+//       }
+//    }
+//
+// Lifted from inuit.css: https://github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
 
+@mixin headings($from: 1, $to: 6){
+    %base-heading {
+        @content;
+    }
+
+    @if $from >= 1 and $to <= 6{
+        @if $type-scale-classes == true{
+            @for $i from $from through $to{
+                h#{$i}, .h#{$i} %h#{$i}{
+                    @extend %base-heading;
+                }
+            }
+        }@else{
+            @for $i from $from through $to{
+                h#{$i}, %h#{$i}{
+                    @extend %base-heading;
+                }
+            }
+        }
+    }
+}
+
+//-------
+// Cross-browser support for @font-face. Supports IE, Gecko, Webkit, Opera.
+// http://compass-style.org/reference/compass/css3/font_face/
+//-------
+// $name is required, arbitrary, and what you will use in font stacks.
+// $font-files is required using font-files('relative/location', 'format').
+//  for best results use this order: woff, opentype/truetype, svg
+// $eot is required by IE, and is a relative location of the eot file.
+// $weight shows if the font is bold, defaults to normal
+// $style defaults to normal, might be also italic
+// To support iOS < 4.2, an SVG file must be provided
+// If you need to generate other formats check out the Font Squirrel font generator
+
+@mixin font-face($name, $font-files, $weight: false, $style: false, $eot: false) {
+  $iefont: unquote("#{$eot}?#iefix");
+  @font-face {
+    font-family: quote($name);
+    @if $eot {
+      src: url($eot);
+      $font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
+    }
+    src: $font-files;
+    @if $weight {
+      font-weight: $weight;
+    }
+    @if $style {
+      font-style: $style;
+    }
+  }
+}
 
 //------------------------------------
 //    $MODULAR SCALE
@@ -395,9 +478,10 @@ $golden_ratio:  golden();
 		@if $type-scale-classes == true{
             h#{$current-heading}, .h#{$current-heading}, %h#{$current-heading} {
                 @include type-font-size($font-size, true);
+				@extend %#{$name-space}type_space_v !optional;
 
                 + p{
-                    @extend %#{$name-space}negative-top !optional;
+                    @extend %#{$name-space}negative_top !optional;
                 }
             }
         }@else{
@@ -405,58 +489,54 @@ $golden_ratio:  golden();
                 @include type-font-size($font-size, true);
 
                 + p{
-                    @extend %#{$name-space}negative-top !optional;
+                    @extend %#{$name-space}negative_top !optional;
                 }
             }
         }
         $i: $i + 1;
     }
 }
-//
-// Style any number of headings in one fell swoop, e.g.:
-//
-//   .foo{
-//       @include headings(1, 3){
-//           color:#BADA55;
-//       }
-//    }
-//
-// Lifted from inuit.css: https://github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
 
-@mixin headings($from: 1, $to: 6){
-    %base-heading {
-        @content;
-    }
-
-    @if $from >= 1 and $to <= 6{
-        @if $type-scale-classes == true{
-            @for $i from $from through $to{
-                h#{$i}, .h#{$i}{
-                    @extend %base-heading;
-                }
-            }
-        }@else{
-            @for $i from $from through $to{
-                h#{$i}{
-                    @extend %base-heading;
-                }
-            }
-        }
-    }
-}
 
 //------------------------------------
 //    $COLORS
 //------------------------------------
 
+// Blending modes
+//====================================
+// Uses similar formula's to photoshop's layer blending modes.
+// See file for more documentation.
+@import "../colors/blendmodes";
+
+//Color map function
+//====================================
+// Get a color value from our color pallette. e.g.:
+// div{
+//	  background-color: colors(primary, light)
+//}
+@function colors($color, $tone: 'base') {
+    @return map-get(map-get($colors, $color), $tone);
+}
+//Same as above, but possibly more intuitively named
+@function color($color, $tone: 'base') {
+    @return colors($color, $tone);
+}
+//Shortname
+@function clr($color, $tone: 'base') {
+    @return colors($color, $tone);
+}
+
+// Output black or white
+//====================================
 // Change text color based on background-color's darkness, e.g.:
 // div{
 //    background-color: #f8cd12;
-//    color: set-text-color(#f8cd12);
+//    color: set_text_color(#f8cd12);
 //    }
-//  Your text color would be black because #f8cd12 and #00000 contain enough contrast to be readable.
-//  This will ONLY give you black or white. Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
-
+//  Your text color would be black because #f8cd12 and #00000 contain enough
+//  contrast to be readable.
+//  This will ONLY give you black or white.
+// Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
 @function set-text-color($color) {
     @if (lightness( $color ) > 45) {
       @return #000000;
@@ -466,21 +546,9 @@ $golden_ratio:  golden();
     }
 }
 
-// Get a color value from our color pallette. e.g.:
-// div{
-//	  background-color: colors(primary, light)
-//}
-
-@function colors($color, $tone: 'base') {
-    @return map-get(map-get($colors, $color), $tone);
-}
-
-//Same as above, but possibly more intuitive
-@function color($color, $tone: 'base') {
-    @return map-get(map-get($colors, $color), $tone);
-}
-
-//Complex comparing colors for contrast
+//Pick best color
+//====================================
+//Complex color calculation to determine best color based on contrast.
 //Taken from: https://gist.github.com/voxpelli/6304812
 //USAGE:
 // div{
@@ -489,23 +557,27 @@ $golden_ratio:  golden();
 //    }
 // The function would test the colors and find that #2c2c2c is the best.
 
-@function pick_best_color($base, $colors, $tolerance: 0) {
-  $contrast: color_contrast($base, nth($colors, 1));
+@function pick-best-color($base, $colors, $tolerance: 0) {
+  $contrast: color-contrast($base, nth($colors, 1));
   $best: nth($colors, 1);
 
   @for $i from 2 through length($colors) {
-    $current_contrast: color_contrast($base, nth($colors, $i));
+    $current_contrast: color-contrast($base, nth($colors, $i));
     @if ($current_contrast - $contrast > $tolerance) {
-      $contrast: color_contrast($base, nth($colors, $i));
+      $contrast: color-contrast($base, nth($colors, $i));
       $best: nth($colors, $i);
     }
   }
   @return $best;
 }
 
-@function color_luminance($color) {
-  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
-  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+
+//Find a color's luminance
+//===============================
+// Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+// Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+@function color-luminance($color) {
+
   $rgba: red($color), green($color), blue($color);
   $rgba2: ();
 
@@ -521,11 +593,13 @@ $golden_ratio:  golden();
   @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
 }
 
-@function color_contrast($color1, $color2) {
+//Calculate contrast between two colors
+//===============================
+@function color-contrast($color1, $color2) {
   // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
   // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
-  $luminance1: color_luminance($color1) + .05;
-  $luminance2: color_luminance($color2) + .05;
+  $luminance1: color-luminance($color1) + .05;
+  $luminance2: color-luminance($color2) + .05;
   $ratio: $luminance1 / $luminance2;
 
   @if $luminance2 > $luminance1 {
@@ -537,26 +611,12 @@ $golden_ratio:  golden();
   @return $ratio;
 }
 
-//Tints and Shades (adding black or white to a color)
-// Adapted from: https://gist.github.com/benfrain/7545629
-
-// Add percentage of white to a color
-@function tint($color, $percent){
-  @return mix(white, $color, $percent);
-}
-
-// Add percentage of black to a color
-@function shade($color, $percent){
-  @return mix(black, $color, $percent);
-}
-
 //------------------------------------
 //    $LISTS
 //------------------------------------
 // http://compass-style.org/reference/compass/typography/lists/
-
-
 // Turn off the bullet for an element of a list
+
 @mixin no-bullet {
   list-style-image : none;
   list-style-type  : none;
@@ -582,7 +642,14 @@ $golden_ratio:  golden();
 //     ul.pretty
 //       +pretty-bullets("my-icon.png")
 //
-@mixin pretty-bullets($bullet-icon, $width: image-width($bullet-icon), $height: image-height($bullet-icon), $line-height: $base-line-height, $padding: $type-magic-number) {
+@mixin pretty-bullets(
+	$bullet-icon,
+	$width: image-width($bullet-icon),
+	$height: image-height($bullet-icon),
+	$line-height: $base-line-height,
+	$padding:
+	$type-magic-number) {
+
   margin-left: 0;
   li {
     padding-left: $padding;
@@ -590,3 +657,4 @@ $golden_ratio:  golden();
     list-style-type: none;
   }
 }
+

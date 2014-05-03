@@ -172,7 +172,7 @@ $classtype: unquote(", .");
     	padding: 0;
 	}
 }
-%negative-top{
+%negative_top{
 	@include type-space(margin-top, -1);
 }
 

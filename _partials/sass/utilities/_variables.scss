@@ -21,15 +21,27 @@
 //    $TYPOGRAPHY
 //------------------------------------
 
-//See /utilities/_extend.scss for where these variables are most useful.
+//See /utilities/_helpers.scss for where these variables are most useful.
 
-$primary-font-family:   helvetica, arial, sans-serif !default;
-$secondary-font-family: georgia, serif !default;
+$primary-font-stack:   helvetica, arial, sans-serif !default;
+$secondary-font-stack: georgia, serif 				!default;
+$monospace-font-stack: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace !default;
+
+
+//See /type/_fonts.scss for where these variables are applied.
+
+$use-web-fonts: 		true     !default;
+$font-file-location: 	'fonts'  !default;
+$font-file-name: 		'Asap' 	 !default;
+$font-italics: 			true  	 !default;
+$font-weights: 			400,700  !default;
+$font-include-eot: 		true 	 !default;
+
 
 // What would you like your base font-size to be? Define in pixels; the library
 // will convert measurements to the most appropriate units (rems or unitless).
-$base-font-size:      14px !default;
-$base-line-height:    22px !default;
+$base-font-size:      16px !default;
+$base-line-height:    24px !default;
 
 // Would you like to automatically scale your Heading sizes?
 // This can provide a more elegant typographic rhythm and is recommended to stay at true.
