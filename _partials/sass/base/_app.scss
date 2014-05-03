@@ -9,6 +9,21 @@ html{
 mark{
 	background-color: darken(color(primary-alt,lightest), 5%);
 }
+.table_striped tr:nth-child(odd) td {
+	background-color: #e3f1fa;
+}
+.table_striped th, .table_striped td {
+	border-color: #a0c6dd;
+	border-style: solid;
+}
+.tab_topline > .tabs{
+	background-color: #e3f1fa;
+}
+.tab_content{
+	border-bottom-width: 2px !important;
+	border-bottom-color: #eaebeb !important;
+}
+
 .wrap{
     @extend %nine_tenths; //90%
 	@extend %smallish_eleven_twelfths; //~92%
@@ -19,7 +34,7 @@ mark{
     @extend %clearfix;
     float: none;
 }
-@include media-query(small){
+@include mq(small){
 
 	@include headings-scale(1.17, small);
 
@@ -49,6 +64,9 @@ mark{
 .half{
 	@extend %one_half;
 }
+.quarter{
+	@extend %one_quarter;
+}
 .sidebar{
     @extend %smalls_one_whole;
     @extend %bigs_one_quarter;
@@ -76,7 +94,12 @@ mark{
     @extend %media_block;
     @extend %cf;
 }
-
+.icon {
+	width: 1.5em;
+	margin-right: .5em;
+	display: inline-block;
+	margin-top: -.25em;
+}
 
 
 #toggles{

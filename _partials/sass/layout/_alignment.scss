@@ -31,6 +31,11 @@ $alignment-output: true;
 		margin: 0 auto;
 		display: block;
 	}
+	%#{$namespace}align_none#{$selector}#{$namespace}align_none
+	{
+		float: none !important;
+		margin: 0;
+	}
 	%#{$namespace}float_left#{$selector}#{$namespace}float_left
 	{
 		float: left !important;
