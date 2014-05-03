@@ -32,6 +32,7 @@
         <title>e-Health Frontend Framework</title>
 
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" media="print" href="css/print.css" >
         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
         <!--<base href="/Front-End-Framework/">-->
     </head>
@@ -47,23 +48,31 @@
 <div class="wrap">
     <header class="row" role="banner">
         <div class="column media_block">
-            <a href="/" class="naked_link">
-                <img src="favicons/apple-touch-icon-57x57-precomposed.png" class="img align_left">
+            <a href="/" class="link_naked">
+                <img src="images/logo.png" class="img align_left">
                 <h1>
                     e-Health Frontend Framework
                 </h1>
             </a>
-            <nav class="box box_open" role="navigation">
-                <ul class="list_inline h6">
-                    <li><a href="grid.html">Grid system</a></li>
-                    <li><a href="lists.html">Lists</a></li>
-                    <li><a href="widgets.html">Widgets</a></li>
-                    <li><a href="tables.html">Tables</a></li>
-                    <li class="align_right"><a href="dept-page.html">Nu-Connect Department Experiment</a></li>
-                </ul>
-            </nav>
-        </div>
+		</div>
+		<div class="column">
+			<nav class="box box_open pad_v_half" role="navigation">
+				<ul class="list_inline list_nav h6">
+					<li><a href="grid.html">Grid</a></li>
+					<li><a href="lists.html">Lists</a></li>
+					<li><a href="components.html">Components</a></li>
+					<li><a href="functions.html">Functions</a></li>
+					<li><a href="misc.html">Misc.</a></li>
+					<li class="align_right">
+						<a href="https://github.com/UWHealth/Front-End-Framework" target="_blank">
+							<img src="images/github.png" class="icon">Github
+						</a>
+					</li>
+				</ul>
+			</nav>
+    	</div>
     </header>
+
     <main role="main">
         <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, voluptate aperiam</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate, iusto, laudantium, voluptates, cum distinctio quos numquam sit earum error ex quis velit laborum hic quidem excepturi tenetur est! Odio, minima?</p>
@@ -81,9 +90,9 @@
                         <h3><mark>Grid Test - Main Content</mark> ipsum dolor sit amet.</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</p>
 
-                        <a href="#main" class="tab_button" data-tab="tab_accordion tab_minimal tab_underline">Main</a>
+                        <a href="#main" class="tab_button" data-tab="tab_accordion tab_minimal tab_line tab_topline">Main</a>
                         <div id="main" class="tab_content">
-                            <h5><mark>Tabs Test (tab_minimal, tab_underline)</mark></h5>
+                            <h5><mark>Tabs Test (tab_minimal, tab_line, tab_topline)</mark></h5>
 
                             <a href="#tab5" class="tab_button" data-tab="tab_side">First</a>
                             <div id="tab5" class="tab_content"><h5><mark>Tabs Test (tab_side)</mark></h5>
@@ -105,13 +114,13 @@
                         <div id="other" class="tab_content">
                             <div class="row">
                             	<div class="sidebar column">
-                            		<small>
+                            		<p><small>
                             		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, sequi.
-                            		</small>
+                            		</small></p>
                             	</div>
 								<div class="content column">
 									<aside class="add-on align_right">
-									<small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate assumenda cumque magni dolore vitae blanditiis!</small>
+									<p><small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate assumenda cumque magni dolore vitae blanditiis!</small></p>
 									</aside><!--
 								--><p class="wide-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, non, accusamus, harum sed fugit dolorum dolore enim corrupti totam tenetur rem rerum repellendus delectus excepturi et sunt facilis soluta necessitatibus.</p>
 									<p>Et, perferendis, repellat, asperiores enim esse dolorum ut provident sint reprehenderit pariatur expedita vitae quam possimus natus hic magni maxime dignissimos ducimus aperiam voluptas! Suscipit voluptas hic error cum optio?</p>
@@ -122,7 +131,7 @@
                         </div>
                     </div>
                     <aside class="add-on column" role="complementary">
-                        <small><mark><strong>Grid Test - Add-on</strong></mark> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</small>
+                        <p><small><mark><strong>Grid Test - Add-on</strong></mark> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</small></p>
                     </aside>
                 </div>
             </article>
@@ -131,29 +140,45 @@
             </div>
         </div>
         <h6>
-        <mark>Side Tabs</mark> Totam, voluptatum, vel, in fuga rerum quo accusantium distinctio saepe voluptate fugiat eveniet commodi officiis sapiente odio expedita sit blanditiis assumenda cupiditate voluptates autem ex consequuntur eius fugit rem neque omnis obcaecati!
+        <mark>Minimal Side Tabs</mark> Totam, voluptatum, vel, in fuga rerum quo accusantium distinctio saepe voluptate fugiat eveniet commodi officiis sapiente odio expedita sit blanditiis assumenda cupiditate voluptates autem ex consequuntur eius fugit rem neque omnis obcaecati!
         </h6>
         <a href="#tab1" class="tab_button" data-tab="tab_side tab_accordion tab_minimal">Tab 1</a>
-        <div id="tab1" class="tab_content"><h5><mark>Tabs Test (tab_side, tab_minimal)</mark></h5>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
-        </div>
+        <div id="tab1" class="tab_content">
+            <h5><mark>Tabs Test (tab_side, tab_minimal)</mark></h5>
+
+            <a href="#moretabs" class="tab_button" data-tab="tab_minimal tab_line">More Tabs</a>
+        	<div id="moretabs" class="tab_content">
+            	<h6><mark>tab_minimal tab_line</mark></h6>
+            	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
+        	</div>
+
+			<a href="#anothertab" class="tab_button">Another Tab</a>
+			<div id="anothertab" class="tab_content">
+				<p>Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
+        	</div>
+        	<a href="#yetanother" class="tab_button">And Yet another Tab</a>
+			<div id="yetanother" class="tab_content">
+				<p>Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
+        	</div>
+
+		</div>
 
         <a href="#tab2" class="tab_button">Tab 2</a>
         <div id="tab2" class="tab_content"><p>
             Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
 
-                <a href="#tab3" class="tab_button" data-tab="tab_minimal">Tab 3</a>
-                <div id="tab3" class="tab_content"><h5><mark>Tabs Test (tab_minimal)</mark></h5>
+                <a href="#tab3" class="tab_button quarter" data-tab="">Tab 3</a>
+                <div id="tab3" class="tab_content"><h5><mark>Tabs Test (normal tabs with grid widths)</mark></h5>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
                 </div>
-                <a href="#tab4" class="tab_button button half">Combo tab style</a>
-                <div id="tab4" class="tab_content"><h5><mark>Stupid Looking Tab Test(button style, grid width-based)</mark></h5>
+                <a href="#tab4" class="tab_button half">Combo tab style</a>
+                <div id="tab4" class="tab_content"><h5><mark>Stupid Looking Tab Test(grid width-based)</mark></h5>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
                 </div>
 
         </div>
         <h6 class="h4 space_n_v"><mark>Table Test</mark></h6>
-        <table class="fixed">
+        <table class="table_fixed table_striped">
           <thead>
               <tr>
                 <th>Movie Title</th>
