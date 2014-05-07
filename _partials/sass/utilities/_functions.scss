@@ -262,6 +262,38 @@ $golden_ratio:  golden();
 	}
 }
 
+//String Helpers.
+// Taken from: https://github.com/devatrox/Sunglass
+
+//String-contains function
+@function str-contains($string, $substr, $pos: 0) {
+
+  $string: str-slice($string, $pos);
+
+  @if str-index($string, $substr) != 0 {
+    @return true;
+  }
+  @else {
+    @return false;
+  }
+}
+
+//String Joining
+@function str-join($list, $separator: ",") {
+  $string: "";
+
+  @for $i from 1 through length($list) {
+    $string: _str-append($string, #{nth($list, $i)});
+
+    @if $i != length($list) {
+      $string: _str-append($string, $separator);
+    }
+  }
+
+  @return $string;
+}
+
+
 //------------------------------------
 //    $TYPOGRAPHY
 //------------------------------------
@@ -289,11 +321,16 @@ $golden_ratio:  golden();
 @mixin type-font-size($font-size, $line-height: true,
 	$font-base: $base-font-size, $namespace: "") {
 
+	//Create REM-based font-size
 	@include rems(font-size, $font-size);
 
+	//Easiest measurement of font-size deviation
 	$font-ratio: $font-size / $font-base;
+	//baseline
 	$bl: $type-magic-ratio * $font-base;
+	//Every other line.
 	$baseline-odd: $base-line-height / 2;
+	//Every third line.
 	$baseline-odder: $base-line-height / 1.33333;
 
     @if $line-height == true {
@@ -303,22 +340,13 @@ $golden_ratio:  golden();
         // If line-height is too large, divide it in half.
         // Ultimately, this creates type that requires two line-lengths to rebalance the baseline grid.
         // This is a better alternative to 2x line-heights.
-		@debug "(#{$font-size}) #{$font-ratio} / #{$baseline}";
-
         @if $font-size > $font-base {
 
 			@if $baseline >= 1.75 or $baseline < 1.2{
 				$baseline: baseline($font-size, $baseline-odd);
 
-				$lcm: baseline-lcm($font-size, $baseline);
-				@debug "( #{$font-size} ) #{$baseline * $font-size} : #{$lcm}";
-
 				@if $baseline > 1.8 or $baseline < 1.1{
-
 					$baseline: baseline($font-size, $baseline-odder);
-
-					$lcm: baseline-lcm($font-size, $baseline);
-					@debug "( #{$font-size} ) #{$baseline * $font-size} : #{$lcm}";
 				}
 			}
 		}
