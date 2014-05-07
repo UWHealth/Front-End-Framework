@@ -18,10 +18,10 @@ $colors: (
 		base: #fe0202
 	),
 	action: (
-		base: #4c7659  
+		base: #4c7659
 	),
 	function: (
-		base: #d4c9ad 
+		base: #d4c9ad
 	),
 	alert: (
 		base: #b22727
@@ -81,7 +81,7 @@ $colors: (
 		lightest: lighten(colors(function), 40%),
 		dark: darken(colors(function), 10%),
 		darker: darken(colors(function), 20%),
-		darkest: darken(colors(function), 40%) 
+		darkest: darken(colors(function), 40%)
 	),
 	alert: (
 		base: colors(alert),
@@ -103,6 +103,7 @@ $action-color: colors(action) !default;         	//Green / Earth
 $function-color: colors(function) !default;       		//UW Tan
 $alert-color: colors(alert) !default;         	 		//Red
 $border-color: #8a9095 !default;         				//Grey
+$link-color: $primary-color !default;
 
 
 $primary-color-dark: darken($primary-color, 10%)                  !default;    //Darker UW Blue (dark blue)
@@ -143,4 +144,4 @@ $action-color-lighter: lighten($action-color, 20%)                 !default;    
 $function-color-lighter: lighten($function-color, 20%)             !default;    //Ligher UW Tan
 $alert-color-lighter: lighten($alert-color, 20%)                   !default;    //Ligher Red
 $border-color-lighter: lighten($border-color, 20%)                 !default;      //Lighter Grey
-$link-color-lighter: lighten($link-color, 20%)                     !default;  
+$link-color-lighter: lighten($link-color, 20%)                     !default;

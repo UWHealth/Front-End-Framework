@@ -87,33 +87,39 @@
 %type-vertical-rhythm {
     @extend %space_reset;
     margin-bottom: $type-magic-number;
-    margin-bottom: $type-magic-ratio + rem;
+    margin-bottom: $type-magic-ratio * 1rem;
+}
+%type_space_v{
+	@include type-space(margin-bottom, 1);
 }
 
 
-
-/*-----------------------------------
-    $BASE
-------------------------------------*/
+//-----------------------------------
+//    $BASE
+//------------------------------------
  html {
    @extend %space_reset;
-   @extend %type_family;
-   font-size: $base-font-size / 16px + em; // [1]
-
+   font-size: $base-font-size / 16px * 1em;
     -ms-text-size-adjust: 100%;
    -webkit-text-size-adjust: 100%;
+
 
 // If you have chosen to display a baseline grid, we turn it on here.
    @if $show-baseline == true {
         $type-baseline-size: strip-units($type-magic-number);
         &.baseline-on{
-            background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+			background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+			background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) 0 0 / auto $type-magic-ratio * 1em;
         }
     }
 }
-body, .p {
+body, .p, p {
    @include type-font-size($base-font-size);
    @extend %space_reset;
+
+}
+body{
+	padding-top: 0;
 }
 
 //Allow a toggle for baseline image
@@ -125,108 +131,109 @@ body, .p {
 
 
 
-/*------------------------------------
-    $HEADINGS
-------------------------------------*/
- // 1. If you've chosen to automatically scale your type, we set that up here.
- // 2. Using heading numbers[6-1], we create a loop.
- // 3. Use the current scale number to exponentially scale up our base-font-size.
- // 4. Invert the current value of the loop($i) for an more traditionally ordered
- //    output (h1,h2,h3,h4,h5,h6).
- // 5. Use our new modular values for input into type mixins to generate our
- //    desired, modularly-scaled css.
- // 6. If followed by a paragraph, create a closer larger top margin, but smaller bottom margin.
- // 7. If classed headings, create them by extending everything above.
+//------------------------------------
+//    $HEADINGS
+//------------------------------------
 
-h1,h2,h3,h4,h5,h6{
-    @extend %type-vertical-rhythm;
+@include headings(1,6){
+	@extend %text_legibility;
 }
-@if $auto-scale-type == true {  //[1]
 
+@if $auto-scale-type == true {
+	@include headings(1,6){
+		margin-top: 0;
+		padding-bottom:0;
+	}
     @include headings-scale($scale-ratio);
-
 }
 @else{
 
-    h1 {
+    h1, %h1{
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h1-size);
         & + p{
-            @extend %negative-top; //[6]
+            @extend %negative_top; //[6]
         }
     }
     @if $type-scale-classes == true{
-        %h1, .h1{
-            @extend h1;
+        .h1{
+            @extend %h1;
         }
     }
 
-    h2 {
+    h2, %h2 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h2-size);
         & + p{
-            @extend %negative-top; //[6]
+            @extend %negative_top; //[6]
         }
     }
     @if $type-scale-classes == true{
-        %h2, .h2{
-            @extend h2;
+        .h2{
+            @extend %h2;
         }
    }
 
-    h3 {
+    h3, %h3 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h3-size);
         & + p{
-            @extend %negative-top; //[6]
+            @extend %negative_top; //[6]
         }
     }
     @if $type-scale-classes == true{
-        %h3, .h3{
-            @extend h3;
+        .h3{
+            @extend %h3;
         }
    }
 
-    h4 {
+    h4, %h4 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h4-size);
         & + p{
-            @extend %negative-top; //[6]
+            @extend %negative_top; //[6]
         }
     }
     @if $type-scale-classes == true{
-        %h4, .h4{
-            @extend h4;
+        .h4{
+            @extend %h4;
         }
    }
 
-    h5 {
+    h5, %h5 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h5-size);
         & + p{
-            @extend %negative-top; //[6]
+            @extend %negative_top; //[6]
         }
     }
     @if $type-scale-classes == true{
-        %h5, .h5{
-            @extend h5;
+        .h5{
+            @extend %h5;
         }
    }
 
-    h6 {
+    h6, %h6 {
+		@extend %type-vertical-rhythm;
         @include type-font-size($type-h6-size);
         & + p{
-            @extend %negative-top; //[6]
+            @extend %negative_top; //[6]
         }
     }
     @if $type-scale-classes == true{
-        %h6, .h6{
-            @extend h6;
+        .h6{
+            @extend %h6;
         }
    }
 }
 
-/*-------------------------------
-    $LISTS
--------------------------------*/
+//-------------------------------
+//   $LISTS
+//-------------------------------
 ul, ol, dd, menu {
     @extend %type-vertical-rhythm;
     @extend %space_l;
+	@extend %text_legibility;
 }
 
 li > ul,
@@ -238,11 +245,12 @@ li > ol {
 
 
 
-/*-------------------------------
-    $PARAGRAPHS
--------------------------------*/
+//-------------------------------
+//    $PARAGRAPHS
+//-------------------------------
 p, .p, %p {
     @extend %type-vertical-rhythm;
+	@extend %text_legibility;
 
     @if $indented-paragraphs == true {
 
@@ -279,7 +287,7 @@ code,
 kbd,
 pre,
 samp {
-    font-family: monospace, monospace;
+    font-family: $monospace-font-stack;
     _font-family: 'courier new', monospace;
     font-size: 1em; // [1]
 }
@@ -309,7 +317,6 @@ blockquote {
     @extend %space_l;
 
     p {
-
         &:before {
             content: "“";
             content: open-quote;
@@ -368,13 +375,15 @@ q   {
 /*-------------------------------*/
 /*    $NORMALIZE                 */
 /*-------------------------------*/
-b,strong, .bold, .strong{
-    font-weight: bold;}
+
+b, strong, .bold, .strong{
+    @extend %type_bold
+}
 dfn {
-    font-style: italic;}
+    @extend %type_italic;
+}
 small {
     @include type-scale(font-size,-1);
-	@extend %type-vertical-rhythm;
 }
 sub,sup {
     font-size: 75%;

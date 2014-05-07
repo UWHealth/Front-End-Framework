@@ -4,13 +4,18 @@
 
  // CONTENTS
  // SETUP................Variables.
+ // EXTENDS..............Placeholder classes for cleaner output.
  // GENERAL..............Normal styles for all tab boxes.
- // MINIMAL-TABS.........Tabs without content borders.
  // TOP-TABS.............Styles for typical tab-boxes.
- // SIDE-TABS............Styling for tab_side modified boxes.
  // ACCORDION-TABS.......Tabs that become accordions on mobile.
  // NESTED-TABS..........Styles for tabs inside of tabs.
  // NO-JS................Fallback styling for users without javascript.
+ // SIDE-TABS............Styling for tab_side modified boxes.
+ // MINIMAL-TABS.........Tabs without content borders.
+ // IE8..................Styles specifically for IE8. Based on html classes.
+
+
+
 
 //------------------------------------
 //    $SETUP
@@ -24,25 +29,28 @@ $output-tabs: 						true 					!default;
 $tab-inherit-button-style:          false                    !default;
 
 //Make the active tab a darker color than the tab_content.
+// Will match the border if a border exists.
 $tab-invert-active:                 true                     !default;
 
-//Show borders?
-$tab-border:                        true                     !default;
+//Show borders? If true, just enter a color. If not, enter false.
+$tab-border:                  		$tab-button-bg           !default;
 
 //Active tab-bg color.
 //Note: If invert-active is set to false,
 //then this will apply to the inactive tabs.
 $tab-button-bg:                     $function-color-darker   !default;
 
-//Optional tab-border-color.
-$tab-border-color:                  $tab-button-bg           !default;
 
 //Tab box content BG color.
 //Also applied to non-inverted-active tabs.
 $tab-content-bg:                    $function-color-lighter  !default;
 
 //Inactive tab coloring
-$tab-button-secondary:                 pick_best_color($tab-button-bg, (lighten($tab-button-bg, 20%), lighten($tab-button-bg, 30%), darken($tab-button-bg, 10%))) !default;
+$tab-button-secondary:              pick_best_color($tab-button-bg,(
+										lighten($tab-button-bg, 20%),
+										lighten($tab-button-bg, 30%),
+										darken($tab-button-bg, 10%)
+									))!default;
 
 //Active tab_button text color.
 //Note: If invert-active is set to false,
@@ -55,121 +63,134 @@ $tab-border-radius:                 2px                      !default;
 //Spacing between tab buttons.
 $tab-spacing:                       2px                      !default;
 
+//Include styles for tabs that appear on the side?
+//These are non-essential.
+$tab-side-include: 					true 					 !default;
+
+//Include styles for minimal tab styles?
+//These are non-essential.
+$tab-minimal-include: 				true 					!default;
 
 
+
+//------------------------------------
+//    $EXTENDS
+//------------------------------------
+
+//Used for a more consolidated output.
+
+%tab_color_text{
+	color: $tab-button-text;
+}
+%tab_background{
+	background-color: $tab-button-bg;
+}
+%tab_border_color{
+	border-color: $tab-border;
+}
+%tab_content_bg{
+	background-color: $tab-content-bg;
+}
+%tab_border_current{
+	border-color: currentColor;
+}
 //------------------------------------
 //    $GENERAL
 //------------------------------------
 @if $output-tabs == true {
+//NOTE: For cleanliness and readibility,
+//	the following content in this @if statement is not indented.
 
+
+//-----------Required tab styling------------------------------------------
+//----All of the following code is required for proper tab styling.--------
+//-------------------------------------------------------------------------
 //All tab boxes are wrapped in a div classed "tabbed".
 .tabbed{
-    @include type-space(margin-bottom, 1);
+    @extend %space_v;
     @include type-space(min-height, 3);
     @extend %cf;
 
 //Mobile tab_buttons
     & .tab_button {
-		letter-spacing: normal;
-        @if $tab-inherit-button-style == true{
-            @extend %button;
-        }@else {
-            line-height: 3;
-            text-decoration: none;
-			margin-bottom: 0;
-            @include type-space-sc(padding, 0, .75);
-
-			@if $tab-invert-active == true{
-                background-color: $tab-button-secondary;
-                color: pick_best_color(
-						$tab-button-secondary, (
-						#fff,
-						$tab-button-text,
-						$tab-content-bg,
-						$tab-button-bg
-					) );
-            }@else{
-                background-color: $tab-button-bg;
-                color: $tab-button-text;
-                position: relative;
-                z-index: 1;
-				border-bottom-width: 0 !important;
-            }
-            @if $tab-border == true{
-                border: 1px solid darken($tab-button-secondary, 10%);
-                margin-top: -1px;
-            }
-
-            &:hover{
-                font-weight: bold;
-                @if $tab-invert-active == true{
-                    color: pick_best_color(
-							$tab-button-secondary, (
-							#ddd,
-							darken($tab-button-text, 10%),
-							darken($tab-content-bg, 10%),
-							darken($tab-button-bg, 10%)
-						) );
-                }@else{
-                    color: pick_best_color(
-						$tab-button-bg, (
-						$tab-border-color,
-						darken($tab-button-text, 5%),
-						darken($tab-button-bg,10%)
-					) );
-                }
-            }
-			&.active{
-				@include rems(margin-bottom, -($type-magic-number));
-			}
-
-        }
-        width: 100%;
+		border-style: solid;
+		width: 100%;
         cursor: pointer;
         display: none;
+		@extend %grid_reset; // Just making letter-spacing is normal;
+		line-height: 3;
+		text-decoration: none;
+		margin-bottom: 0;
+		@include type-space-sc(padding, 0, .75);
+		@if $tab-border != false{
+				border-width: 1px;
+				margin-top: -1px;
+		}
+		@if $tab-invert-active == true{
+			background-color: $tab-button-secondary;
+			color: pick_best_color(
+					$tab-button-secondary, (
+					#fff,
+					$tab-button-text,
+					$tab-content-bg,
+					$tab-button-bg
+				) );
+			@extend %tab_border_color;
+
+		}@else{
+			@extend %tab_background;
+			@extend %tab_color_text;
+			border-color: blend-multiply($tab-button-bg, $tab-button-bg);
+			position: relative;
+			z-index: 1;
+			border-bottom-width: 0 !important;
+		}
+
+		&:not(.active):hover{
+			@extend %type_bold;
+		}
+
+		&.active {
+			@include rems(margin-bottom, -($type-magic-number));
+			@extend %tab_border_color;
+		}
     }
 
-//Active tab styling.
-//Inherited from active buttons if needed.
-
-	@if $tab-inherit-button-style == false{
 	//Affects all active tab styles, regardless of type.
-		& .active{
-			@if $tab-invert-active == true{
-				background-color: $tab-button-bg;
-				border-color: $tab-border-color;
-				color: $tab-button-text;
-				margin-bottom: -1px;
-			}@else{
-				background-color: $tab-content-bg;
-				color: pick_best_color($tab-content-bg, ($tab-border-color, $tab-button-text, $tab-button-bg));
-				border-color: $tab-border-color;
-				border-bottom-color: transparent;
-			}
-			top: 1px;
-			z-index: 1;
+	//Some styles are overwritten later.
+	& .active{
+		@if $tab-invert-active == true{
+			@extend %tab_background;
+			@extend %tab_border_color;
+			@extend %tab_color_text;
+			margin-bottom: -1px;
+		}@else{
+			@extend %tab_content_bg;
+			color: pick_best_color($tab-content-bg, ($tab-border, $tab-button-text, $tab-button-bg));
+			@extend %tab_border_color;
+			border-bottom-color: transparent;
+		}
+		top: 1px;
+		z-index: 1;
 
-			&:hover{
-				cursor: default;
-				@if $tab-invert-active == true{
-					color: $tab-button-text;
-				}@else{
-					color: pick_best_color($tab-content-bg, ($tab-button-text, $tab-button-bg));
-				}
-			}
+		&:hover{
+			cursor: default;
+			font-weight: normal !important;
 		}
 	}
 }
  //Tab-box content style
 .tab_content{
-    display: block;
-	border: 1px solid $tab-border-color;
-	background-color: $tab-content-bg;
+    @extend %display_block;
+	border-width: 1px;
+	border-style: solid;
+	@extend %tab_border_color;
+	border-radius: 0 $tab-border-radius $tab-border-radius $tab-border-radius;
+	@extend %tab_content_bg;
 	position: relative;
     z-index: 0;
-	@extend %pad_v;
-	@include rems(padding-left, $gutter);
-	@include rems(padding-right, $gutter);
+	@extend %pad;
+	@extend %#{$smalls}_pad_h_half;
     @extend %cf;
 
     > :last-child{
@@ -188,215 +209,84 @@ $tab-spacing:                       2px                      !default;
 }
 
 //------------------------------------
-//    $TOP-TABS
+//    $TOP-TABS (default)
 //------------------------------------
 
-// Nav wrapper for tabs.
-// Created by Javascript.
+// Wrapper for tabs, injected with Javascript.
+
 .tabs{
     position: relative;
 }
 
 //Inactive Top-tabs stylings.
 .tab{
-	letter-spacing: normal;
-    @if $tab-inherit-button-style == true{
-        @extend %button;
-    }@else{
-		text-align: center;
-        @include type-space-sc(padding, .5, 0);
-		@include rems(padding-left, ($gutter/2));
-		@include rems(padding-right, ($gutter/2));
-        @if $tab-border == true{
-            border: 1px solid;
-        }
-        @if $tab-invert-active == true{
-            background-color: $tab-button-secondary;;
-            color: pick_best_color($tab-button-secondary, (#fff, lighten($tab-button-bg, 15%), darken($tab-button-bg, 15%) ) );
-            border-color: darken($tab-button-secondary, 10%);
-        }@else{
-            background-color: $tab-button-bg;
-            color: $tab-button-text;
-            border-color: $tab-border-color;
-        }
-        text-decoration: none;
-        border-bottom-color: transparent;
-        &:hover{
-            @if $tab-invert-active == true{
-                color: $tab-button-bg;
-            }@else{
-                color: darken($tab-button-text, 5%);
-            }
-        }
-    display: inline-block;
+	position: relative;
+	display: inline-block;
 	vertical-align: bottom;
-	}
-    border-radius: $tab-border-radius $tab-border-radius 0 0;
-    position: relative;
-	top: 2px;
-    cursor: pointer;
-    margin-right: $tab-spacing;
+	@extend %pad_v_half;
+	@extend %pad_h_half;
 	margin-bottom: 0;
+	margin-right: $tab-spacing;
+	top: 2px;
+	text-align: center;
+	text-decoration: none;
+	border-bottom-color: transparent;
+    border-radius: $tab-border-radius $tab-border-radius 0 0;
+    cursor: pointer;
     transition: background-color 100ms ease-out, border-color 200ms ease-out;
+	border-style: solid;
 
-}
-
-//------------------------------------
-//    $MIMINAL-TABS
-//------------------------------------
-
-.tab_minimal > .tab_content {
-	border-left-width: 0;
-	border-right-width: 0;
-	border-bottom-width: 0;
-
-}
-.tab_minimal.tab_side > .tab_content {
-	border-left-width: 1px;
-	border-top-width: 0;
-}
-.tab_minimal.tab_side > .tabs{
-	@include type-space-sc(padding, 1, 0);
-}
-
-.tab_underline {
-	> .tabs {
-		.tab{
-			background-color: transparent;
-			border: 0;
-			margin-right: 0;
-			top: 1px;
-			margin-top: -3px; //Correcting the space created by borders.
-			border-bottom-width: 2px;
-			border-bottom-style: solid;
-			border-bottom-color: transparent;
-			color: $tab-button-secondary;
-			@include rems(text-indent, -($gutter/4) );
-
-			&:hover{
-				color: mix($tab-button-bg, $tab-button-secondary, 40%);
-				background-color: rgba($tab-content-bg, 0.3);
-				border-bottom-color: currentColor;
-				position: relative;
-				z-index: 2;
-			}
-		}
-		.active{
-			opacity: 1 !important;
-			color: $tab-button-bg !important;
-			border-bottom: 2px solid currentColor;
-			background-color: transparent !important;
-		}
+	@if $tab-border != false{
+		border-width: 1px;
 	}
-	&.tab_minimal {
-		> .tab_content{
-			background-color: transparent;
-			padding-left: 0;
-			padding-right: 0;
-			border-top-width: 2px;
-			border-top-color: tint($tab-border-color, 50%);
-			margin-top: -1px;
-		}
+	@if $tab-invert-active == true{
+		background-color: $tab-button-secondary;;
+		color: pick_best_color($tab-button-secondary, (#fff, lighten($tab-button-bg, 15%), darken($tab-button-bg, 15%) ) );
+		border-color: darken($tab-button-secondary, 10%);
+	}@else{
+		@extend %tab_background;
+		@extend %tab_color_text;
+		@extend %tab_border_color;
 	}
 
+	&:not(.active):hover{
+		@if $tab-invert-active == true{
+			color: $tab-button-bg;
+		}@else{
+			color: darken($tab-button-text, 5%);
+			background-color: mix($tab-button-bg, $tab-content-bg, 60%);
+		}
+	}
 }
-
-//------------------------------------
-//    $SIDE-TABS
-//------------------------------------
-
-//Making sure the height doesn't get wacky with tab_sidebed content.
-.tab_side{
-    display: table;
-    @include type-space(margin-bottom, 1);
-}
-
-.tab_side{
-    & > .tabs{
-        display: table-cell;
-        vertical-align: top;
-        @extend %lap_one_fifth !optional;
-        @extend %#{$bigs}_one_sixth;
-        @extend %#{$smalls}_one_quarter;
-
-        .tab{
-			top: 0;
-            display: table;
-            margin-bottom: $tab-spacing;
-            width: 100%;
-			text-align: left;
-			@include rems(text-indent, -($gutter/4) );
-
-
-            @if $tab-inherit-button-style == true{
-                @extend %button;
-            }
-			@else{
-                border-radius: $tab-border-radius 0 0 $tab-border-radius;
-				padding-left: $gutter/2;
-
-                @if $tab-border == true{
-                   @if $tab-invert-active == true{
-                        border-bottom-color: lighten($tab-button-bg, 15%);
-                   }@else{
-                       border-bottom-color: $tab-border-color;
-                   }
-                }
-
-            }
-
-        }
-        .active{
-            border-right-color: transparent;
-            border-bottom-color: $tab-border-color;
-        }
-        ~ .tab_content{
-            margin-left: -1px;
-        }
-    }
-}
-
 
 //------------------------------------
 //    $ACCORDION-TABS
 //------------------------------------
 
-//Show these on mobile.
+//Show tab_buttons on mobile.
 .tab_accordion{
-    @include media-query(#{$smalls}){
-        display: block;
-        margin-left: 0;
-        padding-left: 0;
-    }
     & > .tab_button{
-        @include media-query(#{$smalls}){
-            display: block;
-            margin-left: 0;
-        }
+		@extend %#{$smalls}_show;
     }
+//Hide tabs on mobile.
     & > .tabs{
-        @include media-query(#{$smalls}){
-            display: none !important;
-        }
-        & ~ .tab_content{
-            @include media-query(#{$smalls}){
-                width: 100%;
-                margin-left: 0;
-            }
-        }
-    }
+        @extend %#{$smalls}_hide;
+	}
+	& > .tabs + .tab_button{
+		border-radius: $tab-border-radius $tab-border-radius 0 0;
+	}
 }
 
-.js .tab_accordion {
+
+.js .tabbed.tab_accordion {
 	& > .tab_button{
 		@extend %#{$bigs}_hide;
 	}
 	& > .tab_content{
 		@include media-query(#{$smalls}){
-			border: 1px solid $tab-border-color;
+			border: 1px solid $tab-border;
 			background-color: $tab-content-bg;
-			@include rems(padding-left, ($gutter/2));
-			@include rems(padding-right, ($gutter/2));
+			margin-left: 0;
 		}
 	}
 }
@@ -414,23 +304,212 @@ $tab-spacing:                       2px                      !default;
 //    $NO-JS
 //------------------------------------
 .no-js .tab_button {
+	display: inline-block;
+	@extend %grid_reset;
 	@extend %#{$bigs}_one_fifth;
     @extend %#{$smalls}_one_whole;
-	letter-spacing: normal;
-    display: inline-block;
-    @extend %h6;
-    letter-spacing: normal;
+	@extend %h6;
     @include type-space(margin-top, 1);
     text-decoration: none;
-    padding-right: $gutter;
+    @include rems(margin-right, $gutter);
 
     & + .tab_content{
 		@extend %#{$bigs}_four_fifths;
-		letter-spacing: normal;
+		@extend %grid_reset;
         display: inline-block;
         @include type-space(margin-top, 1);
         padding-left: 0;
     }
 }
 
-} // End if
+
+//-----------End required tab styling------------------------------------------
+//--------All of the above code is required for proper tab styling.------------
+//-----------------------------------------------------------------------------
+
+
+//------------------------------------
+//    $SIDE-TABS
+//------------------------------------
+@if $tab-side-include == true{
+
+
+.tab_side{
+    display: table; //Making sure the height doesn't get wacky with tab_side content.
+    @extend %space_v;
+}
+
+.tab_side{
+    & > .tabs{
+        display: table-cell;
+        vertical-align: top;
+        @extend %lap_one_fifth !optional;
+        @extend %#{$bigs}_one_sixth;
+        @extend %#{$smalls}_one_quarter;
+
+        .tab{
+			top: 0;
+            @extend %display_block;
+            margin-bottom: $tab-spacing;
+            width: 100%;
+			text-align: left;
+			@include rems(text-indent, -($gutter/4) );
+			border-radius: $tab-border-radius 0 0 $tab-border-radius;
+
+			@if $tab-border != false{
+			   @if $tab-invert-active == true{
+					border-bottom-color: lighten($tab-button-bg, 15%);
+			   }@else{
+				   border-bottom-color: $tab-border;
+			   }
+			}
+        }
+        .active{
+            border-right-color: transparent;
+            border-bottom-color: $tab-border;
+        }
+    }
+	> .tab_content{
+        margin-left: -1px;
+    }
+}
+}
+
+//------------------------------------
+//    $MIMINAL-TABS
+//------------------------------------
+@if $tab-minimal-include == true{
+
+.tab_minimal > .tab_content {
+	border-left-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 0;
+}
+
+@if $tab-side-include == true {
+
+	//Styling for minimal and side-tab combinations.
+
+	.tab_minimal.tab_side > .tab_content {
+		border-left-width: 0px;
+		border-top-width: 0;
+	}
+	.tab_minimal.tab_side > .tabs{
+		@include type-space-sc(padding, 1, 0);
+
+		.tab{
+			border-width: 0px;
+			&:not(.active){
+				background-color: transparent;
+				color: $tab-button-secondary;
+				&:hover{
+					color: mix($tab-button-bg, $tab-button-secondary, 40%);
+					background-color: rgba($tab-content-bg, 0.5);
+				}
+			}
+
+			&.active{
+				color: $tab-button-bg;
+
+			}
+
+		}
+	}
+
+}
+
+//Tab lines
+//Tabs highlighted by a line rather than an entire tab.
+
+.tab_line {
+	> .tabs {
+		.tab{
+			background-color: transparent;
+			border-width: 0;
+			margin-right: 0;
+			top: 1px;
+			margin-top: -2px; //Correcting the space created by borders.
+			border-bottom-width: 2px;
+			color: $tab-button-secondary;
+			@include rems(text-indent, -($gutter/4) );
+			border-radius: 0;
+
+			&:hover{
+				color: blend-multiply($tab-border, $tab-button-secondary);
+				background-color: rgba($tab-content-bg, 0.5);
+				@extend %tab_border_current;
+				position: relative;
+				z-index: 2;
+			}
+		}
+		.active{
+			opacity: 1 !important;
+			color: $tab-button-bg !important;
+			border-bottom-width: 2px;
+			@extend %tab_border_current;
+			background-color: transparent !important;
+		}
+	}
+	&.tab_minimal {
+		> .tab_content{
+			@include rems((padding-left, padding-right), ($gutter/2));
+			background-color: transparent;
+			border-top-width: 2px;
+			border-top-color: tint($tab-border, 50%);
+			margin-top: -1px;
+		}
+	}
+}
+.tab_topline{
+	> .tabs{
+		background-color: rgba($tab-content-bg, 0.6);
+		border-radius: $tab-border-radius $tab-border-radius 0 0;
+		.tab{
+			text-indent: 0px;
+			@extend %pad_r;
+		}
+		.active{
+			border-top-width: 2px;
+			@extend %tab_border_current;
+			border-bottom-color: transparent;
+			background-color: $tab-content-bg !important;
+
+			&:hover{
+				border-bottom-color: transparent;
+			}
+		}
+	}
+	> .tab_content{
+		background-color: $tab-content-bg !important;
+	}
+}
+
+} // End minimal tabs @IF
+
+//------------------------------------
+//    $IE8
+//------------------------------------
+.ie8 .tab_line > .tabs .tab:hover{
+	background-color: #fff;
+}
+.ie8 .tab_button:hover{
+	@if $tab-invert-active == true{
+		color: pick_best_color(
+			$tab-button-secondary, (
+			#ddd,
+			darken($tab-button-text, 10%),
+			darken($tab-content-bg, 10%),
+			darken($tab-button-bg, 10%)
+		));
+	}@else{
+		color: pick_best_color(
+			$tab-button-bg, (
+			$tab-border,
+			darken($tab-button-text, 5%),
+			darken($tab-button-bg, 10%)
+		));
+	}
+}
+
+
+} // End All Tabs output @IF

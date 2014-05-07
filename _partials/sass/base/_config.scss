@@ -1,11 +1,21 @@
 //Typography
 
-$base-font-size:              16px;
-$base-line-height:            12px;
+$base-font-size:             16px;
+$base-line-height:           24px;
 $auto-scale-type:           false;
 $scale-ratio:               1.214;
-$primary-font-family:      'Asap', verdana, helvetica, arial, sans-serif;
-$secondary-font-family:     Georgia, serif;
+
+$primary-font-stack:      	'Asap', verdana, helvetica, arial, sans-serif;
+$secondary-font-stack:     	Georgia, serif;
+$monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+
+$use-web-fonts: 		true     !default;
+$font-file-location: 	'fonts'  !default;
+$font-file-name: 		'Asap' 	 !default;
+$font-italics: 			true  	 !default;
+$font-weights: 			400,700  !default;
+$font-include-eot: 		true 	 !default;
+
 
 // Show baseline grid for easier alignment;
 $show-baseline:       true;
@@ -77,6 +87,12 @@ $colors: (
 $link-color: darken(#d40026, 5%);         //It's rare that you need to make this something other than one of the above variables.
 
 
+//Output helpers as actual classes?
+//These will be output for every breakpoint.
+
+$include-spacing-classes: 			true;
+$include-alignment-classes: 		true;
+
 //Tab-box settings
 
 //Do you want to create styles for tabs?
@@ -84,10 +100,9 @@ $link-color: darken(#d40026, 5%);         //It's rare that you need to make this
 $output-tabs: 						true;
 
 $tab-invert-active:                 false;
-$tab-border:                        true;
-$tab-single-border:                 false;
-$tab-button-bg:                     darken(colors(function), 20%);
-$tab-border-color: 					$tab-button-bg;
+$tab-border:                        #a0c6dd;
+$tab-button-bg:                     $link-color;
+$tab-button-secondary: 				#5d9bc0;
 $tab-content-bg:                    #fff;
 $tab-button-text:                   #fff;
 $tab-border-radius:                 2px;

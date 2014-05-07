@@ -1,9 +1,21 @@
 .list_bordered {
     @extend %space_v;
     > li {
-        display: block;
+        @extend %display_block;
         border-top: 1px solid $border-color;
-        @include type-space-sc(padding, .5, .5)
+        @extend %pad_v;
+    }
+    > li:first-child {
+        border-top: 1px solid transparent;
+    }
+}
+
+.list_bordered_short{
+	@extend %space_v;
+	> li {
+        @extend %display_block;
+        border-top: 1px solid $border-color;
+        @extend %pad_v_half;
     }
     > li:first-child {
         border-top: 1px solid transparent;
@@ -17,12 +29,38 @@
         padding-left: 0;
         width: auto;
         vertical-align: middle;
-        @extend %pad_r;
-    }
+        @extend %pad_r_half;
+
+		&:last-child{
+			padding-right: 0;
+		}
+	}
+
+}
+
+.list_inline_bordered{
+	@extend %space_reset;
+
+	>li{
+		display: inline-block;
+        width: auto;
+        vertical-align: middle;
+        @extend %pad_h_half;
+		border-left: 1px solid;
+
+		&:first-child{
+			border-left-width: 0;
+			padding-left: 0;
+		}
+	}
 }
 
 .breadcrumbs{
-    @include type-space-sc(margin, 0,0,1,0);
+    @extend %pad_r;
+
+	>li a{
+		@extend %display_block;
+	}
 }
     .breadcrumb{
         display: inline-block;
@@ -34,7 +72,27 @@
             display: inline-block;
         }
 
-.list_naked{
+.list_naked, %list_naked{
     @include no-bullets;
     @extend %space_n_l;
+}
+
+//Make links fill their list items for easier clickability.
+.list_nav{
+
+	>li a{
+		@extend %display_block;
+		@extend %pad_v_half;
+	}
+
+	&.list_bordered > li{
+		@extend %pad_n_v;
+	}
+
+	&.list_inline > li{
+
+		a{
+			@extend %pad_r_half;
+		}
+	}
 }

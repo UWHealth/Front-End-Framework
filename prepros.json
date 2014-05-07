@@ -76,6 +76,25 @@
         "mangle": true,
         "sourcemaps": true
       }
+    },
+    "bcba8a93": {
+      "id": "bcba8a93",
+      "pid": "ebbb92c1",
+      "name": "print.scss",
+      "input": "_partials/sass/print.scss",
+      "customOutput": "css/print.css",
+      "type": "Scss",
+      "config": {
+        "autoCompile": true,
+        "lineNumbers": false,
+        "unixNewlines": false,
+        "sourcemaps": false,
+        "debug": false,
+        "compass": false,
+        "fullCompass": false,
+        "outputStyle": "compressed",
+        "autoprefixer": true
+      }
     }
   },
   "imports": {
@@ -175,14 +194,6 @@
         "fd45df93"
       ]
     },
-    "a365f7af": {
-      "id": "a365f7af",
-      "pid": "ebbb92c1",
-      "path": "_partials/sass/vendor/_animate.scss",
-      "parents": [
-        "fd45df93"
-      ]
-    },
     "e3dafaf0": {
       "id": "e3dafaf0",
       "pid": "ebbb92c1",
@@ -230,9 +241,35 @@
       "parents": [
         "fd45df93"
       ]
+    },
+    "a147c13d": {
+      "id": "a147c13d",
+      "pid": "ebbb92c1",
+      "path": "_partials/sass/colors/_blendmodes.scss",
+      "parents": [
+        "fd45df93"
+      ]
+    },
+    "09f39804": {
+      "id": "09f39804",
+      "pid": "ebbb92c1",
+      "path": "_partials/sass/layout/_spacing.scss",
+      "parents": [
+        "fd45df93"
+      ]
     }
   },
   "images": {
+    "69903336": {
+      "id": "69903336",
+      "pid": "ebbb92c1",
+      "path": "images/github.png",
+      "size": 2625,
+      "name": "github.png",
+      "type": "Png",
+      "initialSize": 2625,
+      "status": "NOT_OPTIMIZED"
+    },
     "89970582": {
       "id": "89970582",
       "pid": "ebbb92c1",
@@ -471,6 +508,16 @@
       "name": "wide.png",
       "type": "Png",
       "initialSize": 64437,
+      "status": "NOT_OPTIMIZED"
+    },
+    "de676728": {
+      "id": "de676728",
+      "pid": "ebbb92c1",
+      "path": "images/logo.png",
+      "size": 951,
+      "name": "logo.png",
+      "type": "Png",
+      "initialSize": 951,
       "status": "NOT_OPTIMIZED"
     }
   },

@@ -6,8 +6,27 @@
 html{
 	background-color: #f3f5f8;
 }
+mark{
+	background-color: darken(color(primary-alt,lightest), 5%);
+}
+.table_striped tr:nth-child(odd) td {
+	background-color: #e3f1fa;
+}
+.table_striped th, .table_striped td {
+	border-color: #a0c6dd;
+	border-style: solid;
+}
+.tab_topline > .tabs{
+	background-color: #e3f1fa;
+}
+.tab_content{
+	border-bottom-width: 2px !important;
+	border-bottom-color: #eaebeb !important;
+}
+
 .wrap{
-    width: 90%;
+    @extend %nine_tenths; //90%
+	@extend %smallish_eleven_twelfths; //~92%
     max-width: 1200px;
     margin: 0 auto;
     display: block !important;
@@ -15,17 +34,16 @@ html{
     @extend %clearfix;
     float: none;
 }
-@include media-query(small){
-    @include headings-scale(1.17, small);
-    .wrap{
+@include mq(small){
+
+	@include headings-scale(1.17, small);
+
+	.wrap{
         width: 95%;
     }
 }
-@include media-query(smallish){
-    @include headings-scale(1.2, small);
-    .wrap{
-        width: 93%;
-    }
+@include mq(smallish){
+	@include headings-scale(1.2, smallish);
 }
 
 .row-narrow{
@@ -34,12 +52,20 @@ html{
 .row{
     @extend %grid;
 }
+.fixed-row{
+    @extend %grid;
+    margin-left: 0;
+}
+
 .column{
     @extend %grid_item;
     @extend %one_whole;
 }
 .half{
 	@extend %one_half;
+}
+.quarter{
+	@extend %one_quarter;
 }
 .sidebar{
     @extend %smalls_one_whole;
@@ -59,22 +85,21 @@ html{
     @extend %smallish_four_fifths;
     @extend %bigs_five_sixths;
 }
-.right{
-    @extend %grid_right;
-}
 
 .button{
     @extend %button;
 }
-.fixed-row{
-    @extend %grid;
-    margin-left: 0;
-}
+
 .media_block{
     @extend %media_block;
     @extend %cf;
 }
-
+.icon {
+	width: 1.5em;
+	margin-right: .5em;
+	display: inline-block;
+	margin-top: -.25em;
+}
 
 
 #toggles{

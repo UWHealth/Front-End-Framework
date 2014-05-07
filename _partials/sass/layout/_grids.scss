@@ -7,7 +7,6 @@
  // VARIABLES............Your settings.
  // MIXINS...............Library mixins.
  // GRID SETUP...........Build the grid structure.
- // HELPERS..............Create helper show/hide classes around our breakpoints.
  // WIDTHS...............Build our responsive widths around our breakpoints.
  // PUSH.................Push classes.
  // PULL.................Pull classes.
@@ -211,8 +210,15 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 }
 
 
+//
+// Useful for resetting the grid's effects
+// without making full grid items
+//
 
-
+%grid_reset{
+	letter-spacing: normal;
+	word-spacing: normal;
+}
 
 //*------------------------------------
 //    $GRID SETUP
@@ -254,7 +260,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
         @if $use-floats != true {
             display:inline-block;     // [1]
         }@else{
-            display: block;
+            @extend %display_block;
             float: left;
         }
         @include rems(padding-left, $gutter); //[2]
@@ -597,49 +603,22 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     }
 }
 
-//------------------------------------
-//  $HELPERS
-//------------------------------------
-
-// Create helper show/hide classes, prefixed by the specified namespace.
-
-@mixin device-helper($namespace:"") {
-
-  #{$class-type}#{$namespace}show     { display:block; }
-  #{$class-type}#{$namespace}hide     { display:none; }
-
-}
-
-//Our regular, non-responsive width and helper classes.
 
 @include device-type();
-@include device-helper();
-
-
-
- // Our responsive classes, if we have enabled them.
+// Our responsive classes, if we have enabled them.
 
 @if $responsive == true{
-
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
            @include device-type('#{$name}_');
-        }
-
-        @include media-query($name) {
-          @include device-helper('#{$name}_');
         }
     }
 
 }
 
-
-
-
-
-/*------------------------------------*\
-    $PUSH
-\*------------------------------------*/
+//------------------------------------\\
+//    $PUSH
+//------------------------------------\\
 
  // Push classes, to move grid items over to the right by certain amounts.
 
@@ -837,9 +816,9 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
 
 
-//
+//----------------------\\
 //   $PULL
-//
+//----------------------\\
 
 @mixin pull-setup($namespace: ""){
 
