@@ -93,6 +93,19 @@ $link-color: darken(#d40026, 5%);         //It's rare that you need to make this
 $include-spacing-classes: 			true;
 $include-alignment-classes: 		true;
 
+//Slider/Carousel settings
+//A.K.A. Slick: http://kenwheeler.github.io/slick/
+//Output Slider/Carousel?
+$include-slider: 					true;
+
+$slick-font-path: "fonts/";
+$slick-loader-path: "../images/";
+$slick-arrow-color: white;
+$slick-dot-color: black;
+$slick-prev-character: '\2190';
+$slick-next-character: '\2192';
+$slick-dot-character: '\2022';
+
 //Tab-box settings
 
 //Do you want to create styles for tabs?

@@ -121,7 +121,7 @@ $tab-minimal-include: 				true 					!default;
 		line-height: 3;
 		text-decoration: none;
 		margin-bottom: 0;
-		@include type-space-sc(padding, 0, .75);
+		@extend %pad_h_half;
 		@if $tab-border != false{
 				border-width: 1px;
 				margin-top: -1px;

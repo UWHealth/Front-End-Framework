@@ -1,7 +1,7 @@
 //@codekit-append "_tabs.js"
 //@codekit-append "_tables.js"
 //@codekit-append "_colors.js"
-
+//@codekit-append "_slick.js"
 
 // Avoid `console` errors in browsers that lack a console.
 (function() {
