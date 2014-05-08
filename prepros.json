@@ -14,7 +14,7 @@
         "autoCompile": true,
         "uglify": true,
         "mangle": true,
-        "sourcemaps": true
+        "sourcemaps": false
       }
     },
     "fd45df93": {
