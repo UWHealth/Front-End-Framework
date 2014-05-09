@@ -381,7 +381,7 @@ h1 + p, .h1 + p, h2 + p, .h2 + p, h3 + p, .h3 + p, h4 + p, .h4 + p, h5 + p, .h5 
   .pad_2, .pad_v_2, .pad_t_2 {
     padding-top: 48px;
     padding-top: 3rem; }
-  fieldset, .button, .pad_half, .list_bordered_short > li, .list_nav > li a, .tab, .pad_v_half, .box_square .body, .pad_t_half {
+  fieldset, .button, .pad_half, .tab, .pad_v_half, .box_square .body, .pad_t_half {
     padding-top: 12px;
     padding-top: 0.75rem; }
 
@@ -391,7 +391,7 @@ h1 + p, .h1 + p, h2 + p, .h2 + p, h3 + p, .h3 + p, h4 + p, .h4 + p, h5 + p, .h5 
   .pad_2, .pad_v_2, body, .pad_b_2 {
     padding-bottom: 48px;
     padding-bottom: 3rem; }
-  fieldset, .button, .pad_half, .list_bordered_short > li, .list_nav > li a, .tab, .pad_v_half, .pad_b_half {
+  fieldset, .button, .pad_half, .tab, .pad_v_half, .pad_b_half {
     padding-bottom: 12px;
     padding-bottom: 0.75rem; }
 
@@ -401,7 +401,7 @@ h1 + p, .h1 + p, h2 + p, .h2 + p, h3 + p, .h3 + p, h4 + p, .h4 + p, h5 + p, .h5 
   .pad_2, .pad_h_2, .pad_r_2 {
     padding-right: 60px;
     padding-right: 3.75rem; }
-  fieldset, .button, .pad_half, .list_inline_bordered > li, .tab, .box_square .body, .pad_h_half, .list_inline > li, .breadcrumb, .list_nav.list_inline > li a, .table_striped th, .table_striped td, .pad_r_half {
+  fieldset, .button, .pad_half, .tab, .box_square .body, .pad_h_half, .breadcrumb, .table_striped th, .table_striped td, .pad_r_half {
     padding-right: 15px;
     padding-right: 0.9375rem; }
 
@@ -411,7 +411,7 @@ h1 + p, .h1 + p, h2 + p, .h2 + p, h3 + p, .h3 + p, h4 + p, .h4 + p, h5 + p, .h5 
   .pad_2, .pad_h_2, .pad_l_2 {
     padding-left: 60px;
     padding-left: 3.75rem; }
-  fieldset, .button, .pad_half, .list_inline_bordered > li, .tab, .box_square .body, .pad_h_half, .table_striped th, .table_striped td, .pad_l_half {
+  fieldset, .button, .pad_half, .tab, .box_square .body, .pad_h_half, .table_striped th, .table_striped td, .pad_l_half {
     padding-left: 15px;
     padding-left: 0.9375rem; }
 
@@ -1554,11 +1554,19 @@ hr {
 [class*="list_bordered"] > li:first-child {
   border-top-color: transparent; }
 
+.list_bordered_short > li {
+  padding-top: 12px;
+  padding-top: 0.75rem;
+  padding-bottom: 12px;
+  padding-bottom: 0.75rem; }
+
 .list_inline > li {
   display: inline-block;
   padding-left: 0;
   width: auto;
-  vertical-align: middle; }
+  vertical-align: middle;
+  padding-right: 15px;
+  padding-right: 0.9375rem; }
   .list_inline > li:last-child {
     padding-right: 0; }
 
@@ -1566,6 +1574,10 @@ hr {
   display: inline-block;
   width: auto;
   vertical-align: middle;
+  padding-right: 15px;
+  padding-right: 0.9375rem;
+  padding-left: 15px;
+  padding-left: 0.9375rem;
   border-left: 1px solid; }
   .list_inline_bordered > li:first-child {
     border-left-width: 0;
@@ -1585,6 +1597,15 @@ hr {
     list-style-image: none;
     list-style-type: none;
     margin-left: 0; }
+
+.list_nav > li a {
+  padding-top: 12px;
+  padding-top: 0.75rem;
+  padding-bottom: 12px;
+  padding-bottom: 0.75rem; }
+.list_nav.list_inline > li a {
+  padding-right: 15px;
+  padding-right: 0.9375rem; }
 
 .tabbed .tab_button, .tab, .tab:not(.active):hover {
   color: white; }
