@@ -22,7 +22,7 @@
 //------------------------------------
 
 //Output tab styles?
-$output-tabs: 						true 					!default;
+$include-tabs: 						true 					!default;
 
 // Make tab buttons look like normal buttons.
 // Uses an extension of %button.
@@ -97,7 +97,7 @@ $tab-minimal-include: 				true 					!default;
 //------------------------------------
 //    $GENERAL
 //------------------------------------
-@if $output-tabs == true {
+@if $include-tabs == true {
 //NOTE: For cleanliness and readibility,
 //	the following content in this @if statement is not indented.
 
@@ -121,7 +121,7 @@ $tab-minimal-include: 				true 					!default;
 		line-height: 3;
 		text-decoration: none;
 		margin-bottom: 0;
-		@extend %pad_h_half;
+		@include rems((padding-left,padding-right), ($gutter/2));
 		@if $tab-border != false{
 				border-width: 1px;
 				margin-top: -1px;
@@ -219,6 +219,10 @@ $tab-minimal-include: 				true 					!default;
 }
 
 //Inactive Top-tabs stylings.
+$best-tab-color: pick_best_color(
+		$tab-button-secondary, (
+		#fff, blend-overlay(#ccc, $tab-button-bg), blend-overlay(#333, $tab-button-bg)
+	));
 .tab{
 	position: relative;
 	display: inline-block;
@@ -240,8 +244,8 @@ $tab-minimal-include: 				true 					!default;
 		border-width: 1px;
 	}
 	@if $tab-invert-active == true{
-		background-color: $tab-button-secondary;;
-		color: pick_best_color($tab-button-secondary, (#fff, lighten($tab-button-bg, 15%), darken($tab-button-bg, 15%) ) );
+		background-color: $tab-button-secondary;
+		color: $best-tab-color;
 		border-color: darken($tab-button-secondary, 10%);
 	}@else{
 		@extend %tab_background;
@@ -253,8 +257,8 @@ $tab-minimal-include: 				true 					!default;
 		@if $tab-invert-active == true{
 			color: $tab-button-bg;
 		}@else{
-			color: darken($tab-button-text, 5%);
-			background-color: mix($tab-button-bg, $tab-content-bg, 60%);
+			@extend %tab_color_text;
+			background-color: pick_best_color($tab-button-text, (blend-overlay(#aaa,$tab-button-bg), blend-overlay(#333, $tab-button-bg)));
 		}
 	}
 }
@@ -293,7 +297,6 @@ $tab-minimal-include: 				true 					!default;
 
 //Used for nested tab blocks.
 .tab_content > .tabbed{
-    margin-bottom: 0 !important;
 
     & > .tabs, & > .tab_content, & > .tab_button{
         margin-left: -1px;
@@ -409,8 +412,11 @@ $tab-minimal-include: 				true 					!default;
 			}
 
 			&.active{
-				color: $tab-button-bg;
-
+				@if $tab-invert-active == true{
+					color: $best-tab-color;
+				}@else{
+					color: $tab-button-bg;
+				}
 			}
 
 		}
@@ -466,7 +472,7 @@ $tab-minimal-include: 				true 					!default;
 		border-radius: $tab-border-radius $tab-border-radius 0 0;
 		.tab{
 			text-indent: 0px;
-			@extend %pad_r;
+			@include rems(padding-right, $gutter);
 		}
 		.active{
 			border-top-width: 2px;

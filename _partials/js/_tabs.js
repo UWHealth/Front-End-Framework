@@ -64,10 +64,15 @@
 
             }
 
-            //To avoid stylistic confusion, we remove .tab_button and .button from each group.
-            a('.tabbed').removeClass('tab_button button')
-            //Add a nav element to the top of the groups.
-                .prepend("<nav class='tabs' />");
+            var tabbed = a('.tabbed');
+
+            //Add a nav element to the top of the groups
+			//with more than one tab_content child
+            a(tabbed).each(function(){
+			if (a(this).children('.tab_content').length > 1){
+				   a(this).prepend("<nav class='tabs' />");
+			   };
+			});
 
             //Duplicate tab_buttons and put them inside nav.tabs
             a(".tab_button").each(function() {
