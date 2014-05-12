@@ -28,6 +28,16 @@ $colors: (
 	)
 ) !default;
 
+//Color map
+//For easy access, just declare color([color name],[color modifier])
+// e.g.
+// div{
+//	background-color: color(primary, lighter);
+//	}
+//
+// If you'd prefer to just get the base color, you do not need to declare 'base',
+// just declare color([color name]). 'base' is implied.
+
 $colors: (
 	primary: (
 		base: colors(primary),
@@ -42,55 +52,55 @@ $colors: (
 		base: colors(primary-alt),
 		light: lighten(colors(primary-alt), 10%),
 		lighter: lighten(colors(primary-alt), 20%),
-		lightest: lighten(colors(primary-alt), 40%),
+		lightest: lighten(colors(primary-alt), 35%),
 		dark: darken(colors(primary-alt), 10%),
 		darker: darken(colors(primary-alt), 20%),
-		darkest: darken(colors(primary-alt), 40%)
+		darkest: darken(colors(primary-alt), 35%)
 	),
 	accent: (
 		base: colors(accent),
 		light: lighten(colors(accent), 10%),
 		lighter: lighten(colors(accent), 20%),
-		lightest: lighten(colors(accent), 40%),
+		lightest: lighten(colors(accent), 35%),
 		dark: darken(colors(accent), 10%),
 		darker: darken(colors(accent), 20%),
-		darkest: darken(colors(accent), 40%)
+		darkest: darken(colors(accent), 35%)
 	),
 	accent-alt: (
 		base: colors(accent-alt),
 		light: lighten(colors(accent-alt), 10%),
 		lighter: lighten(colors(accent-alt), 20%),
-		lightest: lighten(colors(accent-alt), 40%),
+		lightest: lighten(colors(accent-alt), 35%),
 		dark: darken(colors(accent-alt), 10%),
 		darker: darken(colors(accent-alt), 20%),
-		darkest: darken(colors(accent-alt), 40%)
+		darkest: darken(colors(accent-alt), 35%)
 	),
 	action: (
 		base: colors(action),
 		light: lighten(colors(action), 10%),
 		lighter: lighten(colors(action), 20%),
-		lightest: lighten(colors(action), 40%),
+		lightest: lighten(colors(action), 35%),
 		dark: darken(colors(action), 10%),
 		darker: darken(colors(action), 20%),
-		darkest: darken(colors(action), 40%)
+		darkest: darken(colors(action), 35%)
 	),
 	function: (
 		base: colors(function),
 		light: lighten(colors(function), 10%),
 		lighter: lighten(colors(function), 20%),
-		lightest: lighten(colors(function), 40%),
+		lightest: lighten(colors(function), 35%),
 		dark: darken(colors(function), 10%),
 		darker: darken(colors(function), 20%),
-		darkest: darken(colors(function), 40%)
+		darkest: darken(colors(function), 35%)
 	),
 	alert: (
 		base: colors(alert),
 		light: lighten(colors(alert), 10%),
 		lighter: lighten(colors(alert), 20%),
-		lightest: lighten(colors(alert), 40%),
+		lightest: lighten(colors(alert), 35%),
 		dark: darken(colors(alert), 10%),
 		darker: darken(colors(alert), 20%),
-		darkest: darken(colors(alert), 40%)
+		darkest: darken(colors(alert), 35%)
 	)
 );
 

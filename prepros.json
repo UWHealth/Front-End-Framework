@@ -264,21 +264,21 @@
       "id": "69903336",
       "pid": "ebbb92c1",
       "path": "images/github.png",
-      "size": 2625,
+      "size": 2377,
       "name": "github.png",
       "type": "Png",
       "initialSize": 2625,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "89970582": {
       "id": "89970582",
       "pid": "ebbb92c1",
       "path": "favicons/large.png",
-      "size": 114699,
+      "size": 114627,
       "name": "large.png",
       "type": "Png",
       "initialSize": 114699,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "84bb9118": {
       "id": "84bb9118",
@@ -288,7 +288,7 @@
       "name": "apple-touch-icon-114x114-precomposed.png",
       "type": "Png",
       "initialSize": 3449,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "6773ff18": {
       "id": "6773ff18",
@@ -298,7 +298,7 @@
       "name": "apple-touch-icon-120x120-precomposed.png",
       "type": "Png",
       "initialSize": 3783,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "e1049c97": {
       "id": "e1049c97",
@@ -308,7 +308,7 @@
       "name": "apple-touch-icon-144x144-precomposed.png",
       "type": "Png",
       "initialSize": 5067,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "fa9be594": {
       "id": "fa9be594",
@@ -318,7 +318,7 @@
       "name": "apple-touch-icon-152x152-precomposed.png",
       "type": "Png",
       "initialSize": 5138,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "5eb875cd": {
       "id": "5eb875cd",
@@ -328,7 +328,7 @@
       "name": "apple-touch-icon-57x57-precomposed.png",
       "type": "Png",
       "initialSize": 951,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "8c919e4c": {
       "id": "8c919e4c",
@@ -338,7 +338,7 @@
       "name": "apple-touch-icon-60x60-precomposed.png",
       "type": "Png",
       "initialSize": 1011,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "978f31e9": {
       "id": "978f31e9",
@@ -348,27 +348,27 @@
       "name": "apple-touch-icon-72x72-precomposed.png",
       "type": "Png",
       "initialSize": 1741,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "c2457c96": {
       "id": "c2457c96",
       "pid": "ebbb92c1",
       "path": "favicons/apple-touch-icon-76x76-precomposed.png",
-      "size": 2003,
+      "size": 2000,
       "name": "apple-touch-icon-76x76-precomposed.png",
       "type": "Png",
       "initialSize": 2003,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "dbc83902": {
       "id": "dbc83902",
       "pid": "ebbb92c1",
       "path": "favicons/apple-touch-icon-precomposed.png",
-      "size": 6739,
+      "size": 6737,
       "name": "apple-touch-icon-precomposed.png",
       "type": "Png",
       "initialSize": 6739,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "da0c504f": {
       "id": "da0c504f",
@@ -378,7 +378,7 @@
       "name": "apple-touch-icon.png",
       "type": "Png",
       "initialSize": 5138,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "0dc837a8": {
       "id": "0dc837a8",
@@ -388,7 +388,7 @@
       "name": "favicon-160x160.png",
       "type": "Png",
       "initialSize": 5871,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "431ec51e": {
       "id": "431ec51e",
@@ -398,17 +398,17 @@
       "name": "favicon-16x16.png",
       "type": "Png",
       "initialSize": 243,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "f8028ba9": {
       "id": "f8028ba9",
       "pid": "ebbb92c1",
       "path": "favicons/favicon-196x196.png",
-      "size": 10535,
+      "size": 10529,
       "name": "favicon-196x196.png",
       "type": "Png",
       "initialSize": 10535,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "2cdeccc1": {
       "id": "2cdeccc1",
@@ -418,7 +418,7 @@
       "name": "favicon-32x32.png",
       "type": "Png",
       "initialSize": 496,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "d093c04f": {
       "id": "d093c04f",
@@ -428,7 +428,7 @@
       "name": "favicon-96x96.png",
       "type": "Png",
       "initialSize": 2795,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "c822fddd": {
       "id": "c822fddd",
@@ -438,7 +438,7 @@
       "name": "mstile-144x144.png",
       "type": "Png",
       "initialSize": 4221,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "53b4cab2": {
       "id": "53b4cab2",
@@ -448,7 +448,7 @@
       "name": "mstile-150x150.png",
       "type": "Png",
       "initialSize": 3934,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "a1046ad8": {
       "id": "a1046ad8",
@@ -458,7 +458,7 @@
       "name": "mstile-310x150.png",
       "type": "Png",
       "initialSize": 4374,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "7f65ca79": {
       "id": "7f65ca79",
@@ -468,7 +468,7 @@
       "name": "mstile-310x310.png",
       "type": "Png",
       "initialSize": 15263,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "ba999c19": {
       "id": "ba999c19",
@@ -478,17 +478,17 @@
       "name": "mstile-70x70.png",
       "type": "Png",
       "initialSize": 2631,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "b1118ef4": {
       "id": "b1118ef4",
       "pid": "ebbb92c1",
       "path": "favicons/square.png",
-      "size": 36123,
+      "size": 35746,
       "name": "square.png",
       "type": "Png",
       "initialSize": 36123,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "e62f9537": {
       "id": "e62f9537",
@@ -498,7 +498,7 @@
       "name": "tiny.png",
       "type": "Png",
       "initialSize": 11179,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "25cb388f": {
       "id": "25cb388f",
@@ -508,7 +508,7 @@
       "name": "wide.png",
       "type": "Png",
       "initialSize": 64437,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     },
     "de676728": {
       "id": "de676728",
@@ -518,7 +518,7 @@
       "name": "logo.png",
       "type": "Png",
       "initialSize": 951,
-      "status": "NOT_OPTIMIZED"
+      "status": "OPTIMIZED"
     }
   },
   "config": {

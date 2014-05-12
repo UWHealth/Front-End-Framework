@@ -2,22 +2,24 @@
     @extend %grid_reset;
 	@extend %cf;
     @extend %pad;
-    @include type-space(margin-bottom, 1);
+    @extend %space_v;
     > :last-child{
     	margin-bottom: 0;
     }
 }
 .box_open{
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-	padding-left: 0;
-	padding-right: 0;
-	margin-top: -1px; // Adjust for borders.
+	@extend %pad_n_h;
+	border-width: 1px;
+	border-style: solid;
+    border-top-color: color(function);
+    border-bottom-color: color(function);
+    border-left-color: transparent;
+    border-right-color: transparent;
+	margin-top: -1px; // Adjusted baseline for borders.
 }
 .box_closed{
-    border: 1px solid #ddd;
+    border: 1px solid color(function);
+	margin-top: -1px; // Adjusted baseline for borders.
 }
 
 //Creates a responsive, square container.
@@ -25,29 +27,31 @@
 .box_square{
     position: relative;
     display:block;
+	overflow: hidden;
+	word-break: break-word;
 	@include media-query($smalls){
 		max-height: $base-line-height * 5;
 	}
-	overflow: hidden;
-	word-break: break-word;
 
 	& .body{
-		position: absolute;
-		top: 0;
-		left: 0;
 		@extend %pad_t_half;
 		@extend %pad_h_half;
 		@extend %display_block;
+		@extend %grid_reset;
+		position: absolute;
+		top: 0;
+		left: 0;
 		text-align: left;
-		white-space: normal;
+
 
 	}
 
 	&:before{
-		display:block;
 		margin-top: 100%;
-		content:" ";
+		display:block;
 		font-size: 0;
+		color: transparent;
+		content:" ";
 	}
 
 }

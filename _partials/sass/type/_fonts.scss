@@ -45,6 +45,8 @@
 //	More robust and automated than Compass, though.
 
 // 1. Loop through the weights of the font.
+//	And then loop through those weights if there are different weights in each
+//  font-family.
 // 2. Create svg id based on font's supplied name.
 // 3. Create paths to various font files.
 //	  Always assumed woff, ttf, and svg files are supplied.
@@ -55,48 +57,54 @@
 // 7. Call Mixin for all fonts by looping through font-file-names.
 
 
+
 @mixin fonts($name: $font-file-name,
 					$path: $font-file-location,
 					$weights: $font-weights,
 					$italics: $font-italics)
 	{
-	@each $weight in $weights{		//[1]
-		$font-eot: false;
-		$svg-id: ('##{$name}#{$weight}');		//[2]
-		$font-name: #{$path}/#{$name}-#{$weight};		//[3]
+	@each $weight-group in $weights{		//[1]
 
-		$font-files: (
-			unquote('url("#{$font-name}.woff") format("woff")'),
-			unquote('url("#{$font-name}.ttf") format("truetype")'),
-			unquote('url("#{$font-name}.svg#{$svg-id}") format("svg")')
-		);
-		@if $font-include-eot == true{
-			$font-eot: '#{$font-name}.eot';		//[4]
-		}
-
-		@include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
-
-
-		@if $italics == true{		//[6]
-			$svg-id: ('##{$name}#{$weight}italic');
+		@each $weight in $weight-group{
+			$font-eot: false;
+			$svg-id: ('##{$name}#{$weight}');		//[2]
+			$font-name: #{$path}/#{$name}-#{$weight};		//[3]
 
 			$font-files: (
-				unquote("url('#{$font-name}-italic.woff') format('woff')"),
-				unquote("url('#{$font-name}-italic.ttf') format('truetype')"),
-				unquote("url('#{$font-name}-italic.svg#{$svg-id}') format('svg')")
+				unquote('url("#{$font-name}.woff") format("woff")'),
+				unquote('url("#{$font-name}.ttf") format("truetype")'),
+				unquote('url("#{$font-name}.svg#{$svg-id}") format("svg")')
 			);
-
 			@if $font-include-eot == true{
-				$font-eot: '#{$path}/#{$name}-#{$weight}-italic.eot';
+				$font-eot: '#{$font-name}.eot';		//[4]
 			}
 
-			@include font-face($name, $font-files, $weight, italic, $font-eot);
+			@include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
+
+			$italic: nth($italics, $loop);
+			@if $italic == true{		//[6]
+				$svg-id: ('##{$name}#{$weight}italic');
+
+				$font-files: (
+					unquote("url('#{$font-name}-italic.woff') format('woff')"),
+					unquote("url('#{$font-name}-italic.ttf') format('truetype')"),
+					unquote("url('#{$font-name}-italic.svg#{$svg-id}') format('svg')")
+				);
+
+				@if $font-include-eot == true{
+					$font-eot: '#{$path}/#{$name}-#{$weight}-italic.eot';
+				}
+
+				@include font-face($name, $font-files, $weight, italic, $font-eot);
+			}
 		}
 	}
 }
 
+$loop: 0;
 @if $use-web-fonts == true{
-	@each $font in $font-file-name{		//[7]
+	@each $font in $font-file-name{ //[7]
+		$loop: $loop + 1 !global;
 		@include fonts($font);
 	}
 }

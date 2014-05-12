@@ -30,9 +30,14 @@ $monospace-font-stack: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Consol
 
 //See /type/_fonts.scss for where these variables are applied.
 
+//Use web font generator?
 $use-web-fonts: 		true     !default;
+//Font folder location relative to css
 $font-file-location: 	'fonts'  !default;
+//Font-family base name. This can be a list. e.g.
+// 'asap', 'bitter'
 $font-file-name: 		'Asap' 	 !default;
+//Include italics?
 $font-italics: 			true  	 !default;
 $font-weights: 			400,700  !default;
 $font-include-eot: 		true 	 !default;

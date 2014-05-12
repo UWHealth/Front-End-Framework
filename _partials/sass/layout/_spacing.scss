@@ -86,20 +86,47 @@ $classtype: unquote(", .");
 		}
 
     }
-    %#{$namespace}pad_n_v#{$classtype}#{$namespace}pad_n_v
+	%#{$namespace}pad_n_t#{$classtype}#{$namespace}pad_n_t
 	{
         padding-top: 0 !important;
+    }
+	%#{$namespace}pad_n_r#{$classtype}#{$namespace}pad_n_r
+	{
+        padding-right: 0 !important;
+    }
+	%#{$namespace}pad_n_b#{$classtype}#{$namespace}pad_n_b
+	{
         padding-bottom: 0 !important;
+    }
+	%#{$namespace}pad_n_l#{$classtype}#{$namespace}pad_n_l
+	{
+        padding-left: 0 !important;
+    }
+
+    %#{$namespace}pad_n_v#{$classtype}#{$namespace}pad_n_v
+	{
+        @extend %#{$namespace}pad_n_t;
+        @extend %#{$namespace}pad_n_b;
     }
     %#{$namespace}pad_n_h#{$classtype}#{$namespace}pad_n_h
 	{
-        padding-right: 0 !important;;
-        padding-left: 0 !important;
+        @extend %#{$namespace}pad_n_r;
+        @extend %#{$namespace}pad_n_l;
     }
     %#{$namespace}pad_n#{$classtype}#{$namespace}pad_n
 	{
         @extend %#{$namespace}pad_n_v;
         @extend %#{$namespace}pad_n_h;
+    }
+	%#{$namespace}space_t#{$classtype}#{$namespace}space_t
+	{
+        @include type-space(margin-top, 1);
+		@at-root &_2{
+			@include type-space(margin-top, 2);
+		}
+		@at-root &_half{
+			@include type-space(margin-top, .5);
+		}
     }
     %#{$namespace}space_v#{$classtype}#{$namespace}space_v
 	{
@@ -139,6 +166,10 @@ $classtype: unquote(", .");
 	%#{$namespace}space_n_l#{$classtype}#{$namespace}space_n_l
 	{
 		margin-left: 0 !important;
+	}
+	%#{$namespace}space_n_t#{$classtype}#{$namespace}space_n_t
+	{
+		margin-top: 0 !important;
 	}
 
     %#{$namespace}space#{$classtype}#{$namespace}space

@@ -9,12 +9,12 @@ $primary-font-stack:      	'Asap', verdana, helvetica, arial, sans-serif;
 $secondary-font-stack:     	Georgia, serif;
 $monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
 
-$use-web-fonts: 		true     !default;
-$font-file-location: 	'fonts'  !default;
-$font-file-name: 		'Asap' 	 !default;
-$font-italics: 			true  	 !default;
-$font-weights: 			400,700  !default;
-$font-include-eot: 		true 	 !default;
+$use-web-fonts: 		true;
+$font-file-location: 	'fonts';
+$font-file-name: 		'Asap';
+$font-italics: 			true;
+$font-weights: 			400,700;
+$font-include-eot: 		true;
 
 
 // Show baseline grid for easier alignment;
@@ -56,16 +56,18 @@ $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
 
-//Colors - based on: http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
-//Darker and lighter shades are available by adding -dark/-darker/-light/-lighter to the end of variable names.
-//The darker and ligher variations are defined in utilities/variables
+//Colors - based on:
+//http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
+// Darker and lighter shades are available by adding
+// -dark/-darker/-light/-lighter to the end of variable names.
+//The darker and ligher variations are defined in colors/colors
 
 $colors: (
 	primary: (
-		base: #063b6d
+		base: #0c639a
 	),
 	primary-alt: (
-		base: #5f82a3
+		base: #5d9bc0
 	),
 	accent: (
 		base: #d40026
@@ -74,17 +76,18 @@ $colors: (
 		base: #fe0202
 	),
 	action: (
-		base: #4c7659
+		base: #619bbe
 	),
 	function: (
-		base: #d4c9ad
+		base: #d7dde5
 	),
 	alert: (
 		base: #b22727
 	)
 );
 
-$link-color: darken(#d40026, 5%);         //It's rare that you need to make this something other than one of the above variables.
+//It's rare that you need to make this something other than one of the above variables.
+$link-color: color(primary);
 
 
 //Output helpers as actual classes?
@@ -110,12 +113,12 @@ $slick-dot-character: '\2022';
 
 //Do you want to create styles for tabs?
 //Might be unnecessary for certain projects.
-$output-tabs: 						true;
+$include-tabs: 						true;
 
 $tab-invert-active:                 false;
-$tab-border:                        #a0c6dd;
-$tab-button-bg:                     $link-color;
-$tab-button-secondary: 				#5d9bc0;
+$tab-border:                        color(primary-alt);
+$tab-button-bg:                     color(accent);
+$tab-button-secondary: 				color(primary-alt);
 $tab-content-bg:                    #fff;
 $tab-button-text:                   #fff;
 $tab-border-radius:                 2px;

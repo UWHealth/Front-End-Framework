@@ -101,7 +101,7 @@ a{
 fieldset {
     border: 0;
     margin: 0 2px;
-    @include type-space(padding, .5);
+    @extend %pad_half;
 }
 
 //
@@ -110,7 +110,11 @@ fieldset {
 
 mark {
     background: colors(function, light);
-    color: pick_best_color(colors(function, light), (colors(primary), colors(accent,dark)));
+    color: pick_best_color(colors(function, light),
+		(
+		blend-colordodge(#bbb,colors(function)),
+		blend-colorburn(#333,colors(function))
+		));
     padding: 4px 3px;
     margin-left: -3px;
 }
@@ -170,7 +174,7 @@ object, iframe, embed{
 //
 
 figure {
-    margin: 0;
+    @extend %space_n;
 }
 
 // ==========================================================================
@@ -196,7 +200,7 @@ select,
 textarea {
     color: inherit; //[1]
     font: inherit; //[2]
-    margin: 0; //[3]
+    @extend %space_n; //[3]
 }
 
 //
@@ -221,7 +225,7 @@ select {
 
 
 form {
-    margin: 0;
+    @extend %space_n;
 }
 
 //
@@ -249,8 +253,8 @@ input[type="submit"] {
 //
 
 legend {
+	@extend %pad_n;
     border: 0; // 1
-    padding: 0;
     white-space: normal; // 2
     *margin-left: -7px; // 3
 }
@@ -267,7 +271,7 @@ input,
 select,
 textarea {
     font-size: 100%; // [1]
-    margin: 0; // [2]
+    @extend %space_n; // [2]
     vertical-align: baseline; // [3]
     *vertical-align: middle; // [3]
 }
@@ -333,25 +337,9 @@ html input[disabled],
 input[type="checkbox"],
 input[type="radio"] {
     box-sizing: border-box; // 1
-    padding: 0; // 2
+    @extend %pad_n; // 2
     *height: 13px; // 3
     *width: 13px; // 3
-}
-
-//
-// It's recommended that you don't attempt to style these elements.
-// Firefox's implementation doesn't respect box-sizing, padding, or width.
-//
-// 1. Address box sizing set to `content-box` in IE 8/9/10.
-// 2. Remove excess padding in IE 8/9/10.
-
-
-input[type="checkbox"],
-input[type="radio"] {
-    box-sizing: border-box;
- // 1
-    padding: 0;
- // 2
 }
 
 //
@@ -396,7 +384,7 @@ input[type="search"]::-webkit-search-decoration {
 legend {
     border: 0;
  // 1
-    padding: 0;
+    @extend %pad_n;
  // 2
 }
 
@@ -406,8 +394,10 @@ legend {
 
 button::-moz-focus-inner,
 input::-moz-focus-inner {
-    border: 0;
-    padding: 0;
+//Cannot use extend %pad_n here
+// as it prevents other browsers from seeing the rest of the cascade.
+	border: 0;
+	padding: 0;
 }
 
 //
@@ -445,12 +435,12 @@ optgroup {
 }
 
 .visually_hidden {
+	@extend %pad_n;
     border: 0;
     clip: rect(0 0 0 0);
     height: 1px;
     margin: -1px;
     overflow: hidden;
-    padding: 0;
     position: absolute;
     width: 1px;
 }
@@ -459,7 +449,7 @@ optgroup {
 .visually_hidden.focusable:focus {
     clip: auto;
     height: auto;
-    margin: 0;
+    @extend %space_n;
     overflow: visible;
     position: static;
     width: auto;
@@ -491,12 +481,12 @@ textarea {
 
 hr {
     @extend %display_block;
+	@extend %pad_n;
     height: 1px;
     border: 0;
     border-top: 1px solid #ccc;
     @include type-space-sc(margin, 1, 0);
 	margin-top: -1px;
-    padding: 0;
 	position: relative;
 }
 

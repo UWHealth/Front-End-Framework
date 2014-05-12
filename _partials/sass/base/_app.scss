@@ -3,17 +3,15 @@
 //---------------------------------\\
 
 // Put all of your normal/application-specific CSS here.
-html{
-	background-color: #f3f5f8;
-}
+
 mark{
 	background-color: darken(color(primary-alt,lightest), 5%);
 }
 .table_striped tr:nth-child(odd) td {
-	background-color: #e3f1fa;
+	background-color: color(primary-alt,lightest);
 }
 .table_striped th, .table_striped td {
-	border-color: #a0c6dd;
+	border-color: color(function,dark);
 	border-style: solid;
 }
 .tab_topline > .tabs{
@@ -21,17 +19,34 @@ mark{
 }
 .tab_minimal > .tab_content{
 	border-bottom-width: 2px !important;
-	border-bottom-color: #eaebeb;
+	border-bottom-color: color(function);
+}
+hr{
+	border-top-width: 2px;
+	top: -2px;
+}
+[class*="list_bordered"] > li{
+	border-top-width: 2px;
+	&:first-child{
+		border-top-color: color(function);
+	}
 }
 
+html{
+	background-color: #f3f5f8;
+	color: #041927;
+}
+body{
+	@extend %pad_b_2;
+}
 .wrap{
-    @extend %nine_tenths; //90%
+    @extend %bigs_nine_tenths; //90%
 	@extend %smallish_eleven_twelfths; //~92%
+	@include type-space-sc(padding, 1, 0, 0);
+    @extend %clearfix;
     max-width: 1200px;
     margin: 0 auto;
     display: block !important;
-    @include type-space-sc(padding, 1, 0);
-    @extend %clearfix;
     float: none;
 }
 @include mq(small){
@@ -100,7 +115,9 @@ mark{
 	display: inline-block;
 	margin-top: -.25em;
 }
-
+.box_open{
+	border-width: 2px;
+}
 
 #toggles{
     position: fixed;
@@ -122,6 +139,7 @@ mark{
     @include type-space-sc(padding, .5, .25);
     @include type-space(height, 3);
 }
+
 .color-block:first-child{
     background-color: $primary-color;
     color: set-text-color($primary-color);
