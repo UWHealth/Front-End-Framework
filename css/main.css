@@ -23,6 +23,36 @@
   src: url(fonts/Asap-700-italic.eot?#iefix) format('embedded-opentype'), url('fonts/Asap-700-italic.woff') format('woff'), url('fonts/Asap-700-italic.ttf') format('truetype'), url('fonts/Asap-700-italic.svg#Asap700italic') format('svg');
   font-weight: 700;
   font-style: italic; }
+@font-face {
+  font-family: "opensans";
+  src: url("fonts/opensans-200.eot");
+  src: url(fonts/opensans-200.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-200.woff") format("woff"), url("fonts/opensans-200.ttf") format("truetype"), url("fonts/opensans-200.svg#opensans200") format("svg");
+  font-weight: 200;
+  font-style: normal; }
+@font-face {
+  font-family: "opensans";
+  src: url("fonts/opensans-400.eot");
+  src: url(fonts/opensans-400.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-400.woff") format("woff"), url("fonts/opensans-400.ttf") format("truetype"), url("fonts/opensans-400.svg#opensans400") format("svg");
+  font-weight: 400;
+  font-style: normal; }
+@font-face {
+  font-family: "opensans";
+  src: url("fonts/opensans-400-italic.eot");
+  src: url(fonts/opensans-400-italic.eot?#iefix) format('embedded-opentype'), url('fonts/opensans-400-italic.woff') format('woff'), url('fonts/opensans-400-italic.ttf') format('truetype'), url('fonts/opensans-400-italic.svg#opensans400italic') format('svg');
+  font-weight: 400;
+  font-style: italic; }
+@font-face {
+  font-family: "opensans";
+  src: url("fonts/opensans-700.eot");
+  src: url(fonts/opensans-700.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-700.woff") format("woff"), url("fonts/opensans-700.ttf") format("truetype"), url("fonts/opensans-700.svg#opensans700") format("svg");
+  font-weight: 700;
+  font-style: normal; }
+@font-face {
+  font-family: "opensans";
+  src: url("fonts/opensans-700-italic.eot");
+  src: url(fonts/opensans-700-italic.eot?#iefix) format('embedded-opentype'), url('fonts/opensans-700-italic.woff') format('woff'), url('fonts/opensans-700-italic.ttf') format('truetype'), url('fonts/opensans-700-italic.svg#opensans700italic') format('svg');
+  font-weight: 700;
+  font-style: italic; }
 *, *:before, *:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

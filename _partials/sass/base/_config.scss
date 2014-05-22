@@ -11,9 +11,9 @@ $monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Cons
 
 $use-web-fonts: 		true;
 $font-file-location: 	'fonts';
-$font-file-name: 		'Asap';
-$font-italics: 			true;
-$font-weights: 			400,700;
+$font-file-name: 		'Asap','opensans';
+$font-italics: 			true, (false, true, true);
+$font-weights: 			(400,700),(200,400,700);
 $font-include-eot: 		true;
 
 

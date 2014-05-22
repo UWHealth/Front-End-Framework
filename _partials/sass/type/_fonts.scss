@@ -28,7 +28,7 @@
 
 //$font-italics: 			true  	 !default;
 //	Does your font-family include italics?
-// 	May be a list for secondary fonts. e.g. true, false
+// 	May be a list for secondary fonts and weights. e.g. true, (false, true)
 
 //$font-weights: 			400,700  !default;
 //  List of font-weights.
@@ -44,8 +44,8 @@
 //	Uses our own take on Compass' font-face generator.
 //	More robust and automated than Compass, though.
 
-// 1. Loop through the weights of the font.
-//	And then loop through those weights if there are different weights in each
+// 1. Get current weights of the font.
+// 1B. And then loop through those weights if there are different weights in each
 //  font-family.
 // 2. Create svg id based on font's supplied name.
 // 3. Create paths to various font files.
@@ -63,9 +63,14 @@
 					$weights: $font-weights,
 					$italics: $font-italics)
 	{
-	@each $weight-group in $weights{		//[1]
+		$weight-group: $weights;
 
-		@each $weight in $weight-group{
+		@if length($font-file-name) > 1{
+			$weight-group: nth($weights, $loop);		//[1]
+		}
+
+		@each $weight in $weight-group{			//[1B]
+
 			$font-eot: false;
 			$svg-id: ('##{$name}#{$weight}');		//[2]
 			$font-name: #{$path}/#{$name}-#{$weight};		//[3]
@@ -82,6 +87,9 @@
 			@include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
 
 			$italic: nth($italics, $loop);
+			@if length($italic) > 1{
+				$italic: nth($italic, index($weight-group, $weight));
+			}
 			@if $italic == true{		//[6]
 				$svg-id: ('##{$name}#{$weight}italic');
 
@@ -98,7 +106,6 @@
 				@include font-face($name, $font-files, $weight, italic, $font-eot);
 			}
 		}
-	}
 }
 
 $loop: 0;
