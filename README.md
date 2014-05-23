@@ -11,18 +11,26 @@ A number of frontend technologies to get any e-Health website or application off
 ##Sofware
 * **Prepros**: http://alphapixels.com/prepros/
 For all your preprocessing needs.
+* **Sass**:http://sass-lang.com/install
+Necessary, because prepros ships with Sass 3.2 and we need 3.3. 
 * **GitHub:** https://windows.github.com/
 Totally optional if you prefer using the command line.
+
 
 ----------
 ##Installation
 There are two potential routes for using the Framework: **1.** Branch. **2.** Fork.
 
-1. Clone the Github repo from https://github.com/UWHealth/Front-End-Framework.git or simply clicking the **"Clone to Desktop" button** on the right side of this page. From there, make a branch for whatever project you're working on. This will allow you to version control your own code modifications while still being able to pull in new Framework features if necessary.
+1. Create a fork of this repo. This may be preferable since it's the least likely to cause conflicts. This will also allow us to track new features with pull requests rather than straight commits. It may also be the cleaner and more robust route since pull requests are added as issues that can be tracked.
 
-2. Create a fork of this repo. This may be preferable since it's the least likely to cause conflicts. This will also allow us to track new features with pull requests rather than straight commits. It may also be the cleaner and more robust route since pull requests are added as issues that can be tracked.
+2. Clone the Github repo from https://github.com/UWHealth/Front-End-Framework.git or simply clicking the **"Clone to Desktop" button** on the right side of this page. From there, make a branch for whatever project you're working on. This will allow you to version control your own code modifications while still being able to pull in new Framework features if necessary.
 
 After forking or cloning, open Prepros and **Add a New Project**, pointing to the newly created directory on your computer. Prepros should recognize the prepros.json file and give you the correct configuration for Sass and Javascript compilation (including autoprefixer for our supported browsers).
+
+---------
+Prepros then needs to be set up to use the most recent version of Sass (3.3.x). To do this, go into Prepros options and click **Advanced Options** at the bottom. Check the box that says 'Use Custom Ruby'. From here, a text box will appear and allow you to type in the path to your ruby install (usually, just typing the recommended path will suffice). 
+
+Finally, check the 'For Sass' box. 
 
 ----------
 #Structure
