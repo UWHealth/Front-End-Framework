@@ -332,21 +332,31 @@ $golden_ratio:  golden();
 	$baseline-odd: $base-line-height / 2;
 	//Every third line.
 	$baseline-odder: $base-line-height / 1.33333;
+	$baseline-cache: $bl;
 
     @if $line-height == true {
+		// Using half-baseline grid for first calculation.
+		// This is helpful for smaller font-sizes
+		// and gives more leeway with larger ones.
+		$baseline: baseline($font-size, $baseline-odd);
 
-		$baseline: baseline($font-size, $base-line-height);
+        //If this produces either too small or large a line-height,
+		// then let's make some corrections (only if the font is not the base).
+        @if $font-size > $font-base or $font-size < $font-base {
 
-        // If line-height is too large, divide it in half.
-        // Ultimately, this creates type that requires two line-lengths to rebalance the baseline grid.
-        // This is a better alternative to 2x line-heights.
-        @if $font-size > $font-base {
-
-			@if $baseline >= 1.75 or $baseline < 1.2{
-				$baseline: baseline($font-size, $baseline-odd);
-
-				@if $baseline > 1.8 or $baseline < 1.1{
+			//First we can try using every third line.
+			@if $baseline > 1.8 or $baseline <= 1.2{
+					$baseline-cache: $baseline;
 					$baseline: baseline($font-size, $baseline-odder);
+			}
+			@if $baseline < 1.1 or $baseline > 1.9{
+				//If that's not working, let's see if
+				// our original value is better by loosening our tolerance.
+				@if $baseline-cache > 1.1 and $baseline-cache < 1.9{
+					$baseline: $baseline-cache;
+				}@else{
+				//If both options are bad, then let's use the standard baseline.
+					$baseline: baseline($font-size, $base-line-height);
 				}
 			}
 		}
@@ -401,7 +411,8 @@ $golden_ratio:  golden();
 //       }
 //    }
 //
-// Lifted from inuit.css: https://github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
+// Lifted from inuit.css:
+// github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
 
 @mixin headings($from: 1, $to: 6){
     %base-heading {
@@ -411,7 +422,7 @@ $golden_ratio:  golden();
     @if $from >= 1 and $to <= 6{
         @if $type-scale-classes == true{
             @for $i from $from through $to{
-                h#{$i}, .h#{$i} %h#{$i}{
+                h#{$i}, .h#{$i}, %h#{$i}{
                     @extend %base-heading;
                 }
             }
@@ -439,7 +450,7 @@ $golden_ratio:  golden();
 // If you need to generate other formats check out the Font Squirrel font generator
 
 @mixin font-face($name, $font-files, $weight: false, $style: false, $eot: false) {
-  $iefont: unquote("#{$eot}?#iefix");
+  $iefont: unquote("'#{$eot}?#iefix'");
   @font-face {
     font-family: quote($name);
     @if $eot {
@@ -498,10 +509,10 @@ $golden_ratio:  golden();
             $scale:   nth($scale, 1)/nth($scale, 2);
         }
     }
-    @each $i in $type-headings{
+    @each $heading-number in $type-headings{
 
-		$font-size: modular-scale($i, $scale);
-		$current-heading: nth($type-headings,$i);
+		$font-size: modular-scale($heading-number, $scale);
+		$current-heading: nth($type-headings,$heading-number);
 
 		@if $type-scale-classes == true{
             h#{$current-heading}, .h#{$current-heading}, %h#{$current-heading} {
@@ -521,7 +532,6 @@ $golden_ratio:  golden();
                 }
             }
         }
-        $i: $i + 1;
     }
 }
 
