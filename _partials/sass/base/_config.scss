@@ -6,7 +6,7 @@ $auto-scale-type:           false;
 $scale-ratio:               1.214;
 
 $primary-font-stack:      	'Asap', verdana, helvetica, arial, sans-serif;
-$secondary-font-stack:     	Georgia, serif;
+$secondary-font-stack:     	'opensans', verdana, helvetica, arial, sans-serif;
 $monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
 
 $use-web-fonts: 		true;
@@ -23,12 +23,12 @@ $show-baseline:       true;
 //Used if auto-scale-type is not in use.
 //Since functions are called before config,
 //we can use functions to calculate our values.
-$type-h1-size:             modular-scale(7);
-$type-h2-size:             modular-scale(5);
-$type-h3-size:             modular-scale(4);
-$type-h4-size:             modular-scale(3);
-$type-h5-size:             modular-scale(2);
-$type-h6-size:             modular-scale(1);
+$type-h1-size:             ceil(modular-scale(7));
+$type-h2-size:             ceil(modular-scale(5));
+$type-h3-size:             ceil(modular-scale(4));
+$type-h4-size:             ceil(modular-scale(3));
+$type-h5-size:             ceil(modular-scale(2));
+$type-h6-size:             ceil(modular-scale(1));
 
 //Grid
 

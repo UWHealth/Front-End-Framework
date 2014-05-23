@@ -23,15 +23,24 @@ mark{
 }
 hr{
 	border-top-width: 2px;
-	top: -2px;
+	margin-top: -2px;
 }
+
 [class*="list_bordered"] > li{
 	border-top-width: 2px;
+	margin-top: -2px;
 	&:first-child{
 		border-top-color: color(function);
 	}
 }
-
+.tab, .list_nav a{
+	font-family: $secondary-font-stack;
+	text-transform: uppercase;
+	letter-spacing: .5px;
+	@extend %type_bold;
+	@extend small;
+	text-decoration: none;
+}
 html{
 	background-color: #f3f5f8;
 	color: #041927;
@@ -110,13 +119,14 @@ body{
     @extend %cf;
 }
 .icon {
-	width: 1.5em;
+	width: 1.2em;
 	margin-right: .5em;
 	display: inline-block;
 	margin-top: -.25em;
 }
 .box_open{
 	border-width: 2px;
+	margin-top: -4px;
 }
 
 #toggles{

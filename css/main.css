@@ -2,55 +2,55 @@
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-400.eot");
-  src: url(fonts/Asap-400.eot?#iefix) format('embedded-opentype'), url("fonts/Asap-400.woff") format("woff"), url("fonts/Asap-400.ttf") format("truetype"), url("fonts/Asap-400.svg#Asap400") format("svg");
+  src: url('fonts/Asap-400.eot?#iefix') format('embedded-opentype'), url("fonts/Asap-400.woff") format("woff"), url("fonts/Asap-400.ttf") format("truetype"), url("fonts/Asap-400.svg#Asap400") format("svg");
   font-weight: 400;
   font-style: normal; }
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-400-italic.eot");
-  src: url(fonts/Asap-400-italic.eot?#iefix) format('embedded-opentype'), url('fonts/Asap-400-italic.woff') format('woff'), url('fonts/Asap-400-italic.ttf') format('truetype'), url('fonts/Asap-400-italic.svg#Asap400italic') format('svg');
+  src: url('fonts/Asap-400-italic.eot?#iefix') format('embedded-opentype'), url('fonts/Asap-400-italic.woff') format('woff'), url('fonts/Asap-400-italic.ttf') format('truetype'), url('fonts/Asap-400-italic.svg#Asap400italic') format('svg');
   font-weight: 400;
   font-style: italic; }
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-700.eot");
-  src: url(fonts/Asap-700.eot?#iefix) format('embedded-opentype'), url("fonts/Asap-700.woff") format("woff"), url("fonts/Asap-700.ttf") format("truetype"), url("fonts/Asap-700.svg#Asap700") format("svg");
+  src: url('fonts/Asap-700.eot?#iefix') format('embedded-opentype'), url("fonts/Asap-700.woff") format("woff"), url("fonts/Asap-700.ttf") format("truetype"), url("fonts/Asap-700.svg#Asap700") format("svg");
   font-weight: 700;
   font-style: normal; }
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-700-italic.eot");
-  src: url(fonts/Asap-700-italic.eot?#iefix) format('embedded-opentype'), url('fonts/Asap-700-italic.woff') format('woff'), url('fonts/Asap-700-italic.ttf') format('truetype'), url('fonts/Asap-700-italic.svg#Asap700italic') format('svg');
+  src: url('fonts/Asap-700-italic.eot?#iefix') format('embedded-opentype'), url('fonts/Asap-700-italic.woff') format('woff'), url('fonts/Asap-700-italic.ttf') format('truetype'), url('fonts/Asap-700-italic.svg#Asap700italic') format('svg');
   font-weight: 700;
   font-style: italic; }
 @font-face {
   font-family: "opensans";
   src: url("fonts/opensans-200.eot");
-  src: url(fonts/opensans-200.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-200.woff") format("woff"), url("fonts/opensans-200.ttf") format("truetype"), url("fonts/opensans-200.svg#opensans200") format("svg");
+  src: url('fonts/opensans-200.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-200.woff") format("woff"), url("fonts/opensans-200.ttf") format("truetype"), url("fonts/opensans-200.svg#opensans200") format("svg");
   font-weight: 200;
   font-style: normal; }
 @font-face {
   font-family: "opensans";
   src: url("fonts/opensans-400.eot");
-  src: url(fonts/opensans-400.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-400.woff") format("woff"), url("fonts/opensans-400.ttf") format("truetype"), url("fonts/opensans-400.svg#opensans400") format("svg");
+  src: url('fonts/opensans-400.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-400.woff") format("woff"), url("fonts/opensans-400.ttf") format("truetype"), url("fonts/opensans-400.svg#opensans400") format("svg");
   font-weight: 400;
   font-style: normal; }
 @font-face {
   font-family: "opensans";
   src: url("fonts/opensans-400-italic.eot");
-  src: url(fonts/opensans-400-italic.eot?#iefix) format('embedded-opentype'), url('fonts/opensans-400-italic.woff') format('woff'), url('fonts/opensans-400-italic.ttf') format('truetype'), url('fonts/opensans-400-italic.svg#opensans400italic') format('svg');
+  src: url('fonts/opensans-400-italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-400-italic.woff') format('woff'), url('fonts/opensans-400-italic.ttf') format('truetype'), url('fonts/opensans-400-italic.svg#opensans400italic') format('svg');
   font-weight: 400;
   font-style: italic; }
 @font-face {
   font-family: "opensans";
   src: url("fonts/opensans-700.eot");
-  src: url(fonts/opensans-700.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-700.woff") format("woff"), url("fonts/opensans-700.ttf") format("truetype"), url("fonts/opensans-700.svg#opensans700") format("svg");
+  src: url('fonts/opensans-700.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-700.woff") format("woff"), url("fonts/opensans-700.ttf") format("truetype"), url("fonts/opensans-700.svg#opensans700") format("svg");
   font-weight: 700;
   font-style: normal; }
 @font-face {
   font-family: "opensans";
   src: url("fonts/opensans-700-italic.eot");
-  src: url(fonts/opensans-700-italic.eot?#iefix) format('embedded-opentype'), url('fonts/opensans-700-italic.woff') format('woff'), url('fonts/opensans-700-italic.ttf') format('truetype'), url('fonts/opensans-700-italic.svg#opensans700italic') format('svg');
+  src: url('fonts/opensans-700-italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-700-italic.woff') format('woff'), url('fonts/opensans-700-italic.ttf') format('truetype'), url('fonts/opensans-700-italic.svg#opensans700italic') format('svg');
   font-weight: 700;
   font-style: italic; }
 *, *:before, *:after {
@@ -78,7 +78,7 @@ select,
 textarea {
   font-family: "Asap", verdana, helvetica, arial, sans-serif; }
 
-h1, .h1 .h1, h2, .h2 .h2, h3, .h3 .h3, h4, .h4 .h4, h5, .h5 .h5, h6, .h6 .h6, .h6 .no-js .tab_button, .no-js .h6 .tab_button, ul, ol, dd, menu, p, .p {
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .no-js .tab_button {
   text-rendering: optimizeLegibility; }
 
 .link_naked {
@@ -101,7 +101,7 @@ h1, .h1 .h1, h2, .h2 .h2, h3, .h3 .h3, h4, .h4 .h4, h5, .h5 .h5, h6, .h6 .h6, .h
 dfn {
   font-style: italic; }
 
-b, strong, .bold, .strong, optgroup, .button, .tabbed .tab_button:not(.active):hover, table td:before, table th {
+b, strong, .bold, .strong, optgroup, .button, .tabbed .tab_button:not(.active):hover, table td:before, table th, .tab, .list_nav a {
   font-weight: 800;
   -webkit-font-smoothing: antialiased; }
 
@@ -1221,34 +1221,34 @@ body {
   background-image: none; }
 
 h1, .h1 {
-  font-size: 62.1800103px;
-  font-size: 3.8862506rem;
-  line-height: 1.1579284; }
+  font-size: 63px;
+  font-size: 3.9375rem;
+  line-height: 1.14286; }
 
 h2, .h2 {
-  font-size: 42.190378px;
-  font-size: 2.6368986rem;
-  line-height: 1.1377002; }
+  font-size: 43px;
+  font-size: 2.6875rem;
+  line-height: 1.2558171; }
 
 h3, .h3 {
-  font-size: 34.7531944px;
-  font-size: 2.1720746rem;
-  line-height: 1.381168; }
+  font-size: 35px;
+  font-size: 2.1875rem;
+  line-height: 1.3714286; }
 
 h4, .h4 {
-  font-size: 28.6270135px;
-  font-size: 1.7891883rem;
-  line-height: 1.676738; }
+  font-size: 29px;
+  font-size: 1.8125rem;
+  line-height: 1.2413793; }
 
 h5, .h5 {
-  font-size: 23.580736px;
-  font-size: 1.473796rem;
-  line-height: 1.5266737; }
+  font-size: 24px;
+  font-size: 1.5rem;
+  line-height: 1.5000038; }
 
 h6, .h6, .no-js .tab_button {
-  font-size: 19.424px;
-  font-size: 1.214rem;
-  line-height: 1.2355848; }
+  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 1.8000045; }
 
 pre {
   white-space: pre;
@@ -1308,10 +1308,10 @@ q {
 /*-------------------------------*/
 /*    $NORMALIZE                 */
 /*-------------------------------*/
-small {
+small, .tab, .list_nav a {
   font-size: 13.1795717px;
   font-size: 0.8237232rem;
-  line-height: 1.821; }
+  line-height: 1.3657534; }
 
 sub, sup {
   font-size: 75%;
@@ -1580,7 +1580,8 @@ hr {
     border: 0; }
 
 [class*="list_bordered"] > li {
-  border-top: 1px solid #d7dde5; }
+  border-top: 1px solid #d7dde5;
+  margin-top: -1px; }
 [class*="list_bordered"] > li:first-child {
   border-top-color: transparent; }
 
@@ -1682,8 +1683,7 @@ hr {
     top: 1px;
     z-index: 1; }
     .tabbed .active:hover {
-      cursor: default;
-      font-weight: normal !important; }
+      cursor: default; }
 
 .tab_content {
   border-width: 1px;
@@ -1712,8 +1712,8 @@ hr {
   border-bottom-color: transparent;
   border-radius: 2px 2px 0 0;
   cursor: pointer;
-  -webkit-transition: background-color 100ms ease-out, border-color 200ms ease-out;
-  transition: background-color 100ms ease-out, border-color 200ms ease-out;
+  -webkit-transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
+  transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
   border-style: solid;
   border-width: 1px; }
   .tab:not(.active):hover {
@@ -1900,11 +1900,11 @@ table {
   border-bottom-color: #d7dde5;
   border-left-color: transparent;
   border-right-color: transparent;
-  margin-top: -1px; }
+  margin-top: -2px; }
 
 .box_closed {
   border: 1px solid #d7dde5;
-  margin-top: -1px; }
+  margin-top: -2px; }
 
 .box_square {
   position: relative;
@@ -1913,7 +1913,8 @@ table {
   word-break: break-word; }
   @media only screen and (max-width: 640px) {
     .box_square {
-      max-height: 120px; } }
+      max-height: 120px;
+      max-height: 7.5rem; } }
   .box_square .body {
     position: absolute;
     top: 0;
@@ -2124,12 +2125,19 @@ mark {
 
 hr {
   border-top-width: 2px;
-  top: -2px; }
+  margin-top: -2px; }
 
 [class*="list_bordered"] > li {
-  border-top-width: 2px; }
+  border-top-width: 2px;
+  margin-top: -2px; }
   [class*="list_bordered"] > li:first-child {
     border-top-color: #d7dde5; }
+
+.tab, .list_nav a {
+  font-family: "opensans", verdana, helvetica, arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  text-decoration: none; }
 
 html {
   background-color: #f3f5f8;
@@ -2147,7 +2155,7 @@ html {
   h1, .h1, .h1 {
     font-size: 41.0426272px;
     font-size: 2.5651642rem;
-    line-height: 1.1695158; }
+    line-height: 1.3157085; }
 
   h2, .h2, .h2 {
     font-size: 35.0791686px;
@@ -2157,7 +2165,7 @@ html {
   h3, .h3, .h3 {
     font-size: 29.9821954px;
     font-size: 1.8738872rem;
-    line-height: 1.6009501; }
+    line-height: 1.2007126; }
 
   h4, .h4, .h4 {
     font-size: 25.625808px;
@@ -2195,7 +2203,7 @@ html {
   h4, .h4, .h4 {
     font-size: 27.648px;
     font-size: 1.728rem;
-    line-height: 1.7361111; }
+    line-height: 1.3020833; }
 
   h5, .h5, .h5 {
     font-size: 23.04px;
@@ -2210,13 +2218,14 @@ html {
   margin-left: 0; }
 
 .icon {
-  width: 1.5em;
+  width: 1.2em;
   margin-right: .5em;
   display: inline-block;
   margin-top: -.25em; }
 
 .box_open {
-  border-width: 2px; }
+  border-width: 2px;
+  margin-top: -4px; }
 
 #toggles {
   position: fixed;
