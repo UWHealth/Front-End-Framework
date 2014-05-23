@@ -233,7 +233,6 @@ body{
 ul, ol, dd, menu {
     @extend %type-vertical-rhythm;
     @extend %space_l;
-	@extend %text_legibility;
 }
 
 li > ul,
@@ -250,7 +249,6 @@ li > ol {
 //-------------------------------
 p, .p, %p {
     @extend %type-vertical-rhythm;
-	@extend %text_legibility;
 
     @if $indented-paragraphs == true {
 
