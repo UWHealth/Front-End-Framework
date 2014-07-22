@@ -18,8 +18,7 @@ mark{
 	background-color: #e3f1fa;
 }
 .tab_minimal > .tab_content{
-	border-bottom-width: 2px !important;
-	border-bottom-color: color(function);
+	box-shadow: 0 2px 0 rgba(color(type), 0.1);
 }
 hr{
 	border-top-width: 2px;
@@ -70,13 +69,13 @@ body{
 	@include headings-scale(1.2, smallish);
 }
 
-.row-narrow{
+.row_narrow{
     @extend %grid_narrow;
 }
 .row{
     @extend %grid;
 }
-.fixed-row{
+.fixed_row{
     @extend %grid;
     margin-left: 0;
 }
@@ -92,20 +91,17 @@ body{
 	@extend %one_quarter;
 }
 .sidebar{
-    @extend %smalls_one_whole;
     @extend %bigs_one_quarter;
 }
 .content{
-    @extend %smalls_one_whole;
     @extend %bigs_three_quarters;
 }
 
-.add-on{
-    @extend %one_whole;
+.add_on{
     @extend %smallish_one_fifth;
     @extend %bigs_one_sixth;
 }
-.wide-content{
+.wide_content{
     @extend %smallish_four_fifths;
     @extend %bigs_five_sixths;
 }
@@ -129,6 +125,10 @@ body{
 	margin-top: -4px;
 }
 
+
+//---DELETE EVERYTHING AFTER THIS---//
+//---Everything below is just
+
 #toggles{
     position: fixed;
     top: -1px;
@@ -139,6 +139,9 @@ body{
     padding: 5px 10px;
     border-radius: 0px 0px 0px 3px;
 }
+
+
+
 .color-block{
     @extend %grid_item;
     @extend %one_fifth;
