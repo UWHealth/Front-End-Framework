@@ -68,6 +68,44 @@ $type-h4-size:             modular-scale(3) !default;
 $type-h5-size:             modular-scale(2) !default;
 $type-h6-size:             modular-scale(1) !default;
 
+
+// Map for referencing the values of type.
+
+$type: (
+	h1: (px: $type-h1-size,
+		rem: rems($type-h1-size),
+		line-height: null
+	),
+	h2: (px: $type-h2-size,
+		rem: rems($type-h2-size),
+		line-height: null
+	),
+	h3: (px: $type-h1-size,
+		rem: rems($type-h3-size),
+		line-height: null
+	),
+	h4: (px: $type-h1-size,
+		rem: rems($type-h4-size),
+		line-height: null
+	),
+	h5: (px: $type-h1-size,
+		rem: rems($type-h5-size),
+		line-height: null
+	),
+	h6: (px: $type-h1-size,
+		rem: rems($type-h5-size),
+		line-height: null
+	),
+	p:  (px: $base-font-size,
+		rem: rems($base-font-size),
+		line-height: $base-line-height
+	),
+	small: (px: modular-scale(-1),
+		rem: rems(modular-scale(-1)),
+		line-height: $base-line-height/modular-scale(-1)
+	)
+);
+
 //Create heading classes for sizing (e.g. .h1,.h2,etc.)?
 $type-scale-classes:       true !default;
 
@@ -154,6 +192,10 @@ $use-floats:             false!default;
 $push:                  false!default;
 $pull:                  false!default;
 
+//Would you like to use margins rather than 'right' and 'left' for
+//pushing and pulling?
+
+$use-margin-adjustments:false!default;
 
 
  // Using `inline-block` means that the grid items need their whitespace removing

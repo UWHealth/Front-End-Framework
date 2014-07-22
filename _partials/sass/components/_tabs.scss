@@ -97,10 +97,10 @@ $tab-minimal-include: 				true 					!default;
 //------------------------------------
 //    $GENERAL
 //------------------------------------
-@if $include-tabs == true {
 //NOTE: For cleanliness and readibility,
 //	the following content in this @if statement is not indented.
 
+@if $include-tabs == true {
 
 //-----------Required tab styling------------------------------------------
 //----All of the following code is required for proper tab styling.--------
@@ -175,7 +175,6 @@ $tab-minimal-include: 				true 					!default;
 
 		&:hover{
 			cursor: default;
-			font-weight: normal !important;
 		}
 	}
 }
@@ -237,7 +236,7 @@ $best-tab-color: pick_best_color(
 	border-bottom-color: transparent;
     border-radius: $tab-border-radius $tab-border-radius 0 0;
     cursor: pointer;
-    transition: background-color 100ms ease-out, border-color 200ms ease-out;
+    transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
 	border-style: solid;
 
 	@if $tab-border != false{

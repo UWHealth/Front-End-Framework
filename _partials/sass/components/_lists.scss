@@ -4,6 +4,7 @@
         @extend %display_block;
         border-top: 1px solid color(function);
         @extend %pad_v;
+		margin-top: -1px;
     }
     > li:first-child {
         border-top-color: transparent;

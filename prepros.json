@@ -257,6 +257,46 @@
       "parents": [
         "fd45df93"
       ]
+    },
+    "b37986d0": {
+      "id": "b37986d0",
+      "pid": "ebbb92c1",
+      "path": "_partials/js/_tabs.js",
+      "parents": [
+        "29463767"
+      ]
+    },
+    "6c400ee9": {
+      "id": "6c400ee9",
+      "pid": "ebbb92c1",
+      "path": "_partials/js/_tables.js",
+      "parents": [
+        "29463767"
+      ]
+    },
+    "811d2fdb": {
+      "id": "811d2fdb",
+      "pid": "ebbb92c1",
+      "path": "_partials/js/_colors.js",
+      "parents": [
+        "29463767"
+      ]
+    },
+    "148f37e5": {
+      "id": "148f37e5",
+      "pid": "ebbb92c1",
+      "path": "_partials/js/_slick.js",
+      "parents": [
+        "29463767"
+      ]
+    },
+    "059a4415": {
+      "id": "059a4415",
+      "pid": "ebbb92c1",
+      "path": "_partials/sass/vendor/_slick.scss",
+      "parents": [
+        "fd45df93"
+      ]
     }
   },
   "images": {
@@ -525,7 +565,7 @@
     "watch": true,
     "liveRefresh": true,
     "liveRefreshDelay": 0,
-    "filterPatterns": "",
+    "filterPatterns": "README.md",
     "useCustomServer": false,
     "customServerUrl": "",
     "cssPath": "css/",

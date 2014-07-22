@@ -18,20 +18,28 @@ mark{
 	background-color: #e3f1fa;
 }
 .tab_minimal > .tab_content{
-	border-bottom-width: 2px !important;
-	border-bottom-color: color(function);
+	box-shadow: 0 2px 0 rgba(color(type), 0.1);
 }
 hr{
 	border-top-width: 2px;
-	top: -2px;
+	margin-top: -2px;
 }
+
 [class*="list_bordered"] > li{
 	border-top-width: 2px;
+	margin-top: -2px;
 	&:first-child{
 		border-top-color: color(function);
 	}
 }
-
+.tab, .list_nav a{
+	font-family: $secondary-font-stack;
+	text-transform: uppercase;
+	letter-spacing: .5px;
+	@extend %type_bold;
+	@extend small;
+	text-decoration: none;
+}
 html{
 	background-color: #f3f5f8;
 	color: #041927;
@@ -61,13 +69,13 @@ body{
 	@include headings-scale(1.2, smallish);
 }
 
-.row-narrow{
+.row_narrow{
     @extend %grid_narrow;
 }
 .row{
     @extend %grid;
 }
-.fixed-row{
+.fixed_row{
     @extend %grid;
     margin-left: 0;
 }
@@ -83,20 +91,17 @@ body{
 	@extend %one_quarter;
 }
 .sidebar{
-    @extend %smalls_one_whole;
     @extend %bigs_one_quarter;
 }
 .content{
-    @extend %smalls_one_whole;
     @extend %bigs_three_quarters;
 }
 
-.add-on{
-    @extend %one_whole;
+.add_on{
     @extend %smallish_one_fifth;
     @extend %bigs_one_sixth;
 }
-.wide-content{
+.wide_content{
     @extend %smallish_four_fifths;
     @extend %bigs_five_sixths;
 }
@@ -110,14 +115,19 @@ body{
     @extend %cf;
 }
 .icon {
-	width: 1.5em;
+	width: 1.2em;
 	margin-right: .5em;
 	display: inline-block;
 	margin-top: -.25em;
 }
 .box_open{
 	border-width: 2px;
+	margin-top: -4px;
 }
+
+
+//---DELETE EVERYTHING AFTER THIS---//
+//---Everything below is just
 
 #toggles{
     position: fixed;
@@ -129,6 +139,9 @@ body{
     padding: 5px 10px;
     border-radius: 0px 0px 0px 3px;
 }
+
+
+
 .color-block{
     @extend %grid_item;
     @extend %one_fifth;

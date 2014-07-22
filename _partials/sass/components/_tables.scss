@@ -18,12 +18,6 @@ table {
         border-style: solid;
     }
 	& td{
-		&:before{
-			content: attr(data-th)" : ";
-			@extend %type_bold;
-			padding-right: .25em;
-			display: none;
-		}
 		&.stripe{
 			background-color: colors(function, lighter);
 		}
@@ -36,6 +30,13 @@ table {
         @include type-space-sc(padding, 1, 0, 0 );
     }
 }
+thead + tbody td:before{
+	content: attr(data-th)": ";
+	@extend %type_bold;
+	padding-right: .25em;
+	display: none;
+}
+
 .table_fixed{
         table-layout: fixed;
     }

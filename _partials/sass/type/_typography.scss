@@ -113,10 +113,10 @@
         }
     }
 }
-body, .p, p {
-   @include type-font-size($base-font-size);
-   @extend %space_reset;
-
+body, .p, p, %p{
+    @include type-font-size($base-font-size, true, p);
+    @extend %space_reset;
+	color: color(type);
 }
 body{
 	padding-top: 0;
@@ -150,7 +150,7 @@ body{
 
     h1, %h1{
 		@extend %type-vertical-rhythm;
-        @include type-font-size($type-h1-size);
+        @include type-font-size($type-h1-size, true, h1);
         & + p{
             @extend %negative_top; //[6]
         }
@@ -163,7 +163,7 @@ body{
 
     h2, %h2 {
 		@extend %type-vertical-rhythm;
-        @include type-font-size($type-h2-size);
+        @include type-font-size($type-h2-size, true, h2);
         & + p{
             @extend %negative_top; //[6]
         }
@@ -176,7 +176,7 @@ body{
 
     h3, %h3 {
 		@extend %type-vertical-rhythm;
-        @include type-font-size($type-h3-size);
+        @include type-font-size($type-h3-size, true, h3);
         & + p{
             @extend %negative_top; //[6]
         }
@@ -189,7 +189,7 @@ body{
 
     h4, %h4 {
 		@extend %type-vertical-rhythm;
-        @include type-font-size($type-h4-size);
+        @include type-font-size($type-h4-size, true, h4);
         & + p{
             @extend %negative_top; //[6]
         }
@@ -202,7 +202,7 @@ body{
 
     h5, %h5 {
 		@extend %type-vertical-rhythm;
-        @include type-font-size($type-h5-size);
+        @include type-font-size($type-h5-size, true, h5);
         & + p{
             @extend %negative_top; //[6]
         }
@@ -215,7 +215,7 @@ body{
 
     h6, %h6 {
 		@extend %type-vertical-rhythm;
-        @include type-font-size($type-h6-size);
+        @include type-font-size($type-h6-size, true, h6);
         & + p{
             @extend %negative_top; //[6]
         }
@@ -233,7 +233,6 @@ body{
 ul, ol, dd, menu {
     @extend %type-vertical-rhythm;
     @extend %space_l;
-	@extend %text_legibility;
 }
 
 li > ul,
@@ -249,12 +248,12 @@ li > ol {
 //    $PARAGRAPHS
 //-------------------------------
 p, .p, %p {
-    @extend %type-vertical-rhythm;
-	@extend %text_legibility;
+
+	@extend %type-vertical-rhythm;
 
     @if $indented-paragraphs == true {
 
-        + p, .p, %p {
+        & + & {
             @include type-space(text-indent);
             @extend %space_negative;
         }
@@ -383,7 +382,7 @@ dfn {
     @extend %type_italic;
 }
 small {
-    @include type-scale(font-size,-1);
+    @include type-font-size(modular-scale(-1), true, small);
 }
 sub,sup {
     font-size: 75%;

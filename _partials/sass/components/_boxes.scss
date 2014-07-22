@@ -15,11 +15,11 @@
     border-bottom-color: color(function);
     border-left-color: transparent;
     border-right-color: transparent;
-	margin-top: -1px; // Adjusted baseline for borders.
+	margin-top: -2px; // Adjusted baseline for borders.
 }
 .box_closed{
     border: 1px solid color(function);
-	margin-top: -1px; // Adjusted baseline for borders.
+	margin-top: -2px; // Adjusted baseline for borders.
 }
 
 //Creates a responsive, square container.
@@ -30,7 +30,7 @@
 	overflow: hidden;
 	word-break: break-word;
 	@include media-query($smalls){
-		max-height: $base-line-height * 5;
+		@include rems(max-height, ($base-line-height * 5));
 	}
 
 	& .body{
@@ -42,8 +42,6 @@
 		top: 0;
 		left: 0;
 		text-align: left;
-
-
 	}
 
 	&:before{

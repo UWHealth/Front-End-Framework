@@ -29,7 +29,7 @@
                 tabGroups.push( y , x );
 
                 //Loop over siblings until the next sibling is not a tab_button.
-                //This is necessary to check for nested tab groups (e.g. tab-ception).
+                //This is necessary to check for nested tab groups (a.k.a. tabception).
                 do {
                     w = a(x).next()[0];
                     x = a(w).next()[0];
@@ -45,12 +45,13 @@
                 //Check if we've already added this tab to a grouping.
                 if (a(y).data("tabbed") !== true ) {
 
-                    //Grab all tab_button classes (since they can be used as optional style alternatives)
+                    //Grab data-tab attributes (since they can be used as optional style alternatives)
 					if (a(y).attr("data-tab") !== undefined){
                            addons = a(y).attr("data-tab");
                         }
 
-                    //Add tabbed data to the group.
+                    //Add "tabbed" data to the group's items.
+
                     a(tabGroups).data("tabbed",true)
                     //Wrap the group in a section with the class 'tabbed'
 					//and add add-on classes if they exist.
@@ -67,7 +68,7 @@
             var tabbed = a('.tabbed');
 
             //Add a nav element to the top of the groups
-			//with more than one tab_content child
+			//only if they contain more than one tab_content child
             a(tabbed).each(function(){
 			if (a(this).children('.tab_content').length > 1){
 				   a(this).prepend("<nav class='tabs' />");
@@ -114,67 +115,58 @@
             });
 
 
+            //----------------------------------------------------------
+            //        Actions for tab clicks
+            //----------------------------------------------------------
 
-            //Actions for tab clicks.
-            a(".tabs .tab").click(function(e) {
+            a(".tabs a.tab").click(function(e) {
+                e.preventDefault();
                 // Just making sure we don't animate already active tabs.
                 if (a(this).hasClass('active') === false){
 
                     //Grab the target's ID through the clicked tab's href/hash value.
                     d = a(this).attr("href");
 
-                    //Because we have nested tabs, we need to go check
-                    //the closest group parent, then move back down the tree.
-                    //We then hide all tab content.
-                    a(this).closest('.tabbed')
-                        .find(".tab_content:first")
-                        .siblings(".tab_content")
-                        .addBack().hide();
+                    //Hiding all target siblings tab_content.
+                    a(d).siblings(".tab_content").hide();
 
                     //Unhide the correct tab content.
                     a(d).fadeIn(c.options.speed);
 
-                    //Again doing a round-about selection,
-                    //this time for tab_buttons.
-                    //Removing "active" class.
-                    a(this).closest('.tabbed')
-                        .find(".tab:first, .tab_button:first")
-                        .siblings(".tab,.tab_button")
+                    //Finding tab and tab_button siblings
+                    //And then removing "active" class.
+                    a("a[href^='" + d + "']")
+                        .siblings(".tab, .tab_button")
                         .addBack()
                         .removeClass("active");
 
-                    //Adding back the "active" class to the appropriate
-                    //buttons and tab contents.
+                    //Adding back the "active" class 
+                    //to the appropriate buttons.
                     a(this).addClass("active");
-                    a(".tab_button[href^='" + d + "']").addClass("active");
+                    a("a[href^='" + d + "'].tab_button").addClass("active");
                 }
-                e.preventDefault();
+                
             });
 
             //Actions for accordion tab_buttons.
             //Nearly identical to the previous function,
             //but with a slide effect.
             a(".tab_button").click(function(e) {
+                e.preventDefault();
                 if (a(this).hasClass('active') === false){
                     d = a(this).attr("href");
-                    a(this).closest('.tabbed')
-                        .find(".tab_content:first")
-                        .siblings(".tab_content")
+                    a(d).siblings(".tab_content")
                         .addBack()
-                        .slideUp('fast');
-                    a(d).css("min-height","0")
-                        .slideToggle(c.options.speed);
-                    a(this).closest('.tabbed')
-                        .find(".tab:first, .tab_button:first")
+                        .css("min-height","0")
+                        .slideUp(c.options.speed);
+                    a(d).slideToggle(c.options.speed);
+                    a("a[href^='" + d + "']")
                         .siblings(".tab, .tab_button")
                         .addBack()
                         .removeClass("active");
                     a(this).addClass("active");
-                    a(this).closest('.tabbed')
-                        .find(".tab[href^='" + d + "']")
-                        .addClass("active");
+                    a("a[href^='" + d + "'].tab").addClass("active");
                 }
-                e.preventDefault();
             });
 
         };
