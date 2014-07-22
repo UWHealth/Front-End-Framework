@@ -117,6 +117,7 @@ body, .p, p {
    @include type-font-size($base-font-size);
    @extend %space_reset;
 
+	color: color(type);
 }
 body{
 	padding-top: 0;

@@ -3,7 +3,8 @@
 //------------------------------------
 //Based on:
 //http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
-//Darker and lighter darkens are available by adding -dark/-darker/-light/-lighter to the end of variable names.
+//Darker and lighter darkens are available by adding
+// -dark/-darker/-light/-lighter to the end of variable names.
 
 $colors: (
 	primary: (
@@ -102,6 +103,15 @@ $colors: (
 		dark: darken(colors(alert), 10%),
 		darker: darken(colors(alert), 20%),
 		darkest: darken(colors(alert), 35%)
+	),
+	type: (
+		base: colors(type),
+		light: lighten(colors(type), 10%),
+		lighter: lighten(colors(type), 20%),
+		lightest: lighten(colors(type), 35%),
+		dark: darken(colors(type), 10%),
+		darker: darken(colors(type), 20%),
+		darkest: darken(colors(type), 35%)
 	)
 );
 

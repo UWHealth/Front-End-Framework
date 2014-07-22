@@ -11,6 +11,8 @@ $monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Cons
 
 $use-web-fonts: 		true;
 $font-file-location: 	'fonts';
+//The more fonts and options added here will cause slowdown upon processing.
+//It may be worth outputing your fonts separately and just doing a simple import.
 $font-file-name: 		'Asap','opensans';
 $font-italics: 			true, (false, true, true);
 $font-weights: 			(400,700),(200,400,700);
@@ -32,25 +34,44 @@ $type-h6-size:             ceil(modular-scale(1));
 
 //Grid
 
-$gutter:                 30px;
+$gutter:                 32px;
 $use-silent-classes:     true;
 $push:                   true;
 $pull:                   true;
-$use-markup-fix:        false; //Setting this to true while not using floats means there can be no whitespce between grid items.
+
+//Setting this to true means there can be no whitespce
+// in your HTML markup between grid items.
+$use-markup-fix:        false;
 $use-floats:            false;
-$columns:                  12; //Using anything other than 12 may cause a bit of slow down during processing.
+
+//Using anything other than 12 may cause a bit of slow down during processing.
+$columns:                  12;
+
+//Grids default to using relative (right and left) for pushes and pulls.
+//Setting this to true will use margin-left.
+$use-margin-adjustments: false;
+
+
+//Media-Query Breakpoints
 
 $breakpoints: (
-    'smalls' '(max-width:640px)',                            //Everything up to 640px. Mostly phones.
-    'small' '(max-width: 480px)',                            //Up to 480px. Overrides Smalls. Small Phones, including iPhone.
-    'smallish''(min-width: 481px) and (max-width: 640px)',     //Between 480 and 640px. Overrides Smalls. Large phones/phablets.
-    'bigs' '(min-width: 641px)',                            //Everything larger than 640px. Tablets and Desktops.
-    'lap' '(min-width: 641px) and (max-width: 940px)',        //640-940px. Overrides Bigs. Mostly Tablets and small laptops.
-    'desk' '(min-width: 941px)'                                //940 and Up. Overrides Bigs. Large Tablets and Desktops.
+	//Everything up to 640px. Mostly phones.
+    'smalls' '(max-width:640px)',
+	//Up to 480px. Overrides Smalls. Small Phones, including iPhone.
+    'small' '(max-width: 480px)',
+	//Between 480 and 640px. Overrides Smalls. Large phones/phablets.
+    'smallish''(min-width: 481px) and (max-width: 640px)',
+    //Everything larger than 640px. Tablets and Desktops.
+	'bigs' '(min-width: 641px)',
+	//640-940px. Overrides Bigs. Mostly Tablets and small laptops.
+    'lap' '(min-width: 641px) and (max-width: 940px)',
+	//940 and Up. Overrides Bigs. Large Tablets and Desktops.
+    'desk' '(min-width: 941px)'
 );
 
 // Give grid-abilities to breakpoints.
-// The more breakpoints defined here will result in longer preprocessing times.
+// The more breakpoints defined here will result in longer preprocessing times
+// and, in the case of non-silent classes, more css.
 $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
@@ -83,6 +104,9 @@ $colors: (
 	),
 	alert: (
 		base: #b22727
+	),
+	type: (
+		base: #031524
 	)
 );
 
