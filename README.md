@@ -3,26 +3,34 @@
 
 A number of frontend technologies to get any e-Health website or application off the ground.
 
-[Our Workspace](https://workspaces.uconnect.wisc.edu/display/ehealth/Front+End+Design)
+[Our Workspace](https://workspaces.uconnect.wisc.edu/display/ehealth/Front+End+Design) (Requires UW Health intranet access)
 
 #Getting Started
 
 
-##Sofware
+##Recommended Sofware
 * **Prepros**: http://alphapixels.com/prepros/
 For all your preprocessing needs.
+* **Sass**:http://sass-lang.com/install
+Necessary, because prepros ships with Sass 3.2 and we need 3.3. 
 * **GitHub:** https://windows.github.com/
 Totally optional if you prefer using the command line.
+
 
 ----------
 ##Installation
 There are two potential routes for using the Framework: **1.** Branch. **2.** Fork.
 
-1. Clone the Github repo from https://github.com/UWHealth/Front-End-Framework.git or simply clicking the **"Clone to Desktop" button** on the right side of this page. From there, make a branch for whatever project you're working on. This will allow you to version control your own code modifications while still being able to pull in new Framework features if necessary.
+1. Create a fork of this repo. This may be preferable since it's the least likely to cause conflicts. This will also allow us to track new features with pull requests rather than straight commits. It may also be the cleaner and more robust route since pull requests are added as issues that can be tracked.
 
-2. Create a fork of this repo. This may be preferable since it's the least likely to cause conflicts. This will also allow us to track new features with pull requests rather than straight commits. It may also be the cleaner and more robust route since pull requests are added as issues that can be tracked.
+2. Clone the Github repo from https://github.com/UWHealth/Front-End-Framework.git or simply clicking the **"Clone to Desktop" button** on the right side of this page. From there, make a branch for whatever project you're working on. This will allow you to version control your own code modifications while still being able to pull in new Framework features if necessary.
 
 After forking or cloning, open Prepros and **Add a New Project**, pointing to the newly created directory on your computer. Prepros should recognize the prepros.json file and give you the correct configuration for Sass and Javascript compilation (including autoprefixer for our supported browsers).
+
+---------
+Prepros then needs to be set up to use the most recent version of Sass (3.3.x). To do this, go into Prepros options and click **Advanced Options** at the bottom. Check the box that says 'Use Custom Ruby'. From here, a text box will appear and allow you to type in the path to your ruby install (usually, just typing the recommended path will suffice). 
+
+Finally, check the 'For Sass' box. 
 
 ----------
 #Structure
@@ -83,7 +91,14 @@ What's worth noting is that ``_meta.kit`` and ``_foot.kit`` contain some very us
 ----------
 ####/_partials/sass/colors
 
-1. ``colors.scss`` is currently the only file here. It creates the various color alternates provided in ``config.scss``.
+1. ``colors.scss`` creates the various color alternates provided in ``config.scss``. You may also define new colors in the $additional-colors map if you want to separate your core colors from secondary colors. They will get merged into the $colors map, which can be accessed via the colors() function. Dark, Darker, Darkets, Light, Lighter, and Lightest variations will also be generated and stored into this map.
+2. ``blendmodes.scss`` contains a series of functions that emulate photoshop blending modes (useful when converting PSDs to css). This is imported via ``functions.scss`` for higher-level access.
+
+*Note: Accessing your colors should be done via the colors() function. This will give you access to all your colors and a few variations. As an example, let's say you want to access the light version of a color named "primary":*
+```scss
+color: color(primary, light)
+```
+*See the ``functions.scss`` file for aliases and more documentation on this function.
 
 ----------
 ####/_partials/sass/components
@@ -127,7 +142,7 @@ Which outputs to:
 
 All ``grid_items`` must be contained within a ``grid`` row. This is used for keeping grid items in line and, in the case of floats, cleared.
 
-*Note: More documentation for grids is forthcoming.*
+##*Note: More documentation is forthcoming.*
 
 
   [1]: https://www.npmjs.org/package/grunt-codekit
