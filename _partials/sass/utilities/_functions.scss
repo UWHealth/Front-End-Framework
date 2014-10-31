@@ -111,6 +111,9 @@
  //    ...........px, rem, and line-height are available.
  //               type([referenced-font-size],[font-size-value])
 
+ //color..........function for grabbing colors as defined by $colors map.
+ //	    ..........color([color-name], [optional-variation])
+
  //set-text-color..Generates either white or black based on the
  //              ..lightness of the color you pass it (Accepts HEX values).
  //                set-text-color([color-you-need-to-test-contrast-of]);
