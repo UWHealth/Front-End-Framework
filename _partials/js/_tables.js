@@ -7,7 +7,7 @@
 
         for (var i = 0; i < all_tables.length; i++) {
 
-			var $current = t(all_tables)[i];
+			var $current = t(all_tables[i]);
 
 			$current.addClass('table_responsive');
 			z = $current.find("thead th").map(function() {
@@ -22,7 +22,7 @@
 				y = y[0];
 
 			//Checking for colspans
-			t(current).find("tbody tr").each(function() {
+			$current.find("tbody tr").each(function() {
 				skip_cell = 0;
 				t(this).children("td, th").each(function(j) {
 					j = skip_cell + j;
