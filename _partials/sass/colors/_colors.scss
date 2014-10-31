@@ -40,80 +40,93 @@ $colors: (
 // If you'd prefer to just get the base color, you do not need to declare 'base',
 // just declare color([color name]). 'base' is implied.
 
-$colors: (
-	primary: (
-		base: colors(primary),
-		light: lighten(colors(primary), 10%),
-		lighter: lighten(colors(primary), 20%),
-		lightest: lighten(colors(primary), 40%),
-		dark: darken(colors(primary), 10%),
-		darker: darken(colors(primary), 20%),
-		darkest: darken(colors(primary), 40%)
-	),
-	primary-alt: (
-		base: colors(primary-alt),
-		light: lighten(colors(primary-alt), 10%),
-		lighter: lighten(colors(primary-alt), 20%),
-		lightest: lighten(colors(primary-alt), 35%),
-		dark: darken(colors(primary-alt), 10%),
-		darker: darken(colors(primary-alt), 20%),
-		darkest: darken(colors(primary-alt), 35%)
-	),
-	accent: (
-		base: colors(accent),
-		light: lighten(colors(accent), 10%),
-		lighter: lighten(colors(accent), 20%),
-		lightest: lighten(colors(accent), 35%),
-		dark: darken(colors(accent), 10%),
-		darker: darken(colors(accent), 20%),
-		darkest: darken(colors(accent), 35%)
-	),
-	accent-alt: (
-		base: colors(accent-alt),
-		light: lighten(colors(accent-alt), 10%),
-		lighter: lighten(colors(accent-alt), 20%),
-		lightest: lighten(colors(accent-alt), 35%),
-		dark: darken(colors(accent-alt), 10%),
-		darker: darken(colors(accent-alt), 20%),
-		darkest: darken(colors(accent-alt), 35%)
-	),
-	action: (
-		base: colors(action),
-		light: lighten(colors(action), 10%),
-		lighter: lighten(colors(action), 20%),
-		lightest: lighten(colors(action), 35%),
-		dark: darken(colors(action), 10%),
-		darker: darken(colors(action), 20%),
-		darkest: darken(colors(action), 35%)
-	),
-	function: (
-		base: colors(function),
-		light: lighten(colors(function), 10%),
-		lighter: lighten(colors(function), 20%),
-		lightest: lighten(colors(function), 35%),
-		dark: darken(colors(function), 10%),
-		darker: darken(colors(function), 20%),
-		darkest: darken(colors(function), 35%)
-	),
-	alert: (
-		base: colors(alert),
-		light: lighten(colors(alert), 10%),
-		lighter: lighten(colors(alert), 20%),
-		lightest: lighten(colors(alert), 35%),
-		dark: darken(colors(alert), 10%),
-		darker: darken(colors(alert), 20%),
-		darkest: darken(colors(alert), 35%)
-	),
-	type: (
-		base: colors(type),
-		light: lighten(colors(type), 10%),
-		lighter: lighten(colors(type), 20%),
-		lightest: lighten(colors(type), 35%),
-		dark: darken(colors(type), 10%),
-		darker: darken(colors(type), 20%),
-		darkest: darken(colors(type), 35%)
+//Non-standard colors
+// Feel free to add any colors here
+$additional_colors: (
+	yellow: (
+		base: #efee90
+	)
+	,orange: (
+		base: #faae2e
+	)
+	,green: (
+		base: #b6eba4
 	)
 );
+
+//Combines two color maps (or really any nested map)
+@function combine_colors($map1, $map2){
+	@each $pal, $color in $map2{
+		$value: ($pal: $color);
+		$map1: map-merge($map1, $value);
+	}
+	@return $map1;
+}
+
+//Adds lighter, darker variations to color map
+// 1. Gather variation names.
+// 2. Define the lighten/darken percentages.
+// 3. Get half the length of the varations for use later.
+// 4. Loop through the pallets and colors of the map input.
+// 5. Store the base color value that we'll add to throughout the next loop.
+// 6. Loop through the variation names.
+// 7. Grab the lighten/darken amount based on the loop iteration.
+// 8. If the loop is over half done, switch from lighten to darken.
+// 9. Create the variation and color definition in map format ("name": color).
+//10. Merge the current base color map with the new variant map.
+//11. Format the previous loops results into a nested map.
+//12. Merge the input map with itself and the new nested map.
+//13. Return the map with the new values.
+
+@function generate_color_variations(
+	$map,
+	$tint:false,
+	$variations: (light, lighter, lightest, dark, darker, darkest), //[1]
+	$increments: (10%, 20%, 30%, 10%, 20%, 40%) 				    //[2]
+){
+	$switch-variation: length($variations) / 2; 				  //[3]
+	$new-map: $map !global;
+
+	@each $pal, $color in $map{ 				//[4]
+		$values-list: $color !global;			//[5]
+
+		@each $variant in $variations {         //[6]
+			$i: index($variations, $variant);
+			$amount: nth($increments, $i);		//[7]
+			@if $tint == false{
+				@if $i > $switch-variation { 									//[8]
+					$new-color: darken(map-get($color, base), $amount) !global; //[8]
+				}@else{
+					$new-color: lighten(map-get($color, base), $amount) !global; //[8]
+				}
+			}@else{
+				@if $i > $switch-variation { 									//[8]
+					$new-color: shade(map-get($color, base), $amount) !global; //[8]
+				}@else{
+					$new-color: tint(map-get($color, base), $amount) !global; //[8]
+				}
+			}
+			$value: ($variant: $new-color); 				  				//[9]
+			// This is required because sass maps are formatted as
+			// (first-level: ((second-level: value)) )
+			$values-list: map-merge($value, $values-list) !global;			//[10]
+
+		}
+
+		$inner-map: ($pal:($values-list));						//[11]
+		$new-map: combine_colors($new-map, $inner-map) !global;	//[12]
+
+	}
+	@return $new-map; 			//[13]
+}
+
+$additional_colors: generate_color_variations($additional_colors) !global;
+
+// Replaces all the code from line 134-279
+$colors: generate_color_variations($colors) !global;
+
+//Adding the additional colors to the colors map.
+$colors: combine_colors($colors, $additional_colors) !global;
 
 $primary-color: colors(primary) !default;        		//UW Blue (dark blue)
 $primary-color-alt: colors(primary-alt) !default;    	//UW Steel Blue
