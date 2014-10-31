@@ -3,12 +3,12 @@
 
 A number of frontend technologies to get any e-Health website or application off the ground.
 
-[Our Workspace](https://workspaces.uconnect.wisc.edu/display/ehealth/Front+End+Design)
+[Our Workspace](https://workspaces.uconnect.wisc.edu/display/ehealth/Front+End+Design) (Requires UW Health intranet access)
 
 #Getting Started
 
 
-##Sofware
+##Recommended Sofware
 * **Prepros**: http://alphapixels.com/prepros/
 For all your preprocessing needs.
 * **Sass**:http://sass-lang.com/install
@@ -91,7 +91,14 @@ What's worth noting is that ``_meta.kit`` and ``_foot.kit`` contain some very us
 ----------
 ####/_partials/sass/colors
 
-1. ``colors.scss`` is currently the only file here. It creates the various color alternates provided in ``config.scss``.
+1. ``colors.scss`` creates the various color alternates provided in ``config.scss``. You may also define new colors in the $additional-colors map if you want to separate your core colors from secondary colors. They will get merged into the $colors map, which can be accessed via the colors() function. Dark, Darker, Darkets, Light, Lighter, and Lightest variations will also be generated and stored into this map.
+2. ``blendmodes.scss`` contains a series of functions that emulate photoshop blending modes (useful when converting PSDs to css). This is imported via ``functions.scss`` for higher-level access.
+
+*Note: Accessing your colors should be done via the colors() function. This will give you access to all your colors and a few variations. As an example, let's say you want to access the light version of a color named "primary":*
+```scss
+color: color(primary, light)
+```
+*See the ``functions.scss`` file for aliases and more documentation on this function.
 
 ----------
 ####/_partials/sass/components
@@ -135,7 +142,7 @@ Which outputs to:
 
 All ``grid_items`` must be contained within a ``grid`` row. This is used for keeping grid items in line and, in the case of floats, cleared.
 
-*Note: More documentation for grids is forthcoming.*
+##*Note: More documentation for grids is forthcoming.*
 
 
   [1]: https://www.npmjs.org/package/grunt-codekit
