@@ -142,7 +142,7 @@ Which outputs to:
 
 All ``grid_items`` must be contained within a ``grid`` row. This is used for keeping grid items in line and, in the case of floats, cleared.
 
-##*Note: More documentation for grids is forthcoming.*
+##*Note: More documentation is forthcoming.*
 
 
   [1]: https://www.npmjs.org/package/grunt-codekit
