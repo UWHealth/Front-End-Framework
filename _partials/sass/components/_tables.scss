@@ -2,7 +2,7 @@ table {
     @extend %type-vertical-rhythm;
     width: 100%;
     background-color:transparent;
-    border-collapse:collapse;
+    border-collapse: collapse;
     border-spacing:0;
     @extend %space_v;
 
@@ -42,7 +42,8 @@ thead + tbody td:before{
     }
 
 .table_striped {
-    & tr:nth-child(odd) td{
+    & tbody tr:nth-child(odd),
+	.stripe{
         background-color: colors(function, lighter);
     }
     & th, & td{
@@ -52,14 +53,16 @@ thead + tbody td:before{
         border-style: solid;
     }
 }
+//Rudimentary responsive tables.
+// Markup dependent on tables.js
 @include media-query(#{$smalls}){
-    .js table{
+    .table_responsive{
 		@include type-space(margin-top, 1);
-        th{
+        thead th{
             display: none
         }
 
-        td {
+        thead + tbody td {
             display: block;
             border-bottom: 0;
             padding-top: 0;
