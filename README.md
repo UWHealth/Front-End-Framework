@@ -124,7 +124,7 @@ As an example, if you have media-queries named ``small`` and ``desk`` (as are tw
 .class {
     @extend %grid_item;
     @extend %small_one_half;
-    @extend %deks_one_quarter;
+    @extend %desk_one_quarter;
 }
 ```
 Which outputs to:
