@@ -1,0 +1,126 @@
+//------------------------------------
+//      $Overrides
+//------------------------------------
+// Final import. Include any overrides
+// or high-specificity selectors.
+//-----------------------------------
+
+
+// Prevent modern browsers from displaying `audio` without controls.
+// Remove excess height in iOS 5 devices.
+audio:not([controls]) {
+	display: none;
+	height: 0;
+}
+
+.chromeframe {
+	margin: 0.2em 0;
+	background: #ccc;
+	color: #000;
+	padding: 0.2em 0;
+}
+
+.visually_hidden {
+	padding: 0;
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	position: absolute;
+	width: 1px;
+}
+
+.invisible, .hide {
+	visibility: hidden !important;
+}
+
+.clearfix {
+	@extend %clearfix;
+}
+
+.visually_hidden.focusable:active,
+.visually_hidden.focusable:focus {
+	clip: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	position: static;
+	width: auto;
+}
+
+.hidden {
+	display: none !important;
+	visibility: hidden;
+}
+
+%display_block {
+	display: block;
+}
+//
+// Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
+//
+%clearfix, %cf{
+	*zoom: 1;
+	&:before,&:after{
+		display: table;
+		content: " ";
+	}
+	&:after{
+		clear: both;
+		height: 0px;
+		width: 0px;
+	}
+}
+
+//---Alignment Overrides--//
+// Outputs alignment utility classes.
+
+@if $include-alignment-classes {
+	@include responsive-alignment('', false, true);
+
+	@if $responsive {
+		@each $name in $breakpoint-has-utilities {
+			@include media-query($name) {
+				@include responsive-alignment('#{$name}_', false, true);
+			}
+		}
+	}
+}
+
+//----Spacing Override classes---//
+// Outputs spacing utility classes.
+
+@if $include-spacing-classes {
+
+	$space-config: (
+		silent: false,
+		important: true,
+		directions: ('','t','l','b','r','h','v'),
+		amounts: (0, 1, .5, -1),
+		names: ('n','', 'half', 'neg')
+	);
+
+	@include spacing-utilities('', $space-config);
+
+	@if $responsive {
+		@each $name in $breakpoint-has-utilities {
+			@include media-query($name) {
+				@include spacing-utilities('#{$name}_', $space-config );
+			}
+		}
+	}
+}
+
+//----Display Override classes---//
+// Outputs hide/show utility classes.
+
+@include responsive-hiders('');
+
+@if $responsive == true{
+	@each $name in $breakpoint-has-utilities {
+		@include media-query($name) {
+			@include responsive-hiders('#{$name}_');
+		}
+	}
+}

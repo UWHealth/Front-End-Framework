@@ -1,16 +1,20 @@
 @charset "UTF-8";
 
-//Imports (must be called after variables are defined).
+//Non CSS-producing files
 @import 'utilities/_functions',
         'base/_config',
-        'utilities/_variables',
-        'colors/_colors',
-        'type/_fonts',
-		'utilities/_helpers',
-		'layout/_import',
-        'type/_typography',
+        'utilities/_variables';
+
+//CSS generation files
+@import 'type/_fonts',
+        'utilities/_helpers',
         'vendor/_normalize',
+        'type/_transforms',
+        'layout/_spacing',
+        'type/_typography',
+		'layout/_import',
         'components/_import',
         'base/_app';
 
-
+//High-specificity css and overrides classes.
+@import 'utilities/_overrides';

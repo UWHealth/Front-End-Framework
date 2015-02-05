@@ -102,7 +102,7 @@ $type: (
 	),
 	small: (px: modular-scale(-1),
 		rem: rems(modular-scale(-1)),
-		line-height: $base-line-height/modular-scale(-1)
+		line-height: $base-line-height / modular-scale(-1)
 	)
 );
 
@@ -261,10 +261,6 @@ $include-spacing-classes: 		false !default;
 
 
 //------------------------------------
-//    $COLORS
+//		$ANIMATION
 //------------------------------------
-
-
-
-
-
+@import '_easings';

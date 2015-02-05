@@ -1,4 +1,12 @@
+nav {
+    ul, ol {
+        @include no-bullets;
+        @extend %space_l_n;
+    }
+}
+
 [class*="list_bordered"] {
+    @extend %space_l_n;
     @extend %space_v;
     > li {
         @extend %display_block;
@@ -11,9 +19,9 @@
     }
 }
 
-.list_bordered_short{
+.list_bordered_short {
 	> li {
-        @include rems((padding-top, padding-bottom), ($base-line-height/2));
+        @include type-space((padding-top, padding-bottom), .5);
     }
 }
 
@@ -24,7 +32,7 @@
         padding-left: 0;
         width: auto;
         vertical-align: middle;
-        @include rems(padding-right, ($gutter/2));
+        @include type-space(padding-right, .5);
 
 		&:last-child{
 			padding-right: 0;
@@ -33,60 +41,62 @@
 
 }
 
-.list_inline_bordered{
+.list_inline_bordered {
 	@extend %space_reset;
 
-	>li{
+	> li {
 		display: inline-block;
         width: auto;
         vertical-align: middle;
-        @include rems((padding-right, padding-left), ($gutter/2));
+        @include type-space((padding-top, padding-bottom), .5);
 		border-left: 1px solid;
 
-		&:first-child{
+		&:first-child {
 			border-left-width: 0;
 			padding-left: 0;
 		}
 	}
 }
 
-.breadcrumbs{
+.breadcrumbs {
     @extend %pad_r;
 
-	>li a{
+	>li a {
 		@extend %display_block;
 	}
 }
-    .breadcrumb{
+    .breadcrumb {
         display: inline-block;
         white-space: nowrap;
         @extend %pad_r_half;
     }
-        .breadcrumb:after{
+        .breadcrumb:after {
             content: "\25B8";
             display: inline-block;
         }
 
-.list_naked, %list_naked{
+.list_naked, %list_naked {
     @include no-bullets;
-    @extend %space_n_l;
+    @extend %space_l_n;
 }
 
 //Make links fill their list items for easier clickability.
-.list_nav{
+.list_nav {
+    @include no-bullets;
+    @extend %space_l_n;
 
-	>li a{
+	& a {
 		@extend %display_block;
-		@include rems((padding-top, padding-bottom), ($base-line-height/2));
+        @include type-space((padding-top, padding-bottom), .5);
 	}
 
-	&.list_bordered > li{
-		@extend %pad_n_v;
+	&.list_bordered > li {
+		@extend %pad_v_n;
 	}
 
-	&.list_inline > li{
+	&.list_inline > li {
 
-		a{
+		a {
 			@include rems(padding-right, ($gutter/2));
 		}
 	}

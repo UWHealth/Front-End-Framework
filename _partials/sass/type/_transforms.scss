@@ -1,0 +1,55 @@
+@mixin type-transforms(
+	$namespace:"",
+	$silent: true,
+	$important: false
+){
+	$classtype: unquote(".");
+
+	@if $silent{
+		$classtype: unquote("%");
+	}
+
+	@if $important {
+		$important: unquote("!important");
+	}@else {
+		$important: "";
+	}
+
+	#{$classtype}#{$namespace}txt_normal {
+		font-weight: 400 #{$important};
+	}
+	#{$classtype}#{$namespace}txt_italic{
+		font-style: italic #{$important};
+	}
+	#{$classtype}#{$namespace}txt_bold {
+		font-weight: 800 #{$important};
+		-webkit-font-smoothing: antialiased;
+	}
+	#{$classtype}#{$namespace}txt_upper {
+		text-transform: uppercase #{$important};
+		letter-spacing: 0.1em #{$important};
+	}
+	#{$classtype}#{$namespace}txt_capital {
+		text-transform: capitalize #{$important};
+	}
+	#{$classtype}#{$namespace}txt_lower {
+		text-transform: none #{$important};
+		letter-spacing: 0 #{$important};
+	}
+	#{$classtype}#{$namespace}txt_normal {
+		font-weight: 400 #{$important};
+	}
+	#{$classtype}#{$namespace}txt_small {
+		@include type-font-size(modular-scale(-1));
+	}
+}
+
+@include type-transforms();
+
+@if $responsive {
+	@each $name in $breakpoint-has-widths {
+		@include media-query($name) {
+			@include type-transforms('#{$name}_');
+		}
+	}
+}

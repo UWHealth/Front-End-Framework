@@ -8,18 +8,16 @@
     }
 }
 .box_open{
-	@extend %pad_n_h;
+	@extend %pad_h_n;
 	border-width: 1px;
 	border-style: solid;
     border-top-color: color(function);
     border-bottom-color: color(function);
     border-left-color: transparent;
     border-right-color: transparent;
-	margin-top: -2px; // Adjusted baseline for borders.
 }
 .box_closed{
     border: 1px solid color(function);
-	margin-top: -2px; // Adjusted baseline for borders.
 }
 
 //Creates a responsive, square container.
@@ -64,4 +62,22 @@
 // 1:2 box
 .wide:before{
 	margin-top: 50%;
+}
+
+//Media block.
+// Taken from: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
+// Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.
+
+%media_block {
+    zoom: 1;
+
+    & .img, & .media{
+        float:left;
+        word-break: break-word;
+        display: inline-block;
+        @include rems(margin-right, $gutter);
+    }
+    & .img ~ *, & .media_body {
+        overflow: hidden;
+    }
 }

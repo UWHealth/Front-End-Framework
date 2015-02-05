@@ -33,7 +33,6 @@
 
     }
 	color: $button-color-text;
-    @extend %type_bold;
     @extend %pad_half;
 
 
@@ -91,6 +90,7 @@
 //Useful placeholder selector for simple button creation.
 
 %button{
+    @extend %txt_bold;
     @include button(true, #0c639a, blend-colordodge(#808080,#0c639a), #ebfbff, 2px, true);
 }
 %button_big{
@@ -102,4 +102,23 @@
 }
 %button_wide{
     @extend %one_whole;
+}
+
+
+//Normalize
+// 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+//    and `video` controls.
+// 2. Correct inability to style clickable `input` types in iOS.
+// 3. Improve usability and consistency of cursor style between image-type
+//    `input` and others.
+// 4. Remove inner spacing in IE 7 without affecting normal text inputs.
+//    Known issue: inner spacing remains in IE 6.
+
+button,
+input[type="button"], // [1]
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; // [2]
+    cursor: pointer; // [3]
+    *overflow: visible;  // [4]
 }

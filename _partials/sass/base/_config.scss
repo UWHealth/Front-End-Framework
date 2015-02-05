@@ -5,6 +5,9 @@ $base-line-height:           24px;
 $auto-scale-type:           false;
 $scale-ratio:               1.214;
 
+//Include px values when rems are generated?
+$rem-px-fallback: 			true;
+
 $primary-font-stack:      	'Asap', verdana, helvetica, arial, sans-serif;
 $secondary-font-stack:     	'opensans', verdana, helvetica, arial, sans-serif;
 $monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
@@ -12,15 +15,11 @@ $monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Cons
 $use-web-fonts: 		true;
 $font-file-location: 	'fonts';
 //The more fonts and options added here will cause slowdown upon processing.
-//It may be worth outputing your fonts separately and just doing a simple import.
+//It may be worth outputing your fonts-file separately and just doing a import.
 $font-file-name: 		'Asap','opensans';
 $font-italics: 			true, (false, true, true);
 $font-weights: 			(400,700),(200,400,700);
 $font-include-eot: 		true;
-
-
-// Show baseline grid for easier alignment;
-$show-baseline:       true;
 
 //Used if auto-scale-type is not in use.
 //Since functions are called before config,
@@ -45,12 +44,15 @@ $use-markup-fix:        false;
 $use-floats:            false;
 
 //Using anything other than 12 may cause a bit of slow down during processing.
-$columns:                  12;
+$columns:                  13;
 
 //Grids default to using relative (right and left) for pushes and pulls.
 //Setting this to true will use margin-left.
 $use-margin-adjustments: false;
 
+
+// Show baseline grid for easier alignment;
+$show-baseline:       true;
 
 //Media-Query Breakpoints
 
@@ -76,54 +78,46 @@ $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
+//Output utilities as actual classes?
+$include-alignment-classes: 		true;
+$include-spacing-classes: 			true;
 
-//Colors - based on:
-//http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
-// Darker and lighter shades are available by adding
-// -dark/-darker/-light/-lighter to the end of variable names.
-//The darker and ligher variations are defined in colors/colors
+
+//At which breakpoints should spacing classes be included?
+$breakpoint-has-utilities:    ('smalls', 'small', 'bigs', 'desk');
+
 
 $colors: (
-	primary: (
-		base: #0c639a
-	),
-	primary-alt: (
-		base: #5d9bc0
-	),
-	accent: (
-		base: #d40026
-	),
-	accent-alt: (
-		base: #fe0202
-	),
-	action: (
-		base: #619bbe
-	),
-	function: (
-		base: #d7dde5
-	),
-	alert: (
-		base: #b22727
-	),
-	type: (
-		base: #031524
-	)
+	type: #0a1c2b,
+
+	primary: #063b6d,
+
+	primary-alt: #5f82a3,
+
+	accent: #d40026,
+
+	action: #4c7659,
+
+	function: #d7dde5,
+
+	alert: #b22727,
+
+	links: #0d497b,
+
+	bg: #f3f5f8
 );
 
+// !!Important:
+// Generate color variations to the colors defined above to make them available below.
+@import 'colors/_colorfunctions';
+
 //It's rare that you need to make this something other than one of the above variables.
-$link-color: color(primary);
-
-
-//Output helpers as actual classes?
-//These will be output for every breakpoint.
-
-$include-spacing-classes: 			true;
-$include-alignment-classes: 		true;
+$link-color: color(links);
 
 //Slider/Carousel settings
 //A.K.A. Slick: http://kenwheeler.github.io/slick/
 //Output Slider/Carousel?
-$include-slider: 					true;
+$include-slider: 					false;
 
 $slick-font-path: "fonts/";
 $slick-loader-path: "../images/";

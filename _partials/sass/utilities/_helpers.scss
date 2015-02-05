@@ -15,7 +15,7 @@
 //         [Your code here]
 // }
 
-@mixin media-query($media-queries){
+@mixin media-query($media-queries) {
     $breakpoint-found: false;
 
     @each $media-query in $media-queries {
@@ -35,15 +35,15 @@
     }
 
     @if $breakpoint-found == false{
-        @warn "Breakpoint ‘#{$media-query}’ does not exist"
+        @warn "Breakpoint ‘#{$media-query}’ does not exist";
     }
 }
 
 //Same as above, but shorter
-@mixin breakpoint($media-queries){
+@mixin breakpoint($media-queries) {
 	@include media-query($media-queries){@content};
 }
-@mixin bp($media-queries){
+@mixin bp($media-queries) {
 	@include media-query($media-queries){@content};
 }
 @mixin media($media-queries){
@@ -58,12 +58,60 @@
 //    $MULTIPLE EXTENDS
 //------------------------------------
 //
-// Eclose a list of extends with @includ add-style((border-box, extension, extension))
+// Eclose a list of extends with @include extends((border-box, extension, extension))
 // Note the double paranthesis.
 //
-@mixin add-styles($items) {
+@mixin extends($items) {
     @each $item in $items {
         @extend %#{$item};
+    }
+}
+
+//------------------------------------
+//    $LISTS
+//------------------------------------
+// http://compass-style.org/reference/compass/typography/lists/
+// Turn off the bullet for an element of a list
+
+@mixin no-bullet() {
+    list-style-image : none;
+    list-style-type  : none;
+    margin-left      : 0;
+}
+
+// turns off the bullets for an entire list
+@mixin no-bullets() {
+    list-style: none;
+    > li { @include no-bullet; }
+}
+
+// Make a list(ul/ol) have an image bullet.
+//
+// The mixin should be used like this for an icon that is 5x7:
+//
+//     ul.pretty
+//       @include pretty-bullets("my-icon.png", 5px, 7px)
+//
+// Additionally, if the image dimensions are not provided,
+// The image dimensions will be extracted from the image itself.
+//
+//     ul.pretty
+//       @include pretty-bullets("my-icon.png")
+//
+@mixin pretty-bullets(
+    $bullet-icon,
+    $width: image-width($bullet-icon),
+    $height: image-height($bullet-icon),
+    $line-height: $base-line-height,
+    $padding: $type-magic-number
+    )
+{
+    margin-left: 0;
+
+    li {
+        padding-left: $padding;
+        background: image-url($bullet-icon) no-repeat ($padding - $width) / 2 ($line-height - $height) / 2;
+        list-style-type: none;
     }
 }
 
@@ -71,27 +119,8 @@
 //    $SIMPLE MIXINS
 //------------------------------------
 
-%border_box{
+%border_box {
     box-sizing: border-box;
-}
-%display_block{
-	display: block;
-}
-
-//
-// Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
-//
-%clearfix, %cf{
-    *zoom: 1;
-    &:before,&:after{
-        display: table;
-        content: " ";
-    }
-    &:after{
-        clear: both;
-        height: 0px;
-        width: 0px;
-    }
 }
 
 //Use an image instead of text, but keep the text in the DOM for
@@ -101,132 +130,92 @@
 //   @include %image-replace;
 //   background: url(image/logo.png) no-repeat;
 // }
-%replace_image{
+%replace_image {
     white-space: nowrap;
     overflow: hidden;
     background-color: transparent;
     border: 0;
     *text-indent: -9999px;
-}
-%replace_image:before {
-    content: "";
-    @extend %display_block;
-    width: 0;
-    height: 150%;
+
+    &:before{
+        content: "";
+        @extend %display_block;
+        width: 0;
+        height: 150%;
+    }
 }
 
 //Hide Visually. Usefuly for Accessiblity.
 //Used for text which describes a purely visual function.
 // e.g. Adding 'Current page' to the current nav item (which is usually indicated by something visual.
 %hide_visually {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 }
 
 // Font family declaration.
 // Allows for cleaner, consolodated code.
-%type_family{
+%primary_font_family {
     font-family: $primary-font-stack;
 }
-%secondary_type_family{
+%secondary_font_family {
     font-family: $secondary-font-stack;
 }
 
 //Optimized rendering. Best saved for areas where legibility is a concern.
 //Not declaring this will result in auto, allowing the browser to determine
 //whether speed is best.
-%text_legibility{
+%text_legibility {
 	text-rendering: optimizeLegibility;
 }
 
 // Create vertical rhythms that are more appropriate for headings inside text blocks.
 // Adds 2/3 of the vertical rhythm to the top and 1/3 to bottom so headings appear
 // closer to their sibling paragraphs. Creates better proximity.
-%vertical_rhythm_headings{
+%vertical_rhythm_headings {
     padding: 0;
     margin-bottom: $type-magic-number * .5;
     margin-bottom: ($type-magic-ratio * .5) * 1rem;
     margin-top: $type-magic-number * -.25;
     margin-top: ($type-magic-ratio * -.25) * 1rem;
 }
-
-.link_naked, %link_naked{
-    color: inherit;
-    text-decoration: none;
-
-    &:hover, &:focus{
-        color: inherit;
-        text-decoration: none;
-    }
+%naked_list{
+    @include no-bullets;
 }
-%naked_link{
-	@extend %link_naked;
-}
-
-
 //------------------------------------
 //    $RESPONSIVE MIXINS
 //------------------------------------
 //Mixin to used for media-query-scoped extends.
 //e.g.: @extend %media_block or @include %small--media_block;
 
-@mixin responsive-helpers($namespace:""){
+@mixin responsive-hiders($namespace:"", $silent: false, $important: true) {
+    $classtype: unquote('.');
 
-    //Media block.
-    // Taken from: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
-    // Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.
+    $important_str: if($important, ' !important', '');
 
-    %#{$namespace}media_block{
-		zoom: 1;
-        & .img, .media{
-            float:left;
-            word-break: break-word;
-            display: inline-block;
-            margin-right: $gutter;
-        }
-        & .img ~ *, & .media_body{
-            overflow: hidden;
-        }
+    @if $silent{
+        $classtype: unquote('%');
     }
-    //
-    // Font family, normal, italic and bold silent classes/extensions.
-    // Use these for DRYer CSS output.
-    //
 
-    %#{$namespace}type_normal{
-        font-weight: 400;
-    }
-    %#{$namespace}type_italic{
-        font-style: italic;
-    }
-    %#{$namespace}type_bold{
-        font-weight: 800;
-        -webkit-font-smoothing: antialiased;
-    }
-    %#{$namespace}naked_list{
-        @include no-bullets;
-    }
-	%#{$namespace}show     { display: block !important; }
-  	%#{$namespace}hide     { display: none !important; }
+	#{$classtype}#{$namespace}show     { display: block#{$important_str} }
+    #{$classtype}#{$namespace}hide     { display: none#{$important_str} }
 
 }
 
 
 //Making the above mixins responsive.
-
-@include responsive-helpers();
+@include responsive-hiders('', true, false);
 
 @if $responsive == true{
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
-           @include responsive-helpers('#{$name}_');
+           @include responsive-hiders('#{$name}_', true, false);
         }
     }
 }
-

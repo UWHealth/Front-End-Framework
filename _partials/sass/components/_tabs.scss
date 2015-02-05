@@ -107,58 +107,41 @@ $tab-minimal-include: 				true 					!default;
 //-------------------------------------------------------------------------
 //All tab boxes are wrapped in a div classed "tabbed".
 .tabbed{
-    @extend %space_v;
+    @extend %space_b;
     @include type-space(min-height, 3);
     @extend %cf;
-
+}
 //Mobile tab_buttons
-    & .tab_button {
-		border-style: solid;
-		width: 100%;
-        cursor: pointer;
-        display: none;
-		@extend %grid_reset; // Just making letter-spacing is normal;
-		line-height: 3;
-		text-decoration: none;
-		margin-bottom: 0;
-		@include rems((padding-left,padding-right), ($gutter/2));
-		@if $tab-border != false{
-				border-width: 1px;
-				margin-top: -1px;
-		}
-		@if $tab-invert-active == true{
-			background-color: $tab-button-secondary;
-			color: pick_best_color(
-					$tab-button-secondary, (
-					#fff,
-					$tab-button-text,
-					$tab-content-bg,
-					$tab-button-bg
-				) );
-			@extend %tab_border_color;
+.tab_button {
+	border-style: solid;
+	width: 100%;
+	cursor: pointer;
+	display: none;
+	@extend %grid_reset; // Just making letter-spacing is normal;
+	line-height: 3;
+	text-decoration: none;
+	margin-bottom: 0;
+	@include type-space((padding-left, padding-right), .5);
+	@extend %tab_background;
+	border-width: 1px;
+	@extend %tab_color_text;
+	border-color: blend-multiply($tab-button-bg, $tab-button-bg);
+	position: relative;
+	z-index: 1;
+	border-bottom-width: 0;
 
-		}@else{
-			@extend %tab_background;
-			@extend %tab_color_text;
-			border-color: blend-multiply($tab-button-bg, $tab-button-bg);
-			position: relative;
-			z-index: 1;
-			border-bottom-width: 0 !important;
-		}
+	&:not(.active):hover{
+		@extend %txt_bold;
+	}
 
-		&:not(.active):hover{
-			@extend %type_bold;
-		}
-
-		&.active {
-			@include rems(margin-bottom, -($type-magic-number));
-			@extend %tab_border_color;
-		}
-    }
+	&.active {
+		@include type-space(margin-bottom, -1);
+		@extend %tab_border_color;
+	}
 
 	//Affects all active tab styles, regardless of type.
 	//Some styles are overwritten later.
-	& .active{
+	&.active{
 		@if $tab-invert-active == true{
 			@extend %tab_background;
 			@extend %tab_border_color;
@@ -178,7 +161,7 @@ $tab-minimal-include: 				true 					!default;
 		}
 	}
 }
- //Tab-box content style
+//Tab-box content style
 .tab_content{
     @extend %display_block;
 	border-width: 1px;
@@ -213,7 +196,7 @@ $tab-minimal-include: 				true 					!default;
 
 // Wrapper for tabs, injected with Javascript.
 
-.tabs{
+.tabs {
     position: relative;
 }
 
@@ -222,7 +205,7 @@ $best-tab-color: pick_best_color(
 		$tab-button-secondary, (
 		#fff, blend-overlay(#ccc, $tab-button-bg), blend-overlay(#333, $tab-button-bg)
 	));
-.tab{
+.tab {
 	position: relative;
 	display: inline-block;
 	vertical-align: bottom;
@@ -333,8 +316,7 @@ $best-tab-color: pick_best_color(
 //------------------------------------
 //    $SIDE-TABS
 //------------------------------------
-@if $tab-side-include == true{
-
+@if $tab-side-include == true {
 
 .tab_side{
     display: table; //Making sure the height doesn't get wacky with tab_side content.
@@ -453,11 +435,12 @@ $best-tab-color: pick_best_color(
 			border-bottom-width: 2px;
 			@extend %tab_border_current;
 			background-color: transparent !important;
+			z-index: 1;
 		}
 	}
 	&.tab_minimal {
 		> .tab_content{
-			@include rems((padding-left, padding-right), ($gutter/2));
+			@include type-space((padding-right, padding-left), .5);
 			background-color: transparent;
 			border-top-width: 2px;
 			border-top-color: tint($tab-border, 50%);
@@ -465,6 +448,7 @@ $best-tab-color: pick_best_color(
 		}
 	}
 }
+
 .tab_topline{
 	> .tabs{
 		background-color: rgba($tab-content-bg, 0.6);

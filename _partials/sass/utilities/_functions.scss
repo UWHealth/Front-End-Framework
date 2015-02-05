@@ -1,5 +1,5 @@
 //------------------------------------
-//    $Functions
+//      $Functions
 //------------------------------------
 
  // CONTENTS
@@ -142,107 +142,100 @@ $iter: 50;
 
 // Exponent function (for square, cubes, etc.)
 @function exponent($base, $exponent) {
-  // reset value
-  $value: $base;
-  // positive intergers get multiplied
-  @if $exponent > 1 {
+    // reset value
+    $value: $base;
+    // positive intergers get multiplied
+    @if $exponent > 1 {
     @for $i from 2 through $exponent {
-      $value: $value * $base; } }
-  // negitive intergers get divided. A number divided by itself is 1
-  @if $exponent < 1 {
-    @for $i from 0 through -$exponent {
-      $value: $value / $base; } }
-  // return the last value written
-  @return $value;
+        $value: $value * $base; } }
+    // negitive intergers get divided. A number divided by itself is 1
+    @if $exponent < 1 {
+        @for $i from 0 through -$exponent {
+            $value: $value / $base; } }
+    // return the last value written
+    @return $value;
 }
 
 //More advanced exponent function — very similar to Compass' pow() function, except all SASS-based.
 @function pow($base, $exponent, $prec: 12) {
   // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
-  @if (floor($exponent) != $exponent) {
-    $prec2 : pow(10, $prec);
-    $exponent: round($exponent * $prec2);
-    $denominator: gcd($exponent, $prec2);
-    @return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
-  }
-
-  $value: $base;
-  @if $exponent > 1 {
-    @for $i from 2 through $exponent {
-      $value: $value * $base;
+    @if (floor($exponent) != $exponent) {
+        $prec2 : pow(10, $prec);
+        $exponent: round($exponent * $prec2);
+        $denominator: gcd($exponent, $prec2);
+        @return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
     }
-  } @else if $exponent < 1 {
-    @for $i from 0 through -$exponent {
-      $value: $value / $base;
-    }
-  }
 
-  @return $value;
+    $value: $base;
+    @if $exponent > 1 {
+        @for $i from 2 through $exponent {
+            $value: $value * $base;
+        }
+    } @else if $exponent < 1 {
+        @for $i from 0 through -$exponent {
+            $value: $value / $base;
+        }
+    }
+
+    @return $value;
 }
+
 //Greatest Common Divisor
 @function gcd($a, $b) {
   // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
   @if ($b != 0) {
-    @return gcd($b, $a % $b);
+      @return gcd($b, $a % $b);
   } @else {
-    @return abs($a);
+      @return abs($a);
   }
 }
+
 //Least common Multiple
 //Use with caution...if there is no LCM, then you compilation will error out.
 @function lcm($a, $b) {
-	$a: round($a);
-	$b: round($b);
-	$gcd: gcd($a, $b);
-	$result: ($a * $b) / $gcd;
-	@return $result;
+    $a: round($a);
+    $b: round($b);
+    $gcd: gcd($a, $b);
+    $result: ($a * $b) / $gcd;
+    @return $result;
 }
 
 
 //Nth Root Function
 @function nth_root($num, $n: 2, $prec: 12) {
   // From: http://rosettacode.org/wiki/Nth_root#JavaScript
-  $x: 1;
+    $x: 1;
 
-  @for $i from 0 through $prec {
-    $x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
-  }
+    @for $i from 0 through $prec {
+        $x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
+    }
 
-  @return $x;
+    @return $x;
 }
 
 //Random number generator.
 @function rand() {
-  @return 4;
+    @return 4;
 }
 
 //Square Root functions
 @function sqrt($number) {
-  $guess: rand();
-  $root: $guess;
-  @for $i from 1 through $iter {
-    $root: $root - (pow($root, 2) - $number) / (2 * $root);
-  }
-  @return $root;
+    $guess: rand();
+        $root: $guess;
+    @for $i from 1 through $iter {
+        $root: $root - (pow($root, 2) - $number) / (2 * $root);
+    }
+    @return $root;
 }
-@function √($number) {
-  @return sqrt($number);
-}
-
-
 
 //Golden Ratio generator.
-
 @function golden() {
   @return 1/2 + sqrt(5) / 2;
 }
-@function ϕ() {
-  @return golden();
-}
 
-$golden_ratio:  golden();
+$golden_ratio: golden();
 
-// Maths helpers.
+// Math helpers
 // From https://github.com/inuitcss/tools.functions/blob/master/_tools.functions.scss
 //
 // Halve and double numbers, returning rounded integers. E.g.:
@@ -285,34 +278,61 @@ $golden_ratio:  golden();
 // Taken from:
 // https://gist.github.com/jgv/745754
 @mixin opacity($trans) {
-  filter: alpha(opactiy=($trans * 100));
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$trans * 100})";
-  -moz-opacity: $trans;
-  -khtml-opacity: $trans;
-  opacity: $trans;
-}
-
-// REM generator
-// Used to create a property with a rem value and PX fallback
-@mixin rems($properties, $size){
-	@if (unitless($size) == true){
-		$size: $size * 1px;
-	}
-    @each $property in $properties{
-		#{$property}: $size;
-		#{$property}: ($size / $base-font-size) * 1rem;
-	}
+    // filter: alpha(opactiy=($trans * 100));
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$trans * 100})";
+    -moz-opacity: $trans;
+    -khtml-opacity: $trans;
+    opacity: $trans;
 }
 
 //Stripped REM generator
 //Useful if you just need the rem value
-@function rems($size, $base-font:$base-font-size){
-	@if (unitless($size) == true){
-		$size: $size * 1px;
-	}
-	@return ($size / $base-font) * 1rem;
+@function rems($size, $base-font:$base-font-size) {
+    @if (unitless($size)){
+        $size: $size * 1px;
+    }
+
+    $size: ($size / $base-font) * 1rem;
+
+    @if $size == 0rem {
+        $size: 0;
+    }
+
+    @return $size;
 }
 
+// REM generator
+// Used to create a property with a rem value and PX fallback
+@mixin rems($property, $sizes, $important:false) {
+    $important_val: '';
+    $rem_sizes: null;
+    $px_sizes: null;
+
+    @if $important{
+        $important_val: ' !important';
+    }
+
+    @each $size in $sizes {
+        @if $size == ''{
+            $size: null;
+            $px_sizes: join($px_sizes, $size, space);
+        }@else {
+            @if $size == 0px{
+                $size: 0;
+            }
+
+            $px_sizes: join($px_sizes, $size, space);
+            $size: rems($size);
+        }
+        $rem_sizes: join($rem_sizes, $size, space);
+    };
+
+    @if $rem-px-fallback {
+        #{$property}: #{$px_sizes}#{$important_val};
+    }
+    #{$property}: #{$rem_sizes}#{$important_val};
+
+}
 
 //String Helpers.
 // Taken from: https://github.com/devatrox/Sunglass
@@ -320,30 +340,147 @@ $golden_ratio:  golden();
 //String-contains
 @function str-contains($string, $substr, $pos: 0) {
 
-  $string: str-slice($string, $pos);
+    $string: str-slice($string, $pos);
 
-  @if str-index($string, $substr) != 0 {
-    @return true;
-  }
-  @else {
-    @return false;
-  }
+    @if str-index($string, $substr) != null {
+        @return true;
+    }
+    @else {
+        @return false;
+    }
 }
 
 //String Joining
 @function str-join($list, $separator: ",") {
-  $string: "";
+    $string: "";
 
-  @for $i from 1 through length($list) {
-    $string: _str-append($string, #{nth($list, $i)});
+    @for $i from 1 through length($list) {
+        $string: _str-append($string, #{nth($list, $i)});
 
-    @if $i != length($list) {
-      $string: _str-append($string, $separator);
+        @if $i != length($list) {
+            $string: _str-append($string, $separator);
+        }
     }
-  }
 
   @return $string;
 }
+
+//Map Helpers
+//-----------------------------------
+//Taken from: http://www.sitepoint.com/extra-map-functions-sass/
+
+//Deep Set
+//Update a deeply nested map key.
+@function map-deep-set($map, $keys.../*, $value */) {
+    $map-list: ($map,);
+    $result: null;
+
+    @if length($keys) == 2 {
+        @return map-merge($map, (nth($keys, 1): nth($keys, -1)));
+    }
+
+    @for $i from 1 through length($keys) - 2 {
+        $map-list: append($map-list, map-get(nth($map-list, -1), nth($keys, $i)));
+    }
+
+    @for $i from length($map-list) through 1 {
+        $result: map-merge(nth($map-list, $i), (nth($keys, $i): if($i == length($map-list), nth($keys, -1), $result)));
+    }
+
+    @return $result;
+}
+
+//Map depth finder
+// Returns a map's depth. Useful for debugging maps.
+@function map-depth($map) {
+    $level: 1;
+
+    @each $key, $value in $map {
+        @if type-of($value) == "map" {
+            $level: max(map-depth($value) + 1, $level);
+        }
+    }
+
+    @return $level;
+}
+
+@function depth($map){
+    @return map-depth($map);
+}
+
+//Check multiple map keys
+@function map-has-keys($map, $keys...) {
+    @each $key in $keys {
+        @if not map-has-key($map, $key) {
+            @return false;
+        }
+    }
+
+    @return true;
+}
+
+//Check for deep map keys
+@function map-has-nested-keys($map, $keys...) {
+    @each $key in $keys {
+        @if not map-has-key($map, $key) {
+            @return false;
+        }
+        $map: map-get($map, $key);
+    }
+
+    @return true;
+}
+
+//Map Extend
+@function map-extend($map, $maps.../*, $deep */) {
+    $last: nth($maps, -1);
+    $deep: $last == true;
+    $max: if($deep, length($maps) - 1, length($maps));
+
+    // Loop through all maps in $maps...
+    @for $i from 1 through $max {
+        // Store current map
+        $current: nth($maps, $i);
+
+        // If not in deep mode, simply merge current map with map
+        @if not $deep {
+            $map: map-merge($map, $current);
+        } @else {
+            // If in deep mode, loop through all tuples in current map
+            @each $key, $value in $current {
+
+                // If value is a nested map and same key from map is a nested map as well
+                @if type-of($value) == "map" and type-of(map-get($map, $key)) == "map" {
+                    // Recursive extend
+                    $value: map-extend(map-get($map, $key), $value, true);
+                }
+
+                // Merge current tuple with map
+                $map: map-merge($map, ($key: $value));
+            }
+        }
+    }
+
+    @return $map;
+}
+
+//Map debugger
+@mixin debug-map($map) {
+    @at-root {
+        @debug-map {
+            __toString__: inspect($map);
+            __length__: length($map);
+            __depth__: depth($map);
+            __keys__: map-keys($map);
+            __properties__ {
+                @each $key, $value in $map {
+                    #{'(' + type-of($value) + ') ' + $key}: inspect($value);
+                }
+            }
+        }
+    }
+}
+
 
 
 //------------------------------------
@@ -428,34 +565,45 @@ $golden_ratio:  golden();
 	//Create REM-based font-size
 	@include rems(font-size, $font-size);
 
-	//Index values to type map.
-	@if map_has_key($type, $selector) == true{
-		$type: define-type($selector, px, $font-size) !global;
-		$type: define-type($selector, rem, rems($font-size)) !global;
-	}
-
     @if $line-height == true {
 
 		$line-height: baseline-calc($font-size, $font-base);
-
-		//Index line-height to type map.
-		@if map_has_key($type, $selector) == true{
-			$type: define-type($selector, line-height, $line-height) !global;
-		}
-
 		line-height: $line-height;
+
+        //Index line-height to type map.
+        @if map_has_key($type, $selector){
+            $type: define-type($selector, line-height, $line-height) !global;
+        }
+   }
+
+   //Index values to type map.
+   @if map_has_key($type, $selector){
+       $type: define-type($selector, px, $font-size) !global;
+       $type: define-type($selector, rem, rems($font-size)) !global;
    }
 }
 
- // Space elements by an amount based on your magic number. Pass in the property
+ // Space elements by an amount based on line-height/gutter. Pass in the property
  // to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
  // pre {
  //     @include type-space(padding-left, 1);
  // }
+ // Accepts multiple properties.
 
-@mixin type-space($property, $multiplier: 2) {
-    #{$property}: $multiplier * $type-magic-number;
-    #{$property}: $multiplier * $type-magic-ratio * 1rem;
+@mixin type_space($properties, $multiplier: 2, $important: false) {
+
+    @each $property in $properties {
+
+        $value: $multiplier * $type-magic-number;
+
+        //if the value is for right or left spacing, use the gutter width for spacing.
+        @if str-contains($property, 'right') or str-contains($property, 'left'){
+            $value: $multiplier * $gutter;
+        }
+
+        @include rems($property, $value, $important);
+
+    }
 }
 
 // Same as above, but for shortcut properties.
@@ -463,90 +611,33 @@ $golden_ratio:  golden();
 // pre {
 //    @include type-space(padding, 1, 2, 1, 0);
 // }
-@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: false, $left: false){
-    @if $bottom == false{
-        $bottom: $top;
-    }
-    @if $left == false{
-        $left: $right;
-    }
-    // If top and bottom are equal, only generate first and second properties
-    // This cuts down on file size a little bit.
-    @if $right == $left and $top == $bottom{
-        #{$property}: ($top * $type-magic-number) ($right * $type-magic-number);
-        #{$property}: ($top * $type-magic-ratio) * 1rem ($right * $type-magic-ratio) * 1rem;
-    }@else{
-        #{$property}: ($top * $type-magic-number) ($right * $type-magic-number) ($bottom * $type-magic-number) ($left * $type-magic-number);
-        #{$property}: ($top * $type-magic-ratio) * 1rem ($right * $type-magic-ratio) * 1rem ($bottom * $type-magic-ratio) * 1rem ($left * $type-magic-ratio) * 1rem;
-    }
+@mixin type_space_sc($property, $top: 0, $right: 0, $bottom: $top, $left: $right) {
+
+    //Calculate values
+    //Right and left get
+    $top_val: $top * $base-line-height;
+    $bottom_val: $bottom * $base-line-height;
+    $right_val: $right * $gutter;
+    $left_val: $left * $gutter;
+
+    // Generating only the necessary properties, and leave the rest blank.
+    // e.g. margin: 1px 3px; or margin: 2px 3px 1px;
+    @if $right == $left{
+        $left_val: unquote('');
+
+        @if $top == $bottom {
+            $bottom_val: unquote('');
+        };
+    };
+
+    //Output px and rem values.
+    @include rems($property, $top_val $right_val $bottom_val $left_val)
+
 }
 
 //Same as above, but in function form
 @function type-space($multiplier: 2){
-    @return $multiplier * $type-magic-number;
-}
-// Style any number of headings in one fell swoop, e.g.:
-//
-//   .foo{
-//       @include headings(1, 3){
-//           color:#BADA55;
-//       }
-//    }
-//
-// Lifted from inuit.css:
-// github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
-
-@mixin headings($from: 1, $to: 6){
-    %base-heading {
-        @content;
-    }
-
-    @if $from >= 1 and $to <= 6{
-        @if $type-scale-classes == true{
-            @for $i from $from through $to{
-                h#{$i}, .h#{$i}, %h#{$i}{
-                    @extend %base-heading;
-                }
-            }
-        }@else{
-            @for $i from $from through $to{
-                h#{$i}, %h#{$i}{
-                    @extend %base-heading;
-                }
-            }
-        }
-    }
-}
-
-//-------
-// Cross-browser support for @font-face. Supports IE, Gecko, Webkit, Opera.
-// http://compass-style.org/reference/compass/css3/font_face/
-//-------
-// $name is required, arbitrary, and what you will use in font stacks.
-// $font-files is required using font-files('relative/location', 'format').
-//  for best results use this order: woff, opentype/truetype, svg
-// $eot is required by IE, and is a relative location of the eot file.
-// $weight shows if the font is bold, defaults to normal
-// $style defaults to normal, might be also italic
-// To support iOS < 4.2, an SVG file must be provided
-// If you need to generate other formats check out the Font Squirrel font generator
-
-@mixin font-face($name, $font-files, $weight: false, $style: false, $eot: false) {
-  $iefont: unquote("'#{$eot}?#iefix'");
-  @font-face {
-    font-family: quote($name);
-    @if $eot {
-      src: url($eot);
-      $font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
-    }
-    src: $font-files;
-    @if $weight {
-      font-weight: $weight;
-    }
-    @if $style {
-      font-style: $style;
-    }
-  }
+    @return $multiplier * $base-line-height;
 }
 
 //------------------------------------
@@ -576,43 +667,123 @@ $golden_ratio:  golden();
     }
     @else{
         $scale: modular-scale($mod-scale-value);
-        #{$property}: $scale;
-        #{$property}: ($scale / $base-font-size) * 1rem;
+
+        @include rems($property, $scale);
     }
 }
 
-@mixin headings-scale($scale: $scale-ratio, $name-space:""){
+@mixin headings-scale($scale: $scale-ratio, $name-space:"") {
     //Checking for floats in $scale
     @if length($scale) == 2{
     // Making sure we don't have a ratio below 1.
-        @if nth($scale,1) < nth($scale,2){
+        @if nth($scale,1) < nth($scale,2) {
             $scale:   nth($scale, 2)/nth($scale, 1);
-        }@else{
+        }@else {
             $scale:   nth($scale, 1)/nth($scale, 2);
         }
     }
-    @each $heading-number in $type-headings{
+
+    @each $heading-number in $type-headings {
 
 		$font-size: modular-scale($heading-number, $scale);
 		$current-heading: nth($type-headings,$heading-number);
 
-		@if $type-scale-classes == true{
-            h#{$current-heading}, .h#{$current-heading}, %h#{$current-heading} {
-                @include type-font-size($font-size, true);
-				@extend %#{$name-space}type_space_v !optional;
+        %#{$name_space}h#{$current_heading} {
+            @include type_font_size($font_size, true);
+            @extend %#{$name_space}space_b !optional;
+        }
+
+		@if $type-scale-classes == true {
+            h#{$current-heading},
+            .h#{$current-heading} {
+                @extend %#{$name_space}h#{$current_heading};
 
                 + p{
-                    @extend %#{$name-space}negative_top !optional;
+                    @extend %#{$name-space}space_t_neg !optional;
                 }
             }
-        }@else{
+        }@else {
             h#{$current-heading}, %h#{$current-heading}{
                 @include type-font-size($font-size, true);
 
                 + p{
-                    @extend %#{$name-space}negative_top !optional;
+                    @extend %#{$name-space}space_t_neg !optional;
                 }
             }
+        }
+    }
+}
+// Style any number of headings in one fell swoop, e.g.:
+//
+//   .foo{
+//       @include headings(1, 3){
+//           color:#BADA55;
+//       }
+//    }
+//
+// Lifted from inuit.css:
+// github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
+
+$headings-use: 0;
+
+@mixin headings($from: 1, $to: 6) {
+    //Used for multiple calls to this mixin.
+    // Ensures no double extends.
+    $headings-use: $headings-use + 1 !global;
+
+    %base-heading#{$headings-use} {
+        @content;
+    }
+
+    @if $from >= 1 and $to <= 6{
+
+        @if $type-scale-classes == true{
+            @for $i from $from through $to {
+                h#{$i}, .h#{$i} {
+                    @extend %base-heading#{$headings-use};
+                }
+            }
+        }
+        @else{
+            @for $i from $from through $to {
+                h#{$i} {
+                    @extend %base-heading#{$headings-use};
+                }
+            }
+        }
+    }
+    @else{
+        @warn "You need to supply numbers between 1 and 6 for headings to work";
+    }
+}
+
+//-------
+// Cross-browser support for @font-face. Supports IE, Gecko, Webkit, Opera.
+// http://compass-style.org/reference/compass/css3/font_face/
+//-------
+// $name is required, arbitrary, and what you will use in font stacks.
+// $font-files is required using font-files('relative/location', 'format').
+//  for best results use this order: woff, opentype/truetype, svg
+// $eot is required by IE, and is a relative location of the eot file.
+// $weight shows if the font is bold, defaults to normal
+// $style defaults to normal, might be also italic
+// To support iOS < 4.2, an SVG file must be provided
+// If you need to generate other formats check out the Font Squirrel font generator
+
+@mixin font-face($name, $font-files, $weight: false, $style: false, $eot: false) {
+    $iefont: unquote("'#{$eot}?#iefix'");
+    @font-face {
+        font-family: quote($name);
+        @if $eot {
+            src: url($eot);
+            $font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
+        }
+        src: $font-files;
+        @if $weight {
+            font-weight: $weight;
+        }
+        @if $style {
+            font-style: $style;
         }
     }
 }
@@ -632,10 +803,19 @@ $golden_ratio:  golden();
 
 //Internal function used for definining the type map.
 @function define-type($font-size, $property: 'px', $new-value: "") {
-	$target_font: map-get($type, $font-size);
-	$target-w-property: map-merge($target_font, ($property : $new-value));
-	@return map-merge($type, ($font-size:$target-w-property));
+    $target_font: map-get($type, $font-size);
+    $target-w-property: map-merge($target_font, ($property : $new-value));
+    @return map-merge($type, ($font-size:$target-w-property));
 }
+
+
+//Function to merge/extend configuration maps for certain.
+//Similar to jQuery's .extend() method.
+@function extend($obj, $ext-obj) {
+    @return map-merge($obj, $ext-obj);
+}
+
+
 
 //------------------------------------
 //    $COLORS
@@ -645,7 +825,7 @@ $golden_ratio:  golden();
 //====================================
 // Uses similar formula's to photoshop's layer blending modes.
 // See file for more documentation.
-@import "../colors/blendmodes";
+@import "../colors/_blendmodes";
 
 //Color map function
 //====================================
@@ -654,6 +834,11 @@ $golden_ratio:  golden();
 //	  background-color: colors(primary, light)
 //}
 @function colors($color, $tone: 'base') {
+
+    @if not map-has-key($colors, $color) {
+        @warn "Key `#{$key}` not found in $colors map.";
+    }
+    
     @return map-get(map-get($colors, $color), $tone);
 }
 //Same as above, but possibly more intuitively named
@@ -678,10 +863,10 @@ $golden_ratio:  golden();
 // Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
 @function set-text-color($color) {
     @if (lightness( $color ) > 45) {
-      @return #000000;
+        @return #000000;
     }
     @else {
-      @return #FFFFFF;
+        @return #FFFFFF;
     }
 }
 
@@ -697,17 +882,18 @@ $golden_ratio:  golden();
 // The function would test the colors and find that #2c2c2c is the best.
 
 @function pick-best-color($base, $colors, $tolerance: 0) {
-  $contrast: color-contrast($base, nth($colors, 1));
-  $best: nth($colors, 1);
+    $contrast: color-contrast($base, nth($colors, 1));
+    $best: nth($colors, 1);
 
-  @for $i from 2 through length($colors) {
-    $current_contrast: color-contrast($base, nth($colors, $i));
-    @if ($current_contrast - $contrast > $tolerance) {
-      $contrast: color-contrast($base, nth($colors, $i));
-      $best: nth($colors, $i);
+    @for $i from 2 through length($colors) {
+        $current_contrast: color-contrast($base, nth($colors, $i));
+
+        @if ($current_contrast - $contrast > $tolerance) {
+            $contrast: color-contrast($base, nth($colors, $i));
+            $best: nth($colors, $i);
+        }
     }
-  }
-  @return $best;
+    @return $best;
 }
 
 
@@ -717,83 +903,35 @@ $golden_ratio:  golden();
 // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
 @function color-luminance($color) {
 
-  $rgba: red($color), green($color), blue($color);
-  $rgba2: ();
+    $rgba: red($color), green($color), blue($color);
+    $rgba2: ();
 
-  @for $i from 1 through 3 {
-    $rgb: nth($rgba, $i);
-    $rgb: $rgb / 255;
+    @for $i from 1 through 3 {
+        $rgb: nth($rgba, $i);
+        $rgb: $rgb / 255;
 
-    $rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
+        $rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
 
-    $rgba2: append($rgba2, $rgb);
-  }
+        $rgba2: append($rgba2, $rgb);
+    }
 
-  @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
+    @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
 }
 
 //Calculate contrast between two colors
 //===============================
 @function color-contrast($color1, $color2) {
-  // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
-  // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
-  $luminance1: color-luminance($color1) + .05;
-  $luminance2: color-luminance($color2) + .05;
-  $ratio: $luminance1 / $luminance2;
+    // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+    // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+    $luminance1: color-luminance($color1) + .05;
+    $luminance2: color-luminance($color2) + .05;
+    $ratio: $luminance1 / $luminance2;
 
-  @if $luminance2 > $luminance1 {
-    $ratio: 1 / $ratio;
-  }
+    @if $luminance2 > $luminance1 {
+        $ratio: 1 / $ratio;
+    }
 
-  $ratio: round($ratio * 10) / 10;
+    $ratio: round($ratio * 10) / 10;
 
-  @return $ratio;
+    @return $ratio;
 }
-
-//------------------------------------
-//    $LISTS
-//------------------------------------
-// http://compass-style.org/reference/compass/typography/lists/
-// Turn off the bullet for an element of a list
-
-@mixin no-bullet {
-  list-style-image : none;
-  list-style-type  : none;
-  margin-left      : 0;
-}
-
-// turns off the bullets for an entire list
-@mixin no-bullets {
-  list-style: none;
-  > li { @include no-bullet; }
-}
-
-// Make a list(ul/ol) have an image bullet.
-//
-// The mixin should be used like this for an icon that is 5x7:
-//
-//     ul.pretty
-//       +pretty-bullets("my-icon.png", 5px, 7px)
-//
-// Additionally, if the image dimensions are not provided,
-// The image dimensions will be extracted from the image itself.
-//
-//     ul.pretty
-//       +pretty-bullets("my-icon.png")
-//
-@mixin pretty-bullets(
-	$bullet-icon,
-	$width: image-width($bullet-icon),
-	$height: image-height($bullet-icon),
-	$line-height: $base-line-height,
-	$padding:
-	$type-magic-number) {
-
-  margin-left: 0;
-  li {
-    padding-left: $padding;
-    background: image-url($bullet-icon) no-repeat ($padding - $width) / 2 ($line-height - $height) / 2;
-    list-style-type: none;
-  }
-}
-

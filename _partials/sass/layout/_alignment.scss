@@ -1,61 +1,61 @@
-$alignment-output: true;
-
-@if $include-alignment-classes == true{
-	$alignment-output: false !global;
-}
-
 @mixin responsive-alignment(
 	$namespace: "",
-	$silent: false
+	$silent: true,
+	$important: false
 )
 {
-	$selector: unquote(", .");
+	$selector: unquote(".");
 
-    @if $silent == true{
-        $selector: unquote("//");
+    @if $silent {
+        $selector: unquote("%");
     }
+	@if $important {
+		$important: unquote('!important')
+	}@else{
+		$important: "";
+	}
 
-	%#{$namespace}align_left#{$selector}#{$namespace}align_left
+	#{$selector}#{$namespace}align_left
 	{
-		float: left !important;
+		float: left #{$important};
 		@include type-space(margin-right, 1);
 	}
-	%#{$namespace}align_right#{$selector}#{$namespace}align_right
+	#{$selector}#{$namespace}align_right
 	{
-		float: right !important;
+		float: right #{$important};
 		@include type-space(margin-left, 1);
 	}
-	%#{$namespace}align_center#{$selector}#{$namespace}align_center
+	#{$selector}#{$namespace}align_center
 	{
-		float: none !important;
-		margin: 0 auto;
-		display: block;
+		float: none #{$important};
+		margin: 0 auto #{$important};
+		display: block #{$important};
 	}
-	%#{$namespace}align_none#{$selector}#{$namespace}align_none
+	#{$selector}#{$namespace}align_none
 	{
-		float: none !important;
-		margin: 0;
+		float: none #{$important};
+		margin: 0 #{$important};
 	}
-	%#{$namespace}float_left#{$selector}#{$namespace}float_left
+	#{$selector}#{$namespace}float_left
 	{
-		float: left !important;
+		float: left #{$important};
 	}
-	%#{$namespace}float_right#{$selector}#{$namespace}float_right
+	#{$selector}#{$namespace}float_right
 	{
-		float: right !important;
+		float: right #{$important};
 	}
-	%#{$namespace}float_none#{$selector}#{$namespace}float_none
+	#{$selector}#{$namespace}float_none
 	{
-		float: none !important;
+		float: none #{$important};
 	}
 }
 
-@include responsive-alignment("", $alignment-output);
+@include responsive-alignment();
 
-@if $responsive == true{
+@if $responsive {
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
-           @include responsive-alignment('#{$name}_', $alignment-output);
+           @include responsive-alignment('#{$name}_');
         }
     }
 }

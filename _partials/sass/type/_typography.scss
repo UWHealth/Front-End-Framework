@@ -84,46 +84,19 @@
 //    @return $number / ($number * 0 + 1);
 // }
 
-%type-vertical-rhythm {
-    @extend %space_reset;
-    margin-bottom: $type-magic-number;
-    margin-bottom: $type-magic-ratio * 1rem;
-}
-%type_space_v{
-	@include type-space(margin-bottom, 1);
-}
-
 
 //-----------------------------------
 //    $BASE
 //------------------------------------
- html {
-   @extend %space_reset;
-   font-size: $base-font-size / 16px * 1em;
-    -ms-text-size-adjust: 100%;
-   -webkit-text-size-adjust: 100%;
-
-
-// If you have chosen to display a baseline grid, we turn it on here.
-   @if $show-baseline == true {
-        $type-baseline-size: strip-units($type-magic-number);
-        &.baseline-on{
-			background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
-			background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) 0 0 / auto $type-magic-ratio * 1em;
-        }
-    }
-}
-body, .p, p, %p{
-    @include type-font-size($base-font-size, true, p);
-    @extend %space_reset;
-	color: color(type);
-}
-body{
-	padding-top: 0;
-}
 
 //Allow a toggle for baseline image
 @if $show-baseline == true {
+
+    $type-baseline-size: strip-units($type-magic-number);
+    .baseline-on{
+        background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+        background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) 0 0 / auto $type-magic-ratio * 1em;
+    }
     .baseline-off{
         background-image:none;
     }
@@ -135,96 +108,63 @@ body{
 //    $HEADINGS
 //------------------------------------
 
-@include headings(1,6){
-	@extend %text_legibility;
-}
-
 @if $auto-scale-type == true {
 	@include headings(1,6){
-		margin-top: 0;
-		padding-bottom:0;
+		margin: 0;
+		padding: 0;
 	}
     @include headings-scale($scale-ratio);
 }
 @else{
+    $h_class: unquote("//");
 
-    h1, %h1{
-		@extend %type-vertical-rhythm;
+    @if $type-scale-classes {
+        $h-class: unquote(", .");
+    }
+
+    %h1 {
         @include type-font-size($type-h1-size, true, h1);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
-    @if $type-scale-classes == true{
-        .h1{
-            @extend %h1;
-        }
-    }
-
-    h2, %h2 {
-		@extend %type-vertical-rhythm;
+    %h2 {
         @include type-font-size($type-h2-size, true, h2);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
-    @if $type-scale-classes == true{
-        .h2{
-            @extend %h2;
-        }
-   }
-
-    h3, %h3 {
-		@extend %type-vertical-rhythm;
+    %h3 {
         @include type-font-size($type-h3-size, true, h3);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
-    @if $type-scale-classes == true{
-        .h3{
-            @extend %h3;
-        }
-   }
-
-    h4, %h4 {
-		@extend %type-vertical-rhythm;
+    %h4 {
         @include type-font-size($type-h4-size, true, h4);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
-    @if $type-scale-classes == true{
-        .h4{
-            @extend %h4;
-        }
-   }
-
-    h5, %h5 {
-		@extend %type-vertical-rhythm;
+    %h5 {
         @include type-font-size($type-h5-size, true, h5);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
-    @if $type-scale-classes == true{
-        .h5{
-            @extend %h5;
-        }
-   }
-
-    h6, %h6 {
-		@extend %type-vertical-rhythm;
+    %h6 {
         @include type-font-size($type-h6-size, true, h6);
-        & + p{
-            @extend %negative_top; //[6]
-        }
     }
-    @if $type-scale-classes == true{
-        .h6{
-            @extend %h6;
-        }
-   }
+
+    h1#{$h_class}h1
+    {
+        @extend %h1;
+    }
+    h2#{$h_class}h2
+    {
+        @extend %h2;
+    }
+    h3#{$h_class}h3
+    {
+        @extend %h3;
+    }
+    h4#{$h_class}h4
+    {
+        @extend %h4;
+    }
+    h5#{$h_class}h5
+    {
+        @extend %h5;
+    }
+    h6#{$h_class}h6
+    {
+        @extend %h6;
+    }
 }
 
 //-------------------------------
@@ -237,29 +177,32 @@ ul, ol, dd, menu {
 
 li > ul,
 li > ol {
-    @extend %space_n_v;
+    @extend %space_v_n;
 }
-
-
-
-
 
 //-------------------------------
 //    $PARAGRAPHS
 //-------------------------------
-p, .p, %p {
-
+p, .p {
 	@extend %type-vertical-rhythm;
 
     @if $indented-paragraphs == true {
 
         & + & {
             @include type-space(text-indent);
-            @extend %space_negative;
+            @extend %space_t_neg;
         }
 
     }
+}
 
+h1,h2,h3,h4,h5,h6 {
+    @extend %space_reset;
+    @extend %space_b;
+
+    & + p{
+        @extend %space_t_neg;
+    }
 }
 
 //
@@ -335,7 +278,12 @@ blockquote {
 
 }
 
+fieldset {
+    @extend %type-vertical-rhythm;
+}
+
 q   {
+    *quotes: none;
     quotes: "‘" "’" "“" "”";
     overflow: visible;
 
@@ -375,11 +323,11 @@ q   {
 /*    $NORMALIZE                 */
 /*-------------------------------*/
 
-b, strong, .bold, .strong{
-    @extend %type_bold
+b, strong{
+    @extend %txt_bold;
 }
 dfn {
-    @extend %type_italic;
+    @extend %txt_italic;
 }
 small {
     @include type-font-size(modular-scale(-1), true, small);
@@ -395,5 +343,3 @@ sup {
 sub {
     bottom: -0.25em;
 }
-
-

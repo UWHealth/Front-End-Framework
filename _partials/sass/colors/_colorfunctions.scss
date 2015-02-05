@@ -1,0 +1,146 @@
+//------------------------------------
+//    $COLOR FUNCTIONS
+//------------------------------------
+//Based on:
+//http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
+//Darker and lighter darkens are available by adding
+// -dark/-darker/-light/-lighter to the end of variable names.
+
+// $colors: (
+// 	primary: #063b6d,
+//
+// 	primary-alt: #5f82a3,
+//
+// 	accent: #d40026,
+//
+// 	accent-alt: #fe0202,
+//
+// 	action: #4c7659,
+//
+// 	function: #d4c9ad,
+//
+// 	alert: #b22727
+// ) !default;
+
+//Color map
+//For easy access, just declare color([color name],[color modifier])
+// e.g.
+// div{
+//	background-color: color(primary, lighter);
+//	}
+//
+// If you'd prefer to just get the base color, you do not need to declare 'base',
+// just declare color([color name]). 'base' is implied.
+
+
+//FUNCTION: map-add-depth()
+// Adds 'base'(or whatever initial key that's passed in) to a color map.
+// 1. Check if map has just one level of depth.
+// 2. loops through all keys and values in the map.
+// 3. Reformats those key-value pairs into a (key: (new-key: value ))
+// 4. Merges new depthy key-key-value back into the map.
+// 5. Returns the new map.
+
+@function map-add-depth($map, $base-name: base){
+	$new-key:''; $new-map:'';
+
+	@if map-depth($map) <= 1 { 						//[1]
+
+		@each $key, $value in $map { 				//[2]
+
+			$new-key: ($key: ($base-name: $value)); //[3]
+
+			$map: map-merge($map, $new-key);		//[4]
+		}
+	}
+
+	@return $map; 									//[5]
+}
+
+//FUNCTION: combine_colors()
+// Combines two color maps (or really any double-nested map)
+@function combine_colors($map1, $map2){
+	@each $pal, $color in $map2{
+		$value: ($pal: $color);
+		$map1: map-merge($map1, $value);
+	}
+	@return $map1;
+}
+
+//FUNCTION: generate_color_varations()
+// Adds lighter, darker variations to color map
+// 1a. Color functions.
+// 1b. Function percentages (e.g. lighten($foo, [percentages])).
+// 1c. Variation names (output to map).
+// 1d. Blending color. Only used when a blending mode is used (e.g. color-dodge)
+// 2a. Determine how often to switch functions.
+// 2b. Make sure map is properly formatted.
+// 2c. Define new map (for easier to understand return value).
+// 3a. Loop through the pallets and colors of the map input.
+// 3b. Store $color map in a list
+//     (this is required to prevent bugs on colors with names of real colors).
+// 3c. Define color function increment.
+// 4a. Loop through the variation names.
+// 4b. Get index and find the amount to use with the current color function.
+// 5a. Divide the loop increment by the number of color functions.
+// 5b. If the loop is larger than the variation frequency,
+//	   move to the next color function.
+// 6a. Get the current color function and current color.
+// 6b. Add blending mode color if necessary (useful for mixing colors).
+// 7a. Call the color function, the color(s), and the amount and store that value.
+// 7b. Create the variation and color definition in map format ("name": color).
+// 7c. Merge the current base color map with the new variant map.
+// 8a. Format the previous loop results into a nested map.
+// 8b. Merge the input map with itself and the new nested map.
+// 9. Return the map with the new values.
+
+@function generate_color_variations(
+	$map: null,
+	$color-functions: (tint, shade),									//[1a]
+	$increments: (20%, 40%, 80%, 20%, 40%, 80%), 						//[1b]
+	$variation-names: (light, lighter, lightest, dark, darker, darkest),//[1c]
+	$blending-color: null
+){
+		$variation-frequency:
+			length($variation-names) / length($color-functions); //[2a]
+
+		$map: map-add-depth($map);								 //[2b]
+		$new-map: $map !global;							 	     //[2c]
+
+		@each $pal, $color in $map{ 				//[3a]
+			$values-list: $color !global;			//[3b]
+			$color_fn-i: 1;							//[3c]
+
+			@each $variant in $variation-names {        //[4a]
+				$i: index($variation-names, $variant);	//[4b]
+				$amount: nth($increments, $i);			//[4b]
+
+				$color_fn_place: $i/$variation-frequency;	//[5a]
+				@if $color_fn_place > $color_fn-i{ 			//[5b]
+					$color_fn-i: $color_fn-i + 1;			//[5b]
+				}
+
+				$curr_fn: nth($color-functions, $color_fn-i); 		//[6a]
+				$curr_color: map-get($color, base);					//[6b]
+				@if $blending-color != null{ 						//[6c]
+					$curr_color: append($curr_color, $blending-color);
+				}
+
+				$new-color: call($curr_fn, $curr_color, $amount) !global; 	//[7a]
+				$value: ($variant: $new-color); 							//[7b]
+
+				$values-list: map-merge($value, $values-list) !global;		//[7c]
+			}
+
+			// This is required because sass maps are formatted
+			// with double parenthesis as they get more nested.
+			// (first-level: ( (second-level: value) ) )
+			$inner-map: ($pal:($values-list));				  		//[8a]
+			$new-map: combine_colors($new-map, $inner-map) !global; //[8b]
+
+		}
+		@return $new-map; 								//[9]
+}
+
+//Creates the necessary sass map.
+$colors: generate_color_variations($colors, (tint, shade)) !global;

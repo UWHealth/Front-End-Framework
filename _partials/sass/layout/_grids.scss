@@ -1,3 +1,4 @@
+@charset 'UTF-8';
 //------------------------------------
 //    $CSSWIZARDRY-GRIDS
 //------------------------------------
@@ -215,7 +216,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 //
 @mixin silent-relative(){
     @if $use-silent-classes == true{
-        position:relative;
+        position: relative;
     }
 }
 
@@ -987,5 +988,3 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
 
 }
-
-

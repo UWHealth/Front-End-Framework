@@ -23,7 +23,7 @@ table {
 		}
 	}
     & th {
-        @extend %type_bold;
+        @extend %txt_bold;
     }
     & thead th {
         vertical-align:bottom;
@@ -32,7 +32,7 @@ table {
 }
 thead + tbody td:before{
 	content: attr(data-th)": ";
-	@extend %type_bold;
+	@extend %txt_bold;
 	padding-right: .25em;
 	display: none;
 }
