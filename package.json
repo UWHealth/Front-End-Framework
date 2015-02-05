@@ -1,0 +1,30 @@
+{
+  "name": "Front-End-Framework",
+  "version": "1.0.0",
+  "description": "The launching pad for e-Health's front-end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UWHealth/Front-End-Framework.git"
+  },
+  "keywords": [
+    "Sass",
+    "Javascript",
+    "Framework",
+    "Front",
+    "End"
+  ],
+  "author": "Office of e-Health Innovation and Policy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UWHealth/Front-End-Framework/issues"
+  },
+  "homepage": "https://github.com/UWHealth/Front-End-Framework",
+  "devDependencies": {
+    "browser-sync": "^1.9.1",
+    "gulp": "^3.8.10"
+  }
+}
