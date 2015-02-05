@@ -2,6 +2,9 @@
 //@codekit-append "_tables.js"
 //@codekit-append "_colors.js"
 //@codekit-append "_slick.js"
+//@codekit-append "velocity.js"
+//@codekit-append "velocity.ui.js"
+
 
 // Avoid `console` errors in browsers that lack a console.
 (function() {
