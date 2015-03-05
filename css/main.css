@@ -1,209 +1,313 @@
 @charset "UTF-8";
+/* line 111, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/colors/_colorfunctions.scss */
+#debug {
+  color: '(
+        type: (
+            darkest: #010508,
+            darker: #061019,
+            dark: #081622,
+            lightest: #ced1d4,
+            lighter: #6c767f,
+            light: #3b4955,
+            base: #0a1c2b
+        ),
+        primary: (
+            darkest: #022828,
+            darker: #077a7a,
+            lightest: #cef4f4,
+            lighter: #6de0e0,
+            light: #3cd6d6,
+            dark: #0CCCCC,
+            base: #0CCCCC
+        ),
+        primary-alt: (
+            darkest: #121920,
+            darker: #394e61,
+            dark: #4c6882,
+            lightest: #dfe6ec,
+            lighter: #9fb4c7,
+            light: #7f9bb5,
+            base: #5f82a3
+        ),
+        accent: (
+            darkest: #2a0007,
+            darker: #7f0016,
+            dark: #a9001e,
+            lightest: #f6ccd3,
+            lighter: #e5667c,
+            light: #dc3351,
+            base: #d40026
+        ),
+        action: (
+            darkest: #0f1711,
+            darker: #2d4635,
+            dark: #3c5e47,
+            lightest: #dbe3dd,
+            lighter: #93ac9b,
+            light: #6f917a,
+            base: #4c7659
+        ),
+        function: (
+            darkest: #2a2c2d,
+            darker: #818489,
+            dark: #acb0b7,
+            lightest: #f7f8f9,
+            lighter: #e7eaef,
+            light: #dfe3ea,
+            base: #d7dde5
+        ),
+        alert: (
+            darkest: #230707,
+            darker: #6a1717,
+            dark: #8e1f1f,
+            lightest: #efd3d3,
+            lighter: #d07d7d,
+            light: #c15252,
+            base: #b22727
+        ),
+        links: (
+            darkest: #020e18,
+            darker: #072b49,
+            dark: #0a3a62,
+            lightest: #cedae4,
+            lighter: #6d91af,
+            light: #3d6d95,
+            base: #0d497b
+        ),
+        bg: (
+            darkest: #303031,
+            darker: #919394,
+            dark: #c2c4c6,
+            lightest: #fcfdfd,
+            lighter: #f7f9fa,
+            light: #f5f7f9,
+            base: #f3f5f8
+        )
+    )'; }
+
 @font-face {
-  font-family: "Asap";
-  src: url("fonts/Asap-400.eot");
+  font-family: 'Asap';
+  src: url('fonts/Asap-400.eot');
   src: url('fonts/Asap-400.eot?#iefix') format('embedded-opentype'), url("fonts/Asap-400.woff") format("woff"), url("fonts/Asap-400.ttf") format("truetype"), url("fonts/Asap-400.svg#Asap400") format("svg");
   font-weight: 400;
   font-style: normal; }
+
 @font-face {
-  font-family: "Asap";
-  src: url("fonts/Asap-400-italic.eot");
+  font-family: 'Asap';
+  src: url('fonts/Asap-400-italic.eot');
   src: url('fonts/Asap-400-italic.eot?#iefix') format('embedded-opentype'), url('fonts/Asap-400-italic.woff') format('woff'), url('fonts/Asap-400-italic.ttf') format('truetype'), url('fonts/Asap-400-italic.svg#Asap400italic') format('svg');
   font-weight: 400;
   font-style: italic; }
+
 @font-face {
-  font-family: "Asap";
-  src: url("fonts/Asap-700.eot");
+  font-family: 'Asap';
+  src: url('fonts/Asap-700.eot');
   src: url('fonts/Asap-700.eot?#iefix') format('embedded-opentype'), url("fonts/Asap-700.woff") format("woff"), url("fonts/Asap-700.ttf") format("truetype"), url("fonts/Asap-700.svg#Asap700") format("svg");
   font-weight: 700;
   font-style: normal; }
+
 @font-face {
-  font-family: "Asap";
-  src: url("fonts/Asap-700-italic.eot");
+  font-family: 'Asap';
+  src: url('fonts/Asap-700-italic.eot');
   src: url('fonts/Asap-700-italic.eot?#iefix') format('embedded-opentype'), url('fonts/Asap-700-italic.woff') format('woff'), url('fonts/Asap-700-italic.ttf') format('truetype'), url('fonts/Asap-700-italic.svg#Asap700italic') format('svg');
   font-weight: 700;
   font-style: italic; }
+
 @font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-200.eot");
+  font-family: 'opensans';
+  src: url('fonts/opensans-200.eot');
   src: url('fonts/opensans-200.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-200.woff") format("woff"), url("fonts/opensans-200.ttf") format("truetype"), url("fonts/opensans-200.svg#opensans200") format("svg");
   font-weight: 200;
   font-style: normal; }
+
 @font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-400.eot");
+  font-family: 'opensans';
+  src: url('fonts/opensans-400.eot');
   src: url('fonts/opensans-400.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-400.woff") format("woff"), url("fonts/opensans-400.ttf") format("truetype"), url("fonts/opensans-400.svg#opensans400") format("svg");
   font-weight: 400;
   font-style: normal; }
+
 @font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-400-italic.eot");
+  font-family: 'opensans';
+  src: url('fonts/opensans-400-italic.eot');
   src: url('fonts/opensans-400-italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-400-italic.woff') format('woff'), url('fonts/opensans-400-italic.ttf') format('truetype'), url('fonts/opensans-400-italic.svg#opensans400italic') format('svg');
   font-weight: 400;
   font-style: italic; }
+
 @font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-700.eot");
+  font-family: 'opensans';
+  src: url('fonts/opensans-700.eot');
   src: url('fonts/opensans-700.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-700.woff") format("woff"), url("fonts/opensans-700.ttf") format("truetype"), url("fonts/opensans-700.svg#opensans700") format("svg");
   font-weight: 700;
   font-style: normal; }
+
 @font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-700-italic.eot");
+  font-family: 'opensans';
+  src: url('fonts/opensans-700-italic.eot');
   src: url('fonts/opensans-700-italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-700-italic.woff') format('woff'), url('fonts/opensans-700-italic.ttf') format('truetype'), url('fonts/opensans-700-italic.svg#opensans700italic') format('svg');
   font-weight: 700;
   font-style: italic; }
+
+/* line 122, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
 *, *:before, *:after {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box; }
+  -moz-box-sizing: border-box;
+       box-sizing: border-box; }
 
-html,
-button,
-input,
-select,
-textarea {
-  font-family: "Asap", verdana, helvetica, arial, sans-serif; }
+/* line 164, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
+html, button, input, select, textarea {
+  font-family: 'Asap', verdana, helvetica, arial, sans-serif; }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width:640px) {
+  /* line 206, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .tab_accordion > .tab_button {
     display: block; }
-
+  /* line 207, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .tab_accordion > .tabs {
     display: none; } }
+
+@media only screen and (max-width: 480px) { }
+
+@media only screen and (min-width: 481px) and (max-width: 640px) { }
+
+@media only screen and (min-width: 641px) { }
+
+@media only screen and (min-width: 641px) and (max-width: 940px) { }
+
 @media only screen and (min-width: 941px) {
+  /* line 207, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .js .tabbed.tab_accordion > .tab_button {
     display: none; } }
+
+/* line 9, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 html {
   font-size: 1em;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   background-color: #f3f5f8; }
 
+/* line 16, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 body {
   font-size: 16px;
   font-size: 1rem;
   line-height: 1.5;
   color: #0a1c2b; }
 
+/* line 23, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 html, body {
   width: 100%;
   min-height: 100%;
   position: relative; }
 
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-nav,
-section,
-summary, hr {
+/* line 33, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary, hr {
   display: block; }
 
-audio,
-canvas,
-video,
-progress {
+/* line 36, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+audio, canvas, video, progress {
   display: inline-block;
   *display: inline;
   *zoom: 1; }
 
+/* line 41, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 fieldset, img, legend {
   border: 0; }
 
+/* line 75, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 [hidden], template {
   display: none; }
 
+/* line 104, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 mark {
   background-color: #dfe3ea;
   color: #37557d;
   padding: 4px 3px;
   margin-left: -3px; }
 
+/* line 124, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 img {
   -ms-interpolation-mode: bicubic;
   height: auto;
   vertical-align: middle; }
 
+/* line 132, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 object, iframe, embed, img {
   max-width: 100%; }
 
-button,
-input,
-optgroup,
-select,
-textarea {
+/* line 168, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+button, input, optgroup, select, textarea {
   color: inherit;
   font: inherit; }
 
+/* line 178, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 button {
   overflow: visible; }
 
-button,
-select {
+/* line 190, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+button, select {
   text-transform: none; }
 
-button,
-html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
+/* line 210, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer; }
 
+/* line 223, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 legend {
   white-space: normal;
   *margin-left: -7px; }
 
-button,
-input,
-select,
-textarea {
+/* line 240, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+button, input, select, textarea {
   font-size: 100%;
   vertical-align: baseline;
   *vertical-align: middle; }
 
-button,
-input {
+/* line 253, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+button, input {
   line-height: normal; }
 
-button,
-select {
+/* line 265, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+button, select {
   text-transform: none; }
 
+/* line 284, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 input {
   line-height: normal; }
 
+/* line 293, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 textarea {
   overflow: auto;
   vertical-align: top;
   resize: vertical; }
 
+/* line 318, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 a {
   cursor: pointer;
   color: #0d497b;
   background: transparent; }
+  /* line 324, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
   a:hover, a:focus {
     color: #3d6d95; }
+  /* line 328, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
   a:focus {
     outline: thin dotted; }
+  /* line 333, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
   a:active, a:hover {
     outline: 0; }
 
-button,
-input,
-select,
-textarea {
+/* line 341, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+button, input, select, textarea {
   color: #0a1c2b; }
 
+/* line 345, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 ::-moz-selection {
   background: #b3d4fc;
   text-shadow: none; }
 
+/* line 350, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
+::-moz-selection{
+  background: #b3d4fc;
+  text-shadow: none; }
 ::selection {
   background: #b3d4fc;
   text-shadow: none; }
@@ -211,12 +315,18 @@ textarea {
 @-ms-viewport {
   width: device-width;
   zoom: 1.0; }
+
 @media screen and (max-width: 320px) {
   @-ms-viewport {
-    width: 320px; } }
+    width: 320px; }
+ }
+
 @media screen and (min-width: 768px) and (max-width: 959px) {
   @-ms-viewport {
-    width: 768px; } }
+    width: 768px; }
+ }
+
+/* line 370, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 hr {
   padding: 0;
   height: 1px;
@@ -226,212 +336,274 @@ hr {
   margin: 0.75rem 0;
   position: relative; }
 
+/* line 383, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/vendor/_normalize.scss */
 svg:not(:root) {
   overflow: hidden; }
 
+/* line 21, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_transforms.scss */
 dfn {
   font-style: italic ; }
 
+/* line 24, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_transforms.scss */
 optgroup, b, strong, .button, .tab_button:not(.active):hover, table th, thead + tbody td:before, .tab, .list_nav a {
   font-weight: 800 ;
   -webkit-font-smoothing: antialiased; }
 
+@media only screen and (max-width:640px) { }
+
+@media only screen and (max-width: 480px) { }
+
+@media only screen and (min-width: 481px) and (max-width: 640px) { }
+
+@media only screen and (min-width: 641px) { }
+
+@media only screen and (min-width: 641px) and (max-width: 940px) { }
+
+@media only screen and (min-width: 941px) { }
+
+/* line 116, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 html, body, fieldset, ul, ol, dd, menu, p, .p, address, pre, blockquote, table, h1, h2, h3, h4, h5, h6, .list_inline, .list_inline_bordered {
   margin: 0;
   padding: 0; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .tab_content, .box {
   padding: 24px;
   padding: 1.5rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 [class*="list_bordered"] > li {
   padding-top: 24px;
   padding-top: 1.5rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 [class*="list_bordered"] > li {
   padding-bottom: 24px;
   padding-bottom: 1.5rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .breadcrumbs {
   padding-right: 32px;
   padding-right: 2rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .button {
   padding: 12px;
   padding: 0.75rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .tab, .box_square .body {
   padding-top: 12px;
   padding-top: 0.75rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .tab {
   padding-bottom: 12px;
   padding-bottom: 0.75rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .tab, .box_square .body, .table_striped th, .table_striped td {
   padding-left: 16px;
   padding-left: 1rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .tab, .box_square .body, .breadcrumb, .table_striped th, .table_striped td {
   padding-right: 16px;
   padding-right: 1rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 body {
   padding-bottom: 48px;
   padding-bottom: 3rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .list_nav.list_bordered > li {
   padding-top: 0; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .list_nav.list_bordered > li {
   padding-bottom: 0; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .box_open {
   padding-left: 0; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .box_open {
   padding-right: 0; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 [class*="list_bordered"], .tab_side, table, .box {
   margin-top: 24px;
   margin-top: 1.5rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 ul, ol, dd, menu, p, .p, address, pre, blockquote, fieldset, table, [class*="list_bordered"], .tab_side, .box, h1, h2, h3, h4, h5, h6, .tabbed {
   margin-bottom: 24px;
   margin-bottom: 1.5rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 ul, ol, dd, menu, blockquote {
   margin-left: 32px;
   margin-left: 2rem; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
   margin-top: -24px;
   margin-top: -1.5rem; }
 
-figure, button,
-input,
-optgroup,
-select,
-textarea, form, legend {
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
+figure, button, input, optgroup, select, textarea, form, legend {
   margin: 0; }
 
-li > ul,
-li > ol {
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
+li > ul, li > ol {
   margin-top: 0; }
 
-li > ul,
-li > ol {
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
+li > ul, li > ol {
   margin-bottom: 0; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 nav ul, nav ol, [class*="list_bordered"], .list_naked, .list_nav {
   margin-left: 0; }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width:640px) {
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .table_responsive thead + tbody td:first-child {
     padding-top: 12px;
     padding-top: 0.75rem; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .tab_content {
     padding-left: 16px;
     padding-left: 1rem; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .tab_content {
     padding-right: 16px;
     padding-right: 1rem; } }
+
+@media only screen and (max-width: 480px) { }
+
+@media only screen and (min-width: 481px) and (max-width: 640px) { }
+
+@media only screen and (min-width: 641px) { }
+
+@media only screen and (min-width: 641px) and (max-width: 940px) { }
+
+@media only screen and (min-width: 941px) { }
+
 /*-----------------------------------
     $SETUP
 ------------------------------------*/
+/* line 96, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 .baseline-on {
   background-image: url(http://basehold.it/i/24);
-  background-image:  0 0/auto 1.5em;
   background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px) 0 0/auto 1.5em;
   background-image: linear-gradient(to top, rgba(0, 0, 0, 0.15) 1px, transparent 1px) 0 0/auto 1.5em; }
 
+/* line 100, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 .baseline-off {
   background-image: none; }
 
+/* line 125, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 h1, .h1 {
   font-size: 63px;
   font-size: 3.9375rem;
   line-height: 1.14286; }
 
+/* line 128, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 h2, .h2 {
   font-size: 43px;
   font-size: 2.6875rem;
-  line-height: 1.25582; }
+  line-height: 1.2558171; }
 
+/* line 131, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 h3, .h3 {
   font-size: 35px;
   font-size: 2.1875rem;
-  line-height: 1.37143; }
+  line-height: 1.3714286; }
 
+/* line 134, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 h4, .h4 {
   font-size: 29px;
   font-size: 1.8125rem;
-  line-height: 1.24138; }
+  line-height: 1.2413793; }
 
+/* line 137, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 h5, .h5 {
   font-size: 24px;
   font-size: 1.5rem;
-  line-height: 1.5; }
+  line-height: 1.5000038; }
 
+/* line 140, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 h6, .h6, .no-js .tab_button {
   font-size: 20px;
   font-size: 1.25rem;
-  line-height: 1.8; }
+  line-height: 1.8000045; }
 
+/* line 216, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 pre {
   white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow: auto; }
 
-code,
-kbd,
-pre,
-samp {
+/* line 231, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
+code, kbd, pre, samp {
   font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
   _font-family: 'courier new', monospace;
   font-size: 1em; }
 
 /*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
+/* line 239, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 abbr[title] {
   border-bottom: 1px dotted; }
 
 /*-------------------------------
     $QUOTES
 -------------------------------*/
+/* line 252, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 blockquote {
   text-indent: -0.41em; }
 
+/* line 256, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 blockquote {
   quotes: '“' '”'; }
+  /* line 262, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
   blockquote p:before {
     content: "“";
     content: open-quote; }
+  /* line 267, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
   blockquote p:after {
     content: "";
     content: no-close-quote; }
+  /* line 272, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
   blockquote p:last-of-type:after {
     content: "”";
     content: close-quote; }
 
+/* line 285, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 q {
   *quotes: none;
   quotes: "‘" "’" "“" "”";
   overflow: visible; }
+  /* line 290, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
   q:before {
     content: "‘";
     content: open-quote; }
+  /* line 295, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
   q:after {
     content: "’";
     content: close-quote; }
+  /* line 300, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
   q q:before {
     content: "“";
     content: open-quote; }
+  /* line 305, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
   q q:after {
     content: "”";
     content: close-quote; }
+  /* line 313, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
   q:first-child {
     display: inline-block;
     text-indent: -0.22em; }
@@ -439,27 +611,33 @@ q {
 /*-------------------------------*/
 /*    $NORMALIZE                 */
 /*-------------------------------*/
+/* line 332, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 small, .tab, .list_nav a {
-  font-size: 13.17957px;
-  font-size: 0.82372rem;
+  font-size: 13.1795717px;
+  font-size: 0.8237232rem;
   line-height: 1.821; }
 
+/* line 335, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 sub, sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline; }
 
+/* line 340, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 sup {
   top: -0.5em; }
 
+/* line 343, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/type/_typography.scss */
 sub {
   bottom: -0.25em; }
 
+/* line 229, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
 .tab_button, .no-js .tab_button, .no-js .tab_button + .tab_content, .box, .box_square .body, .row > * {
   letter-spacing: normal;
   word-spacing: normal; }
 
+/* line 234, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
 .row {
   list-style: none;
   margin: 0;
@@ -469,10 +647,11 @@ sub {
   letter-spacing: -0.31em; }
 
 /* Opera hack */
-.opera:-o-prefocus,
-.row {
+/* line 249, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
+.opera:-o-prefocus, .row {
   word-spacing: -0.43em; }
 
+/* line 255, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
 .column {
   display: inline-block;
   padding-left: 32px;
@@ -482,64 +661,118 @@ sub {
   letter-spacing: normal;
   word-spacing: normal; }
 
+/* line 358, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
 .row_narrow {
   margin-left: -16px;
   margin-left: -1rem; }
+  /* line 360, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .row_narrow > .column {
     padding-left: 16px;
     padding-left: 1rem; }
 
+/* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
 .quarter {
   width: 25%; }
 
+/* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
 .half {
   width: 50%; }
 
-.column {
+/* line 434, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
+.tab_side, .column {
   width: 100%; }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width:640px) {
+  /* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .tab_side > .tabs {
     width: 25%; }
-
+  /* line 434, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .no-js .tab_button {
     width: 100%; } }
-@media only screen and (min-width: 481px) and (max-width: 640px) {
-  .wrap {
-    width: 91.66667%; }
 
+@media only screen and (max-width: 480px) { }
+
+@media only screen and (min-width: 481px) and (max-width: 640px) {
+  /* line 424, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
+  .wrap {
+    width: 91.6666667%; }
+  /* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .add_on {
     width: 20%; }
-
+  /* line 424, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .wide_content {
     width: 80%; } }
+
 @media only screen and (min-width: 641px) {
+  /* line 424, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .wrap {
     width: 90%; }
-
+  /* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .add_on {
-    width: 16.66667%; }
-
+    width: 16.6666667%; }
+  /* line 424, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .wide_content {
-    width: 83.33333%; }
-
+    width: 83.3333333%; }
+  /* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .sidebar {
     width: 25%; }
-
+  /* line 424, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .content {
     width: 75%; } }
+
 @media only screen and (min-width: 641px) and (max-width: 940px) {
+  /* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .tab_side > .tabs {
     width: 20%; } }
-@media only screen and (min-width: 941px) {
-  .tab_side > .tabs {
-    width: 16.66667%; }
 
+@media only screen and (min-width: 941px) {
+  /* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
+  .tab_side > .tabs {
+    width: 16.6666667%; }
+  /* line 421, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .no-js .tab_button {
     width: 20%; }
-
+  /* line 424, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_grids.scss */
   .no-js .tab_button + .tab_content {
     width: 80%; } }
+
+@media only screen and (max-width:640px) { }
+
+@media only screen and (max-width: 480px) { }
+
+@media only screen and (min-width: 481px) and (max-width: 640px) { }
+
+@media only screen and (min-width: 641px) { }
+
+@media only screen and (min-width: 641px) and (max-width: 940px) { }
+
+@media only screen and (min-width: 941px) { }
+
+@media only screen and (max-width:640px) { }
+
+@media only screen and (max-width: 480px) { }
+
+@media only screen and (min-width: 481px) and (max-width: 640px) { }
+
+@media only screen and (min-width: 641px) { }
+
+@media only screen and (min-width: 641px) and (max-width: 940px) { }
+
+@media only screen and (min-width: 941px) { }
+
+@media only screen and (max-width:640px) { }
+
+@media only screen and (max-width: 480px) { }
+
+@media only screen and (min-width: 481px) and (max-width: 640px) { }
+
+@media only screen and (min-width: 641px) { }
+
+@media only screen and (min-width: 641px) and (max-width: 940px) { }
+
+@media only screen and (min-width: 941px) { }
+
+/* line 92, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_buttons.scss */
 .button {
   cursor: pointer;
   vertical-align: middle;
@@ -548,100 +781,100 @@ sub {
       -ms-user-select: none;
           user-select: none;
   display: inline-block;
-  -moz-border-radius: 2px;
-       border-radius: 2px;
+  border-radius: 2px;
   text-decoration: none;
   text-align: center;
   background-color: #0c639a;
-  -webkit-box-shadow: inset 0 2px #18c7ff;
-     -moz-box-shadow: inset 0 2px #18c7ff;
-          box-shadow: inset 0 2px #18c7ff;
+  box-shadow: inset 0 2px #18c8ff;
   border-bottom: 0px;
   color: #ebfbff; }
+  /* line 39, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_buttons.scss */
   .button:hover, .button:focus {
     color: #dff4fb;
     background-color: #0e72b2;
-    -webkit-box-shadow: inset 0 2px 1px #4bd3ff;
-       -moz-box-shadow: inset 0 2px 1px #4bd3ff;
-            box-shadow: inset 0 2px 1px #4bd3ff; }
+    box-shadow: inset 0 2px 1px #4bd4ff; }
+  /* line 60, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_buttons.scss */
   .button:active, .active.button {
     position: relative;
     top: 1px;
     color: #bed9e6;
     background-color: #0a5482;
-    -webkit-box-shadow: inset 0 -2px 0px #0d72a9;
-       -moz-box-shadow: inset 0 -2px 0px #0d72a9;
-            box-shadow: inset 0 -2px 0px #0d72a9;
+    box-shadow: inset 0 -2px 0px #0d72a9;
     border-color: #0d69a3; }
-  .button::-moz-selection {
-    background: transparent; }
+  /* line 84, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_buttons.scss */
+  .button::-moz-selection{
+  background: transparent; }
   .button::selection {
     background: transparent; }
+  /* line 85, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_buttons.scss */
   .button::-moz-selection {
     background: transparent; }
+  /* line 86, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_buttons.scss */
   .button::-moz-focus-inner {
     border: 0; }
 
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"] {
+/* line 120, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_buttons.scss */
+button, input[type="button"], input[type="reset"], input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
   *overflow: visible; }
 
-input[type="checkbox"],
-input[type="radio"] {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+/* line 8, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_forms.scss */
+input[type="checkbox"], input[type="radio"] {
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
   padding: 0;
   *height: 13px;
   *width: 13px; }
 
-button[disabled],
-html input[disabled],
-.disabled {
+/* line 18, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_forms.scss */
+button[disabled], html input[disabled], .disabled {
   cursor: default !important; }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+/* line 27, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_forms.scss */
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
   height: auto; }
 
+/* line 35, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_forms.scss */
 input[type="search"] {
   -webkit-appearance: textfield;
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
+/* line 46, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_forms.scss */
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none; }
 
-button::-moz-focus-inner,
-input::-moz-focus-inner {
+/* line 53, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_forms.scss */
+button::-moz-focus-inner, input::-moz-focus-inner {
   border: 0;
   padding: 0; }
 
+/* line 2, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 nav ul, nav ol {
   list-style: none; }
+  /* line 85, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   nav ul > li, nav ol > li {
     list-style-image: none;
     list-style-type: none;
     margin-left: 0; }
 
+/* line 11, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 [class*="list_bordered"] > li {
   border-top: 1px solid #d7dde5;
   margin-top: -1px; }
+/* line 17, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 [class*="list_bordered"] > li:first-child {
   border-top-color: transparent; }
 
+/* line 23, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 .list_bordered_short > li {
   padding-top: 12px;
   padding-top: 0.75rem;
   padding-bottom: 12px;
   padding-bottom: 0.75rem; }
 
+/* line 30, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 .list_inline > li {
   display: inline-block;
   padding-left: 0;
@@ -649,9 +882,11 @@ nav ul, nav ol {
   vertical-align: middle;
   padding-right: 16px;
   padding-right: 1rem; }
+  /* line 37, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
   .list_inline > li:last-child {
     padding-right: 0; }
 
+/* line 47, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 .list_inline_bordered > li {
   display: inline-block;
   width: auto;
@@ -661,59 +896,75 @@ nav ul, nav ol {
   padding-bottom: 12px;
   padding-bottom: 0.75rem;
   border-left: 1px solid; }
+  /* line 54, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
   .list_inline_bordered > li:first-child {
     border-left-width: 0;
     padding-left: 0; }
 
+/* line 68, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 .breadcrumb {
   display: inline-block;
   white-space: nowrap; }
 
+/* line 73, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 .breadcrumb:after {
   content: "\25B8";
   display: inline-block; }
 
+/* line 78, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 .list_naked {
   list-style: none; }
+  /* line 85, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .list_naked > li {
     list-style-image: none;
     list-style-type: none;
     margin-left: 0; }
 
+/* line 84, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
 .list_nav {
   list-style: none; }
+  /* line 85, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .list_nav > li {
     list-style-image: none;
     list-style-type: none;
     margin-left: 0; }
+  /* line 88, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
   .list_nav a {
     padding-top: 12px;
     padding-top: 0.75rem;
     padding-bottom: 12px;
     padding-bottom: 0.75rem; }
+  /* line 99, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_lists.scss */
   .list_nav.list_inline > li a {
     padding-right: 16px;
     padding-right: 1rem; }
 
+/* line 82, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_button, .tab, .tab:not(.active):hover {
   color: #fff; }
 
+/* line 85, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_button, .tab {
   background-color: #d40026; }
 
+/* line 88, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_button.active, .tab_content, .tab {
   border-color: #5f82a3; }
 
+/* line 91, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_button.active, .tab_content {
   background-color: #fff; }
 
+/* line 94, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_line > .tabs .tab:hover, .tab_line > .tabs .active, .tab_topline > .tabs .active {
   border-color: currentColor; }
 
+/* line 109, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tabbed {
   min-height: 72px;
   min-height: 4.5rem; }
 
+/* line 115, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_button {
   border-style: solid;
   width: 100%;
@@ -727,38 +978,44 @@ nav ul, nav ol {
   padding-right: 16px;
   padding-right: 1rem;
   border-width: 1px;
-  border-color: #b00005;
+  border-color: #b00006;
   position: relative;
   z-index: 1;
   border-bottom-width: 0; }
+  /* line 137, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_button.active {
     margin-bottom: -24px;
     margin-bottom: -1.5rem; }
+  /* line 144, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_button.active {
     color: #d40026;
     border-bottom-color: transparent;
     top: 1px;
     z-index: 1; }
+    /* line 159, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
     .tab_button.active:hover {
       cursor: default; }
 
+/* line 165, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_content {
   border-width: 1px;
   border-style: solid;
-  -moz-border-radius: 0 2px 2px 2px;
-       border-radius: 0 2px 2px 2px;
+  border-radius: 0 2px 2px 2px;
   position: relative;
   z-index: 0; }
+  /* line 178, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_content > :last-child {
     margin-bottom: 0; }
 
+/* line 185, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tabs + .tab_button {
-  -moz-border-radius: 2px 2px 0 0;
-       border-radius: 2px 2px 0 0; }
+  border-radius: 2px 2px 0 0; }
 
+/* line 199, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tabs {
   position: relative; }
 
+/* line 211, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab {
   position: relative;
   display: inline-block;
@@ -769,29 +1026,31 @@ nav ul, nav ol {
   text-align: center;
   text-decoration: none;
   border-bottom-color: transparent;
-  -moz-border-radius: 2px 2px 0 0;
-       border-radius: 2px 2px 0 0;
+  border-radius: 2px 2px 0 0;
   cursor: pointer;
   -webkit-transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
           transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
   border-style: solid;
   border-width: 1px; }
+  /* line 241, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab:not(.active):hover {
     background-color: #ba000f; }
 
+/* line 264, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_accordion > .tabs + .tab_button {
-  -moz-border-radius: 2px 2px 0 0;
-       border-radius: 2px 2px 0 0; }
+  border-radius: 2px 2px 0 0; }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width:640px) {
   .js .tabbed.tab_accordion > .tab_content {
     border: 1px solid #5f82a3;
     background-color: #fff;
     margin-left: 0; } }
 
+/* line 286, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_content > .tabbed > .tabs, .tab_content > .tabbed > .tab_content, .tab_content > .tabbed > .tab_button {
   margin-left: -1px; }
 
+/* line 294, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .no-js .tab_button {
   display: inline-block;
   margin-top: 24px;
@@ -799,18 +1058,22 @@ nav ul, nav ol {
   text-decoration: none;
   margin-right: 32px;
   margin-right: 2rem; }
+  /* line 304, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .no-js .tab_button + .tab_content {
     display: inline-block;
     margin-top: 24px;
     margin-top: 1.5rem;
     padding-left: 0; }
 
+/* line 324, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_side {
   display: table; }
 
+/* line 331, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_side > .tabs {
   display: table-cell;
   vertical-align: top; }
+  /* line 338, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_side > .tabs .tab {
     top: 0;
     margin-bottom: 2px;
@@ -818,38 +1081,47 @@ nav ul, nav ol {
     text-align: left;
     text-indent: -8px;
     text-indent: -0.5rem;
-    -moz-border-radius: 2px 0 0 2px;
-         border-radius: 2px 0 0 2px;
+    border-radius: 2px 0 0 2px;
     border-bottom-color: #5f82a3; }
+  /* line 355, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_side > .tabs .active {
     border-right-color: transparent;
     border-bottom-color: #5f82a3; }
+/* line 360, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_side > .tab_content {
   margin-left: -1px; }
 
+/* line 371, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_minimal > .tab_content {
   border-left-width: 0;
   border-right-width: 0;
   border-bottom-width: 0; }
 
+/* line 381, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_minimal.tab_side > .tab_content {
   border-left-width: 0px;
   border-top-width: 0; }
 
+/* line 385, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_minimal.tab_side > .tabs {
   padding: 24px 0;
   padding: 1.5rem 0; }
+  /* line 388, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_minimal.tab_side > .tabs .tab {
     border-width: 0px; }
+    /* line 390, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
     .tab_minimal.tab_side > .tabs .tab:not(.active) {
       background-color: transparent;
       color: #5f82a3; }
+      /* line 393, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
       .tab_minimal.tab_side > .tabs .tab:not(.active):hover {
         color: #8d4e71;
         background-color: rgba(255, 255, 255, 0.5); }
+    /* line 399, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
     .tab_minimal.tab_side > .tabs .tab.active {
       color: #d40026; }
 
+/* line 417, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_line > .tabs .tab {
   background-color: transparent;
   border-width: 0;
@@ -860,19 +1132,21 @@ nav ul, nav ol {
   color: #5f82a3;
   text-indent: -8px;
   text-indent: -0.5rem;
-  -moz-border-radius: 0;
-       border-radius: 0; }
+  border-radius: 0; }
+  /* line 428, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_line > .tabs .tab:hover {
     color: #234268;
     background-color: rgba(255, 255, 255, 0.5);
     position: relative;
     z-index: 2; }
+/* line 436, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_line > .tabs .active {
   opacity: 1 !important;
   color: #d40026 !important;
   border-bottom-width: 2px;
   background-color: transparent !important;
   z-index: 1; }
+/* line 446, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_line.tab_minimal > .tab_content {
   padding-right: 16px;
   padding-right: 1rem;
@@ -883,34 +1157,42 @@ nav ul, nav ol {
   border-top-color: #afc0d1;
   margin-top: -1px; }
 
+/* line 457, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_topline > .tabs {
   background-color: rgba(255, 255, 255, 0.6);
-  -moz-border-radius: 2px 2px 0 0;
-       border-radius: 2px 2px 0 0; }
+  border-radius: 2px 2px 0 0; }
+  /* line 460, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_topline > .tabs .tab {
     text-indent: 0px;
     padding-right: 32px;
     padding-right: 2rem; }
+  /* line 464, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_topline > .tabs .active {
     border-top-width: 2px;
     border-bottom-color: transparent;
     background-color: #fff !important; }
+    /* line 470, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
     .tab_topline > .tabs .active:hover {
       border-bottom-color: transparent; }
+/* line 475, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_topline > .tab_content {
   background-color: #fff !important; }
 
+/* line 485, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .ie8 .tab_line > .tabs .tab:hover {
   background-color: #fff; }
 
+/* line 488, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .ie8 .tab_button:hover {
   color: #f2f2f2; }
 
+/* line 1, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
 table {
   width: 100%;
   background-color: transparent;
   border-collapse: collapse;
   border-spacing: 0; }
+  /* line 10, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
   table th, table td {
     padding: 24px 0 12px;
     padding: 1.5rem 0 0.75rem;
@@ -921,45 +1203,58 @@ table {
     border-top-width: 0px;
     border-color: #ddd;
     border-style: solid; }
+  /* line 21, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
   table td.stripe {
     background-color: #e7eaef; }
+  /* line 28, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
   table thead th {
     vertical-align: bottom;
     padding: 24px 0 0;
     padding: 1.5rem 0 0; }
 
+/* line 33, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
 thead + tbody td:before {
   content: attr(data-th) ": ";
   padding-right: .25em;
   display: none; }
 
+/* line 40, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
 .table_fixed {
   table-layout: fixed; }
 
-.table_striped tbody tr:nth-child(odd),
-.table_striped .stripe {
+/* line 46, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
+.table_striped tbody tr:nth-child(odd), .table_striped .stripe {
   background-color: #e7eaef; }
+/* line 49, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
 .table_striped th, .table_striped td {
   border-color: #dfe3ea;
   border-style: solid; }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width:640px) {
+  /* line 59, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
   .table_responsive {
     margin-top: 24px;
     margin-top: 1.5rem; }
+    /* line 61, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
     .table_responsive thead th {
       display: none; }
+    /* line 65, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
     .table_responsive thead + tbody td {
       display: block;
       border-bottom: 0;
       padding-top: 0; }
+      /* line 70, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
       .table_responsive thead + tbody td:first-child {
         border-top-width: 1px; }
+      /* line 74, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tables.scss */
       .table_responsive thead + tbody td:before {
         display: inline; } }
+
+/* line 6, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
 .box > :last-child {
   margin-bottom: 0; }
 
+/* line 10, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
 .box_open {
   border-width: 1px;
   border-style: solid;
@@ -968,23 +1263,27 @@ thead + tbody td:before {
   border-left-color: transparent;
   border-right-color: transparent; }
 
+/* line 19, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
 .box_closed {
   border: 1px solid #d7dde5; }
 
+/* line 25, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
 .box_square {
   position: relative;
   display: block;
   overflow: hidden;
   word-break: break-word; }
-  @media only screen and (max-width: 640px) {
+  @media only screen and (max-width:640px) {
     .box_square {
       max-height: 120px;
       max-height: 7.5rem; } }
+  /* line 34, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
   .box_square .body {
     position: absolute;
     top: 0;
     left: 0;
     text-align: left; }
+  /* line 45, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
   .box_square:before {
     margin-top: 100%;
     display: block;
@@ -992,26 +1291,38 @@ thead + tbody td:before {
     color: transparent;
     content: " "; }
 
+/* line 59, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
 .pano:before {
   margin-top: 75%; }
 
+/* line 63, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
 .wide:before {
   margin-top: 50%; }
 
+/* line 71, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
 .media_block {
   zoom: 1; }
+  /* line 74, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
   .media_block .img, .media_block .media {
     float: left;
     word-break: break-word;
     display: inline-block;
     margin-right: 32px;
     margin-right: 2rem; }
+  /* line 80, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_boxes.scss */
   .media_block .img ~ *, .media_block .media_body {
     overflow: hidden; }
 
+/* line 6, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 hr {
   height: 2px; }
 
+/* line 10, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
+body {
+  background-image: -webkit-linear-gradient(bottom, #fcfdfd 0%, #f3f5f8 100%);
+  background-image: linear-gradient(bottom, #fcfdfd 0%, #f3f5f8 100%); }
+
+/* line 17, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .wrap {
   padding: 24px 0;
   padding: 1.5rem 0;
@@ -1021,126 +1332,129 @@ hr {
   float: none; }
 
 @media only screen and (max-width: 480px) {
-  h1,
-  .h1 {
-    font-size: 41.04263px;
-    font-size: 2.56516rem;
-    line-height: 1.31571; }
-
-  h2,
-  .h2 {
-    font-size: 35.07917px;
-    font-size: 2.19245rem;
-    line-height: 1.36833; }
-
-  h3,
-  .h3 {
-    font-size: 29.9822px;
-    font-size: 1.87389rem;
-    line-height: 1.20071; }
-
-  h4,
-  .h4 {
-    font-size: 25.62581px;
-    font-size: 1.60161rem;
-    line-height: 1.40483; }
-
-  h5,
-  .h5 {
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h1, .h1 {
+    font-size: 41.0426272px;
+    font-size: 2.5651642rem;
+    line-height: 1.3157085; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h2, .h2 {
+    font-size: 35.0791686px;
+    font-size: 2.192448rem;
+    line-height: 1.3683335; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h3, .h3 {
+    font-size: 29.9821954px;
+    font-size: 1.8738872rem;
+    line-height: 1.2007126; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h4, .h4 {
+    font-size: 25.625808px;
+    font-size: 1.601613rem;
+    line-height: 1.4048338; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h5, .h5 {
     font-size: 21.9024px;
     font-size: 1.3689rem;
-    line-height: 1.64366; }
-
-  h6,
-  .h6 {
+    line-height: 1.6436596; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h6, .h6 {
     font-size: 18.72px;
     font-size: 1.17rem;
-    line-height: 1.28205; }
-
+    line-height: 1.2820513; }
+  /* line 31, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
   .wrap {
     width: 95%; } }
-@media only screen and (min-width: 481px) and (max-width: 640px) {
-  h1,
-  .h1 {
-    font-size: 47.77574px;
-    font-size: 2.98598rem;
-    line-height: 1.13028; }
 
-  h2,
-  .h2 {
+@media only screen and (min-width: 481px) and (max-width: 640px) {
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h1, .h1 {
+    font-size: 47.775744px;
+    font-size: 2.985984rem;
+    line-height: 1.1302835; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h2, .h2 {
     font-size: 39.81312px;
     font-size: 2.48832rem;
-    line-height: 1.20563; }
-
-  h3,
-  .h3 {
+    line-height: 1.2056327; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h3, .h3 {
     font-size: 33.1776px;
     font-size: 2.0736rem;
-    line-height: 1.44676; }
-
-  h4,
-  .h4 {
+    line-height: 1.4467593; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h4, .h4 {
     font-size: 27.648px;
     font-size: 1.728rem;
-    line-height: 1.30208; }
-
-  h5,
-  .h5 {
+    line-height: 1.3020833; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h5, .h5 {
     font-size: 23.04px;
     font-size: 1.44rem;
-    line-height: 1.5625; }
-
-  h6,
-  .h6 {
+    line-height: 1.5625039; }
+  /* line 953, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_functions.scss */
+  h6, .h6 {
     font-size: 19.2px;
     font-size: 1.2rem;
     line-height: 1.25; } }
+
+/* line 45, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .fixed_row {
   margin-left: 0; }
 
+/* line 84, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .icon {
   width: 1.2em;
   margin-right: .5em;
   display: inline-block;
   margin-top: -.25em; }
 
+/* line 90, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .box_open {
   border-width: 2px; }
 
+/* line 94, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .link_naked {
   color: inherit;
   text-decoration: none; }
+  /* line 98, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
   .link_naked:hover, .link_naked:focus {
     color: inherit;
     text-decoration: none; }
 
+/* line 103, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .table_striped tr:nth-child(odd) td {
   background-color: #dfe6ec; }
 
+/* line 106, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .table_striped th, .table_striped td {
   border-color: #acb0b7;
   border-style: solid; }
 
+/* line 110, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .tab_topline > .tabs {
   background-color: #e3f1fa; }
 
+/* line 113, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .tab_minimal > .tab_content {
-  -webkit-box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
-     -moz-box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
-          box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1); }
+  box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1); }
 
+/* line 116, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 [class*="list_bordered"] > li {
   border-top-width: 2px;
   margin-top: -2px; }
+  /* line 119, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
   [class*="list_bordered"] > li:first-child {
     border-top-color: #d7dde5; }
 
+/* line 123, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 .tab, .list_nav a {
-  font-family: "opensans", verdana, helvetica, arial, sans-serif;
+  font-family: 'opensans', verdana, helvetica, arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: .5px;
   text-decoration: none; }
 
+/* line 135, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/base/_app.scss */
 #toggles {
   position: fixed;
   top: -1px;
@@ -1149,19 +1463,21 @@ hr {
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 5px 10px;
-  -moz-border-radius: 0px 0px 0px 3px;
-       border-radius: 0px 0px 0px 3px; }
+  border-radius: 0px 0px 0px 3px; }
 
+/* line 11, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
 audio:not([controls]) {
   display: none;
   height: 0; }
 
+/* line 16, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
 .chromeframe {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0; }
 
+/* line 23, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
 .visually_hidden {
   padding: 0;
   border: 0;
@@ -1172,11 +1488,12 @@ audio:not([controls]) {
   position: absolute;
   width: 1px; }
 
+/* line 34, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
 .invisible, .hide {
   visibility: hidden !important; }
 
-.visually_hidden.focusable:active,
-.visually_hidden.focusable:focus {
+/* line 43, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
+.visually_hidden.focusable:active, .visually_hidden.focusable:focus {
   clip: auto;
   height: auto;
   margin: 0;
@@ -1184,940 +1501,1017 @@ audio:not([controls]) {
   position: static;
   width: auto; }
 
+/* line 52, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
 .hidden {
   display: none !important;
   visibility: hidden; }
 
+/* line 57, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
 [class*="list_bordered"] > li, .breadcrumbs > li a, .list_nav a, .tab_content, .tab_side > .tabs .tab, .box_square .body {
   display: block; }
 
+/* line 63, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
 .wrap, .clearfix, .tabbed, .tab_content, .box, .media_block {
   *zoom: 1; }
+  /* line 65, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
   .wrap:before, .clearfix:before, .wrap:after, .clearfix:after, .tabbed:before, .tab_content:before, .box:before, .media_block:before, .tabbed:after, .tab_content:after, .box:after, .media_block:after {
     display: table;
     content: " "; }
+  /* line 69, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_overrides.scss */
   .wrap:after, .clearfix:after, .tabbed:after, .tab_content:after, .box:after, .media_block:after {
     clear: both;
     height: 0px;
     width: 0px; }
 
+/* line 18, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
 .align_left {
   float: left !important;
   margin-right: 32px;
   margin-right: 2rem; }
 
+/* line 23, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
 .align_right {
   float: right !important;
   margin-left: 32px;
   margin-left: 2rem; }
 
+/* line 28, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
 .align_center {
   float: none !important;
   margin: 0 auto !important;
   display: block !important; }
 
+/* line 34, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
 .align_none {
   float: none !important;
   margin: 0 !important; }
 
+/* line 39, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
 .float_left {
   float: left !important; }
 
+/* line 43, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
 .float_right {
   float: right !important; }
 
+/* line 47, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
 .float_none {
   float: none !important; }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width:640px) {
+  /* line 18, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .smalls_align_left {
     float: left !important;
     margin-right: 32px;
     margin-right: 2rem; }
-
+  /* line 23, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .smalls_align_right {
     float: right !important;
     margin-left: 32px;
     margin-left: 2rem; }
-
+  /* line 28, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .smalls_align_center {
     float: none !important;
     margin: 0 auto !important;
     display: block !important; }
-
+  /* line 34, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .smalls_align_none {
     float: none !important;
     margin: 0 !important; }
-
+  /* line 39, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .smalls_float_left {
     float: left !important; }
-
+  /* line 43, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .smalls_float_right {
     float: right !important; }
-
+  /* line 47, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .smalls_float_none {
     float: none !important; } }
+
 @media only screen and (max-width: 480px) {
+  /* line 18, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .small_align_left {
     float: left !important;
     margin-right: 32px;
     margin-right: 2rem; }
-
+  /* line 23, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .small_align_right {
     float: right !important;
     margin-left: 32px;
     margin-left: 2rem; }
-
+  /* line 28, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .small_align_center {
     float: none !important;
     margin: 0 auto !important;
     display: block !important; }
-
+  /* line 34, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .small_align_none {
     float: none !important;
     margin: 0 !important; }
-
+  /* line 39, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .small_float_left {
     float: left !important; }
-
+  /* line 43, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .small_float_right {
     float: right !important; }
-
+  /* line 47, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .small_float_none {
     float: none !important; } }
+
 @media only screen and (min-width: 641px) {
+  /* line 18, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .bigs_align_left {
     float: left !important;
     margin-right: 32px;
     margin-right: 2rem; }
-
+  /* line 23, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .bigs_align_right {
     float: right !important;
     margin-left: 32px;
     margin-left: 2rem; }
-
+  /* line 28, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .bigs_align_center {
     float: none !important;
     margin: 0 auto !important;
     display: block !important; }
-
+  /* line 34, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .bigs_align_none {
     float: none !important;
     margin: 0 !important; }
-
+  /* line 39, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .bigs_float_left {
     float: left !important; }
-
+  /* line 43, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .bigs_float_right {
     float: right !important; }
-
+  /* line 47, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .bigs_float_none {
     float: none !important; } }
+
 @media only screen and (min-width: 941px) {
+  /* line 18, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .desk_align_left {
     float: left !important;
     margin-right: 32px;
     margin-right: 2rem; }
-
+  /* line 23, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .desk_align_right {
     float: right !important;
     margin-left: 32px;
     margin-left: 2rem; }
-
+  /* line 28, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .desk_align_center {
     float: none !important;
     margin: 0 auto !important;
     display: block !important; }
-
+  /* line 34, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .desk_align_none {
     float: none !important;
     margin: 0 !important; }
-
+  /* line 39, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .desk_float_left {
     float: left !important; }
-
+  /* line 43, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .desk_float_right {
     float: right !important; }
-
+  /* line 47, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_alignment.scss */
   .desk_float_none {
     float: none !important; } }
+
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_n {
   padding: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_t_n, .pad_v_n {
   padding-top: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_l_n, .pad_h_n {
   padding-left: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_b_n, .pad_v_n {
   padding-bottom: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_r_n, .pad_h_n {
   padding-right: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad {
   padding: 24px !important;
   padding: 1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_t, .pad_v {
   padding-top: 24px !important;
   padding-top: 1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_l, .pad_h {
   padding-left: 32px !important;
   padding-left: 2rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_b, .pad_v {
   padding-bottom: 24px !important;
   padding-bottom: 1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_r, .pad_h {
   padding-right: 32px !important;
   padding-right: 2rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_half {
   padding: 12px !important;
   padding: 0.75rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_t_half, .pad_v_half {
   padding-top: 12px !important;
   padding-top: 0.75rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_l_half, .pad_h_half {
   padding-left: 16px !important;
   padding-left: 1rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_b_half, .pad_v_half {
   padding-bottom: 12px !important;
   padding-bottom: 0.75rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_r_half, .pad_h_half {
   padding-right: 16px !important;
   padding-right: 1rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_neg {
   padding: -24px !important;
   padding: -1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_t_neg, .pad_v_neg {
   padding-top: -24px !important;
   padding-top: -1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_l_neg, .pad_h_neg {
   padding-left: -32px !important;
   padding-left: -2rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_b_neg, .pad_v_neg {
   padding-bottom: -24px !important;
   padding-bottom: -1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .pad_r_neg, .pad_h_neg {
   padding-right: -32px !important;
   padding-right: -2rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_n {
   margin: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_t_n, .space_v_n {
   margin-top: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_l_n, .space_h_n {
   margin-left: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_b_n, .space_v_n {
   margin-bottom: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_r_n, .space_h_n {
   margin-right: 0 !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space {
   margin: 24px !important;
   margin: 1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_t, .space_v {
   margin-top: 24px !important;
   margin-top: 1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_l, .space_h {
   margin-left: 32px !important;
   margin-left: 2rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_b, .space_v {
   margin-bottom: 24px !important;
   margin-bottom: 1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_r, .space_h {
   margin-right: 32px !important;
   margin-right: 2rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_half {
   margin: 12px !important;
   margin: 0.75rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_t_half, .space_v_half {
   margin-top: 12px !important;
   margin-top: 0.75rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_l_half, .space_h_half {
   margin-left: 16px !important;
   margin-left: 1rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_b_half, .space_v_half {
   margin-bottom: 12px !important;
   margin-bottom: 0.75rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_r_half, .space_h_half {
   margin-right: 16px !important;
   margin-right: 1rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_neg {
   margin: -24px !important;
   margin: -1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_t_neg, .space_v_neg {
   margin-top: -24px !important;
   margin-top: -1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_l_neg, .space_h_neg {
   margin-left: -32px !important;
   margin-left: -2rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_b_neg, .space_v_neg {
   margin-bottom: -24px !important;
   margin-bottom: -1.5rem !important; }
 
+/* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
 .space_r_neg, .space_h_neg {
   margin-right: -32px !important;
   margin-right: -2rem !important; }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width:640px) {
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_n {
     padding: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_t_n, .smalls_pad_v_n {
     padding-top: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_l_n, .smalls_pad_h_n {
     padding-left: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_b_n, .smalls_pad_v_n {
     padding-bottom: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_r_n, .smalls_pad_h_n {
     padding-right: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad {
     padding: 24px !important;
     padding: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_t, .smalls_pad_v {
     padding-top: 24px !important;
     padding-top: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_l, .smalls_pad_h {
     padding-left: 32px !important;
     padding-left: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_b, .smalls_pad_v {
     padding-bottom: 24px !important;
     padding-bottom: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_r, .smalls_pad_h {
     padding-right: 32px !important;
     padding-right: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_half {
     padding: 12px !important;
     padding: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_t_half, .smalls_pad_v_half {
     padding-top: 12px !important;
     padding-top: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_l_half, .smalls_pad_h_half {
     padding-left: 16px !important;
     padding-left: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_b_half, .smalls_pad_v_half {
     padding-bottom: 12px !important;
     padding-bottom: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_r_half, .smalls_pad_h_half {
     padding-right: 16px !important;
     padding-right: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_neg {
     padding: -24px !important;
     padding: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_t_neg, .smalls_pad_v_neg {
     padding-top: -24px !important;
     padding-top: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_l_neg, .smalls_pad_h_neg {
     padding-left: -32px !important;
     padding-left: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_b_neg, .smalls_pad_v_neg {
     padding-bottom: -24px !important;
     padding-bottom: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_pad_r_neg, .smalls_pad_h_neg {
     padding-right: -32px !important;
     padding-right: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_n {
     margin: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_t_n, .smalls_space_v_n {
     margin-top: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_l_n, .smalls_space_h_n {
     margin-left: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_b_n, .smalls_space_v_n {
     margin-bottom: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_r_n, .smalls_space_h_n {
     margin-right: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space {
     margin: 24px !important;
     margin: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_t, .smalls_space_v {
     margin-top: 24px !important;
     margin-top: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_l, .smalls_space_h {
     margin-left: 32px !important;
     margin-left: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_b, .smalls_space_v {
     margin-bottom: 24px !important;
     margin-bottom: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_r, .smalls_space_h {
     margin-right: 32px !important;
     margin-right: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_half {
     margin: 12px !important;
     margin: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_t_half, .smalls_space_v_half {
     margin-top: 12px !important;
     margin-top: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_l_half, .smalls_space_h_half {
     margin-left: 16px !important;
     margin-left: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_b_half, .smalls_space_v_half {
     margin-bottom: 12px !important;
     margin-bottom: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_r_half, .smalls_space_h_half {
     margin-right: 16px !important;
     margin-right: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_neg {
     margin: -24px !important;
     margin: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_t_neg, .smalls_space_v_neg {
     margin-top: -24px !important;
     margin-top: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_l_neg, .smalls_space_h_neg {
     margin-left: -32px !important;
     margin-left: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_b_neg, .smalls_space_v_neg {
     margin-bottom: -24px !important;
     margin-bottom: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .smalls_space_r_neg, .smalls_space_h_neg {
     margin-right: -32px !important;
     margin-right: -2rem !important; } }
+
 @media only screen and (max-width: 480px) {
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_n {
     padding: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_t_n, .small_pad_v_n {
     padding-top: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_l_n, .small_pad_h_n {
     padding-left: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_b_n, .small_pad_v_n {
     padding-bottom: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_r_n, .small_pad_h_n {
     padding-right: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad {
     padding: 24px !important;
     padding: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_t, .small_pad_v {
     padding-top: 24px !important;
     padding-top: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_l, .small_pad_h {
     padding-left: 32px !important;
     padding-left: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_b, .small_pad_v {
     padding-bottom: 24px !important;
     padding-bottom: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_r, .small_pad_h {
     padding-right: 32px !important;
     padding-right: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_half {
     padding: 12px !important;
     padding: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_t_half, .small_pad_v_half {
     padding-top: 12px !important;
     padding-top: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_l_half, .small_pad_h_half {
     padding-left: 16px !important;
     padding-left: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_b_half, .small_pad_v_half {
     padding-bottom: 12px !important;
     padding-bottom: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_r_half, .small_pad_h_half {
     padding-right: 16px !important;
     padding-right: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_neg {
     padding: -24px !important;
     padding: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_t_neg, .small_pad_v_neg {
     padding-top: -24px !important;
     padding-top: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_l_neg, .small_pad_h_neg {
     padding-left: -32px !important;
     padding-left: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_b_neg, .small_pad_v_neg {
     padding-bottom: -24px !important;
     padding-bottom: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_pad_r_neg, .small_pad_h_neg {
     padding-right: -32px !important;
     padding-right: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_n {
     margin: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_t_n, .small_space_v_n {
     margin-top: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_l_n, .small_space_h_n {
     margin-left: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_b_n, .small_space_v_n {
     margin-bottom: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_r_n, .small_space_h_n {
     margin-right: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space {
     margin: 24px !important;
     margin: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_t, .small_space_v {
     margin-top: 24px !important;
     margin-top: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_l, .small_space_h {
     margin-left: 32px !important;
     margin-left: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_b, .small_space_v {
     margin-bottom: 24px !important;
     margin-bottom: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_r, .small_space_h {
     margin-right: 32px !important;
     margin-right: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_half {
     margin: 12px !important;
     margin: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_t_half, .small_space_v_half {
     margin-top: 12px !important;
     margin-top: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_l_half, .small_space_h_half {
     margin-left: 16px !important;
     margin-left: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_b_half, .small_space_v_half {
     margin-bottom: 12px !important;
     margin-bottom: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_r_half, .small_space_h_half {
     margin-right: 16px !important;
     margin-right: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_neg {
     margin: -24px !important;
     margin: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_t_neg, .small_space_v_neg {
     margin-top: -24px !important;
     margin-top: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_l_neg, .small_space_h_neg {
     margin-left: -32px !important;
     margin-left: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_b_neg, .small_space_v_neg {
     margin-bottom: -24px !important;
     margin-bottom: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .small_space_r_neg, .small_space_h_neg {
     margin-right: -32px !important;
     margin-right: -2rem !important; } }
+
 @media only screen and (min-width: 641px) {
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_n {
     padding: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_t_n, .bigs_pad_v_n {
     padding-top: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_l_n, .bigs_pad_h_n {
     padding-left: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_b_n, .bigs_pad_v_n {
     padding-bottom: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_r_n, .bigs_pad_h_n {
     padding-right: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad {
     padding: 24px !important;
     padding: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_t, .bigs_pad_v {
     padding-top: 24px !important;
     padding-top: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_l, .bigs_pad_h {
     padding-left: 32px !important;
     padding-left: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_b, .bigs_pad_v {
     padding-bottom: 24px !important;
     padding-bottom: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_r, .bigs_pad_h {
     padding-right: 32px !important;
     padding-right: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_half {
     padding: 12px !important;
     padding: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_t_half, .bigs_pad_v_half {
     padding-top: 12px !important;
     padding-top: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_l_half, .bigs_pad_h_half {
     padding-left: 16px !important;
     padding-left: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_b_half, .bigs_pad_v_half {
     padding-bottom: 12px !important;
     padding-bottom: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_r_half, .bigs_pad_h_half {
     padding-right: 16px !important;
     padding-right: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_neg {
     padding: -24px !important;
     padding: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_t_neg, .bigs_pad_v_neg {
     padding-top: -24px !important;
     padding-top: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_l_neg, .bigs_pad_h_neg {
     padding-left: -32px !important;
     padding-left: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_b_neg, .bigs_pad_v_neg {
     padding-bottom: -24px !important;
     padding-bottom: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_pad_r_neg, .bigs_pad_h_neg {
     padding-right: -32px !important;
     padding-right: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_n {
     margin: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_t_n, .bigs_space_v_n {
     margin-top: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_l_n, .bigs_space_h_n {
     margin-left: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_b_n, .bigs_space_v_n {
     margin-bottom: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_r_n, .bigs_space_h_n {
     margin-right: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space {
     margin: 24px !important;
     margin: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_t, .bigs_space_v {
     margin-top: 24px !important;
     margin-top: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_l, .bigs_space_h {
     margin-left: 32px !important;
     margin-left: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_b, .bigs_space_v {
     margin-bottom: 24px !important;
     margin-bottom: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_r, .bigs_space_h {
     margin-right: 32px !important;
     margin-right: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_half {
     margin: 12px !important;
     margin: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_t_half, .bigs_space_v_half {
     margin-top: 12px !important;
     margin-top: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_l_half, .bigs_space_h_half {
     margin-left: 16px !important;
     margin-left: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_b_half, .bigs_space_v_half {
     margin-bottom: 12px !important;
     margin-bottom: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_r_half, .bigs_space_h_half {
     margin-right: 16px !important;
     margin-right: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_neg {
     margin: -24px !important;
     margin: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_t_neg, .bigs_space_v_neg {
     margin-top: -24px !important;
     margin-top: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_l_neg, .bigs_space_h_neg {
     margin-left: -32px !important;
     margin-left: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_b_neg, .bigs_space_v_neg {
     margin-bottom: -24px !important;
     margin-bottom: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .bigs_space_r_neg, .bigs_space_h_neg {
     margin-right: -32px !important;
     margin-right: -2rem !important; } }
+
 @media only screen and (min-width: 941px) {
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_n {
     padding: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_t_n, .desk_pad_v_n {
     padding-top: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_l_n, .desk_pad_h_n {
     padding-left: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_b_n, .desk_pad_v_n {
     padding-bottom: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_r_n, .desk_pad_h_n {
     padding-right: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad {
     padding: 24px !important;
     padding: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_t, .desk_pad_v {
     padding-top: 24px !important;
     padding-top: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_l, .desk_pad_h {
     padding-left: 32px !important;
     padding-left: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_b, .desk_pad_v {
     padding-bottom: 24px !important;
     padding-bottom: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_r, .desk_pad_h {
     padding-right: 32px !important;
     padding-right: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_half {
     padding: 12px !important;
     padding: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_t_half, .desk_pad_v_half {
     padding-top: 12px !important;
     padding-top: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_l_half, .desk_pad_h_half {
     padding-left: 16px !important;
     padding-left: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_b_half, .desk_pad_v_half {
     padding-bottom: 12px !important;
     padding-bottom: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_r_half, .desk_pad_h_half {
     padding-right: 16px !important;
     padding-right: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_neg {
     padding: -24px !important;
     padding: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_t_neg, .desk_pad_v_neg {
     padding-top: -24px !important;
     padding-top: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_l_neg, .desk_pad_h_neg {
     padding-left: -32px !important;
     padding-left: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_b_neg, .desk_pad_v_neg {
     padding-bottom: -24px !important;
     padding-bottom: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_pad_r_neg, .desk_pad_h_neg {
     padding-right: -32px !important;
     padding-right: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_n {
     margin: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_t_n, .desk_space_v_n {
     margin-top: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_l_n, .desk_space_h_n {
     margin-left: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_b_n, .desk_space_v_n {
     margin-bottom: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_r_n, .desk_space_h_n {
     margin-right: 0 !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space {
     margin: 24px !important;
     margin: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_t, .desk_space_v {
     margin-top: 24px !important;
     margin-top: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_l, .desk_space_h {
     margin-left: 32px !important;
     margin-left: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_b, .desk_space_v {
     margin-bottom: 24px !important;
     margin-bottom: 1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_r, .desk_space_h {
     margin-right: 32px !important;
     margin-right: 2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_half {
     margin: 12px !important;
     margin: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_t_half, .desk_space_v_half {
     margin-top: 12px !important;
     margin-top: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_l_half, .desk_space_h_half {
     margin-left: 16px !important;
     margin-left: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_b_half, .desk_space_v_half {
     margin-bottom: 12px !important;
     margin-bottom: 0.75rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_r_half, .desk_space_h_half {
     margin-right: 16px !important;
     margin-right: 1rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_neg {
     margin: -24px !important;
     margin: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_t_neg, .desk_space_v_neg {
     margin-top: -24px !important;
     margin-top: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_l_neg, .desk_space_h_neg {
     margin-left: -32px !important;
     margin-left: -2rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_b_neg, .desk_space_v_neg {
     margin-bottom: -24px !important;
     margin-bottom: -1.5rem !important; }
-
+  /* line 87, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/layout/_spacing.scss */
   .desk_space_r_neg, .desk_space_h_neg {
     margin-right: -32px !important;
     margin-right: -2rem !important; } }
+
+/* line 206, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
 .show {
   display: block !important; }
 
+/* line 207, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
 .hide {
   display: none !important; }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width:640px) {
+  /* line 206, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .smalls_show {
     display: block !important; }
-
+  /* line 207, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .smalls_hide {
     display: none !important; } }
+
 @media only screen and (max-width: 480px) {
+  /* line 206, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .small_show {
     display: block !important; }
-
+  /* line 207, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .small_hide {
     display: none !important; } }
+
 @media only screen and (min-width: 641px) {
+  /* line 206, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .bigs_show {
     display: block !important; }
-
+  /* line 207, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .bigs_hide {
     display: none !important; } }
+
 @media only screen and (min-width: 941px) {
+  /* line 206, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .desk_show {
     display: block !important; }
-
+  /* line 207, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
   .desk_hide {
     display: none !important; } }

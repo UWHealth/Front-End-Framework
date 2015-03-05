@@ -451,16 +451,15 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
             @while $divisor > 0 {                                                  // [2]
 
                 @for $numerator from 1 to $divisor{                                // [3a]
-
+					//Create numerator (first number, e.g. 'two').
                     $numerators: nth($human-readable_numerators, $numerator);      // [4]
-                    //Create numerator (first number, e.g. 'two').
 
+					//Create denominator (second number, e.g. 'twelfths').
                     $denominator: nth($human-readable_denominators, $divisor);
-                    //Create denominator (second number, e.g. 'twelfths').
 
+					//Divide first number(numerator) by second number(denominator).
                     $width: percentage($numerator / $divisor);
-                    //Divide first number(numerator) by second number(denominator).
-
+                    
                     @if $numerator == 1{                                          // [5]
                         #{$class-type}#{$namespace}#{$numerators}_#{$denominator} {
                             width: $width;
