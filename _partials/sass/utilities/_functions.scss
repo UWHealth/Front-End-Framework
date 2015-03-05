@@ -230,10 +230,38 @@ $iter: 50;
 
 //Golden Ratio generator.
 @function golden() {
-  @return 1/2 + sqrt(5) / 2;
+    @return 1/2 + sqrt(5) / 2;
 }
 
 $golden_ratio: golden();
+
+//Sine
+// From: https://unindented.org/articles/trigonometry-in-sass/
+@function sin($angle) {
+    $sin: 0;
+    $angle: rad($angle);
+    // Iterate a bunch of times.
+    @for $i from 0 through 10 {
+        $sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
+    }
+    @return $sin;
+}
+
+//Cosine
+@function cos($angle) {
+    $cos: 0;
+    $angle: rad($angle);
+    // Iterate a bunch of times.
+    @for $i from 0 through 10 {
+        $cos: $cos + pow(-1, $i) * pow($angle, 2 * $i) / fact(2 * $i);
+    }
+    @return $cos;
+}
+
+//Tangent
+@function tan($angle) {
+    @return sin($angle) / cos($angle);
+}
 
 // Math helpers
 // From https://github.com/inuitcss/tools.functions/blob/master/_tools.functions.scss
@@ -266,6 +294,35 @@ $golden_ratio: golden();
 //------------------------------------
 //    $HELPERS
 //------------------------------------
+
+// Specificity increaser
+// Useful for increasing specificity of a selector instead of using !important
+//
+// Taken from: http://www.sitepoint.com/selector-specificity-css-preprocessors/
+
+@mixin specificity($num: 1) {
+    $selector: unquote('&');
+
+    @if $num > 1 {
+        @for $i from 1 to $num {
+            $selector: $selector + unquote('&');
+        }
+        @at-root #{$selector} {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+// Percent to Decimal
+//
+@function percentage-to-decimal($percentage) {
+    @if unit($percentage) == '%' {
+        $percentage: $percentage/100%;
+    }
+    @return $percentage;
+}
 
 // Strip units from a sass value
 // Taken from:
@@ -334,10 +391,12 @@ $golden_ratio: golden();
 
 }
 
-//String Helpers.
+//String Helpers
+//-----------------------------------
 // Taken from: https://github.com/devatrox/Sunglass
 
-//String-contains
+// String contains check
+// Outputs true/false based on inputs
 @function str-contains($string, $substr, $pos: 0) {
 
     $string: str-slice($string, $pos);
@@ -351,6 +410,7 @@ $golden_ratio: golden();
 }
 
 //String Joining
+//
 @function str-join($list, $separator: ",") {
     $string: "";
 
@@ -362,8 +422,37 @@ $golden_ratio: golden();
         }
     }
 
-  @return $string;
+    @return $string;
 }
+
+// List contains check
+// Outputs true/false
+@function list-contains($list, $var) {
+    @return (false == index($list, $var));
+}
+
+
+//List print
+
+@function list-print($string, $n) {
+    $output: '';
+
+    @if $n > 0 {
+        @for $i from 1 through $n {
+            $output: $output + $string;
+        }
+    }
+
+    @return $output;
+}
+
+//Viewport width from pixel converter
+// Converts pixel dimensions to viewport
+@function get-vw($pixel-val) {
+    $vw-context: (1000*.01) * 1px;
+    @return ($pixel-val/$vw-context) * 1vw;
+}
+
 
 //Map Helpers
 //-----------------------------------
@@ -404,6 +493,7 @@ $golden_ratio: golden();
     @return $level;
 }
 
+//Alias for map-depth
 @function depth($map){
     @return map-depth($map);
 }
@@ -425,6 +515,7 @@ $golden_ratio: golden();
         @if not map-has-key($map, $key) {
             @return false;
         }
+
         $map: map-get($map, $key);
     }
 
@@ -432,6 +523,8 @@ $golden_ratio: golden();
 }
 
 //Map Extend
+// Similar to jQuery's extend function but for sass maps
+// Takes two maps and merges their differences
 @function map-extend($map, $maps.../*, $deep */) {
     $last: nth($maps, -1);
     $deep: $last == true;
@@ -464,21 +557,190 @@ $golden_ratio: golden();
     @return $map;
 }
 
-//Map debugger
-@mixin debug-map($map) {
-    @at-root {
-        @debug-map {
-            __toString__: inspect($map);
-            __length__: length($map);
-            __depth__: depth($map);
-            __keys__: map-keys($map);
-            __properties__ {
-                @each $key, $value in $map {
-                    #{'(' + type-of($value) + ') ' + $key}: inspect($value);
-                }
-            }
+//Get map value at nested or 'deep' key, per $keys list
+@function map-get-nested($map, $keys...) {
+    @each $key in $keys {
+        @if type-of($map) != 'map' {
+            @return $map;
         }
+        $map: map-get($map, $key);
     }
+    @return $map;
+}
+
+
+//Map printer
+//Print maps into a string
+// Useful for debugging maps.
+// Taken from: https://github.com/lunelson/sass-maps-plus
+
+@function map-inspect($map, $level: 1) {
+    $tab: '    ';
+    $cr: '
+';
+
+    @if type-of($map) != 'map' {
+        @return '#{inspect($map)}';
+    }
+
+    $indent: list-print($tab, $level + 1);
+    $output: '(' + $cr + $indent; $i: 1;
+
+    @each $key, $value in $map {
+        @if type-of($value) == 'map' {
+            $output: $output + '#{$key}: #{map-inspect($value, $level+1)}';
+        } @else {
+            $output: $output + '#{$key}: #{$value}';
+        }
+
+        @if $i < length(map-keys($map)) {
+            $output: $output + ',' + $cr + $indent;
+        }
+
+        $i: $i + 1;
+    }
+
+    $outdent: list-print($tab, $level);
+
+    @return $output + $cr + $outdent + ')';
+}
+
+
+//Map depth-adder
+//-------------------------
+// Adds 'base'(or whatever initial key that's passed in) to a color map.
+// Used by color map generator function (colors/_colorfunctions)
+//--------------------------
+// 1. Check if map is less than or equal to the depth tolerance (default: 1).
+// 2. loops through all keys and values in the map.
+// 3. Make sure value isn't alreayd a map
+//   3a. If value is a map, then check to make sure $new-key is in the map
+//     3b. Duplicate first value of map (in case there are multiple)
+//     3c. Create new map with new-key and duplicated value
+// 4. Reformats those key-value pairs into a (key: (new-key: value ))
+// 5. Merges new depthy key-key-value back into the map.
+// 6. Returns the new map.
+
+@function map-add-depth($map, $new-key: base){
+	$formatted-key:(); $new-map:'';
+
+    @each $key, $value in $map { 				//[2]
+        $formatted-key: ();
+        @if type-of($value) != "map" {                      //[3]
+            $formatted-key: ($key: ($new-key: $value));     //[4]
+
+        }@else if not map-has-key($value, $new-key) {       //[3a]
+            $duplicate-value: map-get($value, nth(map-keys($value), 1)); //[3b]
+            $duplicate-map: ($new-key : $duplicate-value);               //[3c]
+
+            $formatted-key: ($key: (map-merge($value, $duplicate-map))); //[4]
+        }
+        $map: map-merge($map, $formatted-key);		//[5]
+	}
+
+	@return $map; 									//[6]
+}
+
+
+//-----------------------------------
+//    $PHOTOSHOP LAYER STYLE MIMICS
+//-----------------------------------
+
+//Photoshop shadow mimic
+// Allows you to use photoshop drop/inner shadow settings to generate CSS shadows
+
+@function photoshop-shadow (
+    $color: #000,
+    $angle: 120,
+    $distance: 0,
+    $size: 0,
+    $spread: 0,
+    $inner: false
+) {
+
+    $x-offset: round( cos( $angle ) * $distance );
+    $y-offset: round( sin( $angle ) * $distance );
+    $css-spread: $size * ( $spread/100 );
+    $blur: $size - $css-spread;
+    $inset: if( $inner != false, 'inset', '' );
+
+    @return ( $x-offset $y-offset $blur $css-spread $color unquote($inset) );
+}
+
+//Photoshop text-shadow converter
+// Same as above, but for text-shadows
+@function photoshop-text-shadow (
+    $color: #000,
+    $angle: 120deg,
+    $distance: 0,
+    $size: 0,
+    $spread: null
+) {
+
+    @if $spread != null {
+        @warn "spread has no effect for text shadows";
+    }
+
+    $shadow: photoshop-shadow( $color, $angle, $distance, $size, $spread);
+
+    @return ( nth( $shadow, 1 ) nth( $shadow, 2 ) nth( $shadow, 3 ) nth( $shadow, 5 ) );
+}
+
+//Photoshop gradient overlay converter
+
+@function photoshop-gradient-overlay(
+    $gradient-colors: (#000, #fff),
+    $gradient-stops: (0%, 100%),
+    $angle: 90deg,
+    $opacity: 100%,
+    $scale: 100%,
+    $bg-color: white,
+    $blend: normal
+) {
+    $gradient-stops: (0%, 100%) !default;
+    $css-angle: convert-angle($angle);
+    $color-stops: ();
+
+    @for $i from 1 through length($gradient-colors) {
+        $blended-color: blend($blend, nth($gradient-colors, $i), $bg-color);
+        $stop: join($blended-color, stop-scale(nth($gradient-stops, $i), $scale), space);
+        $color-stops: append($color-stops, $stop, comma);
+    }
+    @return linear-gradient($css-angle, $color-stops);
+}
+
+//Convert angles for css gradients
+@function convert-angle($angle) {
+
+    @if $angle == 0 or $angle == 360 {
+        @return left;
+    } @else if $angle == 45 or $angle == -315 {
+        @return left bottom;
+    } @else if $angle == 90 or $angle == -270 {
+        @return bottom;
+    } @else if $angle == 135 or $angle == -225{
+        @return right bottom;
+    } @else if $angle == 180 or $angle == 180{
+        @return right;
+    } @else if $angle == -135 or $angle == 225 {
+        @return right top;
+    } @else if $angle == -90 or $angle == 270 {
+        @return top;
+    } @else if $angle == -45 or $angle == 315 {
+        @return left top;
+    } @else {
+        @return $angle - 90deg;
+    }
+}
+
+//Photoshop gradient stop converter
+// Used in gradient overlay function
+@function stop-scale($stop, $scale) {
+    $stop: percentage-to-decimal($stop);
+    $new-stop: 0;
+    $scale: percentage-to-decimal($scale);
+
+    @return percentage($scale * $stop - (0.5 * ($scale - 1)));
 }
 
 
@@ -838,7 +1100,7 @@ $headings-use: 0;
     @if not map-has-key($colors, $color) {
         @warn "Key `#{$key}` not found in $colors map.";
     }
-    
+
     @return map-get(map-get($colors, $color), $tone);
 }
 //Same as above, but possibly more intuitively named

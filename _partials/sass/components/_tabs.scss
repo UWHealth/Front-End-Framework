@@ -38,19 +38,19 @@ $tab-border:                  		$tab-button-bg           !default;
 //Active tab-bg color.
 //Note: If invert-active is set to false,
 //then this will apply to the inactive tabs.
-$tab-button-bg:                     $function-color-darker   !default;
+$tab-button-bg:                     color(function, darker)   !default;
 
 
 //Tab box content BG color.
 //Also applied to non-inverted-active tabs.
-$tab-content-bg:                    $function-color-lighter  !default;
+$tab-content-bg:                    color(function, lighter)  !default;
 
 //Inactive tab coloring
 $tab-button-secondary:              pick_best_color($tab-button-bg,(
 										lighten($tab-button-bg, 20%),
 										lighten($tab-button-bg, 30%),
 										darken($tab-button-bg, 10%)
-									))!default;
+									)) !default;
 
 //Active tab_button text color.
 //Note: If invert-active is set to false,
@@ -201,10 +201,13 @@ $tab-minimal-include: 				true 					!default;
 }
 
 //Inactive Top-tabs stylings.
+
 $best-tab-color: pick_best_color(
 		$tab-button-secondary, (
-		#fff, blend-overlay(#ccc, $tab-button-bg), blend-overlay(#333, $tab-button-bg)
+		#fff, blend-multiply(#ccc, $tab-button-bg), blend-overlay(#333, $tab-button-bg)
 	));
+$best-tab-color: $tab-button-secondary;
+
 .tab {
 	position: relative;
 	display: inline-block;
@@ -240,7 +243,7 @@ $best-tab-color: pick_best_color(
 			color: $tab-button-bg;
 		}@else{
 			@extend %tab_color_text;
-			background-color: pick_best_color($tab-button-text, (blend-overlay(#aaa,$tab-button-bg), blend-overlay(#333, $tab-button-bg)));
+			background-color: pick_best_color($tab-button-text, (blend-overlay(#aaa, $tab-button-bg), blend-overlay(#333, $tab-button-bg)));
 		}
 	}
 }
@@ -320,6 +323,7 @@ $best-tab-color: pick_best_color(
 
 .tab_side{
     display: table; //Making sure the height doesn't get wacky with tab_side content.
+	@extend %one_whole;
     @extend %space_v;
 }
 

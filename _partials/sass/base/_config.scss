@@ -90,7 +90,9 @@ $breakpoint-has-utilities:    ('smalls', 'small', 'bigs', 'desk');
 $colors: (
 	type: #0a1c2b,
 
-	primary: #063b6d,
+	primary: (
+		dark: #0CCCCC
+	),
 
 	primary-alt: #5f82a3,
 
@@ -109,7 +111,7 @@ $colors: (
 
 // !!Important:
 // Generate color variations to the colors defined above to make them available below.
-@import 'colors/_colorfunctions';
+@import '../colors/_colorfunctions';
 
 //It's rare that you need to make this something other than one of the above variables.
 $link-color: color(links);

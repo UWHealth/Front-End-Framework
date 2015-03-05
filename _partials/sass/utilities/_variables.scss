@@ -42,6 +42,8 @@ $font-italics: 			true  	 !default;
 $font-weights: 			400,700  !default;
 $font-include-eot: 		true 	 !default;
 
+//Include px values when rems are generated?
+$rem-px-fallback: 			true !default;
 
 // What would you like your base font-size to be? Define in pixels; the library
 // will convert measurements to the most appropriate units (rems or unitless).
@@ -209,7 +211,7 @@ $use-margin-adjustments:false!default;
  // github.com/csswizardry/csswizardry-grids/commit/744d4b23c9d2b77d605b5991e54a397df72e0688
  // github.com/csswizardry/inuit.css/issues/170#issuecomment-14859371
 
-$use-markup-fix:        true!default;
+$use-markup-fix:        true !default;
 
 
  // Define your breakpoints. The first value is the prefix that shall be used for
@@ -258,6 +260,30 @@ $bigs: nth($lg-breakpoint, 1);
 
 $include-alignment-classes: 	false !default;
 $include-spacing-classes: 		false !default;
+
+//At which breakpoints should spacing and alignment classes be included?
+$breakpoint-has-utilities:    ('smalls', 'small', 'bigs', 'desk');
+
+//------------------------------------
+//		$COLORS
+//------------------------------------
+
+//Base color variable
+// Any name can be used, and any name can contain a map of variations.
+// e.g. primary: (base: #063b6d, light: #BADA55, dark: #D00DE ),
+// Variations will automatically be generated, but are at the whims of math
+
+//See colors/_colorfunctions.scss for more
+
+$colors: (
+	'primary': #063b6d,
+	'primary-alt': #5f82a3,
+	'accent': #d40026,
+	'accent-alt': #fe0202,
+	'action': #4c7659,
+	'function': #d4c9ad,
+	'alert': #b22727
+) !default;
 
 
 //------------------------------------

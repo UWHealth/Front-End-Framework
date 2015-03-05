@@ -6,8 +6,13 @@
 hr{
 	height: 2px;
 }
+
 body{
 	@extend %pad_b_2;
+	background-image: photoshop-gradient-overlay(
+			(color(bg, lightest), color(bg)), (0%, 100%),
+			90
+		);
 }
 .wrap{
     @extend %bigs_nine_tenths; //90%

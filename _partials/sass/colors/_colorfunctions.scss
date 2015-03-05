@@ -6,56 +6,15 @@
 //Darker and lighter darkens are available by adding
 // -dark/-darker/-light/-lighter to the end of variable names.
 
-// $colors: (
-// 	primary: #063b6d,
-//
-// 	primary-alt: #5f82a3,
-//
-// 	accent: #d40026,
-//
-// 	accent-alt: #fe0202,
-//
-// 	action: #4c7659,
-//
-// 	function: #d4c9ad,
-//
-// 	alert: #b22727
-// ) !default;
-
-//Color map
-//For easy access, just declare color([color name],[color modifier])
+// Color map
+// For easy access, just declare color([color name],[color modifier])
 // e.g.
 // div{
-//	background-color: color(primary, lighter);
-//	}
+// 	background-color: color(primary, lighter);
+// 	}
 //
 // If you'd prefer to just get the base color, you do not need to declare 'base',
 // just declare color([color name]). 'base' is implied.
-
-
-//FUNCTION: map-add-depth()
-// Adds 'base'(or whatever initial key that's passed in) to a color map.
-// 1. Check if map has just one level of depth.
-// 2. loops through all keys and values in the map.
-// 3. Reformats those key-value pairs into a (key: (new-key: value ))
-// 4. Merges new depthy key-key-value back into the map.
-// 5. Returns the new map.
-
-@function map-add-depth($map, $base-name: base){
-	$new-key:''; $new-map:'';
-
-	@if map-depth($map) <= 1 { 						//[1]
-
-		@each $key, $value in $map { 				//[2]
-
-			$new-key: ($key: ($base-name: $value)); //[3]
-
-			$map: map-merge($map, $new-key);		//[4]
-		}
-	}
-
-	@return $map; 									//[5]
-}
 
 //FUNCTION: combine_colors()
 // Combines two color maps (or really any double-nested map)
@@ -68,7 +27,7 @@
 }
 
 //FUNCTION: generate_color_varations()
-// Adds lighter, darker variations to color map
+// Adds color variations to a color map
 // 1a. Color functions.
 // 1b. Function percentages (e.g. lighten($foo, [percentages])).
 // 1c. Variation names (output to map).
@@ -104,38 +63,41 @@
 		$variation-frequency:
 			length($variation-names) / length($color-functions); //[2a]
 
-		$map: map-add-depth($map);								 //[2b]
+		$map: map-add-depth($map, 'base');						 //[2b]
 		$new-map: $map !global;							 	     //[2c]
 
-		@each $pal, $color in $map{ 				//[3a]
+		@each $palette, $color in $map { 				//[3a]
 			$values-list: $color !global;			//[3b]
 			$color_fn-i: 1;							//[3c]
 
 			@each $variant in $variation-names {        //[4a]
-				$i: index($variation-names, $variant);	//[4b]
-				$amount: nth($increments, $i);			//[4b]
+				@if not map-has-key($color, $variant) {
+					$i: index($variation-names, $variant);	//[4b]
+					$amount: nth($increments, $i);			//[4b]
 
-				$color_fn_place: $i/$variation-frequency;	//[5a]
-				@if $color_fn_place > $color_fn-i{ 			//[5b]
-					$color_fn-i: $color_fn-i + 1;			//[5b]
+					$color_fn_place: $i/$variation-frequency;	//[5a]
+					@if $color_fn_place > $color_fn-i{ 			//[5b]
+						$color_fn-i: $color_fn-i + 1;			//[5b]
+					}
+
+					$curr_fn: nth($color-functions, $color_fn-i); 		//[6a]
+					$curr_color: map-get($color, base);					//[6b]
+
+					@if $blending-color != null{ 						//[6c]
+						$curr_color: append($curr_color, $blending-color);
+					}
+
+					$new-color: call($curr_fn, $curr_color, $amount) !global; 	//[7a]
+					$value: ($variant: $new-color); 							//[7b]
+
+					$values-list: map-merge($value, $values-list) !global;		//[7c]
 				}
-
-				$curr_fn: nth($color-functions, $color_fn-i); 		//[6a]
-				$curr_color: map-get($color, base);					//[6b]
-				@if $blending-color != null{ 						//[6c]
-					$curr_color: append($curr_color, $blending-color);
-				}
-
-				$new-color: call($curr_fn, $curr_color, $amount) !global; 	//[7a]
-				$value: ($variant: $new-color); 							//[7b]
-
-				$values-list: map-merge($value, $values-list) !global;		//[7c]
 			}
 
 			// This is required because sass maps are formatted
 			// with double parenthesis as they get more nested.
 			// (first-level: ( (second-level: value) ) )
-			$inner-map: ($pal:($values-list));				  		//[8a]
+			$inner-map: ($palette:($values-list));				  		//[8a]
 			$new-map: combine_colors($new-map, $inner-map) !global; //[8b]
 
 		}
@@ -144,3 +106,8 @@
 
 //Creates the necessary sass map.
 $colors: generate_color_variations($colors, (tint, shade)) !global;
+
+// Prints color map to the top of the css
+#debug {
+	color: map-inspect($colors);
+}
