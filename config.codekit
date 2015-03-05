@@ -133,9 +133,9 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/kits\/index.kit",
-		"outputAbbreviatedPath": "\/_partials\/kits\/index.html",
+		"outputAbbreviatedPath": "\/index.html",
 		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
+		"outputPathIsSetByUser": 1
 		},
 	"\/_partials\/sass\/base\/_app.scss": {
 		"createSourceMap": 0,
@@ -379,7 +379,7 @@
 		},
 	"\/_partials\/sass\/main.scss": {
 		"createSourceMap": 0,
-		"debugStyle": 0,
+		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 0,
@@ -391,7 +391,7 @@
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 1,
 		"shouldRunBless": 0,
-		"useLibsass": 0
+		"useLibsass": 1
 		},
 	"\/_partials\/sass\/print.scss": {
 		"createSourceMap": 0,
@@ -911,7 +911,7 @@
 		},
 	"\/index.html": {
 		"fileType": 8192,
-		"ignore": 0,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/index.html",
 		"outputAbbreviatedPath": "No Output Path",
