@@ -153,7 +153,6 @@ $tab-minimal-include: 				true 					!default;
 			@extend %tab_border_color;
 			border-bottom-color: transparent;
 		}
-		top: 1px;
 		z-index: 1;
 
 		&:hover{
@@ -187,7 +186,7 @@ $tab-minimal-include: 				true 					!default;
 }
 //Hide normal tabs if the box changes to an accordion on mobile.
 .tab_accordion > .tabs {
-    @extend %#{$smalls}_hide;
+    @extend .#{$smalls}_hide;
 }
 
 //------------------------------------
