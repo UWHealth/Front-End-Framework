@@ -1,355 +1,448 @@
-(function($) {
+!function(root, factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        module.exports = factory();
+    /* AMD module. */
+    } else if (typeof define === "function" && define.amd) {
+        define(['jquery'], factory);
+    /* Browser globals. */
+    } else {
+        factory(root.jQuery);
+    }
+}(this, function($) {
+
+
+    var default_options = {
+        //Uses Velocity syntax
+        tabs_animation: {
+            easing: "easeOutCubic",
+            duration: 300
+        },
+        buttons_animation: {
+            easing: "easeInOutCubic",
+            duration: 300
+        },
+        wrapper: {
+            element: "section",
+            class: "tabbed",
+            extra_classes: '',
+            singular_class: 'tab_single'
+        },
+        navigation: {
+            element: "nav",
+            class: "tabs",
+            extra_classes: ''
+        },
+        tabs: {
+            class: 'tab',
+            active_class: 'active',
+            extra_classes: '',
+            toggle: false,
+            begin: null
+        },
+        buttons: {
+            class: 'tab_button',
+            active_class: 'active',
+            toggle: false,
+            begin: null
+        },
+        content: {
+            class: 'tab_content',
+            active_class: 'tab_active'
+        }
+    };
 
     //Tab setup
 
-    $.tabbed = function(user_options, callback, element) {
-		//Scope to this function (prevents polluting the jQuery object)
-        var t = this;
-        //Used everywhere, so let's define it up top.
-        var $this;
+    $.fn.tabbed = function(user_options, callback) {
 
-        t.default_options = {
-            animation: {
-                class: "tab_animating",
-                speed: 300,
-                easing: "easeOutCubic"
-            },
-            wrapper: {
-                element: "section",
-                class: "tabbed"
-            },
-            navigation: {
-                element: "nav",
-                class: "tabs"
-            },
-            tabs: {
-                class: 'tab',
-                active_class: 'active'
-            },
-            buttons: {
-                class: 'tab_button',
-                active_class: 'active'
-            },
-            content: {
-                class: 'tab_content',
-                active_class: 'tab_active'
-            }
-    	};
+        var $this = this;
 
-		t.init = function(user_options, callback, element) {
+        $this.each(function(){
 
-            //Create scope based on element
-            t.scope = element;
+            var t = {},
+                //Scope to this function (prevents polluting the jQuery object)
+                element = this,
+                //Default animation options so first run is fast
+                no_animation = {opacity: [1,1], duration: 0};
 
-            //Add options if passed by user
-            //Check if function was passed as first parameter, assume it's meant as a callback
-            if (typeof user_options == 'function'){
-                callback = user_options;
-                t.options = $.extend(true, {}, t.default_options, {});
-            }else {
-                t.options = $.extend(true, {}, t.default_options, user_options);
-            }
-            //Create class strings ('.foo') for easier code readability
-            t.populate_options();
-            //Start core functions
-            t.collect_tabs();
-			t.bind_events();
+    		t.init = function(user_options, callback, element) {
 
-            //Callback (passed)
-            if (typeof callback == 'function') {
-                callback.call(this); // brings the scope to the callback
-            }
-		};
+                //Create scope based on element
+                t.scope = element;
 
-        //Loop over the provided options and add class strings for easier selection
-        t.populate_options = function(){
-            var new_key, new_class, option;
-            //loop through keys
-            for (var key in t.options){
-                //Sanitize check. Make sure we don't reference another key
-                if (t.options.hasOwnProperty(key)) {
-                    option = t.options[key];
-                    //Repeat one layer deeper
-                    for (var prop in option){
-                        if (option.hasOwnProperty(prop)) {
-                            //Check for 'class' property
-                            if (prop === 'class') {
-                                //Take spaced notation and convert it to combined class strings
-                                //e.g. 'foo bar' to '.foo.bar'
-                                new_class = option.class.replace(',', '.').replace(' ','');
-                                new_key = key + '_class';
-                                //Store value directly beneath the tabbed object
-                                // (above of t.options for easier typing)
-                                t[new_key] = '.' + new_class;
-                            }else if (prop === 'active_class'){
-                                new_class = option.active_class;
-                                new_key = [key + '_active'];
-                                t[new_key] = new_class;
+                //Add options if passed by user
+                //Check if function was passed as first parameter, assume it's meant as a callback
+                if (typeof user_options === 'function'){
+                    callback = user_options;
+                    t.options = $.extend(true, {}, default_options, {});
+                }else {
+                    t.options = $.extend(true, {}, default_options, user_options);
+                }
+                //Create class strings ('.foo') for easier code readability
+                t.populate_options();
+                //Start core functions
+                t.collect_tabs();
+    			t.bind_events();
+
+                //Callback (passed)
+                if (typeof callback === 'function') {
+                    callback.call(this, t.scope); // brings the scope to the callback
+                }
+    		};
+
+            //Loop over the provided options and add class strings for easier selection
+            t.populate_options = function(){
+
+                // t.anim_props = t.options.animation.properties;
+                t.tab_anim_opts = t.options.tab_animation;
+                t.accordion_animation = t.options.buttons_animation;
+
+                var new_key, new_class, option;
+                //loop through keys
+                for (var key in t.options){
+                    //Sanitize check. Make sure we don't reference another key
+                    if (t.options.hasOwnProperty(key)) {
+                        option = t.options[key];
+                        //Repeat one layer deeper
+                        for (var prop in option){
+                            if (option.hasOwnProperty(prop)) {
+                                //Check for 'class' property
+                                if (prop === 'class') {
+                                    //Take spaced notation and convert it to combined class strings
+                                    //e.g. 'foo bar' to '.foo.bar'
+                                    new_class = option.class.replace(',', '.').replace(' ','');
+                                    new_key = key + '_class';
+                                    //Store value directly beneath the tabbed object
+                                    // (above of t.options for easier typing)
+                                    t[new_key] = '.' + new_class;
+                                }else if (prop === 'active_class'){
+                                    new_class = option.active_class;
+                                    new_key = [key + '_active'];
+                                    t[new_key] = new_class;
+                                }
                             }
                         }
                     }
                 }
-            }
-        };
+            };
 
-		t.collect_tabs = function() {
+    		t.collect_tabs = function() {
 
-			var b = t.options,
-                tab_buttons = $(t.scope).find(t.buttons_class).not("[data-tabbed='true']"),
-                tabs_length = tab_buttons.length,
-                wrapper = $(document.createElement(b.wrapper.element)).addClass(b.wrapper.class).attr("data-tabbed", "true"),
-                tab_groups = [],
-                tab_parents = [],
-				addons = "",
-                $tab_parents;
-        //  var new_wrapper = $(b.new_wrapper),
-        //      new_wrapper_class = new_wrapper.attr('class'),
+    			var b = t.options,
+                    tab_buttons = $(t.scope).find(t.buttons_class).not("[data-tabbed='true']"),
+                    tabs_length = tab_buttons.length,
+                    wrapper = $(document.createElement(b.wrapper.element))
+                        .addClass(b.wrapper.class)
+                        .addClass(b.wrapper.extra_classes).attr("data-tabbed", "true"),
+                    tab_groups = [],
+                    tab_parents = [],
+    				addons = "";
 
-            //Do nothing if no tabs exist
-            if (tabs_length > 0){
-                //Loop over all tab_buttons
-    			for( var i=0, this_group, this_parent;
-                     i <= tabs_length;
-                     i++, addons='', this_group=[], this_parent=[]
-                ) {
-    				//Select the current tab button
-    				$this = $(tab_buttons[i]);
+                //Do nothing if no tabs exist
+                if (tabs_length > 0){
+                    //Loop over all tab_buttons
+        			for( var i=0, this_group, this_parent;
+                         i <= tabs_length;
+                         i++, addons='', this_group=[], this_parent=[]
+                    ) {
+        				//Select the current tab button
+        				$this = $(tab_buttons[i]);
 
-    				//Check if we've already added this tab to a grouping
-                    //Using a string because the DOM attribute is also valid
-    				if ($this.data("tabbed") !== true &&
-                        $this.length > 0 ) {
+        				//Check if we've already added this tab to a grouping
+        				if ($this.data("tabbed") !== true &&
+                            $this.length > 0 ) {
 
-                        //Grap all siblings(and self), stopping when an object isn't tab content or a tab button
-                        this_group = $this.nextUntil(":not("+t.content_class+", "+t.buttons_class+")").addBack();
+                            //Grap all siblings(and self), stopping when an object isn't tab content or a tab button
+                            this_group = $this.nextUntil(":not("+t.content_class+", "+t.buttons_class+")").addBack();
 
-                        if ($this.parent(t.wrapper_class).data("tabbed") !== true){
-                            //Insert wrapper before group.
-                            this_parent = wrapper.clone().insertBefore(this_group[0]);
+                            if ($this.parent(t.wrapper_class).data("tabbed") !== true){
+                                //Insert wrapper before group.
+                                this_parent = wrapper.clone().insertBefore(this_group[0]);
 
-                            //Grab data-tab attributes (since they can be used as optional style alternatives)
-                            if ($this.data("tab") !== undefined) {
-                                addons = $this.data("tab");
-                                //Add these as classes.
-                                this_parent.addClass(addons);
+                                //Grab data-tab attributes (since they can be used as optional style alternatives)
+                                if ($this.data("tab") !== undefined) {
+                                    addons = $this.data("tab");
+                                    //Add these as classes.
+                                    this_parent.addClass(addons);
+                                }
+                                //Move the group to wrapper.
+                                this_group.appendTo(this_parent);
+                            }else {
+                                this_parent = $this.parent(t.wrapper_class);
                             }
-                            //Move the group to wrapper.
-                            this_group.appendTo(this_parent);
+
+                            this_group.not(t.content_class).attr("data-tabbed", "true");
+
+                            //Move groups and parents into arrays for later use
+                            tab_groups.push(this_group);
+                            tab_parents.push(this_parent[0]);
+        				}
+        			}
+
+                    t.create_tab_environment($(tab_parents));
+                    t.activate_tabs($(tab_parents));
+                }
+
+            };
+
+            t.create_tab_environment = function($tab_parents) {
+
+                var $tab_buttons,
+                    $tab_nav;
+
+    			//Add a nav element to the top of the groups
+    			//only if they contain more than one tab_content child
+    			$tab_parents.each( function() {
+    				$this = $(this);
+                    //Create Tab navigation container
+                    $tab_nav = $(document.createElement(t.options.navigation.element))
+                        .addClass(t.options.navigation.class)
+                        .addClass(t.options.navigation.extra_classes);
+                    //Select tab/accordion buttons
+                    $tab_buttons = $this.children(t.buttons_class);
+
+    				if ($tab_buttons.length > 1) {
+                        //Don't reapply navigation if it already exists
+                        if ($this.children(t.navigation_class).length === 0 ) {
+                            //Clone tab navigation to tab container (and select it)
+                            $tab_nav = $tab_nav.clone().prependTo($this);
+
+                            //Clone tab buttons and convert them into true tabs
+                            $tab_buttons.clone(false)
+                                .appendTo($tab_nav)
+                                .addClass(t.options.tabs.class)
+                                .addClass(t.options.tabs.extra_classes)
+                                .removeClass(t.options.buttons.class);
+                        }
+
+    			    } else {
+                        $this.attr("data-tabbed", "true").addClass(t.options.wrapper.single_class);
+                    }
+    			});
+            };
+
+    		t.activate_tabs = function($tab_parents){
+                //Make the first tab and tab_button in each grouping the active tab.
+    			$tab_parents.each(function() {
+                    $this = $(this);
+
+                    //Don't perform on previously tabbed items
+                    if ($this
+                        .children(t.buttons_class+','+t.tabs_class)
+                        .hasClass(t.buttons_active+','+t.tabs_active) !== true
+                    ){
+                        t.current_item = $this.find(t.buttons_class).first() || $this.find(t.tabs_class).first();
+                        t.change_tabs(true);
+                        $this.attr("data-tabbed", "true");
+                    }
+                });
+            };
+
+            //----------------------------------------------------------
+    		//		Actions for tab clicks
+    		//----------------------------------------------------------
+    		t.bind_events = function(){
+
+    			$(t.scope).on('click', t.tabs_class+','+t.buttons_class, function(e) {
+    				e.preventDefault();
+                    t.current_item = $(this);
+    				// Just making sure we don't animate already active tabs.
+    				if (! $this.hasClass('active')){
+                        t.change_tabs();
+                    }
+                });
+    		};
+
+            t.change_tabs = function(skip_animation) {
+
+                skip_animation = skip_animation || false;
+
+                t.hash = t.current_item.attr('href');
+                t.target = $(t.hash);
+
+                //Do not perform on already animating objects
+                if (!t.target.hasClass('velocity-animating')){
+
+                    //Grab button and tab
+                    t.both_tabs = $("[href='"+t.hash+"']");
+
+                    if (skip_animation) {
+                        t.skip_animations();
+                    }else {
+                        if (t.is_tab()){
+                            t.anim_opts = t.tab_anim_opts;
+
+                            if(t.options.tabs.toggle) {
+                                t.is_active() ? t.hide_tabs() : (t.hide_tabs(), t.show_tabs());
+                            }else {
+                                t.hide_tabs();
+                                t.show_tabs();
+                            }
                         }else {
-                            this_parent = $this.parent(t.wrapper_class);
+                            t.anim_opts = t.accordion_anim_opts;
+
+                            if(t.options.buttons.toggle) {
+                                t.is_active() ? t.hide_accordions() : (t.hide_accordions(), t.show_accordions());
+                            }else {
+                                t.hide_accordions();
+                                t.show_accordions();
+                            }
                         }
-
-                        this_group.not(t.content_class).attr("data-tabbed", "true");
-
-                        //Move groups and parents into arrays for later use
-                        tab_groups.push(this_group);
-                        tab_parents.push(this_parent[0]);
-    				}
-    			}
-
-                t.create_tab_environment($(tab_parents));
-                t.activate_tabs($(tab_parents));
-            }
-
-        };
-
-        t.create_tab_environment = function($tab_parents) {
-
-            var $tab_buttons,
-                $tab_nav;
-
-			//Add a nav element to the top of the groups
-			//only if they contain more than one tab_content child
-			$tab_parents.each(function() {
-				$this = $(this);
-                $tab_nav = $(document.createElement(t.options.navigation.element)).addClass(t.options.navigation.class);
-                $tab_buttons = $this.children(t.buttons_class);
-
-				if ($tab_buttons.length > 1) {
-
-                    if ($this.children(t.navigation_class).length === 0 ) {
-    					$tab_nav = $tab_nav.clone().prependTo($this);
-
-                        $tab_buttons.clone(false)
-                            .appendTo($tab_nav)
-                            .addClass(t.options.tabs.class)
-                            .removeClass(t.options.buttons.class);
                     }
-
-                    //Store active class variables to children
-                    $tab_nav.children().data('tabbed-active', t.tabs_active);
-                    $this.children(t.content_class).data('tabbed-active', t.content_active);
-                    $tab_buttons.data('tabbed-active', t.buttons_active);
-
-			    } else {
-                    $this.attr("data-tabbed", "true").addClass("tab_single");
                 }
-			});
-        };
+            };
 
-		t.activate_tabs = function($tab_parents){
-            //Make the first tab and tab_button in each grouping the active tab.
-			$tab_parents.each(function() {
-                $this = $(this);
+            t.hide_tabs = function() {
+                //Hide siblings and remove
+                if (t.options.tabs.toggle){
+                    t.target
+                        .siblings(t.content_class)
+                        .addBack()
+                        .hide()
+                        .removeClass(t.content_active);
 
-                //Don't perform on previously tabbed items
-                if ($this
-                    .children(t.buttons_class+','+t.tabs_class)
-                    .hasClass(t.buttons_active+','+t.tabs_active) !== true
-                ){
-                    t.current_item = $this.find(t.buttons_class).first() || $this.find(t.tabs_class).first();
-                    t.change_tabs();
-                    $this.attr("data-tabbed", "true");
+                    t.both_tabs
+                        .siblings(t.both_tabs)
+                        .addBack()
+                        .removeClass(t.tabs_active+' '+t.buttons_active );
+                }else {
+                    t.target
+                        .siblings(t.content_class)
+                        .hide()
+                        .removeClass(t.content_active);
+
+                    t.both_tabs
+                        .siblings(t.both_tabs)
+                        .removeClass(t.tabs_active+' '+t.buttons_active );
                 }
-            });
-        };
+            };
 
+            t.show_tabs = function() {
+                t.target.css('display', 'block');
 
+                t.target.velocity(
+                    t.anim_opts,
+                    t.anim_opts
+                );
 
+                //Add active classes
+                t.target.addClass(t.content_active);
+                t.both_tabs
+                    .not(t.buttons_class)
+                    .addClass(t.tabs_active);
+                t.both_tabs
+                    .not(t.tabs_class)
+                    .addClass(t.buttons_active);
+            };
 
-			//Hide all tab_content.
-			// $tab_content.hide();
-			// //Grab the hash/href value of each active tab.
-			// var active_content = ""+$tabbed.find(".active").map(function(){
-			// 	return this.hash;
-			// }).get();
-            // var $active_content = $(active_content);
-            //
-			// //Find cooresponding tab contents based on the
-			// // hash/href ID we just grabbed and make them active.
-			// $active_content.each(function(){$(this).show();});
-            //
-			// //Try to normalize heights of all tab groupings.
-			// //This is particularly important for groupings with tab_sides.
-			// $tab_content.each(function(){
-			// 	$this = $(this);
-			// 	var tab_height = $this.closest($tabbed).find('.tabs:first').outerHeight();
-			// 	var baseline = parseInt($("body").css('line-height'), 10);
-            //
-			// 	//Align to baseline grid.
-			// 	tab_height = Math.ceil(tab_height / baseline) * baseline - 1;
-            //
-			// 	$this.css("min-height", tab_height );
-			// });
+            t.hide_accordions = function(){
 
-        t.is_tab = function(){
-            if($(t.current_item).hasClass(t.options.tabs.class)){
-                return true;
-            }else{
-                return false;
-            }
-        };
+                //Call ahead function
+                t.begin([t.current_item[0], t.target[0]]);
 
-        t.hide_tabs = function() {
-            t.target.addClass(t.content_active)
-                .siblings(t.content_class)
-                .hide()
-                .removeClass(t.content_active);
-            t.both_tabs
-                .siblings(t.both_tabs)
-                .removeClass(t.tabs_active+' '+t.buttons_active );
-        };
+                if (t.options.buttons.toggle){
+                    t.both_tabs
+                        .siblings(t.both_tabs)
+                        .addBack()
+                        .removeClass(t.tabs_active+' '+t.buttons_active );
 
-        t.get_active = function(component) {
-            var active_data = component.data('tabbed-active');
+                    t.target
+                        .siblings(t.content_class)
+                        .velocity('slideUp',
+                            t.anim_opts,
+                            t.anim_opts
+                        )
+                        .addBack()
+                        .removeClass(t.content_active);
+                }else {
+                    t.both_tabs
+                        .siblings(t.both_tabs)
+                        .removeClass(t.tabs_active+' '+t.buttons_active );
 
-            if (active_data === undefined){
-                return false;
-            }else {
-                return active_data;
-            }
-        }
-
-        t.change_tabs = function() {
-            t.hash = t.current_item.attr('href');
-            t.target = $(t.hash);
-            t.anim_config = {};
-            t.both_tabs = $("[href='"+t.hash+"']");
-            t.tabs_active = t.get_active($(t.tabs_class + "[href='"+t.hash+"']")) || 'active';
-            t.buttons_active = t.get_active($(t.buttons_class + "[href='"+t.hash+"']")) || 'active';
-            t.content_active = t.get_active(t.target) || 'active';
-
-            $(t.both_tabs).not(t.buttons_class).addClass(t.tabs_active);
-            $(t.both_tabs).not(t.tabs_class).addClass(t.buttons_active);
-
-            t.hide_tabs();
-
-            if ( t.is_tab() ){
-                t.anim_config = {
-
-                };
-            }else{
-
-            }
-
-            t.target.show();
-        };
-		//----------------------------------------------------------
-		//		Actions for tab clicks
-		//----------------------------------------------------------
-		t.bind_events = function(){
-
-			$(t.scope).on('click', t.tabs_class+','+t.buttons_class, function(e) {
-				e.preventDefault();
-                t.current_item = $(this);
-				// Just making sure we don't animate already active tabs.
-				if (! $this.hasClass('active')){
-                    t.change_tabs();
+                    t.target
+                        .siblings(t.content_class)
+                        .velocity('slideUp',
+                            t.anim_opts,
+                            t.anim_opts
+                        )
+                        .removeClass(t.content_active);
                 }
-            });
-					//Grab the target's ID through the clicked tab's href/hash value.
-					// var d = $(this).attr("href");
-                    //
-					// //Hiding all target siblings tab_content.
-					// $(d).siblings(".tab_content").hide();
-                    //
-					// //Unhide the correct tab content.
-					// $(d).fadeIn(c.options.speed);
-                    //
-					// //Finding tab and tab_button siblings
-					// //And then removing "active" class.
-					// $("[href^='" + d + "']")
-					// 	.siblings(".tab, .tab_button")
-					// 	.addBack()
-					// 	.removeClass("active");
-                    //
-					// //Adding back the "active" class
-					// //to the appropriate buttons.
-					// $(this).addClass("active");
-					// $("[href^='" + d + "'].tab_button").addClass("active");
-			//}
-			// })
+            };
 
-			//Actions for accordion tab_buttons.
-			//Nearly identical to the previous function,
-			//but with a slide effect.
-			// .on('click', '.tab_button', function(e) {
-			// 	e.preventDefault();
-			// 	if ($(this).hasClass('active') === false){
-			// 		var d = $(this).attr("href");
-            //
-			// 		$(d).siblings(".tab_content")
-			// 			.addBack()
-			// 			.css("min-height","0")
-			// 			.slideUp(c.options.speed);
-			// 		$(d).slideToggle(c.options.speed);
-			// 		$("a[href^='" + d + "']")
-			// 			.siblings(".tab, .tab_button")
-			// 			.addBack()
-			// 			.removeClass("active");
-			// 		$(this).addClass("active");
-			// 		$("a[href^='" + d + "'].tab").addClass("active");
-			// 	}
-			// });
+            t.show_accordions = function(skip_animation){
+                t.target.velocity('slideDown',
+                    t.anim_opts,
+                    t.anim_opts
+                );
 
-		};
+                //Add active classes
+                t.target.addClass(t.content_active);
+                t.both_tabs
+                    .not(t.buttons_class)
+                    .addClass(t.tabs_active);
+                t.both_tabs
+                    .not(t.tabs_class)
+                    .addClass(t.buttons_active);
+            };
 
-		t.init(user_options, callback, element);
-	};
+            //Check if current item is a tab or a button
+            t.is_tab = function(){
+                if($(t.current_item).hasClass(t.options.tabs.class)){
+                    return true;
+                }else {
+                    return false;
+                }
+            };
 
-	$.fn.tabbed = function(options, callback) {
-		return this.each(function() {
-			(new $.tabbed(options, callback, this));
-		});
-	};
-})(jQuery);
+            t.is_active = function() {
+                if(t.is_tab() &&
+                    t.current_item.hasClass(t.options.tabs.active_class)){
+                    return true;
+
+                }else if (!t.is_tab() &&
+                    t.current_item.hasClass(t.options.buttons.active_class)){
+                    return true;
+
+                }else {
+                    return false;
+                }
+            }
+
+            t.skip_animations = function(){
+                t.target
+                    .siblings(t.content_class)
+                    .hide()
+                    .removeClass(t.content_active);
+
+                t.both_tabs
+                    .siblings(t.both_tabs)
+                    .removeClass(t.tabs_active+' '+t.buttons_active );
+
+                t.target.show()
+
+                //Add active classes
+                t.target.addClass(t.content_active);
+                t.both_tabs
+                    .not(t.buttons_class)
+                    .addClass(t.tabs_active);
+                t.both_tabs
+                    .not(t.tabs_class)
+                    .addClass(t.buttons_active);
+            };
+
+            //Call ahead function
+            t.begin = function(elements) {
+                if (typeof t.options.tabs.begin === "function" ) {
+                    t.options.tabs.begin.call(elements, elements);
+                }else if (typeof t.options.buttons.begin === "function") {
+                    t.options.buttons.begin.call(elements, elements);
+                }
+            };
+
+    		t.init(user_options, callback, element);
+
+        });
+    };
+
+    $.fn.tabbed.defaults = default_options;
+});
