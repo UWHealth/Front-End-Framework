@@ -379,7 +379,7 @@
 		},
 	"\/_partials\/sass\/main.scss": {
 		"createSourceMap": 0,
-		"debugStyle": 2,
+		"debugStyle": 0,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 0,

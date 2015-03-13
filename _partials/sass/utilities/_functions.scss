@@ -295,6 +295,99 @@ $golden_ratio: golden();
 //    $HELPERS
 //------------------------------------
 
+// Strip units from a sass value
+// Taken from:
+// http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
+@function strip-units($value) {
+    @return $value / ($value * 0 + 1);
+}
+
+// Percent to Decimal
+//
+@function percentage-to-decimal($percentage) {
+    @if unit($percentage) == '%' {
+        $percentage: $percentage/100%;
+    }
+    @return $percentage;
+}
+
+//Viewport width from pixel converter
+// Converts pixel dimensions to viewport
+@function px-to-vw($pixel-val) {
+    $vw-context: (1000*.01) * 1px;
+    @return ($pixel-val/$vw-context) * 1vw;
+}
+
+
+@function list-to-string($list, $separator: ",") {
+    $string: "";
+
+    @for $i from 1 through length($list) {
+        $string: str-append($string, #{nth($list, $i)});
+
+        @if $i != length($list) {
+            $string: str-append($string, $separator);
+        }
+    }
+
+    @return $string;
+}
+
+//Stripped REM generator
+//Useful if you just need the rem value
+@function px-to-rems($size, $base-font:$base-font-size) {
+    @if (unitless($size)){
+        $size: $size * 1px;
+    }
+
+    $size: ($size / $base-font) * 1rem;
+
+    @if $size == 0rem {
+        $size: 0;
+    }
+
+    @return $size;
+
+}
+
+//Same as above
+@function rems($size, $base-font:$base-font-size) {
+    @return px-to-rems($size, $base-font);
+}
+
+// REM generator
+// Used to create a property with a rem value and PX fallback
+@mixin rems($property, $sizes, $important:false, $base-font: $base-font-size) {
+    $important_val: '';
+    $rem_sizes: null;
+    $px_sizes: null;
+
+    @if $important{
+        $important_val: ' !important';
+    }
+
+    @each $size in $sizes {
+        @if $size == ''{
+            $size: null;
+            $px_sizes: join($px_sizes, $size, space);
+        }@else {
+            @if $size == 0px{
+                $size: 0;
+            }
+
+            $px_sizes: join($px_sizes, $size, space);
+            $size: px-to-rems($size, $base-font);
+        }
+        $rem_sizes: join($rem_sizes, $size, space);
+    };
+
+    @if $rem-px-fallback {
+        #{$property}: #{$px_sizes}#{$important_val};
+    }
+    #{$property}: #{$rem_sizes}#{$important_val};
+
+}
+
 // Specificity increaser
 // Useful for increasing specificity of a selector instead of using !important
 //
@@ -315,22 +408,6 @@ $golden_ratio: golden();
     }
 }
 
-// Percent to Decimal
-//
-@function percentage-to-decimal($percentage) {
-    @if unit($percentage) == '%' {
-        $percentage: $percentage/100%;
-    }
-    @return $percentage;
-}
-
-// Strip units from a sass value
-// Taken from:
-// http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
-@function strip-units($value) {
-    @return $value / ($value * 0 + 1);
-}
-
 // Cross-browser (including IE) opacity
 // Taken from:
 // https://gist.github.com/jgv/745754
@@ -340,55 +417,6 @@ $golden_ratio: golden();
     -moz-opacity: $trans;
     -khtml-opacity: $trans;
     opacity: $trans;
-}
-
-//Stripped REM generator
-//Useful if you just need the rem value
-@function rems($size, $base-font:$base-font-size) {
-    @if (unitless($size)){
-        $size: $size * 1px;
-    }
-
-    $size: ($size / $base-font) * 1rem;
-
-    @if $size == 0rem {
-        $size: 0;
-    }
-
-    @return $size;
-}
-
-// REM generator
-// Used to create a property with a rem value and PX fallback
-@mixin rems($property, $sizes, $important:false) {
-    $important_val: '';
-    $rem_sizes: null;
-    $px_sizes: null;
-
-    @if $important{
-        $important_val: ' !important';
-    }
-
-    @each $size in $sizes {
-        @if $size == ''{
-            $size: null;
-            $px_sizes: join($px_sizes, $size, space);
-        }@else {
-            @if $size == 0px{
-                $size: 0;
-            }
-
-            $px_sizes: join($px_sizes, $size, space);
-            $size: rems($size);
-        }
-        $rem_sizes: join($rem_sizes, $size, space);
-    };
-
-    @if $rem-px-fallback {
-        #{$property}: #{$px_sizes}#{$important_val};
-    }
-    #{$property}: #{$rem_sizes}#{$important_val};
-
 }
 
 //String Helpers
@@ -409,20 +437,18 @@ $golden_ratio: golden();
     }
 }
 
-//String Joining
-//
+//String Append
+// Adds string to end of another string
+@function str-append($string, $insert) {
+  $string: if($string == null, "", $string);
+
+  @return str-insert($string, $insert, str-length($string) + 1);
+}
+
+//String Join
+// Converts list to a string with an optional separator
 @function str-join($list, $separator: ",") {
-    $string: "";
-
-    @for $i from 1 through length($list) {
-        $string: _str-append($string, #{nth($list, $i)});
-
-        @if $i != length($list) {
-            $string: _str-append($string, $separator);
-        }
-    }
-
-    @return $string;
+    @return list-to-string($list, $separator);
 }
 
 // List contains check
@@ -433,7 +459,6 @@ $golden_ratio: golden();
 
 
 //List print
-
 @function list-print($string, $n) {
     $output: '';
 
@@ -444,13 +469,6 @@ $golden_ratio: golden();
     }
 
     @return $output;
-}
-
-//Viewport width from pixel converter
-// Converts pixel dimensions to viewport
-@function get-vw($pixel-val) {
-    $vw-context: (1000*.01) * 1px;
-    @return ($pixel-val/$vw-context) * 1vw;
 }
 
 
@@ -491,11 +509,6 @@ $golden_ratio: golden();
     }
 
     @return $level;
-}
-
-//Alias for map-depth
-@function depth($map){
-    @return map-depth($map);
 }
 
 //Check multiple map keys
@@ -852,7 +865,7 @@ $golden_ratio: golden();
  // }
  // Accepts multiple properties.
 
-@mixin type_space($properties, $multiplier: 2, $important: false) {
+@mixin type-space($properties, $multiplier: 2, $important: false) {
 
     @each $property in $properties {
 
@@ -873,7 +886,7 @@ $golden_ratio: golden();
 // pre {
 //    @include type-space(padding, 1, 2, 1, 0);
 // }
-@mixin type_space_sc($property, $top: 0, $right: 0, $bottom: $top, $left: $right) {
+@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: $top, $left: $right) {
 
     //Calculate values
     //Right and left get
@@ -1070,15 +1083,6 @@ $headings-use: 0;
     @return map-merge($type, ($font-size:$target-w-property));
 }
 
-
-//Function to merge/extend configuration maps for certain.
-//Similar to jQuery's .extend() method.
-@function extend($obj, $ext-obj) {
-    @return map-merge($obj, $ext-obj);
-}
-
-
-
 //------------------------------------
 //    $COLORS
 //------------------------------------
@@ -1088,112 +1092,3 @@ $headings-use: 0;
 // Uses similar formula's to photoshop's layer blending modes.
 // See file for more documentation.
 @import "../colors/_blendmodes";
-
-//Color map function
-//====================================
-// Get a color value from our color pallette. e.g.:
-// div{
-//	  background-color: colors(primary, light)
-//}
-@function colors($color, $tone: 'base') {
-
-    @if not map-has-key($colors, $color) {
-        @warn "Key `#{$key}` not found in $colors map.";
-    }
-
-    @return map-get(map-get($colors, $color), $tone);
-}
-//Same as above, but possibly more intuitively named
-@function color($color, $tone: 'base') {
-    @return colors($color, $tone);
-}
-//Shortname
-@function clr($color, $tone: 'base') {
-    @return colors($color, $tone);
-}
-
-// Output black or white
-//====================================
-// Change text color based on background-color's darkness, e.g.:
-// div{
-//    background-color: #f8cd12;
-//    color: set_text_color(#f8cd12);
-//    }
-//  Your text color would be black because #f8cd12 and #00000 contain enough
-//  contrast to be readable.
-//  This will ONLY give you black or white.
-// Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
-@function set-text-color($color) {
-    @if (lightness( $color ) > 45) {
-        @return #000000;
-    }
-    @else {
-        @return #FFFFFF;
-    }
-}
-
-//Pick best color
-//====================================
-//Complex color calculation to determine best color based on contrast.
-//Taken from: https://gist.github.com/voxpelli/6304812
-//USAGE:
-// div{
-//    background-color: #f8cd12;
-//    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
-//    }
-// The function would test the colors and find that #2c2c2c is the best.
-
-@function pick-best-color($base, $colors, $tolerance: 0) {
-    $contrast: color-contrast($base, nth($colors, 1));
-    $best: nth($colors, 1);
-
-    @for $i from 2 through length($colors) {
-        $current_contrast: color-contrast($base, nth($colors, $i));
-
-        @if ($current_contrast - $contrast > $tolerance) {
-            $contrast: color-contrast($base, nth($colors, $i));
-            $best: nth($colors, $i);
-        }
-    }
-    @return $best;
-}
-
-
-//Find a color's luminance
-//===============================
-// Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
-// Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
-@function color-luminance($color) {
-
-    $rgba: red($color), green($color), blue($color);
-    $rgba2: ();
-
-    @for $i from 1 through 3 {
-        $rgb: nth($rgba, $i);
-        $rgb: $rgb / 255;
-
-        $rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
-
-        $rgba2: append($rgba2, $rgb);
-    }
-
-    @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
-}
-
-//Calculate contrast between two colors
-//===============================
-@function color-contrast($color1, $color2) {
-    // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
-    // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
-    $luminance1: color-luminance($color1) + .05;
-    $luminance2: color-luminance($color2) + .05;
-    $ratio: $luminance1 / $luminance2;
-
-    @if $luminance2 > $luminance1 {
-        $ratio: 1 / $ratio;
-    }
-
-    $ratio: round($ratio * 10) / 10;
-
-    @return $ratio;
-}
