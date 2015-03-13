@@ -428,7 +428,7 @@ $golden_ratio: golden();
 // List contains check
 // Outputs true/false
 @function list-contains($list, $var) {
-    @return (false == index($list, $var));
+    @return index($list, $item) != null;
 }
 
 

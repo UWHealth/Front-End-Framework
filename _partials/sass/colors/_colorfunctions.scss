@@ -108,6 +108,4 @@
 $colors: generate_color_variations($colors, (tint, shade)) !global;
 
 // Prints color map to the top of the css
-#debug {
-	color: map-inspect($colors);
-}
+// @debug map-inspect($colors);

@@ -1,90 +1,4 @@
 @charset "UTF-8";
-/* line 111, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/colors/_colorfunctions.scss */
-#debug {
-  color: '(
-        type: (
-            darkest: #010508,
-            darker: #061019,
-            dark: #081622,
-            lightest: #ced1d4,
-            lighter: #6c767f,
-            light: #3b4955,
-            base: #0a1c2b
-        ),
-        primary: (
-            darkest: #022828,
-            darker: #077a7a,
-            lightest: #cef4f4,
-            lighter: #6de0e0,
-            light: #3cd6d6,
-            dark: #0CCCCC,
-            base: #0CCCCC
-        ),
-        primary-alt: (
-            darkest: #121920,
-            darker: #394e61,
-            dark: #4c6882,
-            lightest: #dfe6ec,
-            lighter: #9fb4c7,
-            light: #7f9bb5,
-            base: #5f82a3
-        ),
-        accent: (
-            darkest: #2a0007,
-            darker: #7f0016,
-            dark: #a9001e,
-            lightest: #f6ccd3,
-            lighter: #e5667c,
-            light: #dc3351,
-            base: #d40026
-        ),
-        action: (
-            darkest: #0f1711,
-            darker: #2d4635,
-            dark: #3c5e47,
-            lightest: #dbe3dd,
-            lighter: #93ac9b,
-            light: #6f917a,
-            base: #4c7659
-        ),
-        function: (
-            darkest: #2a2c2d,
-            darker: #818489,
-            dark: #acb0b7,
-            lightest: #f7f8f9,
-            lighter: #e7eaef,
-            light: #dfe3ea,
-            base: #d7dde5
-        ),
-        alert: (
-            darkest: #230707,
-            darker: #6a1717,
-            dark: #8e1f1f,
-            lightest: #efd3d3,
-            lighter: #d07d7d,
-            light: #c15252,
-            base: #b22727
-        ),
-        links: (
-            darkest: #020e18,
-            darker: #072b49,
-            dark: #0a3a62,
-            lightest: #cedae4,
-            lighter: #6d91af,
-            light: #3d6d95,
-            base: #0d497b
-        ),
-        bg: (
-            darkest: #303031,
-            darker: #919394,
-            dark: #c2c4c6,
-            lightest: #fcfdfd,
-            lighter: #f7f9fa,
-            light: #f5f7f9,
-            base: #f3f5f8
-        )
-    )'; }
-
 @font-face {
   font-family: 'Asap';
   src: url('fonts/Asap-400.eot');
@@ -990,32 +904,31 @@ nav ul, nav ol {
   .tab_button.active {
     color: #d40026;
     border-bottom-color: transparent;
-    top: 1px;
     z-index: 1; }
-    /* line 159, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+    /* line 158, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
     .tab_button.active:hover {
       cursor: default; }
 
-/* line 165, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 164, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_content {
   border-width: 1px;
   border-style: solid;
   border-radius: 0 2px 2px 2px;
   position: relative;
   z-index: 0; }
-  /* line 178, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 177, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_content > :last-child {
     margin-bottom: 0; }
 
-/* line 185, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 184, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tabs + .tab_button {
   border-radius: 2px 2px 0 0; }
 
-/* line 199, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 198, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tabs {
   position: relative; }
 
-/* line 211, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 210, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab {
   position: relative;
   display: inline-block;
@@ -1032,11 +945,11 @@ nav ul, nav ol {
           transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
   border-style: solid;
   border-width: 1px; }
-  /* line 241, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 240, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab:not(.active):hover {
     background-color: #ba000f; }
 
-/* line 264, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 263, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_accordion > .tabs + .tab_button {
   border-radius: 2px 2px 0 0; }
 
@@ -1046,11 +959,11 @@ nav ul, nav ol {
     background-color: #fff;
     margin-left: 0; } }
 
-/* line 286, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 285, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_content > .tabbed > .tabs, .tab_content > .tabbed > .tab_content, .tab_content > .tabbed > .tab_button {
   margin-left: -1px; }
 
-/* line 294, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 293, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .no-js .tab_button {
   display: inline-block;
   margin-top: 24px;
@@ -1058,22 +971,22 @@ nav ul, nav ol {
   text-decoration: none;
   margin-right: 32px;
   margin-right: 2rem; }
-  /* line 304, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 303, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .no-js .tab_button + .tab_content {
     display: inline-block;
     margin-top: 24px;
     margin-top: 1.5rem;
     padding-left: 0; }
 
-/* line 324, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 323, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_side {
   display: table; }
 
-/* line 331, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 330, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_side > .tabs {
   display: table-cell;
   vertical-align: top; }
-  /* line 338, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 337, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_side > .tabs .tab {
     top: 0;
     margin-bottom: 2px;
@@ -1083,45 +996,45 @@ nav ul, nav ol {
     text-indent: -0.5rem;
     border-radius: 2px 0 0 2px;
     border-bottom-color: #5f82a3; }
-  /* line 355, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 354, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_side > .tabs .active {
     border-right-color: transparent;
     border-bottom-color: #5f82a3; }
-/* line 360, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 359, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_side > .tab_content {
   margin-left: -1px; }
 
-/* line 371, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 370, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_minimal > .tab_content {
   border-left-width: 0;
   border-right-width: 0;
   border-bottom-width: 0; }
 
-/* line 381, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 380, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_minimal.tab_side > .tab_content {
   border-left-width: 0px;
   border-top-width: 0; }
 
-/* line 385, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 384, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_minimal.tab_side > .tabs {
   padding: 24px 0;
   padding: 1.5rem 0; }
-  /* line 388, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 387, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_minimal.tab_side > .tabs .tab {
     border-width: 0px; }
-    /* line 390, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+    /* line 389, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
     .tab_minimal.tab_side > .tabs .tab:not(.active) {
       background-color: transparent;
       color: #5f82a3; }
-      /* line 393, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+      /* line 392, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
       .tab_minimal.tab_side > .tabs .tab:not(.active):hover {
         color: #8d4e71;
         background-color: rgba(255, 255, 255, 0.5); }
-    /* line 399, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+    /* line 398, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
     .tab_minimal.tab_side > .tabs .tab.active {
       color: #d40026; }
 
-/* line 417, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 416, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_line > .tabs .tab {
   background-color: transparent;
   border-width: 0;
@@ -1133,20 +1046,20 @@ nav ul, nav ol {
   text-indent: -8px;
   text-indent: -0.5rem;
   border-radius: 0; }
-  /* line 428, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 427, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_line > .tabs .tab:hover {
     color: #234268;
     background-color: rgba(255, 255, 255, 0.5);
     position: relative;
     z-index: 2; }
-/* line 436, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 435, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_line > .tabs .active {
   opacity: 1 !important;
   color: #d40026 !important;
   border-bottom-width: 2px;
   background-color: transparent !important;
   z-index: 1; }
-/* line 446, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 445, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_line.tab_minimal > .tab_content {
   padding-right: 16px;
   padding-right: 1rem;
@@ -1157,32 +1070,32 @@ nav ul, nav ol {
   border-top-color: #afc0d1;
   margin-top: -1px; }
 
-/* line 457, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 456, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_topline > .tabs {
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 2px 2px 0 0; }
-  /* line 460, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 459, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_topline > .tabs .tab {
     text-indent: 0px;
     padding-right: 32px;
     padding-right: 2rem; }
-  /* line 464, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+  /* line 463, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
   .tab_topline > .tabs .active {
     border-top-width: 2px;
     border-bottom-color: transparent;
     background-color: #fff !important; }
-    /* line 470, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+    /* line 469, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
     .tab_topline > .tabs .active:hover {
       border-bottom-color: transparent; }
-/* line 475, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 474, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .tab_topline > .tab_content {
   background-color: #fff !important; }
 
-/* line 485, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 484, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .ie8 .tab_line > .tabs .tab:hover {
   background-color: #fff; }
 
-/* line 488, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
+/* line 487, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/components/_tabs.scss */
 .ie8 .tab_button:hover {
   color: #f2f2f2; }
 
@@ -2489,7 +2402,7 @@ audio:not([controls]) {
   .smalls_show {
     display: block !important; }
   /* line 207, /Users/Chris/Sites/Git/Front-End-Framework/_partials/sass/utilities/_helpers.scss */
-  .smalls_hide {
+  .smalls_hide, .tab_accordion > .tabs {
     display: none !important; } }
 
 @media only screen and (max-width: 480px) {
