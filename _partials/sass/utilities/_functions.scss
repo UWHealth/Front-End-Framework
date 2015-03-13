@@ -522,6 +522,10 @@ $golden_ratio: golden();
     @return true;
 }
 
+@function map-contains-keys($map, $keys...){
+    @return map-has-keys($map, $keys);
+}
+
 //Check for deep map keys
 @function map-has-nested-keys($map, $keys...) {
     @each $key in $keys {
@@ -533,6 +537,9 @@ $golden_ratio: golden();
     }
 
     @return true;
+}
+@function map-contains-nested-keys($map, $keys...) {
+    @return map-has-nested-keys($map, $keys);
 }
 
 //Map Extend
