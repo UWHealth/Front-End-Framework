@@ -1,10 +1,9 @@
-//@codekit-append "_tabs.js"
 //@codekit-append "_tables.js"
 //@codekit-append "_colors.js"
 //@codekit-append "_slick.js"
 //@codekit-append "velocity.js"
 //@codekit-append "velocity.ui.js"
-
+//@codekit-append "_tabs.js"
 
 // Avoid `console` errors in browsers that lack a console.
 (function() {
