@@ -542,6 +542,17 @@ $golden_ratio: golden();
     @return map-has-nested-keys($map, $keys);
 }
 
+//Get map value at nested or 'deep' key, per $keys list
+@function map-get-nested($map, $keys...) {
+    @each $key in $keys {
+        @if type-of($map) != 'map' {
+            @return $map;
+        }
+        $map: map-get($map, $key);
+    }
+    @return $map;
+}
+
 //Map Extend
 // Similar to jQuery's extend function but for sass maps
 // Takes two maps and merges their differences
@@ -574,17 +585,6 @@ $golden_ratio: golden();
         }
     }
 
-    @return $map;
-}
-
-//Get map value at nested or 'deep' key, per $keys list
-@function map-get-nested($map, $keys...) {
-    @each $key in $keys {
-        @if type-of($map) != 'map' {
-            @return $map;
-        }
-        $map: map-get($map, $key);
-    }
     @return $map;
 }
 
