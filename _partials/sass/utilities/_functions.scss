@@ -478,7 +478,7 @@ $golden_ratio: golden();
 
 //Deep Set
 //Update a deeply nested map key.
-@function map-deep-set($map, $keys.../*, $value */) {
+@function map-deep-set($map, $keys... /*, $value */) {
     $map-list: ($map,);
     $result: null;
 
@@ -538,7 +538,7 @@ $golden_ratio: golden();
 //Map Extend
 // Similar to jQuery's extend function but for sass maps
 // Takes two maps and merges their differences
-@function map-extend($map, $maps.../*, $deep */) {
+@function map-extend($map, $maps... /*, $deep */) {
     $last: nth($maps, -1);
     $deep: $last == true;
     $max: if($deep, length($maps) - 1, length($maps));
