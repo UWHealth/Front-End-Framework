@@ -3,34 +3,43 @@
 //---------------------------------\\
 
 // Put all of your normal/application-specific CSS here.
+
+// Anything in this file can be deleted since it's just used for examples.
+
+// Prints color map to the top of the css
+// @debug map-inspect($colors);
+
 hr{
 	height: 2px;
 }
 
 body{
 	@extend %pad_b_2;
-	background-image: photoshop-gradient-overlay(
+	//Testing out photoshop gradients
+	background-image:
+		photoshop-gradient-overlay(
 			(color(bg, lightest), color(bg)), (0%, 100%),
 			90
 		);
 }
+
 .wrap{
-    @extend %bigs_nine_tenths; //90%
-	@extend %smallish_eleven_twelfths; //~92%
-	@include type-space-sc(padding, 1, 0);
-    @extend %clearfix;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: block !important;
+	margin: 0 auto;
+	max-width: 1350px;
+	display: block !important;
     float: none;
+	@extend %clearfix;
+	@include type-space-sc(padding, 1, 0);
+
+	@extend %bigs_nine_tenths; //90%
+	@extend %smallish_eleven_twelfths; //~92%
+	@include mq(small){
+		width: 95%;
+	}
+
 }
 @include mq(small){
-
 	@include headings-scale(1.17, small);
-
-	.wrap{
-        width: 95%;
-    }
 }
 @include mq(smallish){
 	@include headings-scale(1.2, smallish);
@@ -101,10 +110,10 @@ body{
 	}
 }
 .table_striped tr:nth-child(odd) td {
-	background-color: color(primary-alt, lightest);
+	background-color: color(links, lightest);
 }
 .table_striped th, .table_striped td {
-	border-color: color(function,dark);
+	border-color: color(links, lightest);
 	border-style: solid;
 }
 .tab_topline > .tabs{

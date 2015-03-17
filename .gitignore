@@ -34,3 +34,5 @@ _partials/sass/vendor/reference/csswizardry-grids/LICENSE
 _partials/sass/vendor/reference/csswizardry-grids/README.md
 
 scss-lint.log
+
+node_modules/*

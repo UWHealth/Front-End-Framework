@@ -18,7 +18,9 @@
 @function colors($color, $tone: 'base') {
 
     @if not map-has-key($colors, $color) {
-        @warn "Key `#{$key}` not found in $colors map.";
+        @warn "Key `#{$color}` not found in $colors map. Cannot compile Sass.";
+    }@else if not map-has-key(map-get($colors, $color), $tone) {
+        @warn "Tone '#{$tone}' not found in #{$color}. Cannot compile Sass.";
     }
 
     @return map-get(map-get($colors, $color), $tone);
@@ -208,8 +210,3 @@
 
     @return $ratio;
 }
-//Creates the necessary sass map.
-$colors: generate_color_variations($colors, (tint, shade)) !global;
-
-// Prints color map to the top of the css
-// @debug map-inspect($colors);

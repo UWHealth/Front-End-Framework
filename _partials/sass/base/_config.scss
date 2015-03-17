@@ -82,19 +82,23 @@ $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $include-alignment-classes: 		true;
 $include-spacing-classes: 			true;
 
-
 //At which breakpoints should spacing classes be included?
 $breakpoint-has-utilities:    ('smalls', 'small', 'bigs', 'desk');
 
 
+//Defining the color pallete for the project
+// Can be named anything.
 $colors: (
 	type: #0a1c2b,
 
+	links: #0d497b,
+
+	bg: #f3f5f8,
+
 	primary: (
+		base: #0c639a,
 		dark: #0CCCCC
 	),
-
-	primary-alt: #5f82a3,
 
 	accent: #d40026,
 
@@ -102,16 +106,12 @@ $colors: (
 
 	function: #d7dde5,
 
-	alert: #b22727,
-
-	links: #0d497b,
-
-	bg: #f3f5f8
+	alert: #b22727
 );
 
 // !!Important:
-// Generate color variations to the colors defined above to make them available below.
-@import '../colors/_colorfunctions';
+// Converts the $colors variable into a globally accessible map with lighter and darker shades.
+$colors: generate_color_variations($colors, (tint, shade)) !global;
 
 //It's rare that you need to make this something other than one of the above variables.
 $link-color: color(links);
@@ -136,9 +136,9 @@ $slick-dot-character: '\2022';
 $include-tabs: 						true;
 
 $tab-invert-active:                 false;
-$tab-border:                        color(primary-alt);
+$tab-border:                        color(links, light);
 $tab-button-bg:                     color(accent);
-$tab-button-secondary: 				color(primary-alt);
+$tab-button-secondary: 				color(links, lighter);
 $tab-content-bg:                    #fff;
 $tab-button-text:                   #fff;
 $tab-border-radius:                 2px;

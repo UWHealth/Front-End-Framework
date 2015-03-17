@@ -1099,3 +1099,8 @@ $headings-use: 0;
 // Uses similar formula's to photoshop's layer blending modes.
 // See file for more documentation.
 @import "../colors/_blendmodes";
+
+// General Color Functions
+//====================================
+// Color map access and generation as well a few color comparison functions.
+@import "../colors/_colorfunctions";
