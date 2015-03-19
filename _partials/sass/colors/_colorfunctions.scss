@@ -1,35 +1,29 @@
-//------------------------------------
-//    $COLOR FUNCTIONS
-//------------------------------------
-
 //Color map functions
 //====================================
 //Based on:
 //http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
-//Darker and lighter darkens are available by adding
-// -dark/-darker/-light/-lighter to the end of variable names.
-// Get a color value from our color pallette. e.g.:
-// div{
-//	  background-color: colors(primary, light)
-//}
+//Darker and lighter tones are available by passing a second tone string.
+// Get a color value from our color palette. e.g.:
+//  background-color: colors(primary, light)
 // If you'd prefer to just get the base color, you do not need to declare 'base',
 // just declare color([color name]). 'base' is implied.
 
+// FUNCTION: grab colors from global color map
 @function colors($color, $tone: 'base') {
 
-    @if not map-has-key($colors, $color) {
-        @warn "Key `#{$color}` not found in $colors map. Cannot compile Sass.";
-    }@else if not map-has-key(map-get($colors, $color), $tone) {
-        @warn "Tone '#{$tone}' not found in #{$color}. Cannot compile Sass.";
-    }
+	@if not map-has-key($colors, $color) {
+		@warn "Key `#{$color}` not found in $colors map. Cannot compile Sass.";
+	}@else if not map-has-key(map-get($colors, $color), $tone) {
+		@warn "Tone '#{$tone}' not found in #{$color}. Cannot compile Sass.";
+	}
 
-    @return map-get(map-get($colors, $color), $tone);
+	@return map-get(map-get($colors, $color), $tone);
 }
-//Same as above, but possibly more intuitively named
+// ALIASES: Same as above, but easier to type
 @function color($color, $tone: 'base') { @return colors($color, $tone);}
 @function clr($color, $tone: 'base') { @return colors($color, $tone);}
 
-//FUNCTION: combine-colors()
+// FUNCTION: combine-colors()
 // Combines two color maps (or really any double-nested map)
 @function combine-colors($map1, $map2) {
 	@each $pal, $color in $map2 {
@@ -78,10 +72,10 @@
 			length($variation-names) / length($color-functions); //[2a]
 
 		$map: map-add-depth($map, 'base');						 //[2b]
-		$new-map: $map !global;							 	     //[2c]
+		$new-map: $map;							 	     //[2c]
 
 		@each $palette, $color in $map { 				//[3a]
-			$values-list: $color !global;			//[3b]
+			$values-list: $color;			//[3b]
 			$color_fn-i: 1;							//[3c]
 
 			@each $variant in $variation-names {        //[4a]
@@ -107,10 +101,10 @@
 						$curr_color: append($curr_color, $blend-value);
 					}
 
-					$new-color: call($curr_fn, $curr_color, $amount) !global; 	//[7a]
+					$new-color: call($curr_fn, $curr_color, $amount); 	//[7a]
 					$value: ($variant: $new-color); 							//[7b]
 
-					$values-list: map-merge($value, $values-list) !global;		//[7c]
+					$values-list: map-merge($value, $values-list);		//[7c]
 				}
 			}
 
@@ -118,9 +112,10 @@
 			// with double parenthesis as they get more nested.
 			// (first-level: ( (second-level: value) ) )
 			$inner-map: ($palette:($values-list));				  		//[8a]
-			$new-map: combine-colors($new-map, $inner-map) !global; //[8b]
+			$new-map: combine-colors($new-map, $inner-map); //[8b]
 
 		}
+
 		@return $new-map; 								//[9]
 }
 
@@ -136,77 +131,85 @@
 //  contrast to be readable.
 //  This will ONLY give you black or white.
 // Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
+@function black-or-white($color) {
+	@if (color-luminance($color) > .45) {
+		@return #000;
+	}
+	@else {
+		@return #FFF;
+	}
+}
+//ALIAS: Named after what it's usually used for
 @function set-text-color($color) {
-    @if (lightness( $color ) > 45) {
-        @return #000000;
-    }
-    @else {
-        @return #FFFFFF;
-    }
+	@return black-or-white($color);
 }
 
-//Pick best color
+//FUNCTION: Pick best color
 //====================================
 //Complex color calculation to determine best color based on contrast.
 //Taken from: https://gist.github.com/voxpelli/6304812
 //USAGE:
-// div{
 //    background-color: #f8cd12;
 //    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
-//    }
 // The function would test the colors and find that #2c2c2c is the best.
 
 @function pick-best-color($base, $colors, $tolerance: 0) {
-    $contrast: color-contrast($base, nth($colors, 1));
-    $best: nth($colors, 1);
+	$contrast: color-contrast($base, nth($colors, 1));
+	$best: nth($colors, 1);
 
-    @for $i from 2 through length($colors) {
-        $current_contrast: color-contrast($base, nth($colors, $i));
+	@for $i from 2 through length($colors) {
+		$current_contrast: color-contrast($base, nth($colors, $i));
 
-        @if ($current_contrast - $contrast > $tolerance) {
-            $contrast: color-contrast($base, nth($colors, $i));
-            $best: nth($colors, $i);
-        }
-    }
-    @return $best;
+		@if ($current_contrast - $contrast > $tolerance) {
+			$contrast: color-contrast($base, nth($colors, $i));
+			$best: nth($colors, $i);
+		}
+	}
+	@return $best;
 }
 
+//FUNCTION: Contrast between two colors
+//===============================
+// Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
+// Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
+// Used by pick-best-color()
 
-//Find a color's luminance
+@function color-contrast($color1, $color2) {
+	$luminance1: color-luminance($color1) + .05;
+	$luminance2: color-luminance($color2) + .05;
+	$ratio: $luminance1 / $luminance2;
+
+	@if $luminance2 > $luminance1 {
+		$ratio: 1 / $ratio;
+	}
+
+	$ratio: round($ratio * 10) / 10;
+
+	@return $ratio;
+}
+
+//FUNCTION: Find a color's luminance
 //===============================
 // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
 // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
-@function color-luminance($color) {
+@function complex-luminance($color) {
 
-    $rgba: red($color), green($color), blue($color);
-    $rgba2: ();
+	$rgba: red($color), green($color), blue($color);
+	$rgba2: ();
 
-    @for $i from 1 through 3 {
-        $rgb: nth($rgba, $i);
-        $rgb: $rgb / 255;
+	@for $i from 1 through 3 {
+		$rgb: nth($rgba, $i);
+		$rgb: $rgb / 255;
 
-        $rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
+		$rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
 
-        $rgba2: append($rgba2, $rgb);
-    }
-
-    @return .2126 * nth($rgba2, 1) + .7152 * nth($rgba2, 2) + 0.0722 * nth($rgba2, 3);
+		$rgba2: append($rgba2, $rgb);
+	}
+	@return (.2126 * nth($rgba2, 1)) + (.7152 * nth($rgba2, 2)) + (0.0722 * nth($rgba2, 3));
 }
 
-//Calculate contrast between two colors
-//===============================
-@function color-contrast($color1, $color2) {
-    // Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
-    // Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
-    $luminance1: color-luminance($color1) + .05;
-    $luminance2: color-luminance($color2) + .05;
-    $ratio: $luminance1 / $luminance2;
-
-    @if $luminance2 > $luminance1 {
-        $ratio: 1 / $ratio;
-    }
-
-    $ratio: round($ratio * 10) / 10;
-
-    @return $ratio;
+//Same as above but simpler
+@function color-luminance($color) {
+	$rgba: red($color)/255, green($color)/255, blue($color)/255;
+	@return (.3 * nth($rgba, 1)) + (.59 * nth($rgba, 2)) + (0.11 * nth($rgba, 3));
 }
