@@ -1,61 +1,53 @@
-@mixin responsive-alignment(
+@mixin alignment-utilities(
 	$namespace: "",
 	$silent: true,
 	$important: false
 )
 {
-	$selector: unquote(".");
+	$classtype: if($silent, unquote('%'), unquote("."));
+	$important_str: if($important, unquote('!important'), '');
 
-    @if $silent {
-        $selector: unquote("%");
-    }
-	@if $important {
-		$important: unquote('!important')
-	}@else{
-		$important: "";
-	}
-
-	#{$selector}#{$namespace}align_left
+	#{$classtype}#{$namespace}align_left
 	{
-		float: left #{$important};
+		float: left #{$important_str};
 		@include type-space(margin-right, 1);
 	}
-	#{$selector}#{$namespace}align_right
+	#{$classtype}#{$namespace}align_right
 	{
-		float: right #{$important};
+		float: right #{$important_str};
 		@include type-space(margin-left, 1);
 	}
-	#{$selector}#{$namespace}align_center
+	#{$classtype}#{$namespace}align_center
 	{
-		float: none #{$important};
-		margin: 0 auto #{$important};
-		display: block #{$important};
+		float: none #{$important_str};
+		margin: 0 auto #{$important_str};
+		display: block #{$important_str};
 	}
-	#{$selector}#{$namespace}align_none
+	#{$classtype}#{$namespace}align_none
 	{
-		float: none #{$important};
-		margin: 0 #{$important};
+		float: none #{$important_str};
+		margin: 0 #{$important_str};
 	}
-	#{$selector}#{$namespace}float_left
+	#{$classtype}#{$namespace}float_left
 	{
-		float: left #{$important};
+		float: left #{$important_str};
 	}
-	#{$selector}#{$namespace}float_right
+	#{$classtype}#{$namespace}float_right
 	{
-		float: right #{$important};
+		float: right #{$important_str};
 	}
-	#{$selector}#{$namespace}float_none
+	#{$classtype}#{$namespace}float_none
 	{
-		float: none #{$important};
+		float: none #{$important_str};
 	}
 }
 
-@include responsive-alignment();
+@include alignment-utilities('', true, false);
 
 @if $responsive {
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
-           @include responsive-alignment('#{$name}_');
+           @include alignment-utilities('#{$name}_', true, false);
         }
     }
 }

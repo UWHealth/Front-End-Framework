@@ -20,6 +20,14 @@ audio:not([controls]) {
 	padding: 0.2em 0;
 }
 
+.invisible {
+	visibility: hidden !important;
+}
+
+.clearfix {
+	@extend %clearfix;
+}
+
 .visually_hidden {
 	padding: 0;
 	border: 0;
@@ -29,14 +37,6 @@ audio:not([controls]) {
 	overflow: hidden;
 	position: absolute;
 	width: 1px;
-}
-
-.invisible, .hide {
-	visibility: hidden !important;
-}
-
-.clearfix {
-	@extend %clearfix;
 }
 
 .visually_hidden.focusable:active,
@@ -51,12 +51,9 @@ audio:not([controls]) {
 
 .hidden {
 	display: none !important;
-	visibility: hidden;
+	visibility: hidden !important;
 }
 
-%display_block {
-	display: block;
-}
 //
 // Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
 //
@@ -76,13 +73,15 @@ audio:not([controls]) {
 //---Alignment Overrides--//
 // Outputs alignment utility classes.
 
-@if $include-alignment-classes {
-	@include responsive-alignment('', false, true);
+@if $breakpoint-has-alignment-classes != false {
+	@include alignment-utilities('', false, true);
 
 	@if $responsive {
-		@each $name in $breakpoint-has-utilities {
-			@include media-query($name) {
-				@include responsive-alignment('#{$name}_', false, true);
+		@if $breakpoint-has-alignment-classes != '' {
+			@each $name in $breakpoint-has-alignment-classes {
+				@include media-query($name) {
+					@include alignment-utilities('#{$name}_', false, true);
+				}
 			}
 		}
 	}
@@ -91,36 +90,37 @@ audio:not([controls]) {
 //----Spacing Override classes---//
 // Outputs spacing utility classes.
 
-@if $include-spacing-classes {
+@if $breakpoint-has-spacing-classes != false {
 
-	$space-config: (
-		silent: false,
-		important: true,
-		directions: ('','t','l','b','r','h','v'),
-		amounts: (0, 1, .5, -1),
-		names: ('n','', 'half', 'neg')
-	);
+	//Assume important and non-silent
+	$spacing-config: ( important: true, silent: false );
+	$spacing-config: map-extend($spacing-classes, $spacing-config, true);
 
-	@include spacing-utilities('', $space-config);
+	@include spacing-utilities('', $spacing-config);
 
 	@if $responsive {
-		@each $name in $breakpoint-has-utilities {
-			@include media-query($name) {
-				@include spacing-utilities('#{$name}_', $space-config );
+		@if $breakpoint-has-spacing-classes != '' {
+			@each $name in $breakpoint-has-spacing-classes {
+				@include media-query($name) {
+					@include spacing-utilities('#{$name}_', $spacing-config );
+				}
 			}
 		}
 	}
 }
 
 //----Display Override classes---//
-// Outputs hide/show utility classes.
+// Outputs hide/show (display) utility classes.
+@if $breakpoint-has-display-classes != false {
+	@include display-utilities('', false, true);
 
-@include responsive-hiders('');
-
-@if $responsive == true{
-	@each $name in $breakpoint-has-utilities {
-		@include media-query($name) {
-			@include responsive-hiders('#{$name}_');
+	@if $responsive {
+		@if $breakpoint-has-display-classes != '' {
+			@each $name in $breakpoint-has-display-classes {
+				@include media-query($name) {
+					@include display-utilities('#{$name}_', false, true);
+				}
+			}
 		}
 	}
 }

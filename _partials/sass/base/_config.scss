@@ -1,4 +1,4 @@
-//Typography
+//Typography Settings
 
 $base-font-size:             16px;
 $base-line-height:           24px;
@@ -11,17 +11,18 @@ $rem-px-fallback: 			true;
 $primary-font-stack:      	'Asap', verdana, helvetica, arial, sans-serif;
 $secondary-font-stack:     	'opensans', verdana, helvetica, arial, sans-serif;
 $monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+$icon-font-stack: 			null;
 
 $use-web-fonts: 		true;
+//Relative path to fonts from CSS
 $font-file-location: 	'fonts';
-//The more fonts and options added here will cause slowdown upon processing.
-//It may be worth outputing your fonts-file separately and just doing a import.
+//Note: The more fonts and options added here will cause performance decreases.
 $font-file-name: 		'Asap','opensans';
 $font-italics: 			true, (false, true, true);
 $font-weights: 			(400,700),(200,400,700);
 $font-include-eot: 		true;
 
-//Used if auto-scale-type is not in use.
+//Used if auto-scale-type is false.
 //Since functions are called before config,
 //we can use functions to calculate our values.
 $type-h1-size:             ceil(modular-scale(7));
@@ -31,8 +32,8 @@ $type-h4-size:             ceil(modular-scale(3));
 $type-h5-size:             ceil(modular-scale(2));
 $type-h6-size:             ceil(modular-scale(1));
 
-//Grid
-
+//Grid Settings
+$columns:                  13;
 $gutter:                 32px;
 $use-silent-classes:     true;
 $push:                   true;
@@ -43,31 +44,27 @@ $pull:                   true;
 $use-markup-fix:        false;
 $use-floats:            false;
 
-//Using anything other than 12 may cause a bit of slow down during processing.
-$columns:                  13;
-
 //Grids default to using relative (right and left) for pushes and pulls.
 //Setting this to true will use margin-left.
 $use-margin-adjustments: false;
 
 
 // Show baseline grid for easier alignment;
-$show-baseline:       true;
+$show-baseline:       	 true;
 
 //Media-Query Breakpoints
-
 $breakpoints: (
-	//Everything up to 640px. Mostly phones.
+	// Everything up to 640px. Mostly phones.
     'smalls' '(max-width:640px)',
-	//Up to 480px. Overrides Smalls. Small Phones, including iPhone.
+	// Up to 480px. Overrides Smalls. Small Phones, including iPhone.
     'small' '(max-width: 480px)',
-	//Between 480 and 640px. Overrides Smalls. Large phones/phablets.
+	// Between 480 and 640px. Overrides Smalls. Large phones/phablets.
     'smallish''(min-width: 481px) and (max-width: 640px)',
-    //Everything larger than 640px. Tablets and Desktops.
+    // Everything larger than 640px. Tablets and Desktops.
 	'bigs' '(min-width: 641px)',
-	//640-940px. Overrides Bigs. Mostly Tablets and small laptops.
+	// 640-940px. Overrides Bigs. Mostly Tablets and small laptops.
     'lap' '(min-width: 641px) and (max-width: 940px)',
-	//940 and Up. Overrides Bigs. Large Tablets and Desktops.
+	// 940 and Up. Overrides Bigs. Large Tablets and Desktops.
     'desk' '(min-width: 941px)'
 );
 
@@ -78,13 +75,21 @@ $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
-//Output utilities as actual classes?
-$include-alignment-classes: 		true;
-$include-spacing-classes: 			true;
+//Output utilities as actual classes at which breakpoints (false = none)?
+$breakpoint-has-alignment-classes: 			('smalls', 'small', 'bigs', 'desk');
+$breakpoint-has-spacing-classes: 			('smalls', 'small', 'bigs', 'desk');
+$breakpoint-has-display-classes: 			('smalls', 'small', 'bigs', 'desk');
 
-//At which breakpoints should spacing classes be included?
-$breakpoint-has-utilities:    ('smalls', 'small', 'bigs', 'desk');
+//What display types (class-name: display-type) should be output?
+// If $breakpoint-has-display-classes is false, this can be ignored
+$display-classes: 		('show':'block', 'bl': 'block', 'il': 'inline', 'il_bl': 'inline-block');
 
+//Spacing classes config
+$spacing-classes: (
+	directions: ('','t','l','b','r','h','v'),
+	amounts: (0, 1, .5, -1),
+	names: ('n','', 'half', 'neg')
+);
 
 //Defining the color pallete for the project
 // Can be named anything.
