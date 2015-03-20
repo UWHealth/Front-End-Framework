@@ -35,15 +35,6 @@
                };
 
                $("#tabs_test1").tabbed({
-                   tab_animation: {
-                        minHeight: function(elements){
-                            return test_height(this);
-                        },
-                        duration: 600,
-                        complete: function(elements) {
-                            $(this).css({"overflow": "visible", "height": "auto", "min-height": "initial"});
-                        }
-                   },
                    tabs: {
                        begin: function(elements) {
                            var $target = $(elements[1]);
@@ -52,6 +43,15 @@
                                "min-height": _height,
                                "overflow": "hidden"
                            });
+                       },
+                       animation: {
+                            minHeight: function(elements){
+                                return test_height(this);
+                            },
+                            duration: 600,
+                            complete: function(elements) {
+                                $(this).css({"overflow": "visible", "height": "auto", "min-height": "initial"});
+                            }
                        },
                        toggle: true
                    }
@@ -62,14 +62,14 @@
                    wrapper: {
                        element: "section",
                        class: "tabbed",
-                       extra_classes: "tab_side tab_accordion tab_minimal"
-                   },
-                   tab_animation: {
-                       opacity: [1, 0],
-                       duration: 400
+                       extra_classes: "tab_side tab_line"
                    },
                    tabs: {
-                       active_class: 'tab_active'
+                       animation: {
+                           opacity: [1, 0],
+                           duration: 400
+                       },
+                       active_class: 'active'
                    }
                }, function(){console.log('Second tab-set callback');});
            });

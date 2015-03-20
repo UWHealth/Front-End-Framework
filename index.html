@@ -48,8 +48,8 @@
 <div class="wrap">
     <header class="row" role="banner">
         <div class="column media_block">
-            <a href="/" class="link_naked">
-                <img src="images/logo.png" class="img align_left">
+            <a href="/" class="link_naked in_bl">
+                <img src="images/logo.png" alt="" class="img align_left">
                 <h1>
                     e-Health Frontend Framework
                 </h1>
@@ -65,7 +65,7 @@
 					<li><a href="misc.html">Misc.</a></li>
 					<li class="align_right">
 						<a href="https://github.com/UWHealth/Front-End-Framework" target="_blank">
-							<img src="images/github.png" class="icon">Github
+							<img src="images/github.png" alt="" class="icon">Github
 						</a>
 					</li>
 				</ul>
@@ -307,15 +307,6 @@
                };
 
                $("#tabs_test1").tabbed({
-                   tab_animation: {
-                        minHeight: function(elements){
-                            return test_height(this);
-                        },
-                        duration: 600,
-                        complete: function(elements) {
-                            $(this).css({"overflow": "visible", "height": "auto", "min-height": "initial"});
-                        }
-                   },
                    tabs: {
                        begin: function(elements) {
                            var $target = $(elements[1]);
@@ -324,6 +315,15 @@
                                "min-height": _height,
                                "overflow": "hidden"
                            });
+                       },
+                       animation: {
+                            minHeight: function(elements){
+                                return test_height(this);
+                            },
+                            duration: 600,
+                            complete: function(elements) {
+                                $(this).css({"overflow": "visible", "height": "auto", "min-height": "initial"});
+                            }
                        },
                        toggle: true
                    }
@@ -334,14 +334,14 @@
                    wrapper: {
                        element: "section",
                        class: "tabbed",
-                       extra_classes: "tab_side tab_accordion tab_minimal"
-                   },
-                   tab_animation: {
-                       opacity: [1, 0],
-                       duration: 400
+                       extra_classes: "tab_side tab_line"
                    },
                    tabs: {
-                       active_class: 'tab_active'
+                       animation: {
+                           opacity: [1, 0],
+                           duration: 400
+                       },
+                       active_class: 'active'
                    }
                }, function(){console.log('Second tab-set callback');});
            });

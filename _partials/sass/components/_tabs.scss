@@ -186,7 +186,7 @@ $tab-minimal-include: 				true 					!default;
 }
 //Hide normal tabs if the box changes to an accordion on mobile.
 .tab_accordion > .tabs {
-    @extend .#{$smalls}_hide;
+    @extend %#{$smalls}_hide;
 }
 
 //------------------------------------
@@ -254,7 +254,7 @@ $best-tab-color: $tab-button-secondary;
 //Show tab_buttons on mobile.
 .tab_accordion{
     & > .tab_button{
-		@extend %#{$smalls}_show;
+		@extend %#{$smalls}_bl;
     }
 //Hide tabs on mobile.
     & > .tabs{
