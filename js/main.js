@@ -1,0 +1,1 @@
+$(function(){$("#toggles").children().click(function(t){var e=$(this).attr("id");$("body").toggleClass(e),t.preventDefault()})});

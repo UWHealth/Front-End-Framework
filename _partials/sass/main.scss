@@ -1,13 +1,12 @@
 @charset "UTF-8";
 
 //Non CSS-producing files
-@import 'utilities/_functions',
+@import 'utilities/_import',
         'base/_config',
         'utilities/_variables';
 
 //CSS generation files
 @import 'type/_fonts',
-        'utilities/_helpers',
         'vendor/_normalize',
         'type/_transforms',
         'layout/_spacing',

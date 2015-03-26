@@ -38,11 +38,8 @@
                    tabs: {
                        begin: function(elements) {
                            var $target = $(elements[1]);
-                           var _height = $target.parent().scrollHeight;
-                           $target.css({
-                               "min-height": _height,
-                               "overflow": "hidden"
-                           });
+                           $target.siblings('.tab_active').velocity('slideUp');
+                           $target.velocity('slideDown');
                        },
                        animation: {
                             minHeight: function(elements){

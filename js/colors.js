@@ -1,0 +1,1 @@
+function change_color(r,a){var n=!1;"#"===r[0]&&(r=r.slice(1),n=!0);var t=parseInt(r,16),c=(t>>16)+a;c>255?c=255:0>c&&(c=0);var e=(t>>8&255)+a;e>255?e=255:0>e&&(e=0);var o=(255&t)+a;return o>255?o=255:0>o&&(o=0),(n?"#":"")+(o|e<<8|c<<16).toString(16)}

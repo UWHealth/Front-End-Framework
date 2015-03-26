@@ -258,7 +258,7 @@
                 });
     		};
 
-            // Decide what to do with tabs and accordions
+            // Tabs and Accordions toggling
             // NOTE: tabs and accordions are separated
             //   because accordions must use the 'slideUp' and 'slideDown' animation
             //   This is slightly confusing, but required
