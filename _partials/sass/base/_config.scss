@@ -25,12 +25,12 @@ $font-include-eot: 		true;
 //Used if auto-scale-type is false.
 //Since functions are called before config,
 //we can use functions to calculate our values.
-$type-h1-size:             ceil(modular-scale(7));
-$type-h2-size:             ceil(modular-scale(5));
-$type-h3-size:             ceil(modular-scale(4));
-$type-h4-size:             ceil(modular-scale(3));
-$type-h5-size:             ceil(modular-scale(2));
-$type-h6-size:             ceil(modular-scale(1));
+$type-h1-size:           ceil(modular-scale(7));
+$type-h2-size:           ceil(modular-scale(5));
+$type-h3-size:           ceil(modular-scale(4));
+$type-h4-size:           ceil(modular-scale(3));
+$type-h5-size:           ceil(modular-scale(2));
+$type-h6-size:           ceil(modular-scale(1));
 
 //Grid Settings
 $columns:                  13;
