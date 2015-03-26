@@ -46,7 +46,7 @@ function _error(err) {
 gulp.task('sass', function() {
 
 	return gulp.src(paths.scss[0])
-		.pipe(plumber({errorHandler: _error})
+		.pipe(plumber({errorHandler: _error}))
 		.pipe(sass({
 			outputStyle: 'nested',
 			errLogToConsole: true,
