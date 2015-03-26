@@ -8,8 +8,8 @@
 
 //
 //Enclose a block of code with a media query as named in `$breakpoints`.
-//To create more consolodated code, most (if not all) media queries should be called through
-//this mixin.
+//To create more consolodated code, most (if not all) media queries
+//should be called through this mixin.
 //Multiple media-queries can be defined by using:
 //@include media-query((breakpoint, breakpoint)){
 //   [Your code here]
@@ -46,57 +46,9 @@
 @mixin media        ($mq)   { @include media-query($mq){ @content }};
 @mixin mq           ($mq)   { @include media-query($mq){ @content }};
 
-
-//------------------------------------
-//    $MULTIPLE EXTENDS
-//------------------------------------
-//
-// Eclose a list of extends with @include extends((border-box, extension, extension))
-// Note the double paranthesis.
-//
-@mixin extends($items) {
-	@each $item in $items {
-		@extend %#{$item};
-	}
-}
-
-
 //------------------------------------
 //    $HELPERS
 //------------------------------------
-
-// REM generator
-// Used to create a property with a rem value and PX fallback
-@mixin rems($property, $sizes, $important:false, $base-font: $base-font-size) {
-	$important_val: '';
-	$rem_sizes: null;
-	$px_sizes: null;
-
-	@if $important{
-		$important_val: ' !important';
-	}
-
-	@each $size in $sizes {
-		@if $size == ''{
-			$size: null;
-			$px_sizes: join($px_sizes, $size, space);
-		}@else {
-			@if $size == 0px{
-				$size: 0;
-			}
-
-			$px_sizes: join($px_sizes, $size, space);
-			$size: px-to-rems($size, $base-font);
-		}
-		$rem_sizes: join($rem_sizes, $size, space);
-	};
-
-	@if $rem-px-fallback {
-		#{$property}: #{$px_sizes}#{$important_val};
-	}
-	#{$property}: #{$rem_sizes}#{$important_val};
-
-}
 
 // Specificity increaser
 // Useful for increasing specificity of a selector instead of using !important
@@ -132,6 +84,44 @@
 //------------------------------------
 //    $TYPOGRAPHY
 //------------------------------------
+
+// REM generator
+// Used to create a property with a rem value and PX fallback
+@mixin rems($property, $sizes, $important:false, $base-font: $base-font-size) {
+	$important_val: '';
+	$rem_sizes: null;
+	$px_sizes: null;
+
+	@if $important{
+		$important_val: ' !important';
+	}
+
+	@each $size in $sizes {
+		@if $size == ''{
+			$size: null;
+			$px_sizes: join($px_sizes, $size, space);
+		}@else {
+			@if $size == 0px{
+				$size: 0;
+			}
+
+			$px_sizes: join($px_sizes, $size, space);
+			$size: px-to-rems($size, $base-font);
+		}
+		$rem_sizes: join($rem_sizes, $size, space);
+	};
+
+	@if $rem-px-fallback {
+		#{$property}: #{$px_sizes}#{$important_val};
+	}
+	#{$property}: #{$rem_sizes}#{$important_val};
+
+}
+
+//ALIAS: same as above
+@mixin rems-to-px($property, $sizes, $important:false, $base-font: $base-font-size){
+	@include rems($property, $sizes, $important, $base-font);
+}
 
 // Quickly generate a font-size in rems, with a pixel fallback, based on the
 // value we pass into the mixin, e.g.:
@@ -360,8 +350,6 @@ $headings-use: 0 !global;
 	}
 }
 
-
-
 //------------------------------------
 //    $LISTS
 //------------------------------------
@@ -378,34 +366,4 @@ $headings-use: 0 !global;
 @mixin no-bullets() {
 	list-style: none;
 	> li { @include no-bullet; }
-}
-
-// Make a list(ul/ol) have an image bullet.
-//
-// The mixin should be used like this for an icon that is 5x7:
-//
-//     ul.pretty
-//       @include pretty-bullets("my-icon.png", 5px, 7px)
-//
-// Additionally, if the image dimensions are not provided,
-// The image dimensions will be extracted from the image itself.
-//
-//     ul.pretty
-//       @include pretty-bullets("my-icon.png")
-//
-@mixin pretty-bullets(
-	$bullet-icon,
-	$width: image-width($bullet-icon),
-	$height: image-height($bullet-icon),
-	$line-height: $base-line-height,
-	$padding: $type-magic-number
-	)
-{
-	margin-left: 0;
-
-	li {
-		padding-left: $padding;
-		background: image-url($bullet-icon) no-repeat ($padding - $width) / 2 ($line-height - $height) / 2;
-		list-style-type: none;
-	}
 }

@@ -309,21 +309,6 @@ $golden_ratio: golden();
 	@return ($pixel-val/$vw-context) * 1vw;
 }
 
-
-@function list-to-string($list, $separator: ",") {
-	$string: "";
-
-	@for $i from 1 through length($list) {
-		$string: str-append($string, #{nth($list, $i)});
-
-		@if $i != length($list) {
-			$string: str-append($string, $separator);
-		}
-	}
-
-	@return $string;
-}
-
 //Stripped REM generator
 //Useful if you just need the rem value
 @function px-to-rems($size, $base-font:$base-font-size) {
@@ -341,14 +326,36 @@ $golden_ratio: golden();
 
 }
 
-//Same as above
+//ALIAS: Same as above
 @function rems($size, $base-font:$base-font-size) {
 	@return px-to-rems($size, $base-font);
+}
+
+//List Join
+//Convert a list to a string
+@function list-to-string($list, $separator: ",") {
+	$string: "";
+
+	@for $i from 1 through length($list) {
+		$string: str-append($string, #{nth($list, $i)});
+
+		@if $i != length($list) {
+			$string: str-append($string, $separator);
+		}
+	}
+
+	@return $string;
 }
 
 //String Helpers
 //-----------------------------------
 // Taken from: https://github.com/devatrox/Sunglass
+
+//String Join
+// Converts list to a string with an optional separator
+@function str-join($list, $separator: ",") {
+	@return list-to-string($list, $separator);
+}
 
 // String contains check
 // Outputs true/false based on inputs
@@ -370,12 +377,6 @@ $golden_ratio: golden();
   $string: if($string == null, "", $string);
 
   @return str-insert($string, $insert, str-length($string) + 1);
-}
-
-//String Join
-// Converts list to a string with an optional separator
-@function str-join($list, $separator: ",") {
-	@return list-to-string($list, $separator);
 }
 
 // List contains check
@@ -516,43 +517,6 @@ $golden_ratio: golden();
 }
 
 
-//Map printer
-//Print maps into a string
-// Useful for debugging maps.
-// Taken from: https://github.com/lunelson/sass-maps-plus
-
-@function map-inspect($map, $level: 1) {
-	$tab: '    ';
-	$cr: '
-';
-
-	@if type-of($map) != 'map' {
-		@return '#{inspect($map)}';
-	}
-
-	$indent: list-print($tab, $level + 1);
-	$output: '(' + $cr + $indent; $i: 1;
-
-	@each $key, $value in $map {
-		@if type-of($value) == 'map' {
-			$output: $output + '#{$key}: #{map-inspect($value, $level+1)}';
-		} @else {
-			$output: $output + '#{$key}: #{$value}';
-		}
-
-		@if $i < length(map-keys($map)) {
-			$output: $output + ',' + $cr + $indent;
-		}
-
-		$i: $i + 1;
-	}
-
-	$outdent: list-print($tab, $level);
-
-	@return $output + $cr + $outdent + ')';
-}
-
-
 //Map depth-adder
 //-------------------------
 // Adds 'base'(or whatever initial key that's passed in) to a color map.
@@ -586,6 +550,42 @@ $golden_ratio: golden();
 	}
 
 	@return $map; 									//[6]
+}
+
+//Map printer
+//Print maps into a string
+// Useful for debugging maps.
+// Taken from: https://github.com/lunelson/sass-maps-plus
+
+@function map-inspect($map, $level: 1) {
+	$tab: '    ';
+	$cr: '
+';
+
+	@if type-of($map) != 'map' {
+		@return '#{inspect($map)}';
+	}
+
+	$indent: list-print($tab, $level + 1);
+	$output: '{' + $cr + $indent; $i: 1;
+
+	@each $key, $value in $map {
+		@if type-of($value) == 'map' {
+			$output: $output + '#{$key}: #{map-inspect($value, $level+1)}';
+		} @else {
+			$output: $output + '#{$key}: #{$value}';
+		}
+
+		@if $i < length(map-keys($map)) {
+			$output: $output + ',' + $cr + $indent;
+		}
+
+		$i: $i + 1;
+	}
+
+	$outdent: list-print($tab, $level);
+
+	@return $output + $cr + $outdent + '}';
 }
 
 

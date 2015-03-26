@@ -325,111 +325,6 @@ sup {
 sub {
   bottom: -0.25em; }
 
-html, body, fieldset, h1, h2, h3, h4, h5, h6, ul, ol, dd, menu, p, .p, address, pre, blockquote, table, .list_inline, .list_inline_bordered {
-  margin: 0;
-  padding: 0; }
-
-.tab_content, .box {
-  padding: 24px;
-  padding: 1.5rem; }
-
-[class*="list_bordered"] > li {
-  padding-top: 24px;
-  padding-top: 1.5rem; }
-
-[class*="list_bordered"] > li {
-  padding-bottom: 24px;
-  padding-bottom: 1.5rem; }
-
-.breadcrumbs {
-  padding-right: 32px;
-  padding-right: 2rem; }
-
-.button {
-  padding: 12px;
-  padding: 0.75rem; }
-
-.tab, .box_square .body {
-  padding-top: 12px;
-  padding-top: 0.75rem; }
-
-.tab {
-  padding-bottom: 12px;
-  padding-bottom: 0.75rem; }
-
-.tab, .box_square .body, .table_striped th, .table_striped td {
-  padding-left: 16px;
-  padding-left: 1rem; }
-
-.tab, .box_square .body, .breadcrumb, .table_striped th, .table_striped td {
-  padding-right: 16px;
-  padding-right: 1rem; }
-
-body {
-  padding-bottom: 48px;
-  padding-bottom: 3rem; }
-
-.list_nav.list_bordered > li {
-  padding-top: 0; }
-
-.list_nav.list_bordered > li {
-  padding-bottom: 0; }
-
-.box_open {
-  padding-left: 0; }
-
-.box_open {
-  padding-right: 0; }
-
-[class*="list_bordered"], .tab_side, table, .box {
-  margin-top: 24px;
-  margin-top: 1.5rem; }
-
-h1, h2, h3, h4, h5, h6, ul, ol, dd, menu, p, .p, address, pre, blockquote, fieldset, table, [class*="list_bordered"], .tab_side, .box, .tabbed {
-  margin-bottom: 24px;
-  margin-bottom: 1.5rem; }
-
-ul, ol, dd, menu, blockquote {
-  margin-left: 32px;
-  margin-left: 2rem; }
-
-h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
-  margin-top: -24px;
-  margin-top: -1.5rem; }
-
-figure, button, input, optgroup, select, textarea, form, legend {
-  margin: 0; }
-
-li > ul, li > ol {
-  margin-top: 0; }
-
-li > ul, li > ol {
-  margin-bottom: 0; }
-
-nav ul, nav ol, [class*="list_bordered"], .list_naked, .list_nav {
-  margin-left: 0; }
-
-@media only screen and (max-width:640px) {
-  .table_responsive thead + tbody td:first-child {
-    padding-top: 12px;
-    padding-top: 0.75rem; }
-  .tab_content {
-    padding-left: 16px;
-    padding-left: 1rem; }
-  .tab_content {
-    padding-right: 16px;
-    padding-right: 1rem; } }
-
-@media only screen and (max-width: 480px) { }
-
-@media only screen and (min-width: 481px) and (max-width: 640px) { }
-
-@media only screen and (min-width: 641px) { }
-
-@media only screen and (min-width: 641px) and (max-width: 940px) { }
-
-@media only screen and (min-width: 941px) { }
-
 .tab_button, .no-js .tab_button, .no-js .tab_button + .tab_content, .box, .box_square .body, .row > * {
   letter-spacing: normal;
   word-spacing: normal; }
@@ -524,6 +419,111 @@ nav ul, nav ol, [class*="list_bordered"], .list_naked, .list_nav {
 @media only screen and (min-width: 941px) { }
 
 @media only screen and (max-width:640px) { }
+
+@media only screen and (max-width: 480px) { }
+
+@media only screen and (min-width: 481px) and (max-width: 640px) { }
+
+@media only screen and (min-width: 641px) { }
+
+@media only screen and (min-width: 641px) and (max-width: 940px) { }
+
+@media only screen and (min-width: 941px) { }
+
+html, body, fieldset, h1, h2, h3, h4, h5, h6, ul, ol, dd, menu, p, .p, address, pre, blockquote, table, .list_inline, .list_inline_bordered {
+  margin: 0;
+  padding: 0; }
+
+.tab_content, .box {
+  padding: 24px;
+  padding: 1.5rem; }
+
+[class*="list_bordered"] > li {
+  padding-top: 24px;
+  padding-top: 1.5rem; }
+
+[class*="list_bordered"] > li {
+  padding-bottom: 24px;
+  padding-bottom: 1.5rem; }
+
+.breadcrumbs {
+  padding-right: 32px;
+  padding-right: 2rem; }
+
+.button {
+  padding: 12px;
+  padding: 0.75rem; }
+
+.tab, .box_square .body {
+  padding-top: 12px;
+  padding-top: 0.75rem; }
+
+.tab {
+  padding-bottom: 12px;
+  padding-bottom: 0.75rem; }
+
+.tab, .box_square .body, .table_striped th, .table_striped td {
+  padding-left: 16px;
+  padding-left: 1rem; }
+
+.tab, .box_square .body, .breadcrumb, .table_striped th, .table_striped td {
+  padding-right: 16px;
+  padding-right: 1rem; }
+
+body {
+  padding-bottom: 48px;
+  padding-bottom: 3rem; }
+
+.list_nav.list_bordered > li {
+  padding-top: 0; }
+
+.list_nav.list_bordered > li {
+  padding-bottom: 0; }
+
+.box_open {
+  padding-left: 0; }
+
+.box_open {
+  padding-right: 0; }
+
+[class*="list_bordered"], .tab_side, table, .box {
+  margin-top: 24px;
+  margin-top: 1.5rem; }
+
+h1, h2, h3, h4, h5, h6, ul, ol, dd, menu, p, .p, address, pre, blockquote, fieldset, table, [class*="list_bordered"], .tab_side, .box, .tabbed {
+  margin-bottom: 24px;
+  margin-bottom: 1.5rem; }
+
+ul, ol, dd, menu, blockquote {
+  margin-left: 32px;
+  margin-left: 2rem; }
+
+h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
+  margin-top: -24px;
+  margin-top: -1.5rem; }
+
+figure, button, input, optgroup, select, textarea, form, legend {
+  margin: 0; }
+
+li > ul, li > ol {
+  margin-top: 0; }
+
+li > ul, li > ol {
+  margin-bottom: 0; }
+
+nav ul, nav ol, [class*="list_bordered"], .list_naked, .list_nav {
+  margin-left: 0; }
+
+@media only screen and (max-width:640px) {
+  .table_responsive thead + tbody td:first-child {
+    padding-top: 12px;
+    padding-top: 0.75rem; }
+  .tab_content {
+    padding-left: 16px;
+    padding-left: 1rem; }
+  .tab_content {
+    padding-right: 16px;
+    padding-right: 1rem; } }
 
 @media only screen and (max-width: 480px) { }
 
