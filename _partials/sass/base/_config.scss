@@ -98,25 +98,29 @@ $colors: (
 
 	links: #0d497b,
 
-	bg: #f3f5f8,
+	bg: #f7f8f9,
 
 	primary: (
-		base: #0c639a,
-		dark: #0CCCCC
+		light: #0cadcd,
+		base: #0c639a
 	),
 
 	accent: #d40026,
 
-	action: #4c7659,
-
 	function: #d7dde5,
 
-	alert: #b22727
-);
+	success: #bada55
+) !global;
 
 // !!Important:
 // Converts the $colors variable into a globally accessible map with lighter and darker shades.
-$colors: generate_color_variations($colors, (tint, shade)) !global;
+$colors: generate_color_variations(
+	$colors,
+	$functions: (blend-colordodge, blend-lineardodge, tint, darken, blend-linearburn, blend-linearburn),
+	$increments: (45%,   60%,   80%,   5%,   40%,   90%),
+	$variations: (light, lighter, lightest, 300, 200, 100),
+	$blending-colors: (#b7b7b7, #efefef, null, null, #4c5a66, #323d42)
+)  !global;
 
 //It's rare that you need to make this something other than one of the above variables.
 $link-color: color(links);

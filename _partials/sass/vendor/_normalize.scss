@@ -102,12 +102,8 @@ fieldset {
 //
 
 mark {
-    background-color: colors(function, light);
-    color: pick_best_color(colors(function, light),
-		(
-		blend-colordodge(#bbb,colors(function)),
-		blend-colorburn(#333,colors(function))
-		));
+    background-color: tint($link-color, 90%);
+    color: $link-color;
     padding: 4px 3px;
     margin-left: -3px;
 }
@@ -314,7 +310,6 @@ optgroup {
 // [2] Address `outline` inconsistency between Chrome and other browsers.
 // [3] Improve readability when focused and also mouse hovered in all browsers.
 //
-
 a{
     cursor: pointer;
     color: $link-color;
@@ -322,7 +317,7 @@ a{
 
     &:hover,
     &:focus {
-        color: color(links, light);
+        color: $link-color;
     }
 
     &:focus {

@@ -302,6 +302,18 @@ $golden_ratio: golden();
 	@return $percentage;
 }
 
+//General 'contains' checker
+// Delegates methods to the appropriate function based on variable type
+@function contains($var, $value){
+	@if type-of($var == "map"){
+		@return map-has-keys($var, $value);
+	}@else if type-of($var == "list"){
+		@return list-contains($var, $value);
+	}@else if type-of($var == "string"){
+		@return str-contains($var, $value);
+	}
+}
+
 //Viewport width from pixel converter
 // Converts pixel dimensions to viewport
 @function px-to-vw($pixel-val) {
@@ -385,6 +397,22 @@ $golden_ratio: golden();
 	@return index($list, $item) != null;
 }
 
+//Reverse a List
+@function list-reverse($list, $recursive: false) {
+   $result: ();
+
+   @for $i from length($list)*-1 through -1 {
+      @if type-of(nth($list, abs($i))) == list and $recursive {
+        $result: append($result, reverse(nth($list, abs($i)), $recursive));
+      }
+
+      @else {
+        $result: append($result, nth($list, abs($i)));
+      }
+   }
+
+   @return $result;
+}
 
 //List print
 @function list-print($string, $n) {

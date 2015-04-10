@@ -151,3 +151,12 @@ body {
     padding: 5px 10px;
     border-radius: 0px 0px 0px 3px;
 }
+
+@include color-palette-output('.color-block');
+
+.color-block:before {
+	text-transform: capitalize;
+}
+.color-block:after {
+	letter-spacing: 0.1em;
+}
