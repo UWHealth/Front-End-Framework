@@ -1,1 +1,527 @@
-!function(t,a){"object"==typeof module&&"object"==typeof module.exports?module.exports=a():"function"==typeof define&&define.amd?define(["jquery"],a):a(t.jQuery)}(this,function(t){var a={wrapper:{element:"section","class":"tabbed",extra_classes:"",singular_class:"tab_single"},navigation:{element:"nav","class":"tabs",extra_classes:""},tabs:{"class":"tab",active_class:"active",extra_classes:"",toggle:!1,begin:null,animation:{easing:"easeOutCubic",duration:300}},buttons:{"class":"tab_button",active_class:"active",toggle:!1,begin:null,animation:{easing:"easeInOutCubic",duration:300}},content:{"class":"tab_content",active_class:"tab_active"}};t.fn.tabbed=function(s,e){var n=this;n.each(function(){var i={},o=this;i.init=function(s,e,n){i.scope=n,"function"==typeof s?(e=s,i.options=t.extend(!0,{},a,{})):i.options=t.extend(!0,{},a,s),i.populate_options(),i.collect_tabs(),i.add_aria_roles(),i.bind_events(),"function"==typeof e&&e.call(this,i.scope)},i.populate_options=function(){i.tabs_anim=i.options.tabs.animation,i.buttons_anim=i.options.buttons.animation;var t,a,s;for(var e in i.options)if(i.options.hasOwnProperty(e)){s=i.options[e];for(var n in s)s.hasOwnProperty(n)&&("class"===n?(a=s["class"].replace(",",".").replace(" ",""),t=e+"_class",i[t]="."+a):"active_class"===n&&(a=s.active_class,t=[e+"_active"],i[t]=a))}},i.collect_tabs=function(){var a=i.options,s=t(i.scope).find(i.buttons_class).not("[data-tabbed='true']"),e=s.length,o=t(document.createElement(a.wrapper.element)).addClass(a.wrapper["class"]).addClass(a.wrapper.extra_classes).attr("data-tabbed","true"),c=[],r=[],l="";if(e>0){for(var _,b,d=0;e>=d;d++,l="",_=[],b=[])n=t(s[d]),n.data("tabbed")!==!0&&n.length>0&&(_=n.nextUntil(":not("+i.content_class+", "+i.buttons_class+")").addBack(),n.parent(i.wrapper_class).data("tabbed")!==!0?(b=o.clone().insertBefore(_[0]),void 0!==n.data("tab")&&(l=n.data("tab"),b.addClass(l)),_.appendTo(b)):b=n.parent(i.wrapper_class),_.not(i.content_class).attr("data-tabbed","true"),c.push(_),r.push(b[0]));i.create_tab_nav(t(r)),i.activate_tabs(t(r))}},i.create_tab_nav=function(a){var s,e;a.each(function(){n=t(this),e=t(document.createElement(i.options.navigation.element)).addClass(i.options.navigation["class"]).addClass(i.options.navigation.extra_classes).attr("role","tablist"),s=n.children(i.buttons_class),s.length>1?0===n.children(i.navigation_class).length&&(e=e.clone().prependTo(n),s.attr({"aria-expanded":"false","aria-selected":"false"}).clone(!1).appendTo(e).addClass(i.options.tabs["class"]).addClass(i.options.tabs.extra_classes).removeClass(i.options.buttons["class"])):n.attr("data-tabbed","true").addClass(i.options.wrapper.single_class)})},i.activate_tabs=function(a){a.each(function(){n=t(this),n.children(i.buttons_class).hasClass(i.buttons_active)!==!0&&(i.current_item=n.children(i.buttons_class).first(),i.change_tabs(!0),n.attr("data-tabbed","true"))})},i.bind_events=function(){t(i.scope).on("tab-change",i.tabs_class+","+i.buttons_class,function(a){i.current_item=t(a.target),i.change_tabs()}),t(i.scope).on("click",i.tabs_class+","+i.buttons_class,function(a){a.preventDefault(),t(a.target).trigger("tab-change")})},i.change_tabs=function(a){i.hash=i.current_item.attr("href"),i.target=t(i.hash),i.target.hasClass("velocity-animating")||(i.both_tabs=t("[href='"+i.hash+"']"),a?i.skip_animations():i.is_tab()?(i.anim_opts=i.tabs_anim,i.options.tabs.toggle?i.is_active()?i.hide_tabs():(i.hide_tabs(),i.show_tabs()):i.is_active()||(i.hide_tabs(),i.show_tabs())):(i.anim_opts=i.buttons_anim,i.options.buttons.toggle?i.is_active()?i.hide_accordions():(i.hide_accordions(),i.show_accordions()):i.is_active()||(i.hide_accordions(),i.show_accordions())))},i.hide_tabs=function(){i.begin([i.current_item[0],i.target[0]],i.options.tabs.begin),i.target.siblings(i.content_class).hide().removeClass(i.content_active).attr("aria-hidden","true"),i.both_tabs.siblings(i.buttons_class+","+i.tabs_class).removeClass(i.tabs_active+" "+i.buttons_active).attr({"aria-expanded":"false","aria-selected":"false"}),i.options.tabs.toggle&&(i.target.hide().removeClass(i.content_active).attr("aria-hidden","true"),i.both_tabs.removeClass(i.tabs_active+" "+i.buttons_active).attr({"aria-expanded":"false","aria-selected":"false"}))},i.hide_accordions=function(){i.begin([i.current_item[0],i.target[0]],i.options.buttons.begin),i.target.siblings(i.content_class).velocity("slideUp",i.anim_opts,i.anim_opts).removeClass(i.content_active).attr("aria-hidden","true"),i.both_tabs.siblings(i.buttons_class+","+i.tabs_class).removeClass(i.tabs_active+" "+i.buttons_active).attr({"aria-expanded":"false","aria-selected":"false"}),i.options.buttons.toggle&&(i.both_tabs.removeClass(i.tabs_active+" "+i.buttons_active).attr({"aria-expanded":"false","aria-selected":"false"}),i.target.velocity("slideUp",i.anim_opts,i.anim_opts).removeClass(i.content_active).attr("aria-hidden","true"))},i.show_tabs=function(){i.target.css("display","block").velocity(i.anim_opts,i.anim_opts),i.make_active()},i.show_accordions=function(){i.target.velocity("slideDown",i.anim_opts,i.anim_opts),i.make_active()},i.make_active=function(){i.target.addClass(i.content_active).attr("aria-hidden","false"),i.both_tabs.not(i.buttons_class).addClass(i.tabs_active),i.both_tabs.not(i.tabs_class).addClass(i.buttons_active),i.both_tabs.attr({"aria-expanded":"true","aria-selected":"true"})},i.is_active=function(){return"true"===i.current_item.attr("aria-expanded")?!0:!1},i.is_tab=function(){return t(i.current_item).hasClass(i.options.tabs["class"])?!0:!1},i.skip_animations=function(){i.target.siblings(i.content_class).hide().removeClass(i.content_active).attr("aria-hidden","true"),i.both_tabs.siblings(i.buttons_class+","+i.tabs_class).removeClass(i.tabs_active+" "+i.buttons_active).attr({"aria-expanded":"false","aria-selected":"false"}),i.target.show().attr("aria-hidden","false"),i.make_active()},i.begin=function(t,a){"function"==typeof a&&a.call(t,t)},i.add_aria_roles=function(){var a="";t(i.buttons_class+","+i.tabs_class).each(function(){n=t(this),void 0!==n.attr("aria-controls")&&void 0!==n.attr("role")&&(a=n.attr("href"),a=a.substring(1),n.attr({"aria-controls":a,role:"tab"}))}),t(i.content_class).attr("aria-role","tabpanel")},i.init(s,e,o)})},t.fn.tabbed.defaults=a});
+!function(root, factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        module.exports = factory();
+    /* AMD module. */
+    } else if (typeof define === "function" && define.amd) {
+        define(['jquery'], factory);
+    /* Browser globals. */
+    } else {
+        factory(root.jQuery);
+    }
+}(this, function($) {
+
+
+    var default_options = {
+        wrapper: {
+            element: "section",
+            class: "tabbed",
+            extra_classes: '',
+            singular_class: 'tab_single'
+        },
+        navigation: {
+            element: "nav",
+            class: "tabs",
+            extra_classes: ''
+        },
+        tabs: {
+            class: 'tab',
+            active_class: 'active',
+            extra_classes: '',
+            toggle: false,
+            begin: null,
+            animation: {
+                easing: "easeOutCubic",
+                duration: 300
+            }
+        },
+        buttons: {
+            class: 'tab_button',
+            active_class: 'active',
+            toggle: false,
+            begin: null,
+            animation: {
+                easing: "easeInOutCubic",
+                duration: 300
+            }
+        },
+        content: {  //Tab panel content areas
+            class: 'tab_content',
+            active_class: 'tab_active'
+        }
+    };
+
+    //Tab setup
+
+    $.fn.tabbed = function(user_options, callback) {
+
+        var $this = this;
+
+        $this.each(function(){
+
+            var t = {},
+                element = this; //Scope to this function (prevents polluting the jQuery object)
+
+    		t.init = function(user_options, callback, element) {
+                t.scope = element; //Create scope based on element
+
+                //Merge default and user options
+                if (typeof user_options === 'function'){
+                    //Check if function was passed as first parameter, assume it's meant as a callback
+                    callback = user_options;
+                    t.options = $.extend(true, {}, default_options, {});
+                }else {
+                    t.options = $.extend(true, {}, default_options, user_options);
+                }
+                //Add keys to options for class strings
+                // (e.g.'.foo') for easier code readability
+                t.populate_options();
+                //Gather tab groupings
+                t.collect_tabs();
+                //Add click handlers
+                t.add_aria_roles();
+    			t.bind_events();
+                //Completion Callback
+                if (typeof callback === 'function') {
+                    callback.call(this, t.scope); // brings the scope to the callback
+                }
+    		};
+
+            //Loop over the provided options and add class strings for easier selection
+            t.populate_options = function(){
+
+                // t.anim_props = t.options.animation.properties;
+                t.tabs_anim = t.options.tabs.animation;
+                t.buttons_anim = t.options.buttons.animation;
+
+                var new_key, new_class, option;
+                //loop through keys
+                for (var key in t.options){
+                    //Sanitize check. Make sure we don't reference another key
+                    if (t.options.hasOwnProperty(key)) {
+                        option = t.options[key];
+                        //Repeat one layer deeper
+                        for (var prop in option){
+                            if (option.hasOwnProperty(prop)) {
+                                //Check for 'class' property
+                                if (prop === 'class') {
+                                    //Take spaced notation and convert it to combined class strings
+                                    //e.g. 'foo bar' to '.foo.bar'
+                                    new_class = option.class.replace(',', '.').replace(' ','');
+                                    new_key = key + '_class';
+                                    //Store value directly beneath the tabbed object
+                                    // (above of t.options for easier typing)
+                                    t[new_key] = '.' + new_class;
+                                }else if (prop === 'active_class'){
+                                    new_class = option.active_class;
+                                    new_key = [key + '_active'];
+                                    t[new_key] = new_class;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+    		t.collect_tabs = function() {
+
+    			var b = t.options,
+                    tab_buttons = $(t.scope).find(t.buttons_class).not("[data-tabbed='true']"),
+                    tabs_length = tab_buttons.length,
+                    wrapper = $(document.createElement(b.wrapper.element))
+                        .addClass(b.wrapper.class)
+                        .addClass(b.wrapper.extra_classes).attr("data-tabbed", "true"),
+                    tab_groups = [],
+                    tab_parents = [],
+    				addons = "";
+
+                //Do nothing if no tabs exist
+                if (tabs_length > 0){
+                    //Loop over all tab_buttons
+        			for( var i=0, this_group, this_parent;
+                         i <= tabs_length;
+                         i++, addons='', this_group=[], this_parent=[]
+                    ) {
+        				//Select the current tab button
+        				$this = $(tab_buttons[i]);
+
+        				//Check if we've already added this tab to a grouping
+        				if ($this.data("tabbed") !== true &&
+                            $this.length > 0 ) {
+
+                            //Grap all siblings(and self), stopping when an object isn't tab content or a tab button
+                            this_group = $this.nextUntil(":not("+t.content_class+", "+t.buttons_class+")").addBack();
+
+                            if ($this.parent(t.wrapper_class).data("tabbed") !== true){
+                                //Insert wrapper before group.
+                                this_parent = wrapper.clone().insertBefore(this_group[0]);
+
+                                //Grab data-tab attributes (since they can be used as optional style alternatives)
+                                if ($this.data("tab") !== undefined) {
+                                    addons = $this.data("tab");
+                                    //Add these as classes.
+                                    this_parent.addClass(addons);
+                                }
+                                //Move the group to wrapper.
+                                this_group.appendTo(this_parent);
+                            }else {
+                                this_parent = $this.parent(t.wrapper_class);
+                            }
+
+                            this_group.not(t.content_class).attr("data-tabbed", "true");
+
+                            //Move groups and parents into arrays for later use
+                            tab_groups.push(this_group);
+                            tab_parents.push(this_parent[0]);
+        				}
+        			}
+
+                    t.create_tab_nav($(tab_parents));
+                    t.activate_tabs($(tab_parents));
+                }
+
+            };
+
+            t.create_tab_nav = function($tab_parents) {
+
+                var $tab_buttons,
+                    $tab_nav;
+
+    			//Add a nav element to the top of the groups
+    			//only if they contain more than one tab_content child
+    			$tab_parents.each( function() {
+    				$this = $(this);
+                    //Create Tab navigation container
+                    $tab_nav = $(document.createElement(t.options.navigation.element))
+                        .addClass(t.options.navigation.class)
+                        .addClass(t.options.navigation.extra_classes)
+                        .attr("role", "tablist");
+                    //Select tab/accordion buttons
+                    $tab_buttons = $this.children(t.buttons_class);
+
+    				if ($tab_buttons.length > 1) {
+                        //Don't reapply navigation if it already exists
+                        if ($this.children(t.navigation_class).length === 0 ) {
+                            //Clone tab navigation to tab container (and select it)
+                            $tab_nav = $tab_nav.clone().prependTo($this);
+
+                            //Clone tab buttons and convert them into true tabs
+                            $tab_buttons
+                                .attr({
+                                    "aria-expanded": "false",
+                                    "aria-selected": "false"
+                                })
+                                .clone(false)
+                                .appendTo($tab_nav)
+                                .addClass(t.options.tabs.class)
+                                .addClass(t.options.tabs.extra_classes)
+                                .removeClass(t.options.buttons.class);
+
+                        }
+
+    			    } else {
+                        $this.attr("data-tabbed", "true").addClass(t.options.wrapper.single_class);
+                    }
+    			});
+            };
+
+    		t.activate_tabs = function($tab_parents){
+                //Make the first tab and tab_button in each grouping the active tab.
+    			$tab_parents.each(function() {
+                    $this = $(this);
+
+                    //Don't perform on previously tabbed items
+                    if ($this
+                        .children(t.buttons_class)
+                        .hasClass(t.buttons_active) !== true
+                    ){
+                        t.current_item = $this.children(t.buttons_class).first();
+                        t.change_tabs(true);
+                        $this.attr("data-tabbed", "true");
+                    }
+                });
+            };
+
+            //----------------------------------------------------------
+    		//		Actions for tab clicks
+    		//----------------------------------------------------------
+    		t.bind_events = function(){
+                $(t.scope).on('tab-change', t.tabs_class+','+t.buttons_class, function(e){
+
+                    //Set current item
+                    t.current_item = $(e.target);
+                    t.change_tabs();
+                });
+
+    			$(t.scope).on('click', t.tabs_class+','+t.buttons_class, function(e) {
+                    e.preventDefault();
+                    $(e.target).trigger('tab-change');
+                });
+    		};
+
+            // Tabs and Accordions toggling
+            // NOTE: tabs and accordions are separated
+            //   because accordions must use the 'slideUp' and 'slideDown' animation
+            //   This is slightly confusing, but required
+            //   because accordions animate together
+            //   while tabs animate one after another
+            t.change_tabs = function(skip_animation) {
+
+                t.hash = t.current_item.attr('href');
+                t.target = $(t.hash);
+
+                //Do not perform on already animating objects
+                if (!t.target.hasClass('velocity-animating')){
+
+                    //Grab button and tab
+                    t.both_tabs = $("[href='"+t.hash+"']");
+
+                    if (skip_animation) {
+                        //Used for first run; skips all animations.
+                        t.skip_animations();
+                    }else {
+                        if (t.is_tab()){
+                            //hide/show tabs
+                            t.anim_opts = t.tabs_anim; //Set animations for simpler declaration later
+
+                            if(t.options.tabs.toggle) {
+                                //if toggle tabs are true, we determine
+                                // whether to hide the current tab (if active)
+                                // or do the normal switch (hide current active, show new selection)
+                                t.is_active() ? t.hide_tabs() : (t.hide_tabs(), t.show_tabs());
+                            }else if(! t.is_active()){
+                                //If not a toggle, and not active, we switch current tab
+                                t.hide_tabs();
+                                t.show_tabs();
+                            }
+                        }else {
+                            t.anim_opts = t.buttons_anim;
+
+                            if(t.options.buttons.toggle) {
+                                //if toggle buttons are true, we determine
+                                // whether to hide the current accordion (if active)
+                                // or do the normal switch (hide current active, show new selection)
+                                t.is_active() ? t.hide_accordions() : (t.hide_accordions(), t.show_accordions());
+                            }else if(! t.is_active()){
+                                //If not a toggle, and not active, we switch current accordion
+                                t.hide_accordions();
+                                t.show_accordions();
+                            }
+                        }
+                    }
+                }
+            };
+
+            t.hide_tabs = function() {
+
+                //Call ahead function(described by options.tabs.begin)
+                t.begin([t.current_item[0], t.target[0]], t.options.tabs.begin);
+
+                //Hide siblings and remove active attributes
+                t.target
+                    .siblings(t.content_class)
+                    .hide()
+                    .removeClass(t.content_active)
+                    .attr('aria-hidden', 'true');
+
+                //Hide tab siblings and remove active attributes
+                t.both_tabs
+                    .siblings(t.buttons_class+','+t.tabs_class)
+                    .removeClass(t.tabs_active+' '+t.buttons_active )
+                    .attr({
+                        'aria-expanded': 'false',
+                        'aria-selected': 'false'
+                    });
+
+                if (t.options.tabs.toggle){
+                    //If tabs are toggles, hide everything and remove active attributes
+                    t.target
+                        .hide()
+                        .removeClass(t.content_active)
+                        .attr('aria-hidden', 'true');
+
+                    t.both_tabs
+                        .removeClass(t.tabs_active+' '+t.buttons_active )
+                        .attr({
+                            'aria-expanded': 'false',
+                            'aria-selected': 'false'
+                        });
+                }
+            };
+
+            t.hide_accordions = function(){
+
+                //Call ahead function(described by options.buttons.begin)
+                t.begin([t.current_item[0], t.target[0]], t.options.buttons.begin);
+
+                //Hide target siblings and remove active attributes
+                t.target
+                    .siblings(t.content_class)
+                    .velocity('slideUp',
+                        t.anim_opts,
+                        t.anim_opts
+                    )
+                    .removeClass(t.content_active)
+                    .attr('aria-hidden', 'true');
+
+                //Hide accordion siblings and remove active attributes
+                t.both_tabs
+                    .siblings(t.buttons_class+','+t.tabs_class)
+                    .removeClass(t.tabs_active+' '+t.buttons_active )
+                    .attr({
+                        'aria-expanded': 'false',
+                        'aria-selected': 'false'
+                    });
+
+                if (t.options.buttons.toggle){
+
+                    //If accordions are toggles, hide everything and remove active attributes
+                    t.both_tabs
+                        .removeClass(t.tabs_active+' '+t.buttons_active )
+                        .attr({
+                            'aria-expanded': 'false',
+                            'aria-selected': 'false'
+                        });
+
+                    t.target
+                        .velocity('slideUp',
+                            t.anim_opts,
+                            t.anim_opts
+                        )
+                        .removeClass(t.content_active)
+                        .attr('aria-hidden', 'true');
+                }
+            };
+
+
+            t.show_tabs = function() {
+                //Animate target
+                t.target
+                    .css('display', 'block')
+                    .velocity(
+                        t.anim_opts,
+                        t.anim_opts
+                    );
+                //add appropriate active attributes
+                t.make_active();
+            };
+
+            t.show_accordions = function() {
+                //Animate target
+                t.target.velocity('slideDown',
+                    t.anim_opts,
+                    t.anim_opts
+                );
+
+                //add appropriate active attributes
+                t.make_active();
+            };
+
+            t.make_active = function(){
+                //Apply 'active' attributes to targets
+                t.target.addClass(t.content_active).attr('aria-hidden', 'false');
+
+                //Apply active attributes tabs and accordion buttons
+                // This is done to both to keep
+                // responsive tab/accordions in sync in case of browser resize
+                t.both_tabs
+                    .not(t.buttons_class)
+                    .addClass(t.tabs_active);
+                t.both_tabs
+                    .not(t.tabs_class)
+                    .addClass(t.buttons_active);
+
+                t.both_tabs.attr({
+                    'aria-expanded': 'true',
+                    'aria-selected': 'true'
+                });
+            };
+
+            t.is_active = function() {
+                //Checks whether the currently clicked item is active or not
+
+                if(t.current_item.attr('aria-expanded') === 'true'){
+                    return true;
+                }else{
+                    return false;
+                }
+
+                // if(t.is_tab() &&
+                //     t.current_item.hasClass(t.options.tabs.active_class)){
+                //     return true;
+                //
+                // }else if (!t.is_tab() &&
+                //     t.current_item.hasClass(t.options.buttons.active_class)){
+                //     return true;
+                //
+                // }else {
+                //     return false;
+                // }
+            };
+
+            //Check if current item is a tab or a button
+            t.is_tab = function(){
+                if($(t.current_item).hasClass(t.options.tabs.class)){
+                    return true;
+                }else {
+                    return false;
+                }
+            };
+
+            //Used during first run of tab activation.
+            // Just skips all animations
+            t.skip_animations = function(){
+                t.target
+                    .siblings(t.content_class)
+                    .hide()
+                    .removeClass(t.content_active)
+                    .attr('aria-hidden','true');
+
+                t.both_tabs
+                    .siblings(t.buttons_class+','+t.tabs_class)
+                    .removeClass(t.tabs_active+' '+t.buttons_active )
+                    .attr({
+                        'aria-expanded': 'false',
+                        'aria-selected': 'false'
+                    });
+
+                t.target.show().attr('aria-hidden', 'false');
+
+                t.make_active();
+            };
+
+            //Call ahead function (begin option)
+            t.begin = function(elements, callahead) {
+                if (typeof callahead === "function" ) {
+                    callahead.call(elements, elements);
+                }
+            };
+
+            //Add accessibility attributes to elements
+            t.add_aria_roles = function() {
+                var hash = "";
+
+                $(t.buttons_class+','+t.tabs_class).each(function(){
+                    $this = $(this);
+                    if ($this.attr('aria-controls') !== undefined &&
+                        $this.attr('role') !== undefined){
+
+                        hash = $this.attr('href');
+                        hash = hash.substring(1);
+
+                        $this.attr({
+                            'aria-controls': hash,
+                            'role': 'tab'
+                        });
+                    }
+                });
+
+                $(t.content_class).attr('aria-role', 'tabpanel');
+            }
+
+    		t.init(user_options, callback, element);
+
+        });
+    };
+
+    $.fn.tabbed.defaults = default_options;
+});

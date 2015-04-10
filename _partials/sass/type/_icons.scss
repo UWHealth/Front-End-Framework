@@ -15,7 +15,7 @@ $icons: (
 	color: inherit;
 	fill: inherit;
 	text-transform: none !important;
-	letter-spacing: 0 !important;
+	letter-spacing: normal !important;
 	/* Enable Ligatures ================ */
 	-webkit-font-feature-settings: "dlig" on;
 	-moz-font-feature-settings: "dlig" on;
@@ -24,3 +24,4 @@ $icons: (
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+ 

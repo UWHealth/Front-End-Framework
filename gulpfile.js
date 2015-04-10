@@ -16,10 +16,10 @@ var chalk = 		utility.colors;
 
 //Config
 var paths = {
-	scss: ['./_partials/sass/*scss', './_partials/sass/**/*scss'],
+	scss: ['./_partials/sass/*.scss', './_partials/sass/**/*.scss'],
 	css: './css',
-	js: ['./_partials/js/*js', './_partials/js/vendor/*js'],
-	kits: './_partials/kits/*kit'
+	js: ['./_partials/js/*.js', './_partials/js/vendor/*.js'],
+	kits: ['./_partials/kits/*.kit', '!./_partials/kits/_*.kit']
 };
 
 var autoprefixer_browsers = [
@@ -38,9 +38,9 @@ function _filename(path) {
 function _error(err) {
 		console.log("Error:"+err);
 		notify.onError({
-			title:    "Gulp",
-			subtitle: "Error",
-			message:  "Error: <%= error.message %>",
+			title:    "Error",
+			subtitle: "",
+			message:  "<%= error.message %>",
 		})(err);
 
 		this.emit('end');
@@ -89,7 +89,7 @@ gulp.task('kits', function(){
 });
 
 gulp.task('browser-sync',['sass', 'js', 'kits'], function() {
-    browserSync.init(['./css/*css', './js/**', './*.html'], {
+    browserSync.init(['./css/*.css', './js/**', './*.html'], {
 		// proxy: 'http://pa-wf-250-38.local:5757/'
 		server: {
             baseDir: './'

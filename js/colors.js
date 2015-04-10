@@ -1,1 +1,35 @@
-function change_color(r,a){var n=!1;"#"===r[0]&&(r=r.slice(1),n=!0);var t=parseInt(r,16),c=(t>>16)+a;c>255?c=255:0>c&&(c=0);var e=(t>>8&255)+a;e>255?e=255:0>e&&(e=0);var o=(255&t)+a;return o>255?o=255:0>o&&(o=0),(n?"#":"")+(o|e<<8|c<<16).toString(16)}
+// Lighten or darken a color function
+// Adapted from: http://css-tricks.com/snippets/javascript/lighten-darken-color/
+// Usage:
+// var lightercolor = change_color("#F06D06", 20);
+// var darkerColor = change_color("#F06D06", -20);
+
+var change_color = function(col, amt) {
+
+    var usePound = false;
+
+    if (col[0] === "#") {
+        col = col.slice(1);
+        usePound = true;
+    }
+
+    var num = parseInt(col,16);
+
+    var r = (num >> 16) + amt;
+
+    if (r > 255) r = 255;
+    else if  (r < 0) r = 0;
+
+    var b = ((num >> 8) & 0x00FF) + amt;
+
+    if (b > 255) b = 255;
+    else if  (b < 0) b = 0;
+
+    var g = (num & 0x0000FF) + amt;
+
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
+
+    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+
+};

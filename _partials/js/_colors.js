@@ -4,7 +4,7 @@
 // var lightercolor = change_color("#F06D06", 20);
 // var darkerColor = change_color("#F06D06", -20);
 
-function change_color(col, amt) {
+var change_color = function(col, amt) {
 
     var usePound = false;
 
