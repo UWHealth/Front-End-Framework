@@ -10,13 +10,16 @@ var notify = 		require('gulp-notify');
 var uglify = 		require('gulp-uglify');
 var rename = 		require('gulp-rename');
 var utility = 		require('gulp-util');
+var kit =			require('gulp-kit');
+var include =		require('gulp-include');
 var chalk = 		utility.colors;
 
 //Config
 var paths = {
 	scss: ['./_partials/sass/*scss', './_partials/sass/**/*scss'],
 	css: './css',
-	js: ['./_partials/js/*js', './_partials/js/vendor/*js']
+	js: ['./_partials/js/*js', './_partials/js/vendor/*js'],
+	kits: './_partials/kits/*kit'
 };
 
 var autoprefixer_browsers = [
@@ -44,17 +47,17 @@ function _error(err) {
 	};
 
 gulp.task('sass', function() {
-
-	return gulp.src(paths.scss[0])
+	debugger;
+	gulp.src(paths.scss[0])
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(sass({
-			outputStyle: 'nested',
+			outputStyle: 'nested', //'compressed',
 			errLogToConsole: true,
 			onError: function(err){console.log(chalk.red("[Sass] ")+err);},
 			onSuccess: function(css){
 				var file = _filename(this.file);
 				var duration = this.result.stats.duration+"ms";
-				var _message = chalk.magenta("[Sass] ") +file + " Compiled in "+ duration;
+				var _message = chalk.magenta("[Sass] ")+ chalk.bold(file) + " Compiled in "+ duration;
 				console.log(_message);
 				browserSync.notify(file+"Compiled in "+duration, 10000);
 			}
@@ -64,9 +67,11 @@ gulp.task('sass', function() {
 });
 
 gulp.task('js', function(){
-	return gulp.src(paths.js)
+
+	gulp.src(paths.js)
 		.pipe(plumber())
-		.pipe(uglify())
+		.pipe(include())
+		// .pipe(uglify())
 		.pipe(rename(function(path){
 			path.dirname = path.dirname.replace("./_partials/js","");
 			path.basename = path.basename.replace("_","");
@@ -75,8 +80,16 @@ gulp.task('js', function(){
 		.on('error', utility.log);
 });
 
-gulp.task('browser-sync',['sass', 'js'], function() {
-    browserSync.init(['css/*css', 'js/**'], {
+gulp.task('kits', function(){
+
+	gulp.src(paths.kits)
+		.pipe(plumber({errorHandler: _error}))
+		.pipe(kit())
+		.pipe(gulp.dest('./'));
+});
+
+gulp.task('browser-sync',['sass', 'js', 'kits'], function() {
+    browserSync.init(['./css/*css', './js/**', './*.html'], {
 		// proxy: 'http://pa-wf-250-38.local:5757/'
 		server: {
             baseDir: './'
@@ -87,6 +100,7 @@ gulp.task('browser-sync',['sass', 'js'], function() {
 gulp.task('watch', function(){
 	gulp.watch(paths.scss, ['sass']);
 	gulp.watch(paths.js, ['js']);
+	gulp.watch(paths.kits, ['kits']);
 });
 
 
