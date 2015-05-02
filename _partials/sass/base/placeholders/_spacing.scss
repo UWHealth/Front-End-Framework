@@ -1,0 +1,27 @@
+//Non-responsive, placeholders
+//-----------------------------
+
+
+%base_pace_reset {
+	margin: 0;
+	padding: 0;
+}
+
+%type-vertical-rhythm {
+	@extend %space_reset;
+	@extend %base_space_b;
+}
+
+//-----------------------------
+// Generate responsive spacing placeholders
+//
+
+@include spacing-utilities("base_", (important: false));
+
+@if $responsive == true {
+	@each $name in $breakpoint-has-widths {
+		@include media-query($name) {
+			@include spacing-utilities('base_#{$name}_', (important: false));
+		}
+	}
+}

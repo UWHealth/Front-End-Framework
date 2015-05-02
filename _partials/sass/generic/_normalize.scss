@@ -1,5 +1,5 @@
 *, *:before, *:after{
-    @extend %border_box;
+    box-sizing: border-box;
 }
 
 // ==========================================================================
@@ -7,18 +7,18 @@
 // ==========================================================================
 
 html {
-    @extend %space_reset;
-    font-size: $base-font-size / 16px * 1em;
+    @extend %generic_space_reset;
+    font-size: percentage($base-font-size / 16px);
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     background-color: color(bg);
 }
-body{
+
+body {
     @include type-font-size($base-font-size, true, p);
-    @extend %space_reset;
+    @extend %generic_space_reset;
     color: color(type);
 }
-
 
 html, body{
     // Makes sticky footers much easier.
@@ -49,12 +49,11 @@ figcaption,
 figure,
 footer,
 header,
-hgroup,
 main,
 nav,
 section,
 summary {
-    @extend %nz_block;
+    @extend %generic_bl;
 }
 
 //
@@ -64,7 +63,20 @@ audio,
 canvas,
 video,
 progress {
-    @extend %nz_inline_block;
+    @extend %generic_ibl;
+}
+
+// Remove the gap between audio, canvas, iframes,
+// images, videos and the bottom of their containers:
+// https://github.com/h5bp/html5-boilerplate/issues/440
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
 }
 
 //
@@ -73,7 +85,7 @@ progress {
 //
 
 [hidden], template {
-    display: none;
+    @extend %generic_hide;
 }
 //
 // Address `font-family` inconsistency between `textarea` and other form
@@ -85,7 +97,7 @@ button,
 input,
 select,
 textarea {
-    @extend %primary_font_family;
+    @extend %generic_primary_font_family;
 }
 
 //
@@ -94,7 +106,7 @@ textarea {
 
 fieldset {
     @extend %nz_n_border;
-    @extend %space_reset;
+    @extend %generic_space_reset;
 }
 
 //
@@ -102,8 +114,8 @@ fieldset {
 //
 
 mark {
-    background-color: tint($link-color, 90%);
-    color: $link-color;
+    background-color: tint(color(links), 90%);
+    color: color(links);
     padding: 4px 3px;
     margin-left: -3px;
 }
@@ -121,7 +133,6 @@ img {
     @extend %nz_n_border; //[1]
     -ms-interpolation-mode: bicubic; //[2]
     height: auto;
-    vertical-align: middle;
 }
 
 //Somewhat responsive media.
@@ -138,7 +149,7 @@ object, iframe, embed, img{
 //
 
 figure {
-    @extend %space_n;
+    @extend %generic_space_n;
 }
 
 // ==========================================================================
@@ -164,7 +175,7 @@ select,
 textarea {
     color: inherit; //[1]
     font: inherit; //[2]
-    @extend %space_n; //[3]
+    @extend %generic_space_n; //[3]
 }
 
 //
@@ -189,7 +200,7 @@ select {
 
 
 form {
-    @extend %space_n;
+    @extend %generic_space_n;
 }
 
 //
@@ -198,7 +209,6 @@ form {
 // 2. Correct inability to style clickable `input` types in iOS.
 // 3. Improve usability and consistency of cursor style between image-type
 //    `input` and others.
-//
 
 button,
 html input[type="button"], //[1]
@@ -213,13 +223,12 @@ input[type="submit"] {
 //
 // 1. Correct color not being inherited in IE 6/7/8/9.
 // 2. Correct text not wrapping in Firefox 3.
-// 3. Correct alignment displayed oddly in IE 6/7.
-//
-
+// 3. Remove padding so people aren't caught out if they zero out fieldsets.
+// 4. Correct alignment displayed oddly in IE 6/7.
 legend {
-	@extend %space_n;
     @extend %nz_n_border; // 1
     white-space: normal; // 2
+    @extend %generic_space_n; //4
     *margin-left: -7px; // 3
 }
 
@@ -235,70 +244,18 @@ input,
 select,
 textarea {
     font-size: 100%; // [1]
-    @extend %space_n; // [2]
+    @extend %generic_space_n; // [2]
     vertical-align: baseline; // [3]
     *vertical-align: middle; // [3]
 }
 
-//
-// Address Firefox 3+ setting `line-height` on `input` using `!important` in
-// the UA stylesheet.
-//
 
-button,
-input {
-    line-height: normal;
-}
-
-//
-// Address inconsistent `text-transform` inheritance for `button` and `select`.
-// All other form control elements do not inherit `text-transform` values.
-// Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
-// Correct `select` style inheritance in Firefox 4+ and Opera.
-//
-
-button,
-select {
-    text-transform: none;
-}
-
-//
-// 1. Correct `color` not being inherited in IE 8/9.
-// 2. Remove padding so people aren't caught out if they zero out fieldsets.
-
-
-legend {
-    @extend %nz_n_border; // 1
-    @extend %space_n; // 2
-}
-
-//
-// Address Firefox 4+ setting `line-height` on `input` using `!important` in
-// the UA stylesheet.
-
-
-input {
-    line-height: normal;
-}
-
-//
-// 1. Remove default vertical scrollbar in IE 6/7/8/9.
-// 2. Improve readability and alignment in all browsers.
-
-
-textarea {
-    overflow: auto; // 1
-    vertical-align: top; // 2
-    resize: vertical;
-}
 
 //
 // Don't inherit the `font-weight` (applied by a rule above).
 // NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
-
-
 optgroup {
-    @extend %txt_bold;
+    @extend %generic_txt_bold;
 }
 
 // ====================================
@@ -310,14 +267,14 @@ optgroup {
 // [2] Address `outline` inconsistency between Chrome and other browsers.
 // [3] Improve readability when focused and also mouse hovered in all browsers.
 //
-a{
+a {
     cursor: pointer;
-    color: $link-color;
+    color: color(links);
     background: transparent; //[1]
 
     &:hover,
     &:focus {
-        color: $link-color;
+        color: color(links, light);
     }
 
     &:focus {
@@ -330,6 +287,7 @@ a{
     }
 }
 
+//Reset colors
 button,
 input,
 select,
@@ -347,27 +305,12 @@ textarea {
     text-shadow: none;
 }
 
-// ==========================================================
-//   Media Queries
-// ==========================================================
-//
-// Make Windows 8 snapped view show properly
-//
-@-ms-viewport{width:device-width; zoom: 1.0;}
-
-@media screen and (max-width: 320px) {
-    @-ms-viewport { width: 320px; }
-}
-@media screen and (min-width: 768px) and (max-width: 959px) {
-    @-ms-viewport { width: 768px; }
-}
-
 hr {
-    @extend %nz_block;
-	padding: 0;
+    @extend %generic_bl;
+	@extend %generic_pad_n;
     height: 1px;
     border: 0;
-    background-color: color(function);
+    background-color: color(type, lightest);
     @include type-space-sc(margin, .5, 0);
 	position: relative;
 }
@@ -377,4 +320,19 @@ hr {
 //
 svg:not(:root) {
     overflow: hidden;
+}
+
+// ==========================================================
+//   Media Queries
+// ==========================================================
+//
+// Make Windows 8 snapped view show properly
+//
+@-ms-viewport{width: device-width; zoom: 1.0;}
+
+@media screen and (max-width: 320px) {
+    @-ms-viewport { width: 320px; }
+}
+@media screen and (min-width: 768px) and (max-width: 959px) {
+    @-ms-viewport { width: 768px; }
 }

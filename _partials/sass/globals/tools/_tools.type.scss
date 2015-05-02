@@ -1,4 +1,4 @@
-@mixin type-transforms(
+@mixin type-utilities(
 	$namespace:"",
 	$silent: true,
 	$important: false
@@ -31,14 +31,29 @@
 	#{$classtype}#{$namespace}txt_small {
 		@include type-font-size(modular-scale(-1));
 	}
+	#{$classtype}#{namespace}txt_space_reset {
+		letter-spacing: normal #{$important_str};
+		word-spacing: normal #{$important_str};
+	}
 }
 
-@include type-transforms();
+@mixin type-utilities-init(
+	$breakpoints: $breakpoint-has-widths,
+	$namespace: '',
+	$silent: true,
+	$important: false
+){
+	@include type-utilities($namespace, $silent, $important);
 
-@if $responsive {
-	@each $name in $breakpoint-has-widths {
-		@include media-query($name) {
-			@include type-transforms('#{$name}_');
-		}
+	@if $responsive {
+	    @each $name in $breakpoints {
+
+	        @include media-query($name) {
+
+				$name: $namespace+$name;
+	        	@include type-utilities('#{$name}_', $silent, $important);
+
+			}
+	    }
 	}
 }

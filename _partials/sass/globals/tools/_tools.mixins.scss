@@ -154,7 +154,6 @@
 			$type: define-type($selector, line-height, $line-height) !global;
 		}
    }
-
    //Index values to type map.
    @if map_has_key($type, $selector){
 	   $type: define-type($selector, px, $font-size) !global;

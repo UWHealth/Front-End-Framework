@@ -1,0 +1,5 @@
+//Generate alignment placeholders for base folder
+
+@include alignment-utilities-init(
+    $namespace: 'base_'
+);

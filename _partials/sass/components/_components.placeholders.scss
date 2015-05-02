@@ -1,0 +1,22 @@
+$components_namespace: '';
+
+@include spacing-utilities($components_namespace, (important: false));
+
+@if $responsive == true {
+	@each $name in $breakpoint-has-widths {
+		@include media-query($name) {
+			$name: $components_namespace+$name;
+			@include spacing-utilities('#{$name}_', (important: false));
+		}
+	}
+}
+
+@include alignment-utilities-init($namespace: $components_namespace);
+
+%display_block {
+	display: block;
+}
+
+@include display-utilities-init($namespace: $components_namespace);
+
+@include type-utilities-init($namespace: $components_namespace);

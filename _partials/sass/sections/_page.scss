@@ -9,6 +9,7 @@
 // Prints color map to the top of the css
 // @debug map-inspect($colors);
 
+
 hr{
 	height: 2px;
 }
@@ -23,7 +24,7 @@ body {
 		);
 }
 
-.wrap{
+.wrap {
 	margin: 0 auto;
 	max-width: 1350px;
 	display: block !important;
@@ -36,8 +37,8 @@ body {
 	@include mq(small){
 		width: 95%;
 	}
-
 }
+
 @include mq(small){
 	@include headings-scale(1.17, small);
 }
@@ -109,13 +110,7 @@ body {
 		text-decoration: none;
 	}
 }
-.table_striped tr:nth-child(odd) td {
-	background-color: color(links, lightest);
-}
-.table_striped th, .table_striped td {
-	border-color: color(links, lightest);
-	border-style: solid;
-}
+
 .tab_topline > .tabs{
 	background-color: #e3f1fa;
 }
@@ -129,6 +124,7 @@ body {
 		border-top-color: color(function);
 	}
 }
+
 .tab, .list_nav a{
 	font-family: $secondary-font-stack;
 	text-transform: uppercase;
@@ -141,7 +137,7 @@ body {
 //---DELETE EVERYTHING AFTER THIS---//
 //---Everything below is just for examples--//
 
-#toggles{
+.toggles{
     position: fixed;
     top: -1px;
     right: -1px;
@@ -157,6 +153,7 @@ body {
 .color-block:before {
 	text-transform: capitalize;
 }
+
 .color-block:after {
 	letter-spacing: 0.1em;
 }

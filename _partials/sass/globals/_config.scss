@@ -8,7 +8,7 @@ $scale-ratio:               1.214;
 //Include px values when rems are generated?
 $rem-px-fallback: 			true;
 
-$primary-font-stack:      	'Asap', verdana, helvetica, arial, sans-serif;
+$primary-font-stack:      	'Asap', helvetica, arial, sans-serif;
 $secondary-font-stack:     	'opensans', verdana, helvetica, arial, sans-serif;
 $monospace-font-stack: 		Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
 $icon-font-stack: 			null;
@@ -75,31 +75,39 @@ $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
-//Output utilities as actual classes at which breakpoints (false = none)?
+//Output utilities as actual classes at which breakpoints? (false = none)
 $breakpoint-has-alignment-classes: 			('smalls', 'small', 'bigs', 'desk');
 $breakpoint-has-spacing-classes: 			('smalls', 'small', 'bigs', 'desk');
 $breakpoint-has-display-classes: 			('smalls', 'small', 'bigs', 'desk');
 
 //What display types (class-name: display-type) should be output?
 // If $breakpoint-has-display-classes is false, this can be ignored
-$display-classes: 		('show':'block', 'bl': 'block', 'il': 'inline', 'il_bl': 'inline-block');
+$display-classes: (
+	'show': block,
+	'bl': block,
+	'il': inline,
+	'ibl': inline-block,
+	'hide': none
+);
 
 //Spacing classes config
 $spacing-classes: (
 	directions: ('','t','l','b','r','h','v'),
-	amounts: (0, 1, .5, -1),
-	names: ('n','', 'half', 'neg')
+	amounts: (0, 1, .5, -1, 2),
+	names: ('n','', 'half', 'neg', '2'),
+	prefixes: ('space', 'pad')
 );
 
 //Defining the color pallete for the project
 // Can be named anything.
 $colors: (
-	type: #0a1c2b,
+	type: #0a1c2b, //Required
 
-	links: #0d497b,
+	links: #0d497b, //Required
 
-	bg: #f7f8f9,
+	bg: #f7f8f9, //Required
 
+	//Change the following to brand/project colors
 	primary: (
 		light: #0cadcd,
 		base: #0c639a
@@ -112,18 +120,16 @@ $colors: (
 	success: #bada55
 ) !global;
 
-// !!Important:
-// Converts the $colors variable into a globally accessible map with lighter and darker shades.
-$colors: generate_color_variations(
+$colors: generate-color-variations(
 	$colors,
-	$functions: (blend-colordodge, blend-lineardodge, tint, darken, blend-linearburn, blend-linearburn),
-	$increments: (45%,   60%,   80%,   5%,   40%,   90%),
-	$variations: (light, lighter, lightest, 300, 200, 100),
-	$blending-colors: (#b7b7b7, #efefef, null, null, #4c5a66, #323d42)
+	$functions: (
+		blend-colordodge, blend-lineardodge, tint, darken, blend-linearburn, blend-linearburn
+	),
+	$increments: (45%,   60%,   80%,   5%,   40%,   70%),
+	$variations: (light, lighter, lightest, dark, darker, darkest),
+	$blending-colors: (#cbcbcb, #efefef, null, null, #4c5a66, #323d42)
 )  !global;
 
-//It's rare that you need to make this something other than one of the above variables.
-$link-color: color(links);
 
 //Slider/Carousel settings
 //A.K.A. Slick: http://kenwheeler.github.io/slick/

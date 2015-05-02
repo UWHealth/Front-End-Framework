@@ -1,0 +1,10 @@
+/*--Base styles--*/
+@import '_type.scss';
+@import '_forms.scss';
+@import '_tables.scss';
+
+@import 'placeholders/alignment',
+		'placeholders/type',
+		'placeholders/display',
+		'placeholders/spacing',
+		'placeholders/grid';

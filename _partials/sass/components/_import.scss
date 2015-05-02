@@ -1,7 +1,9 @@
+@import 'components.placeholders.scss';
+
 @import 'buttons',
-        'forms',
         'lists',
         'tabs',
         'tables',
-        'boxes',
-		'../vendor/slick'; //Slider import
+        'boxes';
+
+@import 'vendor/slick'; //Slider import

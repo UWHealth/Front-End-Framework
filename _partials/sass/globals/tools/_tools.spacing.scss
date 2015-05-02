@@ -52,14 +52,14 @@
 		names: (
 			'', 'quarter', 'half', '2', 'neg_quarter', 'neg_half', 'neg', 'neg_2', 'n'
 		),
-		bases: (
+		prefixes: (
 			'pad', 'space'
 		)
 	), $config, true);
 
 	//Convert map values to variables for simpler parsing.
 	$classtype: if(map-get($config, silent), unquote('%'),unquote("."));
-	$spaces: map-get($config, bases);
+	$spaces: map-get($config, prefixes);
 	$directions: map-get($config, directions);
 	$amounts: map-get($config, amounts);
 	$names: map-get($config, names);
@@ -109,36 +109,6 @@
 					}
 				}
 			}
-		}
-	}
-}
-
-//Non-responsive, placeholders
-//-----------------------------
-%space_reset {
-	margin: 0;
-	padding: 0;
-}
-
-%type-vertical-rhythm {
-	@extend %space_reset;
-	@extend %space_b;
-}
-
-%type_space_v{
-	@extend %space_b;
-}
-
-
-//-----------------------------
-// Generate responsive spacing placeholders
-
-@include spacing-utilities("", (important: false));
-
-@if $responsive == true{
-	@each $name in $breakpoint-has-widths {
-		@include media-query($name) {
-			@include spacing-utilities('#{$name}_', (important: false));
 		}
 	}
 }

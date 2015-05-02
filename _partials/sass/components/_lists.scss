@@ -1,6 +1,11 @@
+.list_naked, %list_naked {
+    @include no-bullets;
+    @extend %space_l_n;
+}
+
 nav {
     ul, ol {
-        @include no-bullets;
+        @extend %list_naked;
         @extend %space_l_n;
     }
 }
@@ -8,6 +13,7 @@ nav {
 [class*="list_bordered"] {
     @extend %space_l_n;
     @extend %space_v;
+    @extend %list_naked;
     > li {
         @extend %display_block;
         border-top: 1px solid color(function);
@@ -65,19 +71,16 @@ nav {
 		@extend %display_block;
 	}
 }
-    .breadcrumb {
-        display: inline-block;
-        white-space: nowrap;
-        @extend %pad_r_half;
-    }
-        .breadcrumb:after {
-            content: "\25B8";
-            display: inline-block;
-        }
 
-.list_naked, %list_naked {
-    @include no-bullets;
-    @extend %space_l_n;
+.breadcrumb {
+    display: inline-block;
+    white-space: nowrap;
+    @extend %pad_r_half;
+}
+
+.breadcrumb:after {
+    content: "\25B8";
+    display: inline-block;
 }
 
 //Make links fill their list items for easier clickability.
@@ -86,7 +89,7 @@ nav {
     @extend %space_l_n;
 
 	& a {
-		@extend %display_block;
+		@extend %bl;
         @include type-space((padding-top, padding-bottom), .5);
 	}
 

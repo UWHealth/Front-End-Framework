@@ -75,6 +75,7 @@
 
 		$map: map-add-depth($map, 'base');						 //[2b]
 		$new-map: $map;							 	     		 //[2c]
+		$blend-value: '';
 
 		@each $palette, $color in $map { 						 //[3a]
 			$values-list: $color;								 //[3b]
@@ -113,9 +114,6 @@
 							$curr_color: transparentize($blend-value, $amount);
 							//$amount becomes 'background' color we're blending
 							$amount: $temp-color;
-						}
-						@if $variant == 'darkest'{
-							@debug "#{$palette} : #{$curr_color}";
 						}
 					}
 
@@ -252,7 +250,9 @@
 		$color-names: append($color-names, nth($color, 1));
 
 		//Put 'base' at beginning of list
-		$color-variants: list-reverse($color-variants);
+		@if index(map-keys($color-variants), base) == length(map-keys($color-variants)) {
+			$color-variants: list-reverse($color-variants);
+		}
 
 		//Loop through color variants (light, dark, etc.)
 		@each $color-variant in $color-variants {

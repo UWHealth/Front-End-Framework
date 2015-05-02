@@ -1,3 +1,4 @@
+
 @mixin alignment-utilities(
 	$namespace: "",
 	$silent: true,
@@ -42,12 +43,24 @@
 	}
 }
 
-@include alignment-utilities('', true, false);
+@mixin alignment-utilities-init(
+	$breakpoints: $breakpoint-has-widths,
+	$namespace: '',
+	$silent: true,
+	$important: false
+){
 
-@if $responsive {
-    @each $name in $breakpoint-has-widths {
-        @include media-query($name) {
-           @include alignment-utilities('#{$name}_', true, false);
-        }
-    }
+	@include alignment-utilities($namespace, $silent, $important);
+
+	@if $responsive {
+	    @each $name in $breakpoints {
+
+	        @include media-query($name) {
+
+				$name: $namespace+$name;
+	        	@include alignment-utilities('#{$name}_', $silent, $important);
+
+			}
+	    }
+	}
 }

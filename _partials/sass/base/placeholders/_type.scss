@@ -1,0 +1,14 @@
+%primary_font_family {
+	font-family: $primary-font-stack;
+}
+%secondary_font_family {
+	font-family: $secondary-font-stack;
+}
+//Optimized rendering. Best saved for areas where legibility is a concern.
+//Not declaring this will result in auto, allowing the browser to determine
+//whether speed is best.
+%text_legibility {
+	text-rendering: optimizeLegibility;
+}
+
+@include type-utilities-init();

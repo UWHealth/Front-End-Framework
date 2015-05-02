@@ -1,0 +1,521 @@
+
+//------------------------------------
+//    $CSSWIZARDRY-GRIDS
+//------------------------------------
+
+ // CONTENTS
+ // INTRODUCTION.........How the grid system works.
+ // VARIABLES............Your settings.
+ // MIXINS...............Library mixins.
+ // GRID SETUP...........Build the grid structure.
+ // WIDTHS...............Build our responsive widths around our breakpoints.
+ // PUSH.................Push classes.
+ // PULL.................Pull classes.
+
+//------------------------------------
+//    $INTRODUCTION
+//------------------------------------
+
+ // csswizardry grids provides you with widths to suit a number of breakpoints
+ // designed around devices of a size you specify. Out of the box, csswizardry
+ // grids caters to the following types of device:
+
+ // palm     --  palm-based devices, like phones and small tablets
+ // lap      --  lap-based devices, like iPads or laptops
+ // port     --  all of the above
+ // desk     --  stationary devices, like desktop computers
+ // regular  --  any/all types of device
+
+ // These namespaces are then used in the library to give you the ability to
+ // manipulate your layouts based around them, for example:
+
+ //  <div class="grid_item  one_whole  lap_one_half  desk_one_third">
+
+ // This would give you a grid item which is 100% width unless it is on a lap
+ // device, at which point it become 50% wide, or it is on a desktop device, at
+ // which point it becomes 33.333% width.
+
+ // csswizardry grids also has push and pull classes which allow you to nudge
+ // grid items left and right by a defined amount. These follow the same naming
+ // convention as above, but are prepended by either `push--` or `pull--`, for
+ // example:
+
+ //   `class="grid_item  one_half  push_one_half"`
+
+ // This would give you a grid item which is 50% width and pushed over to the
+ // right by 50%.
+
+ // All classes in csswizardry grids follow this patten, so you should fairly
+ // quickly be able to piece together any combinations you can imagine, for
+ // example:
+
+ //  `class="grid_item  one_whole  lap_one_half  desk_one_third  push_desk_one_third"`
+
+ //  `class="grid_item  one_quarter  palm_one_half  push_palm_one_half"`
+
+ //  `class="grid_item  palm_one_third  desk_five_twelfths"`
+
+
+$columns: 				12 !default;
+
+$push-type: 			unquote('left');
+$pull-type: 			unquote('right');
+$pulls: 				unquote('');
+
+@if $use-margin-adjustments{
+	$push-type: 		unquote('margin-left') !global;
+	$pull-type: 		unquote('margin-left') !global;
+	$pulls: 			unquote('-')  !global; //Using negative margins for pulls
+}
+
+$class-type:            unquote(".") !global;
+
+@if $use-silent-classes == true {
+    $class-type:        unquote("%") !global;
+}
+
+//Grid
+$human-readable_numerators: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty;
+
+$human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nineteenth, twentieth;
+
+
+
+
+//------------------------------------
+//    $MIXINS
+//------------------------------------
+
+//
+// Drop relative positioning into silent classes which can’t take advantage of
+// the `[class*="push--"]` and `[class*="pull--"]` selectors.
+//
+@mixin silent-relative(){
+    @if $use-silent-classes == true {
+        position: relative;
+    }
+}
+
+//
+// Useful for resetting the grid's effects
+// without making full grid items
+//
+
+%grid_reset{
+	letter-spacing: normal;
+	word-spacing: normal;
+}
+
+//*------------------------------------
+//    $GRID SETUP
+//*------------------------------------
+ // 1. Allow the grid system to be used on lists.
+ // 2. Remove any margins and paddings that might affect the grid system.
+ // 3. Apply a negative `margin-left` to negate the columns’ gutters.
+ //
+#{$class-type}grid {
+    list-style:none;                // [1]
+    margin: 0;                       // [2]
+    padding: 0;                      // [2]
+    @include rems(margin-left, -$gutter);
+
+	@if $use-markup-fix != true and $use-floats != true{
+        letter-spacing:-0.31em;
+    }
+
+	@if $use-floats == true {
+        @extend %clearfix;
+    }
+}
+
+@if $use-markup-fix != true and $use-floats != true {
+    /* Opera hack */
+    .opera:-o-prefocus,
+    #{$class-type}grid{
+        word-spacing:-0.43em;
+    }
+}
+
+// 1. Cause columns to stack side-by-side.
+// 2. Space columns apart.
+// 3. Align columns to the tops of each other.
+// 4. Full-width unless told to behave otherwise.
+// 5. Required to combine fluid widths and fixed gutters.
+//
+#{$class-type}grid_item {
+    @if $use-floats != true {
+        display:inline-block;     // [1]
+    }@else{
+        display: block;
+        float: left;
+    }
+    @include rems(padding-left, $gutter); //[2]
+    vertical-align:top;             // [3]
+    @if $mobile-first == true{
+        width:100%;                 // [4]
+    }
+
+    @if $use-markup-fix != true and $use-floats != true{
+        letter-spacing: normal;
+        word-spacing: normal;
+    }
+}
+
+// Special class for grid items that need to behave like both grids and grid__items.
+#{$class-type}grid_grid_item{
+    @extend #{$class-type}grid;
+    @extend #{$class-type}grid_item;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+//
+// Reversed grids allow you to structure your source in the opposite order to
+// how your rendered layout will appear. Extends `.grid`.
+//
+#{$class-type}grid_rev{
+    @if $use-floats == true {
+        @extend %clearfix;
+    }
+    @if $use-floats != true {
+        direction: rtl;
+        text-align: left;
+
+        #{$class-type}grid_item{
+            direction: ltr;
+            text-align: left;
+        }
+    }@else{
+        > #{$class-type}grid_item{
+            float: right;
+            text-align: left;
+        }
+    }
+}
+
+
+//
+// Gutterless grids have all the properties of regular grids, minus any spacing.
+// Extends `.grid`.
+//
+#{$class-type}grid_full{
+    margin-left: 0;
+
+	@if $use-floats == true {
+        @extend %clearfix;
+    }
+
+    > #{$class-type}grid_item{
+        padding-left:0;
+    }
+}
+
+
+//
+// Align the entire grid to the right. Extends `.grid`.
+//
+#{$class-type}grid_right{
+    @if $use-floats != true {
+        text-align:right;
+
+        > #{$class-type}grid_item{
+            text-align: left;
+        }
+    }@else{
+        float: right;
+        @extend %clearfix;
+
+        > #{$class-type}grid_item{
+        float: right;
+        }
+    }
+}
+
+
+//
+// Centered grids align grid items centrally without needing to use push or pull
+// classes. Extends `.grid`.
+//
+// Not availabe
+#{$class-type}grid_center{
+    @if $use-floats != true {
+        text-align:center;
+
+        > #{$class-type}grid_item{
+            text-align:left;
+        }
+    }
+}
+
+
+//
+// Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
+// `.grid`.
+//
+#{$class-type}grid_middle{
+
+    > #{$class-type}grid_item {
+        vertical-align:middle;
+    }
+}
+
+#{$class-type}grid_bottom{
+
+    > #{$class-type}grid_item {
+        vertical-align:bottom;
+    }
+}
+
+
+//
+// Create grids with narrower gutters. Extends `.grid`.
+//
+#{$class-type}grid_narrow{
+    @include rems(margin-left, -($gutter / 2));
+
+	> #{$class-type}grid_item {
+        @include rems(padding-left, ($gutter / 2));
+    }
+}
+
+
+//
+// Create grids with wider gutters. Extends `.grid`.
+//
+#{$class-type}grid_wide{
+    @include rems(margin-left, -($gutter * 2));
+
+	> #{$class-type}grid_item {
+        @include rems(margin-left, ($gutter * 2));
+    }
+}
+
+
+
+
+
+//------------------------------------
+//    $WIDTHS
+//------------------------------------
+
+// Create our width classes, prefixed by the specified namespace.
+
+@mixin grid-setup($namespace:""){
+
+    //
+    // Automatic Grids.
+	// @author: Chris Lee, based on css-wizardry grids.
+    // If columns are defined as anything other than 12, then we must calculate our grids.
+    // Ultimately, these loops limit themselves upon iteration.
+    // This makes it so there can only be one fewer versions of the denominator (e.g. one_third, two_thirds).
+    //
+    // Just FOR REFERENCE: A numerator is the first (top) number in a fraction. The denominator is the second (bottom) number.
+    //
+    // [1] Loop through the $columns.
+    // [2] Loop through $divisor (same number as $columns). This acts as the second number in our column fraction.
+    // [3a]Loop through $divisor before it decreases by 1 from the previous loop.
+    // [3b]After widths are defined, subtract 1 from $divisor.
+    // [4] Assign the numerator and denominator of our fraction to human-readable versions (e.g. three, four, third, quarter, etc.).
+    // [5] Check if the numerator equals 1 (one). If so, we keep our singular human-readable numerators and denominators (e.g. one_twelfth).
+    // [6] If the numerator is larger than 1(one), add an 's' to our selector (e.g. two_eighths).
+    //
+    // Same system used for pushes and pulls.
+
+        $divisor: $columns;
+
+        @for $i from 1 to $columns {                                               // [1]
+
+            @while $divisor > 0 {                                                  // [2]
+
+                @for $numerator from 1 to $divisor{                                // [3a]
+					//Create numerator (first number, e.g. 'two').
+                    $numerators: nth($human-readable_numerators, $numerator);      // [4]
+
+					//Create denominator (second number, e.g. 'twelfths').
+                    $denominator: nth($human-readable_denominators, $divisor);
+
+					//Divide first number(numerator) by second number(denominator).
+                    $width: percentage($numerator / $divisor);
+
+                    @if $numerator == 1{                                          // [5]
+                        #{$class-type}#{$namespace}#{$numerators}_#{$denominator} {
+                            width: $width;
+                        }
+                    }@else{                                                        // [6]
+                        #{$class-type}#{$namespace}#{$numerators}_#{$denominator}s {
+                            width: $width;
+                        }
+
+                    }
+                }
+                $divisor: $divisor - 1; //[3b]
+            }
+        }
+
+
+        #{$class-type}#{$namespace}one_whole {
+			width:100%; }
+
+        #{$class-type}#{$namespace}one_fourth {
+			@extend #{$class-type}#{$namespace}one_quarter; }
+
+        #{$class-type}#{$namespace}two_fourths {
+			@extend #{$class-type}#{$namespace}two_quarters; }
+
+        #{$class-type}#{$namespace}three_fourths {
+			@extend #{$class-type}#{$namespace}three_quarters; }
+}
+
+//------------------------------------\\
+//    $PUSH
+//------------------------------------\\
+
+ // Push classes, to move grid items over to the right by certain amounts.
+
+@mixin push-setup($namespace: ""){
+        $divisor: $columns;
+
+        @for $i from 1 to $columns {                                               // [1]
+
+            @while $divisor > 0 {                                                  // [2]
+
+                @for $numerator from 1 to $divisor{                                // [3a]
+
+                    $numerators: nth($human-readable_numerators, $numerator);      // [4]
+                    //Create numerator (first number, e.g. 'two').
+
+                    $denominator: nth($human-readable_denominators, $divisor);
+                    //Create denominator (second number, e.g. 'twelfths').
+
+                    $width: percentage($numerator / $divisor);
+                    //Divide first number(numerator) by second number(denominator).
+
+                    @if $numerator == 1{                                          // [5]
+
+                        #{$class-type}push_#{$namespace}#{$numerators}_#{$denominator} {
+                            #{$push-type}: $width; @include silent-relative();
+                        }
+
+                    }@else{                                                        // [6]
+
+                        #{$class-type}push_#{$namespace}#{$numerators}_#{$denominator}s {
+                            #{$push-type}: $width; @include silent-relative();
+                        }
+
+                    }
+                }
+                $divisor: $divisor - 1; //[3b]
+            }
+        }
+
+        #{$class-type}push_#{$namespace}one_whole {
+			#{$push-type}: 100%; @include silent-relative();
+		}
+        #{$class-type}push_#{$namespace}one_fourth {
+			@extend #{$class-type}push_#{$namespace}one_quarter;
+		}
+        #{$class-type}push_#{$namespace}two_fourths {
+			@extend #{$class-type}push_#{$namespace}two_quarters;
+		}
+        #{$class-type}push_#{$namespace}three_fourths {
+			@extend #{$class-type}push_#{$namespace}three_quarters;
+		}
+}
+
+//----------------------\\
+//   $PULL
+//----------------------\\
+
+@mixin pull-setup($namespace: ""){
+        $divisor: $columns;
+
+        @for $i from 1 to $columns {                                               // [1]
+
+            @while $divisor > 0 {                                                  // [2]
+
+                @for $numerator from 1 to $divisor{                                // [3a]
+
+                    $numerators: nth($human-readable_numerators, $numerator);      // [4]
+                    //Create numerator (first number, e.g. 'two').
+
+                    $denominator: nth($human-readable_denominators, $divisor);
+                    //Create denominator (second number, e.g. 'twelfths').
+
+                    $width: percentage($numerator / $divisor);
+                    //Divide first number(numerator) by second number(denominator).
+
+                    @if $numerator == 1{                                          // [5]
+
+                        #{$class-type}pull_#{$namespace}#{$numerators}_#{$denominator} {
+                            #{$pull-type}: #{$pulls}$width; @include silent-relative();
+                        }
+
+                    }@else{                                                        // [6]
+
+                        #{$class-type}pull_#{$namespace}#{$numerators}_#{$denominator}s {
+                            #{$pull-type}: #{$pulls}$width; @include silent-relative();
+                        }
+                    }
+                }
+                $divisor: $divisor - 1; //[3b]
+            }
+        }
+		#{$class-type}pull_#{$namespace}one_whole {
+			#{$pull-type}: 100%; @include silent-relative();
+		}
+        #{$class-type}pull_#{$namespace}one_fourth {
+			@extend #{$class-type}pull_#{$namespace}one_quarter;
+		}
+        #{$class-type}pull_#{$namespace}two_fourths    {
+			@extend #{$class-type}pull_#{$namespace}two_quarters;
+		}
+        #{$class-type}pull_#{$namespace}three_fourths  {
+			@extend #{$class-type}pull_#{$namespace}three_quarters;
+		}
+}
+
+
+@include grid-setup();
+// Our responsive classes, if we have enabled them.
+
+@if $responsive == true {
+    @each $name in $breakpoint-has-widths {
+        @include media-query($name) {
+           @include grid-setup('#{$name}_');
+        }
+    }
+}
+
+@if $push == true {
+    // Not a particularly great selector, but the DRYest way to do things.
+    @if $use-silent-classes != true{
+        [class*="push_"]{ position:relative; }
+    }
+
+    @include push-setup();
+
+    @if $responsive == true {
+        @each $name in $breakpoint-has-push {
+            @include media-query($name) {
+               @include push-setup('#{$name}_');
+            }
+        }
+    }
+}
+
+@if $pull == true {
+    // Not a particularly great selector, but the DRYest way to do things.
+    @if $use-silent-classes != true {
+        [class*="pull_"]{ position:relative; }
+    }
+
+    @include pull-setup();
+
+    @if $responsive == true {
+        @each $name in $breakpoint-has-pull {
+            @include media-query($name) {
+               @include  pull-setup('#{$name}_');
+            }
+        }
+    }
+}

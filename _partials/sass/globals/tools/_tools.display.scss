@@ -1,0 +1,68 @@
+//Create silent versions of the above classes
+$default-display-classes: (
+	show: 'block',
+	bl: 'block',
+	il_bl: 'inline_block',
+	tbl: 'table',
+	tbl_cl: 'table-cell',
+	hide: 'none',
+	display_block: 'block'
+);
+
+//Merge user-defined classes with defaults (so we have a wide-array of silent classes)
+$silent-display-classes: map-extend($display-classes, $default-display-classes, true);
+
+
+@mixin display-utilities(
+	$namespace:"",
+	$silent: false,
+	$important: true,
+	$class-list: $display-classes) {
+
+	$classtype: if($silent, unquote('%'), unquote("."));
+	$important_str: if($important, ' !important', '');
+	$display-registry: ();
+
+	@each $name, $display in $class-list {
+		//Check for existence of a previous class using the same display
+		$display-lookup: index($display-registry, $display);
+		//If it exists, look it up in the map and extend that value.
+		@if $display-lookup != null {
+			$extender: nth(nth($class-list, $display-lookup), 1);
+
+			#{$classtype}#{$namespace}#{$name} {
+				@extend #{$classtype}#{$namespace}#{$extender};
+			}
+
+		}@else {
+			#{$classtype}#{$namespace}#{$name}{
+				display: #{$display} #{$important_str};
+			}
+			//Keep track of display values so we can extend if necessary
+			$display-registry: append($display-registry, $display);
+		}
+	}
+}
+
+@mixin display-utilities-init(
+	$breakpoints: $breakpoint-has-widths,
+	$namespace: '',
+	$silent: true,
+	$important: false
+){
+	$classes: if($silent, $silent-display-classes, $display-classes);
+	@include display-utilities($namespace, $silent, $important, $classes);
+
+	@if $responsive == true {
+		@each $name in $breakpoints {
+			@include media-query($name) {
+
+				$name: $namespace + $name;
+
+				@include display-utilities(
+					'#{$name}_', $silent, $important, $classes
+				);
+			}
+		}
+	}
+}

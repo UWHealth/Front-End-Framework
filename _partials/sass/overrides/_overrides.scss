@@ -5,19 +5,26 @@
 // or high-specificity selectors.
 //-----------------------------------
 
+//Allow a toggle for baseline image
+@if $show-baseline == true {
+
+    $type-baseline-size: strip-units($type-magic-number);
+
+	.baseline-on {
+        background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+        background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) top left / auto $type-magic-ratio * 1em;
+    }
+
+    .baseline-off {
+        background-image: none;
+    }
+}
 
 // Prevent modern browsers from displaying `audio` without controls.
 // Remove excess height in iOS 5 devices.
 audio:not([controls]) {
 	display: none;
 	height: 0;
-}
-
-.chromeframe {
-	margin: 0.2em 0;
-	background: #ccc;
-	color: #000;
-	padding: 0.2em 0;
 }
 
 .invisible {
@@ -74,17 +81,14 @@ audio:not([controls]) {
 // Outputs alignment utility classes.
 
 @if $breakpoint-has-alignment-classes != false {
-	@include alignment-utilities('', false, true);
 
-	@if $responsive {
-		@if $breakpoint-has-alignment-classes != '' {
-			@each $name in $breakpoint-has-alignment-classes {
-				@include media-query($name) {
-					@include alignment-utilities('#{$name}_', false, true);
-				}
-			}
-		}
-	}
+    @include alignment-utilities-init(
+        $breakpoints: $breakpoint-has-alignment-classes,
+        $namespace: '',
+        $silent: false,
+        $important: true
+    );
+
 }
 
 //----Spacing Override classes---//
@@ -112,15 +116,12 @@ audio:not([controls]) {
 //----Display Override classes---//
 // Outputs hide/show (display) utility classes.
 @if $breakpoint-has-display-classes != false {
-	@include display-utilities('', false, true);
 
-	@if $responsive {
-		@if $breakpoint-has-display-classes != '' {
-			@each $name in $breakpoint-has-display-classes {
-				@include media-query($name) {
-					@include display-utilities('#{$name}_', false, true);
-				}
-			}
-		}
-	}
+    @include display-utilities-init(
+        $breakpoints: $breakpoint-has-display-classes,
+        $namespace: '',
+        $silent: false,
+        $important: true
+    );
+
 }

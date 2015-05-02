@@ -1,5 +1,5 @@
 //------------------------------------
-//    $Global Variables
+//    Global Variables
 //------------------------------------
 
  // CONTENTS
@@ -10,25 +10,19 @@
 
 
 //------------------------------------
-//    $INTRODUCTION
+//    INTRODUCTION
 //------------------------------------
 
 // All variables defined here are defaults.
 // They can, therefore be overridden in config.scss.
 
-
 //------------------------------------
-//    $TYPOGRAPHY
+//    TYPOGRAPHY
 //------------------------------------
-
-//See /utilities/_helpers.scss for where these variables are most useful.
 
 $primary-font-stack:   helvetica, arial, sans-serif !default;
 $secondary-font-stack: georgia, serif 				!default;
 $monospace-font-stack: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace !default;
-
-
-//See /type/_fonts.scss for where these variables are applied.
 
 //Use web font generator?
 $use-web-fonts: 		true     !default;
@@ -60,7 +54,7 @@ $auto-scale-type:          true !default;
 // Common intervals: Perfect fourth (4,3)[default], Perfect Fifth (3,2),
 // Perfect Octave (2,1), Major Third (5,4), Major Sixth (5,3).
 // The Golden Ratio is (1.618,1).
-$scale-ratio:               4,3   !default;
+$scale-ratio:               1.214   !default;
 
 // Heading sizes if you'd rather set them yourself (set $auto-scale-type to false).
 $type-h1-size:             modular-scale(7) !default;
@@ -104,9 +98,9 @@ $type: (
 	),
 	small: (px: modular-scale(-1),
 		rem: rems(modular-scale(-1)),
-		line-height: $base-line-height / modular-scale(-1)
+		line-height: ($base-line-height / modular-scale(-1))
 	)
-);
+) !default;
 
 //Create heading classes for sizing (e.g. .h1,.h2,etc.)?
 $type-scale-classes:       true !default;
@@ -119,8 +113,9 @@ $show-baseline:       false !default;
 
 // Do not modify these variables; they are internal settings upon which the
 // library depends.
+
 $type-magic-number:        $base-line-height;
-$type-magic-ratio:         $base-line-height / $base-font-size;
+$type-magic-ratio:         ($base-line-height / $base-font-size);
 
 @if $base-font-size > $base-line-height {
 
