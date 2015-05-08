@@ -12,14 +12,18 @@ var rename = 		require('gulp-rename');
 var utility = 		require('gulp-util');
 var kit =			require('gulp-kit');
 var include =		require('gulp-include');
+var shell = 		require('gulp-shell');
+var yarg = 			require('yargs').argv;
+var reload = 		browserSync.reload;
 var chalk = 		utility.colors;
 
-//Config
+/* Config */
 var paths = {
 	scss: ['./_partials/sass/*.scss', './_partials/sass/**/*.scss'],
 	css: './css',
 	js: ['./_partials/js/*.js', './_partials/js/vendor/*.js'],
-	kits: ['./_partials/kits/*.kit', '!./_partials/kits/_*.kit']
+	kits: ['./_partials/kits/*.kit', '!./_partials/kits/_*.kit'],
+	styleGuide: ['./styleguide/template.html', './styleguide/theme.css', './css/main.css']
 };
 
 var autoprefixer_browsers = [
@@ -30,6 +34,13 @@ var autoprefixer_browsers = [
 	'ie >= 8',
 	'android >=2.3'
 ];
+
+var browserSyncWatch= ['./css/*.css', './js/**', './*.html', './styleguide/**'];
+
+var noStyleGuide = false;
+
+//Run 'gulp --no_sg' if you don't want to compile the style guide
+
 
 /* Extracts filenames from a path */
 function _filename(path) {
@@ -48,6 +59,7 @@ function _error(err) {
 
 gulp.task('sass', function() {
 	debugger;
+	browserSync.notify("Compiling in Sass");
 	gulp.src(paths.scss[0])
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(sass({
@@ -59,7 +71,7 @@ gulp.task('sass', function() {
 				var duration = this.result.stats.duration+"ms";
 				var _message = chalk.magenta("[Sass] ")+ chalk.bold(file) + " Compiled in "+ duration;
 				console.log(_message);
-				browserSync.notify(file+"Compiled in "+duration, 10000);
+				browserSync.notify(file+" Compiled in "+duration, 20000);
 			}
 		}))
 		.pipe(autoprefixer(autoprefixer_browsers))
@@ -89,18 +101,41 @@ gulp.task('kits', function(){
 });
 
 gulp.task('browser-sync',['sass', 'js', 'kits'], function() {
-    browserSync.init(['./css/*.css', './js/**', './*.html'], {
+    browserSync.init(browserSyncWatch, {
 		// proxy: 'http://pa-wf-250-38.local:5757/'
 		server: {
-            baseDir: './'
-        }
+            baseDir: ['./'],
+        },
+		ui:{
+			port: 3001
+		},
+		ghostMode: {
+			clicks: true,
+			location: true,
+			forms: true,
+			scroll: false
+		}
 	});
 });
 
+gulp.task('styleGuide', function(){
+	gulp.src('./')
+		.pipe(shell('styleguide no-lf'));
+});
+
+//Run gulp --no_sg to disable style guide compilation
 gulp.task('watch', function(){
+	if (yarg.no_sg){
+		var browserSyncWatch= ['./css/*.css', './js/**', './*.html'];
+		var noStyleGuide = true;
+	}
 	gulp.watch(paths.scss, ['sass']);
 	gulp.watch(paths.js, ['js']);
 	gulp.watch(paths.kits, ['kits']);
+	if (! noStyleGuide){
+		console.log(noStyleGuide);
+		gulp.watch(paths.styleGuide, ['styleGuide']);
+	}
 });
 
 

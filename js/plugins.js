@@ -4,6 +4,7 @@
 //@codekit-append "velocity.js"
 //@codekit-append "velocity.ui.js"
 //@codekit-append "_tabs.js"
+//@codekit-append "_toggle.js"
 /*! VelocityJS.org (1.2.1). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
 
 /*************************
@@ -6425,18 +6426,18 @@ var change_color = function(col, amt) {
     var default_options = {
         wrapper: {
             element: "section",
-            class: "tabbed",
-            extra_classes: '',
-            singular_class: 'tab_single'
+            class: "tabs",
+            extra_classes: "",
+            singular_class: "tab_single"
         },
         navigation: {
             element: "nav",
             class: "tabs",
-            extra_classes: ''
+            extra_classes: ""
         },
         tabs: {
-            class: 'tab',
-            active_class: 'active',
+            class: "tab",
+            active_class: "active",
             extra_classes: '',
             toggle: false,
             begin: null,
@@ -6445,9 +6446,9 @@ var change_color = function(col, amt) {
                 duration: 300
             }
         },
-        buttons: {
-            class: 'tab_button',
-            active_class: 'active',
+        buttons: { //Accorion Buttons
+            class: "tab_button",
+            active_class: "active",
             toggle: false,
             begin: null,
             animation: {
@@ -6456,8 +6457,8 @@ var change_color = function(col, amt) {
             }
         },
         content: {  //Tab panel content areas
-            class: 'tab_content',
-            active_class: 'tab_active'
+            class: "tab_content",
+            active_class: "tab_active"
         }
     };
 
@@ -6936,6 +6937,49 @@ var change_color = function(col, amt) {
 
     $.fn.tabbed.defaults = default_options;
 });
+
+
+(function($){
+
+	var $toggle = {
+
+		init: (function(element, event){
+			event.preventDefault();
+			var $this = $(element);
+			var options = $this.data('toggle-options');
+
+			this.parse_options($this, options);
+		}),
+
+		parse_options: (function($this, options){
+			var toggle = $this.data('toggle');
+			var $toggle_target = $(toggle);
+
+			if(options){
+
+			}else{
+				if($toggle_target.is(':visible')){
+					$toggle_target.hide().removeClass('toggletarget_active');
+					$this.removeClass('toggle_active');
+				}else{
+					$this.addClass('toggle_active');
+					$toggle_target.show().addClass('toggletarget_active');
+				}
+			}
+		})
+
+	};
+
+	$('[data-toggle]').on('toggle', function(e, _options){
+		$toggle.parse_options(e.target, _options);
+	});
+
+	$('body').on('click', '[data-toggle]', function(e){
+		$toggle.init(this, e);
+	});
+
+
+}(jQuery));
 
 
 

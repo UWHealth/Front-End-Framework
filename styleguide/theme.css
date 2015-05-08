@@ -1,0 +1,174 @@
+
+#styleguide {
+    float: left;
+    width: 80%;
+}
+
+#styleguide .section {
+    background-color: #fff;
+    margin-bottom: 2em;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1),
+        0 3px 6px rgba(0,0,0,0.1);
+}
+#styleguide .section_starter {
+    background: transparent;
+    box-shadow: none;
+    margin-bottom: 0;
+    padding-top: .5em;
+}
+#styleguide .markup.markup pre, #styleguide .markup{
+    background-color: #43505E;
+}
+
+#styleguide .result,
+#styleguide .comment {
+    padding: 1em;
+    border-bottom: 1px solid rgba(0,0,0,0.05);;
+}
+#styleguide .result {
+    border-bottom: 0px;
+}
+
+#styleguide .result {
+    border-top: none;
+    clear: both;
+    overflow: hidden;
+}
+
+#styleguide .comment {
+    background-color: rgba(0,0,0, 0.01);
+}
+
+#styleguide .section .comment code {
+    color: #3fb7c0;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+}
+
+#styleguide .markup {
+    clear: both;
+    border-top: none;
+
+}
+/*Two Headers in a comment*/
+.comment .main-section-sg-markdown + .main-section-sg-markdown {
+  margin-top: -1.5rem;
+  font-weight: normal;
+}
+
+.comment [id*="<code>"] code{
+    white-space: pre-wrap;
+}
+
+#styleguide .markup code,
+#styleguide .markup pre {
+    border: none;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    font-size: 13px;
+    line-height: 20px;
+    direction: ltr;
+    text-align: left;
+    white-space: pre-wrap;
+    word-spacing: normal;
+    margin: 0;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+
+/* menu */
+#styleguide-menu {
+    width: calc(20% - 1em - 2px);
+    float: left;
+    margin-right: 1em;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.menu_body {
+    background-color: #fff;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#styleguide-menu .submenu {
+    display: none;
+    background: rgb(241, 247, 249);
+    box-shadow: inset 0px 2px 3px -1px rgba(0,0,0,0.15);
+}
+
+#styleguide-menu .submenu.on{
+    display: block;
+}
+
+#styleguide-menu > ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 1em 0 1.5em;
+}
+
+#styleguide-menu li {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    border-bottom: 1px solid #dfefef;
+}
+
+.submenu_toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  padding: .75em 4% .5em;
+  transform: rotate(0deg);
+  transition: transform 200ms ease-out;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: rgb(17, 182, 198);
+  line-height: 1;
+}
+
+.submenu_toggle.toggle_active {
+    transform: rotate(180deg);
+}
+
+.submenu_toggle:hover{
+    color: rgb(51, 229, 246);
+}
+
+#styleguide-menu a {
+    font-size: .9em;
+    display: block;
+    padding: .75em 1.5em .5em 1em;
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.87);
+    transition: background-color 150ms ease-out;
+}
+
+#styleguide-menu ul ul a {
+    padding: 0.4em 1em 0.4em 2em;
+}
+
+#styleguide-menu a:visited,
+#styleguide-menu a:hover,
+#styleguide-menu a:active {
+    display: block;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+#styleguide-menu a:hover {
+    background-color: rgba(14, 154, 181, 0.3);
+}
+
+#styleguide-menu a.on {
+    background-color: rgba(14, 154, 181, 0.1);
+}
