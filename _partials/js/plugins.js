@@ -4,12 +4,14 @@
 //@codekit-append "velocity.js"
 //@codekit-append "velocity.ui.js"
 //@codekit-append "_tabs.js"
+//@codekit-append "_toggle.js"
 //= include "vendor/velocity.js"
 //= include "vendor/velocity.ui.js"
 //= include "_tables.js"
 //= include "_colors.js"
 //= include "_slick.js"
 //= include "_tabs.js"
+//= include "_toggle.js"
 
 // Avoid `console` errors in browsers that lack a console.
 (function() {

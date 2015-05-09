@@ -14,18 +14,18 @@
     var default_options = {
         wrapper: {
             element: "section",
-            class: "tabbed",
-            extra_classes: '',
-            singular_class: 'tab_single'
+            class: "tabs",
+            extra_classes: "",
+            singular_class: "tab_single"
         },
         navigation: {
             element: "nav",
             class: "tabs",
-            extra_classes: ''
+            extra_classes: ""
         },
         tabs: {
-            class: 'tab',
-            active_class: 'active',
+            class: "tab",
+            active_class: "active",
             extra_classes: '',
             toggle: false,
             begin: null,
@@ -34,9 +34,9 @@
                 duration: 300
             }
         },
-        buttons: {
-            class: 'tab_button',
-            active_class: 'active',
+        buttons: { //Accorion Buttons
+            class: "tab_button",
+            active_class: "active",
             toggle: false,
             begin: null,
             animation: {
@@ -45,8 +45,8 @@
             }
         },
         content: {  //Tab panel content areas
-            class: 'tab_content',
-            active_class: 'tab_active'
+            class: "tab_content",
+            active_class: "tab_active"
         }
     };
 
