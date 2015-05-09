@@ -64,7 +64,7 @@
 // 9. Return the map with the new values.
 
 @function generate-color-variations(
-	$map: null,
+	$map: $colors,
 	$functions: (tint, tint, tint, shade, shade, shade),			//[1a]
 	$increments: 	  (20%,  40%,   80%,   20%,   40%,   80%), 			//[1b]
 	$variations: (light, lighter, lightest, dark, darker, darkest),//[1c]
@@ -87,6 +87,7 @@
 					$amount: nth($increments, $i);			//[4b]
 
 					$color_fn_place: $i/$variation-frequency;	//[5a]
+
 					@if $color_fn_place > $color_fn-i{ 			//[5b]
 						$color_fn-i: $color_fn-i + 1;			//[5b]
 					}

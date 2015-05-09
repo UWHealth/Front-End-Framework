@@ -31,14 +31,14 @@
 	#{$classtype}#{$namespace}txt_small {
 		@include type-font-size(modular-scale(-1));
 	}
-	#{$classtype}#{namespace}txt_space_reset {
+	#{$classtype}#{$namespace}txt_space_reset {
 		letter-spacing: normal #{$important_str};
 		word-spacing: normal #{$important_str};
 	}
 }
 
 @mixin type-utilities-init(
-	$breakpoints: $breakpoint-has-widths,
+	$breakpoints: $all-breakpoints,
 	$namespace: '',
 	$silent: true,
 	$important: false

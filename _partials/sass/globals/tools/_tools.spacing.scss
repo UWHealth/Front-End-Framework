@@ -7,7 +7,7 @@
 // whether to output padding or margin, followed by a direction.
 // e.g.: Takes 'space' and '_t' and returns 'margin-top'
 
-@function layout_type($space-type:'', $space-direction: ''){
+@function layout-type($space-type:'', $space-direction: ''){
 	@if str-contains($space-type, 'm')
 	or str-contains($space-type, 'spa') {
 		$space-type: 'margin';
@@ -66,6 +66,12 @@
 	$important: map-get($config, important);
 	$important-string: if($important, ' !important', '');
 
+	//Standard Space reset (always silent)
+	%#{$namespace}space_reset {
+		margin: 0;
+		padding: 0;
+	}
+
 	//Loop through base names, then amounts, then directions.
 	@each $space in $spaces {
 		@each $amount in $amounts {
@@ -82,7 +88,7 @@
 					$direction: '_'+$direction;
 				}
 				//Using function above, determine if padding or margin.
-				$layout_type: layout_type($space, $direction);
+				$layout_type: layout-type($space, $direction);
 
 				//Output the space name.
 				//(e.g.: %desk_pad_t_half )
@@ -110,5 +116,26 @@
 				}
 			}
 		}
+	}
+}
+
+@mixin spacing-utilities-init(
+	$breakpoints: $all-breakpoints,
+	$namespace: '',
+	$config: (silent: true)
+){
+
+	@include spacing-utilities($namespace, $config);
+
+	@if $responsive {
+	    @each $name in $breakpoints {
+
+	        @include media-query($name) {
+
+				$name: $namespace+$name;
+	        	@include spacing-utilities('#{$name}_', $config);
+
+			}
+	    }
 	}
 }

@@ -1,22 +1,24 @@
 $components_namespace: '';
 
-@include spacing-utilities($components_namespace, (important: false));
+@include spacing-utilities-init(
+	$namespace: $components_namespace,
+	$config: (important: false, silent: true)
+);
 
-@if $responsive == true {
-	@each $name in $breakpoint-has-widths {
-		@include media-query($name) {
-			$name: $components_namespace+$name;
-			@include spacing-utilities('#{$name}_', (important: false));
-		}
-	}
-}
+@include alignment-utilities-init(
+	$namespace: $components_namespace,
+	$important: false,
+	$silent: true
+);
 
-@include alignment-utilities-init($namespace: $components_namespace);
+@include display-utilities-init(
+	$namespace: $components_namespace,
+	$important: false,
+	$silent: true
+);
 
-%display_block {
-	display: block;
-}
-
-@include display-utilities-init($namespace: $components_namespace);
-
-@include type-utilities-init($namespace: $components_namespace);
+@include type-utilities-init(
+	$namespace: $components_namespace,
+	$important: false,
+	$silent: true
+);

@@ -1,6 +1,6 @@
 //Base table styles
 table {
-    @extend %type-vertical-rhythm;
+    @extend %base_type_vertical_rhythm;
     width: 100%;
     background-color:transparent;
     border-collapse: collapse;
@@ -25,6 +25,6 @@ th {
 }
 
 thead th {
-	vertical-align:bottom;
+	vertical-align: bottom;
 	@include type-space-sc(padding, 1, 0, 0 );
 }

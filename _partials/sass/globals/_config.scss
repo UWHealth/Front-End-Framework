@@ -1,9 +1,110 @@
+//------------------------------------*\
+//    #Global Settings
+//------------------------------------*/
+
+
+/* SG
+#[[dev]]Globals/Config
+
+/globals/_config.scss
+
+---
+##### `$base-font-size`
+###### Pixel value
+Font size all other values will use for calculation. Will be converted to `rems`.
+
+##### `$base-line-height`
+###### Pixel value
+Line-height for base font-size. Will be used to determine the vertical spacing values when `type-space()` is used.
+
+##### `$auto-scale-type`
+###### Boolean
+Uses the `$scale-ratio` var to create font sizes for headings starting from the `$base-font-size`. Overwrites `$type-[h#]-size` vars.
+
+##### `$scale-ratio`
+###### Numeric (float)
+Used for `$auto-scale-type` and for `modular-scale()`.
+
+##### `$[primary, secondary, monospace]-font-stack`
+###### String
+Used wherever font-families are declared.
+
+##### `$use-web-fonts`
+###### Boolean
+Whether to generate `@font-face` values based on `$font-[]` vars or not.
+
+##### `$font-file-name`
+###### List (string)
+Uses for `@font-face` declarations as well as pointing to the actual font file names. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf')_ See [/globals/tools/_fontface.scss](#Sass-Tools-Fontface) for more.
+
+##### `$font-weights`
+###### List (nested) (string)
+Each parenthesis corresponds to each name in `$font-file-name`. Determines how many `@font-face` weights are generated per font.
+
+##### `$font-italics`
+###### List (nested) (boolean)
+Corresponds to each value in `$font-weights`. (e.g. if `$font-weights: (400,700),(200,400)` and `$font-italics: (true), (false,true)` then the first font will have italics in the 400 and 700 weights while second font will have italics in the 400 weight).
+
+##### `$font-include-eot`
+###### Boolean
+Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
+
+##### `$gutter`
+###### Pixel value
+Space between grid items.
+
+##### `$use-silent-classes`
+###### Boolean
+If set to false, actual classes will be output to generated CSS.
+
+##### `$push`, `$pull`
+###### Boolean
+Determines whether to include extra grid classes for positional grid modifiers.
+
+##### `$use-markup-fix`
+###### Boolean
+If set to true, html must have comments between grid items. Almost always set to false.
+
+##### `$use-floats`
+###### Boolean
+If set to true, uses floats instead of inline-block
+
+##### `$show-baseline`
+###### Boolean
+For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
+
+##### `$breakpoints`
+###### List (nested) (string)
+Sets up variables for media-queries. Used in `media-query()`.
+
+##### `$breakpoints-has-widths`, `$breakpoints-has-push`, `$breakpoints-has-pull`
+###### List (string)
+Determines what classes get generated at `$breakpoints`. List order determines cascade.
+
+##### `$breakpoints-has-alignment-classes`, `$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
+###### List (string)
+Same as `breakpoint-has-widths`, but for utility classes.
+
+##### `$display-classes`
+###### Map
+Variable used generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
+
+##### `$colors`
+###### Map
+Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
+
+##### `$slick-[]-[]`
+Configuration for slick carousel jQuery plugin.
+Reference: https://github.com/kenwheeler/slick/#sass-variables
+
+*/
+
 //Typography Settings
 
 $base-font-size:             16px;
 $base-line-height:           24px;
 $auto-scale-type:           false;
-$scale-ratio:               1.214;
+$scale-ratio:               1.250;
 
 //Include px values when rems are generated?
 $rem-px-fallback: 			true;
@@ -76,9 +177,10 @@ $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
 //Output utilities as actual classes at which breakpoints? (false = none)
-$breakpoint-has-alignment-classes: 			('smalls', 'small', 'bigs', 'desk');
-$breakpoint-has-spacing-classes: 			('smalls', 'small', 'bigs', 'desk');
-$breakpoint-has-display-classes: 			('smalls', 'small', 'bigs', 'desk');
+$breakpoint-has-alignment-classes: 			('smalls', 'bigs', 'desk');
+$breakpoint-has-spacing-classes: 			('smalls', 'bigs', 'desk');
+$breakpoint-has-display-classes: 			('smalls', 'bigs', 'desk');
+$breakpoint-has-type-classes: 				('smalls', 'bigs');
 
 //What display types (class-name: display-type) should be output?
 // If $breakpoint-has-display-classes is false, this can be ignored
@@ -98,6 +200,7 @@ $spacing-classes: (
 	prefixes: ('space', 'pad')
 );
 
+
 //Defining the color pallete for the project
 // Can be named anything.
 $colors: (
@@ -105,29 +208,41 @@ $colors: (
 
 	links: #0d497b, //Required
 
-	bg: #f7f8f9, //Required
+	bg: #f6f8fb, //Required
 
-	//Change the following to brand/project colors
+	//Change the following to project specific colors
 	primary: (
 		light: #0cadcd,
 		base: #0c639a
 	),
 
-	accent: #d40026,
+	accent: mix(#d40026, #AD0909, 25%),
 
 	function: #d7dde5,
 
 	success: #bada55
+
 ) !global;
 
+
+//Create color variations based on the map above, using the settings below
 $colors: generate-color-variations(
-	$colors,
-	$functions: (
-		blend-colordodge, blend-lineardodge, tint, darken, blend-linearburn, blend-linearburn
+	$variations: (
+		light, lighter, lightest,
+		dark, darker, darkest
 	),
-	$increments: (45%,   60%,   80%,   5%,   40%,   70%),
-	$variations: (light, lighter, lightest, dark, darker, darkest),
-	$blending-colors: (#cbcbcb, #efefef, null, null, #4c5a66, #323d42)
+	$functions: (
+		blend-linearlight, blend-lineardodge, tint,
+		darken, blend-linearburn, blend-linearburn
+	),
+	$increments: (
+		50%,   60%,   80%,
+		5%,   40%,   70%
+	),
+	$blending-colors: (
+		#cbcbcb, #efefef, null,
+		null, #4c5a66, #323d42
+	)
 )  !global;
 
 

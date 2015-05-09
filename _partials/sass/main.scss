@@ -5,6 +5,16 @@
 // (functionality and setup used by project)
 //-----------------------------
 
+/* SG
+#[[dev]]Main/
+
+Stuff about sass
+```
+<div class="whatever"></div>
+```
+
+*/
+
 //Global functions and variables
 @import 'globals/import';
 
@@ -29,6 +39,10 @@
 //Elements and un-classed selectors
 // (lowest specificity)
 @import 'base/import';
+
+//Grids, alignment and higher-level classes
+// (+1 specificity)
+@import 'layout/import';
 
 //OOCSS styles and base-level classes
 // (+1 specificity)

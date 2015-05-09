@@ -114,10 +114,10 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
  // 3. Apply a negative `margin-left` to negate the columns’ gutters.
  //
 #{$class-type}grid {
-    list-style:none;                // [1]
+    list-style: none;                // [1]
     margin: 0;                       // [2]
     padding: 0;                      // [2]
-    @include rems(margin-left, -$gutter);
+    @include type-space(margin-left, -1);
 
 	@if $use-markup-fix != true and $use-floats != true{
         letter-spacing:-0.31em;
@@ -149,13 +149,14 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
         display: block;
         float: left;
     }
-    @include rems(padding-left, $gutter); //[2]
-    vertical-align:top;             // [3]
-    @if $mobile-first == true{
+    @include type-space(padding-left, 1); //[2]
+    vertical-align: top;             // [3]
+
+	@if $mobile-first == true{
         width:100%;                 // [4]
     }
 
-    @if $use-markup-fix != true and $use-floats != true{
+    @if $use-markup-fix != true and $use-floats != true { //5
         letter-spacing: normal;
         word-spacing: normal;
     }
@@ -205,7 +206,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
         @extend %clearfix;
     }
 
-    > #{$class-type}grid_item{
+    > #{$class-type}grid_item {
         padding-left:0;
     }
 }
@@ -218,14 +219,14 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     @if $use-floats != true {
         text-align:right;
 
-        > #{$class-type}grid_item{
+        > #{$class-type}grid_item {
             text-align: left;
         }
     }@else{
         float: right;
         @extend %clearfix;
 
-        > #{$class-type}grid_item{
+        > #{$class-type}grid_item {
         float: right;
         }
     }
@@ -241,7 +242,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     @if $use-floats != true {
         text-align:center;
 
-        > #{$class-type}grid_item{
+        > #{$class-type}grid_item {
             text-align:left;
         }
     }
@@ -270,11 +271,11 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 //
 // Create grids with narrower gutters. Extends `.grid`.
 //
-#{$class-type}grid_narrow{
-    @include rems(margin-left, -($gutter / 2));
+#{$class-type}grid_narrow {
+    @include type-space(margin-left, -.5);
 
 	> #{$class-type}grid_item {
-        @include rems(padding-left, ($gutter / 2));
+        @include type-space(padding-left, .5);
     }
 }
 
@@ -282,11 +283,11 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 //
 // Create grids with wider gutters. Extends `.grid`.
 //
-#{$class-type}grid_wide{
-    @include rems(margin-left, -($gutter * 2));
+#{$class-type}grid_wide {
+    @include type-space(margin-left, -2);
 
 	> #{$class-type}grid_item {
-        @include rems(margin-left, ($gutter * 2));
+        @include type-space(margin-left, 2);
     }
 }
 
@@ -300,7 +301,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
 // Create our width classes, prefixed by the specified namespace.
 
-@mixin grid-setup($namespace:""){
+@mixin width-setup($namespace:"") {
 
     //
     // Automatic Grids.
@@ -475,13 +476,13 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 }
 
 
-@include grid-setup();
+@include width-setup();
 // Our responsive classes, if we have enabled them.
 
 @if $responsive == true {
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
-           @include grid-setup('#{$name}_');
+           @include width-setup('#{$name}_');
         }
     }
 }

@@ -1,6 +1,6 @@
-//------------------------------------
-//    Global Variables
-//------------------------------------
+//------------------------------------*\
+//    #Global Variables
+//------------------------------------*/
 
  // CONTENTS
  // INTRODUCTION.........What and Why.
@@ -157,42 +157,39 @@ $stripped-base-font-size:  strip-units($base-font-size) !global;
 //------------------------------------
 
 // If you are building a non-responsive site but would still like to use
-// csswizardry-grids, set this to ‘false’:
-$responsive:            true!default;
-
+// grids, set this to ‘false’:
+$responsive:            true !default;
 
 
  // Is this build mobile first? Setting to ‘true’ means that all grids will be
  // 100% width if you do not apply a more specific class to them.
 
-$mobile-first:          true!default;
-
+$mobile-first:          true !default;
 
 
  // Set the spacing between your grid items.
 
-$gutter:                24px!default;
-
+$gutter:                24px !default;
 
 
  // Would you like Sass’ silent classes, or regular CSS classes?
 
-$use-silent-classes:    false!default;
+$use-silent-classes:    false !default;
 
 
  // Would you like to use floats instead of inline block?
-$use-floats:             false!default;
+$use-floats:             false !default;
 
 
  // Would you like push and pull classes enabled?
 
-$push:                  false!default;
-$pull:                  false!default;
+$push:                  false !default;
+$pull:                  false !default;
 
 //Would you like to use margins rather than 'right' and 'left' for
 //pushing and pulling?
 
-$use-margin-adjustments:false!default;
+$use-margin-adjustments: false!default;
 
 
  // Using `inline-block` means that the grid items need their whitespace removing
@@ -217,10 +214,20 @@ $breakpoints: (
     'small' '(max-width: 480px)',
     'lap' '(min-width: 481px) and (max-width: 1023px)',
     'port' '(max-width: 1023px)',
-    'desk' '(min-width: 1024px)'
+    'desk' '(min-width: 1024px)',
+	'bigs' '(min-width: 481px)'
 )!default;
 
+$all-breakpoints: ();
 
+//Grab all breakpoint names
+@each $breakpoint in $breakpoints {
+	$temp-bp: nth($breakpoint, 1);
+
+	@if $temp-bp != ' '{
+		$all-breakpoints: append($all-breakpoints, $temp-bp, comma);
+	}
+}
 
 // Define which namespaced breakpoints you would like to generate for each of
 // widths, push and pull. This is handy if you only need pull on, say, desk, or
@@ -236,15 +243,10 @@ $breakpoint-has-push:   ('small', 'lap', 'port', 'desk')!default;
 $breakpoint-has-pull:   ('small', 'lap', 'port', 'desk')!default;
 
 
-
 //Abstracting the largest and smallest breakpoints.
 
-$sm-breakpoint:	nth($breakpoints, 1);
-$lg-breakpoint: nth($breakpoints, length($breakpoints));
-
-$smalls: nth($sm-breakpoint, 1);
-$bigs: nth($lg-breakpoint, 1);
-
+$smalls: nth($all-breakpoints, 1);
+$bigs: nth($all-breakpoints, length($all-breakpoints));
 
 //------------------------------------
 //		$SPACING AND ALIGNMENT

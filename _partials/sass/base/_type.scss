@@ -2,8 +2,14 @@
 //    $HEADINGS
 //------------------------------------
 
+%base_heading_space {
+	@extend %base_space_t_n;
+	@extend %base_space_b;
+	@extend %pad_n;
+}
+
 @if $auto-scale-type == true {
-	@include headings(1,6){
+	@include headings(1,6) {
 		margin: 0;
 		padding: 0;
 	}
@@ -17,47 +23,48 @@
         $h-class: unquote(", .");
     }
 
-    %h1 {
+    %base_h1 {
+		@extend %base_heading_space;
         @include type-font-size($type-h1-size, true);
     }
-    %h2 {
+    %base_h2 {
+		@extend %base_heading_space;
         @include type-font-size($type-h2-size, true);
     }
-    %h3 {
+    %base_h3 {
+		@extend %base_heading_space;
         @include type-font-size($type-h3-size, true);
     }
-    %h4 {
+    %base_h4 {
+		@extend %base_heading_space;
         @include type-font-size($type-h4-size, true);
     }
-    %h5 {
+    %base_h5 {
+		@extend %base_heading_space;
         @include type-font-size($type-h5-size, true);
     }
-    %h6 {
+    %base_h6 {
+		@extend %base_heading_space;
         @include type-font-size($type-h6-size, true);
     }
 
-    %h1, %h2, %h3, %h4, %h5, %h6 {
-        @extend %space_reset;
-        @extend %space_b;
-    }
-
     h1 {
-        @extend %h1;
+        @extend %base_h1;
     }
     h2 {
-        @extend %h2;
+        @extend %base_h2;
     }
     h3 {
-        @extend %h3;
+        @extend %base_h3;
     }
     h4 {
-        @extend %h4;
+        @extend %base_h4;
     }
     h5 {
-        @extend %h5;
+        @extend %base_h5;
     }
     h6 {
-        @extend %h6;
+        @extend %base_h6;
     }
 }
 
@@ -65,26 +72,26 @@
 //   $LISTS
 //-------------------------------
 ul, ol, dd, menu {
-    @extend %type-vertical-rhythm;
+    @extend %base_type_vertical_rhythm;
     @extend %space_l;
 }
 
 li > ul,
 li > ol {
-    @extend %space_v_n;
+    @extend %base_space_v_n;
 }
 
 //-------------------------------
 //    $PARAGRAPHS
 //-------------------------------
 p {
-	@extend %type-vertical-rhythm;
+	@extend %base_type_vertical_rhythm;
 
     @if $indented-paragraphs == true {
 
         & + & {
-            @include type-space(text-indent);
-            @extend %space_t_neg;
+            @include type-space(text-indent, 1);
+            @extend %base_space_t_neg;
         }
 
     }
@@ -93,7 +100,7 @@ p {
 @include headings(1,6) {
 
     & + p {
-        @extend %space_t_neg;
+        @extend %base_space_t_neg;
     }
 }
 
@@ -101,12 +108,12 @@ p {
 // Not strictly a paragraph, but probably doesn’t need its own section.
 //
 address {
-    @extend %type-vertical-rhythm;
+    @extend %base_type_vertical_rhythm;
 }
 
 
 pre {
-    @extend %type-vertical-rhythm;
+    @extend %base_type_vertical_rhythm;
     white-space: pre;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -128,12 +135,6 @@ samp {
 
 /*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
 
-abbr[title] {
-    border-bottom: 1px dotted;
-}
-
-
-
 
 /*-------------------------------
     $QUOTES
@@ -142,11 +143,11 @@ abbr[title] {
 // 1. Hang the opening quote of the blockquote.
 //
 blockquote {
-    text-indent: -0.41em; // [1]
+    text-indent: -.5ex; // [1]
 }
 
 blockquote {
-    @extend %type-vertical-rhythm;
+    @extend %base_type_vertical_rhythm;
     quotes: '“' '”';
     @extend %space_l;
 
@@ -168,10 +169,6 @@ blockquote {
 
     }
 
-}
-
-fieldset {
-    @extend %type-vertical-rhythm;
 }
 
 q   {
@@ -207,38 +204,4 @@ q   {
         text-indent: -0.22em;
     }
 
-}
-
-/*-------------------------------*/
-/*    $NORMALIZE                 */
-/*-------------------------------*/
-
-b,
-strong{
-    font-weight: 700;
-}
-
-dfn,
-em {
-    font-style: italic;
-}
-
-small {
-    @include type-font-size(modular-scale(-1), true);
-}
-
-sub,
-sup {
-    font-size: 75%;
-    line-height: 0;
-    position: relative;
-    vertical-align: baseline;
-}
-
-sup {
-    top: -0.5em;
-}
-
-sub {
-    bottom: -0.25em;
 }

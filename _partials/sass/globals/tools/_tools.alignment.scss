@@ -44,7 +44,7 @@
 }
 
 @mixin alignment-utilities-init(
-	$breakpoints: $breakpoint-has-widths,
+	$breakpoints: $all-breakpoints,
 	$namespace: '',
 	$silent: true,
 	$important: false

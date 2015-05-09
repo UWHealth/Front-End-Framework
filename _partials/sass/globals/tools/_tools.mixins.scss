@@ -160,27 +160,72 @@
 	   $type: define-type($selector, rem, rems($font-size)) !global;
    }
 }
+//AlIAS
+@mixin font-size(
+	$font-size,
+	$line-height: true,
+	$selector: '',
+	$font-base: $base-font-size
+){
+	@include type-font-size($font-size, $line-height, $selector, $font-base);
+}
 
  // Space elements by an amount based on line-height/gutter. Pass in the property
  // to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
  // pre {
  //     @include type-space(padding-left, 1);
  // }
- // Accepts multiple properties.
+ // Accepts multiple properties as a nested list.
 
-@mixin type-space($properties, $multiplier: 2, $important: false) {
+@mixin type-space($properties, $multipliers.../*$important*/) {
 
-	@each $property in $properties {
+	$important: false;
+	$multiplier: nth($multipliers, 1);
+	$m-length: length($multipliers);
 
-		$value: $multiplier * $type-magic-number;
+	//Check if multiple arguments have been passed
+	@if $m-length > 1 {
+		//If so, see if the last argument is $important
+		$important_check: nth($multipliers, -1);
 
-		//if the value is for right or left spacing, use the gutter width for spacing.
-		@if str-contains($property, 'right') or str-contains($property, 'left'){
-			$value: $multiplier * $gutter;
+		//If last value is $important, then set the $multiplier and $important accordingly
+		@if type-of($important_check) == bool {
+			$important: $important_check;
+			$multiplier: nth($multipliers, 1);
+			$m-length: 1;
 		}
+	}
 
-		@include rems($property, $value, $important);
+	//If multiplier is only 1 value, then do expected stuff
+	@if $m-length <= 1 {
 
+		@each $property in $properties {
+
+			$value: $multiplier * $type-magic-number;
+
+			//if the value is for right or left spacing, use the gutter width for spacing.
+			@if str-contains($property, 'right') or str-contains($property, 'left'){
+				$value: $multiplier * $gutter;
+			}
+
+			@include rems($property, $value, $important);
+
+		}
+	//if many multipliers are passed in, then we know type-space-sc should be used
+	}@else {
+
+		$top: nth($multipliers, 1);
+		$right: nth($multipliers, 2);
+		$bottom: $top;
+		$left: $right;
+
+		@if $m-length > 2 {
+			$bottom: nth($multipliers, 3);
+			@if $m-length > 3 {
+				$left: nth($multipliers, 4);
+			}
+		}
+		@include type-space-sc($properties, $top, $right, $bottom, $left );
 	}
 }
 
@@ -191,6 +236,22 @@
 // }
 @mixin type-space-sc($property, $top: 0, $right: 0, $bottom: $top, $left: $right) {
 
+	//if top is given a list, then pass those values to the correct variables
+	@if length($top) > 1 {
+		$bottom: nth($top, 1);
+		$right: nth($top, 2);
+		$left: nth($top, 2);
+
+		@if length($top) > 2 {
+			$bottom: nth($top, 3);
+
+			@if length($top) > 3 {
+				$left: nth($top, 4);
+			}
+		}
+		$top: nth($top, 1);
+	}
+
 	//Calculate values
 	//Right and left get
 	$top_val: $top * $base-line-height;
@@ -200,10 +261,10 @@
 
 	// Generating only the necessary properties, and leave the rest blank.
 	// e.g. margin: 1px 3px; or margin: 2px 3px 1px;
-	@if $right == $left{
+	@if $right == $left or $left == null {
 		$left_val: unquote('');
 
-		@if $top == $bottom {
+		@if $top == $bottom or $bottom == null {
 			$bottom_val: unquote('');
 		};
 	};

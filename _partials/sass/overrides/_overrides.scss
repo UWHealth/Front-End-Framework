@@ -12,7 +12,7 @@
 
 	.baseline-on {
         background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
-        background-image: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) top left / auto $type-magic-ratio * 1em;
+        background: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) top left / auto $type-magic-ratio * 1em;
     }
 
     .baseline-off {
@@ -20,30 +20,12 @@
     }
 }
 
-// Prevent modern browsers from displaying `audio` without controls.
-// Remove excess height in iOS 5 devices.
-audio:not([controls]) {
-	display: none;
-	height: 0;
-}
-
 .invisible {
 	visibility: hidden !important;
 }
 
-.clearfix {
-	@extend %clearfix;
-}
-
 .visually_hidden {
-	padding: 0;
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	position: absolute;
-	width: 1px;
+	@extend %visually_hidden;
 }
 
 .visually_hidden.focusable:active,
@@ -77,6 +59,10 @@ audio:not([controls]) {
 	}
 }
 
+.clearfix {
+	@extend %clearfix;
+}
+
 //---Alignment Overrides--//
 // Outputs alignment utility classes.
 
@@ -100,17 +86,9 @@ audio:not([controls]) {
 	$spacing-config: ( important: true, silent: false );
 	$spacing-config: map-extend($spacing-classes, $spacing-config, true);
 
-	@include spacing-utilities('', $spacing-config);
-
-	@if $responsive {
-		@if $breakpoint-has-spacing-classes != '' {
-			@each $name in $breakpoint-has-spacing-classes {
-				@include media-query($name) {
-					@include spacing-utilities('#{$name}_', $spacing-config );
-				}
-			}
-		}
-	}
+	@include spacing-utilities-init(
+        $breakpoints: $breakpoint-has-spacing-classes, $config: $spacing-config
+    );
 }
 
 //----Display Override classes---//
@@ -124,4 +102,16 @@ audio:not([controls]) {
         $important: true
     );
 
+}
+
+//----Type Override classes---//
+//Outputs type transformation classes
+@if $breakpoint-has-type-classes != false {
+
+    @include type-utilities-init(
+        $breakpoints: $breakpoint-has-type-classes,
+        $namespace: '',
+        $silent: false,
+        $important: true
+    );
 }

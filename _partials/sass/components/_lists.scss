@@ -6,7 +6,6 @@
 nav {
     ul, ol {
         @extend %list_naked;
-        @extend %space_l_n;
     }
 }
 
@@ -15,8 +14,8 @@ nav {
     @extend %space_v;
     @extend %list_naked;
     > li {
-        @extend %display_block;
-        border-top: 1px solid color(function);
+        @extend %block;
+        border-top: 1px solid color(bg, dark);
         @extend %pad_v;
 		margin-top: -1px;
     }
@@ -68,7 +67,7 @@ nav {
     @extend %pad_r;
 
 	>li a {
-		@extend %display_block;
+		@extend %block;
 	}
 }
 
@@ -89,8 +88,8 @@ nav {
     @extend %space_l_n;
 
 	& a {
-		@extend %bl;
-        @include type-space((padding-top, padding-bottom), .5);
+		@extend %block;
+        @include type-space(padding, .5, 0, .5);
 	}
 
 	&.list_bordered > li {
@@ -100,7 +99,7 @@ nav {
 	&.list_inline > li {
 
 		a {
-			@include rems(padding-right, ($gutter/2));
+			@include type-space(padding-right, .5);
 		}
 	}
 }

@@ -1,15 +1,10 @@
+//Prepend all placeholders with generic
 $generic_namespace: 'generic_';
 
-@include spacing-utilities($generic_namespace, (important: false));
-
-@if $responsive == true {
-	@each $name in $breakpoint-has-widths {
-		@include media-query($name) {
-			$name: $generic_namespace+$name;
-			@include spacing-utilities('#{$name}_', (important: false));
-		}
-	}
-}
+//Spacing placeholders
+@include spacing-utilities-init(
+	$namespace: $generic_namespace, $config: (important: false, silent: true)
+);
 
 @include alignment-utilities-init($namespace: $generic_namespace);
 
@@ -17,23 +12,11 @@ $generic_namespace: 'generic_';
 
 @include type-utilities-init($namespace: $generic_namespace);
 
-%space_reset {
-	margin: 0;
-	padding: 0;
-}
 
 %#{$generic_namespace} {
-	&space_reset {
-		margin: 0;
-		padding: 0;
-	}
 
 	&type-vertical-rhythm {
 		@extend %#{$generic_namespace}space_reset;
-		@extend %#{$generic_namespace}space_b;
-	}
-
-	&type_space_v{
 		@extend %#{$generic_namespace}space_b;
 	}
 

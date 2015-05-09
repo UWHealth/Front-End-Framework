@@ -1,28 +1,38 @@
-//--------------------------------\\
-//    Application-specific CSS
-//---------------------------------\\
+/* SG
+#Color Blocks
+A good way to look over your color pallete.
 
-// Put all of your normal/application-specific CSS here.
+Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate.
 
-// Anything in this file can be deleted since it's just used for examples.
+```
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+```
+*/
 
-// Prints color map to the top of the css
-// @debug map-inspect($colors);
+@include color-palette-output('.color-block');
 
-
-hr{
-	height: 2px;
+.color-block:before {
+	text-transform: capitalize;
 }
 
-body {
-	@extend %pad_b_2;
-	//Testing out photoshop gradients
-	background-image:
-		photoshop-gradient-overlay(
-			(color(bg, lightest), color(bg)), (0%, 100%),
-			90
-		);
+.color-block:after {
+	letter-spacing: 0.1em;
 }
+
+
+// body {
+// 	background-image:
+// 		photoshop-gradient-overlay(
+// 			(color(bg, lightest), color(bg)), (0%, 100%),
+// 			90
+// 		);
+// }
 
 .wrap {
 	margin: 0 auto;
@@ -49,7 +59,7 @@ body {
 .row_narrow{
     @extend %grid_narrow;
 }
-.row{
+.row {
     @extend %grid;
 }
 .fixed_row {
@@ -114,14 +124,16 @@ body {
 .tab_topline > .tabs{
 	background-color: #e3f1fa;
 }
+
 .tab_minimal > .tab_content{
 	box-shadow: 0 2px 0 rgba(color(type), 0.1);
 }
+
 [class*="list_bordered"] > li{
 	border-top-width: 2px;
 	margin-top: -2px;
 	&:first-child{
-		border-top-color: color(function);
+		border-top-color: color(bg, dark);
 	}
 }
 
@@ -130,7 +142,7 @@ body {
 	text-transform: uppercase;
 	letter-spacing: .5px;
 	@extend %txt_bold;
-	@extend small;
+	@extend %txt_small;
 	text-decoration: none;
 }
 
@@ -146,14 +158,4 @@ body {
     border: 1px solid #ddd;
     padding: 5px 10px;
     border-radius: 0px 0px 0px 3px;
-}
-
-@include color-palette-output('.color-block');
-
-.color-block:before {
-	text-transform: capitalize;
-}
-
-.color-block:after {
-	letter-spacing: 0.1em;
 }

@@ -1,53 +1,55 @@
-.box{
+.box {
     @extend %grid_reset;
 	@extend %cf;
     @extend %pad;
-    @extend %space_v;
-    > :last-child{
+    @extend %space_b;
+
+    > :last-child {
     	margin-bottom: 0;
     }
 }
-.box_open{
+
+.box_open {
 	@extend %pad_h_n;
 	border-width: 1px;
 	border-style: solid;
-    border-top-color: color(function);
-    border-bottom-color: color(function);
+    border-top-color: color(bg, dark);
+    border-bottom-color: color(bg, dark);
     border-left-color: transparent;
     border-right-color: transparent;
 }
-.box_closed{
-    border: 1px solid color(function);
+
+.box_closed {
+    border: 1px solid color(bg, dark);
 }
 
 //Creates a responsive, square container.
 //Must have a .body inside for content.
-.box_square{
+.box_square {
     position: relative;
-    display:block;
+    @extend %display_block;
 	overflow: hidden;
 	word-break: break-word;
-	@include media-query($smalls){
-		@include rems(max-height, ($base-line-height * 5));
+
+	@include media-query($smalls) {
+		@include type-space(max-height, 5);
 	}
 
-	& .body{
-		@extend %pad_t_half;
-		@extend %pad_h_half;
-		@extend %display_block;
-		@extend %grid_reset;
+	& .body {
+        @include type-space-sc(padding, .5, .5, 0);
+        display: block;
 		position: absolute;
 		top: 0;
 		left: 0;
 		text-align: left;
 	}
 
-	&:before{
+	&:before {
+        content:" ";
 		margin-top: 100%;
-		display:block;
+		display: block;
 		font-size: 0;
 		color: transparent;
-		content:" ";
 	}
 
 }
@@ -56,11 +58,11 @@
 //
 
 // 3:4 box
-.pano:before{
+.pano:before {
 	margin-top: 75%;
 }
 // 1:2 box
-.wide:before{
+.wide:before {
 	margin-top: 50%;
 }
 

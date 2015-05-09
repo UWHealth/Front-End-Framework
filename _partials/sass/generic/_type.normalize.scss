@@ -1,0 +1,110 @@
+// /* Links
+//    ========================================================================== */
+
+// /**
+//  * Remove the gray background color from active links in IE 10.
+//  */
+
+a {
+	cursor: pointer;
+	background-color: transparent;
+	color: color(links);
+
+	&:hover,
+	&:focus {
+		color: color(links, light);
+	}
+
+	&:active{
+		color: color(links, darker);
+	}
+
+	&:focus {
+		outline: thin dotted; //[2]
+	}
+
+// /**
+//  * Improve readability when focused and also mouse hovered in all browsers.
+//  */
+
+	&:active,
+	&:hover {
+		outline: 0;
+	}
+}
+
+// /* Text-level semantics
+//    ========================================================================== */
+
+// /**
+//  * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+//  */
+
+abbr[title] {
+	border-bottom: 1px dotted;
+}
+
+// /**
+//  * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+//  */
+
+b,
+strong {
+	@extend %generic_txt_bold;
+}
+
+// /**
+//  * Address styling not present in Safari and Chrome.
+//  */
+
+dfn,
+em {
+	@extend %generic_txt_italic;
+}
+
+// /**
+//  * Address variable `h1` font-size and margin within `section` and `article`
+//  * contexts in Firefox 4+, Safari, and Chrome.
+//  */
+//
+// h1 {
+// 	font-size: 2em;
+// 	margin: 0.67em 0;
+// }
+
+/**
+ * Address styling not present in IE 8/9.
+ */
+
+mark {
+	background: color(links, lightest);
+	color: color(links, darker);
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+
+small {
+	@include type-font-size(modular-scale(-1), true);
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5em;
+}
+
+sub {
+	bottom: -0.25em;
+}

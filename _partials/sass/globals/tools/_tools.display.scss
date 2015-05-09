@@ -1,17 +1,18 @@
 //Create silent versions of the above classes
 $default-display-classes: (
-	show: 'block',
-	bl: 'block',
-	il_bl: 'inline_block',
-	tbl: 'table',
-	tbl_cl: 'table-cell',
-	hide: 'none',
-	display_block: 'block'
+	'show': 'block',
+	'bl': 'block',
+	'il_bl': 'inline-block',
+	'tbl': 'table',
+	'tbl_cl': 'table-cell',
+	'hide': 'none',
+	'block': 'block',
+	'inline_block': 'inline-block',
+	'table_cell': 'table-cell'
 );
 
 //Merge user-defined classes with defaults (so we have a wide-array of silent classes)
 $silent-display-classes: map-extend($display-classes, $default-display-classes, true);
-
 
 @mixin display-utilities(
 	$namespace:"",
@@ -23,9 +24,11 @@ $silent-display-classes: map-extend($display-classes, $default-display-classes, 
 	$important_str: if($important, ' !important', '');
 	$display-registry: ();
 
+
 	@each $name, $display in $class-list {
 		//Check for existence of a previous class using the same display
 		$display-lookup: index($display-registry, $display);
+
 		//If it exists, look it up in the map and extend that value.
 		@if $display-lookup != null {
 			$extender: nth(nth($class-list, $display-lookup), 1);
@@ -36,16 +39,22 @@ $silent-display-classes: map-extend($display-classes, $default-display-classes, 
 
 		}@else {
 			#{$classtype}#{$namespace}#{$name}{
-				display: #{$display} #{$important_str};
+				display: #{$display}#{$important_str};
 			}
-			//Keep track of display values so we can extend if necessary
-			$display-registry: append($display-registry, $display);
+
 		}
+
+		//Keep track of display values so we can extend if necessary
+		@if index($display-registry, $display) != null {
+			//Make sure duplicate values get a uniqueID so it's not extended
+			$display: $display + '' + length($display-registry);
+		}
+		$display-registry: append($display-registry, quote($display));
 	}
 }
 
 @mixin display-utilities-init(
-	$breakpoints: $breakpoint-has-widths,
+	$breakpoints: $all-breakpoints,
 	$namespace: '',
 	$silent: true,
 	$important: false

@@ -15,111 +15,171 @@
 
 // General functions to make Sass a little more powerful. Taken from various places.
 
-//------------------------------------
-// $REFERENCE
-//------------------------------------
-//NOTE: Words in brackets[] represent values. Can either be strings, numbers, or variables depending on context.
+/* SG
+#[[dev]]Globals/Functions
 
-// exponent.......Exponentially multiply (cube, square, etc) a number.
-//                exponent([number-you-want-to-multiply], [exponent]);
+###Math Functions
 
-// pow............A more robust exponent multiplication which allows for decimal-based exponents.
-//    ............This replaces Compass' pow() function.
-//                pow([number-you-want-to-multiply], [exponent]);
+##### `exponent()`
+###### `[number-you-want-to-multiply]`, `[exponent]`
+Exponentially multiply (cube, square, etc) a number.
 
-//gcd.............Greatest Common Divisor calculation
-//   .............(useful for calculating grids and widths)
-//                gcd([first-number], [second-number])
+##### `pow()`
+###### `[number-you-want-to-multiply]`, `[exponent]`
+A more robust exponent multiplication which allows for decimal-based exponents. This replaces Compass' pow() function.
 
-//nth_root........Advanced calculation for squareroots, cuberoots, etc. of a value.
-//                nth_root([number-you-want-to-find-the-root-of], [root-divisor]);
+##### `gcd()`
+###### `[first-number], [second-number]`
+Greatest Common Divisor calculation (useful for calculating grids and widths)
 
-//sqrt............Find the square root of a value.
-//                sqrt([number-you-want-the-square-root-of]);
+##### `lcm()`
+###### `[first-number], [second-number]`
+Finds the least common multiple.
 
-//rand............Generate a random number.
-//                rand();
+##### `nth_root()`
+###### `[number-you-want-to-find-the-root-of], [root-divisor]`
+Advanced calculation for square roots, cube roots, etc. of a value.
 
-// golden.........Generate the golden ratio.
-//                golden();
+##### `sqrt()`
+###### `[number-you-want-the-square-root-of]`
+Find the square root of a value.
 
-// strip-units....Remove px,em,rem, etc. from a value. Usually a variable.
-//                strip-units([value-you-want-units-removed-from]);
+##### `golden()`
+Generate the golden ratio. Useful for multiplication and division.
 
-// opacity........MIXIN used to generate cross-browser opacity (including IE8)
-//                @include opacity([decimal-number-you-need-for-opacity]);
+##### `sin()`
+###### `[angle]`
+Determines the Sine of an angle.
 
-// rems...........MIXIN used to generate rem value with a pixel fall-back
-//     ...........(only accepts pixel values).
-//                @include([property-you-want-to-give-a-value], [pixel-value]);
+##### `cos()`
+###### `[angle]`
+Determines the Cosine of an angle.
 
-// rems...........function used to generate rem values from pixels.
-//     ...........Accepts a base-font-size override for various media-query contexts.
-//                @include([pixel-value-you-need-converted], [base-font-size-override]);
+##### `tan()`
+###### `[angle]`
+Determines the Tangent of an angle.
 
-// str-contains...advanced function to parse a string for a value from a position.
-//     		   str-contains([string-you-need-parsed],[sub-string], [start-position]);
+---
 
-// str-join......function to convert a list to a string.
-//     		   str-join([list-you-need-converted],[list-seperator]);
+###Sass Helpers
 
-//baseline-calc ..Used generating line-heights that line up to the baseline grid.
-//              ..Override recommended behavior with a boolean third value to gain
-//              ..most eye-pleasing values.
-//                baseline-calc([font-size-in-pixels], [base-font-size],
-//                              [override: true||false]);
+### Converter Functions
+##### `strip-units()`
+###### `[value-you-want-units-removed-from]`
+Remove px,em,rem, etc. from a value. Usually a variable.
 
-//type-font-size..MIXIN used for generating font-sizes and line-heights
-//              ..that line up to the baseline grid. Dependent on baseline-calc.
-//                @include([font-size-in-pixels]);
+##### `percentage-to-decimal()`
+###### `[percent]`
+Changes percent value to decimal.
 
-//type-space......MIXIN used for generating spacing
-//          ......which cooresponds to the baseline grid.
-//          ......The values you enter should be value-less as they will be
-// 		 ......calculated as multiples.
-//@include type-space([property-you-want-to-give-a-value], [multiple-of-spacing]);
+##### `px-to-vw()`
+###### `[pixel value]`
+Converts pixel dimensions to viewport width (vw) dimensions.
 
-//type-space-sc...MIXIN used for generating spacing for properties
-//             ...that accept shortcut values (e.g. padding: 2px 3px 4px 5px).
-//             ...The values you enter should be value-less
-//             ...as they will be calculated as multiples.
-//  @include type-space([property-you-want-to-give-a-value],
-//                      [top-value], [right-value],
-//                      [bottom-value], [left-value]);
-//  NOTE: This also accepts just a vertical(top) value and horizontal(right)-value. Assumes bottom = top, and left = right.
+##### `px-to-rems()`,`rems()`
+###### `[pixel-value-you-need-converted], [base-font-size-override]`
+Function for calculating stripped-unit REM values. Used by rems() mixin. Override base font size for media-queries where the breakpoint has a smaller/larger base-font.
 
-//modular-scale...Generates a pixel value that is an exponent of a ratio
-//              ....(defaults to $scale-ratio value).
-//                modular-scale([number-on-the-scale-you-want],
-//                              [ratio-to-use-as-scale]);
+##### `list-to-string()`, `str-join()`
+###### `[list-you-need-converted], [list-seperator]`
+Converts a list to a string with an optional separator.
 
-//type-scale......MIXIN for generating numbers for properties on
-//          ......the typographic scale (with a rem value and pixel fallback).
-//                @include type-scale([property-you-want-to-use],
-//                                    [number-on-the-scale]);
+### String & List Functions
+##### `str-contains()`
+###### `[string-you-need-parsed],[sub-string], [start-position]`
+Parses a string for a value (from an optional starting position).
 
-//headings-scale..MIXIN for generating heading sizes on a typographic scale.
-//              ..Accepts any scale ratio.
-//                @include headings-scale([scale-you-want-to-base-font-sizes-on]);
+##### `str-append()`
+###### `[string], [string-to-append]`
+Adds one string to another (e.g. `str-append('hello', 'world')` becomes `hello world`). Used by str-join.
 
-//type...........function for finding the value of an indexed type-size.
-// ...........H1-H6, p, and small are all indexed values.
-//    ...........px, rem, and line-height are available.
-//               type([referenced-font-size],[font-size-value])
+##### `list-contains()`
+###### `[list], [value]`
+Checks whether a list contains a value.
 
-//color..........function for grabbing colors as defined by $colors map.
-//	    ..........color([color-name], [optional-variation])
+##### `list-print()`
+###### `[list]`
+Used to lay out turn a list into a flat string. For debug purposes.
 
-//set-text-color..Generates either white or black based on the
-//              ..lightness of the color you pass it (Accepts HEX values).
-//                set-text-color([color-you-need-to-test-contrast-of]);
+#### Map Functions
+*Reference: http://www.sitepoint.com/extra-map-functions-sass/*
 
-//pick_best_color..Outputs the color with the highest contrast to the first color
-//               ..you pass it (Accepts multiple color options).
-//                 pick_best_color([color-you-need-to-test-contrast-of],
-//                                ([color-option-1], [color-option-2], [...])
-//                                );
+##### `map-deep-set()`
+###### `[map], [keys to be updated ...], [new value]`
+Add to a deeply nested map key. Accepts any number of keys, but the final value is the new key.
 
+##### `map-depth()`
+###### `[map]`
+Find depth of a map. Returns number.
+
+##### `map-has-keys()`,`map-contains-keys()`
+###### `[map], [key(s) to be checked ...]`
+Determine whether a map contains certain keys.
+
+##### `map-has-nested-keys()`, `map-contains-nested-keys()`
+###### `[map], [key(s) to be checked...] `
+Check for the value of a nested key. Returns boolean value.
+
+##### `map-get-nested()`
+###### `[map], [key(s) to find value... ]`
+Returns nested map values. A deep version of Sass' `map-get()`.
+
+##### `map-extend()`
+###### `[map], [map(s) to merge ... ], [deep?]`
+Merges multiple maps. Similar to jQuery's .extend().
+
+##### `map-add-depth()`
+###### `[map], [new key]`
+Adds one level to a map using the new key to a map. Used by color map generator function (colors/\_colorfunctions). (e.g. `(key: value, key: value)` becomes `(key:(new-key: value), key:(new-key: value))` )
+
+##### `map-inspect()`
+###### `[map], [starting indent level]`
+Prints map into a string. Useful for debugging.
+
+---
+
+##Photoshop Converters
+
+##### `photoshop-shadow()`, `photoshop-text-shadow()`, `photoshop-gradient-overlay()`
+###### `[various]`
+MIXINs: Interprets Photoshop layer styles as they'd appear in Photoshop into CSS. See functions for their accepted arguments.
+
+##### `convert-angle()`
+###### `[angle]`
+Converts Photoshop angles to CSS angles.
+
+##### `stop-scale()`
+###### `[stop], [scale]`
+Converts Photoshop gradient-stops to CSS gradients.
+
+---
+
+##Type Functions
+
+##### `baseline()`
+###### `[font-size]`, `[baseline]`
+Aligns a font-size to a baseline. Dividing by the $font-size yields a unitless-REM value.
+
+##### `baseline-lcm()`
+###### `[font-size]`, `[line-height]`
+Calculate the least-common-denominator between a font-size and a baseline.
+
+##### `baseline-calc()`
+###### `[font-size-in-pixels]`, `[base-font-size]`,`[override?]`
+Used generating line-heights that line up to the baseline grid. Override recommended behavior with a boolean third value to gain most eye-pleasing values.
+
+##### `modular-scale()`
+###### `[number-on-the-scale-you-want],[ratio-to-use-as-scale]`
+Generates a pixel value that is an exponent of a ratio (defaults to $scale-ratio value). Used by `type-scale()`.
+
+##### `get-type()`,`type()`
+###### `[font-size],[font-size-value]`
+function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.
+
+##### `define-type()`
+###### `[font-size], [property], [new value]`
+Registers new values to type map. [Property] accepts px, rem, and line-height.
+*/
 
 
 //------------------------------------

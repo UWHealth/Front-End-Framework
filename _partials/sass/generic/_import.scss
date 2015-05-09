@@ -1,3 +1,8 @@
-/*--Generic styles--*/
-@import 'normalize';
+/*------------------------------------*\
+	#Generic Styles
+/*------------------------------------*/
 @import 'generic.placeholders.scss';
+@import 'resets';
+@import 'h5bp';
+@import 'blocks.normalize';
+@import 'type.normalize';

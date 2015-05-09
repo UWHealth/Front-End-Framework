@@ -29,15 +29,6 @@ html, body{
 //
 // Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
 //
-
-%nz_block {
-    display: block;
-}
-%nz_inline_block{
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
-}
 %nz_n_border{
     border: 0;
 }
@@ -211,7 +202,7 @@ form {
 //    `input` and others.
 
 button,
-html input[type="button"], //[1]
+input[type="button"], //[1]
 input[type="reset"],
 input[type="submit"] {
     -webkit-appearance: button; //[2]
@@ -261,31 +252,31 @@ optgroup {
 // ====================================
 //   Links
 // ====================================
-
+// Moved to base/type
 //
 // [1] Remove the gray background color from active links in IE 10.
 // [2] Address `outline` inconsistency between Chrome and other browsers.
 // [3] Improve readability when focused and also mouse hovered in all browsers.
 //
-a {
-    cursor: pointer;
-    color: color(links);
-    background: transparent; //[1]
-
-    &:hover,
-    &:focus {
-        color: color(links, light);
-    }
-
-    &:focus {
-        outline: thin dotted; //[2]
-    }
-
-    &:active,
-    &:hover {
-        outline: 0; //[3]
-    }
-}
+// a {
+//     cursor: pointer;
+//     color: color(links);
+//     background: transparent; //[1]
+//
+//     &:hover,
+//     &:focus {
+//         color: color(links, light);
+//     }
+//
+//     &:focus {
+//         outline: thin dotted; //[2]
+//     }
+//
+//     &:active,
+//     &:hover {
+//         outline: 0; //[3]
+//     }
+// }
 
 //Reset colors
 button,
