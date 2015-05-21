@@ -1,17 +1,29 @@
 @charset "UTF-8";
 /* SG
-#[[dev]]Main/
+#[[dev]]Main
+/main.scss
 
-Stuff about sass
-```
-<div class="whatever"></div>
-```
+Imports all Sass files in order from lowest specificity to highest.
+1. global functions
+2. global config
+3. default variables
+4. mixins and tools
+5. generic/reset styles
+6. element styles
+7. basic layout and object styles
+8. module and component styles
+9. view- and page-specific and scoped styles.
+10. utility styles, usually end in `!important`
 
 */
 /* SG
 #[[dev]]Globals/Functions
 
+---
+
 ###Math Functions
+
+---
 
 ##### `exponent()`
 ###### `[number-you-want-to-multiply]`, `[exponent]`
@@ -56,7 +68,10 @@ Determines the Tangent of an angle.
 
 ###Sass Helpers
 
-### Converter Functions
+---
+
+#### Converter Functions ####
+
 ##### `strip-units()`
 ###### `[value-you-want-units-removed-from]`
 Remove px,em,rem, etc. from a value. Usually a variable.
@@ -77,7 +92,8 @@ Function for calculating stripped-unit REM values. Used by rems() mixin. Overrid
 ###### `[list-you-need-converted], [list-seperator]`
 Converts a list to a string with an optional separator.
 
-### String & List Functions
+#### String & List Functions ####
+
 ##### `str-contains()`
 ###### `[string-you-need-parsed],[sub-string], [start-position]`
 Parses a string for a value (from an optional starting position).
@@ -92,9 +108,10 @@ Checks whether a list contains a value.
 
 ##### `list-print()`
 ###### `[list]`
-Used to lay out turn a list into a flat string. For debug purposes.
+Used to turn a list into a flat string. For debug purposes.
 
-#### Map Functions
+
+#### Map Functions ####
 *Reference: http://www.sitepoint.com/extra-map-functions-sass/*
 
 ##### `map-deep-set()`
@@ -131,7 +148,9 @@ Prints map into a string. Useful for debugging.
 
 ---
 
-##Photoshop Converters
+### Photoshop Converters  ###
+
+---
 
 ##### `photoshop-shadow()`, `photoshop-text-shadow()`, `photoshop-gradient-overlay()`
 ###### `[various]`
@@ -147,7 +166,9 @@ Converts Photoshop gradient-stops to CSS gradients.
 
 ---
 
-##Type Functions
+### Type Functions ###
+
+---
 
 ##### `baseline()`
 ###### `[font-size]`, `[baseline]`
@@ -174,93 +195,119 @@ function for finding the value of an indexed type-size. H1-H6, p, and small are 
 Registers new values to type map. [Property] accepts px, rem, and line-height.
 */
 /* SG
-#[[dev]]Globals/Config
+#[[dev]]Globals/Color Functions
+
+/globals/_globals.color.functions.scss
+
+##### `colors()`, `color()`
+###### Function(`$color-name`, `$tone`, `$opacity`)
+Get a color value from the global `$$colors_map` map. Darker and lighter tones are available by passing a second tone string (e.g. `background-color: colors(links, light)`).
+Passing only a color name will default to the 'base' color.
+
+[Reference](http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/)
+*/
+/* SG
+#[[dev]]Config
 
 /globals/_config.scss
 
----
-##### `$base-font-size`
+*/
+/* SG
+#[[dev]]Config/Typography Settings
+
+##### `$$base-font-size`
 ###### Pixel value
 Font size all other values will use for calculation. Will be converted to `rems`.
 
-##### `$base-line-height`
+##### `$$base-line-height`
 ###### Pixel value
 Line-height for base font-size. Will be used to determine the vertical spacing values when `type-space()` is used.
 
-##### `$auto-scale-type`
+##### `$$auto-scale-type`
 ###### Boolean
 Uses the `$scale-ratio` var to create font sizes for headings starting from the `$base-font-size`. Overwrites `$type-[h#]-size` vars.
 
-##### `$scale-ratio`
+##### `$$scale-ratio`
 ###### Numeric (float)
 Used for `$auto-scale-type` and for `modular-scale()`.
 
-##### `$[primary, secondary, monospace]-font-stack`
+##### `$$rem-px-fallback`
+###### Boolean
+Determines whether `rems()` conversion includes a pixel-value fallback for older browsers like IE8.
+
+##### `$$[primary, secondary, monospace]-font-stack`
 ###### String
 Used wherever font-families are declared.
 
-##### `$use-web-fonts`
+##### `$$use-web-fonts`
 ###### Boolean
 Whether to generate `@font-face` values based on `$font-[]` vars or not.
 
-##### `$font-file-name`
+##### `$$font-file-name`
 ###### List (string)
-Uses for `@font-face` declarations as well as pointing to the actual font file names. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf')_ See [/globals/tools/_fontface.scss](#Sass-Tools-Fontface) for more.
+Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf')_ See [/globals/tools/_fontface.scss](#Sass-Tools-Fontface) for more.
 
-##### `$font-weights`
+##### `$$font-weights`
 ###### List (nested) (string)
 Each parenthesis corresponds to each name in `$font-file-name`. Determines how many `@font-face` weights are generated per font.
 
-##### `$font-italics`
+##### `$$font-italics`
 ###### List (nested) (boolean)
 Corresponds to each value in `$font-weights`. (e.g. if `$font-weights: (400,700),(200,400)` and `$font-italics: (true), (false,true)` then the first font will have italics in the 400 and 700 weights while second font will have italics in the 400 weight).
 
-##### `$font-include-eot`
+##### `$$font-include-eot`
 ###### Boolean
 Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
+*/
+/* SG
+#[[dev]]Config/Grid Settings
 
-##### `$gutter`
+##### `$$gutter`
 ###### Pixel value
-Space between grid items.
+Space between grid items. Also used in `type-space()` for horizontal spacing units.
 
-##### `$use-silent-classes`
+##### `$$use-silent-classes`
 ###### Boolean
-If set to false, actual classes will be output to generated CSS.
+If set to false, actual grid classes will be output to CSS.
 
-##### `$push`, `$pull`
+##### `$$push`, `$$pull`
 ###### Boolean
 Determines whether to include extra grid classes for positional grid modifiers.
 
-##### `$use-markup-fix`
+##### `$$use-markup-fix`
 ###### Boolean
-If set to true, html must have comments between grid items. Almost always set to false.
+If set to `true`, html must have comments between grid items. Almost always set to `false`.
 
-##### `$use-floats`
+##### `$$use-floats`
 ###### Boolean
-If set to true, uses floats instead of inline-block
+If set to `true`, uses floats instead of inline-block.
 
 ##### `$show-baseline`
 ###### Boolean
 For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
 
+##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
+###### List (string)
+Determines what classes get generated at `$$breakpoints`. The list's order determines cascade (e.g. ).
+
+*/
+/* SG
+#[[dev]]Config/General Settings
+
 ##### `$breakpoints`
 ###### List (nested) (string)
 Sets up variables for media-queries. Used in `media-query()`.
-
-##### `$breakpoints-has-widths`, `$breakpoints-has-push`, `$breakpoints-has-pull`
-###### List (string)
-Determines what classes get generated at `$breakpoints`. List order determines cascade.
 
 ##### `$breakpoints-has-alignment-classes`, `$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
 ###### List (string)
 Same as `breakpoint-has-widths`, but for utility classes.
 
 ##### `$display-classes`
-###### Map
+###### Map (string: string)
 Variable used generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
 
 ##### `$colors`
-###### Map
+###### Map (string: color)
 Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
 
 ##### `$slick-[]-[]`
@@ -693,7 +740,7 @@ thead th {
   padding:  24px 0 0 ;
   padding:  1.5rem 0 0 ;}
 
-.tab_button, .no-js .tab_button, .no-js .tab_button + .tab_content, .box, .row > * {
+.row > *, .tab_button, .no-js .tab_button, .no-js .tab_button + .tab_content, .box {
   letter-spacing: normal;
   word-spacing: normal; }
 
@@ -719,6 +766,11 @@ thead th {
   letter-spacing: normal;
   word-spacing: normal; }
 
+.row_full {
+  margin-left: 0; }
+  .row_full > .column {
+    padding-left: 0; }
+
 .row_narrow {
   margin-left:  -16px;
   margin-left:  -1rem; }
@@ -732,7 +784,7 @@ thead th {
 .half {
   width: 50%; }
 
-.tab_side, .column {
+.column, .tab_side {
   width: 100%; }
 
 @media only screen and (max-width: 640px) {
@@ -772,6 +824,17 @@ thead th {
     width: 20%; }
   .no-js .tab_button + .tab_content {
     width: 80%; } }
+
+.wrap {
+  margin: 0 auto;
+  max-width: 1350px;
+  display: block !important;
+  float: none;
+  padding:  24px 0  ;
+  padding:  1.5rem 0  ;}
+  @media only screen and (max-width: 480px) {
+    .wrap {
+      width: 95%; } }
 
 .list_inline, .list_inline_bordered {
   margin: 0;
@@ -986,7 +1049,7 @@ input[type="submit"] {
   color: #fff; }
 
 .tab_button, .tab {
-  background-color: #b60610; }
+  background-color: #be0416; }
 
 .tab_button.active, .tab_content, .tab {
   border-color: #5894bd; }
@@ -1054,7 +1117,7 @@ Another tab example.
   padding-right:  16px;
   padding-right:  1rem;
   border-width: 1px;
-  border-color: #820001;
+  border-color: #8e0002;
   position: relative;
   z-index: 1;
   border-bottom-width: 0; }
@@ -1062,7 +1125,7 @@ Another tab example.
     margin-bottom:  -24px;
     margin-bottom:  -1.5rem; }
   .tab_button.active {
-    color: #b60610;
+    color: #be0416;
     border-bottom-color: transparent;
     z-index: 1; }
     .tab_button.active:hover {
@@ -1100,7 +1163,7 @@ Another tab example.
   border-style: solid;
   border-width: 1px; }
   .tab:not(.active):hover {
-    background-color: #8a0206; }
+    background-color: #970209; }
 
 .tab.active {
   background-color: #0d497b; }
@@ -1170,10 +1233,10 @@ Another tab example.
       background-color: transparent;
       color: #9cb6ca; }
       .tab_minimal.tab_side > .tabs .tab:not(.active):hover {
-        color: #a66f7f;
+        color: #a96e82;
         background-color: rgba(255, 255, 255, 0.5); }
     .tab_minimal.tab_side > .tabs .tab.active {
-      color: #b60610; }
+      color: #be0416; }
 
 .tab_line > .tabs .tab {
   background-color: transparent;
@@ -1194,7 +1257,7 @@ Another tab example.
 
 .tab_line > .tabs .active {
   opacity: 1 !important;
-  color: #b60610 !important;
+  color: #be0416 !important;
   border-bottom-width: 2px;
   background-color: transparent !important;
   z-index: 1; }
@@ -1350,7 +1413,7 @@ Another tab example.
 #Color Blocks
 A good way to look over your color pallete.
 
-Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate.
+Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses $$colors map.
 
 ```
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
@@ -1399,13 +1462,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     content: "#0c639a"; }
 
 .color-block:nth-child(5) {
-  background-color: #b60610;
+  background-color: #be0416;
   color: #FFF;
   padding: 2% 1% 2.5%; }
   .color-block:nth-child(5):before {
     content: "accent"; }
   .color-block:nth-child(5):after {
-    content: "#b60610"; }
+    content: "#be0416"; }
 
 .color-block:nth-child(6) {
   background-color: #d7dde5;
@@ -1458,12 +1521,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     content: "#0cadcd"; }
 
 .color-block:nth-child(12) {
-  background-color: #db515b;
+  background-color: #df4f61;
   color: #FFF; }
   .color-block:nth-child(12):before {
     content: "accent light"; }
   .color-block:nth-child(12):after {
-    content: "#db515b"; }
+    content: "#df4f61"; }
 
 .color-block:nth-child(13) {
   background-color: #ebeef2;
@@ -1514,12 +1577,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     content: "#9bc1d7"; }
 
 .color-block:nth-child(19) {
-  background-color: #e2959f;
+  background-color: #e593a2;
   color: #FFF; }
   .color-block:nth-child(19):before {
     content: "accent lighter"; }
   .color-block:nth-child(19):after {
-    content: "#e2959f"; }
+    content: "#e593a2"; }
 
 .color-block:nth-child(20) {
   background-color: #eff1f5;
@@ -1570,12 +1633,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     content: "#cedfea"; }
 
 .color-block:nth-child(26) {
-  background-color: #f0cdcf;
+  background-color: #f2ccd0;
   color: #000; }
   .color-block:nth-child(26):before {
     content: "accent lightest"; }
   .color-block:nth-child(26):after {
-    content: "#f0cdcf"; }
+    content: "#f2ccd0"; }
 
 .color-block:nth-child(27) {
   background-color: #f7f8f9;
@@ -1626,12 +1689,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     content: "#0a5482"; }
 
 .color-block:nth-child(33) {
-  background-color: #9d050e;
+  background-color: #a50313;
   color: #FFF; }
   .color-block:nth-child(33):before {
     content: "accent dark"; }
   .color-block:nth-child(33):after {
-    content: "#9d050e"; }
+    content: "#a50313"; }
 
 .color-block:nth-child(34) {
   background-color: #c8d0db;
@@ -1682,12 +1745,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     content: "#073b5d"; }
 
 .color-block:nth-child(40) {
-  background-color: #6e040a;
+  background-color: #76020d;
   color: #FFF; }
   .color-block:nth-child(40):before {
     content: "accent darker"; }
   .color-block:nth-child(40):after {
-    content: "#6e040a"; }
+    content: "#76020d"; }
 
 .color-block:nth-child(41) {
   background-color: #8f9ba8;
@@ -1738,12 +1801,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     content: "#041e2e"; }
 
 .color-block:nth-child(47) {
-  background-color: #370205;
+  background-color: #390107;
   color: #FFF; }
   .color-block:nth-child(47):before {
     content: "accent darkest"; }
   .color-block:nth-child(47):after {
-    content: "#370205"; }
+    content: "#390107"; }
 
 .color-block:nth-child(48) {
   background-color: #485561;
@@ -1782,17 +1845,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .color-block:after {
   letter-spacing: 0.1em; }
-
-.wrap {
-  margin: 0 auto;
-  max-width: 1350px;
-  display: block !important;
-  float: none;
-  padding:  24px 0  ;
-  padding:  1.5rem 0  ;}
-  @media only screen and (max-width: 480px) {
-    .wrap {
-      width: 95%; } }
 
 @media only screen and (max-width: 480px) {
   h1,
@@ -1857,9 +1909,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     font-size:  19.2px;
     font-size:  1.2rem;
     line-height: 1.25; } }
-
-.fixed_row {
-  margin-left: 0; }
 
 .icon {
   width: 1.2em;
@@ -2661,7 +2710,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-right:  64px !important;
     padding-right:  4rem !important; } }
 
-.show, .bl {
+.show {
   display: block !important; }
 
 .il {
@@ -2674,7 +2723,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   display: none !important; }
 
 @media only screen and (max-width: 640px) {
-  .smalls_show, .smalls_bl {
+  .smalls_show {
     display: block !important; }
   .smalls_il {
     display: inline !important; }
@@ -2684,23 +2733,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     display: none !important; } }
 
 @media only screen and (min-width: 641px) {
-  .bigs_show, .bigs_bl {
+  .bigs_show {
     display: block !important; }
   .bigs_il {
     display: inline !important; }
   .bigs_ibl {
     display: inline-block !important; }
   .bigs_hide {
-    display: none !important; } }
-
-@media only screen and (min-width: 941px) {
-  .desk_show, .desk_bl {
-    display: block !important; }
-  .desk_il {
-    display: inline !important; }
-  .desk_ibl {
-    display: inline-block !important; }
-  .desk_hide {
     display: none !important; } }
 
 .txt_normal {

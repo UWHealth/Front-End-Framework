@@ -1,0 +1,14 @@
+.wrap {
+	margin: 0 auto;
+	max-width: 1350px;
+	display: block !important;
+    float: none;
+	@extend %clearfix;
+	@include type-space-sc(padding, 1, 0);
+
+	@extend %bigs_nine_tenths; //90%
+	@extend %smallish_eleven_twelfths; //~92%
+	@include mq(small){
+		width: 95%;
+	}
+}

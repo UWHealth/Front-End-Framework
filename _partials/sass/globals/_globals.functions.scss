@@ -18,7 +18,11 @@
 /* SG
 #[[dev]]Globals/Functions
 
+---
+
 ###Math Functions
+
+---
 
 ##### `exponent()`
 ###### `[number-you-want-to-multiply]`, `[exponent]`
@@ -63,7 +67,10 @@ Determines the Tangent of an angle.
 
 ###Sass Helpers
 
-### Converter Functions
+---
+
+#### Converter Functions ####
+
 ##### `strip-units()`
 ###### `[value-you-want-units-removed-from]`
 Remove px,em,rem, etc. from a value. Usually a variable.
@@ -84,7 +91,8 @@ Function for calculating stripped-unit REM values. Used by rems() mixin. Overrid
 ###### `[list-you-need-converted], [list-seperator]`
 Converts a list to a string with an optional separator.
 
-### String & List Functions
+#### String & List Functions ####
+
 ##### `str-contains()`
 ###### `[string-you-need-parsed],[sub-string], [start-position]`
 Parses a string for a value (from an optional starting position).
@@ -99,9 +107,10 @@ Checks whether a list contains a value.
 
 ##### `list-print()`
 ###### `[list]`
-Used to lay out turn a list into a flat string. For debug purposes.
+Used to turn a list into a flat string. For debug purposes.
 
-#### Map Functions
+
+#### Map Functions ####
 *Reference: http://www.sitepoint.com/extra-map-functions-sass/*
 
 ##### `map-deep-set()`
@@ -138,7 +147,9 @@ Prints map into a string. Useful for debugging.
 
 ---
 
-##Photoshop Converters
+### Photoshop Converters  ###
+
+---
 
 ##### `photoshop-shadow()`, `photoshop-text-shadow()`, `photoshop-gradient-overlay()`
 ###### `[various]`
@@ -154,7 +165,9 @@ Converts Photoshop gradient-stops to CSS gradients.
 
 ---
 
-##Type Functions
+### Type Functions ###
+
+---
 
 ##### `baseline()`
 ###### `[font-size]`, `[baseline]`
@@ -197,9 +210,9 @@ $e: 2.71828182845904523536028747135266249775724709369995;
 $iter: 50;
 
 // Exponent function (for square, cubes, etc.)
-@function exponent($base, $exponent) {
+@function exponent($number, $exponent) {
 	// reset value
-	$value: $base;
+	$value: $number;
 	// positive intergers get multiplied
 	@if $exponent > 1 {
 	@for $i from 2 through $exponent {
@@ -212,10 +225,13 @@ $iter: 50;
 	@return $value;
 }
 
-//More advanced exponent function — very similar to Compass' pow() function, except all SASS-based.
-@function pow($base, $exponent, $prec: 12) {
+//More advanced exponent function — very similar to Compass' pow() function, but without the ruby dependency.
+@function pow($number, $exponent, $precision: 12) {
   // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
-	@if (floor($exponent) != $exponent) {
+	$base: $number;
+	$prec: $precision;
+
+	@if floor($exponent) != $exponent {
 		$prec2 : pow(10, $prec);
 		$exponent: round($exponent * $prec2);
 		$denominator: gcd($exponent, $prec2);
@@ -239,11 +255,11 @@ $iter: 50;
 //Greatest Common Divisor
 @function gcd($a, $b) {
   // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
-  @if ($b != 0) {
-	  @return gcd($b, $a % $b);
-  } @else {
-	  @return abs($a);
-  }
+	@if $b != 0 {
+		@return gcd($b, ($a % $b));
+	}@else {
+		@return abs($a);
+	}
 }
 
 //Least common Multiple
@@ -256,32 +272,34 @@ $iter: 50;
 	@return $result;
 }
 
-
 //Nth Root Function
-@function nth_root($num, $n: 2, $prec: 12) {
-  // From: http://rosettacode.org/wiki/Nth_root#JavaScript
+// From: http://rosettacode.org/wiki/Nth_root#JavaScript
+@function nth_root($base, $n: 2, $precision: 12) {
+	$prec: $precision;
 	$x: 1;
 
 	@for $i from 0 through $prec {
-		$x: 1 / $n * (($n - 1) * $x + ($num / pow($x, $n - 1)));
+		$x: 1 / $n * (($n - 1) * $x + ($base / pow($x, $n - 1)));
 	}
 
 	@return $x;
 }
 
 //Square Root functions
-@function sqrt($number) {
+@function sqrt($base, $precision: 12) {
 	$guess: random(20);
 	$root: $guess;
-	@for $i from 1 through $iter {
-		$root: $root - (pow($root, 2) - $number) / (2 * $root);
+
+	@for $i from 1 through $precision {
+		$root: $root - (pow($root, 2) - $base) / (2 * $root);
 	}
 	@return $root;
 }
 
 //Golden Ratio generator.
-@function golden() {
-	@return 1/2 + sqrt(5) / 2;
+@function golden($base: 1) {
+
+	@return (1/2 + sqrt(5) / 2) * $base;
 }
 
 $golden_ratio: golden();
@@ -475,12 +493,12 @@ $golden_ratio: golden();
 }
 
 //List print
-@function list-print($string, $n) {
+@function list-print($list, $depth:1) {
 	$output: '';
 
 	@if $n > 0 {
-		@for $i from 1 through $n {
-			$output: $output + $string;
+		@for $i from 1 through $depth {
+			$output: $output + $list;
 		}
 	}
 

@@ -490,7 +490,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 @if $push == true {
     // Not a particularly great selector, but the DRYest way to do things.
     @if $use-silent-classes != true{
-        [class*="push_"]{ position:relative; }
+        [class*="push_"]{ position: relative; }
     }
 
     @include push-setup();

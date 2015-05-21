@@ -1,17 +1,25 @@
 @charset "UTF-8";
 
 //----------------------------
-//NON-CSS-producing files
+// NON-CSS-producing files
 // (functionality and setup used by project)
 //-----------------------------
 
 /* SG
-#[[dev]]Main/
+#[[dev]]Main
+/main.scss
 
-Stuff about sass
-```
-<div class="whatever"></div>
-```
+Imports all Sass files in order from lowest specificity to highest.
+1. global functions
+2. global config
+3. default variables
+4. mixins and tools
+5. generic/reset styles
+6. element styles
+7. basic layout and object styles
+8. module and component styles
+9. view- and page-specific and scoped styles.
+10. utility styles, usually end in `!important`
 
 */
 
@@ -27,14 +35,14 @@ Stuff about sass
 
 
 //----------------------------
-//CSS-producing files
+// CSS-producing files
 // (after import, CSS will be written out)
 //-----------------------------
 
 //Ground-zero styles
 //(normalize and resets, * selectors)
 // !!Do not use extends here!!
-@import 'generic/import';
+@import 'base/generic/import';
 
 //Elements and un-classed selectors
 // (lowest specificity)

@@ -2,101 +2,59 @@
 //    #Global Settings
 //------------------------------------*/
 
-
 /* SG
-#[[dev]]Globals/Config
+#[[dev]]Config
 
 /globals/_config.scss
 
----
-##### `$base-font-size`
+*/
+
+/* SG
+#[[dev]]Config/Typography Settings
+
+##### `$$base-font-size`
 ###### Pixel value
 Font size all other values will use for calculation. Will be converted to `rems`.
 
-##### `$base-line-height`
+##### `$$base-line-height`
 ###### Pixel value
 Line-height for base font-size. Will be used to determine the vertical spacing values when `type-space()` is used.
 
-##### `$auto-scale-type`
+##### `$$auto-scale-type`
 ###### Boolean
 Uses the `$scale-ratio` var to create font sizes for headings starting from the `$base-font-size`. Overwrites `$type-[h#]-size` vars.
 
-##### `$scale-ratio`
+##### `$$scale-ratio`
 ###### Numeric (float)
 Used for `$auto-scale-type` and for `modular-scale()`.
 
-##### `$[primary, secondary, monospace]-font-stack`
+##### `$$rem-px-fallback`
+###### Boolean
+Determines whether `rems()` conversion includes a pixel-value fallback for older browsers like IE8.
+
+##### `$$[primary, secondary, monospace]-font-stack`
 ###### String
 Used wherever font-families are declared.
 
-##### `$use-web-fonts`
+##### `$$use-web-fonts`
 ###### Boolean
 Whether to generate `@font-face` values based on `$font-[]` vars or not.
 
-##### `$font-file-name`
+##### `$$font-file-name`
 ###### List (string)
-Uses for `@font-face` declarations as well as pointing to the actual font file names. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf')_ See [/globals/tools/_fontface.scss](#Sass-Tools-Fontface) for more.
+Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf')_ See [/globals/tools/_fontface.scss](#Sass-Tools-Fontface) for more.
 
-##### `$font-weights`
+##### `$$font-weights`
 ###### List (nested) (string)
 Each parenthesis corresponds to each name in `$font-file-name`. Determines how many `@font-face` weights are generated per font.
 
-##### `$font-italics`
+##### `$$font-italics`
 ###### List (nested) (boolean)
 Corresponds to each value in `$font-weights`. (e.g. if `$font-weights: (400,700),(200,400)` and `$font-italics: (true), (false,true)` then the first font will have italics in the 400 and 700 weights while second font will have italics in the 400 weight).
 
-##### `$font-include-eot`
+##### `$$font-include-eot`
 ###### Boolean
 Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
-
-##### `$gutter`
-###### Pixel value
-Space between grid items.
-
-##### `$use-silent-classes`
-###### Boolean
-If set to false, actual classes will be output to generated CSS.
-
-##### `$push`, `$pull`
-###### Boolean
-Determines whether to include extra grid classes for positional grid modifiers.
-
-##### `$use-markup-fix`
-###### Boolean
-If set to true, html must have comments between grid items. Almost always set to false.
-
-##### `$use-floats`
-###### Boolean
-If set to true, uses floats instead of inline-block
-
-##### `$show-baseline`
-###### Boolean
-For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
-
-##### `$breakpoints`
-###### List (nested) (string)
-Sets up variables for media-queries. Used in `media-query()`.
-
-##### `$breakpoints-has-widths`, `$breakpoints-has-push`, `$breakpoints-has-pull`
-###### List (string)
-Determines what classes get generated at `$breakpoints`. List order determines cascade.
-
-##### `$breakpoints-has-alignment-classes`, `$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
-###### List (string)
-Same as `breakpoint-has-widths`, but for utility classes.
-
-##### `$display-classes`
-###### Map
-Variable used generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
-
-##### `$colors`
-###### Map
-Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
-
-##### `$slick-[]-[]`
-Configuration for slick carousel jQuery plugin.
-Reference: https://github.com/kenwheeler/slick/#sass-variables
-
 */
 
 //Typography Settings
@@ -133,7 +91,39 @@ $type-h4-size:           ceil(modular-scale(3));
 $type-h5-size:           ceil(modular-scale(2));
 $type-h6-size:           ceil(modular-scale(1));
 
-//Grid Settings
+/* SG
+#[[dev]]Config/Grid Settings
+
+##### `$$gutter`
+###### Pixel value
+Space between grid items. Also used in `type-space()` for horizontal spacing units.
+
+##### `$$use-silent-classes`
+###### Boolean
+If set to false, actual grid classes will be output to CSS.
+
+##### `$$push`, `$$pull`
+###### Boolean
+Determines whether to include extra grid classes for positional grid modifiers.
+
+##### `$$use-markup-fix`
+###### Boolean
+If set to `true`, html must have comments between grid items. Almost always set to `false`.
+
+##### `$$use-floats`
+###### Boolean
+If set to `true`, uses floats instead of inline-block.
+
+##### `$show-baseline`
+###### Boolean
+For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
+
+##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
+###### List (string)
+Determines what classes get generated at `$$breakpoints`. The list's order determines cascade (e.g. ).
+
+*/
+
 $columns:                  13;
 $gutter:                 32px;
 $use-silent-classes:     true;
@@ -176,17 +166,41 @@ $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
+/* SG
+#[[dev]]Config/General Settings
+
+##### `$breakpoints`
+###### List (nested) (string)
+Sets up variables for media-queries. Used in `media-query()`.
+
+##### `$breakpoints-has-alignment-classes`, `$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
+###### List (string)
+Same as `breakpoint-has-widths`, but for utility classes.
+
+##### `$display-classes`
+###### Map (string: string)
+Variable used generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
+
+##### `$colors`
+###### Map (string: color)
+Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
+
+##### `$slick-[]-[]`
+Configuration for slick carousel jQuery plugin.
+Reference: https://github.com/kenwheeler/slick/#sass-variables
+
+*/
+
 //Output utilities as actual classes at which breakpoints? (false = none)
 $breakpoint-has-alignment-classes: 			('smalls', 'bigs', 'desk');
 $breakpoint-has-spacing-classes: 			('smalls', 'bigs', 'desk');
-$breakpoint-has-display-classes: 			('smalls', 'bigs', 'desk');
+$breakpoint-has-display-classes: 			('smalls', 'bigs');
 $breakpoint-has-type-classes: 				('smalls', 'bigs');
 
 //What display types (class-name: display-type) should be output?
 // If $breakpoint-has-display-classes is false, this can be ignored
 $display-classes: (
 	'show': block,
-	'bl': block,
 	'il': inline,
 	'ibl': inline-block,
 	'hide': none
@@ -216,7 +230,7 @@ $colors: (
 		base: #0c639a
 	),
 
-	accent: mix(#d40026, #AD0909, 25%),
+	accent: mix(#d40026, #AD0909, 45%),
 
 	function: #d7dde5,
 

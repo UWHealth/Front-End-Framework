@@ -1,27 +1,44 @@
-//Color map functions
-//====================================
-//Based on:
-//http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/
+//------------------------------------*\
+//    #Color Functions
+//------------------------------------*/
+
+/* SG
+#[[dev]]Globals/Color Functions
+
+/globals/_globals.color.functions.scss
+
+##### `colors()`, `color()`
+###### Function(`$color-name`, `$tone`, `$opacity`)
+Get a color value from the global `$$colors_map` map. Darker and lighter tones are available by passing a second tone string (e.g. `background-color: colors(links, light)`).
+Passing only a color name will default to the 'base' color.
+
+[Reference](http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/)
+*/
+
+
 //Darker and lighter tones are available by passing a second tone string.
 // Get a color value from our color palette. e.g.:
-//  background-color: colors(primary, light)
+//
 // If you'd prefer to just get the base color, you do not need to declare 'base',
 // just declare color([color name]). 'base' is implied.
 
 // FUNCTION: grab colors from global color map
-@function colors($color, $tone: 'base') {
+@function colors($color-name, $tone: 'base', $opacity: 1) {
 
-	@if not map-has-key($colors, $color) {
-		@warn "Key `#{$color}` not found in $colors map. Cannot compile Sass.";
-	}@else if not map-has-key(map-get($colors, $color), $tone) {
-		@warn "Tone '#{$tone}' not found in #{$color}. Cannot compile Sass.";
+	@if not map-has-key($colors, $color-name) {
+		@warn "Key `#{$color-name}` not found in $colors map. Cannot compile Sass.";
+	}@else if not map-has-key(map-get($colors, $color-name), $tone) {
+		@warn "Tone '#{$tone}' not found in #{$color-name}. Cannot compile Sass.";
 	}
 
-	@return map-get(map-get($colors, $color), $tone);
+	@if $opacity < 1 {
+		@return rgba(map-get(map-get($colors, $color-name), $tone), $opacity);
+	}
+
+	@return map-get(map-get($colors, $color-name), $tone);
 }
-// ALIASES: Same as above, but easier to type
+// ALIAS: Same as above, but easier to type
 @function color($color, $tone: 'base') 	{ @return colors($color, $tone);}
-@function clr($color, $tone: 'base') 	{ @return colors($color, $tone);}
 
 // FUNCTION: combine-colors()
 // Combines two color maps (or really any double-nested map)

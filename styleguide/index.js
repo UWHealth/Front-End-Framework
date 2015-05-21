@@ -15,8 +15,10 @@ var error = chalk.bold.red;
 var good = chalk.green;
 var info = chalk.yellow;
 var filelist = true;
+var codeStore = [];
 
 var moduleDir = path.dirname(process.mainModule.filename);
+var renderer = new marked.Renderer();
 
 var options = {
 	sgComment: 'SG',
@@ -37,12 +39,21 @@ var options = {
 	walkerOptions: {
 		followLinks: false
 	},
-	jqFile: path.join(moduleDir, '/template/jquery.js')
+	customVars: {
+		sampleVar: 'Hello from customVars!'
+	},
+	jqFile: path.join(moduleDir, '/template/jquery.js'),
+	sortSections: true,
+	markedOptions: {
+		renderer: renderer,
+		gfm: true,
+		breaks: true
+	}
 };
 
-var sgUniqueIdentifier = 'sg-markdown';
-var functionTitle = 'function';
-var functionIdentifier = sgUniqueIdentifier+functionTitle;
+var sgUniqueIdentifier = 'sg-by-emiloberg';
+var developmentTitle = 'development';
+var developmentIdentifier = sgUniqueIdentifier+developmentTitle;
 
 var args = process.argv.slice(2);
 
@@ -146,36 +157,53 @@ try {
  * Custom renderer for marked.
  * Converts headings to special main-section/sub-section classes for later placement
  */
-var renderer = new marked.Renderer();
+
 renderer.heading = function (string, number) {
 	if (number === 1) {
 		var header = string.split('/');
-		var tempIdentifier = sgUniqueIdentifier;
-			if (header[0].indexOf(options.devIdentifier) > -1){
-				tempIdentifier = functionIdentifier;
+		var sectionIdentifier = sgUniqueIdentifier;
+			if (header[0].indexOf(options.devIdentifier) > -1) {
+				sectionIdentifier = developmentIdentifier;
 			}
-			var out = '<h1 class="main-section-' + tempIdentifier + '">' + header[0] + '</h1>\n';
+			var out = '<h1 class="main-section-' + sectionIdentifier + '">' + header[0] + '</h1>\n';
 			if (header.length > 1) {
 				for (var i = 1; i < header.length; i++){
-					out += '<h1 class="sub-section-' + tempIdentifier + '">' + header[i] + '</h1>\n';
+					out += '<h1 class="sub-section-' + sectionIdentifier + '">' + header[i] + '</h1>\n';
 				}
 			} else {
-				out += '<h1 class="sub-section-' + tempIdentifier + '"></h1>\n';
+				out += '<h1 class="sub-section-' + sectionIdentifier + '"></h1>\n';
 			}
-		// console.log(out);
 		return out;
 	} else {
 		return '<h' + number + ' class="main-section-' + sgUniqueIdentifier + '" id="section-' + makeUrlSafe(string) + '">' + string + '</h' + number + '>\n';
 	}
 };
+
 renderer.code = function (text, lang) {
 	return '\n<code class="sg-code-' + sgUniqueIdentifier + '">\n' + text + '\n</code>\n';
 };
-marked.setOptions({
-	renderer: renderer,
-	gfm: true,
-	breaks: true
-});
+
+renderer.codespan = function(text){
+	var varRE = /(\$\$.+)[,\s\n]?/gi;
+	var var_check = varRE.exec(text);
+	var output = '';
+	var modifiedString = '';
+
+	// console.log(check);
+	// console.log(text);
+
+	if ( var_check !== null){
+		modifiedString = var_check[0].replace('$$', '$');
+		output = '<code class="global_variable" data-code-id="'+modifiedString+'">'+modifiedString+'</code>';
+		codeStore.push(modifiedString);
+	}else{
+		output = '<code>'+text+'</code>';
+	}
+
+	return output;
+}
+
+marked.setOptions(options.markedOptions);
 
 
 /**
@@ -199,7 +227,7 @@ walker.on("file", function (root, fileStats, next) {
 				console.dir(err);
 				process.exit(1);
 			}
-			var pattern = new RegExp('/\\* ' + options.sgComment + '([\\s\\S]*?)\\*/', 'gi');
+			var pattern = new RegExp('/\\* ?' + options.sgComment + '([\\s\\S]*?)\\*/', 'gi');
 			var regResp;
 			while ((regResp = pattern.exec(fileContent)) !== null) {
 				scssFilesContent.push(marked(regResp[1]));
@@ -234,7 +262,6 @@ function saveFile(html) {
 			console.dir(err);
 			process.exit(1);
 		}
-		// console.log(good('\n\nAll done!'));
 		console.log('Created file: ' + good(options.outputFile));
 	});
 	fs.outputFile
@@ -269,42 +296,45 @@ function convertHTMLtoJSON(html) {
 		sections: [],
 		menus: {
 			sections: [],
-			functions: []
+			developmentSections: []
 		},
-		functions: [],
-		customVars: options.customVars
+		developmentSections: [],
+		customVars: options.customVars,
+		codeRefs: codeStore
 	};
 
 	var $ = cheerio.load(html);
 
 	// Loop each section and turn into javascript object
 	$('div.sg-section-' + sgUniqueIdentifier).each(function (i, elem) {
-		var isFunction = false;
-		var tempIdentifier = sgUniqueIdentifier;
+
+		var sectionIdentifier = sgUniqueIdentifier;
 		var $section = cheerio.load($(this).html());
 		var curSectionData = {
 			id: '',
-			isFunction: false,
 			isSubsection: false,
+			isDevelopment: false,
 			section: '',
 			heading: '',
 			code: '',
+			codeLang: '',
 			markup: '',
-			comment: ''
+			comment: '',
+			globalVars: []
 		};
 
-		if($section('h1')[0].attribs.class == 'main-section-'+functionIdentifier){
-			isFunction = true;
-			tempIdentifier = functionIdentifier;
-			curSectionData.isFunction = true;
+		//Check if this section is a development section by checking class
+		if($section('h1')[0].attribs.class == 'main-section-'+developmentIdentifier){
+			sectionIdentifier = developmentIdentifier;
+			curSectionData.isDevelopment = true;
 		}
 
-		$section('h1.main-section-' + tempIdentifier).each(function (i2, elem2) {
-			console.log($section(this).text());
+
+		$section('h1.main-section-' + sectionIdentifier).each(function (i2, elem2) {
 			curSectionData.section = $section(this).text().replace(/^\s+|\s+$/g, '').replace(options.devIdentifier, '');
 		});
 
-		$section('h1.sub-section-' + tempIdentifier).each(function (i2, elem2) {
+		$section('h1.sub-section-' + sectionIdentifier).each(function (i2, elem2) {
 			if (i2 > 0){
 				curSectionData.heading += '/ ';
 			}
@@ -319,71 +349,78 @@ function convertHTMLtoJSON(html) {
 			curSectionData.code = $section(this).html().replace(/^\s+|\s+$/g, '');
 		});
 
+		$section('code.global_variable').each(function(i2, elem2){
+			curSectionData.globalVars.push($section(this).text());
+		});
+
 		curSectionData.markup = hl.highlightAuto(curSectionData.code).value;
 		curSectionData.id = makeUrlSafe(curSectionData.section  + '-' + curSectionData.heading);
-		// console.log(curSectionData.heading);
 
-		$section('h1.main-section-' + tempIdentifier).remove();
-		$section('h1.sub-section-' + tempIdentifier).remove();
+		$section('h1.main-section-' + sectionIdentifier).remove();
+		$section('h1.sub-section-' + sectionIdentifier).remove();
 		$section('code.sg-code-' + sgUniqueIdentifier).remove();
 		curSectionData.comment = $section.html().replace(/^\s+|\s+$/g, '');
 
-		if (isFunction){
-			masterData.functions.push(curSectionData);
+		if (curSectionData.isDevelopment){
+			masterData.developmentSections.push(curSectionData);
 		}else{
 			masterData.sections.push(curSectionData);
 		}
 	});
 
 
-	// Sort
-	masterData.sections.sort(function (a, b) {
-		if (a.section === b.section) {
-			if (a.heading > b.heading) {
-				return 1;
+
+	if(options.sortSections){
+		//Sort Main Sections
+		masterData.sections.sort(function (a, b) {
+			if (a.section === b.section) {
+				if (a.heading > b.heading) {
+					return 1;
+				}
+				if (a.heading < b.heading) {
+					return -1;
+				}
+				return 0;
+			} else {
+				if (a.section > b.section) {
+					return 1;
+				}
+				if (a.section < b.section) {
+					return -1;
+				}
+				return 0;
 			}
-			if (a.heading < b.heading) {
-				return -1;
+		});
+
+		//Sort Developer Sections
+		masterData.developmentSections.sort(function (a, b) {
+			if (a.section === b.section) {
+				if (a.heading > b.heading) {
+					return 1;
+				}
+				if (a.heading < b.heading) {
+					return -1;
+				}
+				return 0;
+			} else {
+				if (a.section > b.section) {
+					return 1;
+				}
+				if (a.section < b.section) {
+					return -1;
+				}
+				return 0;
 			}
-			return 0;
-		} else {
-			if (a.section > b.section) {
-				return 1;
-			}
-			if (a.section < b.section) {
-				return -1;
-			}
-			return 0;
-		}
-	});
-	masterData.functions.sort(function (a, b) {
-		if (a.section === b.section) {
-			if (a.heading > b.heading) {
-				return 1;
-			}
-			if (a.heading < b.heading) {
-				return -1;
-			}
-			return 0;
-		} else {
-			if (a.section > b.section) {
-				return 1;
-			}
-			if (a.section < b.section) {
-				return -1;
-			}
-			return 0;
-		}
-	});
+		});
+	}
 
 	// Create menu object
 	var menuObj = {};
 	var menuObj2 = {};
 	var menuArr = [];
 	var menuArr2= [];
-	//Loop through section arrays
-	// console.log(masterData.functions);
 
+	//Loop through section arrays
 	masterData.sections.forEach(function (section) {
 		if (!menuObj.hasOwnProperty(section.section)) {
 			menuObj[section.section] = [];
@@ -394,7 +431,7 @@ function convertHTMLtoJSON(html) {
 
 	});
 
-	masterData.functions.forEach(function (section) {
+	masterData.developmentSections.forEach(function (section) {
 		if (!menuObj2.hasOwnProperty(section.section)) {
 			menuObj2[section.section] = [];
 		}
@@ -413,7 +450,7 @@ function convertHTMLtoJSON(html) {
 		menuArr2.push({name: key, headings: menuObj2[key]});
 	});
 	masterData.menus.sections = menuArr;
-	masterData.menus.functions = menuArr2;
+	masterData.menus.developmentSections = menuArr2;
 
 	var json_output = options.outputFile.replace('.html', '.json');
 	var raw_json = JSON.stringify(masterData);
@@ -549,7 +586,13 @@ function removeDiacritics (str) {
 
 function makeUrlSafe(str) {
 	var ret = str || '';
-	ret = ret.replace(/ /g, '_');
+	ret = ret.toLowerCase().replace(/ /g, '_');
+	ret = ret.replace(/(\")/g,'');
+	ret = ret.replace(/(\')/g,'');
+	ret = ret.replace(/(\()(.*?)(\))/g, '$2');
+	ret = ret.replace(/(\<)(.*?)(\>)/g, '_$2_');
+	ret = ret.replace('/', '_');
+	ret = ret.replace('#', '_');
 	ret = removeDiacritics(ret);
 	return ret;
 }

@@ -2,7 +2,7 @@
 #Color Blocks
 A good way to look over your color pallete.
 
-Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate.
+Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses $$colors map.
 
 ```
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
@@ -25,75 +25,14 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 	letter-spacing: 0.1em;
 }
 
-
-// body {
-// 	background-image:
-// 		photoshop-gradient-overlay(
-// 			(color(bg, lightest), color(bg)), (0%, 100%),
-// 			90
-// 		);
-// }
-
-.wrap {
-	margin: 0 auto;
-	max-width: 1350px;
-	display: block !important;
-    float: none;
-	@extend %clearfix;
-	@include type-space-sc(padding, 1, 0);
-
-	@extend %bigs_nine_tenths; //90%
-	@extend %smallish_eleven_twelfths; //~92%
-	@include mq(small){
-		width: 95%;
-	}
-}
-
-@include mq(small){
+@include mq(small) {
 	@include headings-scale(1.17, small);
 }
-@include mq(smallish){
+
+@include mq(smallish) {
 	@include headings-scale(1.2, smallish);
 }
 
-.row_narrow{
-    @extend %grid_narrow;
-}
-.row {
-    @extend %grid;
-}
-.fixed_row {
-    margin-left: 0;
-}
-.row > *{
-	@extend %grid_reset;
-}
-
-.column{
-    @extend %grid_item;
-    @extend %one_whole;
-}
-.half{
-	@extend %one_half;
-}
-.quarter{
-	@extend %one_quarter;
-}
-.sidebar{
-    @extend %bigs_one_quarter;
-}
-.content{
-    @extend %bigs_three_quarters;
-}
-
-.add_on{
-    @extend %smallish_one_fifth;
-    @extend %bigs_one_sixth;
-}
-.wide_content{
-    @extend %smallish_four_fifths;
-    @extend %bigs_five_sixths;
-}
 .button{
     @extend %button;
 }
@@ -145,9 +84,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 	@extend %txt_small;
 	text-decoration: none;
 }
-
-//---DELETE EVERYTHING AFTER THIS---//
-//---Everything below is just for examples--//
 
 .toggles{
     position: fixed;
