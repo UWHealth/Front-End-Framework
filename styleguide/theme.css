@@ -57,7 +57,7 @@
   font-weight: normal;
 }
 
-.comment [id*="<code>"] code{
+.comment [id*="_code"] code{
     white-space: pre-wrap;
 }
 
@@ -121,6 +121,10 @@
     border-bottom: 1px solid #dfefef;
 }
 
+#styleguide-menu li:last-child {
+    border-bottom: 0;
+}
+
 .submenu_toggle {
   position: absolute;
   right: 0;
@@ -171,4 +175,11 @@
 
 #styleguide-menu a.on {
     background-color: rgba(14, 154, 181, 0.1);
+}
+
+[id*="_code_"] + .main-section-sg-by-emiloberg {
+  margin-top: -1.5rem;
+  margin-bottom: 2.25rem;
+  color: #9DC3C8;
+  font-weight: normal;
 }

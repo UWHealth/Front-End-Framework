@@ -12,41 +12,41 @@
 
 
     var default_options = {
-        wrapper: {
-            element: "section",
-            class: "tabs",
-            extra_classes: "",
-            singular_class: "tab_single"
+        "wrapper": {
+            "element": "section",
+            "class_string": "tabs",
+            "extra_classes": "",
+            "singular_class": "tab_single"
         },
-        navigation: {
-            element: "nav",
-            class: "tabs",
-            extra_classes: ""
+        "navigation": {
+            "element": "nav",
+            "class_string": "tabs",
+            "extra_classes": ""
         },
-        tabs: {
-            class: "tab",
-            active_class: "active",
-            extra_classes: '',
-            toggle: false,
-            begin: null,
-            animation: {
+        "tabs": {
+            "class_string": "tab",
+            "active_class": "active",
+            "extra_classes": '',
+            "toggle": false,
+            "begin": null,
+            "animation": {
                 easing: "easeOutCubic",
                 duration: 300
             }
         },
-        buttons: { //Accorion Buttons
-            class: "tab_button",
-            active_class: "active",
-            toggle: false,
+        "buttons": { //Accorion Buttons
+            "class_string": "tab_button",
+            "active_class": "active",
+            "toggle": false,
             begin: null,
             animation: {
                 easing: "easeInOutCubic",
                 duration: 300
             }
         },
-        content: {  //Tab panel content areas
-            class: "tab_content",
-            active_class: "tab_active"
+        "content": {  //Tab panel content areas
+            "class_string": "tab_content",
+            "active_class": "tab_active"
         }
     };
 
@@ -77,7 +77,7 @@
                 t.populate_options();
                 //Gather tab groupings
                 t.collect_tabs();
-                //Add click handlers
+                //Add click handlers and accessibility handlers
                 t.add_aria_roles();
     			t.bind_events();
                 //Completion Callback
@@ -103,10 +103,10 @@
                         for (var prop in option){
                             if (option.hasOwnProperty(prop)) {
                                 //Check for 'class' property
-                                if (prop === 'class') {
+                                if (prop === 'class_string') {
                                     //Take spaced notation and convert it to combined class strings
                                     //e.g. 'foo bar' to '.foo.bar'
-                                    new_class = option.class.replace(',', '.').replace(' ','');
+                                    new_class = option.class_string.replace(',', '.').replace(' ','');
                                     new_key = key + '_class';
                                     //Store value directly beneath the tabbed object
                                     // (above of t.options for easier typing)
@@ -128,8 +128,9 @@
                     tab_buttons = $(t.scope).find(t.buttons_class).not("[data-tabbed='true']"),
                     tabs_length = tab_buttons.length,
                     wrapper = $(document.createElement(b.wrapper.element))
-                        .addClass(b.wrapper.class)
-                        .addClass(b.wrapper.extra_classes).attr("data-tabbed", "true"),
+                            .addClass(b.wrapper.class_string)
+                            .addClass(b.wrapper.extra_classes)
+                            .attr("data-tabbed", "true"),
                     tab_groups = [],
                     tab_parents = [],
     				addons = "";
@@ -155,12 +156,13 @@
                                 //Insert wrapper before group.
                                 this_parent = wrapper.clone().insertBefore(this_group[0]);
 
-                                //Grab data-tab attributes (since they can be used as optional style alternatives)
-                                if ($this.data("tab") !== undefined) {
-                                    addons = $this.data("tab");
-                                    //Add these as classes.
-                                    this_parent.addClass(addons);
-                                }
+                                // //Grab data-tab attributes (since they can be used as optional style alternatives)
+                                // if ($this.attr("data-tabbed-options") !== undefined) {
+                                //     addons = $this.attr("data-tabbed-options");
+                                //     //Add these as classes.
+                                //     this_parent.addClass(addons);
+                                // }
+
                                 //Move the group to wrapper.
                                 this_group.appendTo(this_parent);
                             }else {
@@ -192,7 +194,7 @@
     				$this = $(this);
                     //Create Tab navigation container
                     $tab_nav = $(document.createElement(t.options.navigation.element))
-                        .addClass(t.options.navigation.class)
+                        .addClass(t.options.navigation.class_string)
                         .addClass(t.options.navigation.extra_classes)
                         .attr("role", "tablist");
                     //Select tab/accordion buttons
@@ -212,9 +214,9 @@
                                 })
                                 .clone(false)
                                 .appendTo($tab_nav)
-                                .addClass(t.options.tabs.class)
+                                .addClass(t.options.tabs.class_string)
                                 .addClass(t.options.tabs.extra_classes)
-                                .removeClass(t.options.buttons.class);
+                                .removeClass(t.options.buttons.class_string);
 
                         }
 
@@ -460,7 +462,7 @@
 
             //Check if current item is a tab or a button
             t.is_tab = function(){
-                if($(t.current_item).hasClass(t.options.tabs.class)){
+                if($(t.current_item).hasClass(t.options.tabs.class_string)){
                     return true;
                 }else {
                     return false;

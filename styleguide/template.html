@@ -25,7 +25,7 @@
     		<li>
                 {{!-Sections with Children--}}
     			{{#if headings.1.name}}
-                    <a class="submenulink" href="#" data-section="{{name}}">{{name}}</a><span class="submenu_toggle" data-toggle="[data-submenu='{{../name}}']">&#9662;</span>
+                    <a class="submenulink" href="#{{headings.0.id}}" data-section="{{../name}}">{{name}}</a><span class="submenu_toggle" data-toggle="[data-submenu='{{../name}}']">&#9662;</span>
                     <ul class="submenu" data-submenu="{{../name}}">
                     {{#each headings}}
                         {{#if name}}
@@ -38,17 +38,17 @@
     			{{/if}}
                 {{!--Sections without Children--}}
                 {{#unless headings.1.name}}
-                    <a class="sectionlink" href="{{name}}" data-section="{{name}}">{{name}}</a>
+                    <a class="sectionlink" href="#{{headings.0.id}}" data-section="{{name}}">{{name}}</a>
                 {{/unless}}
     		</li>
     	{{/each}}
     	</ul>
-        {{#if menus.functions}}
+        {{#if menus.developmentSections}}
             <ul class="space_t menu_body">
                 <li>
                     <a href="#" class="sectionlink show_all" data-section="#styleguide-dev .section">Development</a>
                 </li>
-        	{{#each menus.functions}}
+        	{{#each menus.developmentSections}}
         		<li>
                     {{!-Sections with Children--}}
         			{{#if headings.1.name}}
@@ -65,7 +65,7 @@
         			{{/if}}
                     {{!--Sections without Children--}}
                     {{#unless headings.1.name}}
-                        <a class="sectionlink" href="#" data-section="{{name}}">{{name}}</a>
+                        <a class="sectionlink" href="#{{headings.0.id}}" data-section="{{name}}">{{name}}</a>
                     {{/unless}}
         		</li>
         	{{/each}}
@@ -78,7 +78,9 @@
         {{#if sections}}
 
         <div id="styleguide-styles" class="section_container">
-            <div class="section section_starter"><h1 class="h3">Styles</h1></div>
+            <header class="section section_starter">
+                <h1 class="h3">Styles</h1>
+            </header>
         	{{#each sections}}
         		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
 
@@ -106,10 +108,12 @@
         	{{/each}}
         </div>
         {{/if}}
-        {{#if functions}}
+        {{#if developmentSections}}
         <div id="styleguide-dev" class="section_container">
-            <div class="section section_starter"><h1 class="h3">Development</h1></div>
-            {{#each functions}}
+            <header class="section section_starter">
+                <h1 class="h3">Development</h1>
+            </header>
+            {{#each developmentSections}}
         		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
 
                     <header class="comment">
@@ -139,35 +143,41 @@
     </section>
 </main>
 <!--JQuery-->
+<!--[if lte IE 8]>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<![endif]-->
+
+<!--[if gt IE 8]><!-->
 <script src="../js/vendor/jquery-2.1.0.min.js"></script>
+<!--<![endif]-->
 
-<script src="../js/plugins.js"></script>
-<script src="../js/main.js"></script>
-<script src="sticky.js"></script>
+<script type="text/javascript" src="../js/plugins.js"></script>
+<script type="text/javascript" src="../js/main.js"></script>
+<script type="text/javascript" src="sticky.js"></script>
 
+<script type="text/javascript">
+    //Tab functions
+    $(function() {
+        $("body").tabbed({
+            wrapper: {
+                element: "section",
+                "class_string": "tabbed",
+                extra_classes: ""
+            },
+            tabs: {
+                animation: {
+                    opacity: [1, 0],
+                    duration: 400
+                },
+                active_class: 'active'
+            }
+        });
 
+        $('#styleguide-menu').stick_in_parent();
+    });
 
-<script>
-   $(function() {
-       $("body").tabbed({
-           wrapper: {
-               element: "section",
-               class: "tabbed",
-               extra_classes: "tab_minimal tab_line"
-           },
-           tabs: {
-               animation: {
-                   opacity: [1, 0],
-                   duration: 400
-               },
-               active_class: 'active'
-           }
-       });
-
-       $('#styleguide-menu').stick_in_parent();
-   });
-</script>
-<script>
+    // Style Guide-specific functions
+    // Show and hide sections
     $(function() {
 
         // Show first section in Styleguide
@@ -221,9 +231,9 @@
 
     });
 </script>
-<script>
-    var output = {
-        {{#each menus.functions}}
+<!-- Handlebars JSON
+    menus = {
+        {{#each menus}}
             _{{@key}}: "{{this}}",
             {{#each this}}
                 _{{@key}}: "{{this}}",
@@ -244,7 +254,30 @@
                 {{/each}}
             {{/each}}
         {{/each}}
-    };
-</script>
+    }
+    sections = {
+        {{#each sections}}
+            _{{@key}}: "{{this}}",
+            {{#each this}}
+                _{{@key}}: "{{this}}",
+                {{#each this}}
+                    _{{@key}}: "{{this}}",
+                    {{#each this}}
+                        _{{@key}}: "{{this}}",
+                        {{#each this}}
+                            _{{@key}}: "{{this}}",
+                            {{#each this}}
+                            _{{@key}}: "{{this}}",
+                                {{#each this}}
+                                    _{{@key}}: "{{this}}",
+                                {{/each}}
+                            {{/each}}
+                        {{/each}}
+                    {{/each}}
+                {{/each}}
+            {{/each}}
+        {{/each}}
+    }
+-->
 </body>
 </html>

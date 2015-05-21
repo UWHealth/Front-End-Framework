@@ -1,6 +1,6 @@
 {
 "CodeKitInfo": "This is a CodeKit 2.x project configuration file. It is designed to sync project settings across multiple machines. MODIFYING THE CONTENTS OF THIS FILE IS A POOR LIFE DECISION. If you do so, you will likely cause CodeKit to crash. This file is not useful unless accompanied by the project that created it in CodeKit 2. This file is not backwards-compatible with CodeKit 1.x. For more information, see: http:\/\/incident57.com\/codekit",
-"creatorBuild": "18911",
+"creatorBuild": "18966",
 "files": {
 	"\/_foot.html": {
 		"fileType": 8192,
@@ -29,6 +29,17 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
+		"syntaxCheckerStyle": 0
+		},
+	"\/_partials\/js\/_jquerySelectors.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/js\/_jquerySelectors.js",
+		"outputAbbreviatedPath": "\/js\/_jquerySelectors-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
 		"syntaxCheckerStyle": 1
 		},
 	"\/_partials\/js\/_slick.js": {
@@ -40,7 +51,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
+		"syntaxCheckerStyle": 0
 		},
 	"\/_partials\/js\/_tables.js": {
 		"fileType": 64,
@@ -51,7 +62,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
+		"syntaxCheckerStyle": 0
 		},
 	"\/_partials\/js\/_tabs.js": {
 		"fileType": 64,
@@ -62,7 +73,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
+		"syntaxCheckerStyle": 0
 		},
 	"\/_partials\/js\/_toggle.js": {
 		"fileType": 64,
@@ -73,7 +84,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
+		"syntaxCheckerStyle": 0
 		},
 	"\/_partials\/js\/main.js": {
 		"fileType": 64,
@@ -84,7 +95,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
 		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
+		"syntaxCheckerStyle": 0
 		},
 	"\/_partials\/js\/plugins.js": {
 		"fileType": 64,
@@ -95,7 +106,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
 		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
+		"syntaxCheckerStyle": 0
 		},
 	"\/_partials\/js\/vendor\/jquery-2.1.0.js": {
 		"fileType": 64,
@@ -239,6 +250,134 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/base\/_type.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_type.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/base\/generic\/_generic.placeholders.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_generic.placeholders.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_generic.placeholders.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/base\/generic\/_h5bp.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_h5bp.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_h5bp.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/base\/generic\/_import.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_import.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_import.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/base\/generic\/_normalize-blocks.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_normalize-blocks.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_normalize-blocks.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/base\/generic\/_normalize-groups.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_normalize-groups.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_normalize-groups.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/base\/generic\/_normalize-type.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_normalize-type.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_normalize-type.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/base\/generic\/_normalize.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_normalize.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_normalize.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/base\/generic\/_resets.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_resets.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_resets.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -406,134 +545,6 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/generic\/_blocks.normalize.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/generic\/_blocks.normalize.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_blocks.normalize.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/generic\/_generic.placeholders.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/generic\/_generic.placeholders.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_generic.placeholders.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/generic\/_groups.normalize.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/generic\/_groups.normalize.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_groups.normalize.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/generic\/_h5bp.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/generic\/_h5bp.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_h5bp.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/generic\/_import.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/generic\/_import.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_import.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/generic\/_normalize.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/generic\/_normalize.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_normalize.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/generic\/_resets.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/generic\/_resets.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_resets.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/generic\/_type.normalize.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/generic\/_type.normalize.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_type.normalize.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
 	"\/_partials\/sass\/globals\/_config.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
@@ -582,15 +593,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/globals\/_globals.functions.colors.scss": {
+	"\/_partials\/sass\/globals\/_globals.color.functions.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/_globals.functions.colors.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_globals.functions.colors.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/_globals.color.functions.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_globals.color.functions.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -790,15 +801,31 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/layout\/_grid.scss": {
+	"\/_partials\/sass\/layout\/_general-layout.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_grid.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_grid.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_general-layout.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_general-layout.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/layout\/_grid-mixins.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_grid-mixins.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_grid-mixins.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -815,6 +842,22 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_import.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_import.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 1,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/_partials\/sass\/layout\/_widths.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 2,
+		"decimalPrecision": 7,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/_partials\/sass\/layout\/_widths.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_widths.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -1303,6 +1346,17 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
+		"syntaxCheckerStyle": 0
+		},
+	"\/js\/jquerySelectors.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/js\/jquerySelectors.js",
+		"outputAbbreviatedPath": "\/js\/jquerySelectors-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
 		"syntaxCheckerStyle": 1
 		},
 	"\/js\/main.js": {
@@ -1316,17 +1370,6 @@
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 0
 		},
-	"\/js\/main.min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/main.min.js",
-		"outputAbbreviatedPath": "\/js\/main.min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
-		},
 	"\/js\/plugins.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -1338,17 +1381,6 @@
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 0
 		},
-	"\/js\/plugins.min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/plugins.min.js",
-		"outputAbbreviatedPath": "\/js\/plugins.min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
-		},
 	"\/js\/slick.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -1358,18 +1390,7 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
-		},
-	"\/js\/sticky-min.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/sticky-min.js",
-		"outputAbbreviatedPath": "\/js\/sticky-min-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
+		"syntaxCheckerStyle": 0
 		},
 	"\/js\/tables.js": {
 		"fileType": 64,

@@ -1,3 +1,5 @@
+"use strict";
+
 //@codekit-append "_tables.js"
 //@codekit-append "_colors.js"
 //@codekit-append "_slick.js"
@@ -14,6 +16,8 @@
 //= include "_toggle.js"
 
 // Avoid `console` errors in browsers that lack a console.
+
+
 (function() {
     var method;
     var noop = function () {};
