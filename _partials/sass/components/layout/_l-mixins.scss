@@ -1,4 +1,3 @@
-
 //------------------------------------
 //    $CSSWIZARDRY-GRIDS
 //------------------------------------
@@ -101,7 +100,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 // without making full grid items
 //
 
-%grid_reset{
+%grid_reset {
 	letter-spacing: normal;
 	word-spacing: normal;
 }
@@ -489,7 +488,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
 @if $push == true {
     // Not a particularly great selector, but the DRYest way to do things.
-    @if $use-silent-classes != true{
+    @if $use-silent-classes != true {
         [class*="push_"]{ position: relative; }
     }
 

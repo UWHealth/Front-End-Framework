@@ -1,11 +1,6 @@
 //Prepend all placeholders with generic
 $generic_namespace: 'generic_';
 
-//Spacing placeholders
-@include spacing-utilities-init(
-	$namespace: $generic_namespace, $config: (important: false, silent: true)
-);
-
 @include alignment-utilities-init($namespace: $generic_namespace);
 
 @include display-utilities-init($namespace: $generic_namespace);

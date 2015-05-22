@@ -376,7 +376,7 @@
                     <header class="comment">
                         <h1 class="h4">Color Blocks</h1>
                         <p>A good way to look over your color pallete.</p>
-<p>Include a bunch of elements with <code>class=&quot;color-blocks&quot;</code>, and the css will do the rest. Requires <code>@color-palette-output()</code> to generate.</p>
+<p>Include a bunch of elements with <code>class=&quot;color-blocks&quot;</code>, and the css will do the rest. Requires <code>@color-palette-output()</code> to generate. Uses $$colors map.</p>
                     </header>
 
                         <div class="result">
@@ -742,16 +742,16 @@
                         <p>/main.scss</p>
 <p>Imports all Sass files in order from lowest specificity to highest.</p>
 <ol>
-<li>global functions</li>
-<li>global config</li>
-<li>default variables</li>
-<li>mixins and tools</li>
-<li>generic/reset styles</li>
-<li>element styles</li>
-<li>basic layout and object styles</li>
-<li>module and component styles</li>
-<li>view- and page-specific and scoped styles.</li>
-<li>utility styles, usually end in <code>!important</code></li>
+<li>(globals) global functions</li>
+<li>(globals) Settings</li>
+<li>(globals) default variables</li>
+<li>(tools) general-use mixins and sass utilities</li>
+<li>(generic) normalize/reset styles</li>
+<li>(base) element styles</li>
+<li>(layout) basic layout and object styles</li>
+<li>(components) module and component styles</li>
+<li>(Sections) view- and page-specific and scoped styles.</li>
+<li>(Overrides) utility styles, usually end in <code>!important</code></li>
 </ol>
                     </header>
 
@@ -923,7 +923,7 @@
 &amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;
 &amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;&amp;lt;&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-type&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;color-block&quot;&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span class=&quot;hljs-keyword&quot;&gt;div&lt;/span&gt;&amp;gt;",
                 _comment: "&lt;p&gt;A good way to look over your color pallete.&lt;/p&gt;
-&lt;p&gt;Include a bunch of elements with &lt;code&gt;class=&amp;quot;color-blocks&amp;quot;&lt;/code&gt;, and the css will do the rest. Requires &lt;code&gt;@color-palette-output()&lt;/code&gt; to generate.&lt;/p&gt;",
+&lt;p&gt;Include a bunch of elements with &lt;code&gt;class=&amp;quot;color-blocks&amp;quot;&lt;/code&gt;, and the css will do the rest. Requires &lt;code&gt;@color-palette-output()&lt;/code&gt; to generate. Uses $$colors map.&lt;/p&gt;",
                 _globalVars: "",
             _1: "[object Object]",
                 _id: "tabs-",

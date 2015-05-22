@@ -1,14 +1,5 @@
 //HTML 5 Boilerplate defaults
 
-hr {
-    @extend %generic_block;
-    height: 2px;
-    border: 0;
-    border-top: 2px solid color(bg, dark);
-    padding: 0;
-	@include type-space(margin, 1, 0 );
-}
-
 // Remove the gap between audio, canvas, iframes,
 // images, videos and the bottom of their containers:
 // https://github.com/h5bp/html5-boilerplate/issues/440
@@ -20,10 +11,6 @@ img,
 svg,
 video {
     vertical-align: middle;
-}
-
-textarea {
-	resize: vertical;
 }
 
 ::selection {

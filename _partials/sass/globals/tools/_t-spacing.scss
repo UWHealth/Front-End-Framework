@@ -66,12 +66,6 @@
 	$important: map-get($config, important);
 	$important-string: if($important, ' !important', '');
 
-	//Standard Space reset (always silent)
-	%#{$namespace}space_reset {
-		margin: 0;
-		padding: 0;
-	}
-
 	//Loop through base names, then amounts, then directions.
 	@each $space in $spaces {
 		@each $amount in $amounts {
@@ -92,25 +86,29 @@
 
 				//Output the space name.
 				//(e.g.: %desk_pad_t_half )
-				#{$classtype}#{$namespace}#{$space}#{$direction}#{$amount_name} {
-					//For vertical and horizontal directions,
-					// just extend previously defined directions
-					@if str-contains($direction, 'v') {
-						@extend #{$classtype}#{$namespace}#{$space}_t#{$amount_name};
-						@extend #{$classtype}#{$namespace}#{$space}_b#{$amount_name};
+				@if str-contains($layout_type, 'padding') and $amount < 0 {
+					//Don't do anything if the padding is a negative value.
+				}@else{
+					#{$classtype}#{$namespace}#{$space}#{$direction}#{$amount_name} {
+						//For vertical and horizontal directions,
+						// just extend previously defined directions
+						@if str-contains($direction, 'v') {
+							@extend #{$classtype}#{$namespace}#{$space}_t#{$amount_name};
+							@extend #{$classtype}#{$namespace}#{$space}_b#{$amount_name};
 
-					}@else if str-contains($direction, 'h') {
-						@extend #{$classtype}#{$namespace}#{$space}_r#{$amount_name};
-						@extend #{$classtype}#{$namespace}#{$space}_l#{$amount_name};
-
-					}@else {
-						@if $amount == 0 {
-							//For 0 amounts, just output a 0
-							#{$layout_type}:0#{$important-string};
+						}@else if str-contains($direction, 'h') {
+							@extend #{$classtype}#{$namespace}#{$space}_r#{$amount_name};
+							@extend #{$classtype}#{$namespace}#{$space}_l#{$amount_name};
 
 						}@else {
-							//Using type-space mixin, output the REM-based value
-							@include type-space($layout_type, $amount, $important);
+							@if $amount == 0 {
+								//For 0 amounts, just output a 0
+								#{$layout_type}:0#{$important-string};
+
+							}@else {
+								//Using type-space mixin, output the REM-based value
+								@include type-space($layout_type, $amount, $important);
+							}
 						}
 					}
 				}

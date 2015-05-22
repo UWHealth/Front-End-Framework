@@ -1,12 +1,5 @@
-.list_naked, %list_naked {
-    @include no-bullets;
-    @extend %space_l_n;
-}
-
-nav {
-    ul, ol {
-        @extend %list_naked;
-    }
+.list_naked {
+    @extend %list_naked;
 }
 
 [class*="list_bordered"] {
@@ -16,7 +9,7 @@ nav {
     > li {
         @extend %block;
         border-top: 1px solid color(bg, dark);
-        @extend %pad_v;
+        @include type-space((padding-top, padding-bottom), 1);
 		margin-top: -1px;
     }
     > li:first-child {
@@ -32,6 +25,7 @@ nav {
 
 .list_inline {
     @extend %space_reset;
+
     > li {
         display: inline-block;
         padding-left: 0;
@@ -65,16 +59,16 @@ nav {
 
 .breadcrumbs {
     @extend %pad_r;
-
-	>li a {
-		@extend %block;
-	}
 }
 
 .breadcrumb {
     display: inline-block;
     white-space: nowrap;
     @extend %pad_r_half;
+
+    a {
+        display: block;
+    }
 }
 
 .breadcrumb:after {
@@ -90,16 +84,5 @@ nav {
 	& a {
 		@extend %block;
         @include type-space(padding, .5, 0, .5);
-	}
-
-	&.list_bordered > li {
-		@extend %pad_v_n;
-	}
-
-	&.list_inline > li {
-
-		a {
-			@include type-space(padding-right, .5);
-		}
 	}
 }

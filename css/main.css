@@ -4,16 +4,16 @@
 /main.scss
 
 Imports all Sass files in order from lowest specificity to highest.
-1. global functions
-2. global config
-3. default variables
-4. mixins and tools
-5. generic/reset styles
-6. element styles
-7. basic layout and object styles
-8. module and component styles
-9. view- and page-specific and scoped styles.
-10. utility styles, usually end in `!important`
+1.  (globals) global functions
+2.  (globals) Settings
+3.  (globals) default variables
+4.  (tools) general-use mixins and sass utilities
+5.  (generic) normalize/reset styles
+6.  (base) element styles
+7.  (layout) basic layout and object styles
+8.  (components) module and component styles
+9.  (Sections) view- and page-specific and scoped styles.
+10. (Overrides) utility styles, usually end in `!important`
 
 */
 /* SG
@@ -380,11 +380,58 @@ Reference: https://github.com/kenwheeler/slick/#sass-variables
 
 /*------------------------------------*	#Generic Styles
 /*------------------------------------*/
-body {
-  margin: 0;
-  padding: 0; }
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit; }
 
-hr, article,
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  background-color: #f6f8fb; }
+
+body {
+  font-size:  16px;
+  font-size:  1rem;
+  line-height: 1.5; }
+
+html, body {
+  min-height: 100%; }
+
+abbr[title],
+dfn[title] {
+  cursor: help; }
+
+u,
+ins {
+  text-decoration: none; }
+
+ins {
+  border-bottom: 1px solid; }
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle; }
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+article,
 aside,
 details,
 figcaption,
@@ -396,7 +443,7 @@ main,
 menu,
 nav,
 section,
-summary {
+summary, hr {
   display: block; }
 
 audio,
@@ -420,66 +467,6 @@ strong {
 
 html {
   font-family: "Asap", helvetica, arial, sans-serif; }
-
-html {
-  box-sizing: border-box; }
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit; }
-
-html, body {
-  min-height: 100%; }
-
-abbr[title],
-dfn[title] {
-  cursor: help; }
-
-u,
-ins {
-  text-decoration: none; }
-
-ins {
-  border-bottom: 1px solid; }
-
-hr {
-  height: 2px;
-  border: 0;
-  border-top: 2px solid #e4eaf3;
-  padding: 0;
-  margin:  24px 0  ;
-  margin:  1.5rem 0  ;}
-
-audio,
-canvas,
-iframe,
-img,
-svg,
-video {
-  vertical-align: middle; }
-
-textarea {
-  resize: vertical; }
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none; }
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none; }
-
-html {
-  font-size: percent(1);
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  background-color: #f6f8fb; }
-
-body {
-  font-size:  16px;
-  font-size:  1rem;
-  line-height: 1.5; }
 
 audio,
 canvas,
@@ -522,17 +509,11 @@ mark {
   background: #cedae4;
   color: #082c4a; }
 
-/**
- * Address inconsistent and variable font size in all browsers.
- */
 small {
   font-size:  12.8px;
   font-size:  0.8rem;
   line-height: 1.875; }
 
-/**
- * Prevent `sub` and `sup` affecting `line-height` in all browsers.
- */
 sub,
 sup {
   font-size: 75%;
@@ -546,7 +527,43 @@ sup {
 sub {
   bottom: -0.25em; }
 
+/* Grouping content
+   ========================================================================== */
+figure {
+  margin: 0; }
+
+hr {
+  height: 2px;
+  border: 0;
+  border-top: 2px solid #e4eaf3;
+  padding: 0;
+  margin:  24px 0  ;
+  margin:  1.5rem 0  ;}
+
+pre {
+  overflow: auto; }
+
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em; }
+
 /*--Base styles--*/
+.list_inline,
+.list_inline_bordered,
+ul, ol, dd, menu, p, address, pre, blockquote, table, body {
+  margin: 0;
+  padding: 0; }
+
+nav ul, nav ol, .list_naked, [class*="list_bordered"] {
+  list-style: none; }
+  nav ul > li, nav ol > li, .list_naked > li, [class*="list_bordered"] > li {
+    list-style-image: none;
+    list-style-type: none;
+    margin-left: 0; }
+
 .visually_hidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -559,20 +576,16 @@ sub {
   -webkit-transition: all 300ms ease-in-out;
           transition: all 300ms ease-in-out; }
 
-ul, ol, dd, menu, p, address, pre, blockquote, table {
-  margin: 0;
-  padding: 0; }
-
-ul, ol, dd, menu, p, address, pre, blockquote, table, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .no-js .tab_button, .h6 {
+ul, ol, dd, menu, p, address, pre, blockquote, table, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom:  24px;
   margin-bottom:  1.5rem; }
 
-h1 + p, .h1 + p, h2 + p, .h2 + p, h3 + p, .h3 + p, h4 + p, .h4 + p, h5 + p, .h5 + p, h6 + p, .h6 + p {
+h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
   margin-top:  -24px;
   margin-top:  -1.5rem; }
 
 li > ul,
-li > ol, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .no-js .tab_button, .h6 {
+li > ol, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-top: 0; }
 
 li > ul,
@@ -662,61 +675,6 @@ q {
     display: inline-block;
     text-indent: -0.22em; }
 
-button,
-input {
-  line-height: normal; }
-
-input[type="submit"],
-input[type="button"],
-input[type="image"],
-input[type="reset"],
-select {
-  border-radius: 0; }
-
-input[type="checkbox"],
-input[type="radio"] {
-  box-sizing: border-box;
-  padding: 0;
-  *height: 13px;
-  *width: 13px; }
-
-button[disabled],
-input[disabled],
-.disabled {
-  cursor: default !important; }
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  height: auto; }
-
-input[type="search"] {
-  -webkit-appearance: textfield;
-  appearance: none;
-  box-sizing: border-box; }
-
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none; }
-
-button::-moz-focus-inner,
-input::-moz-focus-inner {
-  border: 0;
-  padding: 0; }
-
-textarea {
-  overflow: auto;
-  vertical-align: top;
-  resize: vertical; }
-
-legend {
-  display: table;
-  white-space: normal; }
-
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0; }
-
 table {
   width: 100%;
   background-color: transparent;
@@ -740,7 +698,66 @@ thead th {
   padding:  24px 0 0 ;
   padding:  1.5rem 0 0 ;}
 
-.row > *, .tab_button, .no-js .tab_button, .no-js .tab_button + .tab_content, .box {
+textarea {
+  overflow: auto;
+  vertical-align: top;
+  resize: vertical; }
+
+legend {
+  display: table;
+  white-space: normal; }
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+button,
+input {
+  line-height: normal; }
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0; }
+
+select,
+input[type="submit"],
+input[type="button"],
+input[type="image"],
+input[type="reset"] {
+  -moz-border-radius: 0;
+       border-radius: 0; }
+
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 0;
+  *height: 13px;
+  *width: 13px; }
+
+button[disabled],
+input[disabled] {
+  cursor: default !important; }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto; }
+
+input[type="search"] {
+  -webkit-appearance: textfield;
+  appearance: none;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none; }
+
+.row > *, .tab_button, .box {
   letter-spacing: normal;
   word-spacing: normal; }
 
@@ -784,14 +801,8 @@ thead th {
 .half {
   width: 50%; }
 
-.column, .tab_side {
+.column {
   width: 100%; }
-
-@media only screen and (max-width: 640px) {
-  .tab_side > .tabs {
-    width: 25%; }
-  .no-js .tab_button {
-    width: 100%; } }
 
 @media only screen and (min-width: 481px) and (max-width: 640px) {
   .wrap {
@@ -813,18 +824,6 @@ thead th {
   .content {
     width: 75%; } }
 
-@media only screen and (min-width: 641px) and (max-width: 940px) {
-  .tab_side > .tabs {
-    width: 20%; } }
-
-@media only screen and (min-width: 941px) {
-  .tab_side > .tabs {
-    width: 16.66667%; }
-  .no-js .tab_button {
-    width: 20%; }
-  .no-js .tab_button + .tab_content {
-    width: 80%; } }
-
 .wrap {
   margin: 0 auto;
   max-width: 1350px;
@@ -836,21 +835,9 @@ thead th {
     .wrap {
       width: 95%; } }
 
-.list_inline, .list_inline_bordered {
-  margin: 0;
-  padding: 0; }
-
 .tab_content, .box {
   padding:  24px;
   padding:  1.5rem; }
-
-[class*="list_bordered"] > li {
-  padding-top:  24px;
-  padding-top:  1.5rem; }
-
-[class*="list_bordered"] > li {
-  padding-bottom:  24px;
-  padding-bottom:  1.5rem; }
 
 .breadcrumbs {
   padding-right:  32px;
@@ -876,14 +863,8 @@ thead th {
   padding-right:  16px;
   padding-right:  1rem; }
 
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .no-js .tab_button, .h6 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   padding: 0; }
-
-.list_nav.list_bordered > li {
-  padding-top: 0; }
-
-.list_nav.list_bordered > li {
-  padding-bottom: 0; }
 
 .box_open {
   padding-left: 0; }
@@ -891,11 +872,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .no-js .tab_button, .h6 {
 .box_open {
   padding-right: 0; }
 
-table, [class*="list_bordered"], .tab_side {
+table, [class*="list_bordered"] {
   margin-top:  24px;
   margin-top:  1.5rem; }
 
-table, [class*="list_bordered"], .tab_side, .tabbed, .box {
+table, [class*="list_bordered"], .tabbed, .box {
   margin-bottom:  24px;
   margin-bottom:  1.5rem; }
 
@@ -903,13 +884,10 @@ ul, ol, dd, menu, blockquote {
   margin-left:  32px;
   margin-left:  2rem; }
 
-.list_naked, nav ul, nav ol, [class*="list_bordered"], .list_nav {
+nav ul, nav ol, .list_naked, [class*="list_bordered"], .list_nav {
   margin-left: 0; }
 
 @media only screen and (max-width: 640px) {
-  .table_responsive thead + tbody td:first-child {
-    padding-top:  12px;
-    padding-top:  0.75rem; }
   .tab_content {
     padding-left:  16px;
     padding-left:  1rem; }
@@ -917,20 +895,14 @@ ul, ol, dd, menu, blockquote {
     padding-right:  16px;
     padding-right:  1rem; } }
 
-[class*="list_bordered"] > li, .breadcrumbs > li a, .list_nav a, .tab_content, .tab_side > .tabs .tab {
+[class*="list_bordered"] > li, .list_nav a, .tab_content {
   display: block; }
 
 @media only screen and (max-width: 640px) {
-  .tab_accordion > .tab_button {
-    display: block; }
   .tab_accordion > .tabs {
     display: none; } }
 
-@media only screen and (min-width: 941px) {
-  .js .tabbed.tab_accordion > .tab_button {
-    display: none; } }
-
-th, .button, .tab_button:not(.active):hover, .table_responsive thead + tbody td:before, .tab, .list_nav a {
+th, .button, .table_responsive thead + tbody td:before, .tab, .list_nav a {
   font-weight: 700 ;
   -webkit-font-smoothing: antialiased; }
 
@@ -947,23 +919,30 @@ th, .button, .tab_button:not(.active):hover, .table_responsive thead + tbody td:
       -ms-user-select: none;
           user-select: none;
   display: inline-block;
-  border-radius: 2px;
+  -moz-border-radius: 2px;
+       border-radius: 2px;
   text-decoration: none;
   text-align: center;
   background-color: #0c639a;
-  box-shadow: inset 0 2px #18c8ff;
+  -webkit-box-shadow: inset 0 2px #18c8ff;
+     -moz-box-shadow: inset 0 2px #18c8ff;
+          box-shadow: inset 0 2px #18c8ff;
   border-bottom: 0px;
   color: #ebfbff; }
   .button:hover, .button:focus {
     color: #dff4fb;
     background-color: #0e72b2;
-    box-shadow: inset 0 2px 1px #4bd4ff; }
+    -webkit-box-shadow: inset 0 2px 1px #4bd4ff;
+       -moz-box-shadow: inset 0 2px 1px #4bd4ff;
+            box-shadow: inset 0 2px 1px #4bd4ff; }
   .button:active, .active.button {
     position: relative;
     top: 1px;
     color: #bed9e6;
     background-color: #0a5482;
-    box-shadow: inset 0 -2px 0px #0d72a9;
+    -webkit-box-shadow: inset 0 -2px 0px #0d72a9;
+       -moz-box-shadow: inset 0 -2px 0px #0d72a9;
+            box-shadow: inset 0 -2px 0px #0d72a9;
     border-color: #0d69a3; }
   .button::-moz-selection {
     background: transparent; }
@@ -981,15 +960,12 @@ input[type="submit"] {
   cursor: pointer;
   *overflow: visible; }
 
-.list_naked, nav ul, nav ol, [class*="list_bordered"] {
-  list-style: none; }
-  .list_naked > li, nav ul > li, nav ol > li, [class*="list_bordered"] > li {
-    list-style-image: none;
-    list-style-type: none;
-    margin-left: 0; }
-
 [class*="list_bordered"] > li {
   border-top: 1px solid #e4eaf3;
+  padding-top:  24px;
+  padding-top:  1.5rem;
+  padding-bottom:  24px;
+  padding-bottom:  1.5rem;
   margin-top: -1px; }
 
 [class*="list_bordered"] > li:first-child {
@@ -1027,6 +1003,8 @@ input[type="submit"] {
 .breadcrumb {
   display: inline-block;
   white-space: nowrap; }
+  .breadcrumb a {
+    display: block; }
 
 .breadcrumb:after {
   content: "\25B8";
@@ -1041,11 +1019,8 @@ input[type="submit"] {
   .list_nav a {
     padding:  12px 0  ;
     padding:  0.75rem 0  ;}
-  .list_nav.list_inline > li a {
-    padding-right:  16px;
-    padding-right:  1rem; }
 
-.tab_button, .tab, .tab:not(.active):hover {
+.tab_button, .tab, .tab:hover {
   color: #fff; }
 
 .tab_button, .tab {
@@ -1056,9 +1031,6 @@ input[type="submit"] {
 
 .tab_button.active, .tab_content {
   background-color: #fff; }
-
-.tab_line > .tabs .tab:hover, .tab_line > .tabs .active, .tab_topline > .tabs .active {
-  border-color: currentColor; }
 
 /* SG
 # Tabs/
@@ -1134,14 +1106,16 @@ Another tab example.
 .tab_content {
   border-width: 1px;
   border-style: solid;
-  border-radius: 0 2px 2px 2px;
+  -moz-border-radius: 0 2px 2px 2px;
+       border-radius: 0 2px 2px 2px;
   position: relative;
   z-index: 0; }
   .tab_content > :last-child {
     margin-bottom: 0; }
 
 .tabs + .tab_button {
-  border-radius: 2px 2px 0 0; }
+  -moz-border-radius: 2px 2px 0 0;
+       border-radius: 2px 2px 0 0; }
 
 .tabs {
   position: relative; }
@@ -1156,144 +1130,18 @@ Another tab example.
   text-align: center;
   text-decoration: none;
   border-bottom-color: transparent;
-  border-radius: 2px 2px 0 0;
+  -moz-border-radius: 2px 2px 0 0;
+       border-radius: 2px 2px 0 0;
   cursor: pointer;
   -webkit-transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
           transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
   border-style: solid;
   border-width: 1px; }
-  .tab:not(.active):hover {
+  .tab:hover {
     background-color: #970209; }
 
 .tab.active {
   background-color: #0d497b; }
-
-.tab_accordion > .tabs + .tab_button {
-  border-radius: 2px 2px 0 0; }
-
-@media only screen and (max-width: 640px) {
-  .js .tabbed.tab_accordion > .tab_content {
-    border: 1px solid #5894bd;
-    background-color: #fff;
-    margin-left: 0; } }
-
-.tab_content > .tabbed > .tabs, .tab_content > .tabbed > .tab_content, .tab_content > .tabbed > .tab_button {
-  margin-left: -1px; }
-
-.no-js .tab_button {
-  display: inline-block;
-  margin-top:  24px;
-  margin-top:  1.5rem;
-  text-decoration: none;
-  margin-right:  32px;
-  margin-right:  2rem; }
-  .no-js .tab_button + .tab_content {
-    display: inline-block;
-    margin-top:  24px;
-    margin-top:  1.5rem;
-    padding-left: 0; }
-
-.tab_side {
-  display: table; }
-
-.tab_side > .tabs {
-  display: table-cell;
-  vertical-align: top; }
-  .tab_side > .tabs .tab {
-    top: 0;
-    margin-bottom: 2px;
-    width: 100%;
-    text-align: left;
-    text-indent:  -8px;
-    text-indent:  -0.5rem;
-    border-radius: 2px 0 0 2px;
-    border-bottom-color: #5894bd; }
-  .tab_side > .tabs .active {
-    border-right-color: transparent;
-    border-bottom-color: #5894bd; }
-
-.tab_side > .tab_content {
-  margin-left: -1px; }
-
-.tab_minimal > .tab_content {
-  border-left-width: 0;
-  border-right-width: 0;
-  border-bottom-width: 0; }
-
-.tab_minimal.tab_side > .tab_content {
-  border-left-width: 0px;
-  border-top-width: 0; }
-
-.tab_minimal.tab_side > .tabs {
-  padding:  24px 0  ;
-  padding:  1.5rem 0  ;}
-  .tab_minimal.tab_side > .tabs .tab {
-    border-width: 0px; }
-    .tab_minimal.tab_side > .tabs .tab:not(.active) {
-      background-color: transparent;
-      color: #9cb6ca; }
-      .tab_minimal.tab_side > .tabs .tab:not(.active):hover {
-        color: #a96e82;
-        background-color: rgba(255, 255, 255, 0.5); }
-    .tab_minimal.tab_side > .tabs .tab.active {
-      color: #be0416; }
-
-.tab_line > .tabs .tab {
-  background-color: transparent;
-  border-width: 0;
-  margin-right: 0;
-  top: 1px;
-  margin-top: -2px;
-  border-bottom-width: 2px;
-  color: #9cb6ca;
-  text-indent:  -8px;
-  text-indent:  -0.5rem;
-  border-radius: 0; }
-  .tab_line > .tabs .tab:hover {
-    color: #366a96;
-    background-color: rgba(255, 255, 255, 0.5);
-    position: relative;
-    z-index: 2; }
-
-.tab_line > .tabs .active {
-  opacity: 1 !important;
-  color: #be0416 !important;
-  border-bottom-width: 2px;
-  background-color: transparent !important;
-  z-index: 1; }
-
-.tab_line.tab_minimal > .tab_content {
-  padding-right:  16px;
-  padding-right:  1rem;
-  padding-left:  16px;
-  padding-left:  1rem;
-  background-color: transparent;
-  border-top-width: 2px;
-  border-top-color: #abc9de;
-  margin-top: -1px; }
-
-.tab_topline > .tabs {
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 2px 2px 0 0; }
-  .tab_topline > .tabs .tab {
-    text-indent: 0px;
-    padding-right:  32px;
-    padding-right:  2rem; }
-  .tab_topline > .tabs .active {
-    border-top-width: 2px;
-    border-bottom-color: transparent;
-    background-color: #fff !important; }
-    .tab_topline > .tabs .active:hover {
-      border-bottom-color: transparent; }
-
-.tab_topline > .tab_content {
-  background-color: #fff !important; }
-
-.ie8 .tab_line > .tabs .tab:hover {
-  background-color: #fff; }
-
-.ie8 .tab_button:hover {
-  color: #f2f2f2; }
 
 .table_fixed {
   table-layout: fixed; }
@@ -1309,21 +1157,6 @@ Another tab example.
 
 .table_striped tr:nth-child(odd) td {
   background-color: #e4eaf3; }
-
-@media only screen and (max-width: 640px) {
-  .table_responsive {
-    margin-top:  24px;
-    margin-top:  1.5rem; }
-    .table_responsive thead th {
-      display: none; }
-    .table_responsive thead + tbody td {
-      display: block;
-      border-bottom: 0;
-      padding-top: 0; }
-      .table_responsive thead + tbody td:first-child {
-        border-top-width: 1px; }
-      .table_responsive thead + tbody td:before {
-        display: inline; } }
 
 .box > :last-child {
   margin-bottom: 0; }
@@ -1404,7 +1237,7 @@ Another tab example.
   font-size:  1.5625rem;
   line-height: 1.44; }
 
-.no-js .tab_button, .h6 {
+.h6 {
   font-size:  20px;
   font-size:  1.25rem;
   line-height: 1.8; }
@@ -1930,7 +1763,9 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   background-color: #e3f1fa; }
 
 .tab_minimal > .tab_content {
-  box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1); }
+  -webkit-box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
+     -moz-box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
+          box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1); }
 
 [class*="list_bordered"] > li {
   border-top-width: 2px;
@@ -1952,7 +1787,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 5px 10px;
-  border-radius: 0px 0px 0px 3px; }
+  -moz-border-radius: 0px 0px 0px 3px;
+       border-radius: 0px 0px 0px 3px; }
 
 .editor_content ul {
   list-style: bulleted;
@@ -1990,8 +1826,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     content: " "; }
   .wrap:after, .clearfix:after, .tabbed:after, .tab_content:after, .box:after, .media_block:after {
     clear: both;
-    height: 0px;
-    width: 0px; }
+    height: 0;
+    width: 0; }
 
 .align_left {
   float: left !important;
@@ -2089,10 +1925,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     float: right !important; }
   .desk_float_none {
     float: none !important; } }
-
-.list_inline, .list_inline_bordered {
-  margin: 0;
-  padding: 0; }
 
 .space_n {
   margin: 0 !important; }
@@ -2244,26 +2076,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   padding-right:  16px !important;
   padding-right:  1rem !important; }
 
-.pad_neg {
-  padding:  -24px !important;
-  padding:  -1.5rem !important; }
-
-.pad_t_neg, .pad_v_neg {
-  padding-top:  -24px !important;
-  padding-top:  -1.5rem !important; }
-
-.pad_l_neg, .pad_h_neg {
-  padding-left:  -32px !important;
-  padding-left:  -2rem !important; }
-
-.pad_b_neg, .pad_v_neg {
-  padding-bottom:  -24px !important;
-  padding-bottom:  -1.5rem !important; }
-
-.pad_r_neg, .pad_h_neg {
-  padding-right:  -32px !important;
-  padding-right:  -2rem !important; }
-
 .pad_2 {
   padding:  48px !important;
   padding:  3rem !important; }
@@ -2395,21 +2207,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .smalls_pad_r_half, .smalls_pad_h_half {
     padding-right:  16px !important;
     padding-right:  1rem !important; }
-  .smalls_pad_neg {
-    padding:  -24px !important;
-    padding:  -1.5rem !important; }
-  .smalls_pad_t_neg, .smalls_pad_v_neg {
-    padding-top:  -24px !important;
-    padding-top:  -1.5rem !important; }
-  .smalls_pad_l_neg, .smalls_pad_h_neg {
-    padding-left:  -32px !important;
-    padding-left:  -2rem !important; }
-  .smalls_pad_b_neg, .smalls_pad_v_neg {
-    padding-bottom:  -24px !important;
-    padding-bottom:  -1.5rem !important; }
-  .smalls_pad_r_neg, .smalls_pad_h_neg {
-    padding-right:  -32px !important;
-    padding-right:  -2rem !important; }
   .smalls_pad_2 {
     padding:  48px !important;
     padding:  3rem !important; }
@@ -2537,21 +2334,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .bigs_pad_r_half, .bigs_pad_h_half {
     padding-right:  16px !important;
     padding-right:  1rem !important; }
-  .bigs_pad_neg {
-    padding:  -24px !important;
-    padding:  -1.5rem !important; }
-  .bigs_pad_t_neg, .bigs_pad_v_neg {
-    padding-top:  -24px !important;
-    padding-top:  -1.5rem !important; }
-  .bigs_pad_l_neg, .bigs_pad_h_neg {
-    padding-left:  -32px !important;
-    padding-left:  -2rem !important; }
-  .bigs_pad_b_neg, .bigs_pad_v_neg {
-    padding-bottom:  -24px !important;
-    padding-bottom:  -1.5rem !important; }
-  .bigs_pad_r_neg, .bigs_pad_h_neg {
-    padding-right:  -32px !important;
-    padding-right:  -2rem !important; }
   .bigs_pad_2 {
     padding:  48px !important;
     padding:  3rem !important; }
@@ -2679,21 +2461,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .desk_pad_r_half, .desk_pad_h_half {
     padding-right:  16px !important;
     padding-right:  1rem !important; }
-  .desk_pad_neg {
-    padding:  -24px !important;
-    padding:  -1.5rem !important; }
-  .desk_pad_t_neg, .desk_pad_v_neg {
-    padding-top:  -24px !important;
-    padding-top:  -1.5rem !important; }
-  .desk_pad_l_neg, .desk_pad_h_neg {
-    padding-left:  -32px !important;
-    padding-left:  -2rem !important; }
-  .desk_pad_b_neg, .desk_pad_v_neg {
-    padding-bottom:  -24px !important;
-    padding-bottom:  -1.5rem !important; }
-  .desk_pad_r_neg, .desk_pad_h_neg {
-    padding-right:  -32px !important;
-    padding-right:  -2rem !important; }
   .desk_pad_2 {
     padding:  48px !important;
     padding:  3rem !important; }

@@ -1,0 +1,43 @@
+/* Grouping content
+   ========================================================================== */
+
+// /**
+//  * Address margin not present in IE 8/9 and Safari.
+//  */
+
+figure {
+	margin: 0;
+}
+
+// /**
+//  * Address differences between Firefox and other browsers.
+//  */
+
+hr {
+    @extend %generic_block;
+    height: 2px;
+    border: 0;
+    border-top: 2px solid color(bg, dark);
+    padding: 0;
+	@include type-space(margin, 1, 0 );
+}
+
+// /**
+//  * Contain overflow in all browsers.
+//  */
+
+pre {
+	overflow: auto;
+}
+
+// /**
+//  * Address odd `em`-unit font size rendering in all browsers.
+//  */
+
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace, monospace;
+	font-size: 1em;
+}

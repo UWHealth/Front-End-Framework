@@ -81,17 +81,17 @@ mark {
 	color: color(links, darker);
 }
 
-/**
- * Address inconsistent and variable font size in all browsers.
- */
+// /**
+//  * Address inconsistent and variable font size in all browsers.
+//  */
 
 small {
 	@include type-font-size(modular-scale(-1), true);
 }
 
-/**
- * Prevent `sub` and `sup` affecting `line-height` in all browsers.
- */
+// /**
+//  * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+//  */
 
 sub,
 sup {

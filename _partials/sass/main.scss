@@ -10,28 +10,28 @@
 /main.scss
 
 Imports all Sass files in order from lowest specificity to highest.
-1. global functions
-2. global config
-3. default variables
-4. mixins and tools
-5. generic/reset styles
-6. element styles
-7. basic layout and object styles
-8. module and component styles
-9. view- and page-specific and scoped styles.
-10. utility styles, usually end in `!important`
+1.  (globals) global functions
+2.  (globals) Settings
+3.  (globals) default variables
+4.  (tools) general-use mixins and sass utilities
+5.  (generic) normalize/reset styles
+6.  (base) element styles
+7.  (layout) basic layout and object styles
+8.  (components) module and component styles
+9.  (Sections) view- and page-specific and scoped styles.
+10. (Overrides) utility styles, usually end in `!important`
 
 */
 
 //Global functions and variables
-@import 'globals/import';
+@import 'globals/gl-import';
 
 //Settings/Default variables
 @import 'globals/config';
-@import 'globals/defaults';
+@import 'globals/gl-defaults';
 
 //Utility placeholder classes and mixins
-@import 'globals/tools/import';
+@import 'globals/tools/t-import';
 
 
 //----------------------------
@@ -42,24 +42,24 @@ Imports all Sass files in order from lowest specificity to highest.
 //Ground-zero styles
 //(normalize and resets, * selectors)
 // !!Do not use extends here!!
-@import 'base/generic/import';
+@import 'base/generic/g-import';
 
 //Elements and un-classed selectors
 // (lowest specificity)
-@import 'base/import';
+@import 'base/b-import';
 
 //Grids, alignment and higher-level classes
 // (+1 specificity)
-@import 'layout/import';
+@import 'components/layout/l-import';
 
 //OOCSS styles and base-level classes
 // (+1 specificity)
-@import 'components/import';
+@import 'components/c-import';
 
 //Section-specific and theme-/skin-based styles
 //(+2-4 specificity)
-@import 'sections/import';
+@import 'sections/s-import';
 
 //High-specificity css and overrides classes (usually have !important).
 // Typically single-use classes
-@import 'overrides/import';
+@import 'overrides/ov-import';

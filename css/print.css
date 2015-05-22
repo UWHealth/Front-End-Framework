@@ -1,7 +1,9 @@
 * {
   background: transparent !important;
   color: #000 !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+     -moz-box-shadow: none !important;
+          box-shadow: none !important;
   text-shadow: none !important; }
 
 a,

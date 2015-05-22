@@ -1,6 +1,29 @@
 //FROM Normalize
 //
 
+// 1. Remove default vertical scrollbar in IE 6/7/8/9.
+// 2. Improve readability and alignment in all browsers.
+// 3. Constrain resizing to vertical to prevent layout breaks
+textarea {
+    overflow: auto; // 1
+    vertical-align: top; // 2
+    resize: vertical; //3
+}
+
+// 1. Enable line-wrapping in IE8+.
+// 2. Enable line-wrapping in old versions of some other browsers.
+legend {
+	display: table; // [1]
+	white-space: normal; // [2]
+}
+
+// Remove default fieldset styles.
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
 //
 // Address Firefox 4+ setting `line-height` on `input` using `!important` in
 // the UA stylesheet.
@@ -9,14 +32,21 @@ input {
     line-height: normal;
 }
 
+// Remove inner padding and border in Firefox 3+.
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
 // Remove rounded corners that iOS applies to all `input` buttons, see:
 // https://github.com/necolas/normalize.css/issues/178. And certain browsers
 //  e.g. Chrome, apply rounded corners to `select` lists
+select,
 input[type="submit"],
 input[type="button"],
 input[type="image"],
-input[type="reset"],
-select {
+input[type="reset"] {
 	border-radius: 0;
 }
 
@@ -34,8 +64,7 @@ input[type="radio"] {
 
 // Re-set default cursor for disabled elements.
 button[disabled],
-input[disabled],
-.disabled{
+input[disabled]{
 	cursor: default !important;
 }
 
@@ -65,33 +94,4 @@ input[type="search"] {
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
 	-webkit-appearance: none;
-}
-
-// Remove inner padding and border in Firefox 3+.
-button::-moz-focus-inner,
-input::-moz-focus-inner {
-	border: 0;
-	padding: 0;
-}
-
-// 1. Remove default vertical scrollbar in IE 6/7/8/9.
-// 2. Improve readability and alignment in all browsers.
-textarea {
-    overflow: auto; // 1
-    vertical-align: top; // 2
-    resize: vertical;
-}
-
-// 1. Enable line-wrapping in IE8+.
-// 2. Enable line-wrapping in old versions of some other browsers.
-legend {
-	display: table; // [1]
-	white-space: normal; // [2]
-}
-
-// Remove default fieldset styles.
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
 }
