@@ -316,7 +316,6 @@
     .hljs-preprocessor,
     .hljs-pragma,
     .hljs-built_in,
-    .hljs-javadoc,
     .smalltalk .hljs-class,
     .smalltalk .hljs-localvars,
     .smalltalk .hljs-array,
@@ -409,7 +408,15 @@
                         <a class="sectionlink" href="#main_-" data-section="Main ">Main </a>
         		</li>
         		<li>
-                        <a class="sectionlink" href="#tools-type_utilities_" data-section="Tools">Tools</a>
+                        <a class="submenulink" href="#" data-section="Tools">Tools</a><span class="submenu_toggle" data-toggle="[data-submenu='Tools']">&#9662;</span>
+                        <ul class="submenu" data-submenu="Tools">
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-alignment_utilities_">Alignment Utilities </a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-spacing_utilities_">Spacing Utilities </a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-type_utilities_">Type Utilities </a></li>
+                        </ul>
+        		</li>
+        		<li>
+                        <a class="sectionlink" href="#variables_-" data-section="Variables ">Variables </a>
         		</li>
         	</ul>
 
@@ -791,9 +798,27 @@
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$map1__code__,__code_$map2_/code_">function(<code>$map1</code> , <code>$map2</code>)</h6>
 <p>Specialized function used by <code id="generate_color_variations()" class="global global_function" data-code-id="generate_color_variations()">generate_color_variations()</code> to merge two color maps.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=generate_color_varations_class=global_global_function_data-code-id=generate_color_varations_generate_color_varations__code_"><code id="generate_color_varations()" class="global global_function" data-code-id="generate_color_varations()">generate_color_varations()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$map:_$colors__code_,__code_$functions:_(tint,_tint,_tint,_shade,_shade,_shade_/code_,______________code_$increments:20%,_40%,_80%,_20%,_40%,_80%_/code_,__code_$variations:_light,_lighter,_lightest,_dark,_darker,_darkest_/code_,__code_$blending-colors:_null_/code_)">function(<code>$map: $colors</code>, <code>$functions: (tint, tint, tint, shade, shade, shade)</code>,             <code>$increments:(20%, 40%, 80%, 20%, 40%, 80%)</code>, <code>$variations: (light, lighter, lightest, dark, darker, darkest)</code>, <code>$blending-colors: null</code>)</h6>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$map:_$colors__code_,__code_$functions:_(tint,_tint,_tint,_shade,_shade,_shade_/code_,_____code_$increments:20%,_40%,_80%,_20%,_40%,_80%_/code_,__code_$variations:_light,_lighter,_lightest,_dark,_darker,_darkest_/code_,__code_$blending-colors:_null_/code_)">function(<code>$map: $colors</code>, <code>$functions: (tint, tint, tint, shade, shade, shade)</code>,    <code>$increments:(20%, 40%, 80%, 20%, 40%, 80%)</code>, <code>$variations: (light, lighter, lightest, dark, darker, darkest)</code>, <code>$blending-colors: null</code>)</h6>
 <p>Takes base color values and generates a full color palette. Used by the <code id="$colors" class="global global_variable" data-code-id="$colors">$colors</code> map to create a project&apos;s palette, accessible via <code id="colors()" class="global global_function" data-code-id="colors()">colors()</code>.</p>
-<p><strong>Arguments:</strong><br><code>$map</code>: Color map you want to create variations of.<br><code>$functions</code>: color functions used to generate variations (e.g. lighten or darken). Can use any <code id="blend-()" class="global global_function" data-code-id="blend-()">blend-()</code> function as well, provided <code>$blending-colors</code> are provided.<br><code>$</code></p>
+<p><strong>Arguments:</strong><br><code>$map</code>: Color map you want to create variations of.<br><code>$functions</code>: color functions used to generate variations (e.g. lighten or darken). Can use any <code id="blend-()" class="global global_function" data-code-id="blend-()">blend-()</code> function as well, provided <code>$blending-colors</code> are provided.<br><code>$increments</code>: percentage amount to apply <code>$function</code> to each <code>$variations</code>.<br><code>$variations</code>: actual names for each color tone when <code id="colors()" class="global global_function" data-code-id="colors()">colors()</code> used.<br><code>$blending-colors</code>: used when a function is a <code id="blend-()" class="global global_function" data-code-id="blend-()">blend-()</code>. Can be a list or a single color.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=black-or-white_class=global_global_function_data-code-id=black-or-white_black-or-white__code_,__code_id=set-text-color_class=global_global_function_data-code-id=set-text-color_set-text-color_/code_"><code id="black-or-white()" class="global global_function" data-code-id="black-or-white()">black-or-white()</code>, <code id="set-text-color()" class="global global_function" data-code-id="set-text-color()">set-text-color()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$color__code_">function(<code>$color</code>)</h6>
+<p>Change text color based on background-color&apos;s darkness.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=pick-best-color_class=global_global_function_data-code-id=pick-best-color_pick-best-color__code_"><code id="pick-best-color()" class="global global_function" data-code-id="pick-best-color()">pick-best-color()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$base__code_,__code_$colors_/code_,__code_$tolerance:0_/code_">function(<code>$base</code>, <code>$colors</code>, <code>$tolerance:0</code>)</h6>
+<p>Determines most contrasting color of <code>$base</code>. <code>$colors</code> should be a list.</p>
+<p><a href="https://gist.github.com/voxpelli/6304812">Reference</a></p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=color-contrast_class=global_global_function_data-code-id=color-contrast_color-contrast__code_"><code id="color-contrast()" class="global global_function" data-code-id="color-contrast()">color-contrast()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$color1__code_,__code_$color2_/code_">function(<code>$color1</code>, <code>$color2</code>)</h6>
+<p>Find contrast between two colors. Used by pick-best-color().</p>
+<p><a href="https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js">Reference</a></p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=color-luminance_class=global_global_function_data-code-id=color-luminance_color-luminance__code_,__code_id=luma_class=global_global_function_data-code-id=luma_luma_/code_"><code id="color-luminance()" class="global global_function" data-code-id="color-luminance()">color-luminance()</code>, <code id="luma()" class="global global_function" data-code-id="luma()">luma()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$color1__code_">function(<code>$color1</code>)</h6>
+<p>Find the relative luminance of a color. Used by color-contrast().</p>
+<p><a href="https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js">Reference</a></p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=color-palette-output_class=global_global_variable_data-code-id=color-palette-output_@color-palette-output__code_"><code id="color-palette-output()" class="global global_variable" data-code-id="color-palette-output()">@color-palette-output()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$selection__code_,__code_id=$colors_class=global_global_variable_data-code-id=$colors_$colors_/code_">mixin(<code>$selection</code>, <code id="$colors" class="global global_variable" data-code-id="$colors">$colors</code>)</h6>
+<p>Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for &quot;color blocks&quot; output, in style guide.</p>
                     </header>
 
 
@@ -956,6 +981,44 @@
 
 
         		</article>
+        		<article class="section" id="tools-alignment_utilities_" data-section="Tools" data-heading="Alignment Utilities ">
+
+                    <header class="comment">
+                        <h1 class="h4">Tools</h1>
+                            <h2 class="h6 space_t_neg">Alignment Utilities </h2>
+                        <p>globals/tools/_t-alignment.scss</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=alignment-utilities_class=global_global_variable_data-code-id=alignment-utilities_@alignment-utilities__code_"><code id="alignment-utilities()" class="global global_variable" data-code-id="alignment-utilities()">@alignment-utilities()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace:``&amp;_39;&apos;__code_,__code_$silent:true_/code_,__code_$important:false_/code_">mixin(<code>$namespace:``&apos;&apos;</code>, <code>$silent:true</code>, <code>$important:false</code>)</h6>
+<p>Generates namespaced alignment classes.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=alignment-utilities-init_class=global_global_variable_data-code-id=alignment-utilities-init_@alignment-utilities-init__code_"><code id="alignment-utilities-init()" class="global global_variable" data-code-id="alignment-utilities-init()">@alignment-utilities-init()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints__code_,__code_$namespace:&quot;&quot;_/code_,__code_$silent:true_/code_,__code_$important:false_/code_">mixin(<code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&quot;&quot;</code>, <code>$silent:true</code>, <code>$important:false</code>)</h6>
+<p>The responsive component to <code id="alignment-utilities()" class="global global_variable" data-code-id="alignment-utilities()">@alignment-utilities()</code>. Invoke <code id="alignment-utilites()" class="global global_variable" data-code-id="alignment-utilites()">@alignment-utilites()</code> within a set of media-queries that match names in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating alignment classes.</p>
+                    </header>
+
+
+
+        		</article>
+        		<article class="section" id="tools-spacing_utilities_" data-section="Tools" data-heading="Spacing Utilities ">
+
+                    <header class="comment">
+                        <h1 class="h4">Tools</h1>
+                            <h2 class="h6 space_t_neg">Spacing Utilities </h2>
+                        <p>globals/tools/_t-spacing.scss</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=layout-type_class=global_global_function_data-code-id=layout-type_layout-type__code_"><code id="layout-type()" class="global global_function" data-code-id="layout-type()">layout-type()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$space-type:&amp;_39;&apos;__code_,__code_$space-direction:&apos;&apos;_/code_">function(<code>$space-type:&apos;&apos;</code>, <code>$space-direction:&apos;&apos;</code>)</h6>
+<p>Parse strings to determine spacing types. Checks for certain characters within a string to determine whether to output padding or margin, followed by a direction. Private function used by <code id="spacing-utilities()" class="global global_variable" data-code-id="spacing-utilities()">@spacing-utilities()</code>.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=spacing-utilities_class=global_global_variable_data-code-id=spacing-utilities_@spacing-utilities__code_"><code id="spacing-utilities()" class="global global_variable" data-code-id="spacing-utilities()">@spacing-utilities()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace:``&amp;_39;&apos;__code_,__code_id=$config:(_class=global_global_function_data-code-id=$config:_$config:_/code_)">mixin(<code>$namespace:``&apos;&apos;</code>, <code id="$config:()" class="global global_function" data-code-id="$config:()">$config:()</code>)</h6>
+<p>Generates responsive spacing and padding classes. The <code>$namespace</code> argument is the media query&apos;s name, which will be appended to all generated classes. The <code>$config</code> argument is a map that allows JS-style arguments. Outputs class name as: <code>breakpoint_prefix_direction_amount</code>.</p>
+<p><strong>Arguments:</strong><br><code>$config</code>:<br>  <code>silent:</code> boolean for outputting silent/non-silent classes.<br>  <code>important:</code> whether to output !important after each declaration.<br>  <code>directions:</code> names that get appended to class names.<br>  <code>amounts:</code> how much to multiply spacing unit by <code id="$base-line-height" class="global global_variable" data-code-id="$base-line-height">$base-line-height</code>.<br>  <code>names:</code> corresponding names for each <code>amounts</code> that gets appended to class names.<br>  <code>prefixes:</code> first word in the class name. Must contain the words &apos;pad&apos; and &apos;space&apos;. Used by <code id="layout-type()" class="global global_function" data-code-id="layout-type()">layout-type()</code> to determine padding or margin.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=spacing-utilities-init_class=global_global_variable_data-code-id=spacing-utilities-init_@spacing-utilities-init__code_"><code id="spacing-utilities-init()" class="global global_variable" data-code-id="spacing-utilities-init()">@spacing-utilities-init()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints__code_,__code_$namespace:&quot;&quot;_/code_,__code_$config:_(silent:true_/code_)">mixin(<code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&quot;&quot;</code>, <code>$config: (silent:true)</code>)</h6>
+<p>The responsive component to <code id="spacing-utilities()" class="global global_variable" data-code-id="spacing-utilities()">@spacing-utilities()</code>. Invoke <code id="spacing-utilites()" class="global global_variable" data-code-id="spacing-utilites()">@spacing-utilites()</code> within a set of media-queries that match names in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive utility classes.</p>
+                    </header>
+
+
+
+        		</article>
         		<article class="section" id="tools-type_utilities_" data-section="Tools" data-heading="Type Utilities ">
 
                     <header class="comment">
@@ -966,8 +1029,19 @@
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace:&quot;&quot;__code_,__code_$silent:_true_/code_,__code_$important:_false_/code_">mixin(<code>$namespace:&quot;&quot;</code>, <code>$silent: true</code>, <code>$important: false)</code></h6>
 <p>A set of typography-based utility classes that can be generated within media-queries via the <code>$namespace</code> argument. Can output silent or real css classes. Can also make declarations <code>!important</code>.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=type-utilities-init_class=global_global_variable_data-code-id=type-utilities-init_@type-utilities-init__code_"><code id="type-utilities-init()" class="global global_variable" data-code-id="type-utilities-init()">@type-utilities-init()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints__code_,__code_$namespace:&quot;&quot;_/code_,__code_$silent:_true_/code_,__code_$important:_false_/code_">mixin(<code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&quot;&quot;</code>, <code>$silent: true</code>), <code>$important: false</code></h6>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints__code_,__code_$namespace:&quot;&quot;_/code_,__code_$silent:_true_/code_,__code_$important:_false_/code_">mixin(<code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&quot;&quot;</code>, <code>$silent: true</code>, <code>$important: false</code>)</h6>
 <p>The responsive component to <code id="type-utilities()" class="global global_variable" data-code-id="type-utilities()">@type-utilities()</code>. Invoke <code id="type-utilites()" class="global global_variable" data-code-id="type-utilites()">@type-utilites()</code> within a set of media-queries that match names in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive utility classes.</p>
+                    </header>
+
+
+
+        		</article>
+        		<article class="section" id="variables_-" data-section="Variables " data-heading="">
+
+                    <header class="comment">
+                        <h1 class="h4">Variables </h1>
+                        <p>/globals/_gl-defaults.scss</p>
+<p>Default settings for variables.</p>
                     </header>
 
 
@@ -1102,7 +1176,7 @@
                         _1: "[object Object]",
                             _id: "tabs-premade",
                             _name: "Premade",
-            _developmentSections: "[object Object],[object Object],[object Object],[object Object]",
+            _developmentSections: "[object Object],[object Object],[object Object],[object Object],[object Object]",
                 _0: "[object Object]",
                     _name: "Config",
                     _headings: "[object Object],[object Object],[object Object],[object Object]",
@@ -1135,10 +1209,22 @@
                             _name: "",
                 _3: "[object Object]",
                     _name: "Tools",
-                    _headings: "[object Object]",
+                    _headings: "[object Object],[object Object],[object Object]",
                         _0: "[object Object]",
+                            _id: "tools-alignment_utilities_",
+                            _name: "Alignment Utilities ",
+                        _1: "[object Object]",
+                            _id: "tools-spacing_utilities_",
+                            _name: "Spacing Utilities ",
+                        _2: "[object Object]",
                             _id: "tools-type_utilities_",
                             _name: "Type Utilities ",
+                _4: "[object Object]",
+                    _name: "Variables ",
+                    _headings: "[object Object]",
+                        _0: "[object Object]",
+                            _id: "variables_-",
+                            _name: "",
     }
     sections = {
             _0: "[object Object]",

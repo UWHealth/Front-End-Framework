@@ -2,6 +2,37 @@
 //      $SPACING
 //------------------------------------
 
+/* SG
+#Tools/Spacing Utilities [[dev]]
+
+globals/tools/_t-spacing.scss
+
+##### `layout-type()`
+###### function(`$space-type:''`, `$space-direction:''`)
+Parse strings to determine spacing types. Checks for certain characters within a string to determine whether to output padding or margin, followed by a direction. Private function used by `@spacing-utilities()`.
+
+
+##### `@spacing-utilities()`
+###### mixin(`$namespace:``''`, `$config:()`)
+Generates responsive spacing and padding classes. The `$namespace` argument is the media query's name, which will be appended to all generated classes. The `$config` argument is a map that allows JS-style arguments. Outputs class name as: `breakpoint_prefix_direction_amount`.
+
+**Arguments:**
+`$config`:
+  `silent:` boolean for outputting silent/non-silent classes.
+  `important:` whether to output !important after each declaration.
+  `directions:` names that get appended to class names.
+  `amounts:` how much to multiply spacing unit by `$$base-line-height`.
+  `names:` corresponding names for each `amounts` that gets appended to class names.
+  `prefixes:` first word in the class name. Must contain the words 'pad' and 'space'. Used by `layout-type()` to determine padding or margin.
+
+
+##### `@spacing-utilities-init()`
+###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$config: (silent:true)`)
+The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating responsive utility classes.
+
+*/
+
+
 //Parse strings to determine spacing types
 // Checks for certain characters within a string to determine
 // whether to output padding or margin, followed by a direction.

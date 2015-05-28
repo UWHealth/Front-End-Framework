@@ -213,14 +213,46 @@ Specialized function used by `generate_color_variations()` to merge two color ma
 
 
 ##### `generate_color_varations()`
-###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`,			 `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`, `$blending-colors: null`)
+###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`,	`$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`, `$blending-colors: null`)
 Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
 
 **Arguments:**
 `$map`: Color map you want to create variations of.
 `$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function as well, provided `$blending-colors` are provided.
-`$`
+`$increments`: percentage amount to apply `$function` to each `$variations`.
+`$variations`: actual names for each color tone when `colors()` used.
+`$blending-colors`: used when a function is a `blend-()`. Can be a list or a single color.
 
+
+##### `black-or-white()`, `set-text-color()`
+###### function(`$color`)
+Change text color based on background-color's darkness.
+
+
+##### `pick-best-color()`
+###### function(`$base`, `$colors`, `$tolerance:0`)
+Determines most contrasting color of `$base`. `$colors` should be a list.
+
+[Reference](https://gist.github.com/voxpelli/6304812)
+
+
+##### `color-contrast()`
+###### function(`$color1`, `$color2`)
+Find contrast between two colors. Used by pick-best-color().
+
+[Reference](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+
+
+##### `color-luminance()`, `luma()`
+###### function(`$color1`)
+Find the relative luminance of a color. Used by color-contrast().
+
+[Reference](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+
+
+##### `@color-palette-output()`
+###### mixin(`$selection`, `$color-map:``$$colors`)
+Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for "color blocks" output, in style guide.
 */
 /* SG
 #Config/ [[dev]]
@@ -331,6 +363,12 @@ Configuration for slick carousel jQuery plugin.
 Reference: https://github.com/kenwheeler/slick/#sass-variables
 
 */
+/* SG
+#Variables [[dev]]
+/globals/_gl-defaults.scss
+
+Default settings for variables.
+*/
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-400.eot");
@@ -395,6 +433,50 @@ Reference: https://github.com/kenwheeler/slick/#sass-variables
   font-style: italic; }
 
 /* SG
+#Tools/Spacing Utilities [[dev]]
+
+globals/tools/_t-spacing.scss
+
+##### `layout-type()`
+###### function(`$space-type:''`, `$space-direction:''`)
+Parse strings to determine spacing types. Checks for certain characters within a string to determine whether to output padding or margin, followed by a direction. Private function used by `@spacing-utilities()`.
+
+
+##### `@spacing-utilities()`
+###### mixin(`$namespace:``''`, `$config:()`)
+Generates responsive spacing and padding classes. The `$namespace` argument is the media query's name, which will be appended to all generated classes. The `$config` argument is a map that allows JS-style arguments. Outputs class name as: `breakpoint_prefix_direction_amount`.
+
+**Arguments:**
+`$config`:
+  `silent:` boolean for outputting silent/non-silent classes.
+  `important:` whether to output !important after each declaration.
+  `directions:` names that get appended to class names.
+  `amounts:` how much to multiply spacing unit by `$$base-line-height`.
+  `names:` corresponding names for each `amounts` that gets appended to class names.
+  `prefixes:` first word in the class name. Must contain the words 'pad' and 'space'. Used by `layout-type()` to determine padding or margin.
+
+
+##### `@spacing-utilities-init()`
+###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$config: (silent:true)`)
+The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating responsive utility classes.
+
+*/
+/* SG
+#Tools/Alignment Utilities [[dev]]
+
+globals/tools/_t-alignment.scss
+
+##### `@alignment-utilities()`
+###### mixin(`$namespace:``''`, `$silent:true`, `$important:false`)
+Generates namespaced alignment classes.
+
+
+##### `@alignment-utilities-init()`
+###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$silent:true`, `$important:false`)
+The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating alignment classes.
+
+*/
+/* SG
 #Tools/Type Utilities [[dev]]
 
 globals/tools/_t-type.scss
@@ -404,7 +486,7 @@ globals/tools/_t-type.scss
 A set of typography-based utility classes that can be generated within media-queries via the `$namespace` argument. Can output silent or real css classes. Can also make declarations `!important`.
 
 ##### `@type-utilities-init()`
-###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$silent: true`), `$important: false`
+###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$silent: true`, `$important: false`)
 The responsive component to `@type-utilities()`. Invoke `@type-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating responsive utility classes.
 
 */
@@ -774,7 +856,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="search"] {
   -webkit-appearance: textfield;
-  appearance: none;
+  -moz-appearance: none;
+       appearance: none;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }

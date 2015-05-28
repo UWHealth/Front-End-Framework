@@ -20,21 +20,48 @@ Specialized function used by `generate_color_variations()` to merge two color ma
 
 
 ##### `generate_color_varations()`
-###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`,			 `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`, `$blending-colors: null`)
+###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`,	`$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`, `$blending-colors: null`)
 Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
 
 **Arguments:**
 `$map`: Color map you want to create variations of.
 `$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function as well, provided `$blending-colors` are provided.
-`$`
+`$increments`: percentage amount to apply `$function` to each `$variations`.
+`$variations`: actual names for each color tone when `colors()` used.
+`$blending-colors`: used when a function is a `blend-()`. Can be a list or a single color.
 
+
+##### `black-or-white()`, `set-text-color()`
+###### function(`$color`)
+Change text color based on background-color's darkness.
+
+
+##### `pick-best-color()`
+###### function(`$base`, `$colors`, `$tolerance:0`)
+Determines most contrasting color of `$base`. `$colors` should be a list.
+
+[Reference](https://gist.github.com/voxpelli/6304812)
+
+
+##### `color-contrast()`
+###### function(`$color1`, `$color2`)
+Find contrast between two colors. Used by pick-best-color().
+
+[Reference](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+
+
+##### `color-luminance()`, `luma()`
+###### function(`$color1`)
+Find the relative luminance of a color. Used by color-contrast().
+
+[Reference](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+
+
+##### `@color-palette-output()`
+###### mixin(`$selection`, `$color-map:``$$colors`)
+Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for "color blocks" output, in style guide.
 */
 
-//Darker and lighter tones are available by passing a second tone string.
-// Get a color value from our color palette. e.g.:
-//
-// If you'd prefer to just get the base color, you do not need to declare 'base',
-// just declare color([color name]). 'base' is implied.
 
 // FUNCTION: grab colors from global color map
 @function colors($color-name, $tone: 'base', $opacity: 1) {

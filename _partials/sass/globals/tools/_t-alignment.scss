@@ -1,3 +1,22 @@
+//------------------------------------
+//      $ALIGNMENT
+//------------------------------------
+
+/* SG
+#Tools/Alignment Utilities [[dev]]
+
+globals/tools/_t-alignment.scss
+
+##### `@alignment-utilities()`
+###### mixin(`$namespace:``''`, `$silent:true`, `$important:false`)
+Generates namespaced alignment classes.
+
+
+##### `@alignment-utilities-init()`
+###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$silent:true`, `$important:false`)
+The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating alignment classes.
+
+*/
 
 @mixin alignment-utilities(
 	$namespace: "",
