@@ -66,7 +66,7 @@ template {
 //  */
 
 img {
-	border: 0;
+	@extend %border_reset;
 	max-width: 100%;
 }
 

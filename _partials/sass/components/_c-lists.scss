@@ -1,11 +1,26 @@
-.list_naked {
-    @extend %list_naked;
-}
+/* SG
+#Lists/Bordered Lists
+
+Creates a list with borders above and below each list item. Appending `list_bordered` with `_short` will make reduce the padding between each item.
+
+```
+<ul class="list_bordered">
+    <li>List Item</li>
+    <li>List Item</li>
+    <li>List Item</li>
+</ul>
+
+<ul class="list_bordered_short">
+    <li>List Item</li>
+    <li>List Item</li>
+    <li>List Item</li>
+</ul>
+```
+*/
 
 [class*="list_bordered"] {
-    @extend %space_l_n;
-    @extend %space_v;
     @extend %list_naked;
+    @extend %space_v;
     > li {
         @extend %block;
         border-top: 1px solid color(bg, dark);
@@ -23,8 +38,22 @@
     }
 }
 
+/* SG
+#Lists/Inline Lists
+
+A list where each item is in a row, with spacing to the right of each item
+
+```
+<ul class="list_inline">
+    <li>List Item</li>
+    <li>List Item</li>
+    <li>List Item</li>
+</ul>
+```
+*/
+
 .list_inline {
-    @extend %space_reset;
+    @extend %list_naked;
 
     > li {
         display: inline-block;
@@ -40,41 +69,62 @@
 
 }
 
-.list_inline_bordered {
-	@extend %space_reset;
+/* SG
+#Lists/Breadcrumbs
 
-	> li {
-		display: inline-block;
-        width: auto;
-        vertical-align: middle;
-        @include type-space((padding-top, padding-bottom), .5);
-		border-left: 1px solid;
+A list where each item is in a row, with a &#x25B8; between each item.
 
-		&:first-child {
-			border-left-width: 0;
-			padding-left: 0;
-		}
-	}
-}
+```
+<ul class="breadcrumbs">
+    <li class="breadcrumb">List Item</li>
+    <li class="breadcrumb">List Item</li>
+    <li class="breadcrumb">List Item</li>
+</ul>
+```
+*/
 
 .breadcrumbs {
+    @extend %list_naked;
     @extend %pad_r;
 }
 
+.breadcrumbs > li,
 .breadcrumb {
     display: inline-block;
     white-space: nowrap;
-    @extend %pad_r_half;
+    margin-left: 0;
+    @extend %space_l_n;
 
     a {
         display: block;
     }
+
+    &:after {
+        content: "\25B8";
+        display: inline-block;
+    }
+
 }
 
-.breadcrumb:after {
-    content: "\25B8";
-    display: inline-block;
-}
+/* SG
+#Lists/Navigation List
+
+List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn't have to be an `ol` or `ul`).
+
+```
+<ul class="list_nav">
+    <li>
+        <a href="#">List Item</a>
+    </li>
+    <li>
+        <a href="#">List Item</a>
+    </li>
+    <li>
+        <a href="#">List Item</a>
+    </li>
+</ul>
+```
+*/
 
 //Make links fill their list items for easier clickability.
 .list_nav {

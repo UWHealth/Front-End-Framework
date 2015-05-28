@@ -1,12 +1,5 @@
 $base_namespace: 'base_';
 
-%space_reset,
-%base_space_reset,
-%generic_space_reset {
-	margin: 0;
-	padding: 0;
-}
-
 %list_naked {
 	@include no-bullets;
     @extend %space_l_n;

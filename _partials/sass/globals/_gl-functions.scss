@@ -16,7 +16,8 @@
 // General functions to make Sass a little more powerful. Taken from various places.
 
 /* SG
-#[[dev]]Globals/Functions
+#Functions/General Functions [[dev]]
+/globals/_gl-functions.scss
 
 ---
 
@@ -69,7 +70,7 @@ Determines the Tangent of an angle.
 
 ---
 
-#### Converter Functions ####
+##### Converter Functions #####
 
 ##### `strip-units()`
 ###### `[value-you-want-units-removed-from]`
@@ -91,7 +92,7 @@ Function for calculating stripped-unit REM values. Used by rems() mixin. Overrid
 ###### `[list-you-need-converted], [list-seperator]`
 Converts a list to a string with an optional separator.
 
-#### String & List Functions ####
+##### String & List Functions #####
 
 ##### `str-contains()`
 ###### `[string-you-need-parsed],[sub-string], [start-position]`
@@ -110,7 +111,7 @@ Checks whether a list contains a value.
 Used to turn a list into a flat string. For debug purposes.
 
 
-#### Map Functions ####
+##### Map Functions #####
 *Reference: http://www.sitepoint.com/extra-map-functions-sass/*
 
 ##### `map-deep-set()`

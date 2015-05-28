@@ -7,6 +7,7 @@
 //@codekit-append "velocity.ui.js"
 //@codekit-append "_tabs.js"
 //@codekit-append "_toggle.js"
+//= include "_jquerySelectors.js"
 //= include "vendor/velocity.js"
 //= include "vendor/velocity.ui.js"
 //= include "_tables.js"

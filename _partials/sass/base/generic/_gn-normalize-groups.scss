@@ -2,11 +2,11 @@
    ========================================================================== */
 
 // /**
-//  * Address margin not present in IE 8/9 and Safari.
+//  * Address margin differences in IE8/9.
 //  */
 
 figure {
-	margin: 0;
+	@extend %space_reset;
 }
 
 // /**
@@ -15,10 +15,10 @@ figure {
 
 hr {
     @extend %generic_block;
+	@extend %border_reset;
+	@extend %space_reset;
     height: 2px;
-    border: 0;
     border-top: 2px solid color(bg, dark);
-    padding: 0;
 	@include type-space(margin, 1, 0 );
 }
 

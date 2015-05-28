@@ -310,7 +310,7 @@
 		$font-size: modular-scale($heading-number, $scale);
 		$current-heading: nth($type-headings,$heading-number);
 
-		%#{$name_space}h#{$current_heading} {
+		%headings_#{$name_space}h#{$current_heading} {
 			@include type_font_size($font_size, true);
 			@extend %#{$name_space}space_b !optional;
 		}
@@ -318,14 +318,14 @@
 		@if $type-scale-classes == true {
 			h#{$current-heading},
 			.h#{$current-heading} {
-				@extend %#{$name_space}h#{$current_heading};
+				@extend %headings_#{$name_space}h#{$current_heading};
 
 				+ p{
 					@extend %#{$name-space}space_t_neg !optional;
 				}
 			}
 		}@else {
-			h#{$current-heading}, %h#{$current-heading}{
+			h#{$current-heading}, %headings_h#{$current-heading}{
 				@include type-font-size($font-size, true);
 
 				+ p{

@@ -19,9 +19,8 @@ legend {
 
 // Remove default fieldset styles.
 fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
+    @extend %space_reset;
+    @extend %border_reset;
 }
 
 //

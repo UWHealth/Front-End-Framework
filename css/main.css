@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* SG
-#[[dev]]Main
+#Main [[dev]]
 /main.scss
 
 Imports all Sass files in order from lowest specificity to highest.
@@ -17,7 +17,8 @@ Imports all Sass files in order from lowest specificity to highest.
 
 */
 /* SG
-#[[dev]]Globals/Functions
+#Functions/General Functions [[dev]]
+/globals/_gl-functions.scss
 
 ---
 
@@ -70,7 +71,7 @@ Determines the Tangent of an angle.
 
 ---
 
-#### Converter Functions ####
+##### Converter Functions #####
 
 ##### `strip-units()`
 ###### `[value-you-want-units-removed-from]`
@@ -92,7 +93,7 @@ Function for calculating stripped-unit REM values. Used by rems() mixin. Overrid
 ###### `[list-you-need-converted], [list-seperator]`
 Converts a list to a string with an optional separator.
 
-#### String & List Functions ####
+##### String & List Functions #####
 
 ##### `str-contains()`
 ###### `[string-you-need-parsed],[sub-string], [start-position]`
@@ -111,7 +112,7 @@ Checks whether a list contains a value.
 Used to turn a list into a flat string. For debug purposes.
 
 
-#### Map Functions ####
+##### Map Functions #####
 *Reference: http://www.sitepoint.com/extra-map-functions-sass/*
 
 ##### `map-deep-set()`
@@ -195,25 +196,40 @@ function for finding the value of an indexed type-size. H1-H6, p, and small are 
 Registers new values to type map. [Property] accepts px, rem, and line-height.
 */
 /* SG
-#[[dev]]Globals/Color Functions
-
-/globals/_globals.color.functions.scss
+#Functions/Colors [[dev]]
+/globals/_gl-color-functions.scss
 
 ##### `colors()`, `color()`
-###### Function(`$color-name`, `$tone`, `$opacity`)
-Get a color value from the global `$$colors_map` map. Darker and lighter tones are available by passing a second tone string (e.g. `background-color: colors(links, light)`).
+###### function(`$color-name` , `$tone:base` , `$opacity:1`)
+Get a color value from the global `$$color` map. Darker and lighter tones are available by passing a second tone string (e.g. `background-color: colors(links, light)`).
 Passing only a color name will default to the 'base' color.
 
 [Reference](http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/)
+
+
+##### `combine-color-maps()`
+###### function(`$map1` , `$map2`)
+Specialized function used by `generate_color_variations()` to merge two color maps.
+
+
+##### `generate_color_varations()`
+###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`,			 `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`, `$blending-colors: null`)
+Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
+
+**Arguments:**
+`$map`: Color map you want to create variations of.
+`$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function as well, provided `$blending-colors` are provided.
+`$`
+
 */
 /* SG
-#[[dev]]Config
+#Config/ [[dev]]
 
 /globals/_config.scss
 
 */
 /* SG
-#[[dev]]Config/Typography Settings
+#Config/Typography Settings [[dev]]
 
 ##### `$$base-font-size`
 ###### Pixel value
@@ -260,7 +276,7 @@ Corresponds to each value in `$font-weights`. (e.g. if `$font-weights: (400,700)
 Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
 */
 /* SG
-#[[dev]]Config/Grid Settings
+#Config/Grid Settings [[dev]]
 
 ##### `$$gutter`
 ###### Pixel value
@@ -292,25 +308,25 @@ Determines what classes get generated at `$$breakpoints`. The list's order deter
 
 */
 /* SG
-#[[dev]]Config/General Settings
+#Config/General Settings [[dev]]
 
-##### `$breakpoints`
+##### `$$breakpoints`
 ###### List (nested) (string)
 Sets up variables for media-queries. Used in `media-query()`.
 
-##### `$breakpoints-has-alignment-classes`, `$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
+##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
 ###### List (string)
 Same as `breakpoint-has-widths`, but for utility classes.
 
-##### `$display-classes`
+##### `$$display-classes`
 ###### Map (string: string)
 Variable used generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
 
-##### `$colors`
+##### `$$colors`
 ###### Map (string: color)
 Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
 
-##### `$slick-[]-[]`
+##### `$$slick-[]-[]`
 Configuration for slick carousel jQuery plugin.
 Reference: https://github.com/kenwheeler/slick/#sass-variables
 
@@ -378,8 +394,35 @@ Reference: https://github.com/kenwheeler/slick/#sass-variables
   font-weight: 700;
   font-style: italic; }
 
+/* SG
+#Tools/Type Utilities [[dev]]
+
+globals/tools/_t-type.scss
+
+##### `@type-utilities()`
+###### mixin(`$namespace:""`, `$silent: true`, `$important: false)`
+A set of typography-based utility classes that can be generated within media-queries via the `$namespace` argument. Can output silent or real css classes. Can also make declarations `!important`.
+
+##### `@type-utilities-init()`
+###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$silent: true`), `$important: false`
+The responsive component to `@type-utilities()`. Invoke `@type-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating responsive utility classes.
+
+*/
 /*------------------------------------*	#Generic Styles
 /*------------------------------------*/
+body,
+figure,
+hr,
+fieldset,
+ul, ol, dd, menu, p, address, pre, blockquote, table {
+  margin: 0;
+  padding: 0; }
+
+img, hr, fieldset {
+  border: 0;
+  -moz-border-radius: 0;
+       border-radius: 0; }
+
 *,
 *:before,
 *:after {
@@ -478,7 +521,6 @@ audio:not([controls]) {
   height: 0; }
 
 img {
-  border: 0;
   max-width: 100%; }
 
 svg:not(:root) {
@@ -529,14 +571,9 @@ sub {
 
 /* Grouping content
    ========================================================================== */
-figure {
-  margin: 0; }
-
 hr {
   height: 2px;
-  border: 0;
   border-top: 2px solid #e4eaf3;
-  padding: 0;
   margin:  24px 0  ;
   margin:  1.5rem 0  ;}
 
@@ -551,15 +588,9 @@ samp {
   font-size: 1em; }
 
 /*--Base styles--*/
-.list_inline,
-.list_inline_bordered,
-ul, ol, dd, menu, p, address, pre, blockquote, table, body {
-  margin: 0;
-  padding: 0; }
-
-nav ul, nav ol, .list_naked, [class*="list_bordered"] {
+nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs {
   list-style: none; }
-  nav ul > li, nav ol > li, .list_naked > li, [class*="list_bordered"] > li {
+  nav ul > li, nav ol > li, [class*="list_bordered"] > li, .list_inline > li, .breadcrumbs > li {
     list-style-image: none;
     list-style-type: none;
     margin-left: 0; }
@@ -706,11 +737,6 @@ textarea {
 legend {
   display: table;
   white-space: normal; }
-
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0; }
 
 button,
 input {
@@ -859,7 +885,7 @@ input[type="search"]::-webkit-search-decoration {
   padding-left:  16px;
   padding-left:  1rem; }
 
-.tab, .breadcrumb, .table_striped th, .table_striped td {
+.tab, .table_striped th, .table_striped td {
   padding-right:  16px;
   padding-right:  1rem; }
 
@@ -884,7 +910,8 @@ ul, ol, dd, menu, blockquote {
   margin-left:  32px;
   margin-left:  2rem; }
 
-nav ul, nav ol, .list_naked, [class*="list_bordered"], .list_nav {
+nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs, .breadcrumbs > li,
+.breadcrumb, .list_nav {
   margin-left: 0; }
 
 @media only screen and (max-width: 640px) {
@@ -895,7 +922,7 @@ nav ul, nav ol, .list_naked, [class*="list_bordered"], .list_nav {
     padding-right:  16px;
     padding-right:  1rem; } }
 
-[class*="list_bordered"] > li, .list_nav a, .tab_content {
+[class*="list_bordered"] > li, .list_nav a, .tab_content, .box_square {
   display: block; }
 
 @media only screen and (max-width: 640px) {
@@ -960,6 +987,25 @@ input[type="submit"] {
   cursor: pointer;
   *overflow: visible; }
 
+/* SG
+#Lists/Bordered Lists
+
+Creates a list with borders above and below each list item. Appending `list_bordered` with `_short` will make reduce the padding between each item.
+
+```
+<ul class="list_bordered">
+    <li>List Item</li>
+    <li>List Item</li>
+    <li>List Item</li>
+</ul>
+
+<ul class="list_bordered_short">
+    <li>List Item</li>
+    <li>List Item</li>
+    <li>List Item</li>
+</ul>
+```
+*/
 [class*="list_bordered"] > li {
   border-top: 1px solid #e4eaf3;
   padding-top:  24px;
@@ -977,6 +1023,19 @@ input[type="submit"] {
   padding-bottom:  12px;
   padding-bottom:  0.75rem; }
 
+/* SG
+#Lists/Inline Lists
+
+A list where each item is in a row, with spacing to the right of each item
+
+```
+<ul class="list_inline">
+    <li>List Item</li>
+    <li>List Item</li>
+    <li>List Item</li>
+</ul>
+```
+*/
 .list_inline > li {
   display: inline-block;
   padding-left: 0;
@@ -987,29 +1046,51 @@ input[type="submit"] {
   .list_inline > li:last-child {
     padding-right: 0; }
 
-.list_inline_bordered > li {
-  display: inline-block;
-  width: auto;
-  vertical-align: middle;
-  padding-top:  12px;
-  padding-top:  0.75rem;
-  padding-bottom:  12px;
-  padding-bottom:  0.75rem;
-  border-left: 1px solid; }
-  .list_inline_bordered > li:first-child {
-    border-left-width: 0;
-    padding-left: 0; }
+/* SG
+#Lists/Breadcrumbs
 
+A list where each item is in a row, with a &#x25B8; between each item.
+
+```
+<ul class="breadcrumbs">
+    <li class="breadcrumb">List Item</li>
+    <li class="breadcrumb">List Item</li>
+    <li class="breadcrumb">List Item</li>
+</ul>
+```
+*/
+.breadcrumbs > li,
 .breadcrumb {
   display: inline-block;
-  white-space: nowrap; }
+  white-space: nowrap;
+  margin-left: 0; }
+  .breadcrumbs > li a,
   .breadcrumb a {
     display: block; }
+  .breadcrumbs > li:after,
+  .breadcrumb:after {
+    content: "\25B8";
+    display: inline-block; }
 
-.breadcrumb:after {
-  content: "\25B8";
-  display: inline-block; }
+/* SG
+#Lists/Navigation List
 
+List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn't have to be an `ol` or `ul`).
+
+```
+<ul class="list_nav">
+    <li>
+        <a href="#">List Item</a>
+    </li>
+    <li>
+        <a href="#">List Item</a>
+    </li>
+    <li>
+        <a href="#">List Item</a>
+    </li>
+</ul>
+```
+*/
 .list_nav {
   list-style: none; }
   .list_nav > li {
@@ -1035,6 +1116,9 @@ input[type="submit"] {
 /* SG
 # Tabs/
 
+A way to show groups of content, with buttons to toggle between them (like tabs in a folder or browser window).
+
+######Set Up
 Tabs start out as simple anchor + element pairings (with the anchor's href referring to an element's ID).
 
 Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
@@ -1044,29 +1128,29 @@ Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript
 <div id="tab1" class="tab_content">
 	Content Here
 </div>
-<a href="#tab2" class="tab_button">Tab 1</a>
+<a href="#tab2" class="tab_button">Tab 2</a>
 <div id="tab2" class="tab_content">
 	Secondary Content Here
 </div>
 ```
 */
 /* SG
-# Tabs/Another
+# Tabs/Premade
 
-Another tab example.
+You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s.
 
 ```
 <div class="tabbed" data-tabbed="true">
 	<nav class="tabs">
-		<a class="tab active" href="#tab3">Tab 1</a>
-		<a class="tab" href="#tab4">Tab 2</a>
+		<a class="tab active" href="#tab-1">Tab 1</a>
+		<a class="tab" href="#tab-2">Tab 2</a>
 	</nav>
-	<a href="#tab3" class="tab_button">tab 1</a>
-	<div id="tab3" class="tab_content">
+	<a href="#tab-1" class="tab_button">tab 1</a>
+	<div id="tab-1" class="tab_content">
 		Content Here
 	</div>
-	<a href="#tab4" class="tab_button">tab 2</a>
-	<div id="tab4" class="tab_content">
+	<a href="#tab-2" class="tab_button">tab 2</a>
+	<div id="tab-2" class="tab_content">
 		Secondary Content Here
 	</div>
 </div>
@@ -1802,6 +1886,14 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .baseline-off {
   background-image: none; }
+
+.list_naked {
+  list-style: none;
+  margin: 0; }
+  .list_naked > li {
+    list-style-image: none;
+    list-style-type: none;
+    margin-left: 0; }
 
 .invisible {
   visibility: hidden !important; }

@@ -27,7 +27,7 @@
 //Must have a .body inside for content.
 .box_square {
     position: relative;
-    @extend %display_block;
+    @extend %block;
 	overflow: hidden;
 	word-break: break-word;
 

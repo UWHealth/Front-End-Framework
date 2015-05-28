@@ -1,4 +1,5 @@
 //Prepend all placeholders with generic
+
 $generic_namespace: 'generic_';
 
 @include alignment-utilities-init($namespace: $generic_namespace);
@@ -11,8 +12,8 @@ $generic_namespace: 'generic_';
 %#{$generic_namespace} {
 
 	&type-vertical-rhythm {
-		@extend %#{$generic_namespace}space_reset;
-		@extend %#{$generic_namespace}space_b;
+		@extend %space_reset;
+		@include type-space(margin-bottom, 1);
 	}
 
 	&primary_font_family {

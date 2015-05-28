@@ -7,6 +7,23 @@
 //@codekit-append "velocity.ui.js"
 //@codekit-append "_tabs.js"
 //@codekit-append "_toggle.js"
+//Add selector based on jQuery data
+// e.g. $('element').data('foo', 'whatever')
+// $('[foo]')
+// Would select all elements with 'foo' as a data key
+(function($){
+    var _dataFn = $.fn.data;
+    $.fn.data = function(key, val){
+        if (typeof val !== 'undefined'){
+            $.expr.attrHandle[key] = function(elem){
+                return $(elem).attr(key) || $(elem).data(key);
+            };
+        }
+        return _dataFn.apply(this, arguments);
+    };
+})(jQuery);
+
+
 /*! VelocityJS.org (1.2.1). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
 
 /*************************

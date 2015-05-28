@@ -22,8 +22,8 @@ $silent-display-classes: map-extend($display-classes, $default-display-classes, 
 
 	$classtype: if($silent, unquote('%'), unquote("."));
 	$important_str: if($important, ' !important', '');
+	$display-lookup: null;
 	$display-registry: ();
-
 
 	@each $name, $display in $class-list {
 		//Check for existence of a previous class using the same display

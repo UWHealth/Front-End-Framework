@@ -6,7 +6,7 @@
 //-----------------------------
 
 /* SG
-#[[dev]]Main
+#Main [[dev]]
 /main.scss
 
 Imports all Sass files in order from lowest specificity to highest.
@@ -42,7 +42,7 @@ Imports all Sass files in order from lowest specificity to highest.
 //Ground-zero styles
 //(normalize and resets, * selectors)
 // !!Do not use extends here!!
-@import 'base/generic/g-import';
+@import 'base/generic/gn-import';
 
 //Elements and un-classed selectors
 // (lowest specificity)

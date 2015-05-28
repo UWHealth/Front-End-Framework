@@ -17,15 +17,19 @@
 <body>
 <main class="wrap">
     <nav id="styleguide-menu">
-    	<ul class="menu_body">
+    	<ul class="space_b_n top_menu">
             <li>
                 <a href="#" class="sectionlink show_all" data-section="#styleguide-styles .section">Styles</a>
+                <span class="submenu_toggle toggle_active" data-toggle="#style_menu">&#9662;</span>
             </li>
+        </ul>
+        <ul id="style_menu" class="menu_body space_t_n">
     	{{#each menus.sections}}
     		<li>
                 {{!-Sections with Children--}}
     			{{#if headings.1.name}}
-                    <a class="submenulink" href="#{{headings.0.id}}" data-section="{{../name}}">{{name}}</a><span class="submenu_toggle" data-toggle="[data-submenu='{{../name}}']">&#9662;</span>
+                    <a class="submenulink" href="#{{headings.0.id}}" data-section="{{../name}}">{{name}}</a>
+                    <span class="submenu_toggle" data-toggle="[data-submenu='{{../name}}']">&#9662;</span>
                     <ul class="submenu" data-submenu="{{../name}}">
                     {{#each headings}}
                         {{#if name}}
@@ -44,10 +48,13 @@
     	{{/each}}
     	</ul>
         {{#if menus.developmentSections}}
-            <ul class="space_t menu_body">
+            <ul class="space_t space_b_n top_menu">
                 <li>
                     <a href="#" class="sectionlink show_all" data-section="#styleguide-dev .section">Development</a>
+                    <span class="submenu_toggle toggle_active" data-toggle="#development_menu">&#9662;</span>
                 </li>
+            </ul>
+            <ul id="development_menu" class="menu_body space_t_n">
         	{{#each menus.developmentSections}}
         		<li>
                     {{!-Sections with Children--}}
@@ -93,6 +100,7 @@
                     </header>
 
                     {{#if code}}
+                    <div class="section_body">
                         <div class="result">
                             {{{code}}}
                         </div>
@@ -102,6 +110,7 @@
                         <div class="markup hljs">
                             <pre>{{{markup}}}</pre>
                         </div>
+                    </div>
                     {{/if}}
 
         		</article>
@@ -125,6 +134,7 @@
                     </header>
 
                     {{#if code}}
+                    <div class="section_body">
                         <div class="result">
                             {{{code}}}
                         </div>
@@ -134,6 +144,7 @@
                         <div class="markup hljs">
                             <pre>{{{markup}}}</pre>
                         </div>
+                    </div>
                     {{/if}}
 
         		</article>
@@ -200,7 +211,7 @@
                 jqCurSubmenu.addClass('on');
                 $(this).addClass('on');
             }
-            showSection($(this).data('section'));
+            showSection($(this).data('section'), this);
         });
 
         // Click on link without subheadings
@@ -217,14 +228,18 @@
                 //Show all sections within container
                 var _show = $(this).data('section');
                 $(_show).show();
+                if (! $(this).next('.submenu_toggle').hasClass('toggle_active')){
+                    $(this).next('.submenu_toggle').trigger('click');
+                }
             }else{
-                showSection($(this).data('section'));
+                showSection($(this).data('section'), this);
             }
         });
 
         // Show/Hide sections
-        function showSection(section) {
+        function showSection(section, menu_item) {
             $('#styleguide .section').hide();
+            $(menu_item).closest('.menu_body').prev('.top_menu').find('a').addClass('on');
             var jqCurSections = $('#styleguide .section[data-section="' + section + '"]');
             jqCurSections.show();
         }

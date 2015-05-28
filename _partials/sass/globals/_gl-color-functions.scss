@@ -3,18 +3,32 @@
 //------------------------------------*/
 
 /* SG
-#[[dev]]Globals/Color Functions
-
-/globals/_globals.color.functions.scss
+#Functions/Colors [[dev]]
+/globals/_gl-color-functions.scss
 
 ##### `colors()`, `color()`
-###### Function(`$color-name`, `$tone`, `$opacity`)
-Get a color value from the global `$$colors_map` map. Darker and lighter tones are available by passing a second tone string (e.g. `background-color: colors(links, light)`).
+###### function(`$color-name` , `$tone:base` , `$opacity:1`)
+Get a color value from the global `$$color` map. Darker and lighter tones are available by passing a second tone string (e.g. `background-color: colors(links, light)`).
 Passing only a color name will default to the 'base' color.
 
 [Reference](http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/)
-*/
 
+
+##### `combine-color-maps()`
+###### function(`$map1` , `$map2`)
+Specialized function used by `generate_color_variations()` to merge two color maps.
+
+
+##### `generate_color_varations()`
+###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`,			 `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`, `$blending-colors: null`)
+Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
+
+**Arguments:**
+`$map`: Color map you want to create variations of.
+`$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function as well, provided `$blending-colors` are provided.
+`$`
+
+*/
 
 //Darker and lighter tones are available by passing a second tone string.
 // Get a color value from our color palette. e.g.:
@@ -40,9 +54,10 @@ Passing only a color name will default to the 'base' color.
 // ALIAS: Same as above, but easier to type
 @function color($color, $tone: 'base') 	{ @return colors($color, $tone);}
 
-// FUNCTION: combine-colors()
+
+// FUNCTION: combine-color-maps()
 // Combines two color maps (or really any double-nested map)
-@function combine-colors($map1, $map2) {
+@function combine-color-maps($map1, $map2) {
 
 	@each $pal, $color in $map2 {
 		$value: ($pal: $color);
@@ -83,7 +98,7 @@ Passing only a color name will default to the 'base' color.
 @function generate-color-variations(
 	$map: $colors,
 	$functions: (tint, tint, tint, shade, shade, shade),			//[1a]
-	$increments: 	  (20%,  40%,   80%,   20%,   40%,   80%), 			//[1b]
+	$increments: (20%,  40%,   80%,   20%,   40%,   80%), 			//[1b]
 	$variations: (light, lighter, lightest, dark, darker, darkest),//[1c]
 	$blending-colors: null 												//[1d]
 ){
@@ -146,7 +161,7 @@ Passing only a color name will default to the 'base' color.
 			// with double parenthesis as they get more nested.
 			// (first-level: ( (second-level: value) ) )
 			$inner-map: ($palette:($values-list));				//[8a]
-			$new-map: combine-colors($new-map, $inner-map); 	//[8b]
+			$new-map: combine-color-maps($new-map, $inner-map); 	//[8b]
 
 		}
 
@@ -247,11 +262,11 @@ Passing only a color name will default to the 'base' color.
   @return color-luminance($color);
 }
 
+
 @function luminate($color, $percent) {
 	$luma: percentage(luma($color));
 	$hsl: hue($color), saturation($color), lightness($color);
 }
-
 
 //Creates a pretty color palette (in columns) using psuedo selectors (nth-child required)
 // This would be 1000x easier with flexbox

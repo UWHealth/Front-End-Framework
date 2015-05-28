@@ -20,6 +20,11 @@
     }
 }
 
+.list_naked {
+    @include no-bullets();
+    margin: 0;
+}
+
 .invisible {
 	visibility: hidden !important;
 }

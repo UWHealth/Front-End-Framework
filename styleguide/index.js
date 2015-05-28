@@ -15,7 +15,11 @@ var error = chalk.bold.red;
 var good = chalk.green;
 var info = chalk.yellow;
 var filelist = true;
-var codeStore = [];
+var codeStore = {
+	vars: [],
+	funs: [],
+	mixins: []
+};
 
 var moduleDir = path.dirname(process.mainModule.filename);
 var renderer = new marked.Renderer();
@@ -160,9 +164,11 @@ try {
 
 renderer.heading = function (string, number) {
 	if (number === 1) {
-		var header = string.split('/');
+		var header = string.split('/', 2);
 		var sectionIdentifier = sgUniqueIdentifier;
-			if (header[0].indexOf(options.devIdentifier) > -1) {
+			if ( header[0].indexOf(options.devIdentifier) > -1 ||
+				 header[(header.length-1)].indexOf(options.devIdentifier) > -1
+			) {
 				sectionIdentifier = developmentIdentifier;
 			}
 			var out = '<h1 class="main-section-' + sectionIdentifier + '">' + header[0] + '</h1>\n';
@@ -186,17 +192,49 @@ renderer.code = function (text, lang) {
 renderer.codespan = function(text){
 	var varRE = /(\$\$.+)[,\s\n]?/gi;
 	var var_check = varRE.exec(text);
+	var funRE = /(^(?!@)\S+\(\)$)/gim;
+	var fun_check = funRE.exec(text);
+	var mixinRE = /(@\S+\(\)$)/gi;
+	var mixin_check = mixinRE.exec(text);
+	var isInArray = function(value, array) {
+		return array.indexOf(value) > -1;
+	};
+
 	var output = '';
 	var modifiedString = '';
 
-	// console.log(check);
-	// console.log(text);
-
 	if ( var_check !== null){
 		modifiedString = var_check[0].replace('$$', '$');
-		output = '<code class="global_variable" data-code-id="'+modifiedString+'">'+modifiedString+'</code>';
-		codeStore.push(modifiedString);
-	}else{
+
+		// if (isInArray(modifiedString, codeStore.vars)){
+		// 	output = '<code class="global global_variable" data-code-id="'+modifiedString+'">';
+		// 	output += '<a href="#'+modifiedString+'">'+modifiedString+'</a></code>';
+		// }else{
+			output = '<code id="'+modifiedString+'" class="global global_variable" data-code-id="'+modifiedString+'">'+modifiedString+'</code>';
+		// }
+		codeStore.vars.push(modifiedString);
+
+	}else if (fun_check !== null){
+		// if (isInArray(text, codeStore.funs)){
+		// 	output = '<code class="global global_variable" data-code-id="'+text+'">';
+		// 	output += '<a href="#'+text+'">'+text+'</a></code>';
+		// }else{
+			output = '<code id="'+text+'" class="global global_function" data-code-id="'+text+'">'+text+'</code>';
+		// }
+		codeStore.funs.push(text);
+
+	}else if (mixin_check !== null){
+		modifiedString = mixin_check[0].replace('@', '');
+
+		// if (isInArray(modifiedString, codeStore.mixins)){
+		// 	output = '<code class="global global_variable" data-code-id="'+modifiedString+'">';
+		// 	output += '<a href="#'+modifiedString+'">'+text+'</a></code>';
+		// }else{
+			output = '<code id="'+modifiedString+'" class="global global_variable" data-code-id="'+modifiedString+'">'+text+'</code>';
+		// }
+		codeStore.mixins.push(text);
+
+	}else {
 		output = '<code>'+text+'</code>';
 	}
 
@@ -320,7 +358,8 @@ function convertHTMLtoJSON(html) {
 			codeLang: '',
 			markup: '',
 			comment: '',
-			globalVars: []
+			globalVars: [],
+
 		};
 
 		//Check if this section is a development section by checking class

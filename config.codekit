@@ -273,15 +273,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_g-h5bp.scss": {
+	"\/_partials\/sass\/base\/generic\/_gn-h5bp.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_g-h5bp.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_g-h5bp.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-h5bp.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-h5bp.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -289,15 +289,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_g-import.scss": {
+	"\/_partials\/sass\/base\/generic\/_gn-import.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_g-import.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_g-import.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-import.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-import.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -305,15 +305,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_g-normalize-blocks.scss": {
+	"\/_partials\/sass\/base\/generic\/_gn-normalize-blocks.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_g-normalize-blocks.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_g-normalize-blocks.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-normalize-blocks.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-normalize-blocks.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -321,15 +321,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_g-normalize-groups.scss": {
+	"\/_partials\/sass\/base\/generic\/_gn-normalize-groups.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_g-normalize-groups.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_g-normalize-groups.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-normalize-groups.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-normalize-groups.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -337,15 +337,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_g-normalize-type.scss": {
+	"\/_partials\/sass\/base\/generic\/_gn-normalize-type.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_g-normalize-type.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_g-normalize-type.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-normalize-type.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-normalize-type.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -353,15 +353,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_g-normalize.scss": {
+	"\/_partials\/sass\/base\/generic\/_gn-normalize.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_g-normalize.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_g-normalize.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-normalize.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-normalize.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -369,15 +369,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_g-resets.scss": {
+	"\/_partials\/sass\/base\/generic\/_gn-resets.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_g-resets.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_g-resets.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-resets.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-resets.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -385,15 +385,15 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_g-silents.scss": {
+	"\/_partials\/sass\/base\/generic\/_gn-silents.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
 		"decimalPrecision": 7,
 		"fileType": 4,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_g-silents.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_g-silents.css",
+		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-silents.scss",
+		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-silents.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,

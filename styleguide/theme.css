@@ -25,7 +25,7 @@
 #styleguide .result,
 #styleguide .comment {
     padding: 1em;
-    border-bottom: 1px solid rgba(0,0,0,0.05);;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 #styleguide .result {
     border-bottom: 0px;
@@ -98,6 +98,22 @@
     overflow: hidden;
 }
 
+#styleguide-menu .top_menu {
+    overflow: hidden;
+    font-weight: bold;
+}
+
+#styleguide-menu > .top_menu a {
+    padding-left: 0 !important;
+}
+
+#styleguide-menu > .top_menu a.on,
+#styleguide-menu > .top_menu a:hover {
+    background-color: transparent !important;
+    color: rgb(14, 154, 181) !important;
+}
+
+
 #styleguide-menu .submenu {
     display: none;
     background: rgb(241, 247, 249);
@@ -154,6 +170,9 @@
     display: block;
     padding: .75em 1.5em .5em 1em;
     text-decoration: none;
+}
+
+#styleguide-menu .menu_body a {
     color: rgba(0, 0, 0, 0.87);
     transition: background-color 150ms ease-out;
 }

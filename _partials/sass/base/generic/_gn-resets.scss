@@ -4,6 +4,21 @@
 // css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
 // paulirish.com/2012/box-sizing-border-box-ftw
 
+//Space Resets
+%space_reset,
+%base_space_reset,
+%generic_space_reset {
+	margin: 0;
+	padding: 0;
+}
+
+//Border reset
+
+%border_reset {
+    border: 0;
+    border-radius: 0;
+}
+
 * {
     &,
     &:before,
@@ -37,7 +52,7 @@ html {
 
 body {
 	@include type-font-size($base-font-size, true, p);
-	@extend %generic_space_reset;
+	@extend %space_reset;
 }
 
 //Useful for sticky footers

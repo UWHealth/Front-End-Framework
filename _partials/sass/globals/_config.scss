@@ -3,14 +3,14 @@
 //------------------------------------*/
 
 /* SG
-#[[dev]]Config
+#Config/ [[dev]]
 
 /globals/_config.scss
 
 */
 
 /* SG
-#[[dev]]Config/Typography Settings
+#Config/Typography Settings [[dev]]
 
 ##### `$$base-font-size`
 ###### Pixel value
@@ -92,7 +92,7 @@ $type-h5-size:           ceil(modular-scale(2));
 $type-h6-size:           ceil(modular-scale(1));
 
 /* SG
-#[[dev]]Config/Grid Settings
+#Config/Grid Settings [[dev]]
 
 ##### `$$gutter`
 ###### Pixel value
@@ -167,25 +167,25 @@ $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
 /* SG
-#[[dev]]Config/General Settings
+#Config/General Settings [[dev]]
 
-##### `$breakpoints`
+##### `$$breakpoints`
 ###### List (nested) (string)
 Sets up variables for media-queries. Used in `media-query()`.
 
-##### `$breakpoints-has-alignment-classes`, `$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
+##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
 ###### List (string)
 Same as `breakpoint-has-widths`, but for utility classes.
 
-##### `$display-classes`
+##### `$$display-classes`
 ###### Map (string: string)
 Variable used generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
 
-##### `$colors`
+##### `$$colors`
 ###### Map (string: color)
 Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
 
-##### `$slick-[]-[]`
+##### `$$slick-[]-[]`
 Configuration for slick carousel jQuery plugin.
 Reference: https://github.com/kenwheeler/slick/#sass-variables
 
