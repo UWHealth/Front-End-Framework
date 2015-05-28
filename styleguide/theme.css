@@ -124,10 +124,12 @@
     display: block;
 }
 
+#styleguide-menu .top_menu {
+    margin: 1em 0 0;
+}
 #styleguide-menu > ul {
     list-style-type: none;
     padding: 0;
-    margin: 1em 0 1.5em;
 }
 
 #styleguide-menu li {
@@ -155,6 +157,8 @@
   user-select: none;
   color: rgb(17, 182, 198);
   line-height: 1;
+  width: 2.25rem;
+  text-align: center;
 }
 
 .submenu_toggle.toggle_active {
@@ -170,6 +174,13 @@
     display: block;
     padding: .75em 1.5em .5em 1em;
     text-decoration: none;
+}
+
+.top_menu {
+    border-bottom: 2px solid #dfdfdf;
+}
+.top_menu + .menu_body {
+    margin-top: -2px;
 }
 
 #styleguide-menu .menu_body a {

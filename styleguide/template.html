@@ -17,13 +17,13 @@
 <body>
 <main class="wrap">
     <nav id="styleguide-menu">
-    	<ul class="space_b_n top_menu">
+    	<ul class="top_menu">
             <li>
                 <a href="#" class="sectionlink show_all" data-section="#styleguide-styles .section">Styles</a>
                 <span class="submenu_toggle toggle_active" data-toggle="#style_menu">&#9662;</span>
             </li>
         </ul>
-        <ul id="style_menu" class="menu_body space_t_n">
+        <ul id="style_menu" class="menu_body">
     	{{#each menus.sections}}
     		<li>
                 {{!-Sections with Children--}}
@@ -48,13 +48,13 @@
     	{{/each}}
     	</ul>
         {{#if menus.developmentSections}}
-            <ul class="space_t space_b_n top_menu">
+            <ul class="space_t top_menu">
                 <li>
                     <a href="#" class="sectionlink show_all" data-section="#styleguide-dev .section">Development</a>
                     <span class="submenu_toggle toggle_active" data-toggle="#development_menu">&#9662;</span>
                 </li>
             </ul>
-            <ul id="development_menu" class="menu_body space_t_n">
+            <ul id="development_menu" class="menu_body">
         	{{#each menus.developmentSections}}
         		<li>
                     {{!-Sections with Children--}}
