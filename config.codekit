@@ -353,22 +353,6 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/base\/generic\/_gn-normalize.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/base\/generic\/_gn-normalize.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/base\/css\/_gn-normalize.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
 	"\/_partials\/sass\/base\/generic\/_gn-resets.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
@@ -657,54 +641,6 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/_partials\/sass\/globals\/_gl-color-functions.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/_gl-color-functions.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_gl-color-functions.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/globals\/_gl-defaults.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/_gl-defaults.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_gl-defaults.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/globals\/_gl-functions.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/_gl-functions.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_gl-functions.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
 	"\/_partials\/sass\/globals\/_gl-import.scss": {
 		"createSourceMap": 0,
 		"debugStyle": 2,
@@ -714,22 +650,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/_gl-import.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/css\/_gl-import.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/globals\/tools\/_t-alignment.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/tools\/_t-alignment.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/globals\/css\/_t-alignment.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -826,38 +746,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/tools\/_t-mixins.scss",
 		"outputAbbreviatedPath": "\/_partials\/sass\/globals\/css\/_t-mixins.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/globals\/tools\/_t-spacing.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/tools\/_t-spacing.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/globals\/css\/_t-spacing.css",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"shouldRunAutoprefixer": 1,
-		"shouldRunBless": 0,
-		"useLibsass": 0
-		},
-	"\/_partials\/sass\/globals\/tools\/_t-type.scss": {
-		"createSourceMap": 0,
-		"debugStyle": 2,
-		"decimalPrecision": 7,
-		"fileType": 4,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/_partials\/sass\/globals\/tools\/_t-type.scss",
-		"outputAbbreviatedPath": "\/_partials\/sass\/globals\/css\/_t-type.css",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -1009,29 +897,11 @@
 		"shouldRunBless": 0,
 		"useLibsass": 0
 		},
-	"\/css\/main.css": {
-		"fileType": 16,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/css\/main.css",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/css\/print.css": {
 		"fileType": 16,
 		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/css\/print.css",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
-	"\/dept-page.html": {
-		"fileType": 8192,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/dept-page.html",
 		"outputAbbreviatedPath": "No Output Path",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
@@ -1333,15 +1203,6 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
-	"\/index.html": {
-		"fileType": 8192,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/index.html",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/js\/colors.js": {
 		"fileType": 64,
 		"ignore": 1,
@@ -1381,17 +1242,6 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/js\/main.js",
 		"outputAbbreviatedPath": "\/js\/main-min.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"syntaxCheckerStyle": 0
-		},
-	"\/js\/plugins.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/plugins.js",
-		"outputAbbreviatedPath": "\/js\/plugins-min.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -1539,15 +1389,6 @@
 		"randomFootnoteNumbers": 0,
 		"useCompatibilityMode": 0
 		},
-	"\/styleguide\/index.html": {
-		"fileType": 8192,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/styleguide\/index.html",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/styleguide\/index.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -1558,17 +1399,6 @@
 		"outputPathIsSetByUser": 1,
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 0
-		},
-	"\/styleguide\/index.json": {
-		"fileType": 524288,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/styleguide\/index.json",
-		"orderOutput": 0,
-		"outputAbbreviatedPath": "\/styleguide\/index-min.json",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1
 		},
 	"\/styleguide\/jquery.js": {
 		"fileType": 64,

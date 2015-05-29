@@ -1,5 +1,5 @@
 //------------------------------------*\
-//    #Color Functions
+//    $Color Functions
 //------------------------------------*/
 
 /* SG
@@ -20,7 +20,7 @@ Specialized function used by `generate_color_variations()` to merge two color ma
 
 
 ##### `generate_color_varations()`
-###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`,	`$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`, `$blending-colors: null`)
+###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`, `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`,`$blending-colors: null`)
 Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
 
 **Arguments:**
@@ -196,7 +196,7 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 }
 
 
-// Output black or white
+//FUNCTION: Output black or white
 //====================================
 // Change text color based on background-color's darkness, e.g.:
 // div{
@@ -290,10 +290,11 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 }
 
 
-@function luminate($color, $percent) {
-	$luma: percentage(luma($color));
-	$hsl: hue($color), saturation($color), lightness($color);
-}
+// Unfinished function
+//@function luminate($color, $percent) {
+//	$luma: percentage(luma($color));
+//	$hsl: hue($color), saturation($color), lightness($color);
+//}
 
 //Creates a pretty color palette (in columns) using psuedo selectors (nth-child required)
 // This would be 1000x easier with flexbox

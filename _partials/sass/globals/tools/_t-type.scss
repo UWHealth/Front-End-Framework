@@ -8,12 +8,12 @@
 globals/tools/_t-type.scss
 
 ##### `@type-utilities()`
-###### mixin(`$namespace:""`, `$silent: true`, `$important: false)`
+###### mixin(`$namespace:''`, `$silent: true`, `$important: false)`
 A set of typography-based utility classes that can be generated within media-queries via the `$namespace` argument. Can output silent or real css classes. Can also make declarations `!important`.
 
 ##### `@type-utilities-init()`
-###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$silent: true`, `$important: false`)
-The responsive component to `@type-utilities()`. Invoke `@type-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating responsive utility classes.
+###### mixin(`$breakpoints`:`$$all-breakpoints`, `$namespace:''`, `$silent: true`, `$important: false`)
+The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive typography-based utility classes.
 
 */
 

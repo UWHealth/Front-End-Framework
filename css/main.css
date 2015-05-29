@@ -213,7 +213,7 @@ Specialized function used by `generate_color_variations()` to merge two color ma
 
 
 ##### `generate_color_varations()`
-###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`,	`$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`, `$blending-colors: null`)
+###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`, `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`,`$blending-colors: null`)
 Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
 
 **Arguments:**
@@ -369,6 +369,11 @@ Reference: https://github.com/kenwheeler/slick/#sass-variables
 
 Default settings for variables.
 */
+/* SG
+#Tools/ [[dev]]
+globals/tools/
+
+*/
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-400.eot");
@@ -443,22 +448,23 @@ Parse strings to determine spacing types. Checks for certain characters within a
 
 
 ##### `@spacing-utilities()`
-###### mixin(`$namespace:``''`, `$config:()`)
+###### mixin(`$namespace:''`, `$config:()`)
 Generates responsive spacing and padding classes. The `$namespace` argument is the media query's name, which will be appended to all generated classes. The `$config` argument is a map that allows JS-style arguments. Outputs class name as: `breakpoint_prefix_direction_amount`.
 
 **Arguments:**
 `$config`:
-  `silent:` boolean for outputting silent/non-silent classes.
-  `important:` whether to output !important after each declaration.
-  `directions:` names that get appended to class names.
-  `amounts:` how much to multiply spacing unit by `$$base-line-height`.
-  `names:` corresponding names for each `amounts` that gets appended to class names.
-  `prefixes:` first word in the class name. Must contain the words 'pad' and 'space'. Used by `layout-type()` to determine padding or margin.
+` silent:` boolean for outputting silent/non-silent classes.
+` important:` whether to output !important after each declaration.
+` directions:` names that get appended to class names.
+` amounts:` how much to multiply spacing unit by `$$base-line-height`.
+` names:` corresponding names for each `amounts` that gets appended to class names.
+` prefixes:` first word in the class name. Must contain the words 'pad' and 'space'. Used by `layout-type()` to determine padding or margin.
+
 
 
 ##### `@spacing-utilities-init()`
-###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$config: (silent:true)`)
-The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating responsive utility classes.
+###### mixin(`$breakpoints:` `$$all-breakpoints`, `$namespace:''`, `$config:(silent:true)`)
+The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive spacing classes.
 
 */
 /* SG
@@ -467,13 +473,13 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 globals/tools/_t-alignment.scss
 
 ##### `@alignment-utilities()`
-###### mixin(`$namespace:``''`, `$silent:true`, `$important:false`)
+###### mixin(`$namespace:''`, `$silent:true`, `$important:false`)
 Generates namespaced alignment classes.
 
 
 ##### `@alignment-utilities-init()`
-###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$silent:true`, `$important:false`)
-The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating alignment classes.
+###### mixin(`$breakpoints:` `$$all-breakpoints`, `$namespace:''`, `$silent:true`, `$important:false`)
+The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive alignment classes.
 
 */
 /* SG
@@ -482,12 +488,12 @@ The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilite
 globals/tools/_t-type.scss
 
 ##### `@type-utilities()`
-###### mixin(`$namespace:""`, `$silent: true`, `$important: false)`
+###### mixin(`$namespace:''`, `$silent: true`, `$important: false)`
 A set of typography-based utility classes that can be generated within media-queries via the `$namespace` argument. Can output silent or real css classes. Can also make declarations `!important`.
 
 ##### `@type-utilities-init()`
-###### mixin(`$breakpoints:``$$all-breakpoints`, `$namespace:""`, `$silent: true`, `$important: false`)
-The responsive component to `@type-utilities()`. Invoke `@type-utilites()` within a set of media-queries that match names in `$$breakpoints`. This is most useful for creating responsive utility classes.
+###### mixin(`$breakpoints`:`$$all-breakpoints`, `$namespace:''`, `$silent: true`, `$important: false`)
+The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive typography-based utility classes.
 
 */
 /*------------------------------------*	#Generic Styles
@@ -856,8 +862,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="search"] {
   -webkit-appearance: textfield;
-  -moz-appearance: none;
-       appearance: none;
+  appearance: none;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
