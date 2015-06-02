@@ -374,54 +374,6 @@ Default settings for variables.
 globals/tools/
 
 */
-/* SG
-#Tools/Mixins [[dev]]
-
-globals/tools/_t-mixins.scss
-
-##### `@media-query()`, `@mq`, `@media`, `@breakpoint`, `@bp`
-###### mixin(`$media-queries`)
-Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined by using a nested list (double parenthesis).
-
-
-##### `@specificity()`
-###### mixin(`$num`: 1)
-Specificity increaser. Useful for increasing specificity of a selector instead of using !important
-
-[Reference](http://www.sitepoint.com/selector-specificity-css-preprocessors/)
-
-
-##### `@opacity()`
-###### mixin(`$trans`)
-Cross-browser (including IE) opacity.
-
-[Reference](https://gist.github.com/jgv/745754)
-
-
-##### `@px-to-rems`, `@rems()`
-###### mixin(`$property`, `$sizes`, `$important`: false, `$base-font`: `$$base-font-size`)
-REM generator used to create a property with a rem value and PX fallback.
-
-
-##### `@type-font-size()`
-###### mixin(`$font-size`, `$line-height`: true, `$selector` :'', `$font-base`: `$$base-font-size`)
-Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin.
-
-
-
-*/
-/* SG
-#Tools/Font Face Generator [[dev]]
-
-globals/tools/_t-fontface.scss
-
-##### `@fonts()`
-###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`))
-Uses our own take on Compass' font-face generator. More robust and automated than Compass, though. Loops through each `$name` creating @font-face declaration(s) based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files.
-
-Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: 'arial'; font-weight: 400.
-
-*/
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-400.eot");
@@ -910,8 +862,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="search"] {
   -webkit-appearance: textfield;
-  -moz-appearance: none;
-       appearance: none;
+  appearance: none;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }

@@ -6,7 +6,8 @@
 //@codekit-append "velocity.js"
 //@codekit-append "velocity.ui.js"
 //@codekit-append "_tabs.js"
-//@codekit-append "_toggle.js"//Add selector based on jQuery data
+//@codekit-append "_toggle.js"
+//Add selector based on jQuery data
 // e.g. $('element').data('foo', 'whatever')
 // $('[foo]')
 // Would select all elements with 'foo' as a data key
@@ -22,7 +23,8 @@
     };
 })(jQuery);
 
-/*! VelocityJS.org (1.2.1). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
+
+/*! VelocityJS.org (1.2.1). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
 
 /*************************
    Velocity jQuery Shim
@@ -3890,7 +3892,8 @@ return function (global, window, document, undefined) {
 /* The CSS spec mandates that the translateX/Y/Z transforms are %-relative to the element itself -- not its parent.
 Velocity, however, doesn't make this distinction. Thus, converting to or from the % unit with these subproperties
 will produce an inaccurate conversion value. The same issue exists with the cx/cy attributes of SVG circles and ellipses. */
-/**********************
+
+/**********************
    Velocity UI Pack
 **********************/
 
@@ -4647,7 +4650,8 @@ return function (global, window, document, undefined) {
     };
 }((window.jQuery || window.Zepto || window), window, document);
 }));
-//Responsive tables
+
+//Responsive tables
 (function(t) {
     var all_tables = t("table");
     var y = [];
@@ -4688,7 +4692,8 @@ return function (global, window, document, undefined) {
     }
 })(jQuery);
 
-// Lighten or darken a color function
+
+// Lighten or darken a color function
 // Adapted from: http://css-tricks.com/snippets/javascript/lighten-darken-color/
 // Usage:
 // var lightercolor = change_color("#F06D06", 20);
@@ -4724,7 +4729,8 @@ var change_color = function(col, amt) {
 
 };
 
-/*
+
+/*
      _ _      _       _
  ___| (_) ___| | __  (_)___
 / __| | |/ __| |/ /  | / __|
@@ -6422,7 +6428,8 @@ var change_color = function(col, amt) {
     };
 
 }));
-!function(root, factory) {
+
+!function(root, factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         module.exports = factory();
     /* AMD module. */
@@ -6952,7 +6959,8 @@ var change_color = function(col, amt) {
     $.fn.tabbed.defaults = default_options;
 });
 
-(function($){
+
+(function($){
 
 	var $toggle = {
 

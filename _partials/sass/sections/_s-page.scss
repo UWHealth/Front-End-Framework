@@ -2,7 +2,7 @@
 #Color Blocks
 A good way to look over your color pallete.
 
-Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses $$colors map.
+Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
 
 ```
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
@@ -48,16 +48,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 .box_open{
 	border-width: 2px;
-}
-
-.link_naked, %link_naked{
-	color: inherit;
-	text-decoration: none;
-
-	&:hover, &:focus{
-		color: inherit;
-		text-decoration: none;
-	}
 }
 
 .tab_topline > .tabs{
