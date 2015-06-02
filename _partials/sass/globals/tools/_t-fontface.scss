@@ -1,4 +1,21 @@
 //------------------------------------
+//      $FONT FACE TOOL
+//------------------------------------
+
+/* SG
+#Tools/Font Face Generator [[dev]]
+
+globals/tools/_t-fontface.scss
+
+##### `@fonts()`
+###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`))
+Uses our own take on Compass' font-face generator. More robust and automated than Compass, though. Loops through each `$name` creating @font-face declaration(s) based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files.
+
+Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: 'arial'; font-weight: 400.
+
+*/
+
+//------------------------------------
 //    FONTS
 //------------------------------------
 
