@@ -38,3 +38,5 @@ scss-lint.log
 node_modules/*
 
 _*.html
+
+styleguide/index.json
