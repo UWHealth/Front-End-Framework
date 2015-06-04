@@ -15,16 +15,15 @@
     
     #styleguide {
         float: left;
-        width: 80%;
+        width: 75%;
     }
     
     #styleguide .section {
-        background-color: #fff;
         margin-bottom: 2em;
         border-radius: 3px;
         overflow: hidden;
-        box-shadow: 0 2px 0 rgba(0,0,0,0.1),
-            0 3px 6px rgba(0,0,0,0.1);
+        /*box-shadow: 0 2px 0 rgba(0,0,0,0.1),
+            0 3px 6px rgba(0,0,0,0.1);*/
     }
     #styleguide .section_starter {
         background: transparent;
@@ -32,15 +31,33 @@
         margin-bottom: 0;
         padding-top: .5em;
     }
+    
     #styleguide .markup.markup pre, #styleguide .markup{
         background-color: #43505E;
     }
     
     #styleguide .result,
-    #styleguide .comment {
-        padding: 1em;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
+    #styleguide .section_comment,
+    #styleguide .section_header {
+        padding: 1em 0;
     }
+    
+    .header_subheading {
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #4d5458;
+        font-size: .85em;
+    }
+    
+    #styleguide .section_header {
+        padding-bottom: 0;
+        border-top: 1px solid rgba(0,0,0,0.2);
+    }
+    
+    .header_heading {
+        margin-bottom: 0;
+    }
+    
     #styleguide .result {
         border-bottom: 0px;
     }
@@ -51,11 +68,7 @@
         overflow: hidden;
     }
     
-    #styleguide .comment {
-        background-color: rgba(0,0,0, 0.01);
-    }
-    
-    #styleguide .section .comment code {
+    .section_comment code {
         color: #3fb7c0;
         font-family: Consolas, Monaco, 'Andale Mono', monospace;
     }
@@ -95,12 +108,15 @@
         hyphens: none;
     }
     
+    #styleguide h5 code {
+        color: #0d3038;
+    }
     
     /* menu */
     #styleguide-menu {
-        width: calc(20% - 1em - 2px);
+        width: calc(20% - 2em - 2px);
         float: left;
-        margin-right: 1em;
+        margin-right: 2em;
         height: 100%;
         overflow-y: auto;
     }
@@ -351,6 +367,7 @@
     </style></head>
 <body>
 <main class="wrap">
+
     <nav id="styleguide-menu">
     	<ul class="top_menu">
             <li>
@@ -392,37 +409,36 @@
                         <a class="submenulink" href="#" data-section="Config">Config</a><span class="submenu_toggle" data-toggle="[data-submenu='Config']">&#9662;</span>
                         <ul class="submenu" data-submenu="Config">
                                 <li><a class="submenulink sub-sub" data-section="Config" href="#config-">Config</a></li>
-                                <li><a class="submenulink sub-sub" data-section="Config" href="#config-general_settings_">General Settings </a></li>
-                                <li><a class="submenulink sub-sub" data-section="Config" href="#config-grid_settings_">Grid Settings </a></li>
-                                <li><a class="submenulink sub-sub" data-section="Config" href="#config-typography_settings_">Typography Settings </a></li>
+                                <li><a class="submenulink sub-sub" data-section="Config" href="#config-general_settings">General Settings</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Config" href="#config-grid_settings">Grid Settings</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Config" href="#config-typography_settings">Typography Settings</a></li>
                         </ul>
         		</li>
         		<li>
                         <a class="submenulink" href="#" data-section="Functions">Functions</a><span class="submenu_toggle" data-toggle="[data-submenu='Functions']">&#9662;</span>
                         <ul class="submenu" data-submenu="Functions">
-                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-colors_">Colors </a></li>
-                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-general_functions_">General Functions </a></li>
+                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-colors">Colors</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-general_functions">General Functions</a></li>
                         </ul>
         		</li>
         		<li>
-                        <a class="sectionlink" href="#main_-" data-section="Main ">Main </a>
+                        <a class="sectionlink" href="#main-" data-section="Main">Main</a>
         		</li>
         		<li>
                         <a class="submenulink" href="#" data-section="Tools">Tools</a><span class="submenu_toggle" data-toggle="[data-submenu='Tools']">&#9662;</span>
                         <ul class="submenu" data-submenu="Tools">
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-">Tools</a></li>
-                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-alignment_utilities_">Alignment Utilities </a></li>
-                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-font_face_generator_">Font Face Generator </a></li>
-                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-mixins_">Mixins </a></li>
-                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-spacing_utilities_">Spacing Utilities </a></li>
-                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-type_utilities_">Type Utilities </a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-alignment_utilities">Alignment Utilities</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-font_face_generator">Font Face Generator</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-mixins">Mixins</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-spacing_utilities">Spacing Utilities</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-type_utilities">Type Utilities</a></li>
                         </ul>
         		</li>
         		<li>
-                        <a class="sectionlink" href="#variables_-" data-section="Variables ">Variables </a>
+                        <a class="sectionlink" href="#variables-" data-section="Variables">Variables</a>
         		</li>
         	</ul>
-
     </nav>
 
     <section id="styleguide">
@@ -433,11 +449,13 @@
             </header>
         		<article class="section" id="color_blocks-" data-section="Color Blocks" data-heading="">
 
-                    <header class="comment">
-                        <h1 class="h4">Color Blocks</h1>
+                    <header class="section_header">
+                            <h1 class="h4 header_heading">Color Blocks</h1>
+                    </header>
+                    <div class="section_comment">
                         <p>A good way to look over your color pallete.</p>
 <p>Include a bunch of elements with <code>class=&quot;color-blocks&quot;</code>, and the css will do the rest. Requires <code id="color-palette-output()" class="global global_variable" data-code-id="color-palette-output()">@color-palette-output()</code> to generate. Uses <code id="$colors" class="global global_variable" data-code-id="$colors">$colors</code> map.</p>
-                    </header>
+                    </div>
 
                     <div class="section_body">
                         <div class="result">
@@ -464,11 +482,13 @@
         		</article>
         		<article class="section" id="lists-bordered_lists" data-section="Lists" data-heading="Bordered Lists">
 
-                    <header class="comment">
-                        <h1 class="h4">Lists</h1>
-                            <h2 class="h6 space_t_neg">Bordered Lists</h2>
-                        <p>Creates a list with borders above and below each list item. Appending <code>list_bordered</code> with <code>_short</code> will make reduce the padding between each item.</p>
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Lists</h1>
+                            <h2 class="h4 space_t_neg header_heading">Bordered Lists</h2>
                     </header>
+                    <div class="section_comment">
+                        <p>Creates a list with borders above and below each list item. Appending <code>list_bordered</code> with <code>_short</code> will make reduce the padding between each item.</p>
+                    </div>
 
                     <div class="section_body">
                         <div class="result">
@@ -503,11 +523,13 @@
         		</article>
         		<article class="section" id="lists-breadcrumbs" data-section="Lists" data-heading="Breadcrumbs">
 
-                    <header class="comment">
-                        <h1 class="h4">Lists</h1>
-                            <h2 class="h6 space_t_neg">Breadcrumbs</h2>
-                        <p>A list where each item is in a row, with a &#x25B8; between each item.</p>
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Lists</h1>
+                            <h2 class="h4 space_t_neg header_heading">Breadcrumbs</h2>
                     </header>
+                    <div class="section_comment">
+                        <p>A list where each item is in a row, with a &#x25B8; between each item.</p>
+                    </div>
 
                     <div class="section_body">
                         <div class="result">
@@ -530,11 +552,13 @@
         		</article>
         		<article class="section" id="lists-inline_lists" data-section="Lists" data-heading="Inline Lists">
 
-                    <header class="comment">
-                        <h1 class="h4">Lists</h1>
-                            <h2 class="h6 space_t_neg">Inline Lists</h2>
-                        <p>A list where each item is in a row, with spacing to the right of each item</p>
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Lists</h1>
+                            <h2 class="h4 space_t_neg header_heading">Inline Lists</h2>
                     </header>
+                    <div class="section_comment">
+                        <p>A list where each item is in a row, with spacing to the right of each item</p>
+                    </div>
 
                     <div class="section_body">
                         <div class="result">
@@ -557,11 +581,13 @@
         		</article>
         		<article class="section" id="lists-navigation_list" data-section="Lists" data-heading="Navigation List">
 
-                    <header class="comment">
-                        <h1 class="h4">Lists</h1>
-                            <h2 class="h6 space_t_neg">Navigation List</h2>
-                        <p>List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn&apos;t have to be an <code>ol</code> or <code>ul</code>).</p>
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Lists</h1>
+                            <h2 class="h4 space_t_neg header_heading">Navigation List</h2>
                     </header>
+                    <div class="section_comment">
+                        <p>List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn&apos;t have to be an <code>ol</code> or <code>ul</code>).</p>
+                    </div>
 
                     <div class="section_body">
                         <div class="result">
@@ -596,13 +622,15 @@
         		</article>
         		<article class="section" id="tabs-" data-section="Tabs" data-heading="">
 
-                    <header class="comment">
-                        <h1 class="h4">Tabs</h1>
+                    <header class="section_header">
+                            <h1 class="h4 header_heading">Tabs</h1>
+                    </header>
+                    <div class="section_comment">
                         <p>A way to show groups of content, with buttons to toggle between them (like tabs in a folder or browser window).</p>
 <h6 class="main-section-sg-by-emiloberg" id="section-set_up">Set Up</h6>
 <p>Tabs start out as simple anchor + element pairings (with the anchor&apos;s href referring to an element&apos;s ID).</p>
 <p>Using <code>.tab_button</code> on the anchor, and <code>.tab_content</code> on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.</p>
-                    </header>
+                    </div>
 
                     <div class="section_body">
                         <div class="result">
@@ -631,11 +659,13 @@
         		</article>
         		<article class="section" id="tabs-premade" data-section="Tabs" data-heading="Premade">
 
-                    <header class="comment">
-                        <h1 class="h4">Tabs</h1>
-                            <h2 class="h6 space_t_neg">Premade</h2>
-                        <p>You can force the tabs.js to ignore a group of pre-made tab elements by adding a <code>data-tabbed=&quot;true&quot;</code> to either the wrapping element or one of the <code>.tab_button</code>s.</p>
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Tabs</h1>
+                            <h2 class="h4 space_t_neg header_heading">Premade</h2>
                     </header>
+                    <div class="section_comment">
+                        <p>You can force the tabs.js to ignore a group of pre-made tab elements by adding a <code>data-tabbed=&quot;true&quot;</code> to either the wrapping element or one of the <code>.tab_button</code>s.</p>
+                    </div>
 
                     <div class="section_body">
                         <div class="result">
@@ -675,25 +705,30 @@
 
         		</article>
         </div>
+
         <div id="styleguide-dev" class="section_container">
             <header class="section section_starter">
                 <h1 class="h3">Development</h1>
             </header>
         		<article class="section" id="config-" data-section="Config" data-heading="">
 
-                    <header class="comment">
-                        <h1 class="h4">Config</h1>
-                        <p>/globals/_config.scss</p>
+                    <header class="section_heading">
+                            <h1 class="h4 header_heading">Config</h1>
                     </header>
+                    <div class="section_comment">
+                        <p>/globals/_config.scss</p>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="config-general_settings_" data-section="Config" data-heading="General Settings ">
+        		<article class="section" id="config-general_settings" data-section="Config" data-heading="General Settings">
 
-                    <header class="comment">
-                        <h1 class="h4">Config</h1>
-                            <h2 class="h6 space_t_neg">General Settings </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Config</h1>
+                            <h2 class="h4 space_t_neg header_heading">General Settings</h2>
+                    </header>
+                    <div class="section_comment">
                         <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$breakpoints_class=global_global_variable_data-code-id=$breakpoints_$breakpoints__code_"><code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_nested_string">List (nested) (string)</h6>
 <p>Sets up variables for media-queries. Used in <code id="media-query()" class="global global_function" data-code-id="media-query()">media-query()</code>.</p>
@@ -708,16 +743,18 @@
 <p>Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the <code id="color()" class="global global_function" data-code-id="color()">color()</code> (e.g. <code>color(highlight, light)</code> ). The automatically generated styles can be modified in <code>colors/_colorfunctions.scss</code></p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$slick-[]-[]_class=global_global_variable_data-code-id=$slick-[]-[]_$slick-[]-[]__code_"><code id="$slick-[]-[]" class="global global_variable" data-code-id="$slick-[]-[]">$slick-[]-[]</code></h5>
 <p>Configuration for slick carousel jQuery plugin.<br>Reference: <a href="https://github.com/kenwheeler/slick/#sass-variables">https://github.com/kenwheeler/slick/#sass-variables</a></p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="config-grid_settings_" data-section="Config" data-heading="Grid Settings ">
+        		<article class="section" id="config-grid_settings" data-section="Config" data-heading="Grid Settings">
 
-                    <header class="comment">
-                        <h1 class="h4">Config</h1>
-                            <h2 class="h6 space_t_neg">Grid Settings </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Config</h1>
+                            <h2 class="h4 space_t_neg header_heading">Grid Settings</h2>
+                    </header>
+                    <div class="section_comment">
                         <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$gutter_class=global_global_variable_data-code-id=$gutter_$gutter__code_"><code id="$gutter" class="global global_variable" data-code-id="$gutter">$gutter</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-pixel_value">Pixel value</h6>
 <p>Space between grid items. Also used in <code id="type-space()" class="global global_function" data-code-id="type-space()">type-space()</code> for horizontal spacing units.</p>
@@ -739,16 +776,18 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$breakpoints-has-widths_class=global_global_variable_data-code-id=$breakpoints-has-widths_$breakpoints-has-widths__code_,__code_id=$breakpoints-has-push_class=global_global_variable_data-code-id=$breakpoints-has-push_$breakpoints-has-push_/code_,__code_id=$breakpoints-has-pull_class=global_global_variable_data-code-id=$breakpoints-has-pull_$breakpoints-has-pull_/code_"><code id="$breakpoints-has-widths" class="global global_variable" data-code-id="$breakpoints-has-widths">$breakpoints-has-widths</code>, <code id="$breakpoints-has-push" class="global global_variable" data-code-id="$breakpoints-has-push">$breakpoints-has-push</code>, <code id="$breakpoints-has-pull" class="global global_variable" data-code-id="$breakpoints-has-pull">$breakpoints-has-pull</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_string">List (string)</h6>
 <p>Determines what classes get generated at <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. The list&apos;s order determines cascade (e.g. ).</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="config-typography_settings_" data-section="Config" data-heading="Typography Settings ">
+        		<article class="section" id="config-typography_settings" data-section="Config" data-heading="Typography Settings">
 
-                    <header class="comment">
-                        <h1 class="h4">Config</h1>
-                            <h2 class="h6 space_t_neg">Typography Settings </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Config</h1>
+                            <h2 class="h4 space_t_neg header_heading">Typography Settings</h2>
+                    </header>
+                    <div class="section_comment">
                         <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size__code_"><code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-pixel_value">Pixel value</h6>
 <p>Font size all other values will use for calculation. Will be converted to <code>rems</code>.</p>
@@ -782,16 +821,18 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$font-include-eot_class=global_global_variable_data-code-id=$font-include-eot_$font-include-eot__code_"><code id="$font-include-eot" class="global global_variable" data-code-id="$font-include-eot">$font-include-eot</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
 <p>Determines whether to generate <code>@font-face</code> values that point at an .eot file. Fallback for IE8.</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="functions-colors_" data-section="Functions" data-heading="Colors ">
+        		<article class="section" id="functions-colors" data-section="Functions" data-heading="Colors">
 
-                    <header class="comment">
-                        <h1 class="h4">Functions</h1>
-                            <h2 class="h6 space_t_neg">Colors </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Functions</h1>
+                            <h2 class="h4 space_t_neg header_heading">Colors</h2>
+                    </header>
+                    <div class="section_comment">
                         <p>/globals/_gl-color-functions.scss</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=colors_class=global_global_function_data-code-id=colors_colors__code_,__code_id=color_class=global_global_function_data-code-id=color_color_/code_"><code id="colors()" class="global global_function" data-code-id="colors()">colors()</code>, <code id="color()" class="global global_function" data-code-id="color()">color()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$color-name__code__,__code_$tone:base_/code__,__code_$opacity:1_/code_">function(<code>$color-name</code> , <code>$tone:base</code> , <code>$opacity:1</code>)</h6>
@@ -822,16 +863,18 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=color-palette-output_class=global_global_variable_data-code-id=color-palette-output_@color-palette-output__code_"><code id="color-palette-output()" class="global global_variable" data-code-id="color-palette-output()">@color-palette-output()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$selection__code_,__code_id=$colors_class=global_global_variable_data-code-id=$colors_$colors_/code_">mixin(<code>$selection</code>, <code id="$colors" class="global global_variable" data-code-id="$colors">$colors</code>)</h6>
 <p>Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for &quot;color blocks&quot; output, in style guide.</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="functions-general_functions_" data-section="Functions" data-heading="General Functions ">
+        		<article class="section" id="functions-general_functions" data-section="Functions" data-heading="General Functions">
 
-                    <header class="comment">
-                        <h1 class="h4">Functions</h1>
-                            <h2 class="h6 space_t_neg">General Functions </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Functions</h1>
+                            <h2 class="h4 space_t_neg header_heading">General Functions</h2>
+                    </header>
+                    <div class="section_comment">
                         <p>/globals/_gl-functions.scss</p>
 <hr>
 <h3 class="main-section-sg-by-emiloberg" id="section-math_functions">Math Functions</h3>
@@ -956,15 +999,17 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=define-type_class=global_global_function_data-code-id=define-type_define-type__code_"><code id="define-type()" class="global global_function" data-code-id="define-type()">define-type()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-_code_[font-size],_[property],_[new_value]__code_"><code>[font-size], [property], [new value]</code></h6>
 <p>Registers new values to type map. [Property] accepts px, rem, and line-height.</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="main_-" data-section="Main " data-heading="">
+        		<article class="section" id="main-" data-section="Main" data-heading="">
 
-                    <header class="comment">
-                        <h1 class="h4">Main </h1>
+                    <header class="section_heading">
+                            <h1 class="h4 header_heading">Main</h1>
+                    </header>
+                    <div class="section_comment">
                         <p>/main.scss</p>
 <p>Imports all Sass files in order from lowest specificity to highest.</p>
 <ol>
@@ -979,26 +1024,30 @@
 <li>(Sections) view- and page-specific and scoped styles.</li>
 <li>(Overrides) utility styles, usually end in <code>!important</code></li>
 </ol>
-                    </header>
+                    </div>
 
 
 
         		</article>
         		<article class="section" id="tools-" data-section="Tools" data-heading="">
 
-                    <header class="comment">
-                        <h1 class="h4">Tools</h1>
-                        <p>globals/tools/</p>
+                    <header class="section_heading">
+                            <h1 class="h4 header_heading">Tools</h1>
                     </header>
+                    <div class="section_comment">
+                        <p>globals/tools/</p>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="tools-alignment_utilities_" data-section="Tools" data-heading="Alignment Utilities ">
+        		<article class="section" id="tools-alignment_utilities" data-section="Tools" data-heading="Alignment Utilities">
 
-                    <header class="comment">
-                        <h1 class="h4">Tools</h1>
-                            <h2 class="h6 space_t_neg">Alignment Utilities </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Tools</h1>
+                            <h2 class="h4 space_t_neg header_heading">Alignment Utilities</h2>
+                    </header>
+                    <div class="section_comment">
                         <p>globals/tools/_t-alignment.scss</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=alignment-utilities_class=global_global_variable_data-code-id=alignment-utilities_@alignment-utilities__code_"><code id="alignment-utilities()" class="global global_variable" data-code-id="alignment-utilities()">@alignment-utilities()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace:&amp;_39;&apos;__code_,__code_$silent:true_/code_,__code_$important:false_/code_">mixin(<code>$namespace:&apos;&apos;</code>, <code>$silent:true</code>, <code>$important:false</code>)</h6>
@@ -1006,31 +1055,35 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=alignment-utilities-init_class=global_global_variable_data-code-id=alignment-utilities-init_@alignment-utilities-init__code_"><code id="alignment-utilities-init()" class="global global_variable" data-code-id="alignment-utilities-init()">@alignment-utilities-init()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$breakpoints:__code___code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints_/code_,__code_$namespace:&amp;_39;&apos;_/code_,__code_$silent:true_/code_,__code_$important:false_/code_">mixin(<code>$breakpoints:</code> <code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&apos;&apos;</code>, <code>$silent:true</code>, <code>$important:false</code>)</h6>
 <p>The responsive component to <code id="alignment-utilities()" class="global global_variable" data-code-id="alignment-utilities()">@alignment-utilities()</code>. Invoke <code id="alignment-utilites()" class="global global_variable" data-code-id="alignment-utilites()">@alignment-utilites()</code> with that loops through a set of media-queries defined in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive alignment classes.</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="tools-font_face_generator_" data-section="Tools" data-heading="Font Face Generator ">
+        		<article class="section" id="tools-font_face_generator" data-section="Tools" data-heading="Font Face Generator">
 
-                    <header class="comment">
-                        <h1 class="h4">Tools</h1>
-                            <h2 class="h6 space_t_neg">Font Face Generator </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Tools</h1>
+                            <h2 class="h4 space_t_neg header_heading">Font Face Generator</h2>
+                    </header>
+                    <div class="section_comment">
                         <p>globals/tools/_t-fontface.scss</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=fonts_class=global_global_variable_data-code-id=fonts_@fonts__code_"><code id="fonts()" class="global global_variable" data-code-id="fonts()">@fonts()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$name__code_:__code_id=$font-file-name_class=global_global_variable_data-code-id=$font-file-name_$font-file-name_/code_,__code_id=$font-file-location_class=global_global_variable_data-code-id=$font-file-location_$font-file-location_/code_,__code_$weights_/code_:__code_id=$font-weights_class=global_global_variable_data-code-id=$font-weights_$font-weights_/code_,__code_$italics_/code_:__code_id=$font-italics_class=global_global_variable_data-code-id=$font-italics_$font-italics_/code_)">mixin(<code>$name</code>: <code id="$font-file-name" class="global global_variable" data-code-id="$font-file-name">$font-file-name</code>, <code id="$font-file-location" class="global global_variable" data-code-id="$font-file-location">$font-file-location</code>, <code>$weights</code>: <code id="$font-weights" class="global global_variable" data-code-id="$font-weights">$font-weights</code>, <code>$italics</code>: <code id="$font-italics" class="global global_variable" data-code-id="$font-italics">$font-italics</code>))</h6>
 <p>Uses our own take on Compass&apos; font-face generator. More robust and automated than Compass, though. Loops through each <code>$name</code> creating @font-face declaration(s) based on <code>$weights</code> and <code>$italics</code>. Uses <code>$path</code> and <code>$name</code> to point to font files.</p>
 <p>Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: &apos;arial&apos;; font-weight: 400.</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="tools-mixins_" data-section="Tools" data-heading="Mixins ">
+        		<article class="section" id="tools-mixins" data-section="Tools" data-heading="Mixins">
 
-                    <header class="comment">
-                        <h1 class="h4">Tools</h1>
-                            <h2 class="h6 space_t_neg">Mixins </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Tools</h1>
+                            <h2 class="h4 space_t_neg header_heading">Mixins</h2>
+                    </header>
+                    <div class="section_comment">
                         <p>globals/tools/_t-mixins.scss</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=media-query_class=global_global_variable_data-code-id=media-query_@media-query__code_,__code_@mq_/code_,__code_@media_/code_,__code_@breakpoint_/code_,__code_@bp_/code_"><code id="media-query()" class="global global_variable" data-code-id="media-query()">@media-query()</code>, <code>@mq</code>, <code>@media</code>, <code>@breakpoint</code>, <code>@bp</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$media-queries__code_">mixin(<code>$media-queries</code>)</h6>
@@ -1049,16 +1102,18 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=type-font-size_class=global_global_variable_data-code-id=type-font-size_@type-font-size__code_"><code id="type-font-size()" class="global global_variable" data-code-id="type-font-size()">@type-font-size()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$font-size__code_,__code_$line-height_/code_:_true,__code_$selector_/code__:&amp;_39;&apos;,__code_$font-base_/code_:__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_">mixin(<code>$font-size</code>, <code>$line-height</code>: true, <code>$selector</code> :&apos;&apos;, <code>$font-base</code>: <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>)</h6>
 <p>Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin.</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="tools-spacing_utilities_" data-section="Tools" data-heading="Spacing Utilities ">
+        		<article class="section" id="tools-spacing_utilities" data-section="Tools" data-heading="Spacing Utilities">
 
-                    <header class="comment">
-                        <h1 class="h4">Tools</h1>
-                            <h2 class="h6 space_t_neg">Spacing Utilities </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Tools</h1>
+                            <h2 class="h4 space_t_neg header_heading">Spacing Utilities</h2>
+                    </header>
+                    <div class="section_comment">
                         <p>globals/tools/_t-spacing.scss</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=layout-type_class=global_global_function_data-code-id=layout-type_layout-type__code_"><code id="layout-type()" class="global global_function" data-code-id="layout-type()">layout-type()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$space-type:&amp;_39;&apos;__code_,__code_$space-direction:&apos;&apos;_/code_">function(<code>$space-type:&apos;&apos;</code>, <code>$space-direction:&apos;&apos;</code>)</h6>
@@ -1070,16 +1125,18 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=spacing-utilities-init_class=global_global_variable_data-code-id=spacing-utilities-init_@spacing-utilities-init__code_"><code id="spacing-utilities-init()" class="global global_variable" data-code-id="spacing-utilities-init()">@spacing-utilities-init()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$breakpoints:__code___code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints_/code_,__code_$namespace:&amp;_39;&apos;_/code_,__code_$config:(silent:true_/code_)">mixin(<code>$breakpoints:</code> <code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&apos;&apos;</code>, <code>$config:(silent:true)</code>)</h6>
 <p>The responsive component to <code id="spacing-utilities()" class="global global_variable" data-code-id="spacing-utilities()">@spacing-utilities()</code>. Invoke <code id="spacing-utilites()" class="global global_variable" data-code-id="spacing-utilites()">@spacing-utilites()</code> with that loops through a set of media-queries defined in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive spacing classes.</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="tools-type_utilities_" data-section="Tools" data-heading="Type Utilities ">
+        		<article class="section" id="tools-type_utilities" data-section="Tools" data-heading="Type Utilities">
 
-                    <header class="comment">
-                        <h1 class="h4">Tools</h1>
-                            <h2 class="h6 space_t_neg">Type Utilities </h2>
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Tools</h1>
+                            <h2 class="h4 space_t_neg header_heading">Type Utilities</h2>
+                    </header>
+                    <div class="section_comment">
                         <p>globals/tools/_t-type.scss</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=type-utilities_class=global_global_variable_data-code-id=type-utilities_@type-utilities__code_"><code id="type-utilities()" class="global global_variable" data-code-id="type-utilities()">@type-utilities()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace:&amp;_39;&apos;__code_,__code_$silent:_true_/code_,__code_$important:_false_/code_">mixin(<code>$namespace:&apos;&apos;</code>, <code>$silent: true</code>, <code>$important: false)</code></h6>
@@ -1087,18 +1144,20 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=type-utilities-init_class=global_global_variable_data-code-id=type-utilities-init_@type-utilities-init__code_"><code id="type-utilities-init()" class="global global_variable" data-code-id="type-utilities-init()">@type-utilities-init()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$breakpoints__code_:_code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints_/code_,__code_$namespace:&amp;_39;&apos;_/code_,__code_$silent:_true_/code_,__code_$important:_false_/code_">mixin(<code>$breakpoints</code>:<code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&apos;&apos;</code>, <code>$silent: true</code>, <code>$important: false</code>)</h6>
 <p>The responsive component to <code id="type-utilities()" class="global global_variable" data-code-id="type-utilities()">@type-utilities()</code>. Invoke <code id="type-utilites()" class="global global_variable" data-code-id="type-utilites()">@type-utilites()</code> with that loops through a set of media-queries defined in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive typography-based utility classes.</p>
-                    </header>
+                    </div>
 
 
 
         		</article>
-        		<article class="section" id="variables_-" data-section="Variables " data-heading="">
+        		<article class="section" id="variables-" data-section="Variables" data-heading="">
 
-                    <header class="comment">
-                        <h1 class="h4">Variables </h1>
+                    <header class="section_heading">
+                            <h1 class="h4 header_heading">Variables</h1>
+                    </header>
+                    <div class="section_comment">
                         <p>/globals/_gl-defaults.scss</p>
 <p>Default settings for variables.</p>
-                    </header>
+                    </div>
 
 
 
@@ -1240,28 +1299,28 @@
                             _id: "config-",
                             _name: "",
                         _1: "[object Object]",
-                            _id: "config-general_settings_",
-                            _name: "General Settings ",
+                            _id: "config-general_settings",
+                            _name: "General Settings",
                         _2: "[object Object]",
-                            _id: "config-grid_settings_",
-                            _name: "Grid Settings ",
+                            _id: "config-grid_settings",
+                            _name: "Grid Settings",
                         _3: "[object Object]",
-                            _id: "config-typography_settings_",
-                            _name: "Typography Settings ",
+                            _id: "config-typography_settings",
+                            _name: "Typography Settings",
                 _1: "[object Object]",
                     _name: "Functions",
                     _headings: "[object Object],[object Object]",
                         _0: "[object Object]",
-                            _id: "functions-colors_",
-                            _name: "Colors ",
+                            _id: "functions-colors",
+                            _name: "Colors",
                         _1: "[object Object]",
-                            _id: "functions-general_functions_",
-                            _name: "General Functions ",
+                            _id: "functions-general_functions",
+                            _name: "General Functions",
                 _2: "[object Object]",
-                    _name: "Main ",
+                    _name: "Main",
                     _headings: "[object Object]",
                         _0: "[object Object]",
-                            _id: "main_-",
+                            _id: "main-",
                             _name: "",
                 _3: "[object Object]",
                     _name: "Tools",
@@ -1270,25 +1329,25 @@
                             _id: "tools-",
                             _name: "",
                         _1: "[object Object]",
-                            _id: "tools-alignment_utilities_",
-                            _name: "Alignment Utilities ",
+                            _id: "tools-alignment_utilities",
+                            _name: "Alignment Utilities",
                         _2: "[object Object]",
-                            _id: "tools-font_face_generator_",
-                            _name: "Font Face Generator ",
+                            _id: "tools-font_face_generator",
+                            _name: "Font Face Generator",
                         _3: "[object Object]",
-                            _id: "tools-mixins_",
-                            _name: "Mixins ",
+                            _id: "tools-mixins",
+                            _name: "Mixins",
                         _4: "[object Object]",
-                            _id: "tools-spacing_utilities_",
-                            _name: "Spacing Utilities ",
+                            _id: "tools-spacing_utilities",
+                            _name: "Spacing Utilities",
                         _5: "[object Object]",
-                            _id: "tools-type_utilities_",
-                            _name: "Type Utilities ",
+                            _id: "tools-type_utilities",
+                            _name: "Type Utilities",
                 _4: "[object Object]",
-                    _name: "Variables ",
+                    _name: "Variables",
                     _headings: "[object Object]",
                         _0: "[object Object]",
-                            _id: "variables_-",
+                            _id: "variables-",
                             _name: "",
     }
     sections = {

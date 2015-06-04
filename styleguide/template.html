@@ -16,6 +16,8 @@
 </head>
 <body>
 <main class="wrap">
+
+    {{!--Menu--}}
     <nav id="styleguide-menu">
     	<ul class="top_menu">
             <li>
@@ -78,9 +80,9 @@
         	{{/each}}
         	</ul>
         {{/if}}
-
     </nav>
 
+    {{!--SECTIONS--}}
     <section id="styleguide">
         {{#if sections}}
 
@@ -91,13 +93,17 @@
         	{{#each sections}}
         		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
 
-                    <header class="comment">
-                        <h1 class="h4">{{section}}</h1>
-                        {{#if heading}}
-                            <h2 class="h6 space_t_neg">{{heading}}</h2>
-                        {{/if}}
-                        {{{comment}}}
+                    <header class="section_header">
+                        {{#unless isSubsection}}
+                            <h1 class="h4 header_heading">{{section}}</h1>
+                        {{else}}
+                            <h1 class="h6 header_subheading">{{section}}</h1>
+                            <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
+                        {{/unless}}
                     </header>
+                    <div class="section_comment">
+                        {{{comment}}}
+                    </div>
 
                     {{#if code}}
                     <div class="section_body">
@@ -117,6 +123,7 @@
         	{{/each}}
         </div>
         {{/if}}
+
         {{#if developmentSections}}
         <div id="styleguide-dev" class="section_container">
             <header class="section section_starter">
@@ -125,13 +132,17 @@
             {{#each developmentSections}}
         		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
 
-                    <header class="comment">
-                        <h1 class="h4">{{section}}</h1>
-                        {{#if heading}}
-                            <h2 class="h6 space_t_neg">{{heading}}</h2>
-                        {{/if}}
-                        {{{comment}}}
+                    <header class="section_heading">
+                        {{#unless isSubsection}}
+                            <h1 class="h4 header_heading">{{section}}</h1>
+                        {{else}}
+                            <h1 class="h6 header_subheading">{{section}}</h1>
+                            <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
+                        {{/unless}}
                     </header>
+                    <div class="section_comment">
+                        {{{comment}}}
+                    </div>
 
                     {{#if code}}
                     <div class="section_body">

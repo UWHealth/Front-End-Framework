@@ -1,16 +1,15 @@
 
 #styleguide {
     float: left;
-    width: 80%;
+    width: 75%;
 }
 
 #styleguide .section {
-    background-color: #fff;
     margin-bottom: 2em;
     border-radius: 3px;
     overflow: hidden;
-    box-shadow: 0 2px 0 rgba(0,0,0,0.1),
-        0 3px 6px rgba(0,0,0,0.1);
+    /*box-shadow: 0 2px 0 rgba(0,0,0,0.1),
+        0 3px 6px rgba(0,0,0,0.1);*/
 }
 #styleguide .section_starter {
     background: transparent;
@@ -18,15 +17,33 @@
     margin-bottom: 0;
     padding-top: .5em;
 }
+
 #styleguide .markup.markup pre, #styleguide .markup{
     background-color: #43505E;
 }
 
 #styleguide .result,
-#styleguide .comment {
-    padding: 1em;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+#styleguide .section_comment,
+#styleguide .section_header {
+    padding: 1em 0;
 }
+
+.header_subheading {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4d5458;
+    font-size: .85em;
+}
+
+#styleguide .section_header {
+    padding-bottom: 0;
+    border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+.header_heading {
+    margin-bottom: 0;
+}
+
 #styleguide .result {
     border-bottom: 0px;
 }
@@ -37,11 +54,7 @@
     overflow: hidden;
 }
 
-#styleguide .comment {
-    background-color: rgba(0,0,0, 0.01);
-}
-
-#styleguide .section .comment code {
+.section_comment code {
     color: #3fb7c0;
     font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }
@@ -81,12 +94,15 @@
     hyphens: none;
 }
 
+#styleguide h5 code {
+    color: #0d3038;
+}
 
 /* menu */
 #styleguide-menu {
-    width: calc(20% - 1em - 2px);
+    width: calc(20% - 2em - 2px);
     float: left;
-    margin-right: 1em;
+    margin-right: 2em;
     height: 100%;
     overflow-y: auto;
 }

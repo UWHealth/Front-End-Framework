@@ -255,13 +255,13 @@ Find the relative luminance of a color. Used by color-contrast().
 Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for "color blocks" output, in style guide.
 */
 /* SG
-#Config/ [[dev]]
+# Config/ [[dev]]
 
 /globals/_config.scss
 
 */
 /* SG
-#Config/Typography Settings [[dev]]
+# Config/Typography Settings [[dev]]
 
 ##### `$$base-font-size`
 ###### Pixel value

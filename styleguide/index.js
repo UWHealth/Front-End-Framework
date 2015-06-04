@@ -166,19 +166,40 @@ renderer.heading = function (string, number) {
 	if (number === 1) {
 		var header = string.split('/', 2);
 		var sectionIdentifier = sgUniqueIdentifier;
-			if ( header[0].indexOf(options.devIdentifier) > -1 ||
-				 header[(header.length-1)].indexOf(options.devIdentifier) > -1
-			) {
-				sectionIdentifier = developmentIdentifier;
+
+		//Check for the devIdentifier
+		//Returns false or the position of the devIdentifier in the array
+		var check_inner = function(heading){
+			if (heading.indexOf(options.devIdentifier) > -1 ||
+				heading[0].indexOf(options.devIdentifier) > -1){
+				return 0;
+			}else if (heading[(heading.length-1)].indexOf(options.devIdentifier) > -1){
+				return (heading.length-1);
+			}else{
+				return false;
 			}
-			var out = '<h1 class="main-section-' + sectionIdentifier + '">' + header[0] + '</h1>\n';
-			if (header.length > 1) {
-				for (var i = 1; i < header.length; i++){
-					out += '<h1 class="sub-section-' + sectionIdentifier + '">' + header[i] + '</h1>\n';
-				}
-			} else {
-				out += '<h1 class="sub-section-' + sectionIdentifier + '"></h1>\n';
+		};
+
+		var check_dev = check_inner(header);
+
+		if ( check_dev !== false ) {
+			//Change the section class name to dev so we can identify it later
+			sectionIdentifier = developmentIdentifier;
+			//Remove the devIdentifier from the string
+			header[check_dev] = header[check_dev].replace(' '+options.devIdentifier, '');
+			header[check_dev] = header[check_dev].replace(options.devIdentifier, '');
+		}
+
+		var out = '<h1 class="main-section-' + sectionIdentifier + '">' + header[0] + '</h1>\n';
+
+		if (header.length > 1) {
+			for (var i = 1; i < header.length; i++){
+				out += '<h1 class="sub-section-' + sectionIdentifier + '">' + header[i] + '</h1>\n';
 			}
+		} else {
+			out += '<h1 class="sub-section-' + sectionIdentifier + '"></h1>\n';
+		}
+
 		return out;
 	} else {
 		return '<h' + number + ' class="main-section-' + sgUniqueIdentifier + '" id="section-' + makeUrlSafe(string) + '">' + string + '</h' + number + '>\n';
@@ -192,8 +213,8 @@ renderer.code = function (text, lang) {
 renderer.codespan = function(text){
 	var varRE = /(\$\$.+)[,\s\n]?/gi;
 	var var_check = varRE.exec(text);
-	var funRE = /(^(?!@)\S+\(\)$)/gim;
-	var fun_check = funRE.exec(text);
+	var fnRE = /(^(?!@)\S+\(\)$)/gim;
+	var fn_check = fnRE.exec(text);
 	var mixinRE = /(@\S+\(\)$)/gi;
 	var mixin_check = mixinRE.exec(text);
 	var isInArray = function(value, array) {
@@ -214,7 +235,7 @@ renderer.codespan = function(text){
 		// }
 		codeStore.vars.push(modifiedString);
 
-	}else if (fun_check !== null){
+	}else if (fn_check !== null){
 		// if (isInArray(text, codeStore.funs)){
 		// 	output = '<code class="global global_variable" data-code-id="'+text+'">';
 		// 	output += '<a href="#'+text+'">'+text+'</a></code>';
