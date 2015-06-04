@@ -1,5 +1,5 @@
 //------------------------------------*\
-//    #Global Variables
+//    #Default Variables
 //------------------------------------*/
 
  // CONTENTS
@@ -9,10 +9,50 @@
  // COLORS...............Default colors along with ligher/darker versions.
 
 /* SG
-#Variables [[dev]]
+#Variables/Defaults [[dev]]
 /globals/_gl-defaults.scss
 
 Default settings for variables.
+
+##### `$$type-magic-number`
+###### Number
+Abstraction of the base spacing unit used in any mixin or function that defines spacing units.
+
+
+##### `$$type-magic-ratio`
+###### Number
+Ratio used to calculate the difference between font sizes and spacing units.
+
+
+##### `$$type-headings`
+###### List (number)
+Used for defining automatic headings functions.
+
+
+##### `$$type-modular-scale`
+###### Number
+Abstracts the `$$scale-ratio` and makes sure it's a positive number.
+
+
+##### `$$type-modular-scale`
+###### Number
+Abstracts the `$$scale-ratio` and makes sure it's a positive number.
+
+
+##### `$$all-breakpoints`
+###### List
+Stores all the names defined in `$$breakpoints` for use in abstract framework components so that if names are chagned, boilerplate media queries won't fail.
+
+
+##### `$$smalls`
+###### String
+Grabs the first `$$breakpoints` name.
+
+
+##### `$$bigs`
+###### String
+Grabs the last `$$breakpoints` name.
+
 */
 
 //------------------------------------
@@ -161,6 +201,8 @@ $stripped-base-font-size:  strip-units($base-font-size) !global;
 //------------------------------------
 //    $GRID
 //------------------------------------
+
+$columns: 				12 !default;
 
 // If you are building a non-responsive site but would still like to use
 // grids, set this to ‘false’:

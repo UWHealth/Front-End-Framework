@@ -314,29 +314,41 @@ Determines whether to generate `@font-face` values that point at an .eot file. F
 ###### Pixel value
 Space between grid items. Also used in `type-space()` for horizontal spacing units.
 
+
 ##### `$$use-silent-classes`
 ###### Boolean
 If set to false, actual grid classes will be output to CSS.
+
 
 ##### `$$push`, `$$pull`
 ###### Boolean
 Determines whether to include extra grid classes for positional grid modifiers.
 
+
+##### `$$use-margin-adjustments`
+###### Boolean
+Used to push and pull with margins rather than 'right' and 'left'.
+
+
 ##### `$$use-markup-fix`
 ###### Boolean
 If set to `true`, html must have comments between grid items. Almost always set to `false`.
+
 
 ##### `$$use-floats`
 ###### Boolean
 If set to `true`, uses floats instead of inline-block.
 
+
 ##### `$show-baseline`
 ###### Boolean
 For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
 
+
 ##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
 ###### List (string)
 Determines what classes get generated at `$$breakpoints`. The list's order determines cascade (e.g. ).
+
 
 */
 /* SG
@@ -364,10 +376,50 @@ Reference: https://github.com/kenwheeler/slick/#sass-variables
 
 */
 /* SG
-#Variables [[dev]]
+#Variables/Defaults [[dev]]
 /globals/_gl-defaults.scss
 
 Default settings for variables.
+
+##### `$$type-magic-number`
+###### Number
+Abstraction of the base spacing unit used in any mixin or function that defines spacing units.
+
+
+##### `$$type-magic-ratio`
+###### Number
+Ratio used to calculate the difference between font sizes and spacing units.
+
+
+##### `$$type-headings`
+###### List (number)
+Used for defining automatic headings functions.
+
+
+##### `$$type-modular-scale`
+###### Number
+Abstracts the `$$scale-ratio` and makes sure it's a positive number.
+
+
+##### `$$type-modular-scale`
+###### Number
+Abstracts the `$$scale-ratio` and makes sure it's a positive number.
+
+
+##### `$$all-breakpoints`
+###### List
+Stores all the names defined in `$$breakpoints` for use in abstract framework components so that if names are chagned, boilerplate media queries won't fail.
+
+
+##### `$$smalls`
+###### String
+Grabs the first `$$breakpoints` name.
+
+
+##### `$$bigs`
+###### String
+Grabs the last `$$breakpoints` name.
+
 */
 /* SG
 #Tools/ [[dev]]
@@ -544,6 +596,31 @@ A set of typography-based utility classes that can be generated within media-que
 The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive typography-based utility classes.
 
 */
+/* SG
+#Tools/Display Utilities [[dev]]
+
+globals/tools/_t-display.scss
+
+##### `@display-utilities()`
+###### mixin(`$namespace`:"", `$silent`:false, `$important`:true, `$class-list`:`$$display-classes`)
+Generates classes with display properties defined in `$class-list`. Intelligently extends duplicated display properties.
+
+
+##### `@display-utilities-init()`
+###### mixin(`$breakpoints:` `$$all-breakpoints`, `$namespace:''`, `$config:(silent:true)`)
+The responsive component to `@display-utilities()`. Invoke `@display-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive display classes.
+
+*/
+/* SG
+#Variables/Easing [[dev]]
+
+globals/tools/_t-easings.scss
+
+Each easing variable is a cubic-bezier value that specifies rate of change of an animation. See [easings](http://www.easings.net)
+
+[Reference](https://github.com/matthewlein/Ceaser/blob/master/developer/)
+
+*/
 /*------------------------------------*	#Generic Styles
 /*------------------------------------*/
 body,
@@ -637,7 +714,7 @@ template {
 
 dfn,
 em {
-  font-style: italic ; }
+  font-style: italic ;}
 
 b,
 strong {
@@ -711,7 +788,7 @@ hr {
   height: 2px;
   border-top: 2px solid #e4eaf3;
   margin:  24px 0  ;
-  margin:  1.5rem 0  ; }
+  margin:  1.5rem 0  ;}
 
 pre {
   overflow: auto; }
@@ -863,7 +940,7 @@ td {
 thead th {
   vertical-align: bottom;
   padding:  24px 0 0 ;
-  padding:  1.5rem 0 0 ; }
+  padding:  1.5rem 0 0 ;}
 
 textarea {
   overflow: auto;
@@ -920,6 +997,90 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none; }
 
+/* SG
+#Grid [[dev]]
+
+components/layout/_l-mixins.scss
+
+##### `$$class-type`
+###### String
+Either a `%` or a `.` based on `$$use-silent-classes`.
+
+
+##### `$$human-readable_numerators`
+###### List (string)
+First words used to represent numbers corresponding to grid interval names.
+
+
+##### `$$human-readable_denominators`
+###### List (string)
+Second words used to represent numbers corresponding to grid interval names.
+
+
+##### `@silent-relative()`
+###### mixin()
+A means so that silent push or pull classes get position relative.
+
+
+##### `%grid_reset`
+Useful for resetting the grid's effects without making full grid items.
+
+
+##### `%/.grid`
+Wrapper class for grid widths. Puts a negative left margin of one unit. When not using floats, adds appropriate letter-spacing (for inline-block-based grid).
+
+
+##### `%/.grid_item`
+Sets up a grid column. Uses column padding inherited from parent `%/.grid`.
+
+
+##### `%/.grid_rev`
+Makes grid columns start from the right.
+
+
+##### `%/.grid_right`
+Makes all grid columns align to the right.
+
+
+##### `%/.grid_center`
+Makes all grid columns align to the center.
+
+
+##### `%/.grid_middle`
+Makes all grid columns vertical align to the middle.
+
+
+##### `%/.grid_bottom`
+Makes all grid columns vertical align to the bottom.
+
+
+##### `%/.grid_full`
+Eliminates padding between grid columns.
+
+
+##### `%/.grid_narrow`
+Reduces the padding between grid columns.
+
+
+##### `%/.grid_wide`
+Increases the padding between grid columns.
+
+
+##### `@width-setup()`
+###### mixin(`$namespace`:"")
+Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
+
+
+##### `@push-setup()`
+###### mixin(`$namespace`:"")
+Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (left or margin-left) based on `$$columns`.
+
+
+##### `@pull-setup()`
+###### mixin(`$namespace`:"")
+Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (right or negative margin-left) based on `$$columns`.
+
+*/
 .row > *, .tab_button, .box {
   letter-spacing: normal;
   word-spacing: normal; }
@@ -993,7 +1154,7 @@ input[type="search"]::-webkit-search-decoration {
   display: block !important;
   float: none;
   padding:  24px 0  ;
-  padding:  1.5rem 0  ; }
+  padding:  1.5rem 0  ;}
   @media only screen and (max-width: 480px) {
     .wrap {
       width: 95%; } }
@@ -1236,7 +1397,7 @@ List where anchor tags fill the space of their containers. Useful as a modifier 
     margin-left: 0; }
   .list_nav a {
     padding:  12px 0  ;
-    padding:  0.75rem 0  ; }
+    padding:  0.75rem 0  ;}
 
 .tab_button, .tab, .tab:hover {
   color: #fff; }

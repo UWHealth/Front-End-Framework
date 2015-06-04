@@ -98,29 +98,41 @@ $type-h6-size:           ceil(modular-scale(1));
 ###### Pixel value
 Space between grid items. Also used in `type-space()` for horizontal spacing units.
 
+
 ##### `$$use-silent-classes`
 ###### Boolean
 If set to false, actual grid classes will be output to CSS.
+
 
 ##### `$$push`, `$$pull`
 ###### Boolean
 Determines whether to include extra grid classes for positional grid modifiers.
 
+
+##### `$$use-margin-adjustments`
+###### Boolean
+Used to push and pull with margins rather than 'right' and 'left'.
+
+
 ##### `$$use-markup-fix`
 ###### Boolean
 If set to `true`, html must have comments between grid items. Almost always set to `false`.
+
 
 ##### `$$use-floats`
 ###### Boolean
 If set to `true`, uses floats instead of inline-block.
 
+
 ##### `$show-baseline`
 ###### Boolean
 For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
 
+
 ##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
 ###### List (string)
 Determines what classes get generated at `$$breakpoints`. The list's order determines cascade (e.g. ).
+
 
 */
 

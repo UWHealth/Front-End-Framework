@@ -1,6 +1,22 @@
 //------------------------------------*\
-//    $DISPLAY TOOLS
+//    $DISPLAY UTILITIES
 //------------------------------------*/
+
+/* SG
+#Tools/Display Utilities [[dev]]
+
+globals/tools/_t-display.scss
+
+##### `@display-utilities()`
+###### mixin(`$namespace`:"", `$silent`:false, `$important`:true, `$class-list`:`$$display-classes`)
+Generates classes with display properties defined in `$class-list`. Intelligently extends duplicated display properties.
+
+
+##### `@display-utilities-init()`
+###### mixin(`$breakpoints:` `$$all-breakpoints`, `$namespace:''`, `$config:(silent:true)`)
+The responsive component to `@display-utilities()`. Invoke `@display-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive display classes.
+
+*/
 
 //Create silent versions of the above classes
 $default-display-classes: (

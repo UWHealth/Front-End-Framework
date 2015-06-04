@@ -1,8 +1,23 @@
-$linear         : "0.250, 0.250, 0.750, 0.750" !default;
-$ease           : "0.250, 0.100, 0.250, 1.000" !default;
-$ease_in        : "0.420, 0.000, 1.000, 1.000" !default;
-$ease_out       : "0.000, 0.000, 0.580, 1.000" !default;
-$ease_in_out    : "0.420, 0.000, 0.580, 1.000" !default;
+//------------------------------------*\
+//    $EASING VARIABLES
+//------------------------------------*/
+
+/* SG
+#Variables/Easing [[dev]]
+
+globals/tools/_t-easings.scss
+
+Each easing variable is a cubic-bezier value that specifies rate of change of an animation. See [easings](http://www.easings.net)
+
+[Reference](https://github.com/matthewlein/Ceaser/blob/master/developer/)
+
+*/
+
+$linear         : cubic-bezier("0.250, 0.250, 0.750, 0.750") !default;
+$ease           : cubic-bezier("0.250, 0.100, 0.250, 1.000") !default;
+$ease_in        : cubic-bezier("0.420, 0.000, 1.000, 1.000") !default;
+$ease_out       : cubic-bezier("0.000, 0.000, 0.580, 1.000") !default;
+$ease_in_out    : cubic-bezier("0.420, 0.000, 0.580, 1.000") !default;
 
 //Easing variables
 // Taken from:
@@ -11,7 +26,7 @@ $ease_in_out    : "0.420, 0.000, 0.580, 1.000" !default;
 
 // Sine
 // Slight easings
-$easein_sine: cubic-bezier(0.470, 0.000, 0.745, 0.715);
+$ease_in_sine: cubic-bezier(0.470, 0.000, 0.745, 0.715);
 //Slightly slower beginning
 $ease_out_sine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
 //Slightly slower end

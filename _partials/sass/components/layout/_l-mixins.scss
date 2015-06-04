@@ -1,3 +1,92 @@
+//------------------------------------*\
+//    $CSSWIZARDRY-GRIDS
+//------------------------------------*/
+
+/* SG
+#Grid [[dev]]
+
+components/layout/_l-mixins.scss
+
+##### `$$class-type`
+###### String
+Either a `%` or a `.` based on `$$use-silent-classes`.
+
+
+##### `$$human-readable_numerators`
+###### List (string)
+First words used to represent numbers corresponding to grid interval names.
+
+
+##### `$$human-readable_denominators`
+###### List (string)
+Second words used to represent numbers corresponding to grid interval names.
+
+
+##### `@silent-relative()`
+###### mixin()
+A means so that silent push or pull classes get position relative.
+
+
+##### `%grid_reset`
+Useful for resetting the grid's effects without making full grid items.
+
+
+##### `%/.grid`
+Wrapper class for grid widths. Puts a negative left margin of one unit. When not using floats, adds appropriate letter-spacing (for inline-block-based grid).
+
+
+##### `%/.grid_item`
+Sets up a grid column. Uses column padding inherited from parent `%/.grid`.
+
+
+##### `%/.grid_rev`
+Makes grid columns start from the right.
+
+
+##### `%/.grid_right`
+Makes all grid columns align to the right.
+
+
+##### `%/.grid_center`
+Makes all grid columns align to the center.
+
+
+##### `%/.grid_middle`
+Makes all grid columns vertical align to the middle.
+
+
+##### `%/.grid_bottom`
+Makes all grid columns vertical align to the bottom.
+
+
+##### `%/.grid_full`
+Eliminates padding between grid columns.
+
+
+##### `%/.grid_narrow`
+Reduces the padding between grid columns.
+
+
+##### `%/.grid_wide`
+Increases the padding between grid columns.
+
+
+##### `@width-setup()`
+###### mixin(`$namespace`:"")
+Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
+
+
+##### `@push-setup()`
+###### mixin(`$namespace`:"")
+Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (left or margin-left) based on `$$columns`.
+
+
+##### `@pull-setup()`
+###### mixin(`$namespace`:"")
+Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (right or negative margin-left) based on `$$columns`.
+
+*/
+
 //------------------------------------
 //    $CSSWIZARDRY-GRIDS
 //------------------------------------
@@ -54,8 +143,6 @@
 
  //  `class="grid_item  palm_one_third  desk_five_twelfths"`
 
-
-$columns: 				12 !default;
 
 $push-type: 			unquote('left');
 $pull-type: 			unquote('right');
@@ -195,23 +282,6 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
 
 //
-// Gutterless grids have all the properties of regular grids, minus any spacing.
-// Extends `.grid`.
-//
-#{$class-type}grid_full{
-    margin-left: 0;
-
-	@if $use-floats == true {
-        @extend %clearfix;
-    }
-
-    > #{$class-type}grid_item {
-        padding-left:0;
-    }
-}
-
-
-//
 // Align the entire grid to the right. Extends `.grid`.
 //
 #{$class-type}grid_right{
@@ -263,6 +333,23 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
     > #{$class-type}grid_item {
         vertical-align:bottom;
+    }
+}
+
+
+//
+// Gutterless grids have all the properties of regular grids, minus any spacing.
+// Extends `.grid`.
+//
+#{$class-type}grid_full{
+    margin-left: 0;
+
+	@if $use-floats == true {
+        @extend %clearfix;
+    }
+
+    > #{$class-type}grid_item {
+        padding-left:0;
     }
 }
 

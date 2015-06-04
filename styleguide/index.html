@@ -422,6 +422,9 @@
                         </ul>
         		</li>
         		<li>
+                        <a class="sectionlink" href="#grid-" data-section="Grid">Grid</a>
+        		</li>
+        		<li>
                         <a class="sectionlink" href="#main-" data-section="Main">Main</a>
         		</li>
         		<li>
@@ -429,6 +432,7 @@
                         <ul class="submenu" data-submenu="Tools">
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-">Tools</a></li>
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-alignment_utilities">Alignment Utilities</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-display_utilities">Display Utilities</a></li>
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-font_face_generator">Font Face Generator</a></li>
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-mixins">Mixins</a></li>
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-spacing_utilities">Spacing Utilities</a></li>
@@ -436,7 +440,11 @@
                         </ul>
         		</li>
         		<li>
-                        <a class="sectionlink" href="#variables-" data-section="Variables">Variables</a>
+                        <a class="submenulink" href="#" data-section="Variables">Variables</a><span class="submenu_toggle" data-toggle="[data-submenu='Variables']">&#9662;</span>
+                        <ul class="submenu" data-submenu="Variables">
+                                <li><a class="submenulink sub-sub" data-section="Variables" href="#variables-defaults">Defaults</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Variables" href="#variables-easing">Easing</a></li>
+                        </ul>
         		</li>
         	</ul>
     </nav>
@@ -764,6 +772,9 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$push_class=global_global_variable_data-code-id=$push_$push__code_,__code_id=$pull_class=global_global_variable_data-code-id=$pull_$pull_/code_"><code id="$push" class="global global_variable" data-code-id="$push">$push</code>, <code id="$pull" class="global global_variable" data-code-id="$pull">$pull</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
 <p>Determines whether to include extra grid classes for positional grid modifiers.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$use-margin-adjustments_class=global_global_variable_data-code-id=$use-margin-adjustments_$use-margin-adjustments__code_"><code id="$use-margin-adjustments" class="global global_variable" data-code-id="$use-margin-adjustments">$use-margin-adjustments</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
+<p>Used to push and pull with margins rather than &apos;right&apos; and &apos;left&apos;.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$use-markup-fix_class=global_global_variable_data-code-id=$use-markup-fix_$use-markup-fix__code_"><code id="$use-markup-fix" class="global global_variable" data-code-id="$use-markup-fix">$use-markup-fix</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
 <p>If set to <code>true</code>, html must have comments between grid items. Almost always set to <code>false</code>.</p>
@@ -1004,6 +1015,61 @@
 
 
         		</article>
+        		<article class="section" id="grid-" data-section="Grid" data-heading="">
+
+                    <header class="section_heading">
+                            <h1 class="h4 header_heading">Grid</h1>
+                    </header>
+                    <div class="section_comment">
+                        <p>components/layout/_l-mixins.scss</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$class-type_class=global_global_variable_data-code-id=$class-type_$class-type__code_"><code id="$class-type" class="global global_variable" data-code-id="$class-type">$class-type</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-string">String</h6>
+<p>Either a <code>%</code> or a <code>.</code> based on <code id="$use-silent-classes" class="global global_variable" data-code-id="$use-silent-classes">$use-silent-classes</code>.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$human-readable_numerators_class=global_global_variable_data-code-id=$human-readable_numerators_$human-readable_numerators__code_"><code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-list_string">List (string)</h6>
+<p>First words used to represent numbers corresponding to grid interval names.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$human-readable_denominators_class=global_global_variable_data-code-id=$human-readable_denominators_$human-readable_denominators__code_"><code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-list_string">List (string)</h6>
+<p>Second words used to represent numbers corresponding to grid interval names.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=silent-relative_class=global_global_variable_data-code-id=silent-relative_@silent-relative__code_"><code id="silent-relative()" class="global global_variable" data-code-id="silent-relative()">@silent-relative()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin">mixin()</h6>
+<p>A means so that silent push or pull classes get position relative.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%grid_reset__code_"><code>%grid_reset</code></h5>
+<p>Useful for resetting the grid&apos;s effects without making full grid items.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_/code_"><code>%/.grid</code></h5>
+<p>Wrapper class for grid widths. Puts a negative left margin of one unit. When not using floats, adds appropriate letter-spacing (for inline-block-based grid).</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_item_/code_"><code>%/.grid_item</code></h5>
+<p>Sets up a grid column. Uses column padding inherited from parent <code>%/.grid</code>.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_rev_/code_"><code>%/.grid_rev</code></h5>
+<p>Makes grid columns start from the right.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_right_/code_"><code>%/.grid_right</code></h5>
+<p>Makes all grid columns align to the right.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_center_/code_"><code>%/.grid_center</code></h5>
+<p>Makes all grid columns align to the center.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_middle_/code_"><code>%/.grid_middle</code></h5>
+<p>Makes all grid columns vertical align to the middle.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_bottom_/code_"><code>%/.grid_bottom</code></h5>
+<p>Makes all grid columns vertical align to the bottom.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_full_/code_"><code>%/.grid_full</code></h5>
+<p>Eliminates padding between grid columns.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_narrow_/code_"><code>%/.grid_narrow</code></h5>
+<p>Reduces the padding between grid columns.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_%_.grid_wide_/code_"><code>%/.grid_wide</code></h5>
+<p>Increases the padding between grid columns.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=width-setup_class=global_global_variable_data-code-id=width-setup_@width-setup__code_"><code id="width-setup()" class="global global_variable" data-code-id="width-setup()">@width-setup()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace__code_:&quot;&quot;">mixin(<code>$namespace</code>:&quot;&quot;)</h6>
+<p>Uses <code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code> and <code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code> to create percentage widths based on <code id="$columns" class="global global_variable" data-code-id="$columns">$columns</code>.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=push-setup_class=global_global_variable_data-code-id=push-setup_@push-setup__code_"><code id="push-setup()" class="global global_variable" data-code-id="push-setup()">@push-setup()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace__code_:&quot;&quot;">mixin(<code>$namespace</code>:&quot;&quot;)</h6>
+<p>Uses <code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code> and <code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code> to create percentage pushes (left or margin-left) based on <code id="$columns" class="global global_variable" data-code-id="$columns">$columns</code>.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=pull-setup_class=global_global_variable_data-code-id=pull-setup_@pull-setup__code_"><code id="pull-setup()" class="global global_variable" data-code-id="pull-setup()">@pull-setup()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace__code_:&quot;&quot;">mixin(<code>$namespace</code>:&quot;&quot;)</h6>
+<p>Uses <code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code> and <code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code> to create percentage pull (right or negative margin-left) based on <code id="$columns" class="global global_variable" data-code-id="$columns">$columns</code>.</p>
+                    </div>
+
+
+
+        		</article>
         		<article class="section" id="main-" data-section="Main" data-heading="">
 
                     <header class="section_heading">
@@ -1055,6 +1121,25 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=alignment-utilities-init_class=global_global_variable_data-code-id=alignment-utilities-init_@alignment-utilities-init__code_"><code id="alignment-utilities-init()" class="global global_variable" data-code-id="alignment-utilities-init()">@alignment-utilities-init()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$breakpoints:__code___code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints_/code_,__code_$namespace:&amp;_39;&apos;_/code_,__code_$silent:true_/code_,__code_$important:false_/code_">mixin(<code>$breakpoints:</code> <code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&apos;&apos;</code>, <code>$silent:true</code>, <code>$important:false</code>)</h6>
 <p>The responsive component to <code id="alignment-utilities()" class="global global_variable" data-code-id="alignment-utilities()">@alignment-utilities()</code>. Invoke <code id="alignment-utilites()" class="global global_variable" data-code-id="alignment-utilites()">@alignment-utilites()</code> with that loops through a set of media-queries defined in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive alignment classes.</p>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="tools-display_utilities" data-section="Tools" data-heading="Display Utilities">
+
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Tools</h1>
+                            <h2 class="h4 space_t_neg header_heading">Display Utilities</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>globals/tools/_t-display.scss</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=display-utilities_class=global_global_variable_data-code-id=display-utilities_@display-utilities__code_"><code id="display-utilities()" class="global global_variable" data-code-id="display-utilities()">@display-utilities()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace__code_:&quot;&quot;,__code_$silent_/code_:false,__code_$important_/code_:true,__code_$class-list_/code_:_code_id=$display-classes_class=global_global_variable_data-code-id=$display-classes_$display-classes_/code_">mixin(<code>$namespace</code>:&quot;&quot;, <code>$silent</code>:false, <code>$important</code>:true, <code>$class-list</code>:<code id="$display-classes" class="global global_variable" data-code-id="$display-classes">$display-classes</code>)</h6>
+<p>Generates classes with display properties defined in <code>$class-list</code>. Intelligently extends duplicated display properties.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=display-utilities-init_class=global_global_variable_data-code-id=display-utilities-init_@display-utilities-init__code_"><code id="display-utilities-init()" class="global global_variable" data-code-id="display-utilities-init()">@display-utilities-init()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$breakpoints:__code___code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints_/code_,__code_$namespace:&amp;_39;&apos;_/code_,__code_$config:(silent:true_/code_)">mixin(<code>$breakpoints:</code> <code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&apos;&apos;</code>, <code>$config:(silent:true)</code>)</h6>
+<p>The responsive component to <code id="display-utilities()" class="global global_variable" data-code-id="display-utilities()">@display-utilities()</code>. Invoke <code id="display-utilites()" class="global global_variable" data-code-id="display-utilites()">@display-utilites()</code> with that loops through a set of media-queries defined in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive display classes.</p>
                     </div>
 
 
@@ -1149,14 +1234,54 @@
 
 
         		</article>
-        		<article class="section" id="variables-" data-section="Variables" data-heading="">
+        		<article class="section" id="variables-defaults" data-section="Variables" data-heading="Defaults">
 
                     <header class="section_heading">
-                            <h1 class="h4 header_heading">Variables</h1>
+                            <h1 class="h6 header_subheading">Variables</h1>
+                            <h2 class="h4 space_t_neg header_heading">Defaults</h2>
                     </header>
                     <div class="section_comment">
                         <p>/globals/_gl-defaults.scss</p>
 <p>Default settings for variables.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$type-magic-number_class=global_global_variable_data-code-id=$type-magic-number_$type-magic-number__code_"><code id="$type-magic-number" class="global global_variable" data-code-id="$type-magic-number">$type-magic-number</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-number">Number</h6>
+<p>Abstraction of the base spacing unit used in any mixin or function that defines spacing units.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$type-magic-ratio_class=global_global_variable_data-code-id=$type-magic-ratio_$type-magic-ratio__code_"><code id="$type-magic-ratio" class="global global_variable" data-code-id="$type-magic-ratio">$type-magic-ratio</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-number">Number</h6>
+<p>Ratio used to calculate the difference between font sizes and spacing units.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$type-headings_class=global_global_variable_data-code-id=$type-headings_$type-headings__code_"><code id="$type-headings" class="global global_variable" data-code-id="$type-headings">$type-headings</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-list_number">List (number)</h6>
+<p>Used for defining automatic headings functions.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$type-modular-scale_class=global_global_variable_data-code-id=$type-modular-scale_$type-modular-scale__code_"><code id="$type-modular-scale" class="global global_variable" data-code-id="$type-modular-scale">$type-modular-scale</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-number">Number</h6>
+<p>Abstracts the <code id="$scale-ratio" class="global global_variable" data-code-id="$scale-ratio">$scale-ratio</code> and makes sure it&apos;s a positive number.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$type-modular-scale_class=global_global_variable_data-code-id=$type-modular-scale_$type-modular-scale__code_"><code id="$type-modular-scale" class="global global_variable" data-code-id="$type-modular-scale">$type-modular-scale</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-number">Number</h6>
+<p>Abstracts the <code id="$scale-ratio" class="global global_variable" data-code-id="$scale-ratio">$scale-ratio</code> and makes sure it&apos;s a positive number.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints__code_"><code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-list">List</h6>
+<p>Stores all the names defined in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code> for use in abstract framework components so that if names are chagned, boilerplate media queries won&apos;t fail.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$smalls_class=global_global_variable_data-code-id=$smalls_$smalls__code_"><code id="$smalls" class="global global_variable" data-code-id="$smalls">$smalls</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-string">String</h6>
+<p>Grabs the first <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code> name.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$bigs_class=global_global_variable_data-code-id=$bigs_$bigs__code_"><code id="$bigs" class="global global_variable" data-code-id="$bigs">$bigs</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-string">String</h6>
+<p>Grabs the last <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code> name.</p>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="variables-easing" data-section="Variables" data-heading="Easing">
+
+                    <header class="section_heading">
+                            <h1 class="h6 header_subheading">Variables</h1>
+                            <h2 class="h4 space_t_neg header_heading">Easing</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>globals/tools/_t-easings.scss</p>
+<p>Each easing variable is a cubic-bezier value that specifies rate of change of an animation. See <a href="http://www.easings.net">easings</a></p>
+<p><a href="https://github.com/matthewlein/Ceaser/blob/master/developer/">Reference</a></p>
                     </div>
 
 
@@ -1291,7 +1416,7 @@
                         _1: "[object Object]",
                             _id: "tabs-premade",
                             _name: "Premade",
-            _developmentSections: "[object Object],[object Object],[object Object],[object Object],[object Object]",
+            _developmentSections: "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
                 _0: "[object Object]",
                     _name: "Config",
                     _headings: "[object Object],[object Object],[object Object],[object Object]",
@@ -1317,14 +1442,20 @@
                             _id: "functions-general_functions",
                             _name: "General Functions",
                 _2: "[object Object]",
+                    _name: "Grid",
+                    _headings: "[object Object]",
+                        _0: "[object Object]",
+                            _id: "grid-",
+                            _name: "",
+                _3: "[object Object]",
                     _name: "Main",
                     _headings: "[object Object]",
                         _0: "[object Object]",
                             _id: "main-",
                             _name: "",
-                _3: "[object Object]",
+                _4: "[object Object]",
                     _name: "Tools",
-                    _headings: "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
+                    _headings: "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
                         _0: "[object Object]",
                             _id: "tools-",
                             _name: "",
@@ -1332,23 +1463,29 @@
                             _id: "tools-alignment_utilities",
                             _name: "Alignment Utilities",
                         _2: "[object Object]",
+                            _id: "tools-display_utilities",
+                            _name: "Display Utilities",
+                        _3: "[object Object]",
                             _id: "tools-font_face_generator",
                             _name: "Font Face Generator",
-                        _3: "[object Object]",
+                        _4: "[object Object]",
                             _id: "tools-mixins",
                             _name: "Mixins",
-                        _4: "[object Object]",
+                        _5: "[object Object]",
                             _id: "tools-spacing_utilities",
                             _name: "Spacing Utilities",
-                        _5: "[object Object]",
+                        _6: "[object Object]",
                             _id: "tools-type_utilities",
                             _name: "Type Utilities",
-                _4: "[object Object]",
+                _5: "[object Object]",
                     _name: "Variables",
-                    _headings: "[object Object]",
+                    _headings: "[object Object],[object Object]",
                         _0: "[object Object]",
-                            _id: "variables-",
-                            _name: "",
+                            _id: "variables-defaults",
+                            _name: "Defaults",
+                        _1: "[object Object]",
+                            _id: "variables-easing",
+                            _name: "Easing",
     }
     sections = {
             _0: "[object Object]",
