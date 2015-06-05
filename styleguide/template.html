@@ -86,7 +86,7 @@
     <section id="styleguide">
         {{#if sections}}
 
-        <div id="styleguide-styles" class="section_container">
+        <div id="styleguide-styles" class="section_container style_sections">
             <header class="section section_starter">
                 <h1 class="h3">Styles</h1>
             </header>
@@ -125,14 +125,14 @@
         {{/if}}
 
         {{#if developmentSections}}
-        <div id="styleguide-dev" class="section_container">
+        <div id="styleguide-dev" class="section_container dev_sections">
             <header class="section section_starter">
                 <h1 class="h3">Development</h1>
             </header>
             {{#each developmentSections}}
         		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
 
-                    <header class="section_heading">
+                    <header class="section_header">
                         {{#unless isSubsection}}
                             <h1 class="h4 header_heading">{{section}}</h1>
                         {{else}}

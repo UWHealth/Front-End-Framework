@@ -21,51 +21,53 @@
 
 /* SG
 #Functions/General Functions [[dev]]
+
 /globals/_gl-functions.scss
 
----
+-------------------------------------------
 
 ###Math Functions
 
 ---
 
 ##### `exponent()`
-###### `[number-you-want-to-multiply]`, `[exponent]`
+###### function(`$number`, `$exponent`)
 Exponentially multiply (cube, square, etc) a number.
 
 ##### `pow()`
-###### `[number-you-want-to-multiply]`, `[exponent]`
+###### function(`$number`, `$exponent`, `$precision:12`)
 A more robust exponent multiplication which allows for decimal-based exponents. This replaces Compass' pow() function.
 
 ##### `gcd()`
-###### `[first-number], [second-number]`
+###### function(`$number-1`, `$number-2`)
 Greatest Common Divisor calculation (useful for calculating grids and widths)
 
 ##### `lcm()`
-###### `[first-number], [second-number]`
+###### function(`$a`, `$b`)
 Finds the least common multiple.
 
 ##### `nth_root()`
-###### `[number-you-want-to-find-the-root-of], [root-divisor]`
+###### function(`$base`, `$n:2`, `$precision:12`)
 Advanced calculation for square roots, cube roots, etc. of a value.
 
 ##### `sqrt()`
-###### `[number-you-want-the-square-root-of]`
+###### function(`$base`, `$precision:12`)
 Find the square root of a value.
 
 ##### `golden()`
-Generate the golden ratio. Useful for multiplication and division.
+###### function(`$base: 1`)
+Get the golden ratio from `$base`.
 
 ##### `sin()`
-###### `[angle]`
+###### function(`$angle`)
 Determines the Sine of an angle.
 
 ##### `cos()`
-###### `[angle]`
+###### function(`$angle`)
 Determines the Cosine of an angle.
 
 ##### `tan()`
-###### `[angle]`
+###### function(`$angle`)
 Determines the Tangent of an angle.
 
 ---
@@ -77,78 +79,78 @@ Determines the Tangent of an angle.
 ##### Converter Functions #####
 
 ##### `strip-units()`
-###### `[value-you-want-units-removed-from]`
-Remove px,em,rem, etc. from a value. Usually a variable.
+###### function(`$value`)
+Remove px,em,rem, etc. from a value. Usually a variable. This is sometimes required because Sass cannot calculate incompatible (px * rem for instance) units.
 
 ##### `percentage-to-decimal()`
-###### `[percent]`
+###### function(`$percentage`)
 Changes percent value to decimal.
 
 ##### `px-to-vw()`
-###### `[pixel value]`
+###### function(`$pixels`)
 Converts pixel dimensions to viewport width (vw) dimensions.
 
 ##### `px-to-rems()`,`rems()`
-###### `[pixel-value-you-need-converted], [base-font-size-override]`
-Function for calculating stripped-unit REM values. Used by rems() mixin. Override base font size for media-queries where the breakpoint has a smaller/larger base-font.
+###### function(`$pixels`, `$base-font`:`$$base-font-size`)
+Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is used to calculate the initial value to calculate the value (e.g. if the `body`'s `font-size` is `16px`, then the rem value of `24px` would be `1.5rem`).
 
 ##### `list-to-string()`, `str-join()`
-###### `[list-you-need-converted], [list-seperator]`
+###### function(`$list`, `$separator:","`)
 Converts a list to a string with an optional separator.
 
 ##### String & List Functions #####
 
-##### `str-contains()`
-###### `[string-you-need-parsed],[sub-string], [start-position]`
-Parses a string for a value (from an optional starting position).
+##### `contains()`
+###### function(`$data`, `$value`)
+Generic `contains` function(similar to javascript's `indexOf`). Parses a variable(`$data`) for a `$value`. Returns boolean.
 
 ##### `str-append()`
-###### `[string], [string-to-append]`
-Adds one string to another (e.g. `str-append('hello', 'world')` becomes `hello world`). Used by str-join.
+###### function(`$data`, `$separator:','`)
+Adds one string to another (e.g. `str-append('hello', 'world')` becomes `hello world`). Used by `str-join()`.
 
 ##### `list-contains()`
-###### `[list], [value]`
-Checks whether a list contains a value.
+###### function(`$list`, `$value`)
+Checks whether a `$list` contains a `$value`.
 
 ##### `list-print()`
-###### `[list]`
+###### function(`$list`, `$depth: 1`)
 Used to turn a list into a flat string. For debug purposes.
 
 
 ##### Map Functions #####
-*Reference: http://www.sitepoint.com/extra-map-functions-sass/*
+*[Reference](http://www.sitepoint.com/extra-map-functions-sass/)*
 
 ##### `map-deep-set()`
-###### `[map], [keys to be updated ...], [new value]`
+###### function(`$map`, `$keys...`(`$value`))
 Add to a deeply nested map key. Accepts any number of keys, but the final value is the new key.
 
 ##### `map-depth()`
-###### `[map]`
-Find depth of a map. Returns number.
+###### function(`$map`)
+Find depth of a `$map`. Returns number.
 
 ##### `map-has-keys()`,`map-contains-keys()`
 ###### `[map], [key(s) to be checked ...]`
 Determine whether a map contains certain keys.
 
 ##### `map-has-nested-keys()`, `map-contains-nested-keys()`
-###### `[map], [key(s) to be checked...] `
+###### function(`$map`, `$keys...`)
 Check for the value of a nested key. Returns boolean value.
 
 ##### `map-get-nested()`
-###### `[map], [key(s) to find value... ]`
+###### function(`$map`, `$keys...`)
 Returns nested map values. A deep version of Sass' `map-get()`.
 
 ##### `map-extend()`
-###### `[map], [map(s) to merge ... ], [deep?]`
+###### function(`$map`, `$maps...`(`$deep:true`))
 Merges multiple maps. Similar to jQuery's .extend().
 
 ##### `map-add-depth()`
-###### `[map], [new key]`
-Adds one level to a map using the new key to a map. Used by color map generator function (colors/\_colorfunctions). (e.g. `(key: value, key: value)` becomes `(key:(new-key: value), key:(new-key: value))` )
+###### function(`$map`, `$new-key:'base'`)
+Adds one level to a map using the new key to a map. Used by `generate_color_varations()`. (e.g. `(key: value, key: value)` becomes `(key:(new-key: value), key:(new-key: value))` )
 
-##### `map-inspect()`
-###### `[map], [starting indent level]`
-Prints map into a string. Useful for debugging.
+##### `map-print()`, `map-inspect()`
+###### function(`$map`, `$level:1`)
+Prints map into a string (in a JSON-esque format). Useful for debugging.
 
 ---
 
@@ -156,12 +158,20 @@ Prints map into a string. Useful for debugging.
 
 ---
 
-##### `photoshop-shadow()`, `photoshop-text-shadow()`, `photoshop-gradient-overlay()`
-###### `[various]`
-MIXINs: Interprets Photoshop layer styles as they'd appear in Photoshop into CSS. See functions for their accepted arguments.
+##### `photoshop-shadow()`
+###### function(`$color:#000`, `$angle:120`, `$distance:0`, `$size:0`, `$spread:0`, `$inner:false`)
+Takes photoshop "Drop Shadow" layer style arguments and converts them to CSS `box-shadow` values.
+
+##### `photoshop-text-shadow()`
+###### function(`$color:#000`, `$angle:120`, `$distance:0`, `$size:0`, `$spread:null`)
+Takes photoshop "Drop Shadow" layer style arguments and converts them to CSS `text-shadow` values.
+
+##### `photoshop-gradient-overlay()`
+###### function(`$gradient-colors:(#000, #fff)`, `$gradient-stops:(0%, 100%)`, `$angle:90deg`, `$opacity:100%`, `$scale:100%`, `$bg-color:white`, `$blend:normal`)
+Takes photoshop "Gradient Overlay" layer style arguments and converts them to CSS `linear-gradient` values.
 
 ##### `convert-angle()`
-###### `[angle]`
+###### function(`$angle`)
 Converts Photoshop angles to CSS angles.
 
 ##### `stop-scale()`
@@ -175,19 +185,19 @@ Converts Photoshop gradient-stops to CSS gradients.
 ---
 
 ##### `baseline()`
-###### `[font-size]`, `[baseline]`
-Aligns a font-size to a baseline. Dividing by the $font-size yields a unitless-REM value.
+###### function(`$font-size`, `$baseline`)
+Aligns a font-size to a baseline. Dividing by the `$font-size` yields a unitless value (equivilent to rems).
 
 ##### `baseline-lcm()`
-###### `[font-size]`, `[line-height]`
+###### function(`$font-size`, `$line-height`)
 Calculate the least-common-denominator between a font-size and a baseline.
 
 ##### `baseline-calc()`
-###### `[font-size-in-pixels]`, `[base-font-size]`,`[override?]`
+###### function(`$font-size:``$$base-font-size`, `$font-base:``$$base-font-size`, `$calc-override: false`)
 Used generating line-heights that line up to the baseline grid. Override recommended behavior with a boolean third value to gain most eye-pleasing values.
 
 ##### `modular-scale()`
-###### `[number-on-the-scale-you-want],[ratio-to-use-as-scale]`
+###### function(`$scale`, `$ratio:``$$scale-ratio`)
 Generates a pixel value that is an exponent of a ratio (defaults to $scale-ratio value). Used by `type-scale()`.
 
 ##### `get-type()`,`type()`
@@ -258,12 +268,12 @@ $iter: 50;
 }
 
 //Greatest Common Divisor
-@function gcd($a, $b) {
+@function gcd($number-1, $number-2) {
   // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
-	@if $b != 0 {
-		@return gcd($b, ($a % $b));
+	@if $number-2 != 0 {
+		@return gcd($number-2, ($number-1 % $number-2));
 	}@else {
-		@return abs($a);
+		@return abs($number-1);
 	}
 }
 
@@ -385,45 +395,33 @@ $golden_ratio: golden();
 	@return $percentage;
 }
 
-//General 'contains' checker
-// Delegates methods to the appropriate function based on variable type
-@function contains($var, $value){
-	@if type-of($var == "map"){
-		@return map-has-keys($var, $value);
-	}@else if type-of($var == "list"){
-		@return list-contains($var, $value);
-	}@else if type-of($var == "string"){
-		@return str-contains($var, $value);
-	}
-}
-
 //Viewport width from pixel converter
 // Converts pixel dimensions to viewport
-@function px-to-vw($pixel-val) {
+@function px-to-vw($pixels) {
 	$vw-context: (1000*.01) * 1px;
-	@return ($pixel-val/$vw-context) * 1vw;
+	@return ($pixels/$vw-context) * 1vw;
 }
 
 //Stripped REM generator
 //Useful if you just need the rem value
-@function px-to-rems($size, $base-font:$base-font-size) {
-	@if (unitless($size)){
-		$size: $size * 1px;
+@function px-to-rems($pixels, $base-size:$base-font-size) {
+	@if (unitless($pixels)){
+		$pixels: $pixels * 1px;
 	}
 
-	$size: ($size / $base-font) * 1rem;
+	$pixels: ($pixels / $base-size) * 1rem;
 
-	@if $size == 0rem {
-		$size: 0;
+	@if $pixels == 0rem {
+		$pixels: 0;
 	}
 
-	@return $size;
+	@return $pixels;
 
 }
 
 //ALIAS: Same as above
-@function rems($size, $base-font:$base-font-size) {
-	@return px-to-rems($size, $base-font);
+@function rems($pixels, $base-size:$base-font-size) {
+	@return px-to-rems($pixels, $base-size);
 }
 
 //List Join
@@ -446,6 +444,18 @@ $golden_ratio: golden();
 //-----------------------------------
 // Taken from: https://github.com/devatrox/Sunglass
 
+//General 'contains' checker
+// Delegates methods to the appropriate function based on variable type
+@function contains($data, $value){
+	@if type-of($data == "map"){
+		@return map-has-keys($data, $value);
+	}@else if type-of($data == "list"){
+		@return list-contains($data, $value);
+	}@else if type-of($data == "string"){
+		@return str-contains($data, $value);
+	}
+}
+
 //String Join
 // Converts list to a string with an optional separator
 @function str-join($list, $separator: ",") {
@@ -454,11 +464,11 @@ $golden_ratio: golden();
 
 // String contains check
 // Outputs true/false based on inputs
-@function str-contains($string, $substr, $pos: 0) {
+@function str-contains($string, $value, $pos: 0) {
 
 	$string: str-slice($string, $pos);
 
-	@if str-index($string, $substr) != null {
+	@if str-index($string, $value) != null {
 		@return true;
 	}
 	@else {
@@ -469,15 +479,15 @@ $golden_ratio: golden();
 //String Append
 // Adds string to end of another string
 @function str-append($string, $insert) {
-  $string: if($string == null, "", $string);
+	$string: if($string == null, "", $string);
 
-  @return str-insert($string, $insert, str-length($string) + 1);
+	@return str-insert($string, $insert, str-length($string) + 1);
 }
 
 // List contains check
 // Outputs true/false
-@function list-contains($list, $var) {
-	@return index($list, $item) != null;
+@function list-contains($list, $value) {
+	@return not not index($list, $value);
 }
 
 //Reverse a List
@@ -485,23 +495,22 @@ $golden_ratio: golden();
    $result: ();
 
    @for $i from length($list)*-1 through -1 {
-      @if type-of(nth($list, abs($i))) == list and $recursive {
-        $result: append($result, reverse(nth($list, abs($i)), $recursive));
-      }
+		@if type-of(nth($list, abs($i))) == list and $recursive {
+			$result: append($result, reverse(nth($list, abs($i)), $recursive));
+		}
+		@else {
+			$result: append($result, nth($list, abs($i)));
+		}
+	}
 
-      @else {
-        $result: append($result, nth($list, abs($i)));
-      }
-   }
-
-   @return $result;
+	@return $result;
 }
 
 //List print
 @function list-print($list, $depth:1) {
 	$output: '';
 
-	@if $n > 0 {
+	@if $depth > 0 {
 		@for $i from 1 through $depth {
 			$output: $output + $list;
 		}
@@ -577,6 +586,7 @@ $golden_ratio: golden();
 
 	@return true;
 }
+//ALIAS
 @function map-contains-nested-keys($map, $keys...) {
 	@return map-has-nested-keys($map, $keys);
 }
@@ -698,6 +708,10 @@ $golden_ratio: golden();
 
 	@return $output + $cr + $outdent + '}';
 }
+//ALIAS
+@function map-print($map, $level: 1){
+	@return map-inspect($map, $level);
+}
 
 
 //-----------------------------------
@@ -806,8 +820,21 @@ $golden_ratio: golden();
 //------------------------------------
 
 //Baseline function. Converts to floated integer.
-@function baseline($font-size, $baseline){
-	@return ceil($font-size / $baseline) * ($baseline) / $font-size;
+@function baseline($font-size, $baseline, $i:1){
+	@return ceil($font-size / ($baseline*$i)) * ($baseline*$i) / $font-size;
+}
+
+@function check-base-line($magic-number, $i:1) {
+	$ratio: $magic-number / $base-font-size;
+
+	@while $ratio < 1.1 {
+		$magic-number: ceil($base-font-size / ($base-line-height * $i)) * ($base-line-height * $i);
+		$ratio: ($magic-number / $base-font-size);
+		$i: $i + 1;
+
+    }
+
+	@return $magic-number;
 }
 
 //Calculate the least-common-denominator between a font-size and a baseline.
@@ -820,51 +847,95 @@ $golden_ratio: golden();
 @function baseline-calc(
 	$font-size: $base-font-size,
 	$font-base: $base-font-size,
-	$calc-override: false){
-
+	$calc-override: false
+){
 	//Easiest measurement of font-size deviation
-	$font-ratio: $font-size / $font-base;
-	//baseline
-	$bl: $type-magic-ratio * $font-base;
-	//Every other line.
-	$baseline-odd: $base-line-height / 2;
-	//Every third line.
-	$baseline-odder: $base-line-height / 1.33333;
-	$baseline-cache: $bl;
+	$font-ratio: 1.1;
+	$upper-bound: 1.9;
+	$lower-bound: 1.1;
 
-	// Using half-baseline grid for first calculation.
-	// This is helpful for smaller font-sizes
-	// and gives more leeway with larger ones.
+	@if ($font-size > $base-font-size){
+		$font-ratio: round(($font-size/1px) % ($base-font-size/1px));
+	}@else{
+		$font-ratio: round(($base-font-size/1px) % ($font-size/1px));
+	}
 
-	$baseline: baseline($font-size, $baseline-odd);
-	//If this produces either too small or large a line-height,
-	// then let's make some corrections.
-	// This will only work on fonts larger than the base-font-size unless
-	// $calc-override is set to true.
-	@if $font-size > $font-base or $calc-override == true {
+	@while $font-ratio > 1 {
+		$font-ratio: $font-ratio * 0.1;
+	}
 
-		//First we can try using every third line.
-		@if $baseline > 1.8 or $baseline <= 1.2{
-				$baseline-cache: $baseline;
-				$baseline: baseline($font-size, $baseline-odder);
+	@if $font-ratio < 1 {
+		$font-ratio: $font-ratio + 1;
+	}
+
+	$line-height: baseline($font-size, $base-line-height);
+	//$inc-dec: if($base-line-height <= $base-font-size, unquote('/'), unquote("*"));
+	$i: 1;
+	@debug "ratio: #{$font-ratio}, size: #{$font-size}";
+
+	@while $line-height <= 1.1 and $line-height < 1.9 {
+
+		$line-height: baseline($font-size, ($base-line-height / 2), $i);
+
+		@if $i > (($font-ratio * 10) - 10) and ($font-ratio % 1) != 0 {
+			$line-height: baseline($font-size, $base-line-height, $font-ratio);
 		}
-		@if $baseline < 1.1 or $baseline > 1.9{
-			//If that's not working, let's see if
-			// our original value is better by loosening our tolerance.
-			@if $baseline-cache > 1.1 and $baseline-cache < 1.9{
-				$baseline: $baseline-cache;
-			}@else{
-				//If both options are bad, then let's use the standard baseline.
-				$baseline: baseline($font-size, $base-line-height);
-			}
+
+		//@debug ($font-ratio % 1);
+
+		$i: $i + 1;
+
+		@if $i > 10 {
+			$line-height: $type-magic-ratio;
 		}
 	}
-	@return $baseline;
+	@debug $line-height * $font-size;
+	@return $line-height;
+
+	////baseline
+	//$bl: $type-magic-ratio * $font-base;
+	////Every other line.
+	//$baseline-odd: $type-magic-number / 2;
+	////Every third line.
+	//$baseline-odder: $base-line-height / 1.33333;
+	//$baseline-cache: $bl;
+	//
+	//// Using half-baseline grid for first calculation.
+	//// This is helpful for smaller font-sizes
+	//// and gives more leeway with larger ones.
+	//
+	//$baseline: baseline($font-size, $baseline-odd);
+	////If this produces either too small or large a line-height,
+	//// then let's make some corrections.
+	//// This will only work on fonts larger than the base-font-size unless
+	//// $calc-override is set to true.
+	//@debug "font: #{$font-size}, line: #{$baseline}";
+	//
+	//@if $font-size >= $font-base or $calc-override == true {
+	//
+	//	//First we can try using every third line.
+	//	@if $baseline > 1.8 or $baseline <= 1.2{
+	//			$baseline-cache: $baseline;
+	//			$baseline: baseline($font-size, $baseline-odder);
+	//	}
+	//	@if $baseline < 1.1 or $baseline > 1.9 {
+	//
+	//		//If that's not working, let's see if
+	//		// our original value is better by loosening our tolerance.
+	//		@if $baseline-cache > 1.1 and $baseline-cache < 1.9{
+	//			$baseline: $baseline-cache;
+	//		}@else{
+	//			//If both options are bad, then let's use the standard baseline.
+	//			$baseline: baseline($font-size, $base-line-height);
+	//		}
+	//	}
+	//}
+	//@return $baseline;
 }
 
 //Generates a number based on the typographic grid
 @function type-space($multiplier: 2){
-	@return $multiplier * $base-line-height;
+	@return $multiplier * $type-magic-number;
 }
 
 //------------------------------------
@@ -872,10 +943,20 @@ $golden_ratio: golden();
 //------------------------------------
 
 // Modular scale function to scale type up or down.
-@function modular-scale($i, $scale: $scale-ratio){
-	$modular-scale: $scale;
-	$stripped-base-font-size:  strip-units($base-font-size) !global;
-	@return pow($modular-scale, $i)*($stripped-base-font-size) * 1px;
+@function modular-scale($scale, $ratio: $scale-ratio){
+	$modular-scale: $ratio;
+
+	@if length($ratio) == 2 {
+	// Making sure we don't have a ratio below 1.
+	    @if nth($ratio,1) < nth($ratio,2){
+	        $modular-scale:   nth($ratio, 2)/nth($ratio, 1);
+	    }@else{
+	        $modular-scale:   nth($ratio, 1)/nth($ratio, 2);
+	    }
+	}
+
+	$font-size:  strip-units($base-font-size);
+	@return pow($modular-scale, $scale)*($font-size) * 1px;
 }
 
 //Get the property of a particular font. e.g.:

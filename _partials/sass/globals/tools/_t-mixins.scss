@@ -13,14 +13,14 @@ Enclose a block of code with a media query as named in `$breakpoints`. To create
 
 
 ##### `@specificity()`
-###### mixin(`$num`: 1)
+###### mixin(`$increase`: 1)
 Specificity increaser. Useful for increasing specificity of a selector instead of using !important
 
 [Reference](http://www.sitepoint.com/selector-specificity-css-preprocessors/)
 
 
 ##### `@opacity()`
-###### mixin(`$trans`)
+###### mixin(`$opacity`)
 Cross-browser (including IE) opacity.
 
 [Reference](https://gist.github.com/jgv/745754)
@@ -31,9 +31,9 @@ Cross-browser (including IE) opacity.
 REM generator used to create a property with a rem value and PX fallback.
 
 
-##### `@type-font-size()`
+##### `@font-size`, `@type-font-size()`
 ###### mixin(`$font-size`, `$line-height`: true, `$selector` :'', `$font-base`: `$$base-font-size`)
-Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin.
+Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 
 
 
@@ -97,11 +97,11 @@ Quickly generate a font-size in rems, with a pixel fallback, based on the value 
 //
 // Taken from: http://www.sitepoint.com/selector-specificity-css-preprocessors/
 
-@mixin specificity($num: 1) {
+@mixin specificity($increase: 1) {
 	$selector: unquote('&');
 
-	@if $num > 1 {
-		@for $i from 1 to $num {
+	@if $increase > 1 {
+		@for $i from 1 to $increase {
 			$selector: $selector + unquote('&');
 		}
 		@at-root #{$selector} {
@@ -115,12 +115,10 @@ Quickly generate a font-size in rems, with a pixel fallback, based on the value 
 // Cross-browser (including IE) opacity
 // Taken from:
 // https://gist.github.com/jgv/745754
-@mixin opacity($trans) {
+@mixin opacity($opacity) {
 	// filter: alpha(opactiy=($trans * 100));
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$trans * 100})";
-	-moz-opacity: $trans;
-	-khtml-opacity: $trans;
-	opacity: $trans;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$opacity * 100})";
+	opacity: $opacity;
 }
 
 //------------------------------------
@@ -296,8 +294,8 @@ Quickly generate a font-size in rems, with a pixel fallback, based on the value 
 
 	//Calculate values
 	//Right and left get
-	$top_val: $top * $base-line-height;
-	$bottom_val: $bottom * $base-line-height;
+	$top_val: $top * $type-magic-number;
+	$bottom_val: $bottom * $type-magic-number;
 	$right_val: $right * $gutter;
 	$left_val: $left * $gutter;
 

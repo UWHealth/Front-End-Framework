@@ -5,12 +5,21 @@
 }
 
 #styleguide .section {
-    margin-bottom: 2em;
+    padding-bottom: 2em;
     border-radius: 3px;
     overflow: hidden;
     /*box-shadow: 0 2px 0 rgba(0,0,0,0.1),
         0 3px 6px rgba(0,0,0,0.1);*/
 }
+
+#styleguide .section + .section {
+  margin-top: -2em;
+}
+
+.style_sections .section_comment p:last-child {
+    margin-bottom: 0;
+}
+
 #styleguide .section_starter {
     background: transparent;
     box-shadow: none;
@@ -40,6 +49,11 @@
     border-top: 1px solid rgba(0,0,0,0.2);
 }
 
+#styleguide .section_comment {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+
 .header_heading {
     margin-bottom: 0;
 }
@@ -62,7 +76,7 @@
 #styleguide .markup {
     clear: both;
     border-top: none;
-
+    margin-bottom: 2em;
 }
 /*Two Headers in a comment*/
 .comment .main-section-sg-markdown + .main-section-sg-markdown {
@@ -225,7 +239,7 @@
 
 [id*="_code_"] + .main-section-sg-by-emiloberg {
   margin-top: -1.5rem;
-  margin-bottom: 2.25rem;
+  margin-bottom: 1.75rem;
   color: #9DC3C8;
   font-weight: normal;
 }

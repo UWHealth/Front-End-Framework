@@ -60,7 +60,7 @@ Determines whether to generate `@font-face` values that point at an .eot file. F
 //Typography Settings
 
 $base-font-size:             16px;
-$base-line-height:           24px;
+$base-line-height:           6px;
 $auto-scale-type:           false;
 $scale-ratio:               1.250;
 
@@ -90,6 +90,103 @@ $type-h3-size:           ceil(modular-scale(4));
 $type-h4-size:           ceil(modular-scale(3));
 $type-h5-size:           ceil(modular-scale(2));
 $type-h6-size:           ceil(modular-scale(1));
+
+
+/* SG
+#Config/General Settings [[dev]]
+
+##### `$$breakpoints`
+###### List (nested) (string)
+Sets up variables for media-queries. Used in `media-query()`.
+
+##### `$$display-classes`
+###### Map (string: string)
+Variable used to generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
+
+##### `$$spacing-classes`
+###### Map (string: string)
+Variable used to generate spacing classes. Classes are created via `@spacing-utilities()`. Classes are named with the following syntax: `prefix_direction_amount`
+
+**Keys and Values**
+• directions: Direction names.
+• amounts: Values
+
+
+##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
+###### List (string)
+Same as `breakpoint-has-widths`, but for utility classes.
+
+##### `$$colors`
+###### Map (string: color)
+Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
+
+##### `$$slick-[]-[]`
+Configuration for slick carousel jQuery plugin.
+Reference: https://github.com/kenwheeler/slick/#sass-variables
+
+*/
+//Media-Query Breakpoints
+$breakpoints: (
+	// Everything up to 640px. Mostly phones.
+    'smalls' '(max-width:640px)',
+	// Up to 480px. Overrides Smalls. Small Phones, including iPhone.
+    'small' '(max-width: 480px)',
+	// Between 480 and 640px. Overrides Smalls. Large phones/phablets.
+    'smallish''(min-width: 481px) and (max-width: 640px)',
+    // Everything larger than 640px. Tablets and Desktops.
+	'bigs' '(min-width: 641px)',
+	// 640-940px. Overrides Bigs. Mostly Tablets and small laptops.
+    'lap' '(min-width: 641px) and (max-width: 940px)',
+	// 940 and Up. Overrides Bigs. Large Tablets and Desktops.
+    'desk' '(min-width: 941px)'
+);
+
+//What display types (class-name: display-type) should be output?
+// If $breakpoint-has-display-classes is false, this can be ignored
+$display-classes: (
+	'show': block,
+	'il': inline,
+	'ibl': inline-block,
+	'hide': none
+);
+
+//Spacing classes config
+$spacing-classes: (
+	directions: ('','t','l','b','r','h','v'),
+	amounts: (0, 1, .5, -1, 2),
+	names: ('n','', 'half', 'neg', '2'),
+	prefixes: ('space', 'pad')
+);
+
+//Output utilities as actual classes at which breakpoints? (false = none)
+$breakpoint-has-alignment-classes: 			('smalls', 'bigs', 'desk');
+$breakpoint-has-spacing-classes: 			('smalls', 'bigs', 'desk');
+$breakpoint-has-display-classes: 			('smalls', 'bigs');
+$breakpoint-has-type-classes: 				('smalls', 'bigs');
+
+
+//Defining the color pallete for the project
+// Can be named anything.
+$colors: (
+	type: #0a1c2b, //Required
+
+	links: #0d497b, //Required
+
+	bg: #f6f8fb, //Required
+
+	//Change the following to project specific colors
+	primary: (
+		light: #0cadcd,
+		base: #0c639a
+	),
+
+	accent: mix(#d40026, #AD0909, 45%),
+
+	function: #d7dde5,
+
+	success: #bada55
+
+) !global;
 
 /* SG
 #Config/Grid Settings [[dev]]
@@ -133,7 +230,6 @@ For development purposes only. Adds a `.baseline_on` class that will show horizo
 ###### List (string)
 Determines what classes get generated at `$$breakpoints`. The list's order determines cascade (e.g. ).
 
-
 */
 
 $columns:                  13;
@@ -155,100 +251,12 @@ $use-margin-adjustments: false;
 // Show baseline grid for easier alignment;
 $show-baseline:       	 true;
 
-//Media-Query Breakpoints
-$breakpoints: (
-	// Everything up to 640px. Mostly phones.
-    'smalls' '(max-width:640px)',
-	// Up to 480px. Overrides Smalls. Small Phones, including iPhone.
-    'small' '(max-width: 480px)',
-	// Between 480 and 640px. Overrides Smalls. Large phones/phablets.
-    'smallish''(min-width: 481px) and (max-width: 640px)',
-    // Everything larger than 640px. Tablets and Desktops.
-	'bigs' '(min-width: 641px)',
-	// 640-940px. Overrides Bigs. Mostly Tablets and small laptops.
-    'lap' '(min-width: 641px) and (max-width: 940px)',
-	// 940 and Up. Overrides Bigs. Large Tablets and Desktops.
-    'desk' '(min-width: 941px)'
-);
-
 // Give grid-abilities to breakpoints.
 // The more breakpoints defined here will result in longer preprocessing times
 // and, in the case of non-silent classes, more css.
 $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
-
-/* SG
-#Config/General Settings [[dev]]
-
-##### `$$breakpoints`
-###### List (nested) (string)
-Sets up variables for media-queries. Used in `media-query()`.
-
-##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
-###### List (string)
-Same as `breakpoint-has-widths`, but for utility classes.
-
-##### `$$display-classes`
-###### Map (string: string)
-Variable used generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
-
-##### `$$colors`
-###### Map (string: color)
-Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
-
-##### `$$slick-[]-[]`
-Configuration for slick carousel jQuery plugin.
-Reference: https://github.com/kenwheeler/slick/#sass-variables
-
-*/
-
-//Output utilities as actual classes at which breakpoints? (false = none)
-$breakpoint-has-alignment-classes: 			('smalls', 'bigs', 'desk');
-$breakpoint-has-spacing-classes: 			('smalls', 'bigs', 'desk');
-$breakpoint-has-display-classes: 			('smalls', 'bigs');
-$breakpoint-has-type-classes: 				('smalls', 'bigs');
-
-//What display types (class-name: display-type) should be output?
-// If $breakpoint-has-display-classes is false, this can be ignored
-$display-classes: (
-	'show': block,
-	'il': inline,
-	'ibl': inline-block,
-	'hide': none
-);
-
-//Spacing classes config
-$spacing-classes: (
-	directions: ('','t','l','b','r','h','v'),
-	amounts: (0, 1, .5, -1, 2),
-	names: ('n','', 'half', 'neg', '2'),
-	prefixes: ('space', 'pad')
-);
-
-
-//Defining the color pallete for the project
-// Can be named anything.
-$colors: (
-	type: #0a1c2b, //Required
-
-	links: #0d497b, //Required
-
-	bg: #f6f8fb, //Required
-
-	//Change the following to project specific colors
-	primary: (
-		light: #0cadcd,
-		base: #0c639a
-	),
-
-	accent: mix(#d40026, #AD0909, 45%),
-
-	function: #d7dde5,
-
-	success: #bada55
-
-) !global;
 
 
 //Create color variations based on the map above, using the settings below

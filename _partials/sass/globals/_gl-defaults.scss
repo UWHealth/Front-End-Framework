@@ -10,7 +10,10 @@
 
 /* SG
 #Variables/Defaults [[dev]]
+
 /globals/_gl-defaults.scss
+
+-------------------------------------------
 
 Default settings for variables.
 
@@ -165,16 +168,12 @@ $type-magic-ratio:         ($base-line-height / $base-font-size);
 
 @if $base-font-size > $base-line-height {
 
-    $type-magic-number:        ceil($base-font-size / $base-line-height) * ($base-line-height) !global;
-    $type-magic-ratio:         ceil($base-font-size / $base-line-height) * ($base-line-height) / $base-font-size !global;
+	$type-magic-number: check-base-line($type-magic-number) !global;
 
-    @if $type-magic-ratio < 1.2 {
-        $type-magic-number:        ceil($base-font-size / ($base-line-height * 2)) * ($base-line-height * 2) !global;
-        $type-magic-ratio:         ceil($base-font-size / ($base-line-height * 2)) * ($base-line-height * 2) / $base-font-size !global;
-
-    }
-
+	$type-magic-ratio: ($type-magic-number / $base-font-size) !global;
 }
+
+
 $type-headings:            6,5,4,3,2,1;
 $type-modular-scale:       0;
 
@@ -184,7 +183,7 @@ $type-space: 2 * $type-magic-ratio;
 
 //Variable for easier reference:
 $stripped-base-font-size:  strip-units($base-font-size) !global;
-
+$type-modular-scale: $scale-ratio;
 //Checking for floats in $scale-ratio
 @if length($scale-ratio) == 2{
 // Making sure we don't have a ratio below 1.

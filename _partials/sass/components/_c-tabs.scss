@@ -15,6 +15,51 @@
  // IE8..................Styles specifically for IE8. Based on html classes.
 
 
+/* SG
+# Tabs/
+
+A way to show groups of content, with buttons to toggle between them (like tabs in a folder or browser window).
+
+######Set Up
+Tabs start out as simple anchor + element pairings (with the anchor's href referring to an element's ID).
+
+Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
+
+```
+<a href="#tab1" class="tab_button">Tab 1</a>
+<div id="tab1" class="tab_content">
+	Content Here
+</div>
+<a href="#tab2" class="tab_button">Tab 2</a>
+<div id="tab2" class="tab_content">
+	Secondary Content Here
+</div>
+```
+*/
+
+/* SG
+# Tabs/Premade
+
+You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s.
+
+```
+<div class="tabbed" data-tabbed="true">
+	<nav class="tabs">
+		<a class="tab active" href="#tab-1">Tab 1</a>
+		<a class="tab" href="#tab-2">Tab 2</a>
+	</nav>
+	<a href="#tab-1" class="tab_button">tab 1</a>
+	<div id="tab-1" class="tab_content">
+		Content Here
+	</div>
+	<a href="#tab-2" class="tab_button">tab 2</a>
+	<div id="tab-2" class="tab_content">
+		Secondary Content Here
+	</div>
+</div>
+```
+*/
+
 
 //------------------------------------
 //    $SETUP
@@ -106,50 +151,7 @@ $tab-minimal-include: 				true 					!default;
 //All tab boxes are wrapped in a div classed "tabbed".
 
 
-/* SG
-# Tabs/
 
-A way to show groups of content, with buttons to toggle between them (like tabs in a folder or browser window).
-
-######Set Up
-Tabs start out as simple anchor + element pairings (with the anchor's href referring to an element's ID).
-
-Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
-
-```
-<a href="#tab1" class="tab_button">Tab 1</a>
-<div id="tab1" class="tab_content">
-	Content Here
-</div>
-<a href="#tab2" class="tab_button">Tab 2</a>
-<div id="tab2" class="tab_content">
-	Secondary Content Here
-</div>
-```
-*/
-
-/* SG
-# Tabs/Premade
-
-You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s.
-
-```
-<div class="tabbed" data-tabbed="true">
-	<nav class="tabs">
-		<a class="tab active" href="#tab-1">Tab 1</a>
-		<a class="tab" href="#tab-2">Tab 2</a>
-	</nav>
-	<a href="#tab-1" class="tab_button">tab 1</a>
-	<div id="tab-1" class="tab_content">
-		Content Here
-	</div>
-	<a href="#tab-2" class="tab_button">tab 2</a>
-	<div id="tab-2" class="tab_content">
-		Secondary Content Here
-	</div>
-</div>
-```
-*/
 
 .tabbed{
     @extend %space_b;

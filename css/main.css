@@ -18,51 +18,53 @@ Imports all Sass files in order from lowest specificity to highest.
 */
 /* SG
 #Functions/General Functions [[dev]]
+
 /globals/_gl-functions.scss
 
----
+-------------------------------------------
 
 ###Math Functions
 
 ---
 
 ##### `exponent()`
-###### `[number-you-want-to-multiply]`, `[exponent]`
+###### function(`$number`, `$exponent`)
 Exponentially multiply (cube, square, etc) a number.
 
 ##### `pow()`
-###### `[number-you-want-to-multiply]`, `[exponent]`
+###### function(`$number`, `$exponent`, `$precision:12`)
 A more robust exponent multiplication which allows for decimal-based exponents. This replaces Compass' pow() function.
 
 ##### `gcd()`
-###### `[first-number], [second-number]`
+###### function(`$number-1`, `$number-2`)
 Greatest Common Divisor calculation (useful for calculating grids and widths)
 
 ##### `lcm()`
-###### `[first-number], [second-number]`
+###### function(`$a`, `$b`)
 Finds the least common multiple.
 
 ##### `nth_root()`
-###### `[number-you-want-to-find-the-root-of], [root-divisor]`
+###### function(`$base`, `$n:2`, `$precision:12`)
 Advanced calculation for square roots, cube roots, etc. of a value.
 
 ##### `sqrt()`
-###### `[number-you-want-the-square-root-of]`
+###### function(`$base`, `$precision:12`)
 Find the square root of a value.
 
 ##### `golden()`
-Generate the golden ratio. Useful for multiplication and division.
+###### function(`$base: 1`)
+Get the golden ratio from `$base`.
 
 ##### `sin()`
-###### `[angle]`
+###### function(`$angle`)
 Determines the Sine of an angle.
 
 ##### `cos()`
-###### `[angle]`
+###### function(`$angle`)
 Determines the Cosine of an angle.
 
 ##### `tan()`
-###### `[angle]`
+###### function(`$angle`)
 Determines the Tangent of an angle.
 
 ---
@@ -74,78 +76,78 @@ Determines the Tangent of an angle.
 ##### Converter Functions #####
 
 ##### `strip-units()`
-###### `[value-you-want-units-removed-from]`
-Remove px,em,rem, etc. from a value. Usually a variable.
+###### function(`$value`)
+Remove px,em,rem, etc. from a value. Usually a variable. This is sometimes required because Sass cannot calculate incompatible (px * rem for instance) units.
 
 ##### `percentage-to-decimal()`
-###### `[percent]`
+###### function(`$percentage`)
 Changes percent value to decimal.
 
 ##### `px-to-vw()`
-###### `[pixel value]`
+###### function(`$pixels`)
 Converts pixel dimensions to viewport width (vw) dimensions.
 
 ##### `px-to-rems()`,`rems()`
-###### `[pixel-value-you-need-converted], [base-font-size-override]`
-Function for calculating stripped-unit REM values. Used by rems() mixin. Override base font size for media-queries where the breakpoint has a smaller/larger base-font.
+###### function(`$pixels`, `$base-font`:`$$base-font-size`)
+Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is used to calculate the initial value to calculate the value (e.g. if the `body`'s `font-size` is `16px`, then the rem value of `24px` would be `1.5rem`).
 
 ##### `list-to-string()`, `str-join()`
-###### `[list-you-need-converted], [list-seperator]`
+###### function(`$list`, `$separator:","`)
 Converts a list to a string with an optional separator.
 
 ##### String & List Functions #####
 
-##### `str-contains()`
-###### `[string-you-need-parsed],[sub-string], [start-position]`
-Parses a string for a value (from an optional starting position).
+##### `contains()`
+###### function(`$data`, `$value`)
+Generic `contains` function(similar to javascript's `indexOf`). Parses a variable(`$data`) for a `$value`. Returns boolean.
 
 ##### `str-append()`
-###### `[string], [string-to-append]`
-Adds one string to another (e.g. `str-append('hello', 'world')` becomes `hello world`). Used by str-join.
+###### function(`$data`, `$separator:','`)
+Adds one string to another (e.g. `str-append('hello', 'world')` becomes `hello world`). Used by `str-join()`.
 
 ##### `list-contains()`
-###### `[list], [value]`
-Checks whether a list contains a value.
+###### function(`$list`, `$value`)
+Checks whether a `$list` contains a `$value`.
 
 ##### `list-print()`
-###### `[list]`
+###### function(`$list`, `$depth: 1`)
 Used to turn a list into a flat string. For debug purposes.
 
 
 ##### Map Functions #####
-*Reference: http://www.sitepoint.com/extra-map-functions-sass/*
+*[Reference](http://www.sitepoint.com/extra-map-functions-sass/)*
 
 ##### `map-deep-set()`
-###### `[map], [keys to be updated ...], [new value]`
+###### function(`$map`, `$keys...`(`$value`))
 Add to a deeply nested map key. Accepts any number of keys, but the final value is the new key.
 
 ##### `map-depth()`
-###### `[map]`
-Find depth of a map. Returns number.
+###### function(`$map`)
+Find depth of a `$map`. Returns number.
 
 ##### `map-has-keys()`,`map-contains-keys()`
 ###### `[map], [key(s) to be checked ...]`
 Determine whether a map contains certain keys.
 
 ##### `map-has-nested-keys()`, `map-contains-nested-keys()`
-###### `[map], [key(s) to be checked...] `
+###### function(`$map`, `$keys...`)
 Check for the value of a nested key. Returns boolean value.
 
 ##### `map-get-nested()`
-###### `[map], [key(s) to find value... ]`
+###### function(`$map`, `$keys...`)
 Returns nested map values. A deep version of Sass' `map-get()`.
 
 ##### `map-extend()`
-###### `[map], [map(s) to merge ... ], [deep?]`
+###### function(`$map`, `$maps...`(`$deep:true`))
 Merges multiple maps. Similar to jQuery's .extend().
 
 ##### `map-add-depth()`
-###### `[map], [new key]`
-Adds one level to a map using the new key to a map. Used by color map generator function (colors/\_colorfunctions). (e.g. `(key: value, key: value)` becomes `(key:(new-key: value), key:(new-key: value))` )
+###### function(`$map`, `$new-key:'base'`)
+Adds one level to a map using the new key to a map. Used by `generate_color_varations()`. (e.g. `(key: value, key: value)` becomes `(key:(new-key: value), key:(new-key: value))` )
 
-##### `map-inspect()`
-###### `[map], [starting indent level]`
-Prints map into a string. Useful for debugging.
+##### `map-print()`, `map-inspect()`
+###### function(`$map`, `$level:1`)
+Prints map into a string (in a JSON-esque format). Useful for debugging.
 
 ---
 
@@ -153,12 +155,20 @@ Prints map into a string. Useful for debugging.
 
 ---
 
-##### `photoshop-shadow()`, `photoshop-text-shadow()`, `photoshop-gradient-overlay()`
-###### `[various]`
-MIXINs: Interprets Photoshop layer styles as they'd appear in Photoshop into CSS. See functions for their accepted arguments.
+##### `photoshop-shadow()`
+###### function(`$color:#000`, `$angle:120`, `$distance:0`, `$size:0`, `$spread:0`, `$inner:false`)
+Takes photoshop "Drop Shadow" layer style arguments and converts them to CSS `box-shadow` values.
+
+##### `photoshop-text-shadow()`
+###### function(`$color:#000`, `$angle:120`, `$distance:0`, `$size:0`, `$spread:null`)
+Takes photoshop "Drop Shadow" layer style arguments and converts them to CSS `text-shadow` values.
+
+##### `photoshop-gradient-overlay()`
+###### function(`$gradient-colors:(#000, #fff)`, `$gradient-stops:(0%, 100%)`, `$angle:90deg`, `$opacity:100%`, `$scale:100%`, `$bg-color:white`, `$blend:normal`)
+Takes photoshop "Gradient Overlay" layer style arguments and converts them to CSS `linear-gradient` values.
 
 ##### `convert-angle()`
-###### `[angle]`
+###### function(`$angle`)
 Converts Photoshop angles to CSS angles.
 
 ##### `stop-scale()`
@@ -172,19 +182,19 @@ Converts Photoshop gradient-stops to CSS gradients.
 ---
 
 ##### `baseline()`
-###### `[font-size]`, `[baseline]`
-Aligns a font-size to a baseline. Dividing by the $font-size yields a unitless-REM value.
+###### function(`$font-size`, `$baseline`)
+Aligns a font-size to a baseline. Dividing by the `$font-size` yields a unitless value (equivilent to rems).
 
 ##### `baseline-lcm()`
-###### `[font-size]`, `[line-height]`
+###### function(`$font-size`, `$line-height`)
 Calculate the least-common-denominator between a font-size and a baseline.
 
 ##### `baseline-calc()`
-###### `[font-size-in-pixels]`, `[base-font-size]`,`[override?]`
+###### function(`$font-size:``$$base-font-size`, `$font-base:``$$base-font-size`, `$calc-override: false`)
 Used generating line-heights that line up to the baseline grid. Override recommended behavior with a boolean third value to gain most eye-pleasing values.
 
 ##### `modular-scale()`
-###### `[number-on-the-scale-you-want],[ratio-to-use-as-scale]`
+###### function(`$scale`, `$ratio:``$$scale-ratio`)
 Generates a pixel value that is an exponent of a ratio (defaults to $scale-ratio value). Used by `type-scale()`.
 
 ##### `get-type()`,`type()`
@@ -308,6 +318,39 @@ Corresponds to each value in `$font-weights`. (e.g. if `$font-weights: (400,700)
 Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
 */
 /* SG
+#Config/General Settings [[dev]]
+
+##### `$$breakpoints`
+###### List (nested) (string)
+Sets up variables for media-queries. Used in `media-query()`.
+
+##### `$$display-classes`
+###### Map (string: string)
+Variable used to generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
+
+##### `$$spacing-classes`
+###### Map (string: string)
+Variable used to generate spacing classes. Classes are created via `@spacing-utilities()`. Classes are named with the following syntax: `prefix_direction_amount`
+
+**Keys and Values**
+• directions: Direction names.
+• amounts: Values
+
+
+##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
+###### List (string)
+Same as `breakpoint-has-widths`, but for utility classes.
+
+##### `$$colors`
+###### Map (string: color)
+Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
+
+##### `$$slick-[]-[]`
+Configuration for slick carousel jQuery plugin.
+Reference: https://github.com/kenwheeler/slick/#sass-variables
+
+*/
+/* SG
 #Config/Grid Settings [[dev]]
 
 ##### `$$gutter`
@@ -349,35 +392,13 @@ For development purposes only. Adds a `.baseline_on` class that will show horizo
 ###### List (string)
 Determines what classes get generated at `$$breakpoints`. The list's order determines cascade (e.g. ).
 
-
-*/
-/* SG
-#Config/General Settings [[dev]]
-
-##### `$$breakpoints`
-###### List (nested) (string)
-Sets up variables for media-queries. Used in `media-query()`.
-
-##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
-###### List (string)
-Same as `breakpoint-has-widths`, but for utility classes.
-
-##### `$$display-classes`
-###### Map (string: string)
-Variable used generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
-
-##### `$$colors`
-###### Map (string: color)
-Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
-
-##### `$$slick-[]-[]`
-Configuration for slick carousel jQuery plugin.
-Reference: https://github.com/kenwheeler/slick/#sass-variables
-
 */
 /* SG
 #Variables/Defaults [[dev]]
+
 /globals/_gl-defaults.scss
+
+-------------------------------------------
 
 Default settings for variables.
 
@@ -437,14 +458,14 @@ Enclose a block of code with a media query as named in `$breakpoints`. To create
 
 
 ##### `@specificity()`
-###### mixin(`$num`: 1)
+###### mixin(`$increase`: 1)
 Specificity increaser. Useful for increasing specificity of a selector instead of using !important
 
 [Reference](http://www.sitepoint.com/selector-specificity-css-preprocessors/)
 
 
 ##### `@opacity()`
-###### mixin(`$trans`)
+###### mixin(`$opacity`)
 Cross-browser (including IE) opacity.
 
 [Reference](https://gist.github.com/jgv/745754)
@@ -455,9 +476,9 @@ Cross-browser (including IE) opacity.
 REM generator used to create a property with a rem value and PX fallback.
 
 
-##### `@type-font-size()`
+##### `@font-size`, `@type-font-size()`
 ###### mixin(`$font-size`, `$line-height`: true, `$selector` :'', `$font-base`: `$$base-font-size`)
-Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin.
+Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 
 
 
@@ -655,7 +676,7 @@ html {
 body {
   font-size:  16px;
   font-size:  1rem;
-  line-height: 1.5; }
+  line-height: 1.125; }
 
 html, body {
   min-height: 100%; }
@@ -714,7 +735,7 @@ template {
 
 dfn,
 em {
-  font-style: italic ;}
+  font-style: italic ; }
 
 b,
 strong {
@@ -767,7 +788,7 @@ mark {
 small {
   font-size:  12.8px;
   font-size:  0.8rem;
-  line-height: 1.875; }
+  line-height: 1.40625; }
 
 sub,
 sup {
@@ -787,8 +808,8 @@ sub {
 hr {
   height: 2px;
   border-top: 2px solid #e4eaf3;
-  margin:  24px 0  ;
-  margin:  1.5rem 0  ;}
+  margin:  18px 0  ;
+  margin:  1.125rem 0  ; }
 
 pre {
   overflow: auto; }
@@ -821,12 +842,12 @@ nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs {
           transition: all 300ms ease-in-out; }
 
 ul, ol, dd, menu, p, address, pre, blockquote, table, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  margin-bottom:  24px;
-  margin-bottom:  1.5rem; }
+  margin-bottom:  18px;
+  margin-bottom:  1.125rem; }
 
 h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
-  margin-top:  -24px;
-  margin-top:  -1.5rem; }
+  margin-top:  -18px;
+  margin-top:  -1.125rem; }
 
 li > ul,
 li > ol, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -839,17 +860,17 @@ li > ol {
 h1 {
   font-size:  77px;
   font-size:  4.8125rem;
-  line-height: 1.16883; }
+  line-height: 1.125; }
 
 h2 {
   font-size:  49px;
   font-size:  3.0625rem;
-  line-height: 1.22449; }
+  line-height: 1.10204; }
 
 h3 {
   font-size:  40px;
   font-size:  2.5rem;
-  line-height: 1.35; }
+  line-height: 1.125; }
 
 h4 {
   font-size:  32px;
@@ -859,12 +880,12 @@ h4 {
 h5 {
   font-size:  25px;
   font-size:  1.5625rem;
-  line-height: 1.44; }
+  line-height: 1.2; }
 
 h6 {
   font-size:  20px;
   font-size:  1.25rem;
-  line-height: 1.8; }
+  line-height: 1.2; }
 
 pre {
   white-space: pre;
@@ -927,8 +948,8 @@ table {
 
 th,
 td {
-  padding:  24px 0 12px ;
-  padding:  1.5rem 0 0.75rem ;
+  padding:  18px 0 9px ;
+  padding:  1.125rem 0 0.5625rem ;
   text-align: left;
   vertical-align: top;
   border: 0;
@@ -939,8 +960,8 @@ td {
 
 thead th {
   vertical-align: bottom;
-  padding:  24px 0 0 ;
-  padding:  1.5rem 0 0 ;}
+  padding:  18px 0 0 ;
+  padding:  1.125rem 0 0 ; }
 
 textarea {
   overflow: auto;
@@ -1001,6 +1022,8 @@ input[type="search"]::-webkit-search-decoration {
 #Grid [[dev]]
 
 components/layout/_l-mixins.scss
+
+-------------------------------------------
 
 ##### `$$class-type`
 ###### String
@@ -1153,31 +1176,31 @@ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create
   max-width: 1350px;
   display: block !important;
   float: none;
-  padding:  24px 0  ;
-  padding:  1.5rem 0  ;}
+  padding:  18px 0  ;
+  padding:  1.125rem 0  ; }
   @media only screen and (max-width: 480px) {
     .wrap {
       width: 95%; } }
 
 .tab_content, .box {
-  padding:  24px;
-  padding:  1.5rem; }
+  padding:  18px;
+  padding:  1.125rem; }
 
 .breadcrumbs {
   padding-right:  32px;
   padding-right:  2rem; }
 
 .button {
-  padding:  12px;
-  padding:  0.75rem; }
+  padding:  9px;
+  padding:  0.5625rem; }
 
 .tab {
-  padding-top:  12px;
-  padding-top:  0.75rem; }
+  padding-top:  9px;
+  padding-top:  0.5625rem; }
 
 .tab {
-  padding-bottom:  12px;
-  padding-bottom:  0.75rem; }
+  padding-bottom:  9px;
+  padding-bottom:  0.5625rem; }
 
 .tab, .table_striped th, .table_striped td {
   padding-left:  16px;
@@ -1197,12 +1220,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   padding-right: 0; }
 
 table, [class*="list_bordered"] {
-  margin-top:  24px;
-  margin-top:  1.5rem; }
+  margin-top:  18px;
+  margin-top:  1.125rem; }
 
 table, [class*="list_bordered"], .tabbed, .box {
-  margin-bottom:  24px;
-  margin-bottom:  1.5rem; }
+  margin-bottom:  18px;
+  margin-bottom:  1.125rem; }
 
 ul, ol, dd, menu, blockquote {
   margin-left:  32px;
@@ -1234,7 +1257,7 @@ th, .button, .table_responsive thead + tbody td:before, .tab, .list_nav a {
 .tab, .list_nav a {
   font-size:  12.8px;
   font-size:  0.8rem;
-  line-height: 1.875; }
+  line-height: 1.40625; }
 
 .button {
   cursor: pointer;
@@ -1306,20 +1329,20 @@ Creates a list with borders above and below each list item. Appending `list_bord
 */
 [class*="list_bordered"] > li {
   border-top: 1px solid #e4eaf3;
-  padding-top:  24px;
-  padding-top:  1.5rem;
-  padding-bottom:  24px;
-  padding-bottom:  1.5rem;
+  padding-top:  18px;
+  padding-top:  1.125rem;
+  padding-bottom:  18px;
+  padding-bottom:  1.125rem;
   margin-top: -1px; }
 
 [class*="list_bordered"] > li:first-child {
   border-top-color: transparent; }
 
 .list_bordered_short > li {
-  padding-top:  12px;
-  padding-top:  0.75rem;
-  padding-bottom:  12px;
-  padding-bottom:  0.75rem; }
+  padding-top:  9px;
+  padding-top:  0.5625rem;
+  padding-bottom:  9px;
+  padding-bottom:  0.5625rem; }
 
 /* SG
 #Lists/Inline Lists
@@ -1396,20 +1419,8 @@ List where anchor tags fill the space of their containers. Useful as a modifier 
     list-style-type: none;
     margin-left: 0; }
   .list_nav a {
-    padding:  12px 0  ;
-    padding:  0.75rem 0  ;}
-
-.tab_button, .tab, .tab:hover {
-  color: #fff; }
-
-.tab_button, .tab {
-  background-color: #be0416; }
-
-.tab_button.active, .tab_content, .tab {
-  border-color: #5894bd; }
-
-.tab_button.active, .tab_content {
-  background-color: #fff; }
+    padding:  9px 0  ;
+    padding:  0.5625rem 0  ; }
 
 /* SG
 # Tabs/
@@ -1454,9 +1465,21 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 </div>
 ```
 */
+.tab_button, .tab, .tab:hover {
+  color: #fff; }
+
+.tab_button, .tab {
+  background-color: #be0416; }
+
+.tab_button.active, .tab_content, .tab {
+  border-color: #5894bd; }
+
+.tab_button.active, .tab_content {
+  background-color: #fff; }
+
 .tabbed {
-  min-height:  72px;
-  min-height:  4.5rem; }
+  min-height:  54px;
+  min-height:  3.375rem; }
 
 .tab_button {
   border-style: solid;
@@ -1476,8 +1499,8 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   z-index: 1;
   border-bottom-width: 0; }
   .tab_button.active {
-    margin-bottom:  -24px;
-    margin-bottom:  -1.5rem; }
+    margin-bottom:  -18px;
+    margin-bottom:  -1.125rem; }
   .tab_button.active {
     color: #be0416;
     border-bottom-color: transparent;
@@ -1560,11 +1583,11 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   word-break: break-word; }
   @media only screen and (max-width: 640px) {
     .box_square {
-      max-height:  120px;
-      max-height:  7.5rem; } }
+      max-height:  90px;
+      max-height:  5.625rem; } }
   .box_square .body {
-    padding:  12px 16px 0 ;
-    padding:  0.75rem 1rem 0 ;
+    padding:  9px 16px 0 ;
+    padding:  0.5625rem 1rem 0 ;
     display: block;
     position: absolute;
     top: 0;
@@ -1597,17 +1620,17 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 .h1 {
   font-size:  77px;
   font-size:  4.8125rem;
-  line-height: 1.16883; }
+  line-height: 1.125; }
 
 .h2 {
   font-size:  49px;
   font-size:  3.0625rem;
-  line-height: 1.22449; }
+  line-height: 1.10204; }
 
 .h3 {
   font-size:  40px;
   font-size:  2.5rem;
-  line-height: 1.35; }
+  line-height: 1.125; }
 
 .h4 {
   font-size:  32px;
@@ -1617,12 +1640,12 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 .h5 {
   font-size:  25px;
   font-size:  1.5625rem;
-  line-height: 1.44; }
+  line-height: 1.2; }
 
 .h6 {
   font-size:  20px;
   font-size:  1.25rem;
-  line-height: 1.8; }
+  line-height: 1.2; }
 
 /* SG
 #Color Blocks
@@ -2066,27 +2089,27 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .h1 {
     font-size:  41.04263px;
     font-size:  2.56516rem;
-    line-height: 1.31571; }
+    line-height: 1.16952; }
   h2,
   .h2 {
     font-size:  35.07917px;
     font-size:  2.19245rem;
-    line-height: 1.36833; }
+    line-height: 1.11177; }
   h3,
   .h3 {
     font-size:  29.9822px;
     font-size:  1.87389rem;
-    line-height: 1.20071; }
+    line-height: 1.14068; }
   h4,
   .h4 {
     font-size:  25.62581px;
     font-size:  1.60161rem;
-    line-height: 1.40483; }
+    line-height: 1.17069; }
   h5,
   .h5 {
     font-size:  21.9024px;
     font-size:  1.3689rem;
-    line-height: 1.64366; }
+    line-height: 1.23274; }
   h6,
   .h6 {
     font-size:  18.72px;
@@ -2098,27 +2121,27 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .h1 {
     font-size:  47.77574px;
     font-size:  2.98598rem;
-    line-height: 1.13028; }
+    line-height: 1.125; }
   h2,
   .h2 {
     font-size:  39.81312px;
     font-size:  2.48832rem;
-    line-height: 1.20563; }
+    line-height: 1.13028; }
   h3,
   .h3 {
     font-size:  33.1776px;
     font-size:  2.0736rem;
-    line-height: 1.44676; }
+    line-height: 1.35634; }
   h4,
   .h4 {
     font-size:  27.648px;
     font-size:  1.728rem;
-    line-height: 1.30208; }
+    line-height: 1.21528; }
   h5,
   .h5 {
     font-size:  23.04px;
     font-size:  1.44rem;
-    line-height: 1.5625; }
+    line-height: 1.17188; }
   h6,
   .h6 {
     font-size:  19.2px;
@@ -2171,9 +2194,9 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   margin-left:  2rem; }
 
 .baseline-on {
-  background-image: url(http://basehold.it/i/24);
-  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.5em;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.5em; }
+  background-image: url(http://basehold.it/i/18);
+  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.125em;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.125em; }
 
 .baseline-off {
   background-image: none; }
@@ -2333,80 +2356,80 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   margin-right: 0 !important; }
 
 .space {
-  margin:  24px !important;
-  margin:  1.5rem !important; }
+  margin:  18px !important;
+  margin:  1.125rem !important; }
 
 .space_t, .space_v {
-  margin-top:  24px !important;
-  margin-top:  1.5rem !important; }
+  margin-top:  18px !important;
+  margin-top:  1.125rem !important; }
 
 .space_l, .space_h {
   margin-left:  32px !important;
   margin-left:  2rem !important; }
 
 .space_b, .space_v {
-  margin-bottom:  24px !important;
-  margin-bottom:  1.5rem !important; }
+  margin-bottom:  18px !important;
+  margin-bottom:  1.125rem !important; }
 
 .space_r, .space_h {
   margin-right:  32px !important;
   margin-right:  2rem !important; }
 
 .space_half {
-  margin:  12px !important;
-  margin:  0.75rem !important; }
+  margin:  9px !important;
+  margin:  0.5625rem !important; }
 
 .space_t_half, .space_v_half {
-  margin-top:  12px !important;
-  margin-top:  0.75rem !important; }
+  margin-top:  9px !important;
+  margin-top:  0.5625rem !important; }
 
 .space_l_half, .space_h_half {
   margin-left:  16px !important;
   margin-left:  1rem !important; }
 
 .space_b_half, .space_v_half {
-  margin-bottom:  12px !important;
-  margin-bottom:  0.75rem !important; }
+  margin-bottom:  9px !important;
+  margin-bottom:  0.5625rem !important; }
 
 .space_r_half, .space_h_half {
   margin-right:  16px !important;
   margin-right:  1rem !important; }
 
 .space_neg {
-  margin:  -24px !important;
-  margin:  -1.5rem !important; }
+  margin:  -18px !important;
+  margin:  -1.125rem !important; }
 
 .space_t_neg, .space_v_neg {
-  margin-top:  -24px !important;
-  margin-top:  -1.5rem !important; }
+  margin-top:  -18px !important;
+  margin-top:  -1.125rem !important; }
 
 .space_l_neg, .space_h_neg {
   margin-left:  -32px !important;
   margin-left:  -2rem !important; }
 
 .space_b_neg, .space_v_neg {
-  margin-bottom:  -24px !important;
-  margin-bottom:  -1.5rem !important; }
+  margin-bottom:  -18px !important;
+  margin-bottom:  -1.125rem !important; }
 
 .space_r_neg, .space_h_neg {
   margin-right:  -32px !important;
   margin-right:  -2rem !important; }
 
 .space_2 {
-  margin:  48px !important;
-  margin:  3rem !important; }
+  margin:  36px !important;
+  margin:  2.25rem !important; }
 
 .space_t_2, .space_v_2 {
-  margin-top:  48px !important;
-  margin-top:  3rem !important; }
+  margin-top:  36px !important;
+  margin-top:  2.25rem !important; }
 
 .space_l_2, .space_h_2 {
   margin-left:  64px !important;
   margin-left:  4rem !important; }
 
 .space_b_2, .space_v_2 {
-  margin-bottom:  48px !important;
-  margin-bottom:  3rem !important; }
+  margin-bottom:  36px !important;
+  margin-bottom:  2.25rem !important; }
 
 .space_r_2, .space_h_2 {
   margin-right:  64px !important;
@@ -2428,60 +2451,60 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   padding-right: 0 !important; }
 
 .pad {
-  padding:  24px !important;
-  padding:  1.5rem !important; }
+  padding:  18px !important;
+  padding:  1.125rem !important; }
 
 .pad_t, .pad_v {
-  padding-top:  24px !important;
-  padding-top:  1.5rem !important; }
+  padding-top:  18px !important;
+  padding-top:  1.125rem !important; }
 
 .pad_l, .pad_h {
   padding-left:  32px !important;
   padding-left:  2rem !important; }
 
 .pad_b, .pad_v {
-  padding-bottom:  24px !important;
-  padding-bottom:  1.5rem !important; }
+  padding-bottom:  18px !important;
+  padding-bottom:  1.125rem !important; }
 
 .pad_r, .pad_h {
   padding-right:  32px !important;
   padding-right:  2rem !important; }
 
 .pad_half {
-  padding:  12px !important;
-  padding:  0.75rem !important; }
+  padding:  9px !important;
+  padding:  0.5625rem !important; }
 
 .pad_t_half, .pad_v_half {
-  padding-top:  12px !important;
-  padding-top:  0.75rem !important; }
+  padding-top:  9px !important;
+  padding-top:  0.5625rem !important; }
 
 .pad_l_half, .pad_h_half {
   padding-left:  16px !important;
   padding-left:  1rem !important; }
 
 .pad_b_half, .pad_v_half {
-  padding-bottom:  12px !important;
-  padding-bottom:  0.75rem !important; }
+  padding-bottom:  9px !important;
+  padding-bottom:  0.5625rem !important; }
 
 .pad_r_half, .pad_h_half {
   padding-right:  16px !important;
   padding-right:  1rem !important; }
 
 .pad_2 {
-  padding:  48px !important;
-  padding:  3rem !important; }
+  padding:  36px !important;
+  padding:  2.25rem !important; }
 
 .pad_t_2, .pad_v_2 {
-  padding-top:  48px !important;
-  padding-top:  3rem !important; }
+  padding-top:  36px !important;
+  padding-top:  2.25rem !important; }
 
 .pad_l_2, .pad_h_2 {
   padding-left:  64px !important;
   padding-left:  4rem !important; }
 
 .pad_b_2, .pad_v_2 {
-  padding-bottom:  48px !important;
-  padding-bottom:  3rem !important; }
+  padding-bottom:  36px !important;
+  padding-bottom:  2.25rem !important; }
 
 .pad_r_2, .pad_h_2 {
   padding-right:  64px !important;
@@ -2499,62 +2522,62 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .smalls_space_r_n, .smalls_space_h_n {
     margin-right: 0 !important; }
   .smalls_space {
-    margin:  24px !important;
-    margin:  1.5rem !important; }
+    margin:  18px !important;
+    margin:  1.125rem !important; }
   .smalls_space_t, .smalls_space_v {
-    margin-top:  24px !important;
-    margin-top:  1.5rem !important; }
+    margin-top:  18px !important;
+    margin-top:  1.125rem !important; }
   .smalls_space_l, .smalls_space_h {
     margin-left:  32px !important;
     margin-left:  2rem !important; }
   .smalls_space_b, .smalls_space_v {
-    margin-bottom:  24px !important;
-    margin-bottom:  1.5rem !important; }
+    margin-bottom:  18px !important;
+    margin-bottom:  1.125rem !important; }
   .smalls_space_r, .smalls_space_h {
     margin-right:  32px !important;
     margin-right:  2rem !important; }
   .smalls_space_half {
-    margin:  12px !important;
-    margin:  0.75rem !important; }
+    margin:  9px !important;
+    margin:  0.5625rem !important; }
   .smalls_space_t_half, .smalls_space_v_half {
-    margin-top:  12px !important;
-    margin-top:  0.75rem !important; }
+    margin-top:  9px !important;
+    margin-top:  0.5625rem !important; }
   .smalls_space_l_half, .smalls_space_h_half {
     margin-left:  16px !important;
     margin-left:  1rem !important; }
   .smalls_space_b_half, .smalls_space_v_half {
-    margin-bottom:  12px !important;
-    margin-bottom:  0.75rem !important; }
+    margin-bottom:  9px !important;
+    margin-bottom:  0.5625rem !important; }
   .smalls_space_r_half, .smalls_space_h_half {
     margin-right:  16px !important;
     margin-right:  1rem !important; }
   .smalls_space_neg {
-    margin:  -24px !important;
-    margin:  -1.5rem !important; }
+    margin:  -18px !important;
+    margin:  -1.125rem !important; }
   .smalls_space_t_neg, .smalls_space_v_neg {
-    margin-top:  -24px !important;
-    margin-top:  -1.5rem !important; }
+    margin-top:  -18px !important;
+    margin-top:  -1.125rem !important; }
   .smalls_space_l_neg, .smalls_space_h_neg {
     margin-left:  -32px !important;
     margin-left:  -2rem !important; }
   .smalls_space_b_neg, .smalls_space_v_neg {
-    margin-bottom:  -24px !important;
-    margin-bottom:  -1.5rem !important; }
+    margin-bottom:  -18px !important;
+    margin-bottom:  -1.125rem !important; }
   .smalls_space_r_neg, .smalls_space_h_neg {
     margin-right:  -32px !important;
     margin-right:  -2rem !important; }
   .smalls_space_2 {
-    margin:  48px !important;
-    margin:  3rem !important; }
+    margin:  36px !important;
+    margin:  2.25rem !important; }
   .smalls_space_t_2, .smalls_space_v_2 {
-    margin-top:  48px !important;
-    margin-top:  3rem !important; }
+    margin-top:  36px !important;
+    margin-top:  2.25rem !important; }
   .smalls_space_l_2, .smalls_space_h_2 {
     margin-left:  64px !important;
     margin-left:  4rem !important; }
   .smalls_space_b_2, .smalls_space_v_2 {
-    margin-bottom:  48px !important;
-    margin-bottom:  3rem !important; }
+    margin-bottom:  36px !important;
+    margin-bottom:  2.25rem !important; }
   .smalls_space_r_2, .smalls_space_h_2 {
     margin-right:  64px !important;
     margin-right:  4rem !important; }
@@ -2569,47 +2592,47 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .smalls_pad_r_n, .smalls_pad_h_n {
     padding-right: 0 !important; }
   .smalls_pad {
-    padding:  24px !important;
-    padding:  1.5rem !important; }
+    padding:  18px !important;
+    padding:  1.125rem !important; }
   .smalls_pad_t, .smalls_pad_v {
-    padding-top:  24px !important;
-    padding-top:  1.5rem !important; }
+    padding-top:  18px !important;
+    padding-top:  1.125rem !important; }
   .smalls_pad_l, .smalls_pad_h {
     padding-left:  32px !important;
     padding-left:  2rem !important; }
   .smalls_pad_b, .smalls_pad_v {
-    padding-bottom:  24px !important;
-    padding-bottom:  1.5rem !important; }
+    padding-bottom:  18px !important;
+    padding-bottom:  1.125rem !important; }
   .smalls_pad_r, .smalls_pad_h {
     padding-right:  32px !important;
     padding-right:  2rem !important; }
   .smalls_pad_half {
-    padding:  12px !important;
-    padding:  0.75rem !important; }
+    padding:  9px !important;
+    padding:  0.5625rem !important; }
   .smalls_pad_t_half, .smalls_pad_v_half {
-    padding-top:  12px !important;
-    padding-top:  0.75rem !important; }
+    padding-top:  9px !important;
+    padding-top:  0.5625rem !important; }
   .smalls_pad_l_half, .smalls_pad_h_half {
     padding-left:  16px !important;
     padding-left:  1rem !important; }
   .smalls_pad_b_half, .smalls_pad_v_half {
-    padding-bottom:  12px !important;
-    padding-bottom:  0.75rem !important; }
+    padding-bottom:  9px !important;
+    padding-bottom:  0.5625rem !important; }
   .smalls_pad_r_half, .smalls_pad_h_half {
     padding-right:  16px !important;
     padding-right:  1rem !important; }
   .smalls_pad_2 {
-    padding:  48px !important;
-    padding:  3rem !important; }
+    padding:  36px !important;
+    padding:  2.25rem !important; }
   .smalls_pad_t_2, .smalls_pad_v_2 {
-    padding-top:  48px !important;
-    padding-top:  3rem !important; }
+    padding-top:  36px !important;
+    padding-top:  2.25rem !important; }
   .smalls_pad_l_2, .smalls_pad_h_2 {
     padding-left:  64px !important;
     padding-left:  4rem !important; }
   .smalls_pad_b_2, .smalls_pad_v_2 {
-    padding-bottom:  48px !important;
-    padding-bottom:  3rem !important; }
+    padding-bottom:  36px !important;
+    padding-bottom:  2.25rem !important; }
   .smalls_pad_r_2, .smalls_pad_h_2 {
     padding-right:  64px !important;
     padding-right:  4rem !important; } }
@@ -2626,62 +2649,62 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .bigs_space_r_n, .bigs_space_h_n {
     margin-right: 0 !important; }
   .bigs_space {
-    margin:  24px !important;
-    margin:  1.5rem !important; }
+    margin:  18px !important;
+    margin:  1.125rem !important; }
   .bigs_space_t, .bigs_space_v {
-    margin-top:  24px !important;
-    margin-top:  1.5rem !important; }
+    margin-top:  18px !important;
+    margin-top:  1.125rem !important; }
   .bigs_space_l, .bigs_space_h {
     margin-left:  32px !important;
     margin-left:  2rem !important; }
   .bigs_space_b, .bigs_space_v {
-    margin-bottom:  24px !important;
-    margin-bottom:  1.5rem !important; }
+    margin-bottom:  18px !important;
+    margin-bottom:  1.125rem !important; }
   .bigs_space_r, .bigs_space_h {
     margin-right:  32px !important;
     margin-right:  2rem !important; }
   .bigs_space_half {
-    margin:  12px !important;
-    margin:  0.75rem !important; }
+    margin:  9px !important;
+    margin:  0.5625rem !important; }
   .bigs_space_t_half, .bigs_space_v_half {
-    margin-top:  12px !important;
-    margin-top:  0.75rem !important; }
+    margin-top:  9px !important;
+    margin-top:  0.5625rem !important; }
   .bigs_space_l_half, .bigs_space_h_half {
     margin-left:  16px !important;
     margin-left:  1rem !important; }
   .bigs_space_b_half, .bigs_space_v_half {
-    margin-bottom:  12px !important;
-    margin-bottom:  0.75rem !important; }
+    margin-bottom:  9px !important;
+    margin-bottom:  0.5625rem !important; }
   .bigs_space_r_half, .bigs_space_h_half {
     margin-right:  16px !important;
     margin-right:  1rem !important; }
   .bigs_space_neg {
-    margin:  -24px !important;
-    margin:  -1.5rem !important; }
+    margin:  -18px !important;
+    margin:  -1.125rem !important; }
   .bigs_space_t_neg, .bigs_space_v_neg {
-    margin-top:  -24px !important;
-    margin-top:  -1.5rem !important; }
+    margin-top:  -18px !important;
+    margin-top:  -1.125rem !important; }
   .bigs_space_l_neg, .bigs_space_h_neg {
     margin-left:  -32px !important;
     margin-left:  -2rem !important; }
   .bigs_space_b_neg, .bigs_space_v_neg {
-    margin-bottom:  -24px !important;
-    margin-bottom:  -1.5rem !important; }
+    margin-bottom:  -18px !important;
+    margin-bottom:  -1.125rem !important; }
   .bigs_space_r_neg, .bigs_space_h_neg {
     margin-right:  -32px !important;
     margin-right:  -2rem !important; }
   .bigs_space_2 {
-    margin:  48px !important;
-    margin:  3rem !important; }
+    margin:  36px !important;
+    margin:  2.25rem !important; }
   .bigs_space_t_2, .bigs_space_v_2 {
-    margin-top:  48px !important;
-    margin-top:  3rem !important; }
+    margin-top:  36px !important;
+    margin-top:  2.25rem !important; }
   .bigs_space_l_2, .bigs_space_h_2 {
     margin-left:  64px !important;
     margin-left:  4rem !important; }
   .bigs_space_b_2, .bigs_space_v_2 {
-    margin-bottom:  48px !important;
-    margin-bottom:  3rem !important; }
+    margin-bottom:  36px !important;
+    margin-bottom:  2.25rem !important; }
   .bigs_space_r_2, .bigs_space_h_2 {
     margin-right:  64px !important;
     margin-right:  4rem !important; }
@@ -2696,47 +2719,47 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .bigs_pad_r_n, .bigs_pad_h_n {
     padding-right: 0 !important; }
   .bigs_pad {
-    padding:  24px !important;
-    padding:  1.5rem !important; }
+    padding:  18px !important;
+    padding:  1.125rem !important; }
   .bigs_pad_t, .bigs_pad_v {
-    padding-top:  24px !important;
-    padding-top:  1.5rem !important; }
+    padding-top:  18px !important;
+    padding-top:  1.125rem !important; }
   .bigs_pad_l, .bigs_pad_h {
     padding-left:  32px !important;
     padding-left:  2rem !important; }
   .bigs_pad_b, .bigs_pad_v {
-    padding-bottom:  24px !important;
-    padding-bottom:  1.5rem !important; }
+    padding-bottom:  18px !important;
+    padding-bottom:  1.125rem !important; }
   .bigs_pad_r, .bigs_pad_h {
     padding-right:  32px !important;
     padding-right:  2rem !important; }
   .bigs_pad_half {
-    padding:  12px !important;
-    padding:  0.75rem !important; }
+    padding:  9px !important;
+    padding:  0.5625rem !important; }
   .bigs_pad_t_half, .bigs_pad_v_half {
-    padding-top:  12px !important;
-    padding-top:  0.75rem !important; }
+    padding-top:  9px !important;
+    padding-top:  0.5625rem !important; }
   .bigs_pad_l_half, .bigs_pad_h_half {
     padding-left:  16px !important;
     padding-left:  1rem !important; }
   .bigs_pad_b_half, .bigs_pad_v_half {
-    padding-bottom:  12px !important;
-    padding-bottom:  0.75rem !important; }
+    padding-bottom:  9px !important;
+    padding-bottom:  0.5625rem !important; }
   .bigs_pad_r_half, .bigs_pad_h_half {
     padding-right:  16px !important;
     padding-right:  1rem !important; }
   .bigs_pad_2 {
-    padding:  48px !important;
-    padding:  3rem !important; }
+    padding:  36px !important;
+    padding:  2.25rem !important; }
   .bigs_pad_t_2, .bigs_pad_v_2 {
-    padding-top:  48px !important;
-    padding-top:  3rem !important; }
+    padding-top:  36px !important;
+    padding-top:  2.25rem !important; }
   .bigs_pad_l_2, .bigs_pad_h_2 {
     padding-left:  64px !important;
     padding-left:  4rem !important; }
   .bigs_pad_b_2, .bigs_pad_v_2 {
-    padding-bottom:  48px !important;
-    padding-bottom:  3rem !important; }
+    padding-bottom:  36px !important;
+    padding-bottom:  2.25rem !important; }
   .bigs_pad_r_2, .bigs_pad_h_2 {
     padding-right:  64px !important;
     padding-right:  4rem !important; } }
@@ -2753,62 +2776,62 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .desk_space_r_n, .desk_space_h_n {
     margin-right: 0 !important; }
   .desk_space {
-    margin:  24px !important;
-    margin:  1.5rem !important; }
+    margin:  18px !important;
+    margin:  1.125rem !important; }
   .desk_space_t, .desk_space_v {
-    margin-top:  24px !important;
-    margin-top:  1.5rem !important; }
+    margin-top:  18px !important;
+    margin-top:  1.125rem !important; }
   .desk_space_l, .desk_space_h {
     margin-left:  32px !important;
     margin-left:  2rem !important; }
   .desk_space_b, .desk_space_v {
-    margin-bottom:  24px !important;
-    margin-bottom:  1.5rem !important; }
+    margin-bottom:  18px !important;
+    margin-bottom:  1.125rem !important; }
   .desk_space_r, .desk_space_h {
     margin-right:  32px !important;
     margin-right:  2rem !important; }
   .desk_space_half {
-    margin:  12px !important;
-    margin:  0.75rem !important; }
+    margin:  9px !important;
+    margin:  0.5625rem !important; }
   .desk_space_t_half, .desk_space_v_half {
-    margin-top:  12px !important;
-    margin-top:  0.75rem !important; }
+    margin-top:  9px !important;
+    margin-top:  0.5625rem !important; }
   .desk_space_l_half, .desk_space_h_half {
     margin-left:  16px !important;
     margin-left:  1rem !important; }
   .desk_space_b_half, .desk_space_v_half {
-    margin-bottom:  12px !important;
-    margin-bottom:  0.75rem !important; }
+    margin-bottom:  9px !important;
+    margin-bottom:  0.5625rem !important; }
   .desk_space_r_half, .desk_space_h_half {
     margin-right:  16px !important;
     margin-right:  1rem !important; }
   .desk_space_neg {
-    margin:  -24px !important;
-    margin:  -1.5rem !important; }
+    margin:  -18px !important;
+    margin:  -1.125rem !important; }
   .desk_space_t_neg, .desk_space_v_neg {
-    margin-top:  -24px !important;
-    margin-top:  -1.5rem !important; }
+    margin-top:  -18px !important;
+    margin-top:  -1.125rem !important; }
   .desk_space_l_neg, .desk_space_h_neg {
     margin-left:  -32px !important;
     margin-left:  -2rem !important; }
   .desk_space_b_neg, .desk_space_v_neg {
-    margin-bottom:  -24px !important;
-    margin-bottom:  -1.5rem !important; }
+    margin-bottom:  -18px !important;
+    margin-bottom:  -1.125rem !important; }
   .desk_space_r_neg, .desk_space_h_neg {
     margin-right:  -32px !important;
     margin-right:  -2rem !important; }
   .desk_space_2 {
-    margin:  48px !important;
-    margin:  3rem !important; }
+    margin:  36px !important;
+    margin:  2.25rem !important; }
   .desk_space_t_2, .desk_space_v_2 {
-    margin-top:  48px !important;
-    margin-top:  3rem !important; }
+    margin-top:  36px !important;
+    margin-top:  2.25rem !important; }
   .desk_space_l_2, .desk_space_h_2 {
     margin-left:  64px !important;
     margin-left:  4rem !important; }
   .desk_space_b_2, .desk_space_v_2 {
-    margin-bottom:  48px !important;
-    margin-bottom:  3rem !important; }
+    margin-bottom:  36px !important;
+    margin-bottom:  2.25rem !important; }
   .desk_space_r_2, .desk_space_h_2 {
     margin-right:  64px !important;
     margin-right:  4rem !important; }
@@ -2823,47 +2846,47 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .desk_pad_r_n, .desk_pad_h_n {
     padding-right: 0 !important; }
   .desk_pad {
-    padding:  24px !important;
-    padding:  1.5rem !important; }
+    padding:  18px !important;
+    padding:  1.125rem !important; }
   .desk_pad_t, .desk_pad_v {
-    padding-top:  24px !important;
-    padding-top:  1.5rem !important; }
+    padding-top:  18px !important;
+    padding-top:  1.125rem !important; }
   .desk_pad_l, .desk_pad_h {
     padding-left:  32px !important;
     padding-left:  2rem !important; }
   .desk_pad_b, .desk_pad_v {
-    padding-bottom:  24px !important;
-    padding-bottom:  1.5rem !important; }
+    padding-bottom:  18px !important;
+    padding-bottom:  1.125rem !important; }
   .desk_pad_r, .desk_pad_h {
     padding-right:  32px !important;
     padding-right:  2rem !important; }
   .desk_pad_half {
-    padding:  12px !important;
-    padding:  0.75rem !important; }
+    padding:  9px !important;
+    padding:  0.5625rem !important; }
   .desk_pad_t_half, .desk_pad_v_half {
-    padding-top:  12px !important;
-    padding-top:  0.75rem !important; }
+    padding-top:  9px !important;
+    padding-top:  0.5625rem !important; }
   .desk_pad_l_half, .desk_pad_h_half {
     padding-left:  16px !important;
     padding-left:  1rem !important; }
   .desk_pad_b_half, .desk_pad_v_half {
-    padding-bottom:  12px !important;
-    padding-bottom:  0.75rem !important; }
+    padding-bottom:  9px !important;
+    padding-bottom:  0.5625rem !important; }
   .desk_pad_r_half, .desk_pad_h_half {
     padding-right:  16px !important;
     padding-right:  1rem !important; }
   .desk_pad_2 {
-    padding:  48px !important;
-    padding:  3rem !important; }
+    padding:  36px !important;
+    padding:  2.25rem !important; }
   .desk_pad_t_2, .desk_pad_v_2 {
-    padding-top:  48px !important;
-    padding-top:  3rem !important; }
+    padding-top:  36px !important;
+    padding-top:  2.25rem !important; }
   .desk_pad_l_2, .desk_pad_h_2 {
     padding-left:  64px !important;
     padding-left:  4rem !important; }
   .desk_pad_b_2, .desk_pad_v_2 {
-    padding-bottom:  48px !important;
-    padding-bottom:  3rem !important; }
+    padding-bottom:  36px !important;
+    padding-bottom:  2.25rem !important; }
   .desk_pad_r_2, .desk_pad_h_2 {
     padding-right:  64px !important;
     padding-right:  4rem !important; } }
@@ -2924,7 +2947,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .txt_small {
   font-size:  12.8px;
   font-size:  0.8rem;
-  line-height: 1.875; }
+  line-height: 1.40625; }
 
 .txt_space_reset {
   letter-spacing: normal  !important;
@@ -2949,7 +2972,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .smalls_txt_small {
     font-size:  12.8px;
     font-size:  0.8rem;
-    line-height: 1.875; }
+    line-height: 1.40625; }
   .smalls_txt_space_reset {
     letter-spacing: normal  !important;
     word-spacing: normal  !important; } }
@@ -2973,7 +2996,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .bigs_txt_small {
     font-size:  12.8px;
     font-size:  0.8rem;
-    line-height: 1.875; }
+    line-height: 1.40625; }
   .bigs_txt_space_reset {
     letter-spacing: normal  !important;
     word-spacing: normal  !important; } }
