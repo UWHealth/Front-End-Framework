@@ -7,7 +7,7 @@
 
 globals/tools/_t-mixins.scss
 
-##### `@media-query()`, `@mq`, `@media`, `@breakpoint`, `@bp`
+##### `@media-query()`, `@mq()`, `@media()`, `@breakpoint()`, `@bp()`
 ###### mixin(`$media-queries`)
 Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined by using a nested list (double parenthesis).
 
@@ -26,12 +26,12 @@ Cross-browser (including IE) opacity.
 [Reference](https://gist.github.com/jgv/745754)
 
 
-##### `@px-to-rems`, `@rems()`
+##### `@px-to-rems()`, `@rems()`
 ###### mixin(`$property`, `$sizes`, `$important`: false, `$base-font`: `$$base-font-size`)
 REM generator used to create a property with a rem value and PX fallback.
 
 
-##### `@font-size`, `@type-font-size()`
+##### `@font-size()`, `@type-font-size()`
 ###### mixin(`$font-size`, `$line-height`: true, `$selector` :'', `$font-base`: `$$base-font-size`)
 Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 

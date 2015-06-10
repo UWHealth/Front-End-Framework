@@ -37,7 +37,7 @@
 
 
     &:hover, &:focus {
-
+        outline: 0;
         @if $flat-button == true{
 
            @if $reversed == false{
@@ -118,6 +118,10 @@ button,
 input[type="button"], // [1]
 input[type="reset"],
 input[type="submit"] {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    border: 0;
     -webkit-appearance: button; // [2]
     cursor: pointer; // [3]
     *overflow: visible;  // [4]

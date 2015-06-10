@@ -28,7 +28,8 @@ $default-display-classes: (
 	'hide': 'none',
 	'block': 'block',
 	'inline_block': 'inline-block',
-	'table_cell': 'table-cell'
+	'table_cell': 'table-cell',
+	'table': 'table'
 );
 
 //Merge user-defined classes with defaults (so we have a wide-array of silent classes)

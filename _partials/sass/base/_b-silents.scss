@@ -75,8 +75,8 @@ $base_namespace: 'base_';
 	$silent: true
 );
 
-@include type-utilities-init(
-	$namespace: $base_namespace,
-	$important: false,
-	$silent: true
-);
+//@include type-utilities-init(
+//	$namespace: $base_namespace,
+//	$important: false,
+//	$silent: true
+//);
