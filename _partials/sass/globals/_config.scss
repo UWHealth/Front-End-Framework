@@ -60,7 +60,7 @@ Determines whether to generate `@font-face` values that point at an .eot file. F
 //Typography Settings
 
 $base-font-size:             16px;
-$base-line-height:           6px;
+$base-line-height:           24px;
 $auto-scale-type:           false;
 $scale-ratio:               1.250;
 
@@ -84,7 +84,7 @@ $font-include-eot: 		true;
 //Used if auto-scale-type is false.
 //Since functions are called before config,
 //we can use functions to calculate our values.
-$type-h1-size:           ceil(modular-scale(7));
+$type-h1-size:           ceil(modular-scale(8));;
 $type-h2-size:           ceil(modular-scale(5));
 $type-h3-size:           ceil(modular-scale(4));
 $type-h4-size:           ceil(modular-scale(3));

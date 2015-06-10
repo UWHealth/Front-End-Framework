@@ -43,7 +43,6 @@
         </a>
     </div>
 <div class="wrap">
-    <button data-toggle="#toggle_target">Toggle</button>
     <header class="row" role="banner">
         <div class="column media_block">
             <a href="/" class="link_naked in_bl">
@@ -53,21 +52,28 @@
                 </h1>
             </a>
 		</div>
-		<div id="toggle_target" class="column">
-			<nav class="box box_open pad_v_half" role="navigation">
-				<ul class="list_inline list_nav h6">
-					<li><a href="styleguide">Style Guide</a></li>
-					<li><a href="lists.html">Lists</a></li>
-					<li><a href="components.html">Components</a></li>
-					<li><a href="functions.html">Functions</a></li>
-					<li><a href="misc.html">Misc.</a></li>
-					<li class="align_right">
-						<a href="https://github.com/UWHealth/Front-End-Framework" target="_blank">
-							<img src="images/github.png" alt="" class="icon">Github
-						</a>
-					</li>
-				</ul>
-			</nav>
+		<div  class="column">
+            <div class="isolate">
+                <div class="isolate_media">
+                    <button class="button" data-toggle="#toggle_target">Menu</button>
+                </div>
+                <div class="isolate_body">
+        			<nav id="toggle_target" class="box box_open pad_v_half" role="navigation" >
+        				<ul class="list_inline list_nav h6">
+        					<li><a href="styleguide">Style Guide</a></li>
+        					<li><a href="lists.html">Lists</a></li>
+        					<li><a href="components.html">Components</a></li>
+        					<li><a href="functions.html">Functions</a></li>
+        					<li><a href="misc.html">Misc.</a></li>
+        					<li class="align_right">
+        						<a href="https://github.com/UWHealth/Front-End-Framework" target="_blank">
+        							<img src="images/github.png" alt="" class="icon">Github
+        						</a>
+        					</li>
+        				</ul>
+        			</nav>
+                </div>
+            </div>
     	</div>
     </header>
 
@@ -234,7 +240,7 @@
         <p>
         <h6 class="h4"><mark>Colors</mark></h6>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, odio, incidunt, sapiente repellat reprehenderit minus nam labore soluta odit repellendus architecto laudantium neque vitae maxime totam libero vero quibusdam dignissimos.</p>
-        <div class="row fixed_row space_v_2">
+        <div class="space_v_2">
 
             <div class="color-block"></div>
             <div class="color-block"></div>

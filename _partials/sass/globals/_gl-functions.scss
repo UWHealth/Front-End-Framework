@@ -19,16 +19,13 @@
 
 // General functions to make Sass a little more powerful. Taken from various places.
 
+
 /* SG
-#Functions/General Functions [[dev]]
+#Functions/Math [[dev]]
 
 /globals/_gl-functions.scss
 
--------------------------------------------
-
-###Math Functions
-
----
+-----------------------------------
 
 ##### `exponent()`
 ###### function(`$number`, `$exponent`)
@@ -70,9 +67,214 @@ Determines the Cosine of an angle.
 ###### function(`$angle`)
 Determines the Tangent of an angle.
 
----
+*/
 
-###Sass Helpers
+
+//------------------------------------
+//  $MATH
+//------------------------------------
+
+// All functions taken from SassyMath:
+// https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss
+
+//Useful variables for calculating math functions
+
+$pi: 3.1415926535897932384626433832795028841971693993751;
+$π: $pi;
+$e: 2.71828182845904523536028747135266249775724709369995;
+
+$iter: 50;
+
+
+@function pi() {
+	@return $pi;
+}
+
+// Exponent function (for square, cubes, etc.)
+@function exponent($number, $exponent) {
+	// reset value
+	$value: $number;
+	// positive intergers get multiplied
+	@if $exponent > 1 {
+	@for $i from 2 through $exponent {
+		$value: $value * $base; } }
+	// negitive intergers get divided. A number divided by itself is 1
+	@if $exponent < 1 {
+		@for $i from 0 through -$exponent {
+			$value: $value / $base; } }
+	// return the last value written
+	@return $value;
+}
+
+//More advanced exponent function — very similar to Compass' pow() function, but without the ruby dependency.
+@function pow($number, $exponent, $precision: 12) {
+  // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
+	$base: $number;
+	$prec: $precision;
+
+	@if floor($exponent) != $exponent {
+		$prec2 : pow(10, $prec);
+		$exponent: round($exponent * $prec2);
+		$denominator: gcd($exponent, $prec2);
+		@return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
+	}
+
+	$value: $base;
+	@if $exponent > 1 {
+		@for $i from 2 through $exponent {
+			$value: $value * $base;
+		}
+	} @else if $exponent < 1 {
+		@for $i from 0 through -$exponent {
+			$value: $value / $base;
+		}
+	}
+
+	@return $value;
+}
+
+//Greatest Common Divisor
+@function gcd($number-1, $number-2) {
+  // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
+	@if $number-2 != 0 {
+		@return gcd($number-2, ($number-1 % $number-2));
+	}@else {
+		@return abs($number-1);
+	}
+}
+
+//Factorial
+@function fact($number) {
+	$value: 1;
+	@if $number > 0 {
+		@for $i from 1 through $number {
+			$value: $value * $i;
+		}
+	}
+	@return $value;
+}
+
+//Least common Multiple
+//Use with caution...if there is no LCM, then you compilation will error out.
+@function lcm($a, $b) {
+	$a: round($a);
+	$b: round($b);
+	$gcd: gcd($a, $b);
+	$result: ($a * $b) / $gcd;
+	@return $result;
+}
+
+//Nth Root Function
+// From: http://rosettacode.org/wiki/Nth_root#JavaScript
+@function nth_root($base, $n: 2, $precision: 12) {
+	$prec: $precision;
+	$x: 1;
+
+	@for $i from 0 through $prec {
+		$x: 1 / $n * (($n - 1) * $x + ($base / pow($x, $n - 1)));
+	}
+
+	@return $x;
+}
+
+//Square Root functions
+@function sqrt($base, $precision: 12) {
+	$guess: random(20);
+	$root: $guess;
+
+	@for $i from 1 through $precision {
+		$root: $root - (pow($root, 2) - $base) / (2 * $root);
+	}
+	@return $root;
+}
+
+//Golden Ratio generator.
+@function golden($base: 1) {
+
+	@return (1/2 + sqrt(5) / 2) * $base;
+}
+
+$golden_ratio: golden();
+
+//Angle to Radians
+@function rad($angle) {
+	$unit: unit($angle);
+	$unitless: $angle / ($angle * 0 + 1);
+	// If the angle has 'deg' as unit, convert to radians.
+	@if $unit == deg {
+		$unitless: $unitless / 180 * pi();
+	}
+	@return $unitless;
+}
+
+//Alias
+@function angle-to-rad($angle) {
+	@return rad($angle);
+}
+
+//Sine
+// From: https://unindented.org/articles/trigonometry-in-sass/
+@function sin($angle) {
+	$sin: 0;
+	$angle: rad($angle);
+	// Iterate a bunch of times.
+	@for $i from 0 through 10 {
+		$sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
+	}
+	@return $sin;
+}
+
+//Cosine
+@function cos($angle) {
+	$cos: 0;
+	$angle: rad($angle);
+	// Iterate a bunch of times.
+	@for $i from 0 through 10 {
+		$cos: $cos + pow(-1, $i) * pow($angle, 2 * $i) / fact(2 * $i);
+	}
+	@return $cos;
+}
+
+//Tangent
+@function tan($angle) {
+	@return sin($angle) / cos($angle);
+}
+
+// Math helpers
+// From https://github.com/inuitcss/tools.functions/blob/master/_tools.functions.scss
+//
+// Halve and double numbers, returning rounded integers. E.g.:
+//
+// .foo {
+//     padding: halve(3.2px);
+// }
+//
+// Outputs:
+// .foo{padding: 2px;}
+//
+@function quarter($number) {
+	@return round($number / 4);
+}
+
+@function halve($number) {
+	@return round($number / 2);
+}
+
+@function double($number) {
+	@return round($number * 2);
+}
+
+@function quadruple($number) {
+	@return round($number * 4);
+}
+
+//------------------------------------
+//    $HELPERS
+//------------------------------------
+/* SG
+#Functions/Sass Helpers [[dev]]
+
+/globals/_gl-functions.scss
 
 ---
 
@@ -151,233 +353,7 @@ Adds one level to a map using the new key to a map. Used by `generate_color_vara
 ##### `map-print()`, `map-inspect()`
 ###### function(`$map`, `$level:1`)
 Prints map into a string (in a JSON-esque format). Useful for debugging.
-
----
-
-### Photoshop Converters  ###
-
----
-
-##### `photoshop-shadow()`
-###### function(`$color:#000`, `$angle:120`, `$distance:0`, `$size:0`, `$spread:0`, `$inner:false`)
-Takes photoshop "Drop Shadow" layer style arguments and converts them to CSS `box-shadow` values.
-
-##### `photoshop-text-shadow()`
-###### function(`$color:#000`, `$angle:120`, `$distance:0`, `$size:0`, `$spread:null`)
-Takes photoshop "Drop Shadow" layer style arguments and converts them to CSS `text-shadow` values.
-
-##### `photoshop-gradient-overlay()`
-###### function(`$gradient-colors:(#000, #fff)`, `$gradient-stops:(0%, 100%)`, `$angle:90deg`, `$opacity:100%`, `$scale:100%`, `$bg-color:white`, `$blend:normal`)
-Takes photoshop "Gradient Overlay" layer style arguments and converts them to CSS `linear-gradient` values.
-
-##### `convert-angle()`
-###### function(`$angle`)
-Converts Photoshop angles to CSS angles.
-
-##### `stop-scale()`
-###### `[stop], [scale]`
-Converts Photoshop gradient-stops to CSS gradients.
-
----
-
-### Type Functions ###
-
----
-
-##### `baseline()`
-###### function(`$font-size`, `$baseline`)
-Aligns a font-size to a baseline. Dividing by the `$font-size` yields a unitless value (equivilent to rems).
-
-##### `baseline-lcm()`
-###### function(`$font-size`, `$line-height`)
-Calculate the least-common-denominator between a font-size and a baseline.
-
-##### `baseline-calc()`
-###### function(`$font-size:``$$base-font-size`, `$font-base:``$$base-font-size`, `$calc-override: false`)
-Used generating line-heights that line up to the baseline grid. Override recommended behavior with a boolean third value to gain most eye-pleasing values.
-
-##### `modular-scale()`
-###### function(`$scale`, `$ratio:``$$scale-ratio`)
-Generates a pixel value that is an exponent of a ratio (defaults to $scale-ratio value). Used by `type-scale()`.
-
-##### `get-type()`,`type()`
-###### `[font-size],[font-size-value]`
-function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.
-
-##### `define-type()`
-###### `[font-size], [property], [new value]`
-Registers new values to type map. [Property] accepts px, rem, and line-height.
 */
-
-
-//------------------------------------
-//  $MATH
-//------------------------------------
-
-// All functions taken from SassyMath:
-// https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss
-
-//Useful variables for calculating math functions
-$pi: 3.1415926535897932384626433832795028841971693993751;
-$π: $pi;
-$e: 2.71828182845904523536028747135266249775724709369995;
-
-$iter: 50;
-
-// Exponent function (for square, cubes, etc.)
-@function exponent($number, $exponent) {
-	// reset value
-	$value: $number;
-	// positive intergers get multiplied
-	@if $exponent > 1 {
-	@for $i from 2 through $exponent {
-		$value: $value * $base; } }
-	// negitive intergers get divided. A number divided by itself is 1
-	@if $exponent < 1 {
-		@for $i from 0 through -$exponent {
-			$value: $value / $base; } }
-	// return the last value written
-	@return $value;
-}
-
-//More advanced exponent function — very similar to Compass' pow() function, but without the ruby dependency.
-@function pow($number, $exponent, $precision: 12) {
-  // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
-	$base: $number;
-	$prec: $precision;
-
-	@if floor($exponent) != $exponent {
-		$prec2 : pow(10, $prec);
-		$exponent: round($exponent * $prec2);
-		$denominator: gcd($exponent, $prec2);
-		@return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
-	}
-
-	$value: $base;
-	@if $exponent > 1 {
-		@for $i from 2 through $exponent {
-			$value: $value * $base;
-		}
-	} @else if $exponent < 1 {
-		@for $i from 0 through -$exponent {
-			$value: $value / $base;
-		}
-	}
-
-	@return $value;
-}
-
-//Greatest Common Divisor
-@function gcd($number-1, $number-2) {
-  // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
-	@if $number-2 != 0 {
-		@return gcd($number-2, ($number-1 % $number-2));
-	}@else {
-		@return abs($number-1);
-	}
-}
-
-//Least common Multiple
-//Use with caution...if there is no LCM, then you compilation will error out.
-@function lcm($a, $b) {
-	$a: round($a);
-	$b: round($b);
-	$gcd: gcd($a, $b);
-	$result: ($a * $b) / $gcd;
-	@return $result;
-}
-
-//Nth Root Function
-// From: http://rosettacode.org/wiki/Nth_root#JavaScript
-@function nth_root($base, $n: 2, $precision: 12) {
-	$prec: $precision;
-	$x: 1;
-
-	@for $i from 0 through $prec {
-		$x: 1 / $n * (($n - 1) * $x + ($base / pow($x, $n - 1)));
-	}
-
-	@return $x;
-}
-
-//Square Root functions
-@function sqrt($base, $precision: 12) {
-	$guess: random(20);
-	$root: $guess;
-
-	@for $i from 1 through $precision {
-		$root: $root - (pow($root, 2) - $base) / (2 * $root);
-	}
-	@return $root;
-}
-
-//Golden Ratio generator.
-@function golden($base: 1) {
-
-	@return (1/2 + sqrt(5) / 2) * $base;
-}
-
-$golden_ratio: golden();
-
-//Sine
-// From: https://unindented.org/articles/trigonometry-in-sass/
-@function sin($angle) {
-	$sin: 0;
-	$angle: rad($angle);
-	// Iterate a bunch of times.
-	@for $i from 0 through 10 {
-		$sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
-	}
-	@return $sin;
-}
-
-//Cosine
-@function cos($angle) {
-	$cos: 0;
-	$angle: rad($angle);
-	// Iterate a bunch of times.
-	@for $i from 0 through 10 {
-		$cos: $cos + pow(-1, $i) * pow($angle, 2 * $i) / fact(2 * $i);
-	}
-	@return $cos;
-}
-
-//Tangent
-@function tan($angle) {
-	@return sin($angle) / cos($angle);
-}
-
-// Math helpers
-// From https://github.com/inuitcss/tools.functions/blob/master/_tools.functions.scss
-//
-// Halve and double numbers, returning rounded integers. E.g.:
-//
-// .foo {
-//     padding: halve(3.2px);
-// }
-//
-// Outputs:
-// .foo{padding: 2px;}
-//
-@function quarter($number) {
-	@return round($number / 4);
-}
-
-@function halve($number) {
-	@return round($number / 2);
-}
-
-@function double($number) {
-	@return round($number * 2);
-}
-
-@function quadruple($number) {
-	@return round($number * 4);
-}
-
-//------------------------------------
-//    $HELPERS
-//------------------------------------
 
 // Strip units from a sass value
 // Taken from:
@@ -714,12 +690,34 @@ $golden_ratio: golden();
 }
 
 
-//-----------------------------------
-//    $PHOTOSHOP LAYER STYLE MIMICS
-//-----------------------------------
+/* SG
+#Functions/Photoshop convertrers [[dev]]
 
-//Photoshop shadow mimic
-// Allows you to use photoshop drop/inner shadow settings to generate CSS shadows
+/globals/_gl-functions.scss
+
+-----------------------
+
+##### `photoshop-shadow()`
+###### function(`$color:#000`, `$angle:120`, `$distance:0`, `$size:0`, `$spread:0`, `$inner:false`)
+Takes photoshop "Drop Shadow" layer style arguments and converts them to CSS `box-shadow` values.
+
+##### `photoshop-text-shadow()`
+###### function(`$color:#000`, `$angle:120`, `$distance:0`, `$size:0`, `$spread:null`)
+Takes photoshop "Drop Shadow" layer style arguments and converts them to CSS `text-shadow` values.
+
+##### `photoshop-gradient-overlay()`
+###### function(`$gradient-colors:(#000, #fff)`, `$gradient-stops:(0%, 100%)`, `$angle:90deg`, `$opacity:100%`, `$scale:100%`, `$bg-color:white`, `$blend:normal`)
+Takes photoshop "Gradient Overlay" layer style arguments and converts them to CSS `linear-gradient` values.
+
+##### `convert-angle()`
+###### function(`$angle`)
+Converts Photoshop angles to CSS angles.
+
+##### `stop-scale()`
+###### `[stop], [scale]`
+Converts Photoshop gradient-stops to CSS gradients.
+
+*/
 
 @function photoshop-shadow (
 	$color: #000,
@@ -815,13 +813,43 @@ $golden_ratio: golden();
 	@return percentage($scale * $stop - (0.5 * ($scale - 1)));
 }
 
-//------------------------------------
-//    $TYPOGRAPHY
-//------------------------------------
+
+/* SG
+#Functions/Type [[dev]]
+
+/globals/_gl-functions.scss
+
+---
+
+##### `baseline()`
+###### function(`$font-size`, `$baseline`)
+Aligns a font-size to a baseline. Dividing by the `$font-size` yields a unitless value (equivilent to rems).
+
+##### `baseline-lcm()`
+###### function(`$font-size`, `$line-height`)
+Calculate the least-common-denominator between a font-size and a baseline.
+
+##### `baseline-calc()`
+###### function(`$font-size`:`$$base-font-size`, `$font-base`:`$$base-font-size`, `$calc-override: false`)
+Used generating line-heights that line up to the baseline grid. Override recommended behavior with a boolean third value to gain most eye-pleasing values.
+
+##### `modular-scale()`
+###### function(`$scale`, `$ratio:``$$scale-ratio`)
+Generates a pixel value that is an exponent of a ratio (defaults to $scale-ratio value). Used by `type-scale()`.
+
+##### `get-type()`,`type()`
+###### `[font-size],[font-size-value]`
+function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.
+
+##### `define-type()`
+###### `[font-size], [property], [new value]`
+Registers new values to type map. [Property] accepts px, rem, and line-height.
+
+*/
 
 //Baseline function. Converts to floated integer.
-@function baseline($font-size, $baseline, $i:1){
-	@return ceil($font-size / ($baseline*$i)) * ($baseline*$i) / $font-size;
+@function baseline($font-size, $baseline, $i:1) {
+	@return ceil($font-size / ($baseline * $i)) * ($baseline * $i) / $font-size;
 }
 
 @function check-base-line($magic-number, $i:1) {
@@ -831,7 +859,6 @@ $golden_ratio: golden();
 		$magic-number: ceil($base-font-size / ($base-line-height * $i)) * ($base-line-height * $i);
 		$ratio: ($magic-number / $base-font-size);
 		$i: $i + 1;
-
     }
 
 	@return $magic-number;
@@ -843,21 +870,62 @@ $golden_ratio: golden();
 	@return lcm( $esl, $base-line-height );
 }
 
+@function baseline-sin($number){
+	@return sin(($number * 90deg));
+}
+
+@function baseline-linear($number) {
+	@return $number * .7425;
+}
+
 // Calculate the baseline of any particular font-size.
 @function baseline-calc(
 	$font-size: $base-font-size,
 	$font-base: $base-font-size,
 	$calc-override: false
 ){
-	//Easiest measurement of font-size deviation
-	$font-ratio: 1.1;
-	$upper-bound: 1.9;
 	$lower-bound: 1.1;
+	$upper-bound: 1.9;
 
-	@if ($font-size > $base-font-size){
-		$font-ratio: round(($font-size/1px) % ($base-font-size/1px));
-	}@else{
-		$font-ratio: round(($base-font-size/1px) % ($font-size/1px));
+	$smallFontUpperBound: 2.3;
+	$smallFontLowerBound: 1.5;
+	$largeFontUpperBound: 1.05;
+	$largeFontLowerBound: 0.95;
+
+	$fontSizeSmall: 10;
+	$fontSizeLarge: 90;
+	$percentAlong: 0;
+
+
+	@if $font-size <= $fontSizeSmall {
+		$lower-bound: $type-magic-ratio;
+		$upper-bound: $smallFontUpperBound;
+	}
+	@else if $font-size >= $fontSizeLarge {
+		$lower-bound: $largeFontLowerBound;
+		$upper-bound: $largeFontUpperBound;
+	}
+	@else {
+		$wayTooLargeFontSize: ($font-size - $fontSizeSmall) / ($fontSizeLarge - $fontSizeSmall) / 1px;
+
+		$percentAlong: baseline-sin($wayTooLargeFontSize);
+		$percentAlongUpper: baseline-sin($wayTooLargeFontSize);
+		$percentAlongLower: baseline-sin($wayTooLargeFontSize);
+
+		//@debug "size: #{$font-size} %: #{$percentAlong}, tooLarge: #{$wayToLargeFontSize}";
+		@if $percentAlong >= .25 {
+			$lower-bound: $smallFontLowerBound - $percentAlongLower * ($smallFontLowerBound - $largeFontLowerBound);
+
+			$upper-bound: $smallFontUpperBound - $percentAlongUpper * ($smallFontUpperBound - $largeFontUpperBound);
+		}
+	}
+
+
+	//Easiest measurement of font-size deviation
+	$font-ratio: round(($font-base / 1px) % ($font-size / 1px));
+
+	@if ($font-size > $font-base){
+		$font-ratio: round(($font-size / 1px) % ($font-base / 1px));
 	}
 
 	@while $font-ratio > 1 {
@@ -871,25 +939,38 @@ $golden_ratio: golden();
 	$line-height: baseline($font-size, $base-line-height);
 	//$inc-dec: if($base-line-height <= $base-font-size, unquote('/'), unquote("*"));
 	$i: 1;
-	@debug "ratio: #{$font-ratio}, size: #{$font-size}";
+	$ratio-attempt: false;
+	$line-calc: (1 , 2 , 3);
 
-	@while $line-height <= 1.1 and $line-height < 1.9 {
+	@while $line-height <= $lower-bound or $line-height > $upper-bound {
 
 		$line-height: baseline($font-size, ($base-line-height / 2), $i);
 
-		@if $i > (($font-ratio * 10) - 10) and ($font-ratio % 1) != 0 {
-			$line-height: baseline($font-size, $base-line-height, $font-ratio);
-		}
-
-		//@debug ($font-ratio % 1);
+		//@if $i > (($font-ratio * 10) - 10)
+		//	and ($font-ratio % 1) != 0
+		//	and $ratio-attempt == false
+		//{
+		//	$line-height: baseline($font-size, $base-line-height, $font-ratio);
+		//	$ratio-attempt: true;
+		//}
 
 		$i: $i + 1;
 
-		@if $i > 10 {
-			$line-height: $type-magic-ratio;
+		@if $i > ($font-size / 1px) {
+			$line-height: baseline($font-size, ($base-line-height / 3), $i);
+			$line-height: $upper-bound - .1;
 		}
 	}
-	@debug $line-height * $font-size;
+
+	@if $font-size != 12.8px {
+		@debug "font-size: #{$font-size}";
+		@debug "%: #{$percentAlong * 100}";
+		@debug "ub: #{$upper-bound}, lb: #{$lower-bound}";
+		@debug "lh: #{$line-height * $font-size}";
+		@debug "loops: #{$i}";
+		@debug "-----";
+	}
+
 	@return $line-height;
 
 	////baseline
