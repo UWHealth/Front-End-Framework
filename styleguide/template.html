@@ -19,6 +19,9 @@
 
     {{!--Menu--}}
     <nav id="styleguide-menu">
+        <a href="#" data-toggle=".top_menu, .menu_body" class="toggle button button_small">
+            <span>Menu</span>
+        </a>
     	<ul class="top_menu">
             <li>
                 <a href="#" class="sectionlink show_all" data-section="#styleguide-styles .section">Styles</a>
@@ -114,7 +117,7 @@
 
                     {{#if markup}}
                         <div class="markup hljs">
-                            <pre>{{{markup}}}</pre>
+                            <pre><code>{{{markup}}}</code></pre>
                         </div>
                     </div>
                     {{/if}}
@@ -153,7 +156,7 @@
 
                     {{#if markup}}
                         <div class="markup hljs">
-                            <pre>{{{markup}}}</pre>
+                            <pre><code>{{{markup}}}</code></pre>
                         </div>
                     </div>
                     {{/if}}

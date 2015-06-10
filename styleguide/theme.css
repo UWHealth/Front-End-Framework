@@ -27,10 +27,45 @@
     padding-top: .5em;
 }
 
-#styleguide .markup.markup pre, #styleguide .markup{
-    background-color: #43505E;
+#styleguide .markup {
+    padding: 0;
 }
 
+#styleguide .markup code,
+#styleguide .markup pre {
+    border: none;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    font-size: 13px;
+    line-height: 20px;
+    direction: ltr;
+    text-align: left;
+    white-space: pre-wrap;
+    word-spacing: normal;
+    margin: 0;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+#styleguide .markup.markup pre,
+#styleguide .markup{
+    background-color: #43505E;
+}
+#styleguide .markup.markup pre,
+#styleguide .markup.markup code {
+    overflow: auto;
+    padding: 0;
+}
+#styleguide .markup.markup code {
+    display: block;
+    word-wrap: normal;
+    white-space: pre;
+    padding: 1em;
+}
 #styleguide .result,
 #styleguide .section_comment,
 #styleguide .section_header {
@@ -86,26 +121,6 @@
 
 .comment [id*="_code"] code{
     white-space: pre-wrap;
-}
-
-#styleguide .markup code,
-#styleguide .markup pre {
-    border: none;
-    font-family: Consolas, Monaco, 'Andale Mono', monospace;
-    font-size: 13px;
-    line-height: 20px;
-    direction: ltr;
-    text-align: left;
-    white-space: pre-wrap;
-    word-spacing: normal;
-    margin: 0;
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
-    -webkit-hyphens: none;
-    -moz-hyphens: none;
-    -ms-hyphens: none;
-    hyphens: none;
 }
 
 #styleguide h5 code {
@@ -219,12 +234,12 @@
 }
 
 #styleguide-menu ul ul a {
-    padding: 0.4em 1em 0.4em 2em;
+    padding: 0.4em 1em;
 }
 
-#styleguide-menu a:visited,
-#styleguide-menu a:hover,
-#styleguide-menu a:active {
+#styleguide-menu .menu_body a:visited,
+#styleguide-menu .menu_body a:hover,
+#styleguide-menu .menu_body a:active {
     display: block;
     color: rgba(0, 0, 0, 0.87);
 }
@@ -242,4 +257,10 @@
   margin-bottom: 1.75rem;
   color: #9DC3C8;
   font-weight: normal;
+}
+
+@media screen and (max-width: 910px) {
+    #styleguide-menu {
+        
+    }
 }

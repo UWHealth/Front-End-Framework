@@ -41,10 +41,45 @@
         padding-top: .5em;
     }
     
-    #styleguide .markup.markup pre, #styleguide .markup{
-        background-color: #43505E;
+    #styleguide .markup {
+        padding: 0;
     }
     
+    #styleguide .markup code,
+    #styleguide .markup pre {
+        border: none;
+        font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        font-size: 13px;
+        line-height: 20px;
+        direction: ltr;
+        text-align: left;
+        white-space: pre-wrap;
+        word-spacing: normal;
+        margin: 0;
+        -moz-tab-size: 4;
+        -o-tab-size: 4;
+        tab-size: 4;
+        -webkit-hyphens: none;
+        -moz-hyphens: none;
+        -ms-hyphens: none;
+        hyphens: none;
+    }
+    
+    #styleguide .markup.markup pre,
+    #styleguide .markup{
+        background-color: #43505E;
+    }
+    #styleguide .markup.markup pre,
+    #styleguide .markup.markup code {
+        overflow: auto;
+        padding: 0;
+    }
+    #styleguide .markup.markup code {
+        display: block;
+        word-wrap: normal;
+        white-space: pre;
+        padding: 1em;
+    }
     #styleguide .result,
     #styleguide .section_comment,
     #styleguide .section_header {
@@ -100,26 +135,6 @@
     
     .comment [id*="_code"] code{
         white-space: pre-wrap;
-    }
-    
-    #styleguide .markup code,
-    #styleguide .markup pre {
-        border: none;
-        font-family: Consolas, Monaco, 'Andale Mono', monospace;
-        font-size: 13px;
-        line-height: 20px;
-        direction: ltr;
-        text-align: left;
-        white-space: pre-wrap;
-        word-spacing: normal;
-        margin: 0;
-        -moz-tab-size: 4;
-        -o-tab-size: 4;
-        tab-size: 4;
-        -webkit-hyphens: none;
-        -moz-hyphens: none;
-        -ms-hyphens: none;
-        hyphens: none;
     }
     
     #styleguide h5 code {
@@ -233,12 +248,12 @@
     }
     
     #styleguide-menu ul ul a {
-        padding: 0.4em 1em 0.4em 2em;
+        padding: 0.4em 1em;
     }
     
-    #styleguide-menu a:visited,
-    #styleguide-menu a:hover,
-    #styleguide-menu a:active {
+    #styleguide-menu .menu_body a:visited,
+    #styleguide-menu .menu_body a:hover,
+    #styleguide-menu .menu_body a:active {
         display: block;
         color: rgba(0, 0, 0, 0.87);
     }
@@ -256,6 +271,12 @@
       margin-bottom: 1.75rem;
       color: #9DC3C8;
       font-weight: normal;
+    }
+    
+    @media screen and (max-width: 910px) {
+        #styleguide-menu {
+            
+        }
     }
     
     </style>    <style>
@@ -383,6 +404,9 @@
 <main class="wrap">
 
     <nav id="styleguide-menu">
+        <a href="#" data-toggle=".top_menu, .menu_body" class="toggle button button_small">
+            <span>Menu</span>
+        </a>
     	<ul class="top_menu">
             <li>
                 <a href="#" class="sectionlink show_all" data-section="#styleguide-styles .section">Styles</a>
@@ -392,6 +416,14 @@
         <ul id="style_menu" class="menu_body">
     		<li>
                     <a class="sectionlink" href="#color_blocks-" data-section="Color Blocks">Color Blocks</a>
+    		</li>
+    		<li>
+                    <a class="submenulink" href="#layout-arrangement_object" data-section="Layout">Layout</a>
+                    <span class="submenu_toggle" data-toggle="[data-submenu='Layout']">&#9662;</span>
+                    <ul class="submenu" data-submenu="Layout">
+                            <li><a class="submenulink sub-sub" data-section="Layout" href="#layout-arrangement_object">Arrangement object</a></li>
+                            <li><a class="submenulink sub-sub" data-section="Layout" href="#layout-media_object">Media object</a></li>
+                    </ul>
     		</li>
     		<li>
                     <a class="submenulink" href="#lists-bordered_lists" data-section="Lists">Lists</a>
@@ -432,7 +464,10 @@
                         <a class="submenulink" href="#" data-section="Functions">Functions</a><span class="submenu_toggle" data-toggle="[data-submenu='Functions']">&#9662;</span>
                         <ul class="submenu" data-submenu="Functions">
                                 <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-colors">Colors</a></li>
-                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-general_functions">General Functions</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-math">Math</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-photoshop_convertrers">Photoshop convertrers</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-sass_helpers">Sass Helpers</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Functions" href="#functions-type">Type</a></li>
                         </ul>
         		</li>
         		<li>
@@ -491,13 +526,97 @@
                         </div>
 
                         <div class="markup hljs">
-                            <pre>&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
+                            <pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
 &lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
 &lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
 &lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
 &lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
 &lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;</pre>
+&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"color-block"</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre>
+                        </div>
+                    </div>
+
+        		</article>
+        		<article class="section" id="layout-arrangement_object" data-section="Layout" data-heading="Arrangement object">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Layout</h1>
+                            <h2 class="h4 space_t_neg header_heading">Arrangement object</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>Creates an image-content block that vertically aligns images and text (centered, bottom, or top).</p>
+                    </div>
+
+                    <div class="section_body">
+                        <div class="result">
+                            <div class="arrange">
+    <div class="arrange_media">
+        <img src="http://placehold.it/60x50" alt="placeholder image">
+    </div>
+    <div class="arrange_body">
+        Content that is vertically aligned.
+    </div>
+</div>
+
+<!-- Bottom Arrangement -->
+
+<div class="arrange arrange_bottom">
+    <div class="arrange_media">
+        <img src="http://placehold.it/60x50" alt="placeholder image">
+    </div>
+    <div class="arrange_body">
+        Content that is bottom aligned.
+    </div>
+</div>
+                        </div>
+
+                        <div class="markup hljs">
+                            <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_media"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/60x50"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_body"</span>&gt;</span>
+        Content that is vertically aligned.
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Bottom Arrangement --&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange arrange_bottom"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_media"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/60x50"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_body"</span>&gt;</span>
+        Content that is bottom aligned.
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span></code></pre>
+                        </div>
+                    </div>
+
+        		</article>
+        		<article class="section" id="layout-media_object" data-section="Layout" data-heading="Media object">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Layout</h1>
+                            <h2 class="h4 space_t_neg header_heading">Media object</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>Useful for creating an association between an image and text. Often used with an icon or a profile image.</p>
+                    </div>
+
+                    <div class="section_body">
+                        <div class="result">
+                            <img class="isolate_media" src="http://placehold.it/300x50" alt="placeholder image">
+<p class="isolate_body">
+    Content that sits to the right of the image but will never wrap underneath the image to the left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+</p>
+                        </div>
+
+                        <div class="markup hljs">
+                            <pre><code>&lt;img class=<span class="hljs-string">"isolate_media"</span> src=<span class="hljs-string">"http://placehold.it/300x50"</span> alt=<span class="hljs-string">"placeholder image"</span>&gt;
+&lt;p class=<span class="hljs-string">"isolate_body"</span>&gt;
+    Content that sits <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> <span class="hljs-constant">right</span> <span class="hljs-operator">of</span> <span class="hljs-operator">the</span> image but will never <span class="hljs-operator">wrap</span> underneath <span class="hljs-operator">the</span> image <span class="hljs-built_in">to</span> <span class="hljs-operator">the</span> left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis <span class="hljs-operator">in</span>, egestas eget quam.
+&lt;/p&gt;</code></pre>
                         </div>
                     </div>
 
@@ -528,7 +647,7 @@
                         </div>
 
                         <div class="markup hljs">
-                            <pre>&lt;ul <span class="hljs-keyword">class</span>=<span class="hljs-string">"list_bordered"</span>&gt;
+                            <pre><code>&lt;ul <span class="hljs-keyword">class</span>=<span class="hljs-string">"list_bordered"</span>&gt;
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
@@ -538,7 +657,7 @@
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
-&lt;/ul&gt;</pre>
+&lt;/ul&gt;</code></pre>
                         </div>
                     </div>
 
@@ -563,11 +682,11 @@
                         </div>
 
                         <div class="markup hljs">
-                            <pre>&lt;ul <span class="hljs-keyword">class</span>=<span class="hljs-string">"breadcrumbs"</span>&gt;
+                            <pre><code>&lt;ul <span class="hljs-keyword">class</span>=<span class="hljs-string">"breadcrumbs"</span>&gt;
     &lt;<span class="hljs-keyword">li</span> <span class="hljs-keyword">class</span>=<span class="hljs-string">"breadcrumb"</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
     &lt;<span class="hljs-keyword">li</span> <span class="hljs-keyword">class</span>=<span class="hljs-string">"breadcrumb"</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
     &lt;<span class="hljs-keyword">li</span> <span class="hljs-keyword">class</span>=<span class="hljs-string">"breadcrumb"</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
-&lt;/ul&gt;</pre>
+&lt;/ul&gt;</code></pre>
                         </div>
                     </div>
 
@@ -592,11 +711,11 @@
                         </div>
 
                         <div class="markup hljs">
-                            <pre>&lt;ul <span class="hljs-keyword">class</span>=<span class="hljs-string">"list_inline"</span>&gt;
+                            <pre><code>&lt;ul <span class="hljs-keyword">class</span>=<span class="hljs-string">"list_inline"</span>&gt;
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
     &lt;<span class="hljs-keyword">li</span>&gt;<span class="hljs-keyword">List</span> Item&lt;/<span class="hljs-keyword">li</span>&gt;
-&lt;/ul&gt;</pre>
+&lt;/ul&gt;</code></pre>
                         </div>
                     </div>
 
@@ -627,7 +746,7 @@
                         </div>
 
                         <div class="markup hljs">
-                            <pre><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"list_nav"</span>&gt;</span>
+                            <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"list_nav"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span>&gt;</span>List Item<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
@@ -637,7 +756,7 @@
     <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span>&gt;</span>List Item<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span></pre>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span></code></pre>
                         </div>
                     </div>
 
@@ -667,14 +786,14 @@
                         </div>
 
                         <div class="markup hljs">
-                            <pre>&lt;a href=<span class="hljs-string">"#tab1"</span> <span class="hljs-type">class</span>=<span class="hljs-string">"tab_button"</span>&gt;Tab <span class="hljs-number">1</span>&lt;/a&gt;
+                            <pre><code>&lt;a href=<span class="hljs-string">"#tab1"</span> <span class="hljs-type">class</span>=<span class="hljs-string">"tab_button"</span>&gt;Tab <span class="hljs-number">1</span>&lt;/a&gt;
 &lt;<span class="hljs-keyword">div</span> <span class="hljs-property">id</span>=<span class="hljs-string">"tab1"</span> <span class="hljs-type">class</span>=<span class="hljs-string">"tab_content"</span>&gt;
     Content Here
 &lt;/<span class="hljs-keyword">div</span>&gt;
 &lt;a href=<span class="hljs-string">"#tab2"</span> <span class="hljs-type">class</span>=<span class="hljs-string">"tab_button"</span>&gt;Tab <span class="hljs-number">2</span>&lt;/a&gt;
 &lt;<span class="hljs-keyword">div</span> <span class="hljs-property">id</span>=<span class="hljs-string">"tab2"</span> <span class="hljs-type">class</span>=<span class="hljs-string">"tab_content"</span>&gt;
     Secondary Content Here
-&lt;/<span class="hljs-keyword">div</span>&gt;</pre>
+&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre>
                         </div>
                     </div>
 
@@ -708,7 +827,7 @@
                         </div>
 
                         <div class="markup hljs">
-                            <pre>&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"tabbed"</span> data-tabbed=<span class="hljs-string">"true"</span>&gt;
+                            <pre><code>&lt;<span class="hljs-keyword">div</span> <span class="hljs-type">class</span>=<span class="hljs-string">"tabbed"</span> data-tabbed=<span class="hljs-string">"true"</span>&gt;
     &lt;nav <span class="hljs-type">class</span>=<span class="hljs-string">"tabs"</span>&gt;
         &lt;a <span class="hljs-type">class</span>=<span class="hljs-string">"tab active"</span> href=<span class="hljs-string">"#tab-1"</span>&gt;Tab <span class="hljs-number">1</span>&lt;/a&gt;
         &lt;a <span class="hljs-type">class</span>=<span class="hljs-string">"tab"</span> href=<span class="hljs-string">"#tab-2"</span>&gt;Tab <span class="hljs-number">2</span>&lt;/a&gt;
@@ -721,7 +840,7 @@
     &lt;<span class="hljs-keyword">div</span> <span class="hljs-property">id</span>=<span class="hljs-string">"tab-2"</span> <span class="hljs-type">class</span>=<span class="hljs-string">"tab_content"</span>&gt;
         Secondary Content Here
     &lt;/<span class="hljs-keyword">div</span>&gt;
-&lt;/<span class="hljs-keyword">div</span>&gt;</pre>
+&lt;/<span class="hljs-keyword">div</span>&gt;</code></pre>
                         </div>
                     </div>
 
@@ -897,16 +1016,14 @@
 
 
         		</article>
-        		<article class="section" id="functions-general_functions" data-section="Functions" data-heading="General Functions">
+        		<article class="section" id="functions-math" data-section="Functions" data-heading="Math">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Functions</h1>
-                            <h2 class="h4 space_t_neg header_heading">General Functions</h2>
+                            <h2 class="h4 space_t_neg header_heading">Math</h2>
                     </header>
                     <div class="section_comment">
                         <p>/globals/_gl-functions.scss</p>
-<hr>
-<h3 class="main-section-sg-by-emiloberg" id="section-math_functions">Math Functions</h3>
 <hr>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=exponent_class=global_global_function_data-code-id=exponent_exponent__code_"><code id="exponent()" class="global global_function" data-code-id="exponent()">exponent()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$number__code_,__code_$exponent_/code_">function(<code>$number</code>, <code>$exponent</code>)</h6>
@@ -938,8 +1055,48 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=tan_class=global_global_function_data-code-id=tan_tan__code_"><code id="tan()" class="global global_function" data-code-id="tan()">tan()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$angle__code_">function(<code>$angle</code>)</h6>
 <p>Determines the Tangent of an angle.</p>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="functions-photoshop_convertrers" data-section="Functions" data-heading="Photoshop convertrers">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Functions</h1>
+                            <h2 class="h4 space_t_neg header_heading">Photoshop convertrers</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>/globals/_gl-functions.scss</p>
 <hr>
-<h3 class="main-section-sg-by-emiloberg" id="section-sass_helpers">Sass Helpers</h3>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=photoshop-shadow_class=global_global_function_data-code-id=photoshop-shadow_photoshop-shadow__code_"><code id="photoshop-shadow()" class="global global_function" data-code-id="photoshop-shadow()">photoshop-shadow()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$color:_000__code_,__code_$angle:120_/code_,__code_$distance:0_/code_,__code_$size:0_/code_,__code_$spread:0_/code_,__code_$inner:false_/code_">function(<code>$color:#000</code>, <code>$angle:120</code>, <code>$distance:0</code>, <code>$size:0</code>, <code>$spread:0</code>, <code>$inner:false</code>)</h6>
+<p>Takes photoshop &quot;Drop Shadow&quot; layer style arguments and converts them to CSS <code>box-shadow</code> values.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=photoshop-text-shadow_class=global_global_function_data-code-id=photoshop-text-shadow_photoshop-text-shadow__code_"><code id="photoshop-text-shadow()" class="global global_function" data-code-id="photoshop-text-shadow()">photoshop-text-shadow()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$color:_000__code_,__code_$angle:120_/code_,__code_$distance:0_/code_,__code_$size:0_/code_,__code_$spread:null_/code_">function(<code>$color:#000</code>, <code>$angle:120</code>, <code>$distance:0</code>, <code>$size:0</code>, <code>$spread:null</code>)</h6>
+<p>Takes photoshop &quot;Drop Shadow&quot; layer style arguments and converts them to CSS <code>text-shadow</code> values.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=photoshop-gradient-overlay_class=global_global_function_data-code-id=photoshop-gradient-overlay_photoshop-gradient-overlay__code_"><code id="photoshop-gradient-overlay()" class="global global_function" data-code-id="photoshop-gradient-overlay()">photoshop-gradient-overlay()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$gradient-colors:(_000,_#fff__code_,__code_$gradient-stops:0%,_100%_/code_,__code_$angle:90deg_/code_,__code_$opacity:100%_/code_,__code_$scale:100%_/code_,__code_$bg-color:white_/code_,__code_$blend:normal_/code_)">function(<code>$gradient-colors:(#000, #fff)</code>, <code>$gradient-stops:(0%, 100%)</code>, <code>$angle:90deg</code>, <code>$opacity:100%</code>, <code>$scale:100%</code>, <code>$bg-color:white</code>, <code>$blend:normal</code>)</h6>
+<p>Takes photoshop &quot;Gradient Overlay&quot; layer style arguments and converts them to CSS <code>linear-gradient</code> values.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=convert-angle_class=global_global_function_data-code-id=convert-angle_convert-angle__code_"><code id="convert-angle()" class="global global_function" data-code-id="convert-angle()">convert-angle()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$angle__code_">function(<code>$angle</code>)</h6>
+<p>Converts Photoshop angles to CSS angles.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=stop-scale_class=global_global_function_data-code-id=stop-scale_stop-scale__code_"><code id="stop-scale()" class="global global_function" data-code-id="stop-scale()">stop-scale()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-_code_[stop],_[scale]__code_"><code>[stop], [scale]</code></h6>
+<p>Converts Photoshop gradient-stops to CSS gradients.</p>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="functions-sass_helpers" data-section="Functions" data-heading="Sass Helpers">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Functions</h1>
+                            <h2 class="h4 space_t_neg header_heading">Sass Helpers</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>/globals/_gl-functions.scss</p>
 <hr>
 <h5 class="main-section-sg-by-emiloberg" id="section-converter_functions">Converter Functions</h5>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=strip-units_class=global_global_function_data-code-id=strip-units_strip-units__code_"><code id="strip-units()" class="global global_function" data-code-id="strip-units()">strip-units()</code></h5>
@@ -996,26 +1153,19 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=map-print_class=global_global_function_data-code-id=map-print_map-print__code_,__code_id=map-inspect_class=global_global_function_data-code-id=map-inspect_map-inspect_/code_"><code id="map-print()" class="global global_function" data-code-id="map-print()">map-print()</code>, <code id="map-inspect()" class="global global_function" data-code-id="map-inspect()">map-inspect()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$map__code_,__code_$level:1_/code_">function(<code>$map</code>, <code>$level:1</code>)</h6>
 <p>Prints map into a string (in a JSON-esque format). Useful for debugging.</p>
-<hr>
-<h3 class="main-section-sg-by-emiloberg" id="section-photoshop_converters">Photoshop Converters</h3>
-<hr>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=photoshop-shadow_class=global_global_function_data-code-id=photoshop-shadow_photoshop-shadow__code_"><code id="photoshop-shadow()" class="global global_function" data-code-id="photoshop-shadow()">photoshop-shadow()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$color:_000__code_,__code_$angle:120_/code_,__code_$distance:0_/code_,__code_$size:0_/code_,__code_$spread:0_/code_,__code_$inner:false_/code_">function(<code>$color:#000</code>, <code>$angle:120</code>, <code>$distance:0</code>, <code>$size:0</code>, <code>$spread:0</code>, <code>$inner:false</code>)</h6>
-<p>Takes photoshop &quot;Drop Shadow&quot; layer style arguments and converts them to CSS <code>box-shadow</code> values.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=photoshop-text-shadow_class=global_global_function_data-code-id=photoshop-text-shadow_photoshop-text-shadow__code_"><code id="photoshop-text-shadow()" class="global global_function" data-code-id="photoshop-text-shadow()">photoshop-text-shadow()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$color:_000__code_,__code_$angle:120_/code_,__code_$distance:0_/code_,__code_$size:0_/code_,__code_$spread:null_/code_">function(<code>$color:#000</code>, <code>$angle:120</code>, <code>$distance:0</code>, <code>$size:0</code>, <code>$spread:null</code>)</h6>
-<p>Takes photoshop &quot;Drop Shadow&quot; layer style arguments and converts them to CSS <code>text-shadow</code> values.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=photoshop-gradient-overlay_class=global_global_function_data-code-id=photoshop-gradient-overlay_photoshop-gradient-overlay__code_"><code id="photoshop-gradient-overlay()" class="global global_function" data-code-id="photoshop-gradient-overlay()">photoshop-gradient-overlay()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$gradient-colors:(_000,_#fff__code_,__code_$gradient-stops:0%,_100%_/code_,__code_$angle:90deg_/code_,__code_$opacity:100%_/code_,__code_$scale:100%_/code_,__code_$bg-color:white_/code_,__code_$blend:normal_/code_)">function(<code>$gradient-colors:(#000, #fff)</code>, <code>$gradient-stops:(0%, 100%)</code>, <code>$angle:90deg</code>, <code>$opacity:100%</code>, <code>$scale:100%</code>, <code>$bg-color:white</code>, <code>$blend:normal</code>)</h6>
-<p>Takes photoshop &quot;Gradient Overlay&quot; layer style arguments and converts them to CSS <code>linear-gradient</code> values.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=convert-angle_class=global_global_function_data-code-id=convert-angle_convert-angle__code_"><code id="convert-angle()" class="global global_function" data-code-id="convert-angle()">convert-angle()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$angle__code_">function(<code>$angle</code>)</h6>
-<p>Converts Photoshop angles to CSS angles.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=stop-scale_class=global_global_function_data-code-id=stop-scale_stop-scale__code_"><code id="stop-scale()" class="global global_function" data-code-id="stop-scale()">stop-scale()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-_code_[stop],_[scale]__code_"><code>[stop], [scale]</code></h6>
-<p>Converts Photoshop gradient-stops to CSS gradients.</p>
-<hr>
-<h3 class="main-section-sg-by-emiloberg" id="section-type_functions">Type Functions</h3>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="functions-type" data-section="Functions" data-heading="Type">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Functions</h1>
+                            <h2 class="h4 space_t_neg header_heading">Type</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>/globals/_gl-functions.scss</p>
 <hr>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=baseline_class=global_global_function_data-code-id=baseline_baseline__code_"><code id="baseline()" class="global global_function" data-code-id="baseline()">baseline()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$font-size__code_,__code_$baseline_/code_">function(<code>$font-size</code>, <code>$baseline</code>)</h6>
@@ -1024,7 +1174,7 @@
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$font-size__code_,__code_$line-height_/code_">function(<code>$font-size</code>, <code>$line-height</code>)</h6>
 <p>Calculate the least-common-denominator between a font-size and a baseline.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=baseline-calc_class=global_global_function_data-code-id=baseline-calc_baseline-calc__code_"><code id="baseline-calc()" class="global global_function" data-code-id="baseline-calc()">baseline-calc()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-function_code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size__code_,__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_,__code_$calc-override:_false_/code_">function(<code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>, <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>, <code>$calc-override: false</code>)</h6>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$font-size__code_:_code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_,__code_$font-base_/code_:_code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_,__code_$calc-override:_false_/code_">function(<code>$font-size</code>:<code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>, <code>$font-base</code>:<code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>, <code>$calc-override: false</code>)</h6>
 <p>Used generating line-heights that line up to the baseline grid. Override recommended behavior with a boolean third value to gain most eye-pleasing values.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=modular-scale_class=global_global_function_data-code-id=modular-scale_modular-scale__code_"><code id="modular-scale()" class="global global_function" data-code-id="modular-scale()">modular-scale()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$scale__code_,__code_id=$scale-ratio_class=global_global_variable_data-code-id=$scale-ratio_$scale-ratio_/code_">function(<code>$scale</code>, <code id="$scale-ratio" class="global global_variable" data-code-id="$scale-ratio">$scale-ratio</code>)</h6>
@@ -1196,7 +1346,7 @@
                     </header>
                     <div class="section_comment">
                         <p>globals/tools/_t-mixins.scss</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=media-query_class=global_global_variable_data-code-id=media-query_@media-query__code_,__code_@mq_/code_,__code_@media_/code_,__code_@breakpoint_/code_,__code_@bp_/code_"><code id="media-query()" class="global global_variable" data-code-id="media-query()">@media-query()</code>, <code>@mq</code>, <code>@media</code>, <code>@breakpoint</code>, <code>@bp</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=media-query_class=global_global_variable_data-code-id=media-query_@media-query__code_,__code_id=mq_class=global_global_variable_data-code-id=mq_@mq_/code_,__code_id=media_class=global_global_variable_data-code-id=media_@media_/code_,__code_id=breakpoint_class=global_global_variable_data-code-id=breakpoint_@breakpoint_/code_,__code_id=bp_class=global_global_variable_data-code-id=bp_@bp_/code_"><code id="media-query()" class="global global_variable" data-code-id="media-query()">@media-query()</code>, <code id="mq()" class="global global_variable" data-code-id="mq()">@mq()</code>, <code id="media()" class="global global_variable" data-code-id="media()">@media()</code>, <code id="breakpoint()" class="global global_variable" data-code-id="breakpoint()">@breakpoint()</code>, <code id="bp()" class="global global_variable" data-code-id="bp()">@bp()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$media-queries__code_">mixin(<code>$media-queries</code>)</h6>
 <p>Enclose a block of code with a media query as named in <code>$breakpoints</code>. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined by using a nested list (double parenthesis).</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=specificity_class=global_global_variable_data-code-id=specificity_@specificity__code_"><code id="specificity()" class="global global_variable" data-code-id="specificity()">@specificity()</code></h5>
@@ -1207,10 +1357,10 @@
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$opacity__code_">mixin(<code>$opacity</code>)</h6>
 <p>Cross-browser (including IE) opacity.</p>
 <p><a href="https://gist.github.com/jgv/745754">Reference</a></p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_@px-to-rems__code_,__code_id=rems_class=global_global_variable_data-code-id=rems_@rems_/code_"><code>@px-to-rems</code>, <code id="rems()" class="global global_variable" data-code-id="rems()">@rems()</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=px-to-rems_class=global_global_variable_data-code-id=px-to-rems_@px-to-rems__code_,__code_id=rems_class=global_global_variable_data-code-id=rems_@rems_/code_"><code id="px-to-rems()" class="global global_variable" data-code-id="px-to-rems()">@px-to-rems()</code>, <code id="rems()" class="global global_variable" data-code-id="rems()">@rems()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$property__code_,__code_$sizes_/code_,__code_$important_/code_:_false,__code_$base-font_/code_:__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_">mixin(<code>$property</code>, <code>$sizes</code>, <code>$important</code>: false, <code>$base-font</code>: <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>)</h6>
 <p>REM generator used to create a property with a rem value and PX fallback.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_@font-size__code_,__code_id=type-font-size_class=global_global_variable_data-code-id=type-font-size_@type-font-size_/code_"><code>@font-size</code>, <code id="type-font-size()" class="global global_variable" data-code-id="type-font-size()">@type-font-size()</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=font-size_class=global_global_variable_data-code-id=font-size_@font-size__code_,__code_id=type-font-size_class=global_global_variable_data-code-id=type-font-size_@type-font-size_/code_"><code id="font-size()" class="global global_variable" data-code-id="font-size()">@font-size()</code>, <code id="type-font-size()" class="global global_variable" data-code-id="type-font-size()">@type-font-size()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$font-size__code_,__code_$line-height_/code_:_true,__code_$selector_/code__:&amp;_39;&apos;,__code_$font-base_/code_:__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_">mixin(<code>$font-size</code>, <code>$line-height</code>: true, <code>$selector</code> :&apos;&apos;, <code>$font-base</code>: <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>)</h6>
 <p>Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using <code id="$base-line-height" class="global global_variable" data-code-id="$base-line-height">$base-line-height</code>.</p>
                     </div>
@@ -1412,7 +1562,7 @@
 </script>
 <!-- Handlebars JSON
     menus = {
-            _sections: "[object Object],[object Object],[object Object]",
+            _sections: "[object Object],[object Object],[object Object],[object Object]",
                 _0: "[object Object]",
                     _name: "Color Blocks",
                     _headings: "[object Object]",
@@ -1420,6 +1570,15 @@
                             _id: "color_blocks-",
                             _name: "",
                 _1: "[object Object]",
+                    _name: "Layout",
+                    _headings: "[object Object],[object Object]",
+                        _0: "[object Object]",
+                            _id: "layout-arrangement_object",
+                            _name: "Arrangement object",
+                        _1: "[object Object]",
+                            _id: "layout-media_object",
+                            _name: "Media object",
+                _2: "[object Object]",
                     _name: "Lists",
                     _headings: "[object Object],[object Object],[object Object],[object Object]",
                         _0: "[object Object]",
@@ -1434,7 +1593,7 @@
                         _3: "[object Object]",
                             _id: "lists-navigation_list",
                             _name: "Navigation List",
-                _2: "[object Object]",
+                _3: "[object Object]",
                     _name: "Tabs",
                     _headings: "[object Object],[object Object]",
                         _0: "[object Object]",
@@ -1461,13 +1620,22 @@
                             _name: "Typography Settings",
                 _1: "[object Object]",
                     _name: "Functions",
-                    _headings: "[object Object],[object Object]",
+                    _headings: "[object Object],[object Object],[object Object],[object Object],[object Object]",
                         _0: "[object Object]",
                             _id: "functions-colors",
                             _name: "Colors",
                         _1: "[object Object]",
-                            _id: "functions-general_functions",
-                            _name: "General Functions",
+                            _id: "functions-math",
+                            _name: "Math",
+                        _2: "[object Object]",
+                            _id: "functions-photoshop_convertrers",
+                            _name: "Photoshop convertrers",
+                        _3: "[object Object]",
+                            _id: "functions-sass_helpers",
+                            _name: "Sass Helpers",
+                        _4: "[object Object]",
+                            _id: "functions-type",
+                            _name: "Type",
                 _2: "[object Object]",
                     _name: "Grid",
                     _headings: "[object Object]",
@@ -1542,6 +1710,70 @@
                     _0: "@color-palette-output()",
                     _1: "$colors",
             _1: "[object Object]",
+                _id: "layout-arrangement_object",
+                _isSubsection: "true",
+                _isDevelopment: "false",
+                _section: "Layout",
+                _heading: "Arrangement object",
+                _code: "&lt;div class=&quot;arrange&quot;&gt;
+    &lt;div class=&quot;arrange_media&quot;&gt;
+        &lt;img src=&quot;http://placehold.it/60x50&quot; alt=&quot;placeholder image&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;arrange_body&quot;&gt;
+        Content that is vertically aligned.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Bottom Arrangement --&gt;
+
+&lt;div class=&quot;arrange arrange_bottom&quot;&gt;
+    &lt;div class=&quot;arrange_media&quot;&gt;
+        &lt;img src=&quot;http://placehold.it/60x50&quot; alt=&quot;placeholder image&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;arrange_body&quot;&gt;
+        Content that is bottom aligned.
+    &lt;/div&gt;
+&lt;/div&gt;",
+                _codeLang: "",
+                _markup: "&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_media&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;http://placehold.it/60x50&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;alt&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_body&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        Content that is vertically aligned.
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;hljs-comment&quot;&gt;&amp;lt;!-- Bottom Arrangement --&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange arrange_bottom&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_media&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;http://placehold.it/60x50&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;alt&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_body&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        Content that is bottom aligned.
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;",
+                _comment: "&lt;p&gt;Creates an image-content block that vertically aligns images and text (centered, bottom, or top).&lt;/p&gt;",
+                _globalVars: "",
+            _2: "[object Object]",
+                _id: "layout-media_object",
+                _isSubsection: "true",
+                _isDevelopment: "false",
+                _section: "Layout",
+                _heading: "Media object",
+                _code: "&lt;img class=&quot;isolate_media&quot; src=&quot;http://placehold.it/300x50&quot; alt=&quot;placeholder image&quot;&gt;
+&lt;p class=&quot;isolate_body&quot;&gt;
+    Content that sits to the right of the image but will never wrap underneath the image to the left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+&lt;/p&gt;",
+                _codeLang: "",
+                _markup: "&amp;lt;img class=&lt;span class=&quot;hljs-string&quot;&gt;&quot;isolate_media&quot;&lt;/span&gt; src=&lt;span class=&quot;hljs-string&quot;&gt;&quot;http://placehold.it/300x50&quot;&lt;/span&gt; alt=&lt;span class=&quot;hljs-string&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt;&amp;gt;
+&amp;lt;p class=&lt;span class=&quot;hljs-string&quot;&gt;&quot;isolate_body&quot;&lt;/span&gt;&amp;gt;
+    Content that sits &lt;span class=&quot;hljs-built_in&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;hljs-operator&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;hljs-constant&quot;&gt;right&lt;/span&gt; &lt;span class=&quot;hljs-operator&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;hljs-operator&quot;&gt;the&lt;/span&gt; image but will never &lt;span class=&quot;hljs-operator&quot;&gt;wrap&lt;/span&gt; underneath &lt;span class=&quot;hljs-operator&quot;&gt;the&lt;/span&gt; image &lt;span class=&quot;hljs-built_in&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;hljs-operator&quot;&gt;the&lt;/span&gt; left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis &lt;span class=&quot;hljs-operator&quot;&gt;in&lt;/span&gt;, egestas eget quam.
+&amp;lt;/p&amp;gt;",
+                _comment: "&lt;p&gt;Useful for creating an association between an image and text. Often used with an icon or a profile image.&lt;/p&gt;",
+                _globalVars: "",
+            _3: "[object Object]",
                 _id: "lists-bordered_lists",
                 _isSubsection: "true",
                 _isDevelopment: "false",
@@ -1572,7 +1804,7 @@
 &amp;lt;/ul&amp;gt;",
                 _comment: "&lt;p&gt;Creates a list with borders above and below each list item. Appending &lt;code&gt;list_bordered&lt;/code&gt; with &lt;code&gt;_short&lt;/code&gt; will make reduce the padding between each item.&lt;/p&gt;",
                 _globalVars: "",
-            _2: "[object Object]",
+            _4: "[object Object]",
                 _id: "lists-breadcrumbs",
                 _isSubsection: "true",
                 _isDevelopment: "false",
@@ -1591,7 +1823,7 @@
 &amp;lt;/ul&amp;gt;",
                 _comment: "&lt;p&gt;A list where each item is in a row, with a &amp;#x25B8; between each item.&lt;/p&gt;",
                 _globalVars: "",
-            _3: "[object Object]",
+            _5: "[object Object]",
                 _id: "lists-inline_lists",
                 _isSubsection: "true",
                 _isDevelopment: "false",
@@ -1610,7 +1842,7 @@
 &amp;lt;/ul&amp;gt;",
                 _comment: "&lt;p&gt;A list where each item is in a row, with spacing to the right of each item&lt;/p&gt;",
                 _globalVars: "",
-            _4: "[object Object]",
+            _6: "[object Object]",
                 _id: "lists-navigation_list",
                 _isSubsection: "true",
                 _isDevelopment: "false",
@@ -1641,7 +1873,7 @@
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;",
                 _comment: "&lt;p&gt;List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn&amp;apos;t have to be an &lt;code&gt;ol&lt;/code&gt; or &lt;code&gt;ul&lt;/code&gt;).&lt;/p&gt;",
                 _globalVars: "",
-            _5: "[object Object]",
+            _7: "[object Object]",
                 _id: "tabs-",
                 _isSubsection: "false",
                 _isDevelopment: "false",
@@ -1669,7 +1901,7 @@
 &lt;p&gt;Tabs start out as simple anchor + element pairings (with the anchor&amp;apos;s href referring to an element&amp;apos;s ID).&lt;/p&gt;
 &lt;p&gt;Using &lt;code&gt;.tab_button&lt;/code&gt; on the anchor, and &lt;code&gt;.tab_content&lt;/code&gt; on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.&lt;/p&gt;",
                 _globalVars: "",
-            _6: "[object Object]",
+            _8: "[object Object]",
                 _id: "tabs-premade",
                 _isSubsection: "true",
                 _isDevelopment: "false",
