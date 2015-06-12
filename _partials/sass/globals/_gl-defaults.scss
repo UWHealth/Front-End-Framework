@@ -164,15 +164,12 @@ $show-baseline:       false !default;
 // library depends.
 
 $type-magic-number:        $base-line-height;
-$type-magic-ratio:         ($base-line-height / $base-font-size);
 
 @if $base-font-size >= $base-line-height {
-
 	$type-magic-number: baseline-calc($base-font-size) * $base-font-size !global;
-
-	$type-magic-ratio: ($type-magic-number / $base-font-size) !global;
 }
 
+$type-magic-ratio: ($type-magic-number / $base-font-size) !global;
 
 $type-headings:            6,5,4,3,2,1;
 $type-modular-scale:       0;
@@ -193,9 +190,11 @@ $type-modular-scale: $scale-ratio;
         $type-modular-scale:   nth($scale-ratio, 1)/nth($scale-ratio, 2);
     }
 }
-@else {
-    $type-modular-scale:   $scale-ratio !global;
-}
+
+//Silent class registry
+// Holds all auto-generated silent classes.
+
+$silent-class-registry: ();
 
 //------------------------------------
 //    $GRID

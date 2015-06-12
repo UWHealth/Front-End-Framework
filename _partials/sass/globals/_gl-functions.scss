@@ -91,46 +91,171 @@ $iter: 50;
 }
 
 // Exponent function (for square, cubes, etc.)
-@function exponent($number, $exponent) {
+@function exponent($base, $exponent) {
 	// reset value
-	$value: $number;
+	$value: $base;
 	// positive intergers get multiplied
 	@if $exponent > 1 {
-	@for $i from 2 through $exponent {
-		$value: $value * $base; } }
+		@for $i from 1 through $exponent {
+			$value: $value * $base; }
+		}
 	// negitive intergers get divided. A number divided by itself is 1
 	@if $exponent < 1 {
 		@for $i from 0 through -$exponent {
-			$value: $value / $base; } }
+			$value: $value / $base; }
+			}
 	// return the last value written
 	@return $value;
 }
 
 //More advanced exponent function — very similar to Compass' pow() function, but without the ruby dependency.
-@function pow($number, $exponent, $precision: 12) {
-  // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
-	$base: $number;
-	$prec: $precision;
+//@function pow($number, $exponent, $precision: 12) {
+//  // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
+//	$base: $number;
+//	$prec: $precision;
+//
+//	@if floor($exponent) != $exponent {
+//		$prec2 : pow(10, $prec);
+//		$exponent: round($exponent * $prec2);
+//		$denominator: gcd($exponent, $prec2);
+//		@return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
+//	}
+//
+//	$value: $base;
+//	@if $exponent > 1 {
+//		@for $i from 2 through $exponent {
+//			$value: $value * $base;
+//		}
+//	} @else if $exponent < 1 {
+//		@for $i from 0 through -$exponent {
+//			$value: $value / $base;
+//		}
+//	}
+//
+//	@return $value;
+//}
 
-	@if floor($exponent) != $exponent {
-		$prec2 : pow(10, $prec);
-		$exponent: round($exponent * $prec2);
-		$denominator: gcd($exponent, $prec2);
-		@return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
-	}
+$E:     $e;
+$PI:    $pi;
+$LN2:   0.6931471805599453;
+$SQRT2: 1.4142135623730951;
 
-	$value: $base;
-	@if $exponent > 1 {
-		@for $i from 2 through $exponent {
-			$value: $value * $base;
-		}
-	} @else if $exponent < 1 {
-		@for $i from 0 through -$exponent {
-			$value: $value / $base;
-		}
-	}
+// Returns a two-element list containing the normalized fraction and exponent of number.
+// @param {Number} $x
+// @return {List} fraction, exponent
+@function frexp ($x) {
+    $exp: 0;
+    @if $x < 0 {
+        $x: $x * -1;
+    }
+    @if $x < 0.5 {
+        @while $x < 0.5 {
+            $x: $x * 2;
+            $exp: $exp - 1;
+        }
+    } @else if $x >= 1 {
+        @while $x >= 1 {
+            $x: $x / 2;
+            $exp: $exp + 1;
+        }
+    }
+    @return $x, $exp;
+}
 
-	@return $value;
+// Returns $x * 2^$exp
+// @param {Number} $x
+// @param {Number} $exp
+@function ldexp ($x, $exp) {
+    $b: if($exp >= 0, 2, 1 / 2);
+    @if $exp < 0 {
+        $exp: $exp * -1;
+    }
+    @while $exp > 0 {
+        @if $exp % 2 == 1 {
+            $x: $x * $b;
+        }
+        $b: $b * $b;
+        $exp: floor($exp * 0.5);
+    }
+    @return $x;
+}
+
+// Returns the natural logarithm of a number.
+// @param {Number} $x
+// @example
+//     log(2)  // 0.69315
+//     log(10) // 2.30259
+@function log ($x) {
+    @if $x <= 0 {
+        @return 0 / 0;
+    }
+    $k: nth(frexp($x / $SQRT2), 2);
+    $x: $x / ldexp(1, $k);
+    $x: ($x - 1) / ($x + 1);
+    $x2: $x * $x;
+    $i: 1;
+    $s: $x;
+    $sp: null;
+    @while $sp != $s {
+        $x: $x * $x2;
+        $i: $i + 2;
+        $sp: $s;
+        $s: $s + $x / $i;
+    }
+    @return $LN2 * $k + 2 * $s;
+}
+
+@function pow ($base, $exp) {
+    @if $exp == floor($exp) {
+        $r: 1;
+        $s: 0;
+        @if $exp < 0 {
+            $exp: $exp * -1;
+            $s: 1;
+        }
+        @while $exp > 0 {
+            @if $exp % 2 == 1 {
+                $r: $r * $base;
+            }
+            $exp: floor($exp * 0.5);
+            $base: $base * $base;
+        }
+        @return if($s != 0, 1 / $r, $r);
+    } @else {
+        @return exp(log($base) * $exp);
+    }
+}
+
+// Returns E^x, where x is the argument, and E is Euler's constant, the base of the natural logarithms.
+// @param {Number} $x
+// @example
+//     exp(1)  // 2.71828
+//     exp(-1) // 0.36788
+@function exp ($x) {
+    $ret: 0;
+    @for $n from 0 to 24 {
+        $ret: $ret + pow($x, $n) / fact($n);
+    }
+    @return $ret;
+}
+
+// Returns the factorial of a non-negative integer.
+// @param {Number} $x A non-negative integer.
+// @return {Number}
+// @example
+//     fact(0) // 1
+//     fact(8) // 40320
+@function fact ($x) {
+    @if $x < 0 or  $x != floor($x) {
+        @warn "Argument for `fact()` must be a positive integer.";
+        @return null;
+    }
+    $ret: 1;
+    @while $x > 0 {
+        $ret: $ret * $x;
+        $x: $x - 1;
+    }
+    @return $ret;
 }
 
 //Greatest Common Divisor
@@ -141,17 +266,6 @@ $iter: 50;
 	}@else {
 		@return abs($number-1);
 	}
-}
-
-//Factorial
-@function fact($number) {
-	$value: 1;
-	@if $number > 0 {
-		@for $i from 1 through $number {
-			$value: $value * $i;
-		}
-	}
-	@return $value;
 }
 
 //Least common Multiple
@@ -188,6 +302,39 @@ $iter: 50;
 	@return $root;
 }
 
+@function sqroot($r) {
+  $x0: 1; // initial value
+  $solution: false;
+
+  @for $i from 1 through 10 {
+    @if abs(2 * $x0) < 0,00000000000001 { // Don't want to divide by a number smaller than this
+      $solution: false;
+    }
+
+    $x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0) !global;
+
+    @if ( abs($x1 - $x0) / abs($x1)) < 0,0000001 { // 7 digit accuracy is desired
+      $solution: true;
+    }
+
+    $x0: $x1;
+  }
+
+  @if $solution == true {
+    // If $r is negative, then the output will be multiplied with <a href="http://en.wikipedia.org/wiki/Imaginary_number">i = √-1</a>
+    // (√xy = √x√y) => √-$r = √-1√$r
+    @if $r < 0 {
+      @return $x1 #{i};
+    }
+    @else {
+      @return $x1;
+    }
+  }
+  @else {
+    @return "No solution";
+  }
+}
+
 //Golden Ratio generator.
 @function golden($base: 1) {
 
@@ -222,6 +369,14 @@ $golden_ratio: golden();
 		$sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
 	}
 	@return $sin;
+}
+
+//Hyperbolic sine
+@function sinh($number) {
+
+	$top: exponent($e, (2 * $number)) - 1;
+	$bottom: 2 * exponent($e, $number);
+	@return  $top / $bottom;
 }
 
 //Cosine
@@ -846,176 +1001,150 @@ function for finding the value of an indexed type-size. H1-H6, p, and small are 
 Registers new values to type map. [Property] accepts px, rem, and line-height.
 
 */
+//@function check-base-line($magic-number, $i:1) {
+//	$ratio: $magic-number / $base-font-size;
+//
+//	@while $ratio < 1.1 {
+//		$magic-number: ceil($base-font-size / ($base-line-height * $i)) * ($base-line-height * $i);
+//		$ratio: ($magic-number / $base-font-size);
+//		$i: $i + 1;
+//    }
+//
+//	@return $magic-number;
+//}
 
 //Baseline function. Converts to floated integer.
 @function baseline($font-size, $baseline, $i:1) {
 	@return ceil($font-size / ($baseline * $i)) * ($baseline * $i) / $font-size;
 }
 
-@function check-base-line($magic-number, $i:1) {
-	$ratio: $magic-number / $base-font-size;
-
-	@while $ratio < 1.1 {
-		$magic-number: ceil($base-font-size / ($base-line-height * $i)) * ($base-line-height * $i);
-		$ratio: ($magic-number / $base-font-size);
-		$i: $i + 1;
-    }
-
-	@return $magic-number;
-}
-
-//Calculate the least-common-denominator between a font-size and a baseline.
-@function baseline-lcm($font-size, $line-height){
-	$esl: $line-height * $font-size;
-	@return lcm( $esl, $base-line-height );
-}
-
+//Sine curve
 @function baseline-sin($number){
-	@return sin(($number * 90deg));
+	@return min(1, sin($number * 90deg));
 }
 
-@function baseline-linear($number) {
-	@return $number * .7425;
+//Adjustable curve for returning exponential values
+//accepts
+// $x: 0 - 1.0, $accel: -2 - 2.5
+// $accel changes the severity of the curve. Negative values invert.
+//returns a decimal that cooresponds to the same percentage on the curve
+@function baseline-curve($x, $accel:1) {
+	$const: .41421356237; // sqrt(2)-1
+	$x2: pow($x, $accel);
+	$curve: (sqrt($x2 + $x) - sqrt($x2)) / $const;
+	@return min(1, $curve);
 }
+
+$font-index: ();
+$font-warn: false;
 
 // Calculate the baseline of any particular font-size.
 @function baseline-calc(
 	$font-size: $base-font-size,
 	$font-base: $base-font-size,
-	$calc-override: false
+	$calc-override: false,
+	$baseline-slack: $font-looseness
 ){
-	$lower-bound: 1.1;
 	$upper-bound: 1.9;
+	$lower-bound: 1.1;
 
-	$smallFontUpperBound: 2.3;
-	$smallFontLowerBound: 1.5;
+	$smallFontUpperBound: 3;
+	$smallFontLowerBound: 1.8;
 	$largeFontUpperBound: 1.05;
 	$largeFontLowerBound: 0.95;
 
-	$fontSizeSmall: 10;
-	$fontSizeLarge: 90;
+	$fontSizeSmall: 9;
+	$fontSizeLarge: max(10, 240 * ($baseline-slack / 100%));
 	$percentAlong: 0;
+	$percentAlongUpper: 0;
+	$percentAlongLower: 0;
 
+	$baseline: if($base-line-height < $base-font-size, $base-line-height, ($base-line-height/2));
+
+	$truePercent: ($font-size - $fontSizeSmall) / ($fontSizeLarge - $fontSizeSmall) / 1px;
 
 	@if $font-size <= $fontSizeSmall {
-		$lower-bound: $type-magic-ratio;
+		$percentAlong: 0;
+		$percentAlongUpper: 0;
+		$percentAlongLower: 0;
+		$lower-bound: $type-magic-ratio - .01;
 		$upper-bound: $smallFontUpperBound;
 	}
 	@else if $font-size >= $fontSizeLarge {
+		$percentAlong: 1;
+		$percentAlongUpper: 1;
+		$percentAlongLower: 1;
 		$lower-bound: $largeFontLowerBound;
 		$upper-bound: $largeFontUpperBound;
 	}
 	@else {
-		$wayTooLargeFontSize: ($font-size - $fontSizeSmall) / ($fontSizeLarge - $fontSizeSmall) / 1px;
+		$percentAlong: 		baseline-curve($truePercent, 1);
+		$percentAlongUpper: baseline-curve($truePercent, 1.4);
+		$percentAlongLower: baseline-curve($truePercent, 1.9);
 
-		$percentAlong: baseline-sin($wayTooLargeFontSize);
-		$percentAlongUpper: baseline-sin($wayTooLargeFontSize);
-		$percentAlongLower: baseline-sin($wayTooLargeFontSize);
+	}
 
-		//@debug "size: #{$font-size} %: #{$percentAlong}, tooLarge: #{$wayToLargeFontSize}";
-		@if $percentAlong >= .25 {
-			$lower-bound: $smallFontLowerBound - $percentAlongLower * ($smallFontLowerBound - $largeFontLowerBound);
+	$upper-bound: $smallFontUpperBound - $percentAlongUpper * ($smallFontUpperBound - $largeFontUpperBound);
 
-			$upper-bound: $smallFontUpperBound - $percentAlongUpper * ($smallFontUpperBound - $largeFontUpperBound);
+	$lower-bound: $smallFontLowerBound - $percentAlongLower * ($smallFontLowerBound - $largeFontLowerBound);
+
+	@if $font-debug {
+		@if index($font-index, $font-size) == null {
+			@debug "font-size: #{$font-size}";
+			@debug "% = #{$truePercent}";
+			@debug "%u: #{$percentAlongUpper}, %l: #{$percentAlongLower}";
+			@debug "ub: #{$upper-bound}, lb: #{$lower-bound}";
 		}
 	}
 
-
-	//Easiest measurement of font-size deviation
-	$font-ratio: round(($font-base / 1px) % ($font-size / 1px));
-
-	@if ($font-size > $font-base){
-		$font-ratio: round(($font-size / 1px) % ($font-base / 1px));
+	@if $lower-bound > $upper-bound {
+		$lower-bound: 1;
+		$upper-bound: 1.9;
 	}
 
-	@while $font-ratio > 1 {
-		$font-ratio: $font-ratio * 0.1;
-	}
+	$line-height: baseline($font-size, $baseline);
+	$quit: false;
 
-	@if $font-ratio < 1 {
-		$font-ratio: $font-ratio + 1;
-	}
-
-	$line-height: baseline($font-size, $base-line-height);
-	//$inc-dec: if($base-line-height <= $base-font-size, unquote('/'), unquote("*"));
 	$i: 1;
-	$ratio-attempt: false;
-	$line-calc: (1 , 2 , 3);
 
-	@while $line-height <= $lower-bound or $line-height > $upper-bound {
+	@while
+		($line-height < $lower-bound or $line-height > $upper-bound)
+		and not $quit
+	{
 
-		$line-height: baseline($font-size, ($base-line-height / 2), $i);
-
-		//@if $i > (($font-ratio * 10) - 10)
-		//	and ($font-ratio % 1) != 0
-		//	and $ratio-attempt == false
-		//{
-		//	$line-height: baseline($font-size, $base-line-height, $font-ratio);
-		//	$ratio-attempt: true;
-		//}
+		$line-height: baseline($font-size, $baseline, $i);
 
 		$i: $i + 1;
 
+		//Bail-out function to prevent infinite loops
 		@if $i > ($font-size / 1px) {
-			$line-height: baseline($font-size, ($base-line-height / 3), $i);
-			$line-height: $upper-bound - .1;
+			@if $font-warn == false {
+				@debug "Your font-looseness might be too low, watch for weird baselines and slow compile times.";
+				@debug "FS: #{$font-size} / LH: #{$line-height}";
+				@debug "Tolerances: #{$upper-bound} / #{$lower-bound}";
+				$font-warn: true !global;
+			}
+
+			//Do default line-height
+			$line-height: baseline($font-size, $baseline);
+			$quit: true;
 		}
 	}
 
-	@if $font-size != 12.8px {
-		@debug "font-size: #{$font-size}";
-		@debug "%: #{$percentAlong * 100}";
-		@debug "ub: #{$upper-bound}, lb: #{$lower-bound}";
-		@debug "lh: #{$line-height * $font-size}";
-		@debug "loops: #{$i}";
-		@debug "-----";
+	@if index($font-index, $font-size) == null {
+		$font-index: append($font-index, $font-size) !global;
+		@if $font-debug {
+			@debug "lh: #{$line-height * $font-size} / #{$line-height} ";
+			@debug "loops: #{$i}";
+			@debug "-----";
+		}
 	}
 
 	@return $line-height;
-
-	////baseline
-	//$bl: $type-magic-ratio * $font-base;
-	////Every other line.
-	//$baseline-odd: $type-magic-number / 2;
-	////Every third line.
-	//$baseline-odder: $base-line-height / 1.33333;
-	//$baseline-cache: $bl;
-	//
-	//// Using half-baseline grid for first calculation.
-	//// This is helpful for smaller font-sizes
-	//// and gives more leeway with larger ones.
-	//
-	//$baseline: baseline($font-size, $baseline-odd);
-	////If this produces either too small or large a line-height,
-	//// then let's make some corrections.
-	//// This will only work on fonts larger than the base-font-size unless
-	//// $calc-override is set to true.
-	//@debug "font: #{$font-size}, line: #{$baseline}";
-	//
-	//@if $font-size >= $font-base or $calc-override == true {
-	//
-	//	//First we can try using every third line.
-	//	@if $baseline > 1.8 or $baseline <= 1.2{
-	//			$baseline-cache: $baseline;
-	//			$baseline: baseline($font-size, $baseline-odder);
-	//	}
-	//	@if $baseline < 1.1 or $baseline > 1.9 {
-	//
-	//		//If that's not working, let's see if
-	//		// our original value is better by loosening our tolerance.
-	//		@if $baseline-cache > 1.1 and $baseline-cache < 1.9{
-	//			$baseline: $baseline-cache;
-	//		}@else{
-	//			//If both options are bad, then let's use the standard baseline.
-	//			$baseline: baseline($font-size, $base-line-height);
-	//		}
-	//	}
-	//}
-	//@return $baseline;
 }
 
 //Generates a number based on the typographic grid
-@function type-space($multiplier: 2){
+@function type-space($multiplier: 1){
 	@return $multiplier * $type-magic-number;
 }
 
@@ -1061,4 +1190,13 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 	$target_font: map-get($type, $font-size);
 	$target-w-property: map-merge($target_font, ($property : $new-value));
 	@return map-merge($type, ($font-size:$target-w-property));
+}
+
+//Add to silent classes registry
+@function silents-register($map, $key){
+	@if map-get($silent-class-registry, $key) == null {
+		$silent-class-registry: map-merge($silent-class-registry, ($key:())) !global;
+	}
+	$map: map-merge(map-get($silent-class-registry, $key), $map);
+	@return map-deep-set($silent-class-registry, $key, $map);
 }

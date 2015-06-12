@@ -59,8 +59,10 @@ Determines whether to generate `@font-face` values that point at an .eot file. F
 
 //Typography Settings
 
-$base-font-size:             16px;
-$base-line-height:           24px;
+$base-font-size:            16px;
+$base-line-height:          12px;
+$font-looseness: 			26%;
+$font-debug: 				false;
 $auto-scale-type:           false;
 $scale-ratio:               1.250;
 
