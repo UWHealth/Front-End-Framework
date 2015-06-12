@@ -86,6 +86,7 @@ mark {
 //  */
 
 small {
+	display: inline-block;
 	@include type-font-size(modular-scale(-1), true);
 }
 

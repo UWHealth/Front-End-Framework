@@ -45,21 +45,23 @@ $silent-display-classes: map-extend($display-classes, $default-display-classes, 
 	$important_str: if($important, ' !important', '');
 	$display-lookup: null;
 	$display-registry: ();
+	$class-name-list: ();
 
 	@each $name, $display in $class-list {
+
+		$display-class: #{$classtype}#{$namespace}#{$name};
 		//Check for existence of a previous class using the same display
 		$display-lookup: index($display-registry, $display);
-
 		//If it exists, look it up in the map and extend that value.
 		@if $display-lookup != null {
 			$extender: nth(nth($class-list, $display-lookup), 1);
 
-			#{$classtype}#{$namespace}#{$name} {
+			#{$display-class} {
 				@extend #{$classtype}#{$namespace}#{$extender};
 			}
 
 		}@else {
-			#{$classtype}#{$namespace}#{$name}{
+			#{$display-class} {
 				display: #{$display}#{$important_str};
 			}
 
@@ -67,10 +69,16 @@ $silent-display-classes: map-extend($display-classes, $default-display-classes, 
 
 		//Keep track of display values so we can extend if necessary
 		@if index($display-registry, $display) != null {
+			$class-name-list: map-merge($class-name-list, ($display-class: $display));
 			//Make sure duplicate values get a uniqueID so it's not extended
 			$display: $display + '' + length($display-registry);
 		}
-		$display-registry: append($display-registry, quote($display));
+		$display-registry: append($display-registry, quote($display), comma);
+	}
+
+	//Register silent class names for debugging
+	@if $silent {
+		$silent-class-registry: silents-register($class-name-list, 'display') !global;
 	}
 }
 

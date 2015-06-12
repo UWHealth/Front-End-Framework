@@ -97,6 +97,7 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 	$names: map-get($config, names);
 	$important: map-get($config, important);
 	$important-string: if($important, ' !important', '');
+	$class-name-list: ();
 
 	//Loop through base names, then amounts, then directions.
 	@each $space in $spaces {
@@ -143,9 +144,16 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 							}
 						}
 					}
+					$class-name: #{$classtype}#{$namespace}#{$space}#{$direction}#{$amount_name};
+					$class-name-list: map-merge($class-name-list, ($class-name: $amount));
 				}
 			}
 		}
+	}
+
+	//Register silent classes for debugging.
+	@if map-get($config, silent) {
+		$silent-class-registry: silents-register($class-name-list, 'spacing') !global;
 	}
 }
 

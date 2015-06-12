@@ -25,27 +25,27 @@
 
     %base_h1 {
 		@extend %base_heading_space;
-        @include type-font-size($type-h1-size, true);
+        @include font-size($type-h1-size, true);
     }
     %base_h2 {
 		@extend %base_heading_space;
-        @include type-font-size($type-h2-size, true);
+        @include font-size($type-h2-size, true);
     }
     %base_h3 {
 		@extend %base_heading_space;
-        @include type-font-size($type-h3-size, true);
+        @include font-size($type-h3-size, true);
     }
     %base_h4 {
 		@extend %base_heading_space;
-        @include type-font-size($type-h4-size, true);
+        @include font-size($type-h4-size, true);
     }
     %base_h5 {
 		@extend %base_heading_space;
-        @include type-font-size($type-h5-size, true);
+        @include font-size($type-h5-size, true);
     }
     %base_h6 {
 		@extend %base_heading_space;
-        @include type-font-size($type-h6-size, true);
+        @include font-size($type-h6-size, true);
     }
 
     h1 {
@@ -65,6 +65,13 @@
     }
     h6 {
         @extend %base_h6;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+
+    & + p {
+        @extend %base_space_t_neg;
     }
 }
 
@@ -94,13 +101,6 @@ p {
             @extend %base_space_t_neg;
         }
 
-    }
-}
-
-h1, h2, h3, h4, h5, h6 {
-
-    & + p {
-        @extend %base_space_t_neg;
     }
 }
 

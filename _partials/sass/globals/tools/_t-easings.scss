@@ -13,11 +13,11 @@ Each easing variable is a cubic-bezier value that specifies rate of change of an
 
 */
 
-$linear         : cubic-bezier("0.250, 0.250, 0.750, 0.750") !default;
-$ease           : cubic-bezier("0.250, 0.100, 0.250, 1.000") !default;
-$ease_in        : cubic-bezier("0.420, 0.000, 1.000, 1.000") !default;
-$ease_out       : cubic-bezier("0.000, 0.000, 0.580, 1.000") !default;
-$ease_in_out    : cubic-bezier("0.420, 0.000, 0.580, 1.000") !default;
+$linear         : cubic-bezier(0.250, 0.250, 0.750, 0.750) !default;
+$ease           : cubic-bezier(0.250, 0.100, 0.250, 1.000) !default;
+$ease_in        : cubic-bezier(0.420, 0.000, 1.000, 1.000) !default;
+$ease_out       : cubic-bezier(0.000, 0.000, 0.580, 1.000) !default;
+$ease_in_out    : cubic-bezier(0.420, 0.000, 0.580, 1.000) !default;
 
 //Easing variables
 // Taken from:
