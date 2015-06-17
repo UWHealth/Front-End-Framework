@@ -73,8 +73,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 	}
 }
 
-.tab, .list_nav a{
-	font-family: $secondary-font-stack;
+.tab,
+.list_nav a{
 	text-transform: uppercase;
 	letter-spacing: .5px;
 	@extend %txt_bold;

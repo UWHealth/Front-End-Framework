@@ -79,66 +79,23 @@ Determines the Tangent of an angle.
 
 //Useful variables for calculating math functions
 
-$pi: 3.1415926535897932384626433832795028841971693993751;
-$π: $pi;
-$e: 2.71828182845904523536028747135266249775724709369995;
+$pi: 	3.1415926535897932384626433832795028841971693993751;
+$π: 	$pi;
+$PI:    $pi;
+$e:		2.71828182845904523536028747135266249775724709369995;
+$E:     $e;
+$LN2:   0.6931471805599453;
+$SQRT2: 1.4142135623730951;
 
-$iter: 50;
+$iter: 	50;
 
 
 @function pi() {
 	@return $pi;
 }
 
-// Exponent function (for square, cubes, etc.)
-@function exponent($base, $exponent) {
-	// reset value
-	$value: $base;
-	// positive intergers get multiplied
-	@if $exponent > 1 {
-		@for $i from 1 through $exponent {
-			$value: $value * $base; }
-		}
-	// negitive intergers get divided. A number divided by itself is 1
-	@if $exponent < 1 {
-		@for $i from 0 through -$exponent {
-			$value: $value / $base; }
-			}
-	// return the last value written
-	@return $value;
-}
-
-//More advanced exponent function — very similar to Compass' pow() function, but without the ruby dependency.
-//@function pow($number, $exponent, $precision: 12) {
-//  // Handles decimal exponents by trying to convert them into a fraction and then use a nth_root-algorithm for parts of the calculation
-//	$base: $number;
-//	$prec: $precision;
-//
-//	@if floor($exponent) != $exponent {
-//		$prec2 : pow(10, $prec);
-//		$exponent: round($exponent * $prec2);
-//		$denominator: gcd($exponent, $prec2);
-//		@return nth_root(pow($base, $exponent / $denominator), $prec2 / $denominator, $prec);
-//	}
-//
-//	$value: $base;
-//	@if $exponent > 1 {
-//		@for $i from 2 through $exponent {
-//			$value: $value * $base;
-//		}
-//	} @else if $exponent < 1 {
-//		@for $i from 0 through -$exponent {
-//			$value: $value / $base;
-//		}
-//	}
-//
-//	@return $value;
-//}
-
-$E:     $e;
-$PI:    $pi;
-$LN2:   0.6931471805599453;
-$SQRT2: 1.4142135623730951;
+//Advanced fraction and exponent functions
+// Reference: https://gist.github.com/nathancrank/7539155
 
 // Returns a two-element list containing the normalized fraction and exponent of number.
 // @param {Number} $x
@@ -205,6 +162,8 @@ $SQRT2: 1.4142135623730951;
     @return $LN2 * $k + 2 * $s;
 }
 
+//Power Function
+//Super advanced and awesome. Allows decimal exponents.
 @function pow ($base, $exp) {
     @if $exp == floor($exp) {
         $r: 1;
@@ -224,6 +183,11 @@ $SQRT2: 1.4142135623730951;
     } @else {
         @return exp(log($base) * $exp);
     }
+}
+
+// ALIAS
+@function exponent($base, $exponent) {
+	@return pow($base, $exponent);
 }
 
 // Returns E^x, where x is the argument, and E is Euler's constant, the base of the natural logarithms.
@@ -1029,7 +993,7 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 // $accel changes the severity of the curve. Negative values invert.
 //returns a decimal that cooresponds to the same percentage on the curve
 @function baseline-curve($x, $accel:1) {
-	$const: .41421356237; // sqrt(2)-1
+	$const: $SQRT2 - 1; // value used by logarithm
 	$x2: pow($x, $accel);
 	$curve: (sqrt($x2 + $x) - sqrt($x2)) / $const;
 	@return min(1, $curve);

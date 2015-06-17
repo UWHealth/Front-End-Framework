@@ -5,18 +5,19 @@ $base_namespace: 'base_';
     @extend %space_l_n;
 }
 
-%#{$base_namespace}{
-	&primary_font_family {
-		font-family: $primary-font-stack;
-	}
-	&secondary_font_family {
-		font-family: $secondary-font-stack;
-	}
-	&type_vertical_rhythm {
-		@extend %base_space_reset;
-		@extend %base_space_b;
-	}
+
+%primary_font_family {
+	font-family: $primary-font-stack;
 }
+%secondary_font_family {
+	font-family: $secondary-font-stack;
+}
+
+%base_type_vertical_rhythm {
+	@extend %base_space_reset;
+	@extend %base_space_b;
+}
+
 //Use an image instead of text, but keep the text in the DOM for
 //screen readers.
 //Particularly useful for logos. e.g.

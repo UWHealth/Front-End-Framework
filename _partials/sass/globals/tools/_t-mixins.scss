@@ -368,7 +368,7 @@ Quickly generate a font-size in rems, with a pixel fallback, based on the value 
 			}
 
 		}@else {
-			
+
 			h#{$current-heading}, %headings_h#{$current-heading}{
 				@include type-font-size($font-size, true);
 
@@ -432,37 +432,6 @@ $headings-use: 0 !global;
 	}
 	@else{
 		@warn "You need to supply numbers between 1 and 6 for headings mixin to work";
-	}
-}
-
-//-------
-// Cross-browser support for @font-face. Supports IE, Gecko, Webkit, Opera.
-// http://compass-style.org/reference/compass/css3/font_face/
-//-------
-// $name is required, arbitrary, and what you will use in font stacks.
-// $font-files is required using font-files('relative/location', 'format').
-//  for best results use this order: woff, opentype/truetype, svg
-// $eot is required by IE, and is a relative location of the eot file.
-// $weight shows if the font is bold, defaults to normal
-// $style defaults to normal, might be also italic
-// To support iOS < 4.2, an SVG file must be provided
-// If you need to generate other formats check out the Font Squirrel font generator
-
-@mixin font-face($name, $font-files, $weight: false, $style: false, $eot: false) {
-	$iefont: unquote("'#{$eot}?#iefix'");
-	@font-face {
-		font-family: quote($name);
-		@if $eot {
-			src: url($eot);
-			$font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
-		}
-		src: $font-files;
-		@if $weight {
-			font-weight: $weight;
-		}
-		@if $style {
-			font-style: $style;
-		}
 	}
 }
 

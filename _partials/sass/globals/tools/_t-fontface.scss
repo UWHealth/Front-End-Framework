@@ -9,9 +9,22 @@ globals/tools/_t-fontface.scss
 
 ##### `@fonts()`
 ###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`))
-Uses our own take on Compass' font-face generator. More robust and automated than Compass, though. Loops through each `$name` creating @font-face declaration(s) based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files.
+A wrapper function for `@font-face()`. Takes global configuration variables and passes them to `@font-face()`. Loops through each `$name` based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files. Formats these variables so they can be passed to `@font-face()`.
 
 Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: 'arial'; font-weight: 400.
+
+##### `@font-face()`
+###### mixin(`$name`, `$font-files`, `$weight:false`,` $style:false`, `$eot:false`)
+Generates cross-browser font-face declarations when called.
+$name is required, arbitrary, and what you will use in font stacks.
+**Arguments:**
+* $font-files is required using font-files('relative/location', 'format'). For best results use this order: woff, opentype/truetype, svg
+* $eot is required by IE, and is a relative location of the eot file.
+* $weight shows if the font is bold, defaults to normal
+* $style defaults to normal, might be also italic
+
+Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/css3/font_face/].
+
 
 */
 
@@ -73,6 +86,36 @@ Font file names must be the same as their CSS font-family values. Example: arial
 //	  of every file name and style.
 // 7. Call Mixin for all fonts by looping through font-file-names.
 
+//-------
+// Cross-browser support for @font-face. Supports IE, Gecko, Webkit, Opera.
+// http://compass-style.org/reference/compass/css3/font_face/
+//-------
+// $name is required, arbitrary, and what you will use in font stacks.
+// $font-files is required using font-files('relative/location', 'format').
+//  for best results use this order: woff, opentype/truetype, svg
+// $eot is required by IE, and is a relative location of the eot file.
+// $weight shows if the font is bold, defaults to normal
+// $style defaults to normal, might be also italic
+// To support iOS < 4.2, an SVG file must be provided
+// If you need to generate other formats check out the Font Squirrel font generator
+
+@mixin font-face($name, $font-files, $weight: false, $style: false, $eot: false) {
+	$iefont: unquote("'#{$eot}?#iefix'");
+	@font-face {
+		font-family: quote($name);
+		@if $eot {
+			src: url($eot);
+			$font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
+		}
+		src: #{$font-files};
+		@if $weight {
+			font-weight: $weight;
+		}
+		@if $style {
+			font-style: $style;
+		}
+	}
+}
 
 
 @mixin fonts($name: $font-file-name,
@@ -89,15 +132,29 @@ Font file names must be the same as their CSS font-family values. Example: arial
 		@each $weight in $weight-group{			//[1B]
 
 			$font-eot: false;
+			$font-woff2: null;
 			$svg-id: ('##{$name}#{$weight}');		//[2]
 			$font-name: #{$path}/#{$name}-#{$weight};		//[3]
 
 			$font-files: (
-				unquote('url("#{$font-name}.woff") format("woff")'),
-				unquote('url("#{$font-name}.ttf") format("truetype")'),
-				unquote('url("#{$font-name}.svg#{$svg-id}") format("svg")')
+				'url("#{$font-name}.woff") format("woff")',
+				'url("#{$font-name}.ttf") format("truetype")',
+				'url("#{$font-name}.svg#{$svg-id}") format("svg")'
 			);
-			@if $font-include-eot == true{
+
+			@if length($font-include-woff2) > 1{
+				@if nth($font-include-woff2, $loop) == true {
+					$font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
+				}
+			}@else if $font-include-woff2 == true{
+				$font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
+			}
+
+			@if length($font-include-eot) > 1{
+				@if nth($font-include-eot, $loop) {
+					$font-eot: '#{$font-name}.eot';	//[4]
+				}
+			}@else if $font-include-eot == true{
 				$font-eot: '#{$font-name}.eot';		//[4]
 			}
 
@@ -116,8 +173,20 @@ Font file names must be the same as their CSS font-family values. Example: arial
 					unquote("url('#{$font-name}-italic.svg#{$svg-id}') format('svg')")
 				);
 
-				@if $font-include-eot == true{
-					$font-eot: '#{$path}/#{$name}-#{$weight}-italic.eot';
+				@if length($font-include-woff2) > 1{
+					@if nth($font-include-woff2, $loop) == true {
+						$font-files: join(unquote('url("#{$font-name}-italic.woff2") format("woff2")'), $font-files);
+					}
+				}@else if $font-include-woff2 == true {
+					$font-files: join('url("#{$font-name}-italic.woff2") format("woff2")', $font-files);
+				}
+
+				@if length($font-include-eot) > 1{
+					@if nth($font-include-eot, $loop) {
+						$font-eot: '#{$font-name}-italic.eot';	//[4]
+					}
+				}@else if $font-include-eot == true{
+					$font-eot: '#{$font-name}-italic.eot';		//[4]
 				}
 
 				@include font-face($name, $font-files, $weight, italic, $font-eot);
@@ -164,4 +233,3 @@ $loop: 0;
 //    font-style: italic;
 //
 //}
-

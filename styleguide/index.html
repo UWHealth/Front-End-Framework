@@ -959,15 +959,18 @@
 <p>Whether to generate <code>@font-face</code> values based on <code>$font-[]</code> vars or not.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$font-file-name_class=global_global_variable_data-code-id=$font-file-name_$font-file-name__code_"><code id="$font-file-name" class="global global_variable" data-code-id="$font-file-name">$font-file-name</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_string">List (string)</h6>
-<p>Uses for automatically generated <code>@font-face</code> declarations. Describes the filename as well as the font-family name reference. <em>File names and @font-face values must be the same (e.g. &apos;opensans&apos; and &apos;opensans.ttf&apos;)</em> See <a href="#Sass-Tools-Fontface">/globals/tools/_fontface.scss</a> for more.</p>
+<p>Uses for automatically generated <code>@font-face</code> declarations. Describes the filename as well as the font-family name reference. <em>File names and @font-face values must be the same (e.g. &apos;opensans&apos; and &apos;opensans.ttf&apos;).<strong>Casing matters</strong>.</em></p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$font-weights_class=global_global_variable_data-code-id=$font-weights_$font-weights__code_"><code id="$font-weights" class="global global_variable" data-code-id="$font-weights">$font-weights</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_nested_string">List (nested) (string)</h6>
 <p>Each parenthesis corresponds to each name in <code>$font-file-name</code>. Determines how many <code>@font-face</code> weights are generated per font.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$font-italics_class=global_global_variable_data-code-id=$font-italics_$font-italics__code_"><code id="$font-italics" class="global global_variable" data-code-id="$font-italics">$font-italics</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_nested_boolean">List (nested) (boolean)</h6>
 <p>Corresponds to each value in <code>$font-weights</code>. (e.g. if <code>$font-weights: (400,700),(200,400)</code> and <code>$font-italics: (true), (false,true)</code> then the first font will have italics in the 400 and 700 weights while second font will have italics in the 400 weight).</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$font-include-woff2_class=global_global_variable_data-code-id=$font-include-woff2_$font-include-woff2__code_"><code id="$font-include-woff2" class="global global_variable" data-code-id="$font-include-woff2">$font-include-woff2</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-boolean_optional_list">Boolean (optional list)</h6>
+<p>Determines whether woff2 formats be included in the <code>@font-face</code> generation. Can be a list if each font has different values (not recommended since woff2 is the most performant font-file format).</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$font-include-eot_class=global_global_variable_data-code-id=$font-include-eot_$font-include-eot__code_"><code id="$font-include-eot" class="global global_variable" data-code-id="$font-include-eot">$font-include-eot</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
+<h6 class="main-section-sg-by-emiloberg" id="section-boolean_optional_list">Boolean (optional list)</h6>
 <p>Determines whether to generate <code>@font-face</code> values that point at an .eot file. Fallback for IE8.</p>
                     </div>
 
@@ -1331,8 +1334,18 @@
                         <p>globals/tools/_t-fontface.scss</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=fonts_class=global_global_variable_data-code-id=fonts_@fonts__code_"><code id="fonts()" class="global global_variable" data-code-id="fonts()">@fonts()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$name__code_:__code_id=$font-file-name_class=global_global_variable_data-code-id=$font-file-name_$font-file-name_/code_,__code_id=$font-file-location_class=global_global_variable_data-code-id=$font-file-location_$font-file-location_/code_,__code_$weights_/code_:__code_id=$font-weights_class=global_global_variable_data-code-id=$font-weights_$font-weights_/code_,__code_$italics_/code_:__code_id=$font-italics_class=global_global_variable_data-code-id=$font-italics_$font-italics_/code_)">mixin(<code>$name</code>: <code id="$font-file-name" class="global global_variable" data-code-id="$font-file-name">$font-file-name</code>, <code id="$font-file-location" class="global global_variable" data-code-id="$font-file-location">$font-file-location</code>, <code>$weights</code>: <code id="$font-weights" class="global global_variable" data-code-id="$font-weights">$font-weights</code>, <code>$italics</code>: <code id="$font-italics" class="global global_variable" data-code-id="$font-italics">$font-italics</code>))</h6>
-<p>Uses our own take on Compass&apos; font-face generator. More robust and automated than Compass, though. Loops through each <code>$name</code> creating @font-face declaration(s) based on <code>$weights</code> and <code>$italics</code>. Uses <code>$path</code> and <code>$name</code> to point to font files.</p>
+<p>A wrapper function for <code id="font-face()" class="global global_variable" data-code-id="font-face()">@font-face()</code>. Takes global configuration variables and passes them to <code id="font-face()" class="global global_variable" data-code-id="font-face()">@font-face()</code>. Loops through each <code>$name</code> based on <code>$weights</code> and <code>$italics</code>. Uses <code>$path</code> and <code>$name</code> to point to font files. Formats these variables so they can be passed to <code id="font-face()" class="global global_variable" data-code-id="font-face()">@font-face()</code>.</p>
 <p>Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: &apos;arial&apos;; font-weight: 400.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=font-face_class=global_global_variable_data-code-id=font-face_@font-face__code_"><code id="font-face()" class="global global_variable" data-code-id="font-face()">@font-face()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$name__code_,__code_$font-files_/code_,__code_$weight:false_/code_,_code_$style:false_/code_,__code_$eot:false_/code_">mixin(<code>$name</code>, <code>$font-files</code>, <code>$weight:false</code>,<code>$style:false</code>, <code>$eot:false</code>)</h6>
+<p>Generates cross-browser font-face declarations when called.<br>$name is required, arbitrary, and what you will use in font stacks.<br><strong>Arguments:</strong></p>
+<ul>
+<li>$font-files is required using font-files(&apos;relative/location&apos;, &apos;format&apos;). For best results use this order: woff, opentype/truetype, svg</li>
+<li>$eot is required by IE, and is a relative location of the eot file.</li>
+<li>$weight shows if the font is bold, defaults to normal</li>
+<li>$style defaults to normal, might be also italic</li>
+</ul>
+<p>Based on (Compass&apos; font-face mixin)[<a href="http://compass-style.org/reference/compass/css3/font_face/">http://compass-style.org/reference/compass/css3/font_face/</a>].</p>
                     </div>
 
 

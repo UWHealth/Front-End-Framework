@@ -69,6 +69,7 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
+	@extend %secondary_font_family;
 
     & + p {
         @extend %base_space_t_neg;

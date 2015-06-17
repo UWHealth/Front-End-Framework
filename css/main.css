@@ -305,7 +305,7 @@ Whether to generate `@font-face` values based on `$font-[]` vars or not.
 
 ##### `$$font-file-name`
 ###### List (string)
-Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf')_ See [/globals/tools/_fontface.scss](#Sass-Tools-Fontface) for more.
+Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. *File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf').**Casing matters**.*
 
 ##### `$$font-weights`
 ###### List (nested) (string)
@@ -315,8 +315,12 @@ Each parenthesis corresponds to each name in `$font-file-name`. Determines how m
 ###### List (nested) (boolean)
 Corresponds to each value in `$font-weights`. (e.g. if `$font-weights: (400,700),(200,400)` and `$font-italics: (true), (false,true)` then the first font will have italics in the 400 and 700 weights while second font will have italics in the 400 weight).
 
+##### `$$font-include-woff2`
+###### Boolean (optional list)
+Determines whether woff2 formats be included in the `@font-face` generation. Can be a list if each font has different values (not recommended since woff2 is the most performant font-file format).
+
 ##### `$$font-include-eot`
-###### Boolean
+###### Boolean (optional list)
 Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
 */
 /* SG
@@ -492,9 +496,22 @@ globals/tools/_t-fontface.scss
 
 ##### `@fonts()`
 ###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`))
-Uses our own take on Compass' font-face generator. More robust and automated than Compass, though. Loops through each `$name` creating @font-face declaration(s) based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files.
+A wrapper function for `@font-face()`. Takes global configuration variables and passes them to `@font-face()`. Loops through each `$name` based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files. Formats these variables so they can be passed to `@font-face()`.
 
 Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: 'arial'; font-weight: 400.
+
+##### `@font-face()`
+###### mixin(`$name`, `$font-files`, `$weight:false`,` $style:false`, `$eot:false`)
+Generates cross-browser font-face declarations when called.
+$name is required, arbitrary, and what you will use in font stacks.
+**Arguments:**
+* $font-files is required using font-files('relative/location', 'format'). For best results use this order: woff, opentype/truetype, svg
+* $eot is required by IE, and is a relative location of the eot file.
+* $weight shows if the font is bold, defaults to normal
+* $style defaults to normal, might be also italic
+
+Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/css3/font_face/].
+
 
 */
 @font-face {
@@ -526,39 +543,25 @@ Font file names must be the same as their CSS font-family values. Example: arial
   font-style: italic; }
 
 @font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-200.eot");
-  src: url(fonts/opensans-200.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-200.woff") format("woff"), url("fonts/opensans-200.ttf") format("truetype"), url("fonts/opensans-200.svg#opensans200") format("svg");
-  font-weight: 200;
-  font-style: normal; }
-
-@font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-400.eot");
-  src: url(fonts/opensans-400.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-400.woff") format("woff"), url("fonts/opensans-400.ttf") format("truetype"), url("fonts/opensans-400.svg#opensans400") format("svg");
+  font-family: "crimsontext";
+  src: url("fonts/crimsontext-400.eot");
+  src: url(fonts/crimsontext-400.eot?#iefix) format('embedded-opentype'), url("fonts/crimsontext-400.woff2") format("woff2"), url("fonts/crimsontext-400.woff") format("woff"), url("fonts/crimsontext-400.ttf") format("truetype"), url("fonts/crimsontext-400.svg#crimsontext400") format("svg");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-400-italic.eot");
-  src: url(fonts/opensans-400-italic.eot?#iefix) format('embedded-opentype'), url('fonts/opensans-400-italic.woff') format('woff'), url('fonts/opensans-400-italic.ttf') format('truetype'), url('fonts/opensans-400-italic.svg#opensans400italic') format('svg');
+  font-family: "crimsontext";
+  src: url("fonts/crimsontext-400-italic.eot");
+  src: url(fonts/crimsontext-400-italic.eot?#iefix) format('embedded-opentype'), url("fonts/crimsontext-400-italic.woff2") format("woff2"), url('fonts/crimsontext-400-italic.woff') format('woff'), url('fonts/crimsontext-400-italic.ttf') format('truetype'), url('fonts/crimsontext-400-italic.svg#crimsontext400italic') format('svg');
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-700.eot");
-  src: url(fonts/opensans-700.eot?#iefix) format('embedded-opentype'), url("fonts/opensans-700.woff") format("woff"), url("fonts/opensans-700.ttf") format("truetype"), url("fonts/opensans-700.svg#opensans700") format("svg");
+  font-family: "crimsontext";
+  src: url("fonts/crimsontext-700.eot");
+  src: url(fonts/crimsontext-700.eot?#iefix) format('embedded-opentype'), url("fonts/crimsontext-700.woff2") format("woff2"), url("fonts/crimsontext-700.woff") format("woff"), url("fonts/crimsontext-700.ttf") format("truetype"), url("fonts/crimsontext-700.svg#crimsontext700") format("svg");
   font-weight: 700;
   font-style: normal; }
-
-@font-face {
-  font-family: "opensans";
-  src: url("fonts/opensans-700-italic.eot");
-  src: url(fonts/opensans-700-italic.eot?#iefix) format('embedded-opentype'), url('fonts/opensans-700-italic.woff') format('woff'), url('fonts/opensans-700-italic.ttf') format('truetype'), url('fonts/opensans-700-italic.svg#opensans700italic') format('svg');
-  font-weight: 700;
-  font-style: italic; }
 
 /* SG
 #Tools/Spacing Utilities [[dev]]
@@ -832,6 +835,9 @@ nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs {
     list-style-type: none;
     margin-left: 0; }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: "crimsontext", verdana, helvetica, arial, sans-serif; }
+
 .visually_hidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -900,7 +906,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+  font-family: "Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
   _font-family: 'courier new', monospace;
   font-size: 1em; }
 
@@ -1259,11 +1265,13 @@ nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs, .breadcrum
   .tab_accordion > .tabs {
     display: none; } }
 
-th, .button, .table_responsive thead + tbody td:before, .tab, .list_nav a {
+th, .button, .table_responsive thead + tbody td:before, .tab,
+.list_nav a {
   font-weight: 700 ;
   -webkit-font-smoothing: antialiased; }
 
-.tab, .list_nav a {
+.tab,
+.list_nav a {
   font-size:  12.8px;
   font-size:  0.8rem;
   line-height: 1.875; }
@@ -1483,13 +1491,13 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   color: #fff; }
 
 .tab_button, .tab {
-  background-color: #be0416; }
+  background-color: #5894bd; }
 
 .tab_button.active, .tab_content, .tab {
-  border-color: #5894bd; }
+  border-color: #0d497b; }
 
 .tab_button.active, .tab_content {
-  background-color: #fff; }
+  background-color: rgba(255, 255, 255, 0.8); }
 
 .tabbed {
   min-height:  72px;
@@ -1508,7 +1516,7 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   padding-right:  16px;
   padding-right:  1rem;
   border-width: 1px;
-  border-color: #8e0002;
+  border-color: #1e568c;
   position: relative;
   z-index: 1;
   border-bottom-width: 0; }
@@ -1516,7 +1524,7 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
     margin-bottom:  -24px;
     margin-bottom:  -1.5rem; }
   .tab_button.active {
-    color: #be0416;
+    color: #0d497b;
     border-bottom-color: transparent;
     z-index: 1; }
     .tab_button.active:hover {
@@ -1557,7 +1565,7 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   border-style: solid;
   border-width: 1px; }
   .tab:hover {
-    background-color: #970209; }
+    background-color: #235495; }
 
 .tab.active {
   background-color: #0d497b; }
@@ -2184,8 +2192,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     border-bottom: 2px solid #e4eaf3;
     margin-bottom: 4px; }
 
-.tab, .list_nav a {
-  font-family: "opensans", verdana, helvetica, arial, sans-serif;
+.tab,
+.list_nav a {
   text-transform: uppercase;
   letter-spacing: .5px;
   text-decoration: none; }
