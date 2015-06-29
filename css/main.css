@@ -339,8 +339,8 @@ Variable used to generate display classes. Key value pairs determine the class n
 Variable used to generate spacing classes. Classes are created via `@spacing-utilities()`. Classes are named with the following syntax: `prefix_direction_amount`
 
 **Keys and Values**
-• directions: Direction names.
-• amounts: Values
+* directions: Direction names.
+* amounts: Values
 
 
 ##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
@@ -487,6 +487,18 @@ REM generator used to create a property with a rem value and PX fallback.
 Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 
 
+
+*/
+/* SG
+#Tools/Z-Index [[dev]]
+
+globals/tools/_t-zindex.scss
+
+##### `z()`,
+###### function(`$layer`, `$modifier: false`)
+Returns a numeric value (used for z-index) from a named layer, stored in `$$z-index`. Changing the modifier to anything other than `false` will add 1 plus however many times the value has been called. So, if you've called `z(head, true)` 5 times, and `head`'s default value is 100, you would get a value of 105.
+
+The `$modifier` is useful if you'd like to closely layer z-indexes within the same module. It is rarely necessary, though since z-indexes stack.
 
 */
 /* SG
@@ -1628,17 +1640,6 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 .wide:before {
   margin-top: 50%; }
 
-.media_block {
-  zoom: 1; }
-  .media_block .img, .media_block .media {
-    float: left;
-    word-break: break-word;
-    display: inline-block;
-    margin-right:  32px;
-    margin-right:  2rem; }
-  .media_block .img ~ *, .media_block .media_body {
-    overflow: hidden; }
-
 .h1 {
   font-size:  96px;
   font-size:  6rem;
@@ -2173,7 +2174,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   margin-top: -.25em; }
 
 .box_open {
-  border-width: 2px; }
+  border-width: 2px;
+  z-index: 501; }
 
 .tab_topline > .tabs {
   background-color: #e3f1fa; }
@@ -2181,11 +2183,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .tab_minimal > .tab_content {
   -webkit-box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
      -moz-box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
-          box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1); }
+          box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
+  z-index: 101; }
 
 [class*="list_bordered"] > li {
   border-top-width: 2px;
-  margin-top: -2px; }
+  margin-top: -2px;
+  z-index: 502; }
   [class*="list_bordered"] > li:first-child {
     border-top-color: #e4eaf3; }
   [class*="list_bordered"] > li:last-child {
@@ -2202,7 +2206,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   position: fixed;
   top: -1px;
   right: -1px;
-  z-index: 100;
+  z-index: 503;
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 5px 10px;
@@ -2254,12 +2258,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   display: none !important;
   visibility: hidden !important; }
 
-.wrap, .isolate, .clearfix, .tabbed, .tab_content, .box, .media_block {
+.wrap, .isolate, .clearfix, .tabbed, .tab_content, .box {
   *zoom: 1; }
-  .wrap:before, .isolate:before, .clearfix:before, .wrap:after, .isolate:after, .clearfix:after, .tabbed:before, .tab_content:before, .box:before, .media_block:before, .tabbed:after, .tab_content:after, .box:after, .media_block:after {
+  .wrap:before, .isolate:before, .clearfix:before, .wrap:after, .isolate:after, .clearfix:after, .tabbed:before, .tab_content:before, .box:before, .tabbed:after, .tab_content:after, .box:after {
     display: table;
     content: " "; }
-  .wrap:after, .isolate:after, .clearfix:after, .tabbed:after, .tab_content:after, .box:after, .media_block:after {
+  .wrap:after, .isolate:after, .clearfix:after, .tabbed:after, .tab_content:after, .box:after {
     clear: both;
     height: 0;
     width: 0; }
