@@ -32,9 +32,10 @@ REM generator used to create a property with a rem value and PX fallback.
 
 
 ##### `@font-size()`, `@type-font-size()`
-###### mixin(`$font-size`, `$line-height`: true, `$selector` :'', `$font-base`: `$$base-font-size`)
+###### mixin(`$font-size`, `$line-height`: true, `$selector`:`""`, `$font-base`: `$$base-font-size`)
 Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 
+_`$line-height` also accepts a pixel value and will be converted to a unitless line-height._
 
 
 */
@@ -174,12 +175,12 @@ Quickly generate a font-size in rems, with a pixel fallback, based on the value 
 //    desired `line-height` (defined previously in pixels), and your project’s
 //    base font size.
 
-@mixin type-font-size(
+@mixin type-font-size (
 		$font-size,
 		$line-height: true,
 		$selector: '',
 		$font-base: $base-font-size
-	) {
+) {
 
 	//Create REM-based font-size
 	@include rems(font-size, $font-size);
@@ -193,12 +194,22 @@ Quickly generate a font-size in rems, with a pixel fallback, based on the value 
 		@if map_has_key($type, $selector){
 			$type: define-type($selector, line-height, $line-height) !global;
 		}
-   }
-   //Index values to type map.
-   @if map_has_key($type, $selector){
-	   $type: define-type($selector, px, $font-size) !global;
-	   $type: define-type($selector, rem, rems($font-size)) !global;
-   }
+
+	} @else if type-of($line-height) == "number" {
+
+		//Convert to unitless
+		@if unit($line-height) == "px" {
+			$line-height: $line-height / $font-size;
+		}
+
+		line-height: $line-height;
+
+	}
+	//Index values to type map.
+	@if map_has_key($type, $selector){
+		$type: define-type($selector, px, $font-size) !global;
+		$type: define-type($selector, rem, rems($font-size)) !global;
+	}
 }
 //AlIAS
 @mixin font-size(

@@ -197,7 +197,7 @@ $slick-dot-character: '\2022' !default;
 }
 .slick-dots {
     position: absolute;
-    @include rems(bottom, -($base-line-height));
+    @include rems(bottom, -($type-magic-number));
     list-style: none;
     display: block;
     text-align: center;

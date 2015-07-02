@@ -176,7 +176,7 @@ gulp.task('sass', function() {
 			browsers: autoprefixer_browsers
 		}))
 		.pipe(size({title: 'CSS', gzip: true, showFiles: true}))
-		.pipe(_if(source_maps, sourcemaps.write(paths.css)))
+		.pipe(_if(source_maps, sourcemaps.write('./maps')))
 		.pipe(gulp.dest(paths.css))
 });
 
@@ -198,7 +198,7 @@ gulp.task('js', function(){
 			path.basename = path.basename.replace("_","");
 		}))
 		.pipe(size({title: 'JS', showFiles: true, gzip: true}))
-		.pipe(_if(source_maps, sourcemaps.write('./js')))
+		.pipe(_if(source_maps, sourcemaps.write('./maps')))
 		.pipe(gulp.dest('./js'));
 });
 

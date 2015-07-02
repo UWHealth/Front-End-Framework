@@ -56,8 +56,6 @@
 
         var $this = this;
 
-        $this.each(function(){
-
             var t = {},
                 element = this; //Scope to this function (prevents polluting the jQuery object)
 
@@ -289,7 +287,7 @@
                                 //if toggle tabs are true, we determine
                                 // whether to hide the current tab (if active)
                                 // or do the normal switch (hide current active, show new selection)
-                                t.is_active() ? t.hide_tabs() : (t.hide_tabs(), t.show_tabs());
+                                t.is_active() ? t.hide_tabs() : (t.hide_tabs(), t.show_tabs()); // jshint ignore:line
                             }else if(! t.is_active()){
                                 //If not a toggle, and not active, we switch current tab
                                 t.hide_tabs();
@@ -302,7 +300,7 @@
                                 //if toggle buttons are true, we determine
                                 // whether to hide the current accordion (if active)
                                 // or do the normal switch (hide current active, show new selection)
-                                t.is_active() ? t.hide_accordions() : (t.hide_accordions(), t.show_accordions());
+                                t.is_active() ? t.hide_accordions() : (t.hide_accordions(), t.show_accordions()); // jshint ignore:line
                             }else if(! t.is_active()){
                                 //If not a toggle, and not active, we switch current accordion
                                 t.hide_accordions();
@@ -518,12 +516,13 @@
                 });
 
                 $(t.content_class).attr('aria-role', 'tabpanel');
-            }
+            };
 
     		t.init(user_options, callback, element);
 
-        });
     };
 
     $.fn.tabbed.defaults = default_options;
-});
+}); // jshint ignore:line
+
+//# sourceMappingURL=maps/tabs.js.map

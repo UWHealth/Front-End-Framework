@@ -64,7 +64,7 @@ Determines whether to generate `@font-face` values that point at an .eot file. F
 //Typography Settings
 
 $base-font-size:            16px;
-$base-line-height:          12px;
+$base-line-height:          24px;
 $font-looseness: 			26%;
 $font-debug: 				false;
 $auto-scale-type:           false;
@@ -74,7 +74,7 @@ $scale-ratio:               1.250;
 $rem-px-fallback: 			true;
 
 $primary-font-stack:      	"Asap", helvetica, arial, sans-serif;
-$secondary-font-stack:     	"crimsontext", verdana, helvetica, arial, sans-serif;
+$secondary-font-stack:     	"Asap", helvetica, arial, sans-serif;
 $monospace-font-stack: 		"Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
 $icon-font-stack: 			null;
 
@@ -117,8 +117,8 @@ Variable used to generate display classes. Key value pairs determine the class n
 Variable used to generate spacing classes. Classes are created via `@spacing-utilities()`. Classes are named with the following syntax: `prefix_direction_amount`
 
 **Keys and Values**
-• directions: Direction names.
-• amounts: Values
+* directions: Direction names.
+* amounts: Values
 
 
 ##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
@@ -163,7 +163,7 @@ $display-classes: (
 $spacing-classes: (
 	directions: ('','t','l','b','r','h','v'),
 	amounts: (0, 1, .5, -1, 2),
-	names: ('n','', 'half', 'neg', '2'),
+	names: ('0','', 'half', 'neg', '2'),
 	prefixes: ('space', 'pad')
 );
 
@@ -183,7 +183,7 @@ $colors: (
 
 	bg: #f6f8fb, //Required
 
-	//Change the following to project specific colors
+	//Change the following to project-specific colors
 	primary: (
 		light: #0cadcd,
 		base: #0c639a
@@ -195,7 +195,8 @@ $colors: (
 
 	success: #bada55
 
-) !global;
+);
+
 
 /* SG
 #Config/Grid Settings [[dev]]
