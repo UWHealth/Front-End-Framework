@@ -1,11 +1,11 @@
 //Base table styles
 table {
     @extend %base_type_vertical_rhythm;
+    @extend %space_b;
     width: 100%;
     background-color:transparent;
     border-collapse: collapse;
-    border-spacing:0;
-    @extend %space_v;
+    border-spacing: 0;
 }
 
 th,
