@@ -21,7 +21,7 @@
 
 			var veloExists = (typeof Velocity === "function") ? true : false;
 
-			if (! toggle_class.isArray()){
+			if (! Array.isArray(toggle_class)){
 				toggle_class = ["", toggle_class];
 			}
 

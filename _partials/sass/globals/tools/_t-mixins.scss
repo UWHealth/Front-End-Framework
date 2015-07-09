@@ -84,10 +84,10 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 }
 
 //Aliases: Same as above, but shorter
-@mixin breakpoint   ($mq)   { @include media-query($mq){ @content }};
-@mixin bp           ($mq)   { @include media-query($mq){ @content }};
-@mixin media        ($mq)   { @include media-query($mq){ @content }};
-@mixin mq           ($mq)   { @include media-query($mq){ @content }};
+@mixin breakpoint   ($mq)   { @include media-query($mq){ @content } };
+@mixin bp           ($mq)   { @include media-query($mq){ @content } };
+@mixin media        ($mq)   { @include media-query($mq){ @content } };
+@mixin mq           ($mq)   { @include media-query($mq){ @content } };
 
 //------------------------------------
 //    $HELPERS
@@ -187,13 +187,13 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 
 	@if $line-height == true {
 
-		$line-height: baseline-calc($font-size, $font-base);
+		$line-height: cache(baseline-calc, $font-size, $font-base);
 		line-height: $line-height;
 
-		//Index line-height to type map.
-		@if map_has_key($type, $selector){
-			$type: define-type($selector, line-height, $line-height) !global;
-		}
+		////Index line-height to type map.
+		//@if map_has_key($type, $selector){
+		//	$type: define-type($selector, line-height, $line-height) !global;
+		//}
 
 	} @else if type-of($line-height) == "number" {
 
@@ -206,10 +206,10 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 
 	}
 	//Index values to type map.
-	@if map_has_key($type, $selector){
-		$type: define-type($selector, px, $font-size) !global;
-		$type: define-type($selector, rem, rems($font-size)) !global;
-	}
+	//@if map_has_key($type, $selector){
+	//	$type: define-type($selector, px, $font-size) !global;
+	//	$type: define-type($selector, rem, rems($font-size)) !global;
+	//}
 }
 //AlIAS
 @mixin font-size(

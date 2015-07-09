@@ -7595,23 +7595,21 @@ var change_color = function(col, amt) {
 			var toggle_class = $this.data('toggle-class') || 'toggle_active, toggle_target_active';
 
 			toggle_class = toggle_class.split(',');
-			
-			if(typeof(Velocity) === "function"){
-				var velocity = true;
-			}
 
-			if (! typeof(toggle_class) === "array"){
+			var veloExists = (typeof Velocity === "function") ? true : false;
+
+			if (! Array.isArray(toggle_class)){
 				toggle_class = ["", toggle_class];
 			}
 
 			if(type === "class"){
 				$toggle_target.toggleClass(toggle_class[0]);
 				$toggle_target.toggleClass(toggle_class[1]);
-			}else if(type === "slide" && velocity) {
+			}else if(type === "slide" && veloExists) {
 				if($toggle_target.is(':visible')){
-					$toggle_target.velocity('slideUp', 200);
+					$toggle_target.Velocity('slideUp', 200);
 				}
-			}else if(type === "squish" && velocity) {
+			}else if(type === "squish" && veloExists) {
 
 			}else{
 				if($toggle_target.is(':visible')){
