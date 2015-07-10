@@ -129,11 +129,17 @@
 
 /* menu */
 #styleguide-menu {
-    width: calc(20% - 2em - 2px);
+    width: calc(25% - 3em - 2px);
     float: left;
-    margin-right: 2em;
+    padding-right: .5em;
+    margin-right: 3em;
     height: 100%;
-    overflow-y: auto;
+    overflow: auto;
+}
+
+#styleguide-menu .button {
+    width: 80%;
+    margin: 0 auto;
 }
 
 .menu_body {
@@ -261,6 +267,6 @@
 
 @media screen and (max-width: 910px) {
     #styleguide-menu {
-        
+
     }
 }

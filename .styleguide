@@ -15,7 +15,8 @@
 		"scss": true,
 		"sass": false,
 		"css": false,
-		"less": false
+		"less": false,
+		"md": true
 	},
 	"walkerOptions": {
 		"followLinks": false
