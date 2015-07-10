@@ -143,11 +143,17 @@
     
     /* menu */
     #styleguide-menu {
-        width: calc(20% - 2em - 2px);
+        width: calc(25% - 3em - 2px);
         float: left;
-        margin-right: 2em;
+        padding-right: .5em;
+        margin-right: 3em;
         height: 100%;
-        overflow-y: auto;
+        overflow: auto;
+    }
+    
+    #styleguide-menu .button {
+        width: 80%;
+        margin: 0 auto;
     }
     
     .menu_body {
@@ -275,7 +281,7 @@
     
     @media screen and (max-width: 910px) {
         #styleguide-menu {
-            
+    
         }
     }
     
@@ -403,9 +409,9 @@
 <body>
 <main class="wrap">
 
-    <nav id="styleguide-menu">
+    <nav id="styleguide-menu" class="pad_t_2">
         <a href="#" data-toggle=".top_menu, .menu_body" class="toggle button button_small">
-            <span>Menu</span>
+            <span>Toggle Menu</span>
         </a>
     	<ul class="top_menu">
             <li>
@@ -554,7 +560,14 @@
                             <h2 class="h4 space_t_neg header_heading">Arrangement object</h2>
                     </header>
                     <div class="section_comment">
-                        <p>Creates an image-content block that vertically aligns images and text (centered, bottom, or top).</p>
+                        <p>Creates an image-content block that vertically aligns images and text (centered, bottom, or top).<br>Children can be named four things:</p>
+<ul>
+<li><code>arrange_fit</code> or <code>arrange_media</code> will create a block that fits the width of its content (useful for images).</li>
+<li><code>arrange_fill</code> will fill the remaining space.</li>
+<li><code>arrange_body</code> are similar but have some default styling.</li>
+</ul>
+<p>You may also combine this with grid items like <code>row</code> and <code>column</code> if you wish to add gutters between elements.</p>
+<p><em>NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is &quot;squishy&quot;, but not technically responsive.</em></p>
                     </div>
 
                     <div class="section_body">
@@ -564,18 +577,30 @@
         <img src="http://placehold.it/60x50" alt="placeholder image">
     </div>
     <div class="arrange_body">
-        Content that is vertically aligned.
+        Content that is vertically (middle) aligned with the image.
     </div>
 </div>
 
 <!-- Bottom Arrangement -->
-
 <div class="arrange arrange_bottom">
     <div class="arrange_media">
         <img src="http://placehold.it/60x50" alt="placeholder image">
     </div>
     <div class="arrange_body">
-        Content that is bottom aligned.
+        Content that is bottom aligned to the image.
+    </div>
+</div>
+
+<!-- Equal width arrangement-->
+<div class="arrange arrange_equal">
+    <div class="arrange_fill">
+        Equal width columns.
+    </div>
+    <div class="arrange_fill">
+        <img class="show" src="http://placehold.it/120x80" alt="placeholder image" style="margin: auto;">
+    </div>
+    <div class="arrange_fill">
+        Can be as many columns as you want.
     </div>
 </div>
                         </div>
@@ -586,18 +611,30 @@
         <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/60x50"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_body"</span>&gt;</span>
-        Content that is vertically aligned.
+        Content that is vertically (middle) aligned with the image.
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Bottom Arrangement --&gt;</span>
-
 <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange arrange_bottom"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_media"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/60x50"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_body"</span>&gt;</span>
-        Content that is bottom aligned.
+        Content that is bottom aligned to the image.
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Equal width arrangement--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange arrange_equal"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
+        Equal width columns.
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"show"</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/120x80"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">"margin: auto;"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
+        Can be as many columns as you want.
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span></code></pre>
                         </div>
@@ -1865,18 +1902,30 @@
         &lt;img src=&quot;http://placehold.it/60x50&quot; alt=&quot;placeholder image&quot;&gt;
     &lt;/div&gt;
     &lt;div class=&quot;arrange_body&quot;&gt;
-        Content that is vertically aligned.
+        Content that is vertically (middle) aligned with the image.
     &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;!-- Bottom Arrangement --&gt;
-
 &lt;div class=&quot;arrange arrange_bottom&quot;&gt;
     &lt;div class=&quot;arrange_media&quot;&gt;
         &lt;img src=&quot;http://placehold.it/60x50&quot; alt=&quot;placeholder image&quot;&gt;
     &lt;/div&gt;
     &lt;div class=&quot;arrange_body&quot;&gt;
-        Content that is bottom aligned.
+        Content that is bottom aligned to the image.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Equal width arrangement--&gt;
+&lt;div class=&quot;arrange arrange_equal&quot;&gt;
+    &lt;div class=&quot;arrange_fill&quot;&gt;
+        Equal width columns.
+    &lt;/div&gt;
+    &lt;div class=&quot;arrange_fill&quot;&gt;
+        &lt;img class=&quot;show&quot; src=&quot;http://placehold.it/120x80&quot; alt=&quot;placeholder image&quot; style=&quot;margin: auto;&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;arrange_fill&quot;&gt;
+        Can be as many columns as you want.
     &lt;/div&gt;
 &lt;/div&gt;",
                 _codeLang: "",
@@ -1885,21 +1934,40 @@
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;http://placehold.it/60x50&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;alt&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_body&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-        Content that is vertically aligned.
+        Content that is vertically (middle) aligned with the image.
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 
 &lt;span class=&quot;hljs-comment&quot;&gt;&amp;lt;!-- Bottom Arrangement --&amp;gt;&lt;/span&gt;
-
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange arrange_bottom&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_media&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;http://placehold.it/60x50&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;alt&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_body&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-        Content that is bottom aligned.
+        Content that is bottom aligned to the image.
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;hljs-comment&quot;&gt;&amp;lt;!-- Equal width arrangement--&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange arrange_equal&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_fill&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        Equal width columns.
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_fill&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;show&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;http://placehold.it/120x80&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;alt&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;style&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;margin: auto;&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_fill&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        Can be as many columns as you want.
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;",
-                _comment: "&lt;p&gt;Creates an image-content block that vertically aligns images and text (centered, bottom, or top).&lt;/p&gt;",
+                _comment: "&lt;p&gt;Creates an image-content block that vertically aligns images and text (centered, bottom, or top).&lt;br&gt;Children can be named four things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;arrange_fit&lt;/code&gt; or &lt;code&gt;arrange_media&lt;/code&gt; will create a block that fits the width of its content (useful for images).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;arrange_fill&lt;/code&gt; will fill the remaining space.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;arrange_body&lt;/code&gt; are similar but have some default styling.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You may also combine this with grid items like &lt;code&gt;row&lt;/code&gt; and &lt;code&gt;column&lt;/code&gt; if you wish to add gutters between elements.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is &amp;quot;squishy&amp;quot;, but not technically responsive.&lt;/em&gt;&lt;/p&gt;",
                 _globalVars: "",
             _2: "[object Object]",
                 _id: "layout-media_object",

@@ -1170,7 +1170,8 @@ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create
 .half {
   width: 50%; }
 
-.column, .isolate, .arrange, .arrange_body {
+.column, .isolate, .arrange, .arrange_fill,
+.arrange_body {
   width: 100%; }
 
 @media only screen and (min-width: 481px) and (max-width: 640px) {
@@ -1265,10 +1266,14 @@ nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs, .breadcrum
     padding-right:  16px;
     padding-right:  1rem; } }
 
-[class*="list_bordered"] > li, .list_nav a, .tab_content, .box_square, .isolate, .isolate_media, .isolate_media img, .isolate_body, .arrange_media img {
+[class*="list_bordered"] > li, .list_nav a, .tab_content, .box_square, .isolate, .isolate_media, .isolate_media img, .isolate_body, .arrange_media img,
+.arrange_fit img {
   display: block; }
 
-.arrange_media, .arrange_body {
+.arrange_fill,
+.arrange_fit,
+.arrange_media,
+.arrange_body {
   display: table-cell; }
 
 .arrange {
@@ -1761,6 +1766,14 @@ Useful for creating an association between an image and text. Often used with an
 #Layout/Arrangement object
 
 Creates an image-content block that vertically aligns images and text (centered, bottom, or top).
+Children can be named four things:
+* `arrange_fit` or `arrange_media` will create a block that fits the width of its content (useful for images).
+* `arrange_fill` will fill the remaining space.
+* `arrange_body` are similar but have some default styling.
+
+You may also combine this with grid items like `row` and `column` if you wish to add gutters between elements.
+
+_NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is "squishy", but not technically responsive._
 
 ```html
 <div class="arrange">
@@ -1768,31 +1781,62 @@ Creates an image-content block that vertically aligns images and text (centered,
 		<img src="http://placehold.it/60x50" alt="placeholder image">
 	</div>
 	<div class="arrange_body">
-		Content that is vertically aligned.
+		Content that is vertically (middle) aligned with the image.
 	</div>
 </div>
 
 <!-- Bottom Arrangement -->
-
 <div class="arrange arrange_bottom">
 	<div class="arrange_media">
 		<img src="http://placehold.it/60x50" alt="placeholder image">
 	</div>
 	<div class="arrange_body">
-		Content that is bottom aligned.
+		Content that is bottom aligned to the image.
 	</div>
 </div>
+
+<!-- Equal width arrangement-->
+<div class="arrange arrange_equal">
+	<div class="arrange_fill">
+		Equal width columns.
+	</div>
+	<div class="arrange_fill">
+		<img class="show" src="http://placehold.it/120x80" alt="placeholder image" style="margin: auto;">
+	</div>
+	<div class="arrange_fill">
+		Can be as many columns as you want.
+	</div>
+</div>
+
 ```
 */
-.arrange_media img {
-  max-width: none; }
+.arrange {
+  min-width: 100%;
+  table-layout: auto; }
+  .arrange_media img,
+  .arrange_fit img {
+    max-width: none; }
+  .arrange_media,
+  .arrange_body,
+  .arrange_fill,
+  .arrange_fit {
+    vertical-align: middle; }
+    .arrange_top > .arrange_media,
+    .arrange_top > .arrange_body,
+    .arrange_top > .arrange_fill,
+    .arrange_top > .arrange_fit {
+      vertical-align: top; }
+    .arrange_bottom > .arrange_media,
+    .arrange_bottom > .arrange_body,
+    .arrange_bottom > .arrange_fill,
+    .arrange_bottom > .arrange_fit {
+      vertical-align: bottom; }
 
-.arrange_media, .arrange_body {
-  vertical-align: middle; }
-  .arrange_top > .arrange_media, .arrange_top > .arrange_body {
-    vertical-align: top; }
-  .arrange_bottom > .arrange_media, .arrange_bottom > .arrange_body {
-    vertical-align: bottom; }
+.arrange_equal {
+  table-layout: fixed; }
+  .arrange_equal > .arrange_fill,
+  .arrange_equal > .arrange_fit {
+    width: 1%; }
 
 /* SG
 #Color Blocks
