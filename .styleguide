@@ -1,0 +1,27 @@
+{
+	"sgComment": "SG",
+	"devIdentifier": "[[dev]]",
+	"srcFolder": "./",
+	"outputFile": "./styleguide/index.html",
+	"templateFile": "./styleguide/template.html",
+	"themeFile": "./styleguide/theme.css",
+	"highlightFolder": "./node_modules/highlight.js/styles",
+	"highlightStyle": "zenburn",
+	"excludeDirs": [
+		"target",
+		"node_modules"
+	],
+	"fileExtensions": {
+		"scss": true,
+		"sass": false,
+		"css": false,
+		"less": false
+	},
+	"walkerOptions": {
+		"followLinks": false
+	},
+	"jqFile": "./styleguide/jquery.js",
+	"customVars": {
+		"pageTitle": "Style Guide"
+	}
+}

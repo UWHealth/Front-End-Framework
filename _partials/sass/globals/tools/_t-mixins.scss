@@ -1,0 +1,465 @@
+//------------------------------------
+//      $MIXINS
+//------------------------------------
+
+/* SG
+#Tools/Mixins [[dev]]
+
+globals/tools/_t-mixins.scss
+
+##### `@media-query()`, `@mq()`, `@media()`, `@breakpoint()`, `@bp()`
+###### mixin(`$media-queries`)
+Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined by using a nested list (double parenthesis).
+
+
+##### `@specificity()`
+###### mixin(`$increase`: 1)
+Specificity increaser. Useful for increasing specificity of a selector instead of using !important
+
+[Reference](http://www.sitepoint.com/selector-specificity-css-preprocessors/)
+
+
+##### `@opacity()`
+###### mixin(`$opacity`)
+Cross-browser (including IE) opacity.
+
+[Reference](https://gist.github.com/jgv/745754)
+
+
+##### `@px-to-rems()`, `@rems()`
+###### mixin(`$property`, `$sizes`, `$important`: false, `$base-font`: `$$base-font-size`)
+REM generator used to create a property with a rem value and PX fallback.
+
+
+##### `@font-size()`, `@type-font-size()`
+###### mixin(`$font-size`, `$line-height`: true, `$selector`:`""`, `$font-base`: `$$base-font-size`)
+Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
+
+_`$line-height` also accepts a pixel value and will be converted to a unitless line-height._
+
+
+*/
+
+
+//==========================================================================
+// Mixins used for cleaning up and consolodating code
+//==========================================================================
+
+//------------------------------------
+//	$MEDIA QUERIES
+//------------------------------------
+
+//
+//Enclose a block of code with a media query as named in `$breakpoints`.
+//To create more consolodated code, most (if not all) media queries
+//should be called through this mixin.
+//Multiple media-queries can be defined by using:
+//@include media-query((breakpoint, breakpoint)){
+//   [Your code here]
+//}
+
+
+@mixin media-query($media-queries) {
+	$breakpoint-found: false;
+
+	@each $media-query in $media-queries {
+
+		@each $breakpoint in $breakpoints{
+			$name: nth($breakpoint, 1);
+			$declaration: nth($breakpoint, 2);
+
+			@if $media-query == $name and $declaration {
+				$breakpoint-found: true;
+
+				@media only screen and #{$declaration} {
+					@content;
+				}
+			}
+		}
+	}
+
+	@if not $breakpoint-found {
+		@warn "Breakpoint ‘#{$media-query}’ does not exist. Check $breakpoints.";
+	}
+}
+
+//Aliases: Same as above, but shorter
+@mixin breakpoint   ($mq)   { @include media-query($mq){ @content } };
+@mixin bp           ($mq)   { @include media-query($mq){ @content } };
+@mixin media        ($mq)   { @include media-query($mq){ @content } };
+@mixin mq           ($mq)   { @include media-query($mq){ @content } };
+
+//------------------------------------
+//    $HELPERS
+//------------------------------------
+
+// Specificity increaser
+// Useful for increasing specificity of a selector instead of using !important
+//
+// Taken from: http://www.sitepoint.com/selector-specificity-css-preprocessors/
+
+@mixin specificity($increase: 1) {
+	$selector: unquote('&');
+
+	@if $increase > 1 {
+		@for $i from 1 to $increase {
+			$selector: $selector + unquote('&');
+		}
+		@at-root #{$selector} {
+			@content;
+		}
+	} @else {
+		@content;
+	}
+}
+
+// Cross-browser (including IE) opacity
+// Taken from:
+// https://gist.github.com/jgv/745754
+@mixin opacity($opacity) {
+	// filter: alpha(opactiy=($trans * 100));
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$opacity * 100})";
+	opacity: $opacity;
+}
+
+//------------------------------------
+//    $TYPOGRAPHY
+//------------------------------------
+
+// REM generator
+// Used to create a property with a rem value and PX fallback
+@mixin rems($property, $sizes, $important:false, $base-font: $base-font-size) {
+	$important_val: '';
+	$rem_sizes: null;
+	$px_sizes: null;
+
+	@if $important{
+		$important_val: ' !important';
+	}
+
+	@each $size in $sizes {
+		@if $size == ''{
+			$size: null;
+			$px_sizes: join($px_sizes, $size, space);
+		}@else {
+			@if $size == 0px{
+				$size: 0;
+			}
+
+			$px_sizes: join($px_sizes, $size, space);
+			$size: px-to-rems($size, $base-font);
+		}
+		$rem_sizes: join($rem_sizes, $size, space);
+	};
+
+	@if $rem-px-fallback {
+		#{$property}: #{$px_sizes}#{$important_val};
+	}
+	#{$property}: #{$rem_sizes}#{$important_val};
+
+}
+
+//ALIAS: same as above
+@mixin px-to-rems($property, $sizes, $important:false, $base-font: $base-font-size){
+	@include rems($property, $sizes, $important, $base-font);
+}
+
+// Quickly generate a font-size in rems, with a pixel fallback, based on the
+// value we pass into the mixin, e.g.:
+// h1 {
+//     @include type-font-size(24px);
+// }
+// 1. Set the base element’s `font-size` to the value of your choosing. Set in
+//    rems, assuming a browser default of 16px.
+// 2. Work out the unitless `line-height` for your project based around your
+//    desired `line-height` (defined previously in pixels), and your project’s
+//    base font size.
+
+@mixin type-font-size (
+		$font-size,
+		$line-height: true,
+		$selector: '',
+		$font-base: $base-font-size
+) {
+
+	//Create REM-based font-size
+	@include rems(font-size, $font-size);
+
+	@if $line-height == true {
+
+		$line-height: cache(baseline-calc, $font-size, $font-base);
+		line-height: $line-height;
+
+		////Index line-height to type map.
+		//@if map_has_key($type, $selector){
+		//	$type: define-type($selector, line-height, $line-height) !global;
+		//}
+
+	} @else if type-of($line-height) == "number" {
+
+		//Convert to unitless
+		@if unit($line-height) == "px" {
+			$line-height: $line-height / $font-size;
+		}
+
+		line-height: $line-height;
+
+	}
+	//Index values to type map.
+	//@if map_has_key($type, $selector){
+	//	$type: define-type($selector, px, $font-size) !global;
+	//	$type: define-type($selector, rem, rems($font-size)) !global;
+	//}
+}
+//AlIAS
+@mixin font-size(
+	$font-size,
+	$line-height: true,
+	$selector: '',
+	$font-base: $base-font-size
+){
+	@include type-font-size($font-size, $line-height, $selector, $font-base);
+}
+
+ // Space elements by an amount based on line-height/gutter. Pass in the property
+ // to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
+ // pre {
+ //     @include type-space(padding-left, 1);
+ // }
+ // Accepts multiple properties as a nested list.
+
+@mixin type-space($properties, $multipliers.../*$important*/) {
+
+	$important: false;
+	$multiplier: nth($multipliers, 1);
+	$m-length: length($multipliers);
+
+	//Check if multiple arguments have been passed
+	@if $m-length > 1 {
+		//If so, see if the last argument is $important
+		$important_check: nth($multipliers, -1);
+
+		//If last value is $important, then set the $multiplier and $important accordingly
+		@if type-of($important_check) == bool {
+			$important: $important_check;
+			$multiplier: nth($multipliers, 1);
+			$m-length: 1;
+		}
+	}
+
+	//If multiplier is only 1 value, then do expected stuff
+	@if $m-length <= 1 {
+
+		@each $property in $properties {
+
+			$value: $multiplier * $type-magic-number;
+
+			//if the value is for right or left spacing, use the gutter width for spacing.
+			@if str-contains($property, 'right') or str-contains($property, 'left'){
+				$value: $multiplier * $gutter;
+			}
+
+			@include rems($property, $value, $important);
+
+		}
+	//if many multipliers are passed in, then we know type-space-sc should be used
+	}@else {
+
+		$top: nth($multipliers, 1);
+		$right: nth($multipliers, 2);
+		$bottom: $top;
+		$left: $right;
+
+		@if $m-length > 2 {
+			$bottom: nth($multipliers, 3);
+			@if $m-length > 3 {
+				$left: nth($multipliers, 4);
+			}
+		}
+		@include type-space-sc($properties, $top, $right, $bottom, $left );
+	}
+}
+
+// Same as above, but for shortcut properties.
+// Use this for padding or margin shortcuts. e.g.:
+// pre {
+//    @include type-space(padding, 1, 2, 1, 0);
+// }
+@mixin type-space-sc($property, $top: 0, $right: 0, $bottom: $top, $left: $right) {
+
+	//if top is given a list, then pass those values to the correct variables
+	@if length($top) > 1 {
+		$bottom: nth($top, 1);
+		$right: nth($top, 2);
+		$left: nth($top, 2);
+
+		@if length($top) > 2 {
+			$bottom: nth($top, 3);
+
+			@if length($top) > 3 {
+				$left: nth($top, 4);
+			}
+		}
+		$top: nth($top, 1);
+	}
+
+	//Calculate values
+	//Right and left get
+	$top_val: $top * $type-magic-number;
+	$bottom_val: $bottom * $type-magic-number;
+	$right_val: $right * $gutter;
+	$left_val: $left * $gutter;
+
+	// Generating only the necessary properties, and leave the rest blank.
+	// e.g. margin: 1px 3px; or margin: 2px 3px 1px;
+	@if $right == $left or $left == null {
+		$left_val: unquote('');
+
+		@if $top == $bottom or $bottom == null {
+			$bottom_val: unquote('');
+		};
+	};
+
+	//Output px and rem values.
+	@include rems($property, $top_val $right_val $bottom_val $left_val)
+
+}
+
+// Generates Values based on type-scale ($scale-ratio in _config.scss)
+// By using @include type-scale([property], [scale number]);.
+// This is most useful for font sizing, but can be used for any property
+// e.g.: div{
+//          @include type-scale(margin-top, 2);}
+// Would produce a margin-top value of the second value within your typographic scale.
+// If your scale is set to 3,4, your output would be: div{margin-top: 20.63314px; margin-top: 1.4738rem;}
+
+@mixin type-scale($property: "font-size", $mod-scale-value: 1){
+	@if $property == "font-size" {
+		$font-size: modular-scale($mod-scale-value);
+		@include type-font-size($font-size, true);
+	}
+	@else{
+		$scale: modular-scale($mod-scale-value);
+
+		@include rems($property, $scale);
+	}
+}
+
+@mixin headings-scale($scale: $scale-ratio, $name-space:"") {
+	//Checking for floats in $scale
+	@if length($scale) == 2{
+	// Making sure we don't have a ratio below 1.
+		@if nth($scale,1) < nth($scale,2) {
+			$scale:   nth($scale, 2)/nth($scale, 1);
+		}@else {
+			$scale:   nth($scale, 1)/nth($scale, 2);
+		}
+	}
+
+	@each $heading-number in $type-headings {
+
+		$font-size: modular-scale($heading-number, $scale);
+		$current-heading: nth($type-headings,$heading-number);
+
+		%headings_#{$name_space}h#{$current_heading} {
+			@include font-size($font_size, true);
+			@extend %#{$name_space}space_b !optional;
+		}
+
+		h#{$current-heading} {
+			@extend %headings_#{$name_space}h#{$current_heading};
+		}
+
+		@if $type-scale-classes == true {
+			h#{$current-heading},
+			.h#{$current-heading} {
+				+ p{
+					@extend %#{$name-space}space_t_neg !optional;
+				}
+			}
+
+		}@else {
+
+			h#{$current-heading}, %headings_h#{$current-heading}{
+				@include type-font-size($font-size, true);
+
+				+ p{
+					@extend %#{$name-space}space_t_neg !optional;
+				}
+			}
+		}
+	}
+
+	@if $type-scale-classes == true {
+		@each $heading-number in $type-headings{
+			$font-size: modular-scale($heading-number, $scale);
+			$current-heading: nth($type-headings,$heading-number);
+
+			.h#{$current-heading} {
+				@include font-size($font_size, true);
+				@extend %#{$name_space}space_b !optional;
+			}
+		}
+	}
+}
+// Style any number of headings in one fell swoop, e.g.:
+//
+//   .foo{
+//       @include headings(1, 3){
+//           color:#BADA55;
+//       }
+//    }
+//
+// Lifted from inuit.css:
+// github.com/csswizardry/inuit.css/blob/7dbc892f8d298795e19aeb64d1369ae3271561d1/generic/_mixins.scss
+
+$headings-use: 0 !global;
+
+@mixin headings($from: 1, $to: 6) {
+	//Used for multiple calls to this mixin.
+	// Ensures no double extends.
+	$headings-use: $headings-use + 1 !global;
+
+	%base-heading#{$headings-use} {
+		@content;
+	}
+
+	@if $from >= 1 and $to <= 6{
+
+		@if $type-scale-classes {
+			@for $i from $from through $to {
+				h#{$i}, .h#{$i} {
+					@extend %base-heading#{$headings-use};
+				}
+			}
+		}
+		@else{
+			@for $i from $from through $to {
+				h#{$i} {
+					@extend %base-heading#{$headings-use};
+				}
+			}
+		}
+	}
+	@else{
+		@warn "You need to supply numbers between 1 and 6 for headings mixin to work";
+	}
+}
+
+//------------------------------------
+//    $LISTS
+//------------------------------------
+// http://compass-style.org/reference/compass/typography/lists/
+// Turn off the bullet for an element of a list
+
+@mixin no-bullet() {
+	list-style-image : none;
+	list-style-type  : none;
+	margin-left      : 0;
+}
+
+// turns off the bullets for an entire list
+@mixin no-bullets() {
+	list-style: none;
+	> li { @include no-bullet; }
+}

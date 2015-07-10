@@ -1,0 +1,266 @@
+
+#styleguide {
+    float: left;
+    width: 75%;
+}
+
+#styleguide .section {
+    padding-bottom: 2em;
+    border-radius: 3px;
+    overflow: hidden;
+    /*box-shadow: 0 2px 0 rgba(0,0,0,0.1),
+        0 3px 6px rgba(0,0,0,0.1);*/
+}
+
+#styleguide .section + .section {
+  margin-top: -2em;
+}
+
+.style_sections .section_comment p:last-child {
+    margin-bottom: 0;
+}
+
+#styleguide .section_starter {
+    background: transparent;
+    box-shadow: none;
+    margin-bottom: 0;
+    padding-top: .5em;
+}
+
+#styleguide .markup {
+    padding: 0;
+}
+
+#styleguide .markup code,
+#styleguide .markup pre {
+    border: none;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    font-size: 13px;
+    line-height: 20px;
+    direction: ltr;
+    text-align: left;
+    white-space: pre-wrap;
+    word-spacing: normal;
+    margin: 0;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+#styleguide .markup.markup pre,
+#styleguide .markup{
+    background-color: #43505E;
+}
+#styleguide .markup.markup pre,
+#styleguide .markup.markup code {
+    overflow: auto;
+    padding: 0;
+}
+#styleguide .markup.markup code {
+    display: block;
+    word-wrap: normal;
+    white-space: pre;
+    padding: 1em;
+}
+#styleguide .result,
+#styleguide .section_comment,
+#styleguide .section_header {
+    padding: 1em 0;
+}
+
+.header_subheading {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4d5458;
+    font-size: .85em;
+}
+
+#styleguide .section_header {
+    padding-bottom: 0;
+    border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+#styleguide .section_comment {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+
+.header_heading {
+    margin-bottom: 0;
+}
+
+#styleguide .result {
+    border-bottom: 0px;
+}
+
+#styleguide .result {
+    border-top: none;
+    clear: both;
+    overflow: hidden;
+}
+
+.section_comment code {
+    color: #3fb7c0;
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+}
+
+#styleguide .markup {
+    clear: both;
+    border-top: none;
+    margin-bottom: 2em;
+}
+/*Two Headers in a comment*/
+.comment .main-section-sg-markdown + .main-section-sg-markdown {
+  margin-top: -1.5rem;
+  font-weight: normal;
+}
+
+.comment [id*="_code"] code{
+    white-space: pre-wrap;
+}
+
+#styleguide h5 code {
+    color: #0d3038;
+}
+
+/* menu */
+#styleguide-menu {
+    width: calc(20% - 2em - 2px);
+    float: left;
+    margin-right: 2em;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.menu_body {
+    background-color: #fff;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#styleguide-menu .top_menu {
+    overflow: hidden;
+    font-weight: bold;
+}
+
+#styleguide-menu > .top_menu a {
+    padding-left: 0 !important;
+}
+
+#styleguide-menu > .top_menu a.on,
+#styleguide-menu > .top_menu a:hover {
+    background-color: transparent !important;
+    color: rgb(14, 154, 181) !important;
+}
+
+
+#styleguide-menu .submenu {
+    display: none;
+    background: rgb(241, 247, 249);
+    box-shadow: inset 0px 2px 3px -1px rgba(0,0,0,0.15);
+}
+
+#styleguide-menu .submenu.on{
+    display: block;
+}
+
+#styleguide-menu .top_menu {
+    margin: 1em 0 0;
+}
+#styleguide-menu > ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#styleguide-menu li {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    border-bottom: 1px solid #dfefef;
+}
+
+#styleguide-menu li:last-child {
+    border-bottom: 0;
+}
+
+.submenu_toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  padding: .75em 4% .5em;
+  transform: rotate(0deg);
+  transition: transform 200ms ease-out;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: rgb(17, 182, 198);
+  line-height: 1;
+  width: 2.25rem;
+  text-align: center;
+}
+
+.submenu_toggle.toggle_active {
+    transform: rotate(180deg);
+}
+
+.submenu_toggle:hover{
+    color: rgb(51, 229, 246);
+}
+
+#styleguide-menu a {
+    font-size: .9em;
+    display: block;
+    padding: .75em 1.5em .5em 1em;
+    text-decoration: none;
+}
+
+.top_menu {
+    border-bottom: 2px solid #dfdfdf;
+}
+.top_menu + .menu_body {
+    margin-top: -2px;
+}
+
+#styleguide-menu .menu_body a {
+    color: rgba(0, 0, 0, 0.87);
+    transition: background-color 150ms ease-out;
+}
+
+#styleguide-menu ul ul a {
+    padding: 0.4em 1em;
+}
+
+#styleguide-menu .menu_body a:visited,
+#styleguide-menu .menu_body a:hover,
+#styleguide-menu .menu_body a:active {
+    display: block;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+#styleguide-menu a:hover {
+    background-color: rgba(14, 154, 181, 0.3);
+}
+
+#styleguide-menu a.on {
+    background-color: rgba(14, 154, 181, 0.1);
+}
+
+[id*="_code_"] + .main-section-sg-by-emiloberg {
+  margin-top: -1.5rem;
+  margin-bottom: 1.75rem;
+  color: #9DC3C8;
+  font-weight: normal;
+}
+
+@media screen and (max-width: 910px) {
+    #styleguide-menu {
+        
+    }
+}

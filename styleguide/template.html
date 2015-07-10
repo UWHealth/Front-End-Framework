@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+    <title>{{customVars.pageTitle}}</title>
+    <script src="../js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <link rel="stylesheet" href="../css/main.css" media="screen">
+    {{> theme}}
+    {{> highlight}}
+</head>
+<body>
+<main class="wrap">
+
+    {{!--Menu--}}
+    <nav id="styleguide-menu">
+        <a href="#" data-toggle=".top_menu, .menu_body" class="toggle button button_small">
+            <span>Menu</span>
+        </a>
+    	<ul class="top_menu">
+            <li>
+                <a href="#" class="sectionlink show_all" data-section="#styleguide-styles .section">Styles</a>
+                <span class="submenu_toggle toggle_active" data-toggle="#style_menu">&#9662;</span>
+            </li>
+        </ul>
+        <ul id="style_menu" class="menu_body">
+    	{{#each menus.sections}}
+    		<li>
+                {{!-Sections with Children--}}
+    			{{#if headings.1.name}}
+                    <a class="submenulink" href="#{{headings.0.id}}" data-section="{{../name}}">{{name}}</a>
+                    <span class="submenu_toggle" data-toggle="[data-submenu='{{../name}}']">&#9662;</span>
+                    <ul class="submenu" data-submenu="{{../name}}">
+                    {{#each headings}}
+                        {{#if name}}
+                            <li><a class="submenulink sub-sub" data-section="{{../../name}}" href="#{{id}}">{{name}}</a></li>
+                        {{else}}
+                            <li><a class="submenulink sub-sub" data-section="{{../../name}}" href="#{{id}}">{{../../name}}</a></li>
+                        {{/if}}
+                    {{/each}}
+                    </ul>
+    			{{/if}}
+                {{!--Sections without Children--}}
+                {{#unless headings.1.name}}
+                    <a class="sectionlink" href="#{{headings.0.id}}" data-section="{{name}}">{{name}}</a>
+                {{/unless}}
+    		</li>
+    	{{/each}}
+    	</ul>
+        {{#if menus.developmentSections}}
+            <ul class="space_t top_menu">
+                <li>
+                    <a href="#" class="sectionlink show_all" data-section="#styleguide-dev .section">Development</a>
+                    <span class="submenu_toggle toggle_active" data-toggle="#development_menu">&#9662;</span>
+                </li>
+            </ul>
+            <ul id="development_menu" class="menu_body">
+        	{{#each menus.developmentSections}}
+        		<li>
+                    {{!-Sections with Children--}}
+        			{{#if headings.1.name}}
+                        <a class="submenulink" href="#" data-section="{{name}}">{{name}}</a><span class="submenu_toggle" data-toggle="[data-submenu='{{../name}}']">&#9662;</span>
+                        <ul class="submenu" data-submenu="{{../name}}">
+                        {{#each headings}}
+                            {{#if name}}
+                                <li><a class="submenulink sub-sub" data-section="{{../../name}}" href="#{{id}}">{{name}}</a></li>
+                            {{else}}
+                                <li><a class="submenulink sub-sub" data-section="{{../../name}}" href="#{{id}}">{{../../name}}</a></li>
+                            {{/if}}
+                        {{/each}}
+                        </ul>
+        			{{/if}}
+                    {{!--Sections without Children--}}
+                    {{#unless headings.1.name}}
+                        <a class="sectionlink" href="#{{headings.0.id}}" data-section="{{name}}">{{name}}</a>
+                    {{/unless}}
+        		</li>
+        	{{/each}}
+        	</ul>
+        {{/if}}
+    </nav>
+
+    {{!--SECTIONS--}}
+    <section id="styleguide">
+        {{#if sections}}
+
+        <div id="styleguide-styles" class="section_container style_sections">
+            <header class="section section_starter">
+                <h1 class="h3">Styles</h1>
+            </header>
+        	{{#each sections}}
+        		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
+
+                    <header class="section_header">
+                        {{#unless isSubsection}}
+                            <h1 class="h4 header_heading">{{section}}</h1>
+                        {{else}}
+                            <h1 class="h6 header_subheading">{{section}}</h1>
+                            <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
+                        {{/unless}}
+                    </header>
+                    <div class="section_comment">
+                        {{{comment}}}
+                    </div>
+
+                    {{#if code}}
+                    <div class="section_body">
+                        <div class="result">
+                            {{{code}}}
+                        </div>
+                    {{/if}}
+
+                    {{#if markup}}
+                        <div class="markup hljs">
+                            <pre><code>{{{markup}}}</code></pre>
+                        </div>
+                    </div>
+                    {{/if}}
+
+        		</article>
+        	{{/each}}
+        </div>
+        {{/if}}
+
+        {{#if developmentSections}}
+        <div id="styleguide-dev" class="section_container dev_sections">
+            <header class="section section_starter">
+                <h1 class="h3">Development</h1>
+            </header>
+            {{#each developmentSections}}
+        		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
+
+                    <header class="section_header">
+                        {{#unless isSubsection}}
+                            <h1 class="h4 header_heading">{{section}}</h1>
+                        {{else}}
+                            <h1 class="h6 header_subheading">{{section}}</h1>
+                            <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
+                        {{/unless}}
+                    </header>
+                    <div class="section_comment">
+                        {{{comment}}}
+                    </div>
+
+                    {{#if code}}
+                    <div class="section_body">
+                        <div class="result">
+                            {{{code}}}
+                        </div>
+                    {{/if}}
+
+                    {{#if markup}}
+                        <div class="markup hljs">
+                            <pre><code>{{{markup}}}</code></pre>
+                        </div>
+                    </div>
+                    {{/if}}
+
+        		</article>
+        	{{/each}}
+        </div>
+        {{/if}}
+    </section>
+</main>
+<!--JQuery-->
+<!--[if lte IE 8]>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<![endif]-->
+
+<!--[if gt IE 8]><!-->
+<script src="../js/vendor/jquery-2.1.0.min.js"></script>
+<!--<![endif]-->
+
+<script type="text/javascript" src="../js/plugins.js"></script>
+<script type="text/javascript" src="../js/main.js"></script>
+<script type="text/javascript" src="sticky.js"></script>
+
+<script type="text/javascript">
+    //Tab functions
+    $(function() {
+        $("body").tabbed({
+            wrapper: {
+                element: "section",
+                "class_string": "tabbed",
+                extra_classes: ""
+            },
+            tabs: {
+                animation: {
+                    opacity: [1, 0],
+                    duration: 400
+                },
+                active_class: 'active'
+            }
+        });
+
+        $('#styleguide-menu').stick_in_parent();
+    });
+
+    // Style Guide-specific functions
+    // Show and hide sections
+    $(function() {
+
+        // Show first section in Styleguide
+        $('#styleguide .section').hide();
+        var $first_show = $('#styleguide-menu .show_all').first();
+        $($first_show.data('section')).show();
+        $first_show.addClass('on');
+
+        // Click on link with subheadings
+        $('#styleguide-menu .submenulink').click(function(event) {
+
+            var jqCurSubmenu = $('[data-submenu="' + $(this).data('section') + '"]');
+            var isCurSubmenuOn = jqCurSubmenu.hasClass('on');
+
+            $('.sub-sub').removeClass('on');
+            $(this).addClass('on');
+
+            if (!isCurSubmenuOn) {
+                $('#styleguide-menu .on').removeClass('on');
+                jqCurSubmenu.addClass('on');
+                $(this).addClass('on');
+            }
+            showSection($(this).data('section'), this);
+        });
+
+        // Click on link without subheadings
+        $('#styleguide-menu .sectionlink').click(function(event) {
+            // event.preventDefault();
+            $('#styleguide-menu .on').removeClass('on');
+            $(this).addClass('on');
+
+            //Show all link?
+            if($(this).hasClass('show_all')){
+                //Hide all sections
+                $('.section_container').find('.section').hide();
+
+                //Show all sections within container
+                var _show = $(this).data('section');
+                $(_show).show();
+                if (! $(this).next('.submenu_toggle').hasClass('toggle_active')){
+                    $(this).next('.submenu_toggle').trigger('click');
+                }
+            }else{
+                showSection($(this).data('section'), this);
+            }
+        });
+
+        // Show/Hide sections
+        function showSection(section, menu_item) {
+            $('#styleguide .section').hide();
+            $(menu_item).closest('.menu_body').prev('.top_menu').find('a').addClass('on');
+            var jqCurSections = $('#styleguide .section[data-section="' + section + '"]');
+            jqCurSections.show();
+        }
+
+    });
+</script>
+<!-- Handlebars JSON
+    menus = {
+        {{#each menus}}
+            _{{@key}}: "{{this}}",
+            {{#each this}}
+                _{{@key}}: "{{this}}",
+                {{#each this}}
+                    _{{@key}}: "{{this}}",
+                    {{#each this}}
+                        _{{@key}}: "{{this}}",
+                        {{#each this}}
+                            _{{@key}}: "{{this}}",
+                            {{#each this}}
+                            _{{@key}}: "{{this}}",
+                                {{#each this}}
+                                    _{{@key}}: "{{this}}",
+                                {{/each}}
+                            {{/each}}
+                        {{/each}}
+                    {{/each}}
+                {{/each}}
+            {{/each}}
+        {{/each}}
+    }
+    sections = {
+        {{#each sections}}
+            _{{@key}}: "{{this}}",
+            {{#each this}}
+                _{{@key}}: "{{this}}",
+                {{#each this}}
+                    _{{@key}}: "{{this}}",
+                    {{#each this}}
+                        _{{@key}}: "{{this}}",
+                        {{#each this}}
+                            _{{@key}}: "{{this}}",
+                            {{#each this}}
+                            _{{@key}}: "{{this}}",
+                                {{#each this}}
+                                    _{{@key}}: "{{this}}",
+                                {{/each}}
+                            {{/each}}
+                        {{/each}}
+                    {{/each}}
+                {{/each}}
+            {{/each}}
+        {{/each}}
+    }
+-->
+</body>
+</html>

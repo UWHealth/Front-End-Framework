@@ -3,7 +3,7 @@
 $(function(){
     $('#toggles').children().click(function(e){
         var toggles = $(this).attr("id");
-        $('html').toggleClass(toggles);
+        $('body').toggleClass(toggles);
         e.preventDefault();
     });
 });

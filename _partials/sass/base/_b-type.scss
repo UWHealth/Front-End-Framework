@@ -1,0 +1,208 @@
+//------------------------------------
+//    $HEADINGS
+//------------------------------------
+
+%base_heading_space {
+	@extend %base_space_t_n;
+	@extend %base_space_b;
+	@extend %pad_n;
+}
+
+@if $auto-scale-type == true {
+	@include headings(1,6) {
+		margin: 0;
+		padding: 0;
+	}
+    @include headings-scale($scale-ratio);
+
+}@else{
+
+    $h_class: unquote("//");
+
+    @if $type-scale-classes {
+        $h-class: unquote(", .");
+    }
+
+    %base_h1 {
+		@extend %base_heading_space;
+        @include font-size($type-h1-size, true);
+    }
+    %base_h2 {
+		@extend %base_heading_space;
+        @include font-size($type-h2-size, true);
+    }
+    %base_h3 {
+		@extend %base_heading_space;
+        @include font-size($type-h3-size, true);
+    }
+    %base_h4 {
+		@extend %base_heading_space;
+        @include font-size($type-h4-size, true);
+    }
+    %base_h5 {
+		@extend %base_heading_space;
+        @include font-size($type-h5-size, true);
+    }
+    %base_h6 {
+		@extend %base_heading_space;
+        @include font-size($type-h6-size, true);
+    }
+
+    h1 {
+        @extend %base_h1;
+    }
+    h2 {
+        @extend %base_h2;
+    }
+    h3 {
+        @extend %base_h3;
+    }
+    h4 {
+        @extend %base_h4;
+    }
+    h5 {
+        @extend %base_h5;
+    }
+    h6 {
+        @extend %base_h6;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+	@extend %secondary_font_family;
+
+    & + p {
+        @extend %base_space_t_neg;
+    }
+}
+
+//-------------------------------
+//   $LISTS
+//-------------------------------
+ul, ol, dd, menu {
+    @extend %base_type_vertical_rhythm;
+    @extend %space_l;
+}
+
+li > ul,
+li > ol {
+    @extend %base_space_v_n;
+}
+
+//-------------------------------
+//    $PARAGRAPHS
+//-------------------------------
+p {
+	@extend %base_type_vertical_rhythm;
+
+    @if $indented-paragraphs == true {
+
+        & + & {
+            @include type-space(text-indent, 1);
+            @extend %base_space_t_neg;
+        }
+
+    }
+}
+
+//
+// Not strictly a paragraph, but probably doesn’t need its own section.
+//
+address {
+    @extend %base_type_vertical_rhythm;
+}
+
+
+pre {
+    @extend %base_type_vertical_rhythm;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+
+// 1. Fix an odd quirk whereby, without this, code blocks are rendered at a
+//    font-size smaller than 1em.
+
+code,
+kbd,
+pre,
+samp {
+    font-family: $monospace-font-stack;
+    _font-family: 'courier new', monospace;
+    font-size: 1em; // [1]
+}
+
+/*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
+
+
+/*-------------------------------
+    $QUOTES
+-------------------------------*/
+//
+// 1. Hang the opening quote of the blockquote.
+//
+blockquote {
+    text-indent: -.5ex; // [1]
+}
+
+blockquote {
+    @extend %base_type_vertical_rhythm;
+    quotes: '“' '”';
+    @extend %space_l;
+
+    p {
+        &:before {
+            content: "“";
+            content: open-quote;
+        }
+
+        &:after {
+            content: "";
+            content: no-close-quote;
+        }
+
+        &:last-of-type:after {
+            content: "”";
+            content: close-quote;
+        }
+
+    }
+
+}
+
+q   {
+    *quotes: none;
+    quotes: "‘" "’" "“" "”";
+    overflow: visible;
+
+    &:before {
+        content: "‘";
+        content: open-quote;
+    }
+
+    &:after {
+        content: "’";
+        content: close-quote;
+    }
+
+    q:before {
+        content: "“";
+        content: open-quote;
+    }
+
+    q:after{
+        content: "”";
+        content: close-quote;
+    }
+
+    //
+    // If an element opens with an inline quote, let’s hang that.
+    //
+    &:first-child {
+        display: inline-block;
+        text-indent: -0.22em;
+    }
+
+}

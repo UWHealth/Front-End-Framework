@@ -1,0 +1,79 @@
+//------------------------------------
+//      $TYPE
+//------------------------------------
+
+/* SG
+#Tools/Type Utilities [[dev]]
+
+globals/tools/_t-type.scss
+
+##### `@type-utilities()`
+###### mixin(`$namespace:''`, `$silent: true`, `$important: false)`
+A set of typography-based utility classes that can be generated within media-queries via the `$namespace` argument. Can output silent or real css classes. Can also make declarations `!important`.
+
+##### `@type-utilities-init()`
+###### mixin(`$breakpoints`:`$$all-breakpoints`, `$namespace:''`, `$silent: true`, `$important: false`)
+The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive typography-based utility classes.
+
+*/
+
+
+@mixin type-utilities(
+	$namespace:"",
+	$silent: true,
+	$important: false
+){
+	$classtype: if($silent, unquote('%'), unquote("."));
+
+	$important_str: if($important, ' !important', '');
+
+	#{$classtype}#{$namespace}txt_normal {
+		font-weight: 400 #{$important_str};
+	}
+	#{$classtype}#{$namespace}txt_italic{
+		font-style: italic #{$important_str};
+	}
+	#{$classtype}#{$namespace}txt_bold {
+		font-weight: 700 #{$important_str};
+		-webkit-font-smoothing: antialiased;
+	}
+	#{$classtype}#{$namespace}txt_upper {
+		text-transform: uppercase #{$important_str};
+		letter-spacing: 0.1em #{$important_str};
+	}
+	#{$classtype}#{$namespace}txt_capital {
+		text-transform: capitalize #{$important_str};
+	}
+	#{$classtype}#{$namespace}txt_lower {
+		text-transform: none #{$important_str};
+		letter-spacing: 0 #{$important_str};
+	}
+	#{$classtype}#{$namespace}txt_small {
+		@include type-font-size(modular-scale(-1));
+	}
+	#{$classtype}#{$namespace}txt_space_reset {
+		letter-spacing: normal #{$important_str};
+		word-spacing: normal #{$important_str};
+	}
+}
+
+@mixin type-utilities-init(
+	$breakpoints: $all-breakpoints,
+	$namespace: '',
+	$silent: true,
+	$important: false
+){
+	@include type-utilities($namespace, $silent, $important);
+
+	@if $responsive {
+	    @each $name in $breakpoints {
+
+	        @include media-query($name) {
+
+				$name: $namespace+$name;
+	        	@include type-utilities('#{$name}_', $silent, $important);
+
+			}
+	    }
+	}
+}

@@ -1,0 +1,85 @@
+//------------------------------------
+//      $ALIGNMENT
+//------------------------------------
+
+/* SG
+#Tools/Alignment Utilities [[dev]]
+
+globals/tools/_t-alignment.scss
+
+##### `@alignment-utilities()`
+###### mixin(`$namespace:''`, `$silent:true`, `$important:false`)
+Generates namespaced alignment classes.
+
+
+##### `@alignment-utilities-init()`
+###### mixin(`$breakpoints:` `$$all-breakpoints`, `$namespace:''`, `$silent:true`, `$important:false`)
+The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive alignment classes.
+
+*/
+
+@mixin alignment-utilities(
+	$namespace: "",
+	$silent: true,
+	$important: false
+)
+{
+	$classtype: if($silent, unquote('%'), unquote("."));
+	$important_str: if($important, unquote('!important'), '');
+
+	#{$classtype}#{$namespace}align_left
+	{
+		float: left #{$important_str};
+		@include type-space(margin-right, 1);
+	}
+	#{$classtype}#{$namespace}align_right
+	{
+		float: right #{$important_str};
+		@include type-space(margin-left, 1);
+	}
+	#{$classtype}#{$namespace}align_center
+	{
+		float: none #{$important_str};
+		margin: 0 auto #{$important_str};
+		display: block #{$important_str};
+	}
+	#{$classtype}#{$namespace}align_none
+	{
+		float: none #{$important_str};
+		margin: 0 #{$important_str};
+	}
+	#{$classtype}#{$namespace}float_left
+	{
+		float: left #{$important_str};
+	}
+	#{$classtype}#{$namespace}float_right
+	{
+		float: right #{$important_str};
+	}
+	#{$classtype}#{$namespace}float_none
+	{
+		float: none #{$important_str};
+	}
+}
+
+@mixin alignment-utilities-init(
+	$breakpoints: $all-breakpoints,
+	$namespace: '',
+	$silent: true,
+	$important: false
+){
+
+	@include alignment-utilities($namespace, $silent, $important);
+
+	@if $responsive {
+	    @each $name in $breakpoints {
+
+	        @include media-query($name) {
+
+				$name: $namespace+$name;
+	        	@include alignment-utilities('#{$name}_', $silent, $important);
+
+			}
+	    }
+	}
+}

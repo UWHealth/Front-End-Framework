@@ -17,18 +17,60 @@
          <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
          <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.1.0.min.js"><\/script>')</script>
          <!--<![endif]-->
-         <script type="text/javascript">
-            $(function() {
-                $("body").tabbed({
-                    "speed": 200
-                });
-            });
-        </script>
 <!--======================
         End jQuery
 ==========================-->
-        <script src="js/plugins.min.js"></script>
-        <script src="js/main.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <script type="text/javascript">
+           $(function() {
+               var test_height = function(element){
+                   var el_height = element.scrollHeight || element[0].scrollHeight;
+                   return el_height;
+               };
+               var test_height_parent = function(element){
+                   var el_height = element.parentNode.scrollHeight;
+                   return el_height;
+               };
+
+               $("#tabs_test1").tabbed({
+                   tabs: {
+                       begin: function(elements) {
+                           var $target = $(elements[1]);
+                           $target.siblings('.tab_active').velocity('slideUp');
+                           $target.velocity('slideDown');
+                       },
+                       animation: {
+                            minHeight: function(elements){
+                                return test_height(this);
+                            },
+                            duration: 600,
+                            complete: function(elements) {
+                                $(this).css({"overflow": "visible", "height": "auto", "min-height": "initial"});
+                            }
+                       },
+                       toggle: true
+                   }
+                },
+                function(){console.log('First tab-set callback');}
+                );
+               $("#tabs_test2").tabbed({
+                   wrapper: {
+                       element: "section",
+                       class_name: "tabbed",
+                       extra_classes: "tab_side tab_line"
+                   },
+                   tabs: {
+                       animation: {
+                           opacity: [1, 0],
+                           duration: 400
+                       },
+                       active_class: 'active'
+                   }
+               }, function(){console.log('Second tab-set callback');});
+           });
+       </script>
 
         <script>
             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];

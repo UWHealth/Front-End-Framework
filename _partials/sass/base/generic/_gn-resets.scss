@@ -1,0 +1,75 @@
+
+// Set the global `box-sizing` state to `border-box`.
+//
+// css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+// paulirish.com/2012/box-sizing-border-box-ftw
+
+//Space Resets
+%space_reset,
+%base_space_reset,
+%generic_space_reset {
+	margin: 0;
+	padding: 0;
+}
+
+//Border reset
+
+%border_reset {
+    border: 0;
+    border-radius: 0;
+}
+
+* {
+    &,
+    &:before,
+    &:after {
+        -webkit-box-sizing: inherit;
+           -moz-box-sizing: inherit;
+                box-sizing: inherit;
+        }
+}
+
+// /**
+//  * 1. Set default font family.
+//  * 2. Prevent iOS text size adjust after orientation change, without disabling
+//  *    user zoom.
+//  */
+
+html {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+    font-size: percentage($base-font-size/16px); //1
+	@extend %generic_primary_font_family; //1
+	-ms-text-size-adjust: 100%; // 2
+	-webkit-text-size-adjust: 100%; // 2
+	background-color: color(bg);
+}
+// /**
+//  * Remove default margin.
+//  */
+
+body {
+	@include type-font-size($base-font-size, true, p);
+	@extend %space_reset;
+}
+
+//Useful for sticky footers
+html, body {
+    min-height: 100%;
+}
+
+abbr[title],
+dfn[title] {
+    cursor: help;
+}
+
+u,
+ins {
+	text-decoration: none;
+}
+
+ins {
+    border-bottom: 1px solid;
+}

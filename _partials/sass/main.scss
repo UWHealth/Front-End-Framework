@@ -1,16 +1,65 @@
 @charset "UTF-8";
 
-//Imports (must be called after variables are defined).
-@import 'utilities/_functions',
-        'base/_config',
-        'utilities/_variables',
-        'colors/_colors',
-        'type/_fonts',
-		'utilities/_helpers',
-		'layout/_import',
-        'type/_typography',
-        'vendor/_normalize',
-        'components/_import',
-        'base/_app';
+//----------------------------
+// NON-CSS-producing files
+// (functionality and setup used by project)
+//-----------------------------
+
+/* SG
+#Main [[dev]]
+/main.scss
+
+Imports all Sass files in order from lowest specificity to highest.
+1.  (globals) global functions
+2.  (globals) Settings
+3.  (globals) default variables
+4.  (tools) general-use mixins and sass utilities
+5.  (generic) normalize/reset styles
+6.  (base) element styles
+7.  (layout) basic layout and object styles
+8.  (components) module and component styles
+9.  (Sections) view- and page-specific and scoped styles.
+10. (Overrides) utility styles, usually end in `!important`
+
+*/
+
+//Global functions and variables
+@import 'globals/gl-import';
+
+//Settings/Default variables
+@import 'globals/config';
+@import 'globals/gl-defaults';
+
+//Utility placeholder classes and mixins
+@import 'globals/tools/t-import';
 
 
+//----------------------------
+// CSS-producing files
+// (after import, CSS will be written out)
+//-----------------------------
+
+//Ground-zero styles
+//(normalize and resets, * selectors)
+// !!Do not use extends here!!
+@import 'base/generic/gn-import';
+
+//Elements and un-classed selectors
+// (lowest specificity)
+@import 'base/b-import';
+
+//Grids, alignment and higher-level classes
+// (+1 specificity)
+@import 'components/layout/l-import';
+
+//OOCSS styles and base-level classes
+// (+1 specificity)
+@import 'components/c-import';
+
+//Section-specific and theme-/skin-based styles
+//(+2-4 specificity)
+@import 'sections/s-import';
+
+//High-specificity css and overrides classes (usually have !important).
+// Typically single-use classes
+@import 'overrides/ov-import';

@@ -1,0 +1,235 @@
+//------------------------------------
+//      $FONT FACE TOOL
+//------------------------------------
+
+/* SG
+#Tools/Font Face Generator [[dev]]
+
+globals/tools/_t-fontface.scss
+
+##### `@fonts()`
+###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`))
+A wrapper function for `@font-face()`. Takes global configuration variables and passes them to `@font-face()`. Loops through each `$name` based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files. Formats these variables so they can be passed to `@font-face()`.
+
+Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: 'arial'; font-weight: 400.
+
+##### `@font-face()`
+###### mixin(`$name`, `$font-files`, `$weight:false`,` $style:false`, `$eot:false`)
+Generates cross-browser font-face declarations when called.
+$name is required, arbitrary, and what you will use in font stacks.
+**Arguments:**
+* $font-files is required using font-files('relative/location', 'format'). For best results use this order: woff, opentype/truetype, svg
+* $eot is required by IE, and is a relative location of the eot file.
+* $weight shows if the font is bold, defaults to normal
+* $style defaults to normal, might be also italic
+
+Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/css3/font_face/].
+
+
+*/
+
+//------------------------------------
+//    FONTS
+//------------------------------------
+
+ // CONTENTS
+ // INTRODUCTION.........Explanation.
+ // VARIABLES............List of variables and how they're used.
+ // MIXIN................Font-face generation mixin.
+ // EXAMPLE..............Example of what gets generated.
+
+
+//------------------------------------
+//    $VARIABLES
+//------------------------------------
+//The following are stored in utilities/_variables.scss
+
+//$use-web-fonts: 			true     !default;
+//	Set to true or false. This will initialize the font-face import process.
+
+//$font-file-location: 	    'fonts'  !default;'
+//	Folder location, relative to the processed css file.
+
+//$font-file-name: 		    'Asap' 	 !default;
+//	Beginning of the font-file name. This will also be used as the fontname.
+//  May be a list of names if you plan to include more than one font.
+//  Font files should be named in the format: [Font name]-[weight]-[style].ttf
+//	e.g. Asap-400-italic.tff
+
+//$font-italics: 			true  	 !default;
+//	Does your font-family include italics?
+// 	May be a list for secondary fonts and weights. e.g. true, (false, true)
+
+//$font-weights: 			400,700  !default;
+//  List of font-weights.
+//  May be a multi-tiered list. e.g. (400,700),(400)
+
+//$font-include-eot: 		true 	 !default;
+//	Include IE8 font fix? (requires a .eot font-file)
+
+
+//------------------------------------
+//    $MIXIN
+//------------------------------------
+//	Uses our own take on Compass' font-face generator.
+//	More robust and automated than Compass, though.
+
+// 1. Get current weights of the font.
+// 1B. And then loop through those weights if there are different weights in each
+//  font-family.
+// 2. Create svg id based on font's supplied name.
+// 3. Create paths to various font files.
+//	  Always assumed woff, ttf, and svg files are supplied.
+// 4. If IE8 support is needed, create eot path.
+// 5. Call Compass-based font-generator.
+// 6. If italics are included, do all of the above, but append "italic" to the end
+//	  of every file name and style.
+// 7. Call Mixin for all fonts by looping through font-file-names.
+
+//-------
+// Cross-browser support for @font-face. Supports IE, Gecko, Webkit, Opera.
+// http://compass-style.org/reference/compass/css3/font_face/
+//-------
+// $name is required, arbitrary, and what you will use in font stacks.
+// $font-files is required using font-files('relative/location', 'format').
+//  for best results use this order: woff, opentype/truetype, svg
+// $eot is required by IE, and is a relative location of the eot file.
+// $weight shows if the font is bold, defaults to normal
+// $style defaults to normal, might be also italic
+// To support iOS < 4.2, an SVG file must be provided
+// If you need to generate other formats check out the Font Squirrel font generator
+
+@mixin font-face($name, $font-files, $weight: false, $style: false, $eot: false) {
+	$iefont: unquote("'#{$eot}?#iefix'");
+	@font-face {
+		font-family: quote($name);
+		@if $eot {
+			src: url($eot);
+			$font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
+		}
+		src: #{$font-files};
+		@if $weight {
+			font-weight: $weight;
+		}
+		@if $style {
+			font-style: $style;
+		}
+	}
+}
+
+
+@mixin fonts($name: $font-file-name,
+					$path: $font-file-location,
+					$weights: $font-weights,
+					$italics: $font-italics)
+	{
+		$weight-group: $weights;
+
+		@if length($font-file-name) > 1{
+			$weight-group: nth($weights, $loop);		//[1]
+		}
+
+		@each $weight in $weight-group{			//[1B]
+
+			$font-eot: false;
+			$font-woff2: null;
+			$svg-id: ('##{$name}#{$weight}');		//[2]
+			$font-name: #{$path}/#{$name}-#{$weight};		//[3]
+
+			$font-files: (
+				'url("#{$font-name}.woff") format("woff")',
+				'url("#{$font-name}.ttf") format("truetype")',
+				'url("#{$font-name}.svg#{$svg-id}") format("svg")'
+			);
+
+			@if length($font-include-woff2) > 1{
+				@if nth($font-include-woff2, $loop) == true {
+					$font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
+				}
+			}@else if $font-include-woff2 == true{
+				$font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
+			}
+
+			@if length($font-include-eot) > 1{
+				@if nth($font-include-eot, $loop) {
+					$font-eot: '#{$font-name}.eot';	//[4]
+				}
+			}@else if $font-include-eot == true{
+				$font-eot: '#{$font-name}.eot';		//[4]
+			}
+
+			@include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
+
+			$italic: nth($italics, $loop);
+			@if length($italic) > 1{
+				$italic: nth($italic, index($weight-group, $weight));
+			}
+			@if $italic == true{		//[6]
+				$svg-id: ('##{$name}#{$weight}italic');
+
+				$font-files: (
+					unquote("url('#{$font-name}-italic.woff') format('woff')"),
+					unquote("url('#{$font-name}-italic.ttf') format('truetype')"),
+					unquote("url('#{$font-name}-italic.svg#{$svg-id}') format('svg')")
+				);
+
+				@if length($font-include-woff2) > 1{
+					@if nth($font-include-woff2, $loop) == true {
+						$font-files: join(unquote('url("#{$font-name}-italic.woff2") format("woff2")'), $font-files);
+					}
+				}@else if $font-include-woff2 == true {
+					$font-files: join('url("#{$font-name}-italic.woff2") format("woff2")', $font-files);
+				}
+
+				@if length($font-include-eot) > 1{
+					@if nth($font-include-eot, $loop) {
+						$font-eot: '#{$font-name}-italic.eot';	//[4]
+					}
+				}@else if $font-include-eot == true{
+					$font-eot: '#{$font-name}-italic.eot';		//[4]
+				}
+
+				@include font-face($name, $font-files, $weight, italic, $font-eot);
+			}
+		}
+}
+
+$loop: 0;
+@if $use-web-fonts == true{
+	@each $font in $font-file-name{ //[7]
+		$loop: $loop + 1 !global;
+		@include fonts($font);
+	}
+}
+
+
+//------------------------------------
+//    $EXAMPLE
+//------------------------------------
+//	This may be useful if you would rather generate your own font-face,
+//	or if you'd like to include some specialty fonts that aren't easy to
+//	feed into the mixin.
+
+//@font-face {
+//    font-family: 'Asap';
+//    src: url('fonts/Asap-Regular-webfont.eot');
+//    src: url('fonts/Asap-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+//         url('fonts/Asap-Regular-webfont.woff') format('woff'),
+//         url('fonts/Asap-Regular-webfont.ttf') format('truetype'),
+//         url('fonts/Asap-Regular-webfont.svg#AsapRegular') format('svg');
+//    font-weight: 400;
+//    font-style: normal;
+//
+//}
+//
+//@font-face {
+//    font-family: 'Asap';
+//    src: url('fonts/Asap-Italic-webfont.eot');
+//    src: url('fonts/Asap-Italic-webfont.eot?#iefix') format('embedded-opentype'),
+//         url('fonts/Asap-Italic-webfont.woff') format('woff'),
+//         url('fonts/Asap-Italic-webfont.ttf') format('truetype'),
+//         url('fonts/Asap-Italic-webfont.svg#AsapItalic') format('svg');
+//    font-weight: 400;
+//    font-style: italic;
+//
+//}

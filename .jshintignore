@@ -1,0 +1,3 @@
+_partials/js/_colors.js
+_partials/js/vendor/*.js
+**/*jquery*

@@ -1,0 +1,5 @@
+nav {
+    ul, ol {
+        @extend %list_naked;
+    }
+}
