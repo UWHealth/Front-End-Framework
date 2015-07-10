@@ -1,12 +1,10 @@
 var gulp		 = require('gulp');
 var sass		 = require('gulp-sass');
 var browserSync  = require('browser-sync');
-var minifycss	 = require('gulp-minify-css');
 var concat		 = require('gulp-concat');
 var plumber		 = require('gulp-plumber');
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps   = require('gulp-sourcemaps');
-var minifycss    = require('gulp-minify-css');
 var notify       = require('gulp-notify');
 var uglify 		 = require('gulp-uglify');
 var rename 		 = require('gulp-rename');
@@ -18,6 +16,7 @@ var yarg		 = require('yargs').argv;
 var size 		 = require('gulp-size');
 var _if 		 = require('gulp-if');
 var jshint  	 = require('gulp-jshint');
+var replace 	 = require('gulp-replace');
 var reload		 = browserSync.reload;
 var chalk		 = utility.colors;
 
@@ -28,7 +27,7 @@ var paths = {
 	scss: ['./_partials/sass/*.scss', './_partials/sass/**/*.scss'],
 	css: './css',
 	js: ['./_partials/js/*.js', './_partials/js/vendor/*.js'],
-	kits: ['./_partials/kits/*.kit', '!./_partials/kits/_*.kit'],
+	kits: ['./_partials/kits/*.kit', '!./_partials/**/_*.kit'],
 	styleGuide: ['./styleguide/template.html', './styleguide/theme.css', './_partials/**/*.scss', './styleguide/*.scss']
 };
 
@@ -175,6 +174,10 @@ gulp.task('sass', function() {
 		.pipe(autoprefixer({
 			browsers: autoprefixer_browsers
 		}))
+		//Remove Styleguide Comments
+		.pipe(replace(/(\/\* ?SG[\s\S]+?\*\/)/gmi, ""))
+		//Remove those new lines
+		.pipe(replace(/(\n{1,}(?=\n{2}))/gi, ""))
 		.pipe(size({title: 'CSS', gzip: true, showFiles: true}))
 		.pipe(_if(source_maps, sourcemaps.write('./maps')))
 		.pipe(gulp.dest(paths.css))
@@ -185,6 +188,7 @@ gulp.task('sass', function() {
 // Same as above, but with uglification
 
 gulp.task('js', function(){
+	// var filter = gFilter(['!**/_*.js']);
 
 	return gulp.src(js_partials)
 		.pipe(plumber({errorHandler: _error}))
@@ -204,11 +208,22 @@ gulp.task('js', function(){
 
 //Compile .kit files into html
 gulp.task('kits', function(){
-	gulp.src(paths.kits)
+	// var filter = gFilter(['**/_*.kit']);
+
+	return gulp.src(paths.kits)
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(kit())
 		.pipe(gulp.dest('./'));
 });
+
+
+gulp.task('switch-vars', function(){
+	sass_output = 'compressed';
+	minify = true;
+	lint = true;
+});
+
+gulp.task('prod', ['switch-vars', sass_task, js_task, 'kits'], function(){});
 
 //Compile style guide
 // use --no-sg argument to disable this

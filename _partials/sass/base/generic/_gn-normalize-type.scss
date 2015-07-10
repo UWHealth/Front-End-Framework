@@ -1,5 +1,5 @@
-// /* Links
-//    ========================================================================== */
+// Links
+//
 
 // /**
 //  * Remove the gray background color from active links in IE 10.
@@ -72,9 +72,9 @@ em {
 // 	margin: 0.67em 0;
 // }
 
-/**
- * Address styling not present in IE 8/9.
- */
+//
+// Address styling not present in IE 8/9.
+//
 
 mark {
 	background: color(links, lightest);
@@ -86,7 +86,7 @@ mark {
 //  */
 
 small {
-	display: inline-block;
+	display: inline-block; //forces the use of its own line-height instead of parents
 	@include type-font-size(modular-scale(-1), true);
 }
 

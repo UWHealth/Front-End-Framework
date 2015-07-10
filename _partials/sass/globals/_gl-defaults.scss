@@ -292,8 +292,8 @@ $breakpoint-has-pull:   ('small', 'lap', 'port', 'desk')!default;
 
 //Abstracting the largest and smallest breakpoints.
 
-$smalls: nth($all-breakpoints, 1);
-$bigs: nth($all-breakpoints, length($all-breakpoints));
+$smalls: nth($all-breakpoints, 1) !default;
+$bigs: nth($all-breakpoints, length($all-breakpoints)) !default;
 
 //------------------------------------
 //		$SPACING AND ALIGNMENT
@@ -306,7 +306,7 @@ $include-alignment-classes: 	false !default;
 $include-spacing-classes: 		false !default;
 
 //At which breakpoints should spacing and alignment classes be included?
-$breakpoint-has-utilities:    ('smalls', 'small', 'bigs', 'desk');
+$breakpoint-has-utilities:    ('smalls', 'small', 'bigs', 'desk') !default;
 
 //------------------------------------
 //		$COLORS

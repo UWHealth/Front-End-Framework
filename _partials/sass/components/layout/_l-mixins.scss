@@ -208,7 +208,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     @include type-space(margin-left, -1);
 
 	@if $use-markup-fix != true and $use-floats != true{
-        letter-spacing:-0.31em;
+        letter-spacing:-0.35em;
     }
 
 	@if $use-floats == true {
@@ -217,7 +217,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 }
 
 @if $use-markup-fix != true and $use-floats != true {
-    /* Opera hack */
+    // Opera hack
     .opera:-o-prefocus,
     #{$class-type}grid{
         word-spacing:-0.43em;
