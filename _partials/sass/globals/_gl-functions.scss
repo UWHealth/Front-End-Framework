@@ -146,7 +146,8 @@ $iter: 	50;
     @if $x <= 0 {
         @return 0 / 0;
     }
-    $k: nth(frexp($x / $SQRT2), 2);
+	$k-frexp: frexp(($x / $SQRT2));
+    $k: nth($k-frexp, 2);
     $x: $x / ldexp(1, $k);
     $x: ($x - 1) / ($x + 1);
     $x2: $x * $x;
@@ -181,7 +182,9 @@ $iter: 	50;
         }
         @return if($s != 0, 1 / $r, $r);
     } @else {
-        @return exp(log($base) * $exp);
+		$log: log($base);
+		$exp: cache(exp, ($log * $exp));
+        @return $exp;
     }
 }
 
@@ -965,17 +968,7 @@ function for finding the value of an indexed type-size. H1-H6, p, and small are 
 Registers new values to type map. [Property] accepts px, rem, and line-height.
 
 */
-//@function check-base-line($magic-number, $i:1) {
-//	$ratio: $magic-number / $base-font-size;
-//
-//	@while $ratio < 1.1 {
-//		$magic-number: ceil($base-font-size / ($base-line-height * $i)) * ($base-line-height * $i);
-//		$ratio: ($magic-number / $base-font-size);
-//		$i: $i + 1;
-//    }
-//
-//	@return $magic-number;
-//}
+
 
 //Baseline function. Converts to floated integer.
 @function baseline($font-size, $baseline, $i:1) {
@@ -994,8 +987,11 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 //returns a decimal that cooresponds to the same percentage on the curve
 @function baseline-curve($x, $accel:1) {
 	$const: $SQRT2 - 1; // value used by logarithm
-	$x2: pow($x, $accel);
-	$curve: (sqrt($x2 + $x) - sqrt($x2)) / $const;
+	$x2: cache(pow, $x, $accel);
+	$x3: $x2 + $x;
+	$sqrt1: sqrt($x3);
+	$sqrt2: sqrt($x2);
+	$curve: ($sqrt1 - $sqrt2) / $const;
 	@return min(1, $curve);
 }
 
@@ -1014,8 +1010,8 @@ $font-warn: false;
 
 	$smallFontUpperBound: 3;
 	$smallFontLowerBound: 1.8;
-	$largeFontUpperBound: 1.05;
-	$largeFontLowerBound: 0.95;
+	$largeFontUpperBound: 1.055;
+	$largeFontLowerBound: 0.93;
 
 	$fontSizeSmall: 9;
 	$fontSizeLarge: max(10, 240 * ($baseline-slack / 100%));
@@ -1028,9 +1024,6 @@ $font-warn: false;
 	$truePercent: ($font-size - $fontSizeSmall) / ($fontSizeLarge - $fontSizeSmall) / 1px;
 
 	@if $font-size <= $fontSizeSmall {
-		$percentAlong: 0;
-		$percentAlongUpper: 0;
-		$percentAlongLower: 0;
 		$lower-bound: $type-magic-ratio - .01;
 		$upper-bound: $smallFontUpperBound;
 	}
@@ -1042,9 +1035,9 @@ $font-warn: false;
 		$upper-bound: $largeFontUpperBound;
 	}
 	@else {
-		$percentAlong: 		baseline-curve($truePercent, 1);
-		$percentAlongUpper: baseline-curve($truePercent, 1.4);
-		$percentAlongLower: baseline-curve($truePercent, 1.9);
+		$percentAlong: 		cache(baseline-curve, $truePercent, 1);
+		$percentAlongUpper: cache(baseline-curve, $truePercent, 1.4);
+		$percentAlongLower: cache(baseline-curve, $truePercent, 1.9);
 
 	}
 
@@ -1089,7 +1082,7 @@ $font-warn: false;
 				$font-warn: true !global;
 			}
 
-			//Do default line-height
+			//default to normal calc line-height
 			$line-height: baseline($font-size, $baseline);
 			$quit: true;
 		}
@@ -1130,7 +1123,8 @@ $font-warn: false;
 	}
 
 	$font-size:  strip-units($base-font-size);
-	@return pow($modular-scale, $scale)*($font-size) * 1px;
+	$pow: cache(pow, $modular-scale, $scale);
+	@return $pow * ($font-size) * 1px;
 }
 
 //Get the property of a particular font. e.g.:
@@ -1163,4 +1157,22 @@ $font-warn: false;
 	}
 	$map: map-merge(map-get($silent-class-registry, $key), $map);
 	@return map-deep-set($silent-class-registry, $key, $map);
+}
+
+$c-i: 0;
+$cached-values: ();
+//Caching(memoization) function
+@function cache($function-name, $args...) {
+	$cache-map: "#{$function-name}, #{$args}";
+	$cached-value: map-get($cached-values, $cache-map);
+
+	@if $cached-value != null and $cached-value != '' {
+		//$c-i: 1 + $c-i !global;
+		//@debug "(#{$c-i}):#{$cache-map}";
+		@return $cached-value;
+	} @else {
+		$result: call(#{$function-name}, $args...);
+		$cached-values: map-merge($cached-values, ($cache-map: $result)) !global;
+		@return $result;
+	}
 }

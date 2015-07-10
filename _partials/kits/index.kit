@@ -2,27 +2,24 @@
 <!--@import '_meta.kit'-->
 <div class="wrap">
     <header class="row" role="banner">
-        <div class="column media_block">
-            <a href="/" class="link_naked in_bl">
-                <img src="images/logo.png" alt="" class="img align_left">
-                <h1>
+        <div class="column isolate">
+            <a href="/" class="link_naked il_bl">
+                <img src="images/logo.png" alt="" class="isolate_media">
+                <h1 class="isolate_body">
                     e-Health Frontend Framework
                 </h1>
             </a>
 		</div>
 		<div  class="column">
-            <div class="isolate space_b_n">
-                <div class="isolate_media">
-                    <button class="button" data-toggle="#toggle_target">Menu</button>
+            <div class="arrange">
+                <div class="arrange_fit">
+                    <button class="button" data-toggle="#toggle_target" data-toggle-type="[whatever, whatever]">Menu</button>
                 </div>
-                <div class="isolate_body">
-        			<nav id="toggle_target" class="box box_open pad_v_half" role="navigation" >
+                <div class="arrange_fill pad_l_half">
+        			<nav id="toggle_target" class="box box_open pad_v_half space_b_0" role="navigation" >
         				<ul class="list_inline list_nav h6">
+                            <li><a href="styleguide/#_setup-1._introduction">Setup</a></li>
         					<li><a href="styleguide">Style Guide</a></li>
-        					<li><a href="lists.html">Lists</a></li>
-        					<li><a href="components.html">Components</a></li>
-        					<li><a href="functions.html">Functions</a></li>
-        					<li><a href="misc.html">Misc.</a></li>
         					<li class="align_right">
         						<a href="https://github.com/UWHealth/Front-End-Framework" target="_blank">
         							<img src="images/github.png" alt="" class="icon">Github
@@ -68,7 +65,6 @@
 
                             <a href="#tab7" class="tab_button">Single</a>
                             <div id="tab7" class="tab_content">
-
                                 <a href="#tab12" class="tab_button">Non-tab</a>
                             	<div id="tab12" class="tab_content"><p>
                                 This is tab_content with a single tab. It receives the tab wrapper, but no tab buttons</p>
@@ -99,7 +95,7 @@
 
                         </div>
                     </div>
-                    <aside class="add_on column" role="complementary">
+                    <aside class="add_on column smalls_space_t" role="complementary">
                         <p><small><mark><strong>Grid Test - Add-on</strong></mark> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</small></p>
                     </aside>
                 </div>
@@ -137,7 +133,7 @@
             <div id="tab2" class="tab_content"><p>
                 Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
 
-                <div class="tabbed tabbing" data-tabbed="true">
+                <div class="tabs tabbed tabbing" data-tabbed="true">
                     <nav class="tabs">
                         <a href="#tab3" class="tab">Tab 3</a>
                         <a href="#tab4" class="tab">Combo tab style</a>
@@ -155,8 +151,8 @@
 
             </div>
             <hr class="space_t_2">
-            <h6 class="h4 space_n_v"><mark>Table Test</mark></h6>
-            <table class="table_fixed table_striped">
+            <h6 class="h4"><mark>Table Test</mark></h6>
+            <table class="table_fixed table_striped table_responsive">
               <thead>
                   <tr>
                     <th>Movie Title</th>

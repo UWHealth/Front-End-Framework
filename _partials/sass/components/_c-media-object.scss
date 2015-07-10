@@ -56,6 +56,14 @@ Useful for creating an association between an image and text. Often used with an
 #Layout/Arrangement object
 
 Creates an image-content block that vertically aligns images and text (centered, bottom, or top).
+Children can be named four things:
+* `arrange_fit` or `arrange_media` will create a block that fits the width of its content (useful for images).
+* `arrange_fill` will fill the remaining space.
+* `arrange_body` are similar but have some default styling.
+
+You may also combine this with grid items like `row` and `column` if you wish to add gutters between elements.
+
+_NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is "squishy", but not technically responsive._
 
 ```html
 <div class="arrange">
@@ -63,20 +71,33 @@ Creates an image-content block that vertically aligns images and text (centered,
 		<img src="http://placehold.it/60x50" alt="placeholder image">
 	</div>
 	<div class="arrange_body">
-		Content that is vertically aligned.
+		Content that is vertically (middle) aligned with the image.
 	</div>
 </div>
 
 <!-- Bottom Arrangement -->
-
 <div class="arrange arrange_bottom">
 	<div class="arrange_media">
 		<img src="http://placehold.it/60x50" alt="placeholder image">
 	</div>
 	<div class="arrange_body">
-		Content that is bottom aligned.
+		Content that is bottom aligned to the image.
 	</div>
 </div>
+
+<!-- Equal width arrangement-->
+<div class="arrange arrange_equal">
+	<div class="arrange_fill">
+		Equal width columns.
+	</div>
+	<div class="arrange_fill">
+		<img class="show" src="http://placehold.it/120x80" alt="placeholder image" style="margin: auto;">
+	</div>
+	<div class="arrange_fill">
+		Can be as many columns as you want.
+	</div>
+</div>
+
 ```
 */
 
@@ -85,10 +106,23 @@ Creates an image-content block that vertically aligns images and text (centered,
 	@extend %table;
 	@extend %one_whole;
 	@extend %space_b;
+	min-width: 100%;
+	table-layout: auto;
 
-	&_media {
+	&_fill,
+	&_fit,
+	&_media,
+	&_body {
 		@extend %table_cell;
+	}
 
+	&_fill,
+	&_body {
+		@extend %one_whole;
+	}
+
+	&_media,
+	&_fit {
 		img {
 			@extend %block;
 			max-width: none;
@@ -97,11 +131,12 @@ Creates an image-content block that vertically aligns images and text (centered,
 
 	&_body {
 		@extend %pad_l_half;
-		@extend %one_whole;
-		@extend %table_cell;
 	}
 
-	&_media, &_body {
+	&_media,
+	&_body,
+	&_fill,
+	&_fit {
 		vertical-align: middle;
 
 		.arrange_top > & {
@@ -112,5 +147,15 @@ Creates an image-content block that vertically aligns images and text (centered,
 			vertical-align: bottom;
 		}
 
+	}
+}
+
+//Forces equal-width columns
+.arrange_equal {
+	table-layout: fixed;
+
+	& > .arrange_fill,
+	& > .arrange_fit {
+		width: 1%;
 	}
 }

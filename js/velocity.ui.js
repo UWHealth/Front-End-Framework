@@ -755,3 +755,5 @@ return function (global, window, document, undefined) {
     };
 }((window.jQuery || window.Zepto || window), window, document);
 }));
+
+//# sourceMappingURL=maps/velocity.ui.js.map

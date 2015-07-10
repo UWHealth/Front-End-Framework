@@ -143,11 +143,17 @@
     
     /* menu */
     #styleguide-menu {
-        width: calc(20% - 2em - 2px);
+        width: calc(25% - 3em - 2px);
         float: left;
-        margin-right: 2em;
+        padding-right: .5em;
+        margin-right: 3em;
         height: 100%;
-        overflow-y: auto;
+        overflow: auto;
+    }
+    
+    #styleguide-menu .button {
+        width: 80%;
+        margin: 0 auto;
     }
     
     .menu_body {
@@ -275,7 +281,7 @@
     
     @media screen and (max-width: 910px) {
         #styleguide-menu {
-            
+    
         }
     }
     
@@ -403,9 +409,9 @@
 <body>
 <main class="wrap">
 
-    <nav id="styleguide-menu">
+    <nav id="styleguide-menu" class="pad_t_2">
         <a href="#" data-toggle=".top_menu, .menu_body" class="toggle button button_small">
-            <span>Menu</span>
+            <span>Toggle Menu</span>
         </a>
     	<ul class="top_menu">
             <li>
@@ -486,6 +492,7 @@
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-mixins">Mixins</a></li>
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-spacing_utilities">Spacing Utilities</a></li>
                                 <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-type_utilities">Type Utilities</a></li>
+                                <li><a class="submenulink sub-sub" data-section="Tools" href="#tools-z-index">Z-Index</a></li>
                         </ul>
         		</li>
         		<li>
@@ -493,6 +500,15 @@
                         <ul class="submenu" data-submenu="Variables">
                                 <li><a class="submenulink sub-sub" data-section="Variables" href="#variables-defaults">Defaults</a></li>
                                 <li><a class="submenulink sub-sub" data-section="Variables" href="#variables-easing">Easing</a></li>
+                        </ul>
+        		</li>
+        		<li>
+                        <a class="submenulink" href="#" data-section="_Setup">_Setup</a><span class="submenu_toggle" data-toggle="[data-submenu='_Setup']">&#9662;</span>
+                        <ul class="submenu" data-submenu="_Setup">
+                                <li><a class="submenulink sub-sub" data-section="_Setup" href="#_setup-1._introduction">1. Introduction</a></li>
+                                <li><a class="submenulink sub-sub" data-section="_Setup" href="#_setup-2._software">2. Software</a></li>
+                                <li><a class="submenulink sub-sub" data-section="_Setup" href="#_setup-3._getting_started">3. Getting Started</a></li>
+                                <li><a class="submenulink sub-sub" data-section="_Setup" href="#_setup-4._tips_and_tricks">4. Tips and Tricks</a></li>
                         </ul>
         		</li>
         	</ul>
@@ -544,7 +560,14 @@
                             <h2 class="h4 space_t_neg header_heading">Arrangement object</h2>
                     </header>
                     <div class="section_comment">
-                        <p>Creates an image-content block that vertically aligns images and text (centered, bottom, or top).</p>
+                        <p>Creates an image-content block that vertically aligns images and text (centered, bottom, or top).<br>Children can be named four things:</p>
+<ul>
+<li><code>arrange_fit</code> or <code>arrange_media</code> will create a block that fits the width of its content (useful for images).</li>
+<li><code>arrange_fill</code> will fill the remaining space.</li>
+<li><code>arrange_body</code> are similar but have some default styling.</li>
+</ul>
+<p>You may also combine this with grid items like <code>row</code> and <code>column</code> if you wish to add gutters between elements.</p>
+<p><em>NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is &quot;squishy&quot;, but not technically responsive.</em></p>
                     </div>
 
                     <div class="section_body">
@@ -554,18 +577,30 @@
         <img src="http://placehold.it/60x50" alt="placeholder image">
     </div>
     <div class="arrange_body">
-        Content that is vertically aligned.
+        Content that is vertically (middle) aligned with the image.
     </div>
 </div>
 
 <!-- Bottom Arrangement -->
-
 <div class="arrange arrange_bottom">
     <div class="arrange_media">
         <img src="http://placehold.it/60x50" alt="placeholder image">
     </div>
     <div class="arrange_body">
-        Content that is bottom aligned.
+        Content that is bottom aligned to the image.
+    </div>
+</div>
+
+<!-- Equal width arrangement-->
+<div class="arrange arrange_equal">
+    <div class="arrange_fill">
+        Equal width columns.
+    </div>
+    <div class="arrange_fill">
+        <img class="show" src="http://placehold.it/120x80" alt="placeholder image" style="margin: auto;">
+    </div>
+    <div class="arrange_fill">
+        Can be as many columns as you want.
     </div>
 </div>
                         </div>
@@ -576,18 +611,30 @@
         <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/60x50"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_body"</span>&gt;</span>
-        Content that is vertically aligned.
+        Content that is vertically (middle) aligned with the image.
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Bottom Arrangement --&gt;</span>
-
 <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange arrange_bottom"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_media"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/60x50"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_body"</span>&gt;</span>
-        Content that is bottom aligned.
+        Content that is bottom aligned to the image.
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Equal width arrangement--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange arrange_equal"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
+        Equal width columns.
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"show"</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/120x80"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">"margin: auto;"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
+        Can be as many columns as you want.
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span></code></pre>
                         </div>
@@ -879,7 +926,11 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$spacing-classes_class=global_global_variable_data-code-id=$spacing-classes_$spacing-classes__code_"><code id="$spacing-classes" class="global global_variable" data-code-id="$spacing-classes">$spacing-classes</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-map_string:_string">Map (string: string)</h6>
 <p>Variable used to generate spacing classes. Classes are created via <code id="spacing-utilities()" class="global global_variable" data-code-id="spacing-utilities()">@spacing-utilities()</code>. Classes are named with the following syntax: <code>prefix_direction_amount</code></p>
-<p><strong>Keys and Values</strong><br>&#x2022; directions: Direction names.<br>&#x2022; amounts: Values</p>
+<p><strong>Keys and Values</strong></p>
+<ul>
+<li>directions: Direction names.</li>
+<li>amounts: Values</li>
+</ul>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$breakpoints-has-alignment-classes_class=global_global_variable_data-code-id=$breakpoints-has-alignment-classes_$breakpoints-has-alignment-classes__code_,__code_id=$breakpoints-has-spacing-classes_class=global_global_variable_data-code-id=$breakpoints-has-spacing-classes_$breakpoints-has-spacing-classes_/code_,__code_$breakpoints-has-display-classes_/code_,__code_$breakpoint-has-type-classes_/code_"><code id="$breakpoints-has-alignment-classes" class="global global_variable" data-code-id="$breakpoints-has-alignment-classes">$breakpoints-has-alignment-classes</code>, <code id="$breakpoints-has-spacing-classes" class="global global_variable" data-code-id="$breakpoints-has-spacing-classes">$breakpoints-has-spacing-classes</code>, <code>$breakpoints-has-display-classes</code>, <code>$breakpoint-has-type-classes</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_string">List (string)</h6>
 <p>Same as <code>breakpoint-has-widths</code>, but for utility classes.</p>
@@ -1374,8 +1425,9 @@
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$property__code_,__code_$sizes_/code_,__code_$important_/code_:_false,__code_$base-font_/code_:__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_">mixin(<code>$property</code>, <code>$sizes</code>, <code>$important</code>: false, <code>$base-font</code>: <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>)</h6>
 <p>REM generator used to create a property with a rem value and PX fallback.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=font-size_class=global_global_variable_data-code-id=font-size_@font-size__code_,__code_id=type-font-size_class=global_global_variable_data-code-id=type-font-size_@type-font-size_/code_"><code id="font-size()" class="global global_variable" data-code-id="font-size()">@font-size()</code>, <code id="type-font-size()" class="global global_variable" data-code-id="type-font-size()">@type-font-size()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$font-size__code_,__code_$line-height_/code_:_true,__code_$selector_/code__:&amp;_39;&apos;,__code_$font-base_/code_:__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_">mixin(<code>$font-size</code>, <code>$line-height</code>: true, <code>$selector</code> :&apos;&apos;, <code>$font-base</code>: <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>)</h6>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$font-size__code_,__code_$line-height_/code_:_true,__code_$selector_/code_:_code_&quot;&quot;_/code_,__code_$font-base_/code_:__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_">mixin(<code>$font-size</code>, <code>$line-height</code>: true, <code>$selector</code>:<code>&quot;&quot;</code>, <code>$font-base</code>: <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>)</h6>
 <p>Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using <code id="$base-line-height" class="global global_variable" data-code-id="$base-line-height">$base-line-height</code>.</p>
+<p><em><code>$line-height</code> also accepts a pixel value and will be converted to a unitless line-height.</em></p>
                     </div>
 
 
@@ -1418,6 +1470,23 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=type-utilities-init_class=global_global_variable_data-code-id=type-utilities-init_@type-utilities-init__code_"><code id="type-utilities-init()" class="global global_variable" data-code-id="type-utilities-init()">@type-utilities-init()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$breakpoints__code_:_code_id=$all-breakpoints_class=global_global_variable_data-code-id=$all-breakpoints_$all-breakpoints_/code_,__code_$namespace:&amp;_39;&apos;_/code_,__code_$silent:_true_/code_,__code_$important:_false_/code_">mixin(<code>$breakpoints</code>:<code id="$all-breakpoints" class="global global_variable" data-code-id="$all-breakpoints">$all-breakpoints</code>, <code>$namespace:&apos;&apos;</code>, <code>$silent: true</code>, <code>$important: false</code>)</h6>
 <p>The responsive component to <code id="type-utilities()" class="global global_variable" data-code-id="type-utilities()">@type-utilities()</code>. Invoke <code id="type-utilites()" class="global global_variable" data-code-id="type-utilites()">@type-utilites()</code> with that loops through a set of media-queries defined in <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive typography-based utility classes.</p>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="tools-z-index" data-section="Tools" data-heading="Z-Index">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Tools</h1>
+                            <h2 class="h4 space_t_neg header_heading">Z-Index</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>globals/tools/_t-zindex.scss</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=z_class=global_global_function_data-code-id=z_z__code_,"><code id="z()" class="global global_function" data-code-id="z()">z()</code>,</h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$layer__code_,__code_$modifier:_false_/code_">function(<code>$layer</code>, <code>$modifier: false</code>)</h6>
+<p>Returns a numeric value (used for z-index) from a named layer, stored in <code id="$z-index" class="global global_variable" data-code-id="$z-index">$z-index</code>. Changing the modifier to anything other than <code>false</code> will add 1 plus however many times the value has been called. So, if you&apos;ve called <code>z(head, true)</code> 5 times, and <code>head</code>&apos;s default value is 100, you would get a value of 105.</p>
+<p>The <code>$modifier</code> is useful if you&apos;d like to closely layer z-indexes within the same module. It is rarely necessary, though since z-indexes stack.</p>
                     </div>
 
 
@@ -1472,6 +1541,88 @@
                         <p>globals/tools/_t-easings.scss</p>
 <p>Each easing variable is a cubic-bezier value that specifies rate of change of an animation. See <a href="http://www.easings.net">easings</a></p>
 <p><a href="https://github.com/matthewlein/Ceaser/blob/master/developer/">Reference</a></p>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="_setup-1._introduction" data-section="_Setup" data-heading="1. Introduction">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">_Setup</h1>
+                            <h2 class="h4 space_t_neg header_heading">1. Introduction</h2>
+                    </header>
+                    <div class="section_comment">
+                        <h2 class="main-section-sg-by-emiloberg" id="section-a_number_of_front-end_technologies_to_get_any_e-health_website_or_application_off_the_ground.">A number of front-end technologies to get any e-Health website or application off the ground.</h2>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="_setup-2._software" data-section="_Setup" data-heading="2. Software">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">_Setup</h1>
+                            <h2 class="h4 space_t_neg header_heading">2. Software</h2>
+                    </header>
+                    <div class="section_comment">
+                        <ol>
+<li><a href="https://nodejs.org/">Node</a></li>
+<li><a href="http://gulpjs.com/">Gulp</a><ul>
+<li>Run <code>npm install --global gulp</code> from the command line after Node has been installed.</li>
+</ul>
+</li>
+</ol>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="_setup-3._getting_started" data-section="_Setup" data-heading="3. Getting Started">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">_Setup</h1>
+                            <h2 class="h4 space_t_neg header_heading">3. Getting Started</h2>
+                    </header>
+                    <div class="section_comment">
+                        <ol>
+<li><a href="https://github.com/UWHealth/Front-End-Framework.git">Clone or Fork</a></li>
+<li>Using the command line (preferably using PowerShell rather than cmd.exe), <code>cd</code> to the Framework&apos;s directory.</li>
+<li>Run <code>npm install</code>.</li>
+<li>Open the &quot;styleguide&quot; directory and copy/paste <code>index.js</code> into the <code>/node_modules/markdown-styleguide-generator/</code> folder (This is necessary in order to use our fork of the style guide generator).</li>
+<li>Run <code>gulp</code> (from the command line).</li>
+<li>Open a browser and go to <a href="http://localhost:3000/">localhost:3000</a>. This is your local running copy of the framework.</li>
+<li><strong>Start codin&apos; and compilin&apos;.</strong></li>
+</ol>
+                    </div>
+
+
+
+        		</article>
+        		<article class="section" id="_setup-4._tips_and_tricks" data-section="_Setup" data-heading="4. Tips and Tricks">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">_Setup</h1>
+                            <h2 class="h4 space_t_neg header_heading">4. Tips and Tricks</h2>
+                    </header>
+                    <div class="section_comment">
+                        <h2 class="main-section-sg-by-emiloberg" id="section-style_guide_generation">Style Guide generation</h2>
+<p>The style guide you are reading is generated on the fly by the <code>gulp</code> task <code>styleguide</code> (using the markdown-styleguide-generator node module).</p>
+<p>To create style guide entries, create a comment block with the <code>SG</code> in the first line. The next immediate line should be title of your style guide entry (using a <code>#</code> to demarcate the start). A <code>/</code> will indicate a sub-section title. So <code>#Title/Sub-section</code> will create a parent section named &quot;Title&quot;, with a child named &quot;Sub-section&quot;.</p>
+<p>Separating &quot;development&quot; comments from &quot;styles&quot; requires adding a <code>[[dev]]</code> anywhere within the title of that section.</p>
+<p>All following lines will be processed through <a href="https://guides.github.com/features/mastering-markdown/">Markdown(GitHub Flavored)</a>. This allows text formatting and code samples.</p>
+<p><strong>It is worth noting that code blocks ( ``` ) will be converted to an HTML example at the bottom of a section. Since this is primarily a style guide generator and not necessarily a development guide, it is assumed that each comment will only have one code-block example. You can use inline code (`) examples as many times as necessary.</strong></p>
+<hr>
+<h2 class="main-section-sg-by-emiloberg" id="section-gulp_arguments">Gulp arguments</h2>
+<p>Running <code>gulp</code> by itself will compile your Sass and concatenate your Javascript, but you may need some additional build steps for a complete workflow. Our gulp file accepts arguments in the form of <code>gulp --argument1 --argument2</code> to turn certain tasks on and off.</p>
+<h3 class="main-section-sg-by-emiloberg" id="section-minify_uglify">Minify/Uglify</h3>
+<p>Running <code>gulp --uglify</code> will compress your css and js files into a single line.</p>
+<h3 class="main-section-sg-by-emiloberg" id="section-no_style_guide">No Style Guide</h3>
+<p>Running <code>gulp --no-sg</code> will prevent style guide generation. This can be useful if you are simply working on styles only since the style guide forces a page reload.</p>
+<h3 class="main-section-sg-by-emiloberg" id="section-sourcemaps">Sourcemaps</h3>
+<p>Running <code>gulp --sourcemaps</code> or <code>gulp --sm</code> will add source maps to your Javascript and CSS. Very useful if working with concatenated, uglified, or tangled Sass code. <a href="http://blog.teamtreehouse.com/introduction-source-maps">Learn more about source maps</a>.</p>
+<h3 class="main-section-sg-by-emiloberg" id="section-js_hint">JS Hint</h3>
+<p>Running <code>gulp --lint</code> or <code>gulp --hint</code> will run your JS through <a href="https://github.com/jshint/jshint">JSHint</a>. You can change the project&apos;s hinting rules by modifying the <code>.jshintrc</code> file and ignore files via the <code>.jshintignore</code> file (both at the root of the project). This is usually necessary for plugins or other highly optimized javascript since JSHint will emit errors about code readability.</p>
                     </div>
 
 
@@ -1615,7 +1766,7 @@
                         _1: "[object Object]",
                             _id: "tabs-premade",
                             _name: "Premade",
-            _developmentSections: "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
+            _developmentSections: "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
                 _0: "[object Object]",
                     _name: "Config",
                     _headings: "[object Object],[object Object],[object Object],[object Object]",
@@ -1663,7 +1814,7 @@
                             _name: "",
                 _4: "[object Object]",
                     _name: "Tools",
-                    _headings: "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
+                    _headings: "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
                         _0: "[object Object]",
                             _id: "tools-",
                             _name: "",
@@ -1685,6 +1836,9 @@
                         _6: "[object Object]",
                             _id: "tools-type_utilities",
                             _name: "Type Utilities",
+                        _7: "[object Object]",
+                            _id: "tools-z-index",
+                            _name: "Z-Index",
                 _5: "[object Object]",
                     _name: "Variables",
                     _headings: "[object Object],[object Object]",
@@ -1694,6 +1848,21 @@
                         _1: "[object Object]",
                             _id: "variables-easing",
                             _name: "Easing",
+                _6: "[object Object]",
+                    _name: "_Setup",
+                    _headings: "[object Object],[object Object],[object Object],[object Object]",
+                        _0: "[object Object]",
+                            _id: "_setup-1._introduction",
+                            _name: "1. Introduction",
+                        _1: "[object Object]",
+                            _id: "_setup-2._software",
+                            _name: "2. Software",
+                        _2: "[object Object]",
+                            _id: "_setup-3._getting_started",
+                            _name: "3. Getting Started",
+                        _3: "[object Object]",
+                            _id: "_setup-4._tips_and_tricks",
+                            _name: "4. Tips and Tricks",
     }
     sections = {
             _0: "[object Object]",
@@ -1733,18 +1902,30 @@
         &lt;img src=&quot;http://placehold.it/60x50&quot; alt=&quot;placeholder image&quot;&gt;
     &lt;/div&gt;
     &lt;div class=&quot;arrange_body&quot;&gt;
-        Content that is vertically aligned.
+        Content that is vertically (middle) aligned with the image.
     &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;!-- Bottom Arrangement --&gt;
-
 &lt;div class=&quot;arrange arrange_bottom&quot;&gt;
     &lt;div class=&quot;arrange_media&quot;&gt;
         &lt;img src=&quot;http://placehold.it/60x50&quot; alt=&quot;placeholder image&quot;&gt;
     &lt;/div&gt;
     &lt;div class=&quot;arrange_body&quot;&gt;
-        Content that is bottom aligned.
+        Content that is bottom aligned to the image.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Equal width arrangement--&gt;
+&lt;div class=&quot;arrange arrange_equal&quot;&gt;
+    &lt;div class=&quot;arrange_fill&quot;&gt;
+        Equal width columns.
+    &lt;/div&gt;
+    &lt;div class=&quot;arrange_fill&quot;&gt;
+        &lt;img class=&quot;show&quot; src=&quot;http://placehold.it/120x80&quot; alt=&quot;placeholder image&quot; style=&quot;margin: auto;&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;arrange_fill&quot;&gt;
+        Can be as many columns as you want.
     &lt;/div&gt;
 &lt;/div&gt;",
                 _codeLang: "",
@@ -1753,21 +1934,40 @@
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;http://placehold.it/60x50&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;alt&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_body&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-        Content that is vertically aligned.
+        Content that is vertically (middle) aligned with the image.
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 
 &lt;span class=&quot;hljs-comment&quot;&gt;&amp;lt;!-- Bottom Arrangement --&amp;gt;&lt;/span&gt;
-
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange arrange_bottom&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_media&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;http://placehold.it/60x50&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;alt&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_body&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-        Content that is bottom aligned.
+        Content that is bottom aligned to the image.
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;hljs-comment&quot;&gt;&amp;lt;!-- Equal width arrangement--&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange arrange_equal&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_fill&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        Equal width columns.
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_fill&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;show&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;http://placehold.it/120x80&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;alt&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;placeholder image&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;style&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;margin: auto;&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attribute&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-value&quot;&gt;&quot;arrange_fill&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        Can be as many columns as you want.
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-title&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;",
-                _comment: "&lt;p&gt;Creates an image-content block that vertically aligns images and text (centered, bottom, or top).&lt;/p&gt;",
+                _comment: "&lt;p&gt;Creates an image-content block that vertically aligns images and text (centered, bottom, or top).&lt;br&gt;Children can be named four things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;arrange_fit&lt;/code&gt; or &lt;code&gt;arrange_media&lt;/code&gt; will create a block that fits the width of its content (useful for images).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;arrange_fill&lt;/code&gt; will fill the remaining space.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;arrange_body&lt;/code&gt; are similar but have some default styling.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You may also combine this with grid items like &lt;code&gt;row&lt;/code&gt; and &lt;code&gt;column&lt;/code&gt; if you wish to add gutters between elements.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is &amp;quot;squishy&amp;quot;, but not technically responsive.&lt;/em&gt;&lt;/p&gt;",
                 _globalVars: "",
             _2: "[object Object]",
                 _id: "layout-media_object",

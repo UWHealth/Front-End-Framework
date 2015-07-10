@@ -1,0 +1,71 @@
+/*************************\
+/ 		README            \
+/*************************\
+This file is exclusively used for the style guide.
+It essentially functions as a code-less markdown file.
+*/
+
+/* SG
+#_Setup/1. Introduction [[dev]]
+
+## A number of front-end technologies to get any e-Health website or application off the ground.
+*/
+
+
+
+/* SG
+#_Setup/2. Software [[dev]]
+
+1. [Node](https://nodejs.org/)
+2. [Gulp](http://gulpjs.com/)
+  * Run `npm install --global gulp` from the command line after Node has been installed.
+*/
+
+
+
+/* SG
+#_Setup/3. Getting Started [[dev]]
+
+1. [Clone or Fork](https://github.com/UWHealth/Front-End-Framework.git)
+2. Using the command line (preferably using PowerShell rather than cmd.exe), `cd` to the Framework's directory.
+3. Run `npm install`.
+4. Open the "styleguide" directory and copy/paste `index.js` into the `/node_modules/markdown-styleguide-generator/` folder (This is necessary in order to use our fork of the style guide generator).
+5. Run `gulp` (from the command line).
+6. Open a browser and go to [localhost:3000](http://localhost:3000/). This is your local running copy of the framework.
+7. **Start codin' and compilin'.**
+*/
+
+
+
+/* SG
+#_Setup/4. Tips and Tricks [[dev]]
+
+##Style Guide generation
+The style guide you are reading is generated on the fly by the `gulp` task `styleguide` (using the markdown-styleguide-generator node module).
+
+To create style guide entries, create a comment block with the `SG` in the first line. The next immediate line should be title of your style guide entry (using a `#` to demarcate the start). A `/` will indicate a sub-section title. So `#Title/Sub-section` will create a parent section named "Title", with a child named "Sub-section".
+
+Separating "development" comments from "styles" requires adding a `[[dev]]` anywhere within the title of that section.
+
+All following lines will be processed through [Markdown(GitHub Flavored)](https://guides.github.com/features/mastering-markdown/). This allows text formatting and code samples.
+
+**It is worth noting that code blocks ( \`\`\` ) will be converted to an HTML example at the bottom of a section. Since this is primarily a style guide generator and not necessarily a development guide, it is assumed that each comment will only have one code-block example. You can use inline code (\`) examples as many times as necessary.**
+
+---
+
+##Gulp arguments
+Running `gulp` by itself will compile your Sass and concatenate your Javascript, but you may need some additional build steps for a complete workflow. Our gulp file accepts arguments in the form of `gulp --argument1 --argument2` to turn certain tasks on and off.
+
+###Minify/Uglify
+Running `gulp --uglify` will compress your css and js files into a single line.
+
+###No Style Guide
+Running `gulp --no-sg` will prevent style guide generation. This can be useful if you are simply working on styles only since the style guide forces a page reload.
+
+###Sourcemaps
+Running `gulp --sourcemaps` or `gulp --sm` will add source maps to your Javascript and CSS. Very useful if working with concatenated, uglified, or tangled Sass code. [Learn more about source maps](http://blog.teamtreehouse.com/introduction-source-maps).
+
+###JS Hint
+Running `gulp --lint` or `gulp --hint` will run your JS through [JSHint](https://github.com/jshint/jshint). You can change the project's hinting rules by modifying the `.jshintrc` file and ignore files via the `.jshintignore` file (both at the root of the project). This is usually necessary for plugins or other highly optimized javascript since JSHint will emit errors about code readability.
+
+*/

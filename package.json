@@ -15,7 +15,9 @@
     "Javascript",
     "Framework",
     "Front",
-    "End"
+    "End",
+    "Front End",
+    "front-end"
   ],
   "author": "Office of e-Health Innovation and Policy",
   "license": "ISC",
@@ -23,14 +25,17 @@
     "url": "https://github.com/UWHealth/Front-End-Framework/issues"
   },
   "homepage": "https://github.com/UWHealth/Front-End-Framework",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "browser-sync": "^2.7.6",
     "file-builder": "^0.1.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.0",
     "gulp-babel": "^5.1.0",
+    "gulp-closure-compiler": "^0.2.19",
     "gulp-concat": "^2.5.2",
     "gulp-debug": "^2.0.1",
+    "gulp-if": "^1.2.5",
     "gulp-include": "^1.1.1",
     "gulp-jshint": "^1.11.0",
     "gulp-kit": "^0.1.1",
@@ -41,11 +46,14 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.1",
     "gulp-shell": "^0.4.1",
+    "gulp-size": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
     "gulp-specificity-graph": "^0.0.1",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5",
     "highlight": "^0.2.3",
     "highlight.js": "^8.6.0",
+    "jshint-stylish": "^2.0.1",
     "markdown-styleguide-generator": "^2.0.4",
     "specificity-graph": "^0.1.2",
     "yargs": "^3.10.0"

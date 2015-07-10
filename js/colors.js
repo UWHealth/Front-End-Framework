@@ -33,3 +33,5 @@ var change_color = function(col, amt) {
     return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 
 };
+
+//# sourceMappingURL=maps/colors.js.map

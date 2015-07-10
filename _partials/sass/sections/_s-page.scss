@@ -37,10 +37,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .button{
     @extend %button;
 }
-.media_block{
-    @extend %media_block;
-    @extend %cf;
-}
 .icon {
 	width: 1.2em;
 	margin-right: .5em;
@@ -49,6 +45,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 .box_open{
 	border-width: 2px;
+	z-index: z(modal, true);
 }
 
 .tab_topline > .tabs{
@@ -57,11 +54,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .tab_minimal > .tab_content{
 	box-shadow: 0 2px 0 rgba(color(type), 0.1);
+	z-index: z(head, true);
 }
 
 [class*="list_bordered"] > li{
 	border-top-width: 2px;
 	margin-top: -2px;
+	z-index: z(modal, true);
 
 	&:first-child{
 		border-top-color: color(bg, dark);
@@ -86,7 +85,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     position: fixed;
     top: -1px;
     right: -1px;
-    z-index: 100;
+    z-index: z(modal, true);
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 5px 10px;
