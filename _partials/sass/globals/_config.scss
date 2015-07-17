@@ -22,7 +22,7 @@ Line-height for base font-size. Will be used to determine the vertical spacing v
 
 ##### `$$auto-scale-type`
 ###### Boolean
-Uses the `$scale-ratio` var to create font sizes for headings starting from the `$base-font-size`. Overwrites `$type-[h#]-size` vars.
+Uses the `$scale-ratio` var to create font sizes for headings starting from the `$base-font-size`. Overwrites `$$type-[h#]-size` vars.
 
 ##### `$$scale-ratio`
 ###### Numeric (float)
@@ -32,9 +32,9 @@ Used for `$auto-scale-type` and for `modular-scale()`.
 ###### Boolean
 Determines whether `rems()` conversion includes a pixel-value fallback for older browsers like IE8.
 
-##### `$$[primary, secondary, monospace]-font-stack`
+##### `$$[primary, secondary, monospace, icon]-font-stack`
 ###### String
-Used wherever font-families are declared.
+Used wherever font-families are declared. Use `null` if nothing exists.
 
 ##### `$$use-web-fonts`
 ###### Boolean
@@ -42,7 +42,7 @@ Whether to generate `@font-face` values based on `$font-[]` vars or not.
 
 ##### `$$font-file-name`
 ###### List (string)
-Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. *File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf').**Casing matters**.*
+Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf').**Casing matters**._
 
 ##### `$$font-weights`
 ###### List (nested) (string)
@@ -59,6 +59,13 @@ Determines whether woff2 formats be included in the `@font-face` generation. Can
 ##### `$$font-include-eot`
 ###### Boolean (optional list)
 Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
+
+##### `$$type-[h#]-size`
+###### Pixel Value (optional list(pixel value, pixel or unitless value))
+Variables used to generate heading font-sizes and line-heights. A secondary value will force the line-height to that value.
+
+_NOTE: Must be pixel values(or a function that generates a pixel value), but the optional secondary value can be unitless._
+
 */
 
 //Typography Settings
@@ -93,7 +100,7 @@ $font-include-eot: 		true;
 //Used if auto-scale-type is false.
 //Since functions are called before config,
 //we can use functions to calculate our values.
-$type-h1-size:           ceil(modular-scale(8));;
+$type-h1-size:           ceil(modular-scale(8)), 1;
 $type-h2-size:           ceil(modular-scale(5));
 $type-h3-size:           ceil(modular-scale(4));
 $type-h4-size:           ceil(modular-scale(3));

@@ -79,10 +79,10 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 			'','t','b','l','r','v','h'
 		),
 		amounts: (
-			1, .25, .5, 2, -.25, -.5, -1, -2, 0
+			1, .25, .5, 2, -.25, -.5, -1, -2, 0, 0
 		),
 		names: (
-			'', 'quarter', 'half', '2', 'neg_quarter', 'neg_half', 'neg', 'neg_2', 'n'
+			'', 'quarter', 'half', '2', 'neg_quarter', 'neg_half', 'neg', 'neg_2', 'n', '0'
 		),
 		prefixes: (
 			'pad', 'space'

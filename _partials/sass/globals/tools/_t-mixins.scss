@@ -179,9 +179,12 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 		$font-size,
 		$line-height: true,
 		$selector: '',
-		$font-base: $base-font-size
+		$font-base: $base-font-size,
+		$debug: false
 ) {
-
+	@if $debug == true {
+		@debug "font-size: #{$font-size}, line-height: #{$line-height}, type: #{type-of($line-height)}";
+	}
 	//Create REM-based font-size
 	@include rems(font-size, $font-size);
 
@@ -198,8 +201,12 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 	} @else if type-of($line-height) == "number" {
 
 		//Convert to unitless
-		@if unit($line-height) == "px" {
-			$line-height: $line-height / $font-size;
+		@if not unitless($line-height) {
+			@if unit($line-height) == "px" {
+				$line-height: $line-height / $font-size;
+			}@else {
+				@warn "Line-height for #{$font-size} must be unitless or in pixel values";
+			}
 		}
 
 		line-height: $line-height;
@@ -216,9 +223,10 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 	$font-size,
 	$line-height: true,
 	$selector: '',
-	$font-base: $base-font-size
+	$font-base: $base-font-size,
+	$debug: false
 ){
-	@include type-font-size($font-size, $line-height, $selector, $font-base);
+	@include type-font-size($font-size, $line-height, $selector, $font-base, $debug);
 }
 
  // Space elements by an amount based on line-height/gutter. Pass in the property

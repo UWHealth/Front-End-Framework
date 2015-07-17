@@ -285,7 +285,7 @@ Line-height for base font-size. Will be used to determine the vertical spacing v
 
 ##### `$$auto-scale-type`
 ###### Boolean
-Uses the `$scale-ratio` var to create font sizes for headings starting from the `$base-font-size`. Overwrites `$type-[h#]-size` vars.
+Uses the `$scale-ratio` var to create font sizes for headings starting from the `$base-font-size`. Overwrites `$$type-[h#]-size` vars.
 
 ##### `$$scale-ratio`
 ###### Numeric (float)
@@ -295,9 +295,9 @@ Used for `$auto-scale-type` and for `modular-scale()`.
 ###### Boolean
 Determines whether `rems()` conversion includes a pixel-value fallback for older browsers like IE8.
 
-##### `$$[primary, secondary, monospace]-font-stack`
+##### `$$[primary, secondary, monospace, icon]-font-stack`
 ###### String
-Used wherever font-families are declared.
+Used wherever font-families are declared. Use `null` if nothing exists.
 
 ##### `$$use-web-fonts`
 ###### Boolean
@@ -305,7 +305,7 @@ Whether to generate `@font-face` values based on `$font-[]` vars or not.
 
 ##### `$$font-file-name`
 ###### List (string)
-Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. *File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf').**Casing matters**.*
+Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf').**Casing matters**._
 
 ##### `$$font-weights`
 ###### List (nested) (string)
@@ -322,6 +322,13 @@ Determines whether woff2 formats be included in the `@font-face` generation. Can
 ##### `$$font-include-eot`
 ###### Boolean (optional list)
 Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
+
+##### `$$type-[h#]-size`
+###### Pixel Value (optional list(pixel value, pixel or unitless value))
+Variables used to generate heading font-sizes and line-heights. A secondary value will force the line-height to that value.
+
+_NOTE: Must be pixel values(or a function that generates a pixel value), but the optional secondary value can be unitless._
+
 */
 /* SG
 #Config/General Settings [[dev]]
@@ -408,6 +415,10 @@ Determines what classes get generated at `$$breakpoints`. The list's order deter
 
 Default settings for variables.
 
+##### `$$h[#]-lh`
+###### boolean/unitless/pixel value
+Parses `$$type-h[#]-size` for an optional line-height value, if none exists, just set to `true`. This value will be passed to `@type-font-size()`.
+
 ##### `$$type-magic-number`
 ###### Number
 Abstraction of the base spacing unit used in any mixin or function that defines spacing units.
@@ -432,7 +443,6 @@ Abstracts the `$$scale-ratio` and makes sure it's a positive number.
 ###### Number
 Abstracts the `$$scale-ratio` and makes sure it's a positive number.
 
-
 ##### `$$all-breakpoints`
 ###### List
 Stores all the names defined in `$$breakpoints` for use in abstract framework components so that if names are chagned, boilerplate media queries won't fail.
@@ -446,6 +456,10 @@ Grabs the first `$$breakpoints` name.
 ##### `$$bigs`
 ###### String
 Grabs the last `$$breakpoints` name.
+
+##### `$$colors-list`
+###### List (string)
+The names of all colors in the `$$colors` map.
 
 */
 /* SG
@@ -660,8 +674,6 @@ Each easing variable is a cubic-bezier value that specifies rate of change of an
 [Reference](https://github.com/matthewlein/Ceaser/blob/master/developer/)
 
 */
-/*------------------------------------*	#Generic Styles
-/*------------------------------------*/
 body,
 figure,
 hr,
@@ -796,9 +808,6 @@ a {
 abbr[title] {
   border-bottom: 1px dotted; }
 
-/**
- * Address styling not present in IE 8/9.
- */
 mark {
   background: #cfdbe5;
   color: #082c4a; }
@@ -822,8 +831,6 @@ sup {
 sub {
   bottom: -0.25em; }
 
-/* Grouping content
-   ========================================================================== */
 hr {
   height: 2px;
   border-top: 2px solid #e4eaf3;
@@ -840,7 +847,9 @@ samp {
   font-family: monospace, monospace;
   font-size: 1em; }
 
-/*--Base styles--*/
+/*------------------
+/*  Base styles
+/*------------------*/
 nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs {
   list-style: none; }
   nav ul > li, nav ol > li, [class*="list_bordered"] > li, .list_inline > li, .breadcrumbs > li {
@@ -867,12 +876,24 @@ ul, ol, dd, menu, p, address, pre, blockquote, table, h1, h2, h3, h4, h5, h6, .h
   margin-bottom:  24px;
   margin-bottom:  1.5rem; }
 
-h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
+h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, .h1 + p,
+.h1 + .p, .h2 + p,
+.h2 + .p, .h3 + p,
+.h3 + .p, .h4 + p,
+.h4 + .p, .h5 + p,
+.h5 + .p, .h6 + p,
+.h6 + .p {
   margin-top:  -24px;
   margin-top:  -1.5rem; }
 
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-top: 0; }
+
 li > ul,
-li > ol, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+li > ol {
+  margin-bottom: 0; }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-top: 0; }
 
 li > ul,
@@ -924,9 +945,6 @@ samp {
   font-size: 1em; }
 
 /*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
-/*-------------------------------
-    $QUOTES
--------------------------------*/
 blockquote {
   text-indent: -.5ex; }
 
@@ -977,7 +995,7 @@ td {
   border: 0;
   border-bottom: 1px;
   border-top-width: 0px;
-  border-color: #ddd;
+  border-color: #e4eaf3;
   border-style: solid; }
 
 thead th {
@@ -1136,9 +1154,8 @@ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create
   padding: 0;
   margin-left:  -32px;
   margin-left:  -2rem;
-  letter-spacing: -0.31em; }
+  letter-spacing: -0.35em; }
 
-/* Opera hack */
 .opera:-o-prefocus,
 .row {
   word-spacing: -0.43em; }
@@ -1242,6 +1259,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .box_open {
   padding-right: 0; }
 
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  padding: 0; }
+
+.box_open {
+  padding-left: 0; }
+
+.box_open {
+  padding-right: 0; }
+
 [class*="list_bordered"] {
   margin-top:  24px;
   margin-top:  1.5rem; }
@@ -1253,6 +1279,10 @@ table, [class*="list_bordered"], .tabbed, .box, .isolate, .arrange {
 ul, ol, dd, menu, blockquote {
   margin-left:  32px;
   margin-left:  2rem; }
+
+nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs, .breadcrumbs > li,
+.breadcrumb, .list_nav {
+  margin-left: 0; }
 
 nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs, .breadcrumbs > li,
 .breadcrumb, .list_nav {
@@ -1360,7 +1390,7 @@ input[type="submit"] {
 
 Creates a list with borders above and below each list item. Appending `list_bordered` with `_short` will make reduce the padding between each item.
 
-```
+```html_example
 <ul class="list_bordered">
     <li>List Item</li>
     <li>List Item</li>
@@ -1396,7 +1426,7 @@ Creates a list with borders above and below each list item. Appending `list_bord
 
 A list where each item is in a row, with spacing to the right of each item
 
-```
+```html_example
 <ul class="list_inline">
     <li>List Item</li>
     <li>List Item</li>
@@ -1419,7 +1449,7 @@ A list where each item is in a row, with spacing to the right of each item
 
 A list where each item is in a row, with a &#x25B8; between each item.
 
-```
+```html_example
 <ul class="breadcrumbs">
     <li class="breadcrumb">List Item</li>
     <li class="breadcrumb">List Item</li>
@@ -1445,7 +1475,7 @@ A list where each item is in a row, with a &#x25B8; between each item.
 
 List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn't have to be an `ol` or `ul`).
 
-```
+```html_example
 <ul class="list_nav">
     <li>
         <a href="#">List Item</a>
@@ -1479,7 +1509,7 @@ Tabs start out as simple anchor + element pairings (with the anchor's href refer
 
 Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
 
-```
+```html_example
 <a href="#tab1" class="tab_button">Tab 1</a>
 <div id="tab1" class="tab_content">
 	Content Here
@@ -1495,7 +1525,7 @@ Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript
 
 You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s.
 
-```
+```html_example
 <div class="tabbed" data-tabbed="true">
 	<nav class="tabs">
 		<a class="tab active" href="#tab-1">Tab 1</a>
@@ -1564,6 +1594,9 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   z-index: 0; }
   .tab_content > :last-child {
     margin-bottom: 0; }
+
+.tab_hidden {
+  display: none; }
 
 .tabs + .tab_button {
   -moz-border-radius: 2px 2px 0 0;
@@ -1745,7 +1778,7 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 
 Useful for creating an association between an image and text. Often used with an icon or a profile image.
 
-```html
+```html_example
 <img class="isolate_media" src="http://placehold.it/300x50" alt="placeholder image">
 <p class="isolate_body">
 	Content that sits to the right of the image but will never wrap underneath the image to the left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
@@ -1844,7 +1877,7 @@ A good way to look over your color pallete.
 
 Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
 
-```
+```html_example
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>

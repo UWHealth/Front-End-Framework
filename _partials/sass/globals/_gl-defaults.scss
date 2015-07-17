@@ -17,6 +17,10 @@
 
 Default settings for variables.
 
+##### `$$h[#]-lh`
+###### boolean/unitless/pixel value
+Parses `$$type-h[#]-size` for an optional line-height value, if none exists, just set to `true`. This value will be passed to `@type-font-size()`.
+
 ##### `$$type-magic-number`
 ###### Number
 Abstraction of the base spacing unit used in any mixin or function that defines spacing units.
@@ -41,7 +45,6 @@ Abstracts the `$$scale-ratio` and makes sure it's a positive number.
 ###### Number
 Abstracts the `$$scale-ratio` and makes sure it's a positive number.
 
-
 ##### `$$all-breakpoints`
 ###### List
 Stores all the names defined in `$$breakpoints` for use in abstract framework components so that if names are chagned, boilerplate media queries won't fail.
@@ -55,6 +58,10 @@ Grabs the first `$$breakpoints` name.
 ##### `$$bigs`
 ###### String
 Grabs the last `$$breakpoints` name.
+
+##### `$$colors-list`
+###### List (string)
+The names of all colors in the `$$colors` map.
 
 */
 
@@ -107,16 +114,31 @@ $auto-scale-type:          true !default;
 $scale-ratio:               1.214   !default;
 
 // Heading sizes if you'd rather set them yourself (set $auto-scale-type to false).
-$type-h1-size:             modular-scale(7) !default;
-$type-h2-size:             modular-scale(5) !default;
-$type-h3-size:             modular-scale(4) !default;
-$type-h4-size:             modular-scale(3) !default;
-$type-h5-size:             modular-scale(2) !default;
-$type-h6-size:             modular-scale(1) !default;
+$type-h1-size:              modular-scale(7) !default;
+$type-h2-size:              modular-scale(5) !default;
+$type-h3-size:              modular-scale(4) !default;
+$type-h4-size:              modular-scale(3) !default;
+$type-h5-size:              modular-scale(2) !default;
+$type-h6-size:				modular-scale(1) !default;
 
+
+//Check for existence of line-height override, and store it
+$h1-lh: 					if(length($type-h1-size) > 1, nth($type-h1-size, 2), true);
+$h2-lh: 					if(length($type-h2-size) > 1, nth($type-h2-size, 2), true);
+$h3-lh: 					if(length($type-h3-size) > 1, nth($type-h3-size, 2), true);
+$h4-lh: 					if(length($type-h4-size) > 1, nth($type-h4-size, 2), true);
+$h5-lh: 					if(length($type-h5-size) > 1, nth($type-h5-size, 2), true);
+$h6-lh: 					if(length($type-h6-size) > 1, nth($type-h6-size, 2), true);
+
+//Make sure we only grab the first-value
+$type-h1-size: 				nth($type-h1-size, 1);
+$type-h2-size: 				nth($type-h2-size, 1);
+$type-h3-size:              nth($type-h3-size, 1);
+$type-h4-size:              nth($type-h4-size, 1);
+$type-h5-size:              nth($type-h5-size, 1);
+$type-h6-size:              nth($type-h6-size, 1);
 
 // Map for referencing the values of type.
-
 $type: (
 	h1: (px: $type-h1-size,
 		rem: rems($type-h1-size),
@@ -328,3 +350,9 @@ $colors: (
 	'function': #d4c9ad,
 	'alert': #b22727
 ) !default;
+
+$colors-list: ();
+
+@each $name, $value in $colors {
+	$colors-list: append($colors-list, $name) !global;
+}

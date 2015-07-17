@@ -54,7 +54,7 @@
     "highlight": "^0.2.3",
     "highlight.js": "^8.6.0",
     "jshint-stylish": "^2.0.1",
-    "markdown-styleguide-generator": "^2.0.4",
+    "markdown-documentation-generator": "^1.0.6",
     "specificity-graph": "^0.1.2",
     "yargs": "^3.10.0"
   }

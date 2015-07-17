@@ -25,7 +25,7 @@ Tabs start out as simple anchor + element pairings (with the anchor's href refer
 
 Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
 
-```
+```html_example
 <a href="#tab1" class="tab_button">Tab 1</a>
 <div id="tab1" class="tab_content">
 	Content Here
@@ -42,7 +42,7 @@ Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript
 
 You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s.
 
-```
+```html_example
 <div class="tabbed" data-tabbed="true">
 	<nav class="tabs">
 		<a class="tab active" href="#tab-1">Tab 1</a>
@@ -220,6 +220,10 @@ $tab-minimal-include: 				true 					!default;
     > :last-child{
         margin-bottom: 0;
     }
+}
+
+.tab_hidden {
+	display: none;
 }
 
 //First mobile tab_button will show inherit the tab border-radius.
