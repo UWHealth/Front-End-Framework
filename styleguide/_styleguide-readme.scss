@@ -6,7 +6,7 @@ It essentially functions as a code-less markdown file.
 */
 
 /* SG
-#_Setup/1. Introduction [[dev]]
+#_Setup/ [[dev]]
 
 ## A number of front-end technologies to get any e-Health website or application off the ground.
 */
@@ -29,7 +29,6 @@ It essentially functions as a code-less markdown file.
 1. [Clone or Fork](https://github.com/UWHealth/Front-End-Framework.git)
 2. Using the command line (preferably using PowerShell rather than cmd.exe), `cd` to the Framework's directory.
 3. Run `npm install`.
-4. Open the "styleguide" directory and copy/paste `index.js` into the `/node_modules/markdown-styleguide-generator/` folder (This is necessary in order to use our fork of the style guide generator).
 5. Run `gulp` (from the command line).
 6. Open a browser and go to [localhost:3000](http://localhost:3000/). This is your local running copy of the framework.
 7. **Start codin' and compilin'.**
@@ -45,11 +44,21 @@ The style guide you are reading is generated on the fly by the `gulp` task `styl
 
 To create style guide entries, create a comment block with the `SG` in the first line. The next immediate line should be title of your style guide entry (using a `#` to demarcate the start). A `/` will indicate a sub-section title. So `#Title/Sub-section` will create a parent section named "Title", with a child named "Sub-section".
 
+Create `html` examples (with a code snippet) by creating a code block followed by "html_example" (\`\`\`html_example).
+
 Separating "development" comments from "styles" requires adding a `[[dev]]` anywhere within the title of that section.
 
-All following lines will be processed through [Markdown(GitHub Flavored)](https://guides.github.com/features/mastering-markdown/). This allows text formatting and code samples.
+    /* SG
+    #Section/Component
+    This is an example Component.
 
-**It is worth noting that code blocks ( \`\`\` ) will be converted to an HTML example at the bottom of a section. Since this is primarily a style guide generator and not necessarily a development guide, it is assumed that each comment will only have one code-block example. You can use inline code (\`) examples as many times as necessary.**
+    ```html_example
+    <div>...</div>
+    ```
+    * /
+
+Everything will be run through [Markdown(GitHub Flavored)](https://guides.github.com/features/mastering-markdown/). This allows text formatting and code samples.
+
 
 ---
 

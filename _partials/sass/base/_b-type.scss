@@ -17,35 +17,29 @@
 
 }@else{
 
-    $h_class: unquote("//");
-
-    @if $type-scale-classes {
-        $h-class: unquote(", .");
-    }
-
     %base_h1 {
 		@extend %base_heading_space;
-        @include font-size($type-h1-size, true);
+        @include font-size($type-h1-size, $h1-lh);
     }
     %base_h2 {
 		@extend %base_heading_space;
-        @include font-size($type-h2-size, true);
+        @include font-size($type-h2-size, $h2-lh);
     }
     %base_h3 {
 		@extend %base_heading_space;
-        @include font-size($type-h3-size, true);
+        @include font-size($type-h3-size, $h3-lh);
     }
     %base_h4 {
 		@extend %base_heading_space;
-        @include font-size($type-h4-size, true);
+        @include font-size($type-h4-size, $h4-lh);
     }
     %base_h5 {
 		@extend %base_heading_space;
-        @include font-size($type-h5-size, true);
+        @include font-size($type-h5-size, $h5-lh);
     }
     %base_h6 {
 		@extend %base_heading_space;
-        @include font-size($type-h6-size, true);
+        @include font-size($type-h6-size, $h6-lh);
     }
 
     h1 {
@@ -86,7 +80,7 @@ ul, ol, dd, menu {
 
 li > ul,
 li > ol {
-    @extend %base_space_v_n;
+    @extend %base_space_b_n;
 }
 
 //-------------------------------

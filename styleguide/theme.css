@@ -169,6 +169,7 @@
     display: none;
     background: rgb(241, 247, 249);
     box-shadow: inset 0px 2px 3px -1px rgba(0,0,0,0.15);
+    margin-bottom: 0;
 }
 
 #styleguide-menu .submenu.on{

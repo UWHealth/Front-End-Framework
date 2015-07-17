@@ -7,22 +7,22 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--Standard favicons-->
 
-    <link rel="icon" type="image/png" href="favicons/favicon-196x196.png" sizes="196x196">
-    <link rel="icon" type="image/png" href="favicons/favicon-160x160.png" sizes="160x160">
-    <link rel="icon" type="image/png" href="favicons/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="favicons/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="favicons/favicon-16x16.png" sizes="16x16">
-    <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="favicons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="favicons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="favicons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="favicons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="favicons/apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="/favicons/favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="/favicons/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
     <!--Win 8 IE 10/11 references-->
     <meta name="application-name" content="ehealth frontend"/>
     <meta name="msapplication-navbutton-color" content="#f52b61" />
@@ -33,7 +33,7 @@
 
     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <link rel="stylesheet" href="css/main.css" media="screen">
-    <link rel="stylesheet" media="print" href="css/print.css" >
+    <link rel="stylesheet" href="css/print.css" media="print">
 
 </head>
 <body>
@@ -135,7 +135,10 @@
 									<p>Consequatur, repellat, ipsa, cum nesciunt reprehenderit quod temporibus impedit deserunt inventore atque magnam hic voluptatum vero dignissimos corrupti enim officia beatae voluptatibus ab adipisci! Libero sapiente excepturi quidem minima neque.</p>
 								</div>
 							</div>
-
+                        </div>
+                        <a href="#other2" class="tab_button">Tertiary</a>
+                        <div id="other2" class="tab_content">
+                            <p>Check it out!</p>
                         </div>
                     </div>
                     <aside class="add_on column smalls_space_t" role="complementary">
@@ -176,12 +179,12 @@
             <div id="tab2" class="tab_content"><p>
                 Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
 
-                <div class="tabs tabbed tabbing" data-tabbed="true">
+                <div class="tabs tabbing" data-tabbed="true">
                     <nav class="tabs">
                         <a href="#tab3" class="tab">Tab 3</a>
                         <a href="#tab4" class="tab">Combo tab style</a>
                     </nav>
-                    <a href="#tab3" class="tab_button">Tab 3</a>
+                    <a href="#tab3" class="tab_button" data-tabbed="true">Tab 3</a>
                     <div id="tab3" class="tab_content"><h5><mark>Tabs Test (normal tabs with grid widths)</mark></h5>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
                     </div>
@@ -359,23 +362,19 @@
                    tabs: {
                        begin: function(elements) {
                            var $target = $(elements[1]);
-                           $target.siblings('.tab_active').velocity('slideUp');
-                           $target.velocity('slideDown');
-                       },
-                       animation: {
-                            minHeight: function(elements){
-                                return test_height(this);
-                            },
-                            duration: 600,
-                            complete: function(elements) {
-                                $(this).css({"overflow": "visible", "height": "auto", "min-height": "initial"});
-                            }
+                           if(! $target.is(":visible")) {
+							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]});
+                               $target.velocity('slideDown', {opacity: [1, 0]});
+						   }else {
+							   $target.velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]});
+						   }
                        },
                        toggle: true
                    }
-                },
-                function(){console.log('First tab-set callback');}
-                );
+			   }, function(scope, parents){
+				   parents.find('.tab_active').velocity('slideDown', 0);
+			   });
+
                $("#tabs_test2").tabbed({
                    wrapper: {
                        element: "section",

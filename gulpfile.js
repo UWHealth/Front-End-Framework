@@ -31,7 +31,7 @@ var paths = {
 	styleGuide: ['./styleguide/template.html', './styleguide/theme.css', './_partials/**/*.scss', './styleguide/*.scss']
 };
 
-var browserSyncWatch= ['./css/*.css', './js/**', './*.html', './styleguide/**'];
+var browserSyncWatch= ['./css/*.css', './js/**', './*.html', './styleguide/**', '!**.map'];
 
 var autoprefixer_browsers = [
 	'> 1%',
@@ -48,17 +48,22 @@ var autoprefixer_browsers = [
 
 var style_guide_output = true;
 var js_task = 'js';
-var sass_output = 'nested';
 var sass_task = 'sass';
+var sass_output = 'nested';
 var open_new_tab = false;
 var js_partials = paths.js;
 var source_maps = false;
 var minify = false;
 var lint = false;
+var dir = false;
 
 // console.log(yarg);
 // js_partials.push('!./_partials/js/_*.js');
 
+//Run gulp --ls to show directories instead of index.html in Browser Sync
+if (yarg.ls || yarg.dir){
+	dir = true;
+}
 
 //Run 'gulp --no-sg' if you don't want to compile the style guide
 if (yarg.sg === false || yarg.nosg){
@@ -107,7 +112,7 @@ function _error(err) {
  * --------------------------------*/
 
 //First task called when gulp is invoked
-gulp.task('default', ['watch', 'browser-sync']);
+gulp.task('default', ['watch', 'browser-sync', 'styleGuide']);
 
 //Watch file paths for changes (as defined in the paths variable)
 gulp.task('watch', function(){
@@ -128,9 +133,10 @@ gulp.task('browser-sync', [sass_task, js_task, 'kits'], function() {
     browserSync.init(browserSyncWatch, {
 		server: {
             baseDir: ['./'],
+			directory: dir
         },
 		ui:{
-			port: 3001
+			port: 3030
 		},
 		ghostMode: {
 			clicks: true,
@@ -160,6 +166,7 @@ gulp.task('sass', function() {
 		.pipe(sass({
 			outputStyle: sass_output,
 			errLogToConsole: true,
+			sourcemap: sourcemaps,
 			onError: function(err){
 				console.log(chalk.red("[Sass] ")+err);
 			},
@@ -174,12 +181,12 @@ gulp.task('sass', function() {
 		.pipe(autoprefixer({
 			browsers: autoprefixer_browsers
 		}))
-		//Remove Styleguide Comments
-		.pipe(replace(/(\/\* ?SG[\s\S]+?\*\/)/gmi, ""))
-		//Remove those new lines
-		.pipe(replace(/(\n{1,}(?=\n{2}))/gi, ""))
 		.pipe(size({title: 'CSS', gzip: true, showFiles: true}))
 		.pipe(_if(source_maps, sourcemaps.write('./maps')))
+		//Remove Styleguide Comments
+		.pipe(_if(source_maps == false, replace(/(\/\* ?SG[\s\S]+?\*\/)/gmi, "")))
+		//Remove those new lines
+		.pipe(_if(source_maps == false, replace(/(\n{1,}(?=\n{2}))/gi, "")) )
 		.pipe(gulp.dest(paths.css))
 });
 
@@ -216,18 +223,20 @@ gulp.task('kits', function(){
 		.pipe(gulp.dest('./'));
 });
 
+gulp.task('prod', ['switch-vars', sass_task, js_task, 'kits']);
+//Alias
+gulp.task('production', ['prod']);
 
+//Change variables for production
 gulp.task('switch-vars', function(){
 	sass_output = 'compressed';
 	minify = true;
 	lint = true;
 });
 
-gulp.task('prod', ['switch-vars', sass_task, js_task, 'kits'], function(){});
-
 //Compile style guide
 // use --no-sg argument to disable this
 gulp.task('styleGuide', function(){
 	gulp.src('./')
-		.pipe(shell('styleguide no-lf'));
+		.pipe(shell('md_documentation no-lf'));
 });

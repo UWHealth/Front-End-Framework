@@ -3,7 +3,7 @@
 
 Creates a list with borders above and below each list item. Appending `list_bordered` with `_short` will make reduce the padding between each item.
 
-```
+```html_example
 <ul class="list_bordered">
     <li>List Item</li>
     <li>List Item</li>
@@ -43,7 +43,7 @@ Creates a list with borders above and below each list item. Appending `list_bord
 
 A list where each item is in a row, with spacing to the right of each item
 
-```
+```html_example
 <ul class="list_inline">
     <li>List Item</li>
     <li>List Item</li>
@@ -74,7 +74,7 @@ A list where each item is in a row, with spacing to the right of each item
 
 A list where each item is in a row, with a &#x25B8; between each item.
 
-```
+```html_example
 <ul class="breadcrumbs">
     <li class="breadcrumb">List Item</li>
     <li class="breadcrumb">List Item</li>
@@ -111,7 +111,7 @@ A list where each item is in a row, with a &#x25B8; between each item.
 
 List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn't have to be an `ol` or `ul`).
 
-```
+```html_example
 <ul class="list_nav">
     <li>
         <a href="#">List Item</a>
