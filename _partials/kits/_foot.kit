@@ -38,23 +38,19 @@
                    tabs: {
                        begin: function(elements) {
                            var $target = $(elements[1]);
-                           $target.siblings('.tab_active').velocity('slideUp');
-                           $target.velocity('slideDown');
-                       },
-                       animation: {
-                            minHeight: function(elements){
-                                return test_height(this);
-                            },
-                            duration: 600,
-                            complete: function(elements) {
-                                $(this).css({"overflow": "visible", "height": "auto", "min-height": "initial"});
-                            }
+                           if(! $target.is(":visible")) {
+							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]});
+                               $target.velocity('slideDown', {opacity: [1, 0]});
+						   }else {
+							   $target.velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]});
+						   }
                        },
                        toggle: true
                    }
-                },
-                function(){console.log('First tab-set callback');}
-                );
+			   }, function(scope, parents){
+				   parents.find('.tab_active').velocity('slideDown', 0);
+			   });
+
                $("#tabs_test2").tabbed({
                    wrapper: {
                        element: "section",

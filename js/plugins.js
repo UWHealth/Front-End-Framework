@@ -7095,7 +7095,8 @@ var change_color = function(col, amt) {
         },
         "content": {  //Tab panel content areas
             "class_string": "tab_content",
-            "active_class": "tab_active"
+            "active_class": "tab_active",
+            "hidden_class": "tab_hidden"
         }
     };
 
@@ -7129,7 +7130,7 @@ var change_color = function(col, amt) {
     			t.bind_events();
                 //Completion Callback
                 if (typeof callback === 'function') {
-                    callback.call(this, t.scope); // brings the scope to the callback
+                    callback.call(this, t.scope, t.tab_parents); // brings the scope to the callback
                 }
     		};
 
@@ -7203,16 +7204,10 @@ var change_color = function(col, amt) {
                                 //Insert wrapper before group.
                                 this_parent = wrapper.clone().insertBefore(this_group[0]);
 
-                                // //Grab data-tab attributes (since they can be used as optional style alternatives)
-                                // if ($this.attr("data-tabbed-options") !== undefined) {
-                                //     addons = $this.attr("data-tabbed-options");
-                                //     //Add these as classes.
-                                //     this_parent.addClass(addons);
-                                // }
-
                                 //Move the group to wrapper.
                                 this_group.appendTo(this_parent);
                             }else {
+
                                 this_parent = $this.parent(t.wrapper_class);
                             }
 
@@ -7224,16 +7219,19 @@ var change_color = function(col, amt) {
         				}
         			}
 
-                    t.create_tab_nav($(tab_parents));
-                    t.activate_tabs($(tab_parents));
+                    t.tab_parents = $(tab_parents);
+                    
+                    t.create_tab_nav();
+                    t.activate_tabs();
                 }
 
             };
 
-            t.create_tab_nav = function($tab_parents) {
+            t.create_tab_nav = function() {
 
                 var $tab_buttons,
-                    $tab_nav;
+                    $tab_nav,
+                    $tab_parents = t.tab_parents;
 
     			//Add a nav element to the top of the groups
     			//only if they contain more than one tab_content child
@@ -7273,7 +7271,8 @@ var change_color = function(col, amt) {
     			});
             };
 
-    		t.activate_tabs = function($tab_parents){
+    		t.activate_tabs = function(){
+                var $tab_parents = t.tab_parents;
                 //Make the first tab and tab_button in each grouping the active tab.
     			$tab_parents.each(function() {
                     $this = $(this);
@@ -7317,9 +7316,10 @@ var change_color = function(col, amt) {
 
                 t.hash = t.current_item.attr('href');
                 t.target = $(t.hash);
+                t.current_active = t.target.siblings("."+t.content_active);
 
                 //Do not perform on already animating objects
-                if (!t.target.hasClass('velocity-animating')){
+                if ((!t.target.hasClass('velocity-animating')) && (!t.current_active.hasClass('velocity-animating')) ){
 
                     //Grab button and tab
                     t.both_tabs = $("[href='"+t.hash+"']");
@@ -7328,6 +7328,7 @@ var change_color = function(col, amt) {
                         //Used for first run; skips all animations.
                         t.skip_animations();
                     }else {
+
                         if (t.is_tab()){
                             //hide/show tabs
                             t.anim_opts = t.tabs_anim; //Set animations for simpler declaration later
@@ -7368,7 +7369,7 @@ var change_color = function(col, amt) {
                 //Hide siblings and remove active attributes
                 t.target
                     .siblings(t.content_class)
-                    .hide()
+                    .addClass(t.options.content.hidden_class)
                     .removeClass(t.content_active)
                     .attr('aria-hidden', 'true');
 
@@ -7384,7 +7385,7 @@ var change_color = function(col, amt) {
                 if (t.options.tabs.toggle){
                     //If tabs are toggles, hide everything and remove active attributes
                     t.target
-                        .hide()
+                        .addClass(t.options.content.hidden_class)
                         .removeClass(t.content_active)
                         .attr('aria-hidden', 'true');
 
@@ -7445,7 +7446,6 @@ var change_color = function(col, amt) {
             t.show_tabs = function() {
                 //Animate target
                 t.target
-                    .css('display', 'block')
                     .velocity(
                         t.anim_opts,
                         t.anim_opts
@@ -7467,7 +7467,10 @@ var change_color = function(col, amt) {
 
             t.make_active = function(){
                 //Apply 'active' attributes to targets
-                t.target.addClass(t.content_active).attr('aria-hidden', 'false');
+                t.target
+                    .addClass(t.content_active)
+                    .attr('aria-hidden', 'false')
+                    .removeClass(t.options.content.hidden_class);
 
                 //Apply active attributes tabs and accordion buttons
                 // This is done to both to keep
@@ -7487,24 +7490,11 @@ var change_color = function(col, amt) {
 
             t.is_active = function() {
                 //Checks whether the currently clicked item is active or not
-
                 if(t.current_item.attr('aria-expanded') === 'true'){
                     return true;
-                }else{
+                }else {
                     return false;
                 }
-
-                // if(t.is_tab() &&
-                //     t.current_item.hasClass(t.options.tabs.active_class)){
-                //     return true;
-                //
-                // }else if (!t.is_tab() &&
-                //     t.current_item.hasClass(t.options.buttons.active_class)){
-                //     return true;
-                //
-                // }else {
-                //     return false;
-                // }
             };
 
             //Check if current item is a tab or a button
@@ -7521,7 +7511,7 @@ var change_color = function(col, amt) {
             t.skip_animations = function(){
                 t.target
                     .siblings(t.content_class)
-                    .hide()
+                    .addClass(t.options.content.hidden_class)
                     .removeClass(t.content_active)
                     .attr('aria-hidden','true');
 
@@ -7547,6 +7537,7 @@ var change_color = function(col, amt) {
 
             //Add accessibility attributes to elements
             t.add_aria_roles = function() {
+
                 var hash = "";
 
                 $(t.buttons_class+','+t.tabs_class).each(function(){
