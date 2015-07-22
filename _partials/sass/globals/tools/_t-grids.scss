@@ -26,66 +26,61 @@ Second words used to represent numbers corresponding to grid interval names.
 
 ##### `@silent-relative()`
 ###### mixin()
-A means so that silent push or pull classes get position relative.
+Allows for conditional `position: relative` for silent push or pull classes.
+
+##### `@grid-setup()`
+###### mixin()
+Creates basic grid classes (listed below), called by `@grid-init()`.
 
 
-##### `%grid_reset`
-Useful for resetting the grid's effects without making full grid items.
+* ###### `%grid_reset`
+ Useful for resetting the grid's effects without making full grid items.
 
+* ###### `[% , .]grid`
+ Wrapper class for grid widths. Puts a negative left margin of one unit. When not using floats, adds appropriate letter-spacing (for inline-block-based grid).
 
-##### `%/.grid`
-Wrapper class for grid widths. Puts a negative left margin of one unit. When not using floats, adds appropriate letter-spacing (for inline-block-based grid).
+* ###### `[% , .]grid_item`
+ Sets up a grid column. Uses column padding inherited from parent `%/.grid`.
 
+* ###### `[% , .]grid_rev`
+ Makes grid columns start from the right.
 
-##### `%/.grid_item`
-Sets up a grid column. Uses column padding inherited from parent `%/.grid`.
+* ###### `[% , .]grid_right`
+ Makes all grid columns align to the right.
 
+* ###### `[% , .]grid_center`
+ Makes all grid columns align to the center.
 
-##### `%/.grid_rev`
-Makes grid columns start from the right.
+* ###### `[% , .]grid_middle`
+ Makes all grid columns vertical align to the middle.
 
+* ###### `[% , .]grid_bottom`
+ Makes all grid columns vertical align to the bottom.
 
-##### `%/.grid_right`
-Makes all grid columns align to the right.
+* ###### `[% , .]grid_full`
+ Eliminates padding between grid columns.
 
+* ###### `[% , .]grid_narrow`
+ Reduces the padding between grid columns.
 
-##### `%/.grid_center`
-Makes all grid columns align to the center.
-
-
-##### `%/.grid_middle`
-Makes all grid columns vertical align to the middle.
-
-
-##### `%/.grid_bottom`
-Makes all grid columns vertical align to the bottom.
-
-
-##### `%/.grid_full`
-Eliminates padding between grid columns.
-
-
-##### `%/.grid_narrow`
-Reduces the padding between grid columns.
-
-
-##### `%/.grid_wide`
-Increases the padding between grid columns.
-
+* ###### `[% , .]grid_wide`
+ Increases the padding between grid columns.
 
 ##### `@width-setup()`
 ###### mixin(`$namespace`:"")
-Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
-
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
 
 ##### `@push-setup()`
 ###### mixin(`$namespace`:"")
-Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (left or margin-left) based on `$$columns`.
-
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (`left` or `margin-left`) based on `$$columns`.
 
 ##### `@pull-setup()`
 ###### mixin(`$namespace`:"")
-Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (right or negative margin-left) based on `$$columns`.
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (`right` or negative `margin-left`) based on `$$columns`.
+
+##### `@grid-init()`
+###### mixin()
+ Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`).
 
 */
 
@@ -188,197 +183,197 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 // Useful for resetting the grid's effects
 // without making full grid items
 //
+@mixin grid-setup() {
+	%grid_reset {
+		letter-spacing: normal;
+		word-spacing: normal;
+	}
 
-%grid_reset {
-	letter-spacing: normal;
-	word-spacing: normal;
+	//*------------------------------------
+	//    $GRID SETUP
+	//*------------------------------------
+	 // 1. Allow the grid system to be used on lists.
+	 // 2. Remove any margins and paddings that might affect the grid system.
+	 // 3. Apply a negative `margin-left` to negate the columns’ gutters.
+	 //
+	#{$class-type}grid {
+	    list-style: none;                // [1]
+	    margin: 0;                       // [2]
+	    padding: 0;                      // [2]
+	    @include type-space(margin-left, -1);
+
+		@if $use-markup-fix != true and $use-floats != true{
+	        letter-spacing:-0.35em;
+	    }
+
+		@if $use-floats == true {
+	        @extend %clearfix;
+	    }
+	}
+
+	@if $use-markup-fix != true and $use-floats != true {
+	    // Opera hack
+	    .opera:-o-prefocus,
+	    #{$class-type}grid{
+	        word-spacing:-0.43em;
+	    }
+	}
+
+	// 1. Cause columns to stack side-by-side.
+	// 2. Space columns apart.
+	// 3. Align columns to the tops of each other.
+	// 4. Full-width unless told to behave otherwise.
+	// 5. Required to combine fluid widths and fixed gutters.
+	//
+	#{$class-type}grid_item {
+	    @if $use-floats != true {
+	        display:inline-block;     // [1]
+	    }@else{
+	        display: block;
+	        float: left;
+	    }
+	    @include type-space(padding-left, 1); //[2]
+	    vertical-align: top;             // [3]
+
+		@if $mobile-first == true{
+	        width:100%;                 // [4]
+	    }
+
+	    @if $use-markup-fix != true and $use-floats != true { //5
+	        letter-spacing: normal;
+	        word-spacing: normal;
+	    }
+	}
+
+	// Special class for grid items that need to behave like both grids and grid__items.
+	#{$class-type}grid_grid_item{
+	    @extend #{$class-type}grid;
+	    @extend #{$class-type}grid_item;
+	    padding-left: 0;
+	    margin-left: 0;
+	}
+
+	//
+	// Reversed grids allow you to structure your source in the opposite order to
+	// how your rendered layout will appear. Extends `.grid`.
+	//
+	#{$class-type}grid_rev{
+	    @if $use-floats == true {
+	        @extend %clearfix;
+	    }
+	    @if $use-floats != true {
+	        direction: rtl;
+	        text-align: left;
+
+	        #{$class-type}grid_item{
+	            direction: ltr;
+	            text-align: left;
+	        }
+	    }@else{
+	        > #{$class-type}grid_item{
+	            float: right;
+	            text-align: left;
+	        }
+	    }
+	}
+
+
+	//
+	// Align the entire grid to the right. Extends `.grid`.
+	//
+	#{$class-type}grid_right{
+	    @if $use-floats != true {
+	        text-align:right;
+
+	        > #{$class-type}grid_item {
+	            text-align: left;
+	        }
+	    }@else{
+	        float: right;
+	        @extend %clearfix;
+
+	        > #{$class-type}grid_item {
+	        float: right;
+	        }
+	    }
+	}
+
+
+	//
+	// Centered grids align grid items centrally without needing to use push or pull
+	// classes. Extends `.grid`.
+	//
+	// Not availabe
+	#{$class-type}grid_center{
+	    @if $use-floats != true {
+	        text-align:center;
+
+	        > #{$class-type}grid_item {
+	            text-align:left;
+	        }
+	    }
+	}
+
+
+	//
+	// Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
+	// `.grid`.
+	//
+	#{$class-type}grid_middle{
+
+	    > #{$class-type}grid_item {
+	        vertical-align:middle;
+	    }
+	}
+
+	#{$class-type}grid_bottom{
+
+	    > #{$class-type}grid_item {
+	        vertical-align:bottom;
+	    }
+	}
+
+
+	//
+	// Gutterless grids have all the properties of regular grids, minus any spacing.
+	// Extends `.grid`.
+	//
+	#{$class-type}grid_full{
+	    margin-left: 0;
+
+		@if $use-floats == true {
+	        @extend %clearfix;
+	    }
+
+	    > #{$class-type}grid_item {
+	        padding-left:0;
+	    }
+	}
+
+
+	//
+	// Create grids with narrower gutters. Extends `.grid`.
+	//
+	#{$class-type}grid_narrow {
+	    @include type-space(margin-left, -.5);
+
+		> #{$class-type}grid_item {
+	        @include type-space(padding-left, .5);
+	    }
+	}
+
+
+	//
+	// Create grids with wider gutters. Extends `.grid`.
+	//
+	#{$class-type}grid_wide {
+	    @include type-space(margin-left, -2);
+
+		> #{$class-type}grid_item {
+	        @include type-space(margin-left, 2);
+	    }
+	}
 }
-
-//*------------------------------------
-//    $GRID SETUP
-//*------------------------------------
- // 1. Allow the grid system to be used on lists.
- // 2. Remove any margins and paddings that might affect the grid system.
- // 3. Apply a negative `margin-left` to negate the columns’ gutters.
- //
-#{$class-type}grid {
-    list-style: none;                // [1]
-    margin: 0;                       // [2]
-    padding: 0;                      // [2]
-    @include type-space(margin-left, -1);
-
-	@if $use-markup-fix != true and $use-floats != true{
-        letter-spacing:-0.31em;
-    }
-
-	@if $use-floats == true {
-        @extend %clearfix;
-    }
-}
-
-@if $use-markup-fix != true and $use-floats != true {
-    /* Opera hack */
-    .opera:-o-prefocus,
-    #{$class-type}grid{
-        word-spacing:-0.43em;
-    }
-}
-
-// 1. Cause columns to stack side-by-side.
-// 2. Space columns apart.
-// 3. Align columns to the tops of each other.
-// 4. Full-width unless told to behave otherwise.
-// 5. Required to combine fluid widths and fixed gutters.
-//
-#{$class-type}grid_item {
-    @if $use-floats != true {
-        display:inline-block;     // [1]
-    }@else{
-        display: block;
-        float: left;
-    }
-    @include type-space(padding-left, 1); //[2]
-    vertical-align: top;             // [3]
-
-	@if $mobile-first == true{
-        width:100%;                 // [4]
-    }
-
-    @if $use-markup-fix != true and $use-floats != true { //5
-        letter-spacing: normal;
-        word-spacing: normal;
-    }
-}
-
-// Special class for grid items that need to behave like both grids and grid__items.
-#{$class-type}grid_grid_item{
-    @extend #{$class-type}grid;
-    @extend #{$class-type}grid_item;
-    padding-left: 0;
-    margin-left: 0;
-}
-
-//
-// Reversed grids allow you to structure your source in the opposite order to
-// how your rendered layout will appear. Extends `.grid`.
-//
-#{$class-type}grid_rev{
-    @if $use-floats == true {
-        @extend %clearfix;
-    }
-    @if $use-floats != true {
-        direction: rtl;
-        text-align: left;
-
-        #{$class-type}grid_item{
-            direction: ltr;
-            text-align: left;
-        }
-    }@else{
-        > #{$class-type}grid_item{
-            float: right;
-            text-align: left;
-        }
-    }
-}
-
-
-//
-// Align the entire grid to the right. Extends `.grid`.
-//
-#{$class-type}grid_right{
-    @if $use-floats != true {
-        text-align:right;
-
-        > #{$class-type}grid_item {
-            text-align: left;
-        }
-    }@else{
-        float: right;
-        @extend %clearfix;
-
-        > #{$class-type}grid_item {
-        float: right;
-        }
-    }
-}
-
-
-//
-// Centered grids align grid items centrally without needing to use push or pull
-// classes. Extends `.grid`.
-//
-// Not availabe
-#{$class-type}grid_center{
-    @if $use-floats != true {
-        text-align:center;
-
-        > #{$class-type}grid_item {
-            text-align:left;
-        }
-    }
-}
-
-
-//
-// Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
-// `.grid`.
-//
-#{$class-type}grid_middle{
-
-    > #{$class-type}grid_item {
-        vertical-align:middle;
-    }
-}
-
-#{$class-type}grid_bottom{
-
-    > #{$class-type}grid_item {
-        vertical-align:bottom;
-    }
-}
-
-
-//
-// Gutterless grids have all the properties of regular grids, minus any spacing.
-// Extends `.grid`.
-//
-#{$class-type}grid_full{
-    margin-left: 0;
-
-	@if $use-floats == true {
-        @extend %clearfix;
-    }
-
-    > #{$class-type}grid_item {
-        padding-left:0;
-    }
-}
-
-
-//
-// Create grids with narrower gutters. Extends `.grid`.
-//
-#{$class-type}grid_narrow {
-    @include type-space(margin-left, -.5);
-
-	> #{$class-type}grid_item {
-        @include type-space(padding-left, .5);
-    }
-}
-
-
-//
-// Create grids with wider gutters. Extends `.grid`.
-//
-#{$class-type}grid_wide {
-    @include type-space(margin-left, -2);
-
-	> #{$class-type}grid_item {
-        @include type-space(margin-left, 2);
-    }
-}
-
 
 
 
@@ -411,6 +406,8 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     // Same system used for pushes and pulls.
 
         $divisor: $columns;
+		$class-name: '';
+		$class-name-list: ();
 
         @for $i from 1 to $columns {                                               // [1]
 
@@ -427,15 +424,19 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
                     $width: percentage($numerator / $divisor);
 
                     @if $numerator == 1{                                          // [5]
-                        #{$class-type}#{$namespace}#{$numerators}_#{$denominator} {
-                            width: $width;
-                        }
-                    }@else{                                                        // [6]
-                        #{$class-type}#{$namespace}#{$numerators}_#{$denominator}s {
-                            width: $width;
-                        }
 
+						$class-name: #{$class-type}#{$namespace}#{$numerators}_#{$denominator};
+
+                    }@else{                                                        // [6]
+                        $class-name: #{$class-type}#{$namespace}#{$numerators}_#{$denominator}s;
                     }
+
+					#{$class-name} { width: $width; }
+
+					@if $use-silent-classes and $silent-class-debug {
+						$class-name-list: map-merge($class-name-list, ($class-name: $width));
+					}
+
                 }
                 $divisor: $divisor - 1; //[3b]
             }
@@ -453,6 +454,14 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
         #{$class-type}#{$namespace}three_fourths {
 			@extend #{$class-type}#{$namespace}three_quarters; }
+
+
+		@if $use-silent-classes and $silent-class-debug {
+			$class-name-list: map-merge($class-name-list,(
+				#{$class-type}#{$namespace}one_whole: 100%
+			));
+			$silent-class-registry: silents-register($class-name-list, 'widths') !global;
+		}
 }
 
 //------------------------------------\\
@@ -564,47 +573,52 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 }
 
 
-@include width-setup();
-// Our responsive classes, if we have enabled them.
+@mixin grid-init() {
 
-@if $responsive == true {
-    @each $name in $breakpoint-has-widths {
-        @include media-query($name) {
-           @include width-setup('#{$name}_');
-        }
-    }
-}
+	@include grid-setup();
 
-@if $push == true {
-    // Not a particularly great selector, but the DRYest way to do things.
-    @if $use-silent-classes != true {
-        [class*="push_"]{ position: relative; }
-    }
+	@include width-setup();
+	// Our responsive classes, if we have enabled them.
 
-    @include push-setup();
+	@if $responsive == true {
+	    @each $name in $breakpoint-has-widths {
+	        @include media-query($name) {
+	           @include width-setup('#{$name}_');
+	        }
+	    }
+	}
 
-    @if $responsive == true {
-        @each $name in $breakpoint-has-push {
-            @include media-query($name) {
-               @include push-setup('#{$name}_');
-            }
-        }
-    }
-}
+	@if $push == true {
+	    // Not a particularly great selector, but the DRYest way to do things.
+	    @if $use-silent-classes != true {
+	        [class*="push_"]{ position: relative; }
+	    }
 
-@if $pull == true {
-    // Not a particularly great selector, but the DRYest way to do things.
-    @if $use-silent-classes != true {
-        [class*="pull_"]{ position:relative; }
-    }
+	    @include push-setup();
 
-    @include pull-setup();
+	    @if $responsive == true {
+	        @each $name in $breakpoint-has-push {
+	            @include media-query($name) {
+	               @include push-setup('#{$name}_');
+	            }
+	        }
+	    }
+	}
 
-    @if $responsive == true {
-        @each $name in $breakpoint-has-pull {
-            @include media-query($name) {
-               @include  pull-setup('#{$name}_');
-            }
-        }
-    }
+	@if $pull == true {
+	    // Not a particularly great selector, but the DRYest way to do things.
+	    @if $use-silent-classes != true {
+	        [class*="pull_"]{ position:relative; }
+	    }
+
+	    @include pull-setup();
+
+	    @if $responsive == true {
+	        @each $name in $breakpoint-has-pull {
+	            @include media-query($name) {
+	               @include  pull-setup('#{$name}_');
+	            }
+	        }
+	    }
+	}
 }
