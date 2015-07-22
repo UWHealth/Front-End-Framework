@@ -7616,7 +7616,7 @@ var change_color = function(col, amt) {
 	};
 
 	$('[data-toggle]').on('toggle', function(e, _options){
-		$toggle.parse_options(e.target, _options);
+		$toggle.do_toggle($(e.target), _options);
 	});
 
 	$('body').on('click', '[data-toggle]', function(e){
