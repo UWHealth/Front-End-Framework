@@ -774,8 +774,6 @@ Creates basic grid classes (listed below), called by `@grid-init()`.
  Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`).
 
 */
-/*------------------------------------*	#Generic Styles
-/*------------------------------------*/
 body,
 figure,
 hr,
@@ -910,9 +908,6 @@ a {
 abbr[title] {
   border-bottom: 1px dotted; }
 
-/**
- * Address styling not present in IE 8/9.
- */
 mark {
   background: #cfdbe5;
   color: #082c4a; }
@@ -936,8 +931,6 @@ sup {
 sub {
   bottom: -0.25em; }
 
-/* Grouping content
-   ========================================================================== */
 hr {
   height: 2px;
   border-top: 2px solid #e4eaf3;
@@ -954,7 +947,9 @@ samp {
   font-family: monospace, monospace;
   font-size: 1em; }
 
-/*--Base styles--*/
+/*------------------
+/*  Base styles
+/*------------------*/
 nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs {
   list-style: none; }
   nav ul > li, nav ol > li, [class*="list_bordered"] > li, .list_inline > li, .breadcrumbs > li {
@@ -1050,9 +1045,6 @@ samp {
   font-size: 1em; }
 
 /*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
-/*-------------------------------
-    $QUOTES
--------------------------------*/
 blockquote {
   text-indent: -.5ex; }
 

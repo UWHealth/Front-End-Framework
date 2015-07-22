@@ -10843,7 +10843,8 @@ return jQuery;
             if (window.location.pathname == state.hash) {
                 $sections.show();
             }else{
-                var saneState = state["hash"].replace("/styleguide/?section=","");
+                var replacement = window.location.pathname + '?section=';
+                var saneState = state["hash"].replace(replacement,"");
                 saneState = saneState.replace("&_suid="+state.id, "");
                 updateMenu(saneState);
                 updateContent(saneState);
