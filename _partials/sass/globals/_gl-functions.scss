@@ -507,12 +507,12 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
 		$pixels: $pixels * 1px;
 	}
 
-	$pixels: ($pixels / $base-size) * 1rem;
-
-	@if $pixels == 0rem {
-		$pixels: 0;
+	//If 0, don't include rems
+	@if $pixels == 0px {
+		@return 0;
 	}
 
+	$pixels: ($pixels / $base-size) * 1rem;
 	@return $pixels;
 
 }
@@ -813,9 +813,11 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
 
 
 /* SG
-#Functions/Photoshop convertrers [[dev]]
+#Functions/Photoshop converters [[dev]]
 
 /globals/_gl-functions.scss
+
+Convert Photoshop layer-style values to CSS values.
 
 -----------------------
 
@@ -986,11 +988,12 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 // $accel changes the severity of the curve. Negative values invert.
 //returns a decimal that cooresponds to the same percentage on the curve
 @function baseline-curve($x, $accel:1) {
-	$const: $SQRT2 - 1; // value used by logarithm
+	//y = (sqrt((x^1)+x)-sqrt(x^1)) / .4142135623730951
 	$x2: cache(pow, $x, $accel);
 	$x3: $x2 + $x;
 	$sqrt1: sqrt($x3);
 	$sqrt2: sqrt($x2);
+	$const: $SQRT2 - 1; // value used by logarithm (.4142135623730951)
 	$curve: ($sqrt1 - $sqrt2) / $const;
 	@return min(1, $curve);
 }
@@ -1010,8 +1013,8 @@ $font-warn: false;
 
 	$smallFontUpperBound: 3;
 	$smallFontLowerBound: 1.8;
-	$largeFontUpperBound: 1.055;
-	$largeFontLowerBound: 0.93;
+	$largeFontUpperBound: 1.0563;
+	$largeFontLowerBound: 0.9257;
 
 	$fontSizeSmall: 9;
 	$fontSizeLarge: max(10, 240 * ($baseline-slack / 100%));
@@ -1054,14 +1057,21 @@ $font-warn: false;
 		}
 	}
 
+	//Works in most cases, so if things get wacky, let's just use these values.
 	@if $lower-bound > $upper-bound {
 		$lower-bound: 1;
-		$upper-bound: 1.9;
+		$upper-bound: 2;
 	}
 
+	//First attempt
 	$line-height: baseline($font-size, $baseline);
-	$quit: false;
 
+	//Second attempt
+	@if $line-height < $lower-bound or $line-height > $upper-bound {
+		$line-height: baseline($font-size, ($baseline/2));
+	}
+
+	$quit: false;
 	$i: 1;
 
 	@while
@@ -1088,9 +1098,9 @@ $font-warn: false;
 		}
 	}
 
-	@if index($font-index, $font-size) == null {
-		$font-index: append($font-index, $font-size) !global;
-		@if $font-debug {
+	@if $font-debug {
+		@if index($font-index, $font-size) == null {
+			$font-index: append($font-index, $font-size) !global;
 			@debug "lh: #{$line-height * $font-size} / #{$line-height} ";
 			@debug "loops: #{$i}";
 			@debug "-----";
@@ -1152,11 +1162,15 @@ $font-warn: false;
 
 //Add to silent classes registry
 @function silents-register($map, $key){
-	@if map-get($silent-class-registry, $key) == null {
-		$silent-class-registry: map-merge($silent-class-registry, ($key:())) !global;
+	@if $silent-class-debug {
+		@if map-get($silent-class-registry, $key) == null {
+			$silent-class-registry: map-merge($silent-class-registry, ($key:())) !global;
+		}
+		$map: map-merge(map-get($silent-class-registry, $key), $map);
+		@return map-deep-set($silent-class-registry, $key, $map);
+	}@else {
+		@return null;
 	}
-	$map: map-merge(map-get($silent-class-registry, $key), $map);
-	@return map-deep-set($silent-class-registry, $key, $map);
 }
 
 $c-i: 0;

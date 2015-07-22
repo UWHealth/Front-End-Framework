@@ -148,9 +148,11 @@ Adds one level to a map using the new key to a map. Used by `generate_color_vara
 Prints map into a string (in a JSON-esque format). Useful for debugging.
 */
 /* SG
-#Functions/Photoshop convertrers [[dev]]
+#Functions/Photoshop converters [[dev]]
 
 /globals/_gl-functions.scss
+
+Convert Photoshop layer-style values to CSS values.
 
 -----------------------
 
@@ -283,6 +285,14 @@ Font size all other values will use for calculation. Will be converted to `rems`
 ###### Pixel value
 Line-height for base font-size. Will be used to determine the vertical spacing values when `type-space()` is used.
 
+##### `$$font-looseness`
+###### Percentage
+What to base the tightness/looseness of automatically-generated `line-heights`.
+
+##### `$$font-debug`
+###### Boolean
+Whether to include debug statements about fonts and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
+
 ##### `$$auto-scale-type`
 ###### Boolean
 Uses the `$scale-ratio` var to create font sizes for headings starting from the `$base-font-size`. Overwrites `$$type-[h#]-size` vars.
@@ -290,6 +300,10 @@ Uses the `$scale-ratio` var to create font sizes for headings starting from the 
 ##### `$$scale-ratio`
 ###### Numeric (float)
 Used for `$auto-scale-type` and for `modular-scale()`.
+
+##### `$$show-baseline`
+###### Boolean
+Add styles for baseline grid classes.
 
 ##### `$$rem-px-fallback`
 ###### Boolean
@@ -349,10 +363,15 @@ Variable used to generate spacing classes. Classes are created via `@spacing-uti
 * directions: Direction names.
 * amounts: Values
 
-
 ##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
 ###### List (string)
 Same as `breakpoint-has-widths`, but for utility classes.
+
+##### `$$silent-class-debug`
+###### Boolean
+Stores silent all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.
+
+_NOTE: This will slow down compilation somewhat._
 
 ##### `$$colors`
 ###### Map (string: color)
@@ -674,6 +693,89 @@ Each easing variable is a cubic-bezier value that specifies rate of change of an
 [Reference](https://github.com/matthewlein/Ceaser/blob/master/developer/)
 
 */
+/* SG
+#Grid [[dev]]
+
+components/layout/_l-mixins.scss
+
+-------------------------------------------
+
+##### `$$class-type`
+###### String
+Either a `%` or a `.` based on `$$use-silent-classes`.
+
+
+##### `$$human-readable_numerators`
+###### List (string)
+First words used to represent numbers corresponding to grid interval names.
+
+
+##### `$$human-readable_denominators`
+###### List (string)
+Second words used to represent numbers corresponding to grid interval names.
+
+
+##### `@silent-relative()`
+###### mixin()
+Allows for conditional `position: relative` for silent push or pull classes.
+
+##### `@grid-setup()`
+###### mixin()
+Creates basic grid classes (listed below), called by `@grid-init()`.
+
+
+* ###### `%grid_reset`
+ Useful for resetting the grid's effects without making full grid items.
+
+* ###### `[% , .]grid`
+ Wrapper class for grid widths. Puts a negative left margin of one unit. When not using floats, adds appropriate letter-spacing (for inline-block-based grid).
+
+* ###### `[% , .]grid_item`
+ Sets up a grid column. Uses column padding inherited from parent `%/.grid`.
+
+* ###### `[% , .]grid_rev`
+ Makes grid columns start from the right.
+
+* ###### `[% , .]grid_right`
+ Makes all grid columns align to the right.
+
+* ###### `[% , .]grid_center`
+ Makes all grid columns align to the center.
+
+* ###### `[% , .]grid_middle`
+ Makes all grid columns vertical align to the middle.
+
+* ###### `[% , .]grid_bottom`
+ Makes all grid columns vertical align to the bottom.
+
+* ###### `[% , .]grid_full`
+ Eliminates padding between grid columns.
+
+* ###### `[% , .]grid_narrow`
+ Reduces the padding between grid columns.
+
+* ###### `[% , .]grid_wide`
+ Increases the padding between grid columns.
+
+##### `@width-setup()`
+###### mixin(`$namespace`:"")
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
+
+##### `@push-setup()`
+###### mixin(`$namespace`:"")
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (`left` or `margin-left`) based on `$$columns`.
+
+##### `@pull-setup()`
+###### mixin(`$namespace`:"")
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (`right` or negative `margin-left`) based on `$$columns`.
+
+##### `@grid-init()`
+###### mixin()
+ Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`).
+
+*/
+/*------------------------------------*	#Generic Styles
+/*------------------------------------*/
 body,
 figure,
 hr,
@@ -738,10 +840,6 @@ video {
   background: #b3d4fc;
   text-shadow: none; }
 
-audio:not([controls]), [hidden],
-template {
-  display: none; }
-
 article,
 aside,
 details,
@@ -762,6 +860,10 @@ canvas,
 progress,
 video {
   display: inline-block; }
+
+audio:not([controls]), [hidden],
+template {
+  display: none; }
 
 dfn,
 em {
@@ -808,6 +910,9 @@ a {
 abbr[title] {
   border-bottom: 1px dotted; }
 
+/**
+ * Address styling not present in IE 8/9.
+ */
 mark {
   background: #cfdbe5;
   color: #082c4a; }
@@ -831,6 +936,8 @@ sup {
 sub {
   bottom: -0.25em; }
 
+/* Grouping content
+   ========================================================================== */
 hr {
   height: 2px;
   border-top: 2px solid #e4eaf3;
@@ -847,9 +954,7 @@ samp {
   font-family: monospace, monospace;
   font-size: 1em; }
 
-/*------------------
-/*  Base styles
-/*------------------*/
+/*--Base styles--*/
 nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs {
   list-style: none; }
   nav ul > li, nav ol > li, [class*="list_bordered"] > li, .list_inline > li, .breadcrumbs > li {
@@ -908,7 +1013,7 @@ h1 {
 h2 {
   font-size:  49px;
   font-size:  3.0625rem;
-  line-height: 1.22449; }
+  line-height: 1.10204; }
 
 h3 {
   font-size:  40px;
@@ -928,7 +1033,7 @@ h5 {
 h6 {
   font-size:  20px;
   font-size:  1.25rem;
-  line-height: 1.8; }
+  line-height: 1.2; }
 
 pre {
   white-space: pre;
@@ -945,6 +1050,9 @@ samp {
   font-size: 1em; }
 
 /*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
+/*-------------------------------
+    $QUOTES
+-------------------------------*/
 blockquote {
   text-indent: -.5ex; }
 
@@ -1058,92 +1166,17 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none; }
 
-/* SG
-#Grid [[dev]]
+.wrap {
+  margin: 0 auto;
+  max-width: 1350px;
+  display: block !important;
+  float: none;
+  padding:  24px 0  ;
+  padding:  1.5rem 0  ; }
+  @media only screen and (max-width: 480px) {
+    .wrap {
+      width: 95%; } }
 
-components/layout/_l-mixins.scss
-
--------------------------------------------
-
-##### `$$class-type`
-###### String
-Either a `%` or a `.` based on `$$use-silent-classes`.
-
-
-##### `$$human-readable_numerators`
-###### List (string)
-First words used to represent numbers corresponding to grid interval names.
-
-
-##### `$$human-readable_denominators`
-###### List (string)
-Second words used to represent numbers corresponding to grid interval names.
-
-
-##### `@silent-relative()`
-###### mixin()
-A means so that silent push or pull classes get position relative.
-
-
-##### `%grid_reset`
-Useful for resetting the grid's effects without making full grid items.
-
-
-##### `%/.grid`
-Wrapper class for grid widths. Puts a negative left margin of one unit. When not using floats, adds appropriate letter-spacing (for inline-block-based grid).
-
-
-##### `%/.grid_item`
-Sets up a grid column. Uses column padding inherited from parent `%/.grid`.
-
-
-##### `%/.grid_rev`
-Makes grid columns start from the right.
-
-
-##### `%/.grid_right`
-Makes all grid columns align to the right.
-
-
-##### `%/.grid_center`
-Makes all grid columns align to the center.
-
-
-##### `%/.grid_middle`
-Makes all grid columns vertical align to the middle.
-
-
-##### `%/.grid_bottom`
-Makes all grid columns vertical align to the bottom.
-
-
-##### `%/.grid_full`
-Eliminates padding between grid columns.
-
-
-##### `%/.grid_narrow`
-Reduces the padding between grid columns.
-
-
-##### `%/.grid_wide`
-Increases the padding between grid columns.
-
-
-##### `@width-setup()`
-###### mixin(`$namespace`:"")
-Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
-
-
-##### `@push-setup()`
-###### mixin(`$namespace`:"")
-Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (left or margin-left) based on `$$columns`.
-
-
-##### `@pull-setup()`
-###### mixin(`$namespace`:"")
-Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (right or negative margin-left) based on `$$columns`.
-
-*/
 .row > *, .tab_button, .box {
   letter-spacing: normal;
   word-spacing: normal; }
@@ -1210,17 +1243,6 @@ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create
     width: 25%; }
   .content {
     width: 75%; } }
-
-.wrap {
-  margin: 0 auto;
-  max-width: 1350px;
-  display: block !important;
-  float: none;
-  padding:  24px 0  ;
-  padding:  1.5rem 0  ; }
-  @media only screen and (max-width: 480px) {
-    .wrap {
-      width: 95%; } }
 
 .tab_content, .box {
   padding:  24px;
@@ -1300,14 +1322,14 @@ nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs, .breadcrum
 .arrange_fit img {
   display: block; }
 
+.arrange {
+  display: table; }
+
 .arrange_fill,
 .arrange_fit,
 .arrange_media,
 .arrange_body {
   display: table-cell; }
-
-.arrange {
-  display: table; }
 
 @media only screen and (max-width: 640px) {
   .tab_accordion > .tabs {
@@ -1750,7 +1772,7 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 .h2 {
   font-size:  49px;
   font-size:  3.0625rem;
-  line-height: 1.22449; }
+  line-height: 1.10204; }
 
 .h3 {
   font-size:  40px;
@@ -1770,7 +1792,7 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 .h6 {
   font-size:  20px;
   font-size:  1.25rem;
-  line-height: 1.8; }
+  line-height: 1.2; }
 
 /* SG
 
