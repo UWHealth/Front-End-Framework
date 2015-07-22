@@ -44,7 +44,7 @@
     </div>
 <div class="wrap">
     <header class="row" role="banner">
-        <a href="/" class="link_naked il_bl">
+            <a href="/" class="link_naked il_bl">
             <div class="column arrange arrange_top">
                 <div class="arrange_media">
                     <img src="images/logo.png" role="presentation" class="pad_t_half">
@@ -53,7 +53,7 @@
                     e-Health Frontend Framework
                 </h1>
             </div>
-        </a>
+            </a>
 		<div  class="column">
             <div class="arrange">
                 <div class="arrange_fit">
@@ -62,10 +62,12 @@
                 <div class="arrange_fill pad_l_half">
         			<nav id="toggle_target" class="box box_open pad_v_half space_b_0" role="navigation" >
         				<ul class="list_inline list_nav h6">
-        					<li><a href="styleguide">Style Guide</a></li>
+                            <li><a href="/styleguide/?section=styleguide-dev">Documentation</a></li>
+                            <li><a href="/styleguide/?section=_setup-">Setup</a></li>
+                            <li><a href="styleguide">Style Guide</a></li>
         					<li class="align_right">
-        						<a href="https://github.com/UWHealth/Front-End-Framework" target="_blank">
-        							<img src="images/github.png" alt="" class="icon" role="presentation">Github
+        						<a href="https://github.com/UWHealth/Front-End-Framework">
+        							<img src="images/github.png" alt="" class="icon">Github
         						</a>
         					</li>
         				</ul>
@@ -347,7 +349,7 @@
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
-        <script type="text/javascript">
+        <script>
            $(function() {
                var test_height = function(element){
                    var el_height = element.scrollHeight || element[0].scrollHeight;
@@ -363,13 +365,16 @@
                        begin: function(elements) {
                            var $target = $(elements[1]);
                            if(! $target.is(":visible")) {
-							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]});
-                               $target.velocity('slideDown', {opacity: [1, 0]});
+							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]},{duration:100});
+                               $target.velocity('slideDown', {opacity: [1, 0]},{duration:100});
 						   }else {
-							   $target.velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]});
+							   $target.velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]},{duration:100});
 						   }
                        },
-                       toggle: true
+                       toggle: true,
+                       animation: {
+                           duration: 200
+                       }
                    }
 			   }, function(scope, parents){
 				   parents.find('.tab_active').velocity('slideDown', 0);
@@ -390,6 +395,17 @@
                    }
                }, function(){console.log('Second tab-set callback');});
            });
+
+           //Helper for hiding/showing baseline-grid
+
+           $(function(){
+               $('#toggles').children().click(function(e){
+                   var toggles = $(this).attr("id");
+                   $('body').toggleClass(toggles);
+                   e.preventDefault();
+               });
+           });
+
        </script>
 
         <script>

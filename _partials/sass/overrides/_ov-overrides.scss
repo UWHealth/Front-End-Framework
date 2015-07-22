@@ -131,3 +131,9 @@
         $important: true
     );
 }
+
+@if $silent-class-debug {
+    /*
+    Silent classes: #{map-inspect($silent-class-registry)}
+    */
+}

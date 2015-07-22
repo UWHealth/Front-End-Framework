@@ -1,3 +1,7 @@
+//Create grid classes
+
+@include grid-init();
+
 .row {
     @extend %grid;
 }

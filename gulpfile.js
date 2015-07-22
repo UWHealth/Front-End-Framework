@@ -28,7 +28,7 @@ var paths = {
 	css: './css',
 	js: ['./_partials/js/*.js', './_partials/js/vendor/*.js'],
 	kits: ['./_partials/kits/*.kit', '!./_partials/**/_*.kit'],
-	styleGuide: ['./styleguide/template.html', './styleguide/theme.css', './_partials/**/*.scss', './styleguide/*.scss']
+	styleGuide: ['./styleguide/imports/*', './**/*.scss']
 };
 
 var browserSyncWatch= ['./css/*.css', './js/**', './*.html', './styleguide/**', '!**.map'];
@@ -216,7 +216,6 @@ gulp.task('js', function(){
 //Compile .kit files into html
 gulp.task('kits', function(){
 	// var filter = gFilter(['**/_*.kit']);
-
 	return gulp.src(paths.kits)
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(kit())

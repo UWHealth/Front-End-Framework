@@ -3,8 +3,8 @@
 	"devIdentifier": "[[dev]]",
 	"srcFolder": "./",
 	"outputFile": "./styleguide/index.html",
-	"templateFile": "./styleguide/template.html",
-	"themeFile": "./styleguide/theme.css",
+	"templateFile": "./styleguide/imports/template.html",
+	"themeFile": "./styleguide/imports/theme.css",
 	"highlightFolder": "./node_modules/highlight.js/styles",
 	"highlightStyle": "zenburn",
 	"excludeDirs": [
@@ -21,8 +21,13 @@
 	"walkerOptions": {
 		"followLinks": false
 	},
-	"jqFile": "./styleguide/jquery.js",
+	"jqFile": "./js/jquery-2.1.0.js",
 	"customVars": {
-		"pageTitle": "Style Guide"
+		"pageTitle": "Style Guide",
+		"scripts": [
+			"../js/plugins.js",
+			"imports/hash.js",
+			"imports/sticky.js"
+		]
 	}
 }
