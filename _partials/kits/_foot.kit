@@ -23,7 +23,7 @@
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
-        <script type="text/javascript">
+        <script>
            $(function() {
                var test_height = function(element){
                    var el_height = element.scrollHeight || element[0].scrollHeight;
@@ -39,13 +39,16 @@
                        begin: function(elements) {
                            var $target = $(elements[1]);
                            if(! $target.is(":visible")) {
-							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]});
-                               $target.velocity('slideDown', {opacity: [1, 0]});
+							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]},{duration:100});
+                               $target.velocity('slideDown', {opacity: [1, 0]},{duration:100});
 						   }else {
-							   $target.velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]});
+							   $target.velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]},{duration:100});
 						   }
                        },
-                       toggle: true
+                       toggle: true,
+                       animation: {
+                           duration: 200
+                       }
                    }
 			   }, function(scope, parents){
 				   parents.find('.tab_active').velocity('slideDown', 0);
@@ -66,6 +69,17 @@
                    }
                }, function(){console.log('Second tab-set callback');});
            });
+
+           //Helper for hiding/showing baseline-grid
+
+           $(function(){
+               $('#toggles').children().click(function(e){
+                   var toggles = $(this).attr("id");
+                   $('body').toggleClass(toggles);
+                   e.preventDefault();
+               });
+           });
+
        </script>
 
         <script>
