@@ -7580,6 +7580,12 @@ var change_color = function(col, amt) {
 			this.do_toggle($this, type);
 		}),
 
+		add_aria: (function($this, $target, expanded){
+			$this.attr('aria-expanded', expanded);
+			expanded = expanded ? false : true;
+			$target.attr('aria-hidden', expanded);
+		}),
+
 		do_toggle: (function($this, type){
 			var toggle = $this.data('toggle');
 			var $toggle_target = $(toggle);
@@ -7596,9 +7602,20 @@ var change_color = function(col, amt) {
 			if(type === "class"){
 				$toggle_target.toggleClass(toggle_class[0]);
 				$toggle_target.toggleClass(toggle_class[1]);
+
+				if ($toggle_target.hasClass(toggle_class[1])){
+					$toggle.add_aria($this, $toggle_target, true);
+				}else {
+					$toggle.add_aria($this, $toggle_target, false);
+				}
+
 			}else if(type === "slide" && veloExists) {
 				if($toggle_target.is(':visible')){
-					$toggle_target.Velocity('slideUp', 200);
+					$toggle_target.velocity('slideUp', 200);
+					$toggle.add_aria($this, $toggle_target, false);
+				}else{
+					$toggle_target.velocity('slideDown', 200);
+					$toggle.add_aria($this, $toggle_target, true);
 				}
 			}else if(type === "squish" && veloExists) {
 
@@ -7606,9 +7623,11 @@ var change_color = function(col, amt) {
 				if($toggle_target.is(':visible')){
 					$this.removeClass(toggle_class[0]);
 					$toggle_target.hide().removeClass(toggle_class[1]);
+					$toggle.add_aria($this, $toggle_target, false);
 				}else{
 					$this.addClass(toggle_class[0]);
 					$toggle_target.show().addClass(toggle_class[1]);
+					$toggle.add_aria($this, $toggle_target, true);
 				}
 			}
 		})
