@@ -60,6 +60,10 @@
     overflow: auto;
     padding: 0;
 }
+#styleguide .markup.markup pre {
+    max-height: 30em;
+}
+
 #styleguide .markup.markup code {
     display: block;
     word-wrap: normal;

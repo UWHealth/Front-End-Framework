@@ -74,6 +74,10 @@
         overflow: auto;
         padding: 0;
     }
+    #styleguide .markup.markup pre {
+        max-height: 30em;
+    }
+    
     #styleguide .markup.markup code {
         display: block;
         word-wrap: normal;
@@ -409,7 +413,7 @@
     </style></head>
 <body>
 <main class="wrap">
-    <nav id="styleguide-menu" class="pad_t_2">
+    <nav id="styleguide-menu">
     	<ul class="top_menu">
             <li>
                 <a href="#styleguide-styles" class="sectionlink show_all menu_link" data-section="#styleguide-styles .section">Styles</a>
@@ -570,43 +574,77 @@
 </ul>
 <p>You may also combine this with grid items like <code>row</code> and <code>column</code> if you wish to add gutters between elements.</p>
 <p><em>NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is &quot;squishy&quot;, but not technically responsive.</em></p>
+                    </div>
 
-<div class="markup hljs">
-<pre><code class="plain_code"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange_media&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">&quot;http://placehold.it/60x50&quot;</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">&quot;placeholder image&quot;</span>&gt;</span>
+                    <div class="section_body">
+                        <div class="result">
+                            <div class="arrange">
+    <div class="arrange_media">
+        <img src="http://placehold.it/60x50" alt="placeholder image">
+    </div>
+    <div class="arrange_body">
+        Content that is vertically (middle) aligned with the image.
+    </div>
+</div>
+
+<!-- Bottom Arrangement -->
+<div class="arrange arrange_bottom">
+    <div class="arrange_media">
+        <img src="http://placehold.it/60x50" alt="placeholder image">
+    </div>
+    <div class="arrange_body">
+        Content that is bottom aligned to the image.
+    </div>
+</div>
+
+<!-- Equal width arrangement-->
+<div class="arrange arrange_equal">
+    <div class="arrange_fill">
+        Equal width columns.
+    </div>
+    <div class="arrange_fill">
+        <img class="show" src="http://placehold.it/120x80" alt="placeholder image" style="margin: auto;">
+    </div>
+    <div class="arrange_fill">
+        Can be as many columns as you want.
+    </div>
+</div>
+                        </div>
+
+                        <div class="markup hljs">
+                            <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_media"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/60x50"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange_body&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_body"</span>&gt;</span>
         Content that is vertically (middle) aligned with the image.
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Bottom Arrangement --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange arrange_bottom&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange_media&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">&quot;http://placehold.it/60x50&quot;</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">&quot;placeholder image&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange arrange_bottom"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_media"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/60x50"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange_body&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_body"</span>&gt;</span>
         Content that is bottom aligned to the image.
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 
 <span class="hljs-comment">&lt;!-- Equal width arrangement--&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange arrange_equal&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange_fill&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange arrange_equal"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
         Equal width columns.
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange_fill&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;show&quot;</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">&quot;http://placehold.it/120x80&quot;</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">&quot;placeholder image&quot;</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">&quot;margin: auto;&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"show"</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"http://placehold.it/120x80"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"placeholder image"</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">"margin: auto;"</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">&quot;arrange_fill&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"arrange_fill"</span>&gt;</span>
         Can be as many columns as you want.
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-</code></pre></div>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span></code></pre>
+                        </div>
                     </div>
-
-
 
         		</article>
         		<article class="section" id="layout-media_object" data-section="Layout" data-heading="Media object">
@@ -10824,14 +10862,17 @@ return jQuery;
             try {
                 var $section = $('#styleguide').find(sectionID);
                 var dataSection = "[data-section='"+$section.data('section')+"']";
-                $sections.hide();
-                //show all articles of the same sections
-                $(dataSection).show();
-                //Handle section containers
-                $section.children($sections).show()
-                    $('html, body').animate({
-                        scrollTop: $section.offset().top
-                    }, 200);
+
+                    $sections.hide();
+                    //show all articles of the same sections
+                    $(dataSection).show();
+
+                    //Handle section containers
+                    $section.children($sections).show()
+                        $('html, body').animate({
+                            scrollTop: $section.offset().top
+                        }, 200);
+
             }catch(err){
                 //Just show all sections if section doesn't exist
                 $sections.show();
@@ -10862,7 +10903,6 @@ return jQuery;
 
         //Bind history change
         History.Adapter.bind(window, 'statechange', function(e){
-            console.log(e);
             getState();
         });
 

@@ -17,7 +17,7 @@
 <body>
 <main class="wrap">
     {{!--Menu--}}
-    <nav id="styleguide-menu" class="pad_t_2">
+    <nav id="styleguide-menu">
         {{!-- <a href="#" data-toggle=".top_menu, .menu_body" class="toggle button button_small">
             <span>Toggle Menu</span>
         </a> --}}
@@ -227,14 +227,17 @@
             try {
                 var $section = $('#styleguide').find(sectionID);
                 var dataSection = "[data-section='"+$section.data('section')+"']";
-                $sections.hide();
-                //show all articles of the same sections
-                $(dataSection).show();
-                //Handle section containers
-                $section.children($sections).show()
-                    $('html, body').animate({
-                        scrollTop: $section.offset().top
-                    }, 200);
+
+                    $sections.hide();
+                    //show all articles of the same sections
+                    $(dataSection).show();
+
+                    //Handle section containers
+                    $section.children($sections).show()
+                        $('html, body').animate({
+                            scrollTop: $section.offset().top
+                        }, 200);
+
             }catch(err){
                 //Just show all sections if section doesn't exist
                 $sections.show();
@@ -265,7 +268,6 @@
 
         //Bind history change
         History.Adapter.bind(window, 'statechange', function(e){
-            console.log(e);
             getState();
         });
 
