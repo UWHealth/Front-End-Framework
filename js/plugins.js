@@ -7593,46 +7593,50 @@ var change_color = function(col, amt) {
 
 			toggle_class = toggle_class.split(',');
 
-			var veloExists = (typeof Velocity === "function") ? true : false;
+			var veloExists = (typeof $.Velocity === "function") ? true : false;
 
 			if (! Array.isArray(toggle_class)){
 				toggle_class = ["", toggle_class];
 			}
 
 			if(type === "class"){
-				$toggle_target.toggleClass(toggle_class[0]);
-				$toggle_target.toggleClass(toggle_class[1]);
-
-				if ($toggle_target.hasClass(toggle_class[1])){
-					$toggle.add_aria($this, $toggle_target, true);
-				}else {
-					$toggle.add_aria($this, $toggle_target, false);
-				}
-
+				$toggle.change_class($this, $toggle_target, toggle_class);
 			}else if(type === "slide" && veloExists) {
+				if (toggle_class[0] == 'toggle_active'){
+					$this.toggleClass(toggle_class[0]);
+				}
 				if($toggle_target.is(':visible')){
-					$toggle_target.velocity('slideUp', 200);
-					$toggle.add_aria($this, $toggle_target, false);
+					$toggle_target.velocity('slideUp', 200, function(){
+						$toggle.change_class($this, $toggle_target, toggle_class);
+					});
+
 				}else{
-					$toggle_target.velocity('slideDown', 200);
-					$toggle.add_aria($this, $toggle_target, true);
+					$toggle_target.velocity('slideDown', 200, function(){
+						$toggle.change_class($this, $toggle_target, toggle_class);
+					});
+
 				}
 			}else if(type === "squish" && veloExists) {
 
-			}else{
-				if($toggle_target.is(':visible')){
-					$this.removeClass(toggle_class[0]);
-					$toggle_target.hide().removeClass(toggle_class[1]);
-					$toggle.add_aria($this, $toggle_target, false);
-				}else{
-					$this.addClass(toggle_class[0]);
-					$toggle_target.show().addClass(toggle_class[1]);
-					$toggle.add_aria($this, $toggle_target, true);
-				}
+			}
+
+		}),
+
+		change_class: (function($this, $toggle_target, toggle_class){
+			
+			$toggle_target.toggleClass(toggle_class[0]);
+			$toggle_target.toggleClass(toggle_class[1]);
+
+			if ($toggle_target.hasClass(toggle_class[1])){
+				$toggle.add_aria($this, $toggle_target, true);
+			}else {
+				$toggle.add_aria($this, $toggle_target, false);
 			}
 		})
 
+
 	};
+
 
 	$('[data-toggle]').on('toggle', function(e, _options){
 		$toggle.do_toggle($(e.target), _options);
