@@ -3,14 +3,9 @@
 //------------------------------------
 
 /* SG
-#Tools/Mixins [[dev]]
+# Tools/Mixins [[dev]]
 
 globals/tools/_t-mixins.scss
-
-##### `@media-query()`, `@mq()`, `@media()`, `@breakpoint()`, `@bp()`
-###### mixin(`$media-queries`)
-Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined by using a nested list (double parenthesis).
-
 
 ##### `@specificity()`
 ###### mixin(`$increase`: 1)
@@ -45,49 +40,6 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 // Mixins used for cleaning up and consolodating code
 //==========================================================================
 
-//------------------------------------
-//	$MEDIA QUERIES
-//------------------------------------
-
-//
-//Enclose a block of code with a media query as named in `$breakpoints`.
-//To create more consolodated code, most (if not all) media queries
-//should be called through this mixin.
-//Multiple media-queries can be defined by using:
-//@include media-query((breakpoint, breakpoint)){
-//   [Your code here]
-//}
-
-
-@mixin media-query($media-queries) {
-	$breakpoint-found: false;
-
-	@each $media-query in $media-queries {
-
-		@each $breakpoint in $breakpoints{
-			$name: nth($breakpoint, 1);
-			$declaration: nth($breakpoint, 2);
-
-			@if $media-query == $name and $declaration {
-				$breakpoint-found: true;
-
-				@media only screen and #{$declaration} {
-					@content;
-				}
-			}
-		}
-	}
-
-	@if not $breakpoint-found {
-		@warn "Breakpoint ‘#{$media-query}’ does not exist. Check $breakpoints.";
-	}
-}
-
-//Aliases: Same as above, but shorter
-@mixin breakpoint   ($mq)   { @include media-query($mq){ @content } };
-@mixin bp           ($mq)   { @include media-query($mq){ @content } };
-@mixin media        ($mq)   { @include media-query($mq){ @content } };
-@mixin mq           ($mq)   { @include media-query($mq){ @content } };
 
 //------------------------------------
 //    $HELPERS

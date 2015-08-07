@@ -21,7 +21,7 @@
 
 
 /* SG
-#Functions/Math [[dev]]
+# Functions/Math [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -394,7 +394,7 @@ $golden_ratio: golden();
 //    $HELPERS
 //------------------------------------
 /* SG
-#Functions/Sass Helpers [[dev]]
+# Functions/Sass Helpers [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -422,6 +422,11 @@ Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is us
 ###### function(`$list`, `$separator:","`)
 Converts a list to a string with an optional separator.
 
+##### `str-to-number()`, `to-number()`
+###### function(`$string`, `$unitless: false`)
+Converts a string to a number. Turn `$unitless` to `true` if you a unitless value.
+
+
 ##### String & List Functions #####
 
 ##### `contains()`
@@ -440,6 +445,9 @@ Checks whether a `$list` contains a `$value`.
 ###### function(`$list`, `$depth: 1`)
 Used to turn a list into a flat string. For debug purposes.
 
+##### to-list()
+###### function(`$string`, `$keep`: `both`)
+Convert an item to a list.
 
 ##### Map Functions #####
 *[Reference](http://www.sitepoint.com/extra-map-functions-sass/)*
@@ -538,6 +546,116 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
 	@return $string;
 }
 
+@function str-to-number($string, $unitless: false){
+	//Maps to check against
+	$str-numbers:('0':0,'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9);
+	//Leading 0 allows us to loop backwards without reaching null
+	$string: 0 + $string;
+
+	$total: 0;
+	$decimal: 1;
+	$negative: 1;
+	$number-found: false;
+	$unit: -1;
+
+	//Loop backwards through string until a number is found
+	@while not $number-found {
+
+		//Break if loop is longer than string, or longer than any possible unit value
+		@if (($unit * -1) >= str-length($string)) or $unit < -6 {
+			$unit: -2;
+			//set unitless to true regardless of user input.
+			$unitless: true;
+			$number-found: 1;
+		}
+
+		$slice: str-slice($string, $unit, $unit);
+		$number-found: map-get($str-numbers, $slice);
+		$unit:  $unit - 1;
+
+	}
+	//Compensate for Sass' non-zero
+	$unit: $unit + 1;
+	$value: str-slice($string, 1, $unit);
+	$str-length: str-length($value);
+
+	//Just return value if it's length is 2
+	@if $str-length == 2 {
+		@return map-get($str-numbers, str-slice($string,2));
+	}
+
+	//Loop forward through string
+	@for $i from 1 through $str-length {
+		//Slice at each value
+		$sub-string: str-slice($value, $i, $i);
+		//Check for known number, convert to real number
+		$number: map-get($str-numbers, $sub-string);
+
+		@if $number {
+			//multiply total by ten to give us proper number placement
+			$total: $total * 10 + $number;
+
+		}@else if $sub-string == '-' {
+			//check for negative
+			$negative: -1;
+
+		}@else if $sub-string == '.' {
+			//check for decimal
+			$decimal-pos: $str-length - $i;
+			//Create a number to multiply by to recreate decimal
+			@for $j from 1 through $decimal-pos {
+				$decimal: $decimal * 0.1;
+			}
+		}
+	}
+
+	@if $unitless or $unit == -1 {
+		$unit: 1;
+	}@else {
+		$str-units: (
+			'px':1px,'%':1%,'em':1em,'rem':1rem,'ex':1ex,
+			'cm':1cm,'mm':1mm,'ch':1ch,'pica':1pica,'in':1in,'pt':1pt,'pc':1pc,
+			'vw':1vw,'vh':1vh,'vmin':1vmin,'vmax':1vmax
+		);
+		$unit-str: str-slice($string, ($unit + 1), -1);
+		$unit: map-get($str-units, $unit-str);
+
+		@if not $unit {
+			@warn "#{$unit-str} is not a valid CSS unit.";
+			$unit: 1;
+		}
+	}
+	//Take number and multiply it as necessary to achieve original.
+	@return ($total * $decimal)* $negative * $unit;
+}
+
+//To list
+@function to-list($value, $keep: "both") {
+  $keep: if(index("keys" "values" "both", $keep), $keep, "both");
+
+  @if type-of($value) == "map" {
+    $keys: ();
+    $values: ();
+    @each $key, $val in $value {
+      $keys: append($keys, $key);
+      $values: append($values, $val);
+    }
+
+    @if $keep == "keys" {
+      @return $keys;
+    }
+    @else if $keep == "values" {
+      @return $values;
+    }
+    @else {
+      @return zip($keys, $values);
+    }
+  }
+
+  @return if(type-of($value) != list, ($value,), $value);
+}
+
+
 //String Helpers
 //-----------------------------------
 // Taken from: https://github.com/devatrox/Sunglass
@@ -580,6 +698,18 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
 	$string: if($string == null, "", $string);
 
 	@return str-insert($string, $insert, str-length($string) + 1);
+}
+
+//String replace
+// Replaces a value in a string with another
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+
+  @return $string;
 }
 
 // List contains check
@@ -813,7 +943,7 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
 
 
 /* SG
-#Functions/Photoshop converters [[dev]]
+# Functions/Photoshop converters [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -939,7 +1069,7 @@ Converts Photoshop gradient-stops to CSS gradients.
 
 
 /* SG
-#Functions/Type [[dev]]
+# Functions/Type [[dev]]
 
 /globals/_gl-functions.scss
 

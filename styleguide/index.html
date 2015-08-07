@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Style Guide</title>
     <script src="../js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <link rel="stylesheet" href="../css/main.css" media="screen">
@@ -413,120 +413,194 @@
     </style></head>
 <body>
 <main class="wrap">
+
     <nav id="styleguide-menu">
-    	<ul class="top_menu">
-            <li>
-                <a href="#styleguide-styles" class="sectionlink show_all menu_link" data-section="#styleguide-styles .section">Styles</a>
-                <span class="submenu_toggle toggle_active" data-toggle="#style_menu">&#9662;</span>
-            </li>
-        </ul>
-        <ul id="style_menu" class="menu_body">
-    		<li>
-                    <a class="sectionlink menu_link" href="#color_blocks-" data-section="Color Blocks">Color Blocks</a>
-    		</li>
-    		<li>
-                    <a class="submenulink menulink_with_subs" href="#layout-arrangement_object" data-section="Layout">Layout</a>
-                    <span class="submenu_toggle" data-toggle="[data-submenu='Layout']">&#9662;</span>
-                    <ul class="submenu" data-submenu="Layout">
-                            <li><a class="submenulink sub-sub menu_link" data-section="Layout" href="#layout-arrangement_object">Arrangement object</a></li>
-                            <li><a class="submenulink sub-sub menu_link" data-section="Layout" href="#layout-media_object">Media object</a></li>
-                    </ul>
-    		</li>
-    		<li>
-                    <a class="submenulink menulink_with_subs" href="#lists-bordered_lists" data-section="Lists">Lists</a>
-                    <span class="submenu_toggle" data-toggle="[data-submenu='Lists']">&#9662;</span>
-                    <ul class="submenu" data-submenu="Lists">
-                            <li><a class="submenulink sub-sub menu_link" data-section="Lists" href="#lists-bordered_lists">Bordered Lists</a></li>
-                            <li><a class="submenulink sub-sub menu_link" data-section="Lists" href="#lists-breadcrumbs">Breadcrumbs</a></li>
-                            <li><a class="submenulink sub-sub menu_link" data-section="Lists" href="#lists-inline_lists">Inline Lists</a></li>
-                            <li><a class="submenulink sub-sub menu_link" data-section="Lists" href="#lists-navigation_list">Navigation List</a></li>
-                    </ul>
-    		</li>
-    		<li>
-                    <a class="submenulink menulink_with_subs" href="#tabs-" data-section="Tabs">Tabs</a>
-                    <span class="submenu_toggle" data-toggle="[data-submenu='Tabs']">&#9662;</span>
-                    <ul class="submenu" data-submenu="Tabs">
-                            <li><a class="submenulink sub-sub menu_link" data-section="Tabs" href="#tabs-">Tabs</a></li>
-                            <li><a class="submenulink sub-sub menu_link" data-section="Tabs" href="#tabs-premade">Premade</a></li>
-                    </ul>
-    		</li>
-    	</ul>
-            <ul class="space_t top_menu">
+            <ul class="top_menu">
                 <li>
-                    <a href="#styleguide-dev" class="sectionlink show_all menu_link" data-section="#styleguide-dev .section">Development</a>
-                    <span class="submenu_toggle toggle_active" data-toggle="#development_menu">&#9662;</span>
+                    <a href="#styles" class="sectionlink show_all menu_link">Styles</a>
+                    <span class="submenu_toggle toggle_active" data-toggle="#sub-styles" data-toggle-type="slide">&#9662;</span>
                 </li>
             </ul>
-            <ul id="development_menu" class="menu_body">
-        		<li>
-                        <a class="submenulink menulink_with_subs" href="#config-" data-section="Config">Config</a>
-                        <span class="submenu_toggle" data-toggle="[data-submenu='Config']">&#9662;</span>
-                        <ul class="submenu" data-submenu="Config">
-                                <li><a class="submenulink sub-sub menu_link" data-section="Config" href="#config-">Config</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Config" href="#config-general_settings">General Settings</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Config" href="#config-grid_settings">Grid Settings</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Config" href="#config-typography_settings">Typography Settings</a></li>
-                        </ul>
-        		</li>
-        		<li>
-                        <a class="submenulink menulink_with_subs" href="#functions-colors" data-section="Functions">Functions</a>
-                        <span class="submenu_toggle" data-toggle="[data-submenu='Functions']">&#9662;</span>
-                        <ul class="submenu" data-submenu="Functions">
-                                <li><a class="submenulink sub-sub menu_link" data-section="Functions" href="#functions-colors">Colors</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Functions" href="#functions-math">Math</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Functions" href="#functions-photoshop_converters">Photoshop converters</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Functions" href="#functions-sass_helpers">Sass Helpers</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Functions" href="#functions-type">Type</a></li>
-                        </ul>
-        		</li>
-        		<li>
-                        <a class="sectionlink menu_link" href="#grid-" data-section="Grid">Grid</a>
-        		</li>
-        		<li>
-                        <a class="sectionlink menu_link" href="#main-" data-section="Main">Main</a>
-        		</li>
-        		<li>
-                        <a class="submenulink menulink_with_subs" href="#tools-" data-section="Tools">Tools</a>
-                        <span class="submenu_toggle" data-toggle="[data-submenu='Tools']">&#9662;</span>
-                        <ul class="submenu" data-submenu="Tools">
-                                <li><a class="submenulink sub-sub menu_link" data-section="Tools" href="#tools-">Tools</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Tools" href="#tools-alignment_utilities">Alignment Utilities</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Tools" href="#tools-display_utilities">Display Utilities</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Tools" href="#tools-font_face_generator">Font Face Generator</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Tools" href="#tools-mixins">Mixins</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Tools" href="#tools-spacing_utilities">Spacing Utilities</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Tools" href="#tools-type_utilities">Type Utilities</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Tools" href="#tools-z-index">Z-Index</a></li>
-                        </ul>
-        		</li>
-        		<li>
-                        <a class="submenulink menulink_with_subs" href="#variables-defaults" data-section="Variables">Variables</a>
-                        <span class="submenu_toggle" data-toggle="[data-submenu='Variables']">&#9662;</span>
-                        <ul class="submenu" data-submenu="Variables">
-                                <li><a class="submenulink sub-sub menu_link" data-section="Variables" href="#variables-defaults">Defaults</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="Variables" href="#variables-easing">Easing</a></li>
-                        </ul>
-        		</li>
-        		<li>
-                        <a class="submenulink menulink_with_subs" href="#_setup-" data-section="_Setup">_Setup</a>
-                        <span class="submenu_toggle" data-toggle="[data-submenu='_Setup']">&#9662;</span>
-                        <ul class="submenu" data-submenu="_Setup">
-                                <li><a class="submenulink sub-sub menu_link" data-section="_Setup" href="#_setup-">_Setup</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="_Setup" href="#_setup-2._software">2. Software</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="_Setup" href="#_setup-3._getting_started">3. Getting Started</a></li>
-                                <li><a class="submenulink sub-sub menu_link" data-section="_Setup" href="#_setup-4._tips_and_tricks">4. Tips and Tricks</a></li>
-                        </ul>
-        		</li>
-        	</ul>
+            <ul id="sub-styles" class="menu_body">
+                    <li>
+                            <a class="sectionlink menu_link" href="#color-blocks-">Color Blocks</a>
+                    </li>
+                    <li>
+                            <a class="submenulink menulink_with_subs" href="#layout-arrangement-object">Layout</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='Arrangement object']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="Arrangement object">
+                                    <li>
+                                        <a href="#layout-arrangement-object" class="submenulink sub-sub menu_link">Arrangement object</a>
+                                    </li>
+                                    <li>
+                                        <a href="#layout-media-object" class="submenulink sub-sub menu_link">Media object</a>
+                                    </li>
+                            </ul>
+                    </li>
+                    <li>
+                            <a class="submenulink menulink_with_subs" href="#lists-bordered-lists">Lists</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='Bordered Lists']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="Bordered Lists">
+                                    <li>
+                                        <a href="#lists-bordered-lists" class="submenulink sub-sub menu_link">Bordered Lists</a>
+                                    </li>
+                                    <li>
+                                        <a href="#lists-breadcrumbs" class="submenulink sub-sub menu_link">Breadcrumbs</a>
+                                    </li>
+                                    <li>
+                                        <a href="#lists-inline-lists" class="submenulink sub-sub menu_link">Inline Lists</a>
+                                    </li>
+                                    <li>
+                                        <a href="#lists-navigation-list" class="submenulink sub-sub menu_link">Navigation List</a>
+                                    </li>
+                            </ul>
+                    </li>
+                    <li>
+                            <a class="submenulink menulink_with_subs" href="#tabs-">Tabs</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='Tabs']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="Tabs">
+                                    <li>
+                                        <a href="#tabs-" class="submenulink sub-sub menu_link">Tabs</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tabs-premade" class="submenulink sub-sub menu_link">Premade</a>
+                                    </li>
+                            </ul>
+                    </li>
+            </ul>
+            <ul class="top_menu">
+                <li>
+                    <a href="#development" class="sectionlink show_all menu_link">Development</a>
+                    <span class="submenu_toggle toggle_active" data-toggle="#sub-development" data-toggle-type="slide">&#9662;</span>
+                </li>
+            </ul>
+            <ul id="sub-development" class="menu_body">
+                    <li>
+                            <a class="submenulink menulink_with_subs" href="#config-">Config</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='Config']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="Config">
+                                    <li>
+                                        <a href="#config-" class="submenulink sub-sub menu_link">Config</a>
+                                    </li>
+                                    <li>
+                                        <a href="#config-general-settings" class="submenulink sub-sub menu_link">General Settings</a>
+                                    </li>
+                                    <li>
+                                        <a href="#config-grid-settings" class="submenulink sub-sub menu_link">Grid Settings</a>
+                                    </li>
+                                    <li>
+                                        <a href="#config-typography-settings" class="submenulink sub-sub menu_link">Typography Settings</a>
+                                    </li>
+                            </ul>
+                    </li>
+                    <li>
+                            <a class="submenulink menulink_with_subs" href="#functions-colors">Functions</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='Colors']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="Colors">
+                                    <li>
+                                        <a href="#functions-colors" class="submenulink sub-sub menu_link">Colors</a>
+                                    </li>
+                                    <li>
+                                        <a href="#functions-math" class="submenulink sub-sub menu_link">Math</a>
+                                    </li>
+                                    <li>
+                                        <a href="#functions-photoshop-converters" class="submenulink sub-sub menu_link">Photoshop converters</a>
+                                    </li>
+                                    <li>
+                                        <a href="#functions-sass-helpers" class="submenulink sub-sub menu_link">Sass Helpers</a>
+                                    </li>
+                                    <li>
+                                        <a href="#functions-type" class="submenulink sub-sub menu_link">Type</a>
+                                    </li>
+                            </ul>
+                    </li>
+                    <li>
+                            <a class="sectionlink menu_link" href="#grid-">Grid</a>
+                    </li>
+                    <li>
+                            <a class="sectionlink menu_link" href="#main-">Main</a>
+                    </li>
+                    <li>
+                            <a class="submenulink menulink_with_subs" href="#tools-">Tools</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='Tools']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="Tools">
+                                    <li>
+                                        <a href="#tools-" class="submenulink sub-sub menu_link">Tools</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tools-alignment-utilities" class="submenulink sub-sub menu_link">Alignment Utilities</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tools-display-utilities" class="submenulink sub-sub menu_link">Display Utilities</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tools-font-face-generator" class="submenulink sub-sub menu_link">Font Face Generator</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tools-media-queries" class="submenulink sub-sub menu_link">Media Queries</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tools-mixins" class="submenulink sub-sub menu_link">Mixins</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tools-spacing-utilities" class="submenulink sub-sub menu_link">Spacing Utilities</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tools-type-utilities" class="submenulink sub-sub menu_link">Type Utilities</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tools-z-index" class="submenulink sub-sub menu_link">Z-Index</a>
+                                    </li>
+                            </ul>
+                    </li>
+                    <li>
+                            <a class="submenulink menulink_with_subs" href="#variables-defaults">Variables</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='Defaults']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="Defaults">
+                                    <li>
+                                        <a href="#variables-defaults" class="submenulink sub-sub menu_link">Defaults</a>
+                                    </li>
+                                    <li>
+                                        <a href="#variables-easing" class="submenulink sub-sub menu_link">Easing</a>
+                                    </li>
+                            </ul>
+                    </li>
+                    <li>
+                            <a class="submenulink menulink_with_subs" href="#-setup-">_Setup</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='_Setup']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="_Setup">
+                                    <li>
+                                        <a href="#-setup-" class="submenulink sub-sub menu_link">_Setup</a>
+                                    </li>
+                                    <li>
+                                        <a href="#-setup-2--software" class="submenulink sub-sub menu_link">2. Software</a>
+                                    </li>
+                                    <li>
+                                        <a href="#-setup-3--getting-started" class="submenulink sub-sub menu_link">3. Getting Started</a>
+                                    </li>
+                                    <li>
+                                        <a href="#-setup-4--tips-and-tricks" class="submenulink sub-sub menu_link">4. Tips and Tricks</a>
+                                    </li>
+                            </ul>
+                    </li>
+            </ul>
     </nav>
 
     <section id="styleguide">
 
-        <div id="styleguide-styles" class="section_container style_sections" data-section="style styles">
+        <div id="styles" class="section_container style_sections" data-section="style styles">
             <header class="section section_starter">
                 <h1 class="h3">Styles</h1>
             </header>
-        		<article class="section" id="color_blocks-" data-section="Color Blocks" data-heading="">
+        		<article class="section" id="color-blocks-" data-section="Color-Blocks" data-heading="">
 
                     <header class="section_header">
                             <h1 class="h4 header_heading">Color Blocks</h1>
@@ -559,7 +633,7 @@
                     </div>
 
         		</article>
-        		<article class="section" id="layout-arrangement_object" data-section="Layout" data-heading="Arrangement object">
+        		<article class="section" id="layout-arrangement-object" data-section="Layout" data-heading="Arrangement-object">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Layout</h1>
@@ -647,7 +721,7 @@
                     </div>
 
         		</article>
-        		<article class="section" id="layout-media_object" data-section="Layout" data-heading="Media object">
+        		<article class="section" id="layout-media-object" data-section="Layout" data-heading="Media-object">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Layout</h1>
@@ -674,7 +748,7 @@
                     </div>
 
         		</article>
-        		<article class="section" id="lists-bordered_lists" data-section="Lists" data-heading="Bordered Lists">
+        		<article class="section" id="lists-bordered-lists" data-section="Lists" data-heading="Bordered-Lists">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Lists</h1>
@@ -744,7 +818,7 @@
                     </div>
 
         		</article>
-        		<article class="section" id="lists-inline_lists" data-section="Lists" data-heading="Inline Lists">
+        		<article class="section" id="lists-inline-lists" data-section="Lists" data-heading="Inline-Lists">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Lists</h1>
@@ -773,7 +847,7 @@
                     </div>
 
         		</article>
-        		<article class="section" id="lists-navigation_list" data-section="Lists" data-heading="Navigation List">
+        		<article class="section" id="lists-navigation-list" data-section="Lists" data-heading="Navigation-List">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Lists</h1>
@@ -900,7 +974,7 @@
         		</article>
         </div>
 
-        <div id="styleguide-dev" class="section_container dev_sections" data-section="styleguide-dev">
+        <div id="development" class="section_container dev_sections" data-section="styleguide-dev">
             <header class="section section_starter">
                 <h1 class="h3">Development</h1>
             </header>
@@ -916,7 +990,7 @@
 
 
         		</article>
-        		<article class="section" id="config-general_settings" data-section="Config" data-heading="General Settings">
+        		<article class="section" id="config-general-settings" data-section="Config" data-heading="General-Settings">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Config</h1>
@@ -954,7 +1028,7 @@
 
 
         		</article>
-        		<article class="section" id="config-grid_settings" data-section="Config" data-heading="Grid Settings">
+        		<article class="section" id="config-grid-settings" data-section="Config" data-heading="Grid-Settings">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Config</h1>
@@ -990,7 +1064,7 @@
 
 
         		</article>
-        		<article class="section" id="config-typography_settings" data-section="Config" data-heading="Typography Settings">
+        		<article class="section" id="config-typography-settings" data-section="Config" data-heading="Typography-Settings">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Config</h1>
@@ -1137,7 +1211,7 @@
 
 
         		</article>
-        		<article class="section" id="functions-photoshop_converters" data-section="Functions" data-heading="Photoshop converters">
+        		<article class="section" id="functions-photoshop-converters" data-section="Functions" data-heading="Photoshop-converters">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Functions</h1>
@@ -1167,7 +1241,7 @@
 
 
         		</article>
-        		<article class="section" id="functions-sass_helpers" data-section="Functions" data-heading="Sass Helpers">
+        		<article class="section" id="functions-sass-helpers" data-section="Functions" data-heading="Sass-Helpers">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Functions</h1>
@@ -1192,6 +1266,9 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=list-to-string_class=global_global_function_data-code-id=list-to-string_list-to-string__code_,__code_id=str-join_class=global_global_function_data-code-id=str-join_str-join_/code_"><code id="list-to-string()" class="global global_function" data-code-id="list-to-string()">list-to-string()</code>, <code id="str-join()" class="global global_function" data-code-id="str-join()">str-join()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$list__code_,__code_$separator:&quot;,&quot;_/code_">function(<code>$list</code>, <code>$separator:&quot;,&quot;</code>)</h6>
 <p>Converts a list to a string with an optional separator.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=str-to-number_class=global_global_function_data-code-id=str-to-number_str-to-number__code_,__code_id=to-number_class=global_global_function_data-code-id=to-number_to-number_/code_"><code id="str-to-number()" class="global global_function" data-code-id="str-to-number()">str-to-number()</code>, <code id="to-number()" class="global global_function" data-code-id="to-number()">to-number()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$string__code_,__code_$unitless:_false_/code_">function(<code>$string</code>, <code>$unitless: false</code>)</h6>
+<p>Converts a string to a number. Turn <code>$unitless</code> to <code>true</code> if you a unitless value.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-string_&amp;_list_functions">String &amp; List Functions</h5>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=contains_class=global_global_function_data-code-id=contains_contains__code_"><code id="contains()" class="global global_function" data-code-id="contains()">contains()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$data__code_,__code_$value_/code_">function(<code>$data</code>, <code>$value</code>)</h6>
@@ -1205,6 +1282,9 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=list-print_class=global_global_function_data-code-id=list-print_list-print__code_"><code id="list-print()" class="global global_function" data-code-id="list-print()">list-print()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-function_code_$list__code_,__code_$depth:_1_/code_">function(<code>$list</code>, <code>$depth: 1</code>)</h6>
 <p>Used to turn a list into a flat string. For debug purposes.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-to-list">to-list()</h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-function_code_$string__code_,__code_$keep_/code_:__code_both_/code_">function(<code>$string</code>, <code>$keep</code>: <code>both</code>)</h6>
+<p>Convert an item to a list.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-map_functions">Map Functions</h5>
 <p><em><a href="http://www.sitepoint.com/extra-map-functions-sass/">Reference</a></em></p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=map-deep-set_class=global_global_function_data-code-id=map-deep-set_map-deep-set__code_"><code id="map-deep-set()" class="global global_function" data-code-id="map-deep-set()">map-deep-set()</code></h5>
@@ -1380,7 +1460,7 @@
 
 
         		</article>
-        		<article class="section" id="tools-alignment_utilities" data-section="Tools" data-heading="Alignment Utilities">
+        		<article class="section" id="tools-alignment-utilities" data-section="Tools" data-heading="Alignment-Utilities">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Tools</h1>
@@ -1399,7 +1479,7 @@
 
 
         		</article>
-        		<article class="section" id="tools-display_utilities" data-section="Tools" data-heading="Display Utilities">
+        		<article class="section" id="tools-display-utilities" data-section="Tools" data-heading="Display-Utilities">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Tools</h1>
@@ -1418,7 +1498,7 @@
 
 
         		</article>
-        		<article class="section" id="tools-font_face_generator" data-section="Tools" data-heading="Font Face Generator">
+        		<article class="section" id="tools-font-face-generator" data-section="Tools" data-heading="Font-Face-Generator">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Tools</h1>
@@ -1445,6 +1525,33 @@
 
 
         		</article>
+        		<article class="section" id="tools-media-queries" data-section="Tools" data-heading="Media-Queries">
+
+                    <header class="section_header">
+                            <h1 class="h6 header_subheading">Tools</h1>
+                            <h2 class="h4 space_t_neg header_heading">Media Queries</h2>
+                    </header>
+                    <div class="section_comment">
+                        <p>globals/tools/_t-media-queries.scss</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=media-query_class=global_global_variable_data-code-id=media-query_@media-query__code_,__code_id=mq_class=global_global_variable_data-code-id=mq_@mq_/code_,__code_id=media_class=global_global_variable_data-code-id=media_@media_/code_,__code_id=breakpoint_class=global_global_variable_data-code-id=breakpoint_@breakpoint_/code_,__code_id=bp_class=global_global_variable_data-code-id=bp_@bp_/code_"><code id="media-query()" class="global global_variable" data-code-id="media-query()">@media-query()</code>, <code id="mq()" class="global global_variable" data-code-id="mq()">@mq()</code>, <code id="media()" class="global global_variable" data-code-id="media()">@media()</code>, <code id="breakpoint()" class="global global_variable" data-code-id="breakpoint()">@breakpoint()</code>, <code id="bp()" class="global global_variable" data-code-id="bp()">@bp()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$media-queries...__code_">mixin(<code>$media-queries...</code>)</h6>
+<p>Enclose a block of code with a media query as named in <code>$breakpoints</code>. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined, separated by a comma. This will place your content into multiple separate media-queries at once (useful if you need the same css at different breakpoints).</p>
+<p><strong>Alternative Uses:</strong></p>
+<ul>
+<li><p>Passing multiple media queries separated by an <code>&apos;and&apos;</code> (quoted) to combine them, creating statements that look like <code>@media screen and (min-width: 500px) and (max-width: 900px){}</code>.</p>
+</li>
+<li><p>Passing a value like <code>min-width 1200px</code> or <code>max-height 300px</code> allows for arbitrary breakpoints.</p>
+</li>
+<li><p>Passing <code>max 1200px &apos;and&apos; smalls</code> will create a combined media-query with a predefined one from <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>.</p>
+</li>
+<li><p>Passing <code>height smalls</code> will change all instances of width to height within the <code>smalls</code> breakpoint. Similarly, using <code>min smalls</code> would change all instances of &apos;max&apos; to &apos;min&apos;.</p>
+</li>
+</ul>
+                    </div>
+
+
+
+        		</article>
         		<article class="section" id="tools-mixins" data-section="Tools" data-heading="Mixins">
 
                     <header class="section_header">
@@ -1453,9 +1560,6 @@
                     </header>
                     <div class="section_comment">
                         <p>globals/tools/_t-mixins.scss</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=media-query_class=global_global_variable_data-code-id=media-query_@media-query__code_,__code_id=mq_class=global_global_variable_data-code-id=mq_@mq_/code_,__code_id=media_class=global_global_variable_data-code-id=media_@media_/code_,__code_id=breakpoint_class=global_global_variable_data-code-id=breakpoint_@breakpoint_/code_,__code_id=bp_class=global_global_variable_data-code-id=bp_@bp_/code_"><code id="media-query()" class="global global_variable" data-code-id="media-query()">@media-query()</code>, <code id="mq()" class="global global_variable" data-code-id="mq()">@mq()</code>, <code id="media()" class="global global_variable" data-code-id="media()">@media()</code>, <code id="breakpoint()" class="global global_variable" data-code-id="breakpoint()">@breakpoint()</code>, <code id="bp()" class="global global_variable" data-code-id="bp()">@bp()</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$media-queries__code_">mixin(<code>$media-queries</code>)</h6>
-<p>Enclose a block of code with a media query as named in <code>$breakpoints</code>. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined by using a nested list (double parenthesis).</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=specificity_class=global_global_variable_data-code-id=specificity_@specificity__code_"><code id="specificity()" class="global global_variable" data-code-id="specificity()">@specificity()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$increase__code_:_1">mixin(<code>$increase</code>: 1)</h6>
 <p>Specificity increaser. Useful for increasing specificity of a selector instead of using !important</p>
@@ -1476,7 +1580,7 @@
 
 
         		</article>
-        		<article class="section" id="tools-spacing_utilities" data-section="Tools" data-heading="Spacing Utilities">
+        		<article class="section" id="tools-spacing-utilities" data-section="Tools" data-heading="Spacing-Utilities">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Tools</h1>
@@ -1499,7 +1603,7 @@
 
 
         		</article>
-        		<article class="section" id="tools-type_utilities" data-section="Tools" data-heading="Type Utilities">
+        		<article class="section" id="tools-type-utilities" data-section="Tools" data-heading="Type-Utilities">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Tools</h1>
@@ -1595,7 +1699,7 @@
 
 
         		</article>
-        		<article class="section" id="_setup-" data-section="_Setup" data-heading="">
+        		<article class="section" id="-setup-" data-section="-Setup" data-heading="">
 
                     <header class="section_header">
                             <h1 class="h4 header_heading">_Setup</h1>
@@ -1607,7 +1711,7 @@
 
 
         		</article>
-        		<article class="section" id="_setup-2._software" data-section="_Setup" data-heading="2. Software">
+        		<article class="section" id="-setup-2--software" data-section="-Setup" data-heading="2--Software">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">_Setup</h1>
@@ -1626,7 +1730,7 @@
 
 
         		</article>
-        		<article class="section" id="_setup-3._getting_started" data-section="_Setup" data-heading="3. Getting Started">
+        		<article class="section" id="-setup-3--getting-started" data-section="-Setup" data-heading="3--Getting-Started">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">_Setup</h1>
@@ -1646,15 +1750,14 @@
 
 
         		</article>
-        		<article class="section" id="_setup-4._tips_and_tricks" data-section="_Setup" data-heading="4. Tips and Tricks">
+        		<article class="section" id="-setup-4--tips-and-tricks" data-section="-Setup" data-heading="4--Tips-and-Tricks">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">_Setup</h1>
                             <h2 class="h4 space_t_neg header_heading">4. Tips and Tricks</h2>
                     </header>
                     <div class="section_comment">
-                        <h2 class="main-section-sg-by-emiloberg" id="section-style_guide_generation">Style Guide generation</h2>
-<p>The style guide you are reading is generated on the fly by the <code>gulp</code> task <code>styleguide</code> (using the markdown-styleguide-generator node module).</p>
+                        <p>##Style Guide generation<br>The style guide you are reading is generated on the fly by the <code>gulp</code> task <code>styleguide</code> (using the markdown-styleguide-generator node module).</p>
 <p>To create style guide entries, create a comment block with the <code>SG</code> in the first line. The next immediate line should be title of your style guide entry (using a <code>#</code> to demarcate the start). A <code>/</code> will indicate a sub-section title. So <code>#Title/Sub-section</code> will create a parent section named &quot;Title&quot;, with a child named &quot;Sub-section&quot;.</p>
 <p>Create <code>html</code> examples (with a code snippet) by creating a code block followed by &quot;html_example&quot; (```html_example).</p>
 <p>Separating &quot;development&quot; comments from &quot;styles&quot; requires adding a <code>[[dev]]</code> anywhere within the title of that section.</p>
