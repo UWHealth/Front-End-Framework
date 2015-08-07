@@ -237,5 +237,6 @@ gulp.task('switch-vars', function(){
 // use --no-sg argument to disable this
 gulp.task('styleGuide', function(){
 	gulp.src('./')
+		.pipe(plumber({errorHandler: _error}))
 		.pipe(shell('md_documentation no-lf'));
 });

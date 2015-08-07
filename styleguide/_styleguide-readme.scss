@@ -6,7 +6,7 @@ It essentially functions as a code-less markdown file.
 */
 
 /* SG
-#_Setup/ [[dev]]
+# _Setup/ [[dev]]
 
 ## A number of front-end technologies to get any e-Health website or application off the ground.
 */
@@ -14,7 +14,7 @@ It essentially functions as a code-less markdown file.
 
 
 /* SG
-#_Setup/2. Software [[dev]]
+# _Setup/2. Software [[dev]]
 
 1. [Node](https://nodejs.org/)
 2. [Gulp](http://gulpjs.com/)
@@ -24,7 +24,7 @@ It essentially functions as a code-less markdown file.
 
 
 /* SG
-#_Setup/3. Getting Started [[dev]]
+# _Setup/3. Getting Started [[dev]]
 
 1. [Clone or Fork](https://github.com/UWHealth/Front-End-Framework.git)
 2. Using the command line (preferably using PowerShell rather than cmd.exe), `cd` to the Framework's directory.
@@ -37,7 +37,7 @@ It essentially functions as a code-less markdown file.
 
 
 /* SG
-#_Setup/4. Tips and Tricks [[dev]]
+# _Setup/4. Tips and Tricks [[dev]]
 
 ##Style Guide generation
 The style guide you are reading is generated on the fly by the `gulp` task `styleguide` (using the markdown-styleguide-generator node module).
@@ -62,19 +62,19 @@ Everything will be run through [Markdown(GitHub Flavored)](https://guides.github
 
 ---
 
-##Gulp arguments
+## Gulp arguments
 Running `gulp` by itself will compile your Sass and concatenate your Javascript, but you may need some additional build steps for a complete workflow. Our gulp file accepts arguments in the form of `gulp --argument1 --argument2` to turn certain tasks on and off.
 
-###Minify/Uglify
+### Minify/Uglify
 Running `gulp --uglify` will compress your css and js files into a single line.
 
-###No Style Guide
+### No Style Guide
 Running `gulp --no-sg` will prevent style guide generation. This can be useful if you are simply working on styles only since the style guide forces a page reload.
 
-###Sourcemaps
+### Sourcemaps
 Running `gulp --sourcemaps` or `gulp --sm` will add source maps to your Javascript and CSS. Very useful if working with concatenated, uglified, or tangled Sass code. [Learn more about source maps](http://blog.teamtreehouse.com/introduction-source-maps).
 
-###JS Hint
+### JS Hint
 Running `gulp --lint` or `gulp --hint` will run your JS through [JSHint](https://github.com/jshint/jshint). You can change the project's hinting rules by modifying the `.jshintrc` file and ignore files via the `.jshintignore` file (both at the root of the project). This is usually necessary for plugins or other highly optimized javascript since JSHint will emit errors about code readability.
 
 */

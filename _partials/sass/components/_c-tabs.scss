@@ -20,7 +20,8 @@
 
 A way to show groups of content, with buttons to toggle between them (like tabs in a folder or browser window).
 
-######Set Up
+###### Set Up
+
 Tabs start out as simple anchor + element pairings (with the anchor's href referring to an element's ID).
 
 Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.

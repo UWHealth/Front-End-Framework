@@ -24,7 +24,7 @@
     @include type-font-size($type-h6-size, $h6-lh);
 }
 
-@if not $auto-scale-type == true {
+@if not $auto-scale-type {
 
 	.h1 {
 	    @extend %h1;
@@ -51,4 +51,10 @@
 	& + .p {
         @extend %base_space_t_neg;
     }
+}
+
+@include mq(all, small, smalls, nested) {
+	h1, #test {
+		font-size: 25px;
+	}
 }

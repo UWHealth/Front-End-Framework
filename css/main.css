@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* SG
-#Main [[dev]]
+# Main [[dev]]
 /main.scss
 
 Imports all Sass files in order from lowest specificity to highest.
@@ -17,7 +17,7 @@ Imports all Sass files in order from lowest specificity to highest.
 
 */
 /* SG
-#Functions/Math [[dev]]
+# Functions/Math [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -65,7 +65,7 @@ Determines the Tangent of an angle.
 
 */
 /* SG
-#Functions/Sass Helpers [[dev]]
+# Functions/Sass Helpers [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -93,6 +93,11 @@ Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is us
 ###### function(`$list`, `$separator:","`)
 Converts a list to a string with an optional separator.
 
+##### `str-to-number()`, `to-number()`
+###### function(`$string`, `$unitless: false`)
+Converts a string to a number. Turn `$unitless` to `true` if you a unitless value.
+
+
 ##### String & List Functions #####
 
 ##### `contains()`
@@ -111,6 +116,9 @@ Checks whether a `$list` contains a `$value`.
 ###### function(`$list`, `$depth: 1`)
 Used to turn a list into a flat string. For debug purposes.
 
+##### to-list()
+###### function(`$string`, `$keep`: `both`)
+Convert an item to a list.
 
 ##### Map Functions #####
 *[Reference](http://www.sitepoint.com/extra-map-functions-sass/)*
@@ -148,7 +156,7 @@ Adds one level to a map using the new key to a map. Used by `generate_color_vara
 Prints map into a string (in a JSON-esque format). Useful for debugging.
 */
 /* SG
-#Functions/Photoshop converters [[dev]]
+# Functions/Photoshop converters [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -178,7 +186,7 @@ Converts Photoshop gradient-stops to CSS gradients.
 
 */
 /* SG
-#Functions/Type [[dev]]
+# Functions/Type [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -210,7 +218,7 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 
 */
 /* SG
-#Functions/Colors [[dev]]
+# Functions/Colors [[dev]]
 /globals/_gl-color-functions.scss
 
 ##### `colors()`, `color()`
@@ -345,7 +353,7 @@ _NOTE: Must be pixel values(or a function that generates a pixel value), but the
 
 */
 /* SG
-#Config/General Settings [[dev]]
+# Config/General Settings [[dev]]
 
 ##### `$$breakpoints`
 ###### List (nested) (string)
@@ -383,7 +391,7 @@ Reference: https://github.com/kenwheeler/slick/#sass-variables
 
 */
 /* SG
-#Config/Grid Settings [[dev]]
+# Config/Grid Settings [[dev]]
 
 ##### `$$gutter`
 ###### Pixel value
@@ -426,7 +434,7 @@ Determines what classes get generated at `$$breakpoints`. The list's order deter
 
 */
 /* SG
-#Variables/Defaults [[dev]]
+# Variables/Defaults [[dev]]
 
 /globals/_gl-defaults.scss
 
@@ -482,19 +490,35 @@ The names of all colors in the `$$colors` map.
 
 */
 /* SG
-#Tools/ [[dev]]
+# Tools/ [[dev]]
+
 globals/tools/
 
 */
 /* SG
-#Tools/Mixins [[dev]]
+# Tools/Media Queries [[dev]]
 
-globals/tools/_t-mixins.scss
+globals/tools/_t-media-queries.scss
 
 ##### `@media-query()`, `@mq()`, `@media()`, `@breakpoint()`, `@bp()`
-###### mixin(`$media-queries`)
-Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined by using a nested list (double parenthesis).
+###### mixin(`$media-queries...`)
+Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined, separated by a comma. This will place your content into multiple separate media-queries at once (useful if you need the same css at different breakpoints).
 
+**Alternative Uses:**
+
+* Passing multiple media queries separated by an `'and'` (quoted) to combine them, creating statements that look like `@media screen and (min-width: 500px) and (max-width: 900px){}`.
+
+* Passing a value like `min-width 1200px` or `max-height 300px` allows for arbitrary breakpoints.
+
+* Passing `max 1200px 'and' smalls` will create a combined media-query with a predefined one from `$$breakpoints`.
+
+* Passing `height smalls` will change all instances of width to height within the `smalls` breakpoint. Similarly, using `min smalls` would change all instances of 'max' to 'min'.
+
+*/
+/* SG
+# Tools/Mixins [[dev]]
+
+globals/tools/_t-mixins.scss
 
 ##### `@specificity()`
 ###### mixin(`$increase`: 1)
@@ -524,7 +548,7 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 
 */
 /* SG
-#Tools/Z-Index [[dev]]
+# Tools/Z-Index [[dev]]
 
 globals/tools/_t-zindex.scss
 
@@ -536,7 +560,7 @@ The `$modifier` is useful if you'd like to closely layer z-indexes within the sa
 
 */
 /* SG
-#Tools/Font Face Generator [[dev]]
+# Tools/Font Face Generator [[dev]]
 
 globals/tools/_t-fontface.scss
 
@@ -610,7 +634,7 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
   font-style: normal; }
 
 /* SG
-#Tools/Spacing Utilities [[dev]]
+# Tools/Spacing Utilities [[dev]]
 
 globals/tools/_t-spacing.scss
 
@@ -640,7 +664,7 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 
 */
 /* SG
-#Tools/Alignment Utilities [[dev]]
+# Tools/Alignment Utilities [[dev]]
 
 globals/tools/_t-alignment.scss
 
@@ -655,7 +679,7 @@ The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilite
 
 */
 /* SG
-#Tools/Type Utilities [[dev]]
+# Tools/Type Utilities [[dev]]
 
 globals/tools/_t-type.scss
 
@@ -669,7 +693,7 @@ The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with 
 
 */
 /* SG
-#Tools/Display Utilities [[dev]]
+# Tools/Display Utilities [[dev]]
 
 globals/tools/_t-display.scss
 
@@ -684,7 +708,7 @@ The responsive component to `@display-utilities()`. Invoke `@display-utilites()`
 
 */
 /* SG
-#Variables/Easing [[dev]]
+# Variables/Easing [[dev]]
 
 globals/tools/_t-easings.scss
 
@@ -694,7 +718,7 @@ Each easing variable is a cubic-bezier value that specifies rate of change of an
 
 */
 /* SG
-#Grid [[dev]]
+# Grid [[dev]]
 
 components/layout/_l-mixins.scss
 
@@ -1400,7 +1424,7 @@ input[type="submit"] {
   *overflow: visible; }
 
 /* SG
-#Lists/Bordered Lists
+# Lists/Bordered Lists
 
 Creates a list with borders above and below each list item. Appending `list_bordered` with `_short` will make reduce the padding between each item.
 
@@ -1436,7 +1460,7 @@ Creates a list with borders above and below each list item. Appending `list_bord
   padding-bottom:  0.75rem; }
 
 /* SG
-#Lists/Inline Lists
+# Lists/Inline Lists
 
 A list where each item is in a row, with spacing to the right of each item
 
@@ -1459,7 +1483,7 @@ A list where each item is in a row, with spacing to the right of each item
     padding-right: 0; }
 
 /* SG
-#Lists/Breadcrumbs
+# Lists/Breadcrumbs
 
 A list where each item is in a row, with a &#x25B8; between each item.
 
@@ -1485,7 +1509,7 @@ A list where each item is in a row, with a &#x25B8; between each item.
     display: inline-block; }
 
 /* SG
-#Lists/Navigation List
+# Lists/Navigation List
 
 List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn't have to be an `ol` or `ul`).
 
@@ -1518,7 +1542,8 @@ List where anchor tags fill the space of their containers. Useful as a modifier 
 
 A way to show groups of content, with buttons to toggle between them (like tabs in a folder or browser window).
 
-######Set Up
+###### Set Up
+
 Tabs start out as simple anchor + element pairings (with the anchor's href referring to an element's ID).
 
 Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
@@ -1786,9 +1811,13 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   font-size:  1.25rem;
   line-height: 1.2; }
 
+@media only all and (max-width: 480px) and (max-width: 640px) {
+  h1, #test {
+    font-size: 25px; } }
+
 /* SG
 
-#Layout/Media object
+# Layout/Media object
 
 Useful for creating an association between an image and text. Often used with an icon or a profile image.
 
@@ -1810,7 +1839,7 @@ Useful for creating an association between an image and text. Often used with an
 
 /* SG
 
-#Layout/Arrangement object
+# Layout/Arrangement object
 
 Creates an image-content block that vertically aligns images and text (centered, bottom, or top).
 Children can be named four things:
@@ -1886,7 +1915,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
     width: 1%; }
 
 /* SG
-#Color Blocks
+# Color Blocks
 A good way to look over your color pallete.
 
 Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.

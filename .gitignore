@@ -9,3 +9,5 @@ _*.html
 styleguide/index.json
 .idea/
 *.iml
+
+npm-debug.log

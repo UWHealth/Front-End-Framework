@@ -45,7 +45,7 @@
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.0.1",
     "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.3",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.0.1",
     "gulp-shell": "^0.4.1",
     "gulp-size": "^1.2.2",
@@ -54,10 +54,10 @@
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.5",
     "highlight": "^0.2.3",
-    "highlight.js": "^8.6.0",
+    "highlight.js": "^8.7.0",
     "jshint-stylish": "^2.0.1",
-    "markdown-documentation-generator": "^1.0.6",
-    "specificity-graph": "^0.1.2",
-    "yargs": "^3.10.0"
+    "markdown-documentation-generator": "^1.2.0",
+    "specificity-graph": "^0.1.6",
+    "yargs": "^3.17.1"
   }
 }

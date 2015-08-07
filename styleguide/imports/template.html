@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{customVars.pageTitle}}</title>
     <script src="../js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <link rel="stylesheet" href="../css/main.css" media="screen">
@@ -17,84 +17,52 @@
 <body>
 <main class="wrap">
     {{!--Menu--}}
+
     <nav id="styleguide-menu">
-        {{!-- <a href="#" data-toggle=".top_menu, .menu_body" class="toggle button button_small">
-            <span>Toggle Menu</span>
-        </a> --}}
-    	<ul class="top_menu">
-            <li>
-                <a href="#styleguide-styles" class="sectionlink show_all menu_link" data-section="#styleguide-styles .section">Styles</a>
-                <span class="submenu_toggle toggle_active" data-toggle="#style_menu">&#9662;</span>
-            </li>
-        </ul>
-        <ul id="style_menu" class="menu_body">
-    	{{#each menus.sections}}
-    		<li>
-                {{!-Sections with Children--}}
-    			{{#if headings.1.name}}
-                    <a class="submenulink menulink_with_subs" href="#{{headings.0.id}}" data-section="{{../name}}">{{name}}</a>
-                    <span class="submenu_toggle" data-toggle="[data-submenu='{{../name}}']">&#9662;</span>
-                    <ul class="submenu" data-submenu="{{../name}}">
-                    {{#each headings}}
-                        {{#if name}}
-                            <li><a class="submenulink sub-sub menu_link" data-section="{{../../name}}" href="#{{id}}">{{name}}</a></li>
-                        {{else}}
-                            <li><a class="submenulink sub-sub menu_link" data-section="{{../../name}}" href="#{{id}}">{{../../name}}</a></li>
-                        {{/if}}
-                    {{/each}}
-                    </ul>
-    			{{/if}}
-                {{!--Sections without Children--}}
-                {{#unless headings.1.name}}
-                    <a class="sectionlink menu_link" href="#{{headings.0.id}}" data-section="{{name}}">{{name}}</a>
-                {{/unless}}
-    		</li>
-    	{{/each}}
-    	</ul>
-        {{#if menus.developmentSections}}
-            <ul class="space_t top_menu">
+        {{#each menus}}
+        {{#eachProperty this}}
+            <ul class="top_menu">
                 <li>
-                    <a href="#styleguide-dev" class="sectionlink show_all menu_link" data-section="#styleguide-dev .section">Development</a>
-                    <span class="submenu_toggle toggle_active" data-toggle="#development_menu">&#9662;</span>
+                    <a href="#{{key}}" class="sectionlink show_all menu_link">{{titleize key}}</a>
+                    <span class="submenu_toggle toggle_active" data-toggle="#sub-{{key}}" data-toggle-type="slide">&#9662;</span>
                 </li>
             </ul>
-            <ul id="development_menu" class="menu_body">
-        	{{#each menus.developmentSections}}
-        		<li>
-                    {{!-Sections with Children--}}
-        			{{#if headings.1.name}}
-                        <a class="submenulink menulink_with_subs" href="#{{headings.0.id}}" data-section="{{name}}">{{name}}</a>
-                        <span class="submenu_toggle" data-toggle="[data-submenu='{{../name}}']">&#9662;</span>
-                        <ul class="submenu" data-submenu="{{../name}}">
-                        {{#each headings}}
-                            {{#if name}}
-                                <li><a class="submenulink sub-sub menu_link" data-section="{{../../name}}" href="#{{id}}">{{name}}</a></li>
-                            {{else}}
-                                <li><a class="submenulink sub-sub menu_link" data-section="{{../../name}}" href="#{{id}}">{{../../name}}</a></li>
-                            {{/if}}
-                        {{/each}}
-                        </ul>
-        			{{/if}}
-                    {{!--Sections without Children--}}
-                    {{#unless headings.1.name}}
-                        <a class="sectionlink menu_link" href="#{{headings.0.id}}" data-section="{{name}}">{{name}}</a>
-                    {{/unless}}
-        		</li>
-        	{{/each}}
-        	</ul>
-        {{/if}}
+            <ul id="sub-{{key}}" class="menu_body">
+                {{#eachProperty value}}
+                    <li>
+                    {{#with value}}
+                        {{#if headings.1.name}}
+                            <a class="submenulink menulink_with_subs" href="#{{sanitize headings.0.id}}">{{name}}</a>
+                            <span class="submenu_toggle"
+                                data-toggle="[data-submenu='{{headings.0.name}}']"data-toggle-type="slide">&#9662;</span>
+                            <ul class="submenu" data-submenu="{{headings.0.name}}">
+                                {{#each headings}}
+                                    <li>
+                                        <a href="#{{sanitize id}}" class="submenulink sub-sub menu_link">{{name}}</a>
+                                    </li>
+                                {{/each}}
+                            </ul>
+                        {{else}}
+                            <a class="sectionlink menu_link" href="#{{sanitize headings.0.id}}">{{name}}</a>
+                        {{/if}}
+                    </li>
+                    {{/with}}
+                {{/eachProperty}}
+            </ul>
+        {{/eachProperty}}
+        {{/each}}
     </nav>
 
     {{!--SECTIONS--}}
     <section id="styleguide">
         {{#if sections}}
 
-        <div id="styleguide-styles" class="section_container style_sections" data-section="style styles">
+        <div id="styles" class="section_container style_sections" data-section="style styles">
             <header class="section section_starter">
                 <h1 class="h3">Styles</h1>
             </header>
         	{{#each sections}}
-        		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
+        		<article class="section" id="{{sanitize id}}" data-section="{{sanitize section}}" data-heading="{{sanitize heading}}">
 
                     <header class="section_header">
                         {{#unless isSubsection}}
@@ -128,12 +96,12 @@
         {{/if}}
 
         {{#if developmentSections}}
-        <div id="styleguide-dev" class="section_container dev_sections" data-section="styleguide-dev">
+        <div id="development" class="section_container dev_sections" data-section="styleguide-dev">
             <header class="section section_starter">
                 <h1 class="h3">Development</h1>
             </header>
             {{#each developmentSections}}
-        		<article class="section" id="{{id}}" data-section="{{section}}" data-heading="{{heading}}">
+        		<article class="section" id="{{sanitize id}}" data-section="{{sanitize section}}" data-heading="{{sanitize heading}}">
 
                     <header class="section_header">
                         {{#unless isSubsection}}
