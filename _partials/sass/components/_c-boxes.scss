@@ -65,21 +65,3 @@
 .wide:before {
 	margin-top: 50%;
 }
-
-//Media block.
-// Taken from: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
-// Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.
-
-%media_block {
-    zoom: 1;
-
-    & .img, & .media{
-        float:left;
-        word-break: break-word;
-        display: inline-block;
-        @include rems(margin-right, $gutter);
-    }
-    & .img ~ *, & .media_body {
-        overflow: hidden;
-    }
-}

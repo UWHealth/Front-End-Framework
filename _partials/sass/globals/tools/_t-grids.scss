@@ -9,17 +9,17 @@ components/layout/_l-mixins.scss
 
 -------------------------------------------
 
-##### `$$class-type`
+##### `$$grid-class-type`
 ###### String
-Either a `%` or a `.` based on `$$use-silent-classes`.
+Either a `%` or a `.` based on `$$grid-silent-classes`.
 
 
-##### `$$human-readable_numerators`
+##### `$$human-readable-numerators`
 ###### List (string)
 First words used to represent numbers corresponding to grid interval names.
 
 
-##### `$$human-readable_denominators`
+##### `$$human-readable-denominators`
 ###### List (string)
 Second words used to represent numbers corresponding to grid interval names.
 
@@ -32,6 +32,7 @@ Allows for conditional `position: relative` for silent push or pull classes.
 ###### mixin()
 Creates basic grid classes (listed below), called by `@grid-init()`.
 
+_Note: `[% , .]` denotes a class that is either silent or
 
 * ###### `%grid_reset`
  Useful for resetting the grid's effects without making full grid items.
@@ -68,19 +69,19 @@ Creates basic grid classes (listed below), called by `@grid-init()`.
 
 ##### `@width-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
+ Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentage widths based on `$$grid-columns`.
 
 ##### `@push-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (`left` or `margin-left`) based on `$$columns`.
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (`left` or `margin-left`) based on `$$grid-columns`.
 
 ##### `@pull-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (`right` or negative `margin-left`) based on `$$columns`.
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (`right` or negative `margin-left`) based on `$$grid-columns`.
 
 ##### `@grid-init()`
 ###### mixin()
- Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`).
+ Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`). Using the namespaces and media-queries defined in `$$breakpoint-has-widths`, `$$breakpoint-has-push`, and `$$breakpoint-has-pull`.
 
 */
 
@@ -145,16 +146,16 @@ $push-type: 			unquote('left');
 $pull-type: 			unquote('right');
 $pulls: 				unquote('');
 
-@if $use-margin-adjustments{
-	$push-type: 		unquote('margin-left') !global;
-	$pull-type: 		unquote('margin-left') !global;
-	$pulls: 			unquote('-')  !global; //Using negative margins for pulls
+@if $grid-margin-adjustments{
+	$push-type: 		unquote('margin-left');
+	$pull-type: 		unquote('margin-left');
+	$pulls: 			unquote('-'); //Using negative margins for pulls
 }
 
-$class-type:            unquote(".") !global;
+$grid-class-type:            unquote(".");
 
-@if $use-silent-classes == true {
-    $class-type:        unquote("%") !global;
+@if $grid-silent-classes == true {
+    $grid-class-type:        unquote("%") !global;
 }
 
 //Grid
@@ -174,7 +175,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 // the `[class*="push--"]` and `[class*="pull--"]` selectors.
 //
 @mixin silent-relative(){
-    @if $use-silent-classes == true {
+    @if $grid-silent-classes == true {
         position: relative;
     }
 }
@@ -196,25 +197,25 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	 // 2. Remove any margins and paddings that might affect the grid system.
 	 // 3. Apply a negative `margin-left` to negate the columns’ gutters.
 	 //
-	#{$class-type}grid {
+	#{$grid-class-type}grid {
 	    list-style: none;                // [1]
 	    margin: 0;                       // [2]
 	    padding: 0;                      // [2]
 	    @include type-space(margin-left, -1);
 
-		@if $use-markup-fix != true and $use-floats != true{
+		@if $grid-markup-fix != true and $grid-floats != true{
 	        letter-spacing:-0.35em;
 	    }
 
-		@if $use-floats == true {
+		@if $grid-floats == true {
 	        @extend %clearfix;
 	    }
 	}
 
-	@if $use-markup-fix != true and $use-floats != true {
+	@if $grid-markup-fix != true and $grid-floats != true {
 	    // Opera hack
 	    .opera:-o-prefocus,
-	    #{$class-type}grid{
+	    #{$grid-class-type}grid{
 	        word-spacing:-0.43em;
 	    }
 	}
@@ -225,8 +226,8 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	// 4. Full-width unless told to behave otherwise.
 	// 5. Required to combine fluid widths and fixed gutters.
 	//
-	#{$class-type}grid_item {
-	    @if $use-floats != true {
+	#{$grid-class-type}grid_item {
+	    @if $grid-floats != true {
 	        display:inline-block;     // [1]
 	    }@else{
 	        display: block;
@@ -239,16 +240,16 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	        width:100%;                 // [4]
 	    }
 
-	    @if $use-markup-fix != true and $use-floats != true { //5
+	    @if $grid-markup-fix != true and $grid-floats != true { //5
 	        letter-spacing: normal;
 	        word-spacing: normal;
 	    }
 	}
 
 	// Special class for grid items that need to behave like both grids and grid__items.
-	#{$class-type}grid_grid_item{
-	    @extend #{$class-type}grid;
-	    @extend #{$class-type}grid_item;
+	#{$grid-class-type}grid_grid_item{
+	    @extend #{$grid-class-type}grid;
+	    @extend #{$grid-class-type}grid_item;
 	    padding-left: 0;
 	    margin-left: 0;
 	}
@@ -257,20 +258,20 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	// Reversed grids allow you to structure your source in the opposite order to
 	// how your rendered layout will appear. Extends `.grid`.
 	//
-	#{$class-type}grid_rev{
-	    @if $use-floats == true {
+	#{$grid-class-type}grid_rev{
+	    @if $grid-floats == true {
 	        @extend %clearfix;
 	    }
-	    @if $use-floats != true {
+	    @if $grid-floats != true {
 	        direction: rtl;
 	        text-align: left;
 
-	        #{$class-type}grid_item{
+	        #{$grid-class-type}grid_item{
 	            direction: ltr;
 	            text-align: left;
 	        }
 	    }@else{
-	        > #{$class-type}grid_item{
+	        > #{$grid-class-type}grid_item{
 	            float: right;
 	            text-align: left;
 	        }
@@ -281,18 +282,18 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	//
 	// Align the entire grid to the right. Extends `.grid`.
 	//
-	#{$class-type}grid_right{
-	    @if $use-floats != true {
+	#{$grid-class-type}grid_right{
+	    @if $grid-floats != true {
 	        text-align:right;
 
-	        > #{$class-type}grid_item {
+	        > #{$grid-class-type}grid_item {
 	            text-align: left;
 	        }
 	    }@else{
 	        float: right;
 	        @extend %clearfix;
 
-	        > #{$class-type}grid_item {
+	        > #{$grid-class-type}grid_item {
 	        float: right;
 	        }
 	    }
@@ -304,11 +305,11 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	// classes. Extends `.grid`.
 	//
 	// Not availabe
-	#{$class-type}grid_center{
-	    @if $use-floats != true {
+	#{$grid-class-type}grid_center{
+	    @if $grid-floats != true {
 	        text-align:center;
 
-	        > #{$class-type}grid_item {
+	        > #{$grid-class-type}grid_item {
 	            text-align:left;
 	        }
 	    }
@@ -319,16 +320,16 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	// Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
 	// `.grid`.
 	//
-	#{$class-type}grid_middle{
+	#{$grid-class-type}grid_middle{
 
-	    > #{$class-type}grid_item {
+	    > #{$grid-class-type}grid_item {
 	        vertical-align:middle;
 	    }
 	}
 
-	#{$class-type}grid_bottom{
+	#{$grid-class-type}grid_bottom{
 
-	    > #{$class-type}grid_item {
+	    > #{$grid-class-type}grid_item {
 	        vertical-align:bottom;
 	    }
 	}
@@ -338,14 +339,14 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	// Gutterless grids have all the properties of regular grids, minus any spacing.
 	// Extends `.grid`.
 	//
-	#{$class-type}grid_full{
+	#{$grid-class-type}grid_full{
 	    margin-left: 0;
 
-		@if $use-floats == true {
+		@if $grid-floats == true {
 	        @extend %clearfix;
 	    }
 
-	    > #{$class-type}grid_item {
+	    > #{$grid-class-type}grid_item {
 	        padding-left:0;
 	    }
 	}
@@ -354,10 +355,10 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	//
 	// Create grids with narrower gutters. Extends `.grid`.
 	//
-	#{$class-type}grid_narrow {
+	#{$grid-class-type}grid_narrow {
 	    @include type-space(margin-left, -.5);
 
-		> #{$class-type}grid_item {
+		> #{$grid-class-type}grid_item {
 	        @include type-space(padding-left, .5);
 	    }
 	}
@@ -366,10 +367,10 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	//
 	// Create grids with wider gutters. Extends `.grid`.
 	//
-	#{$class-type}grid_wide {
+	#{$grid-class-type}grid_wide {
 	    @include type-space(margin-left, -2);
 
-		> #{$class-type}grid_item {
+		> #{$grid-class-type}grid_item {
 	        @include type-space(margin-left, 2);
 	    }
 	}
@@ -395,8 +396,8 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     //
     // Just FOR REFERENCE: A numerator is the first (top) number in a fraction. The denominator is the second (bottom) number.
     //
-    // [1] Loop through the $columns.
-    // [2] Loop through $divisor (same number as $columns). This acts as the second number in our column fraction.
+    // [1] Loop through the $grid-columns.
+    // [2] Loop through $divisor (same number as $grid-columns). This acts as the second number in our column fraction.
     // [3a]Loop through $divisor before it decreases by 1 from the previous loop.
     // [3b]After widths are defined, subtract 1 from $divisor.
     // [4] Assign the numerator and denominator of our fraction to human-readable versions (e.g. three, four, third, quarter, etc.).
@@ -405,11 +406,11 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
     //
     // Same system used for pushes and pulls.
 
-        $divisor: $columns;
+        $divisor: $grid-columns;
 		$class-name: '';
 		$class-name-list: ();
 
-        @for $i from 1 to $columns {                                               // [1]
+        @for $i from 1 to $grid-columns {                                               // [1]
 
             @while $divisor > 0 {                                                  // [2]
 
@@ -425,15 +426,15 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
                     @if $numerator == 1{                                          // [5]
 
-						$class-name: #{$class-type}#{$namespace}#{$numerators}_#{$denominator};
+						$class-name: #{$grid-class-type}#{$namespace}#{$numerators}_#{$denominator};
 
                     }@else{                                                        // [6]
-                        $class-name: #{$class-type}#{$namespace}#{$numerators}_#{$denominator}s;
+                        $class-name: #{$grid-class-type}#{$namespace}#{$numerators}_#{$denominator}s;
                     }
 
 					#{$class-name} { width: $width; }
 
-					@if $use-silent-classes and $silent-class-debug {
+					@if $grid-silent-classes and $silent-class-debug {
 						$class-name-list: map-merge($class-name-list, ($class-name: $width));
 					}
 
@@ -443,22 +444,22 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
         }
 
 
-        #{$class-type}#{$namespace}one_whole {
+        #{$grid-class-type}#{$namespace}one_whole {
 			width:100%; }
 
-        #{$class-type}#{$namespace}one_fourth {
-			@extend #{$class-type}#{$namespace}one_quarter; }
+        #{$grid-class-type}#{$namespace}one_fourth {
+			@extend #{$grid-class-type}#{$namespace}one_quarter; }
 
-        #{$class-type}#{$namespace}two_fourths {
-			@extend #{$class-type}#{$namespace}two_quarters; }
+        #{$grid-class-type}#{$namespace}two_fourths {
+			@extend #{$grid-class-type}#{$namespace}two_quarters; }
 
-        #{$class-type}#{$namespace}three_fourths {
-			@extend #{$class-type}#{$namespace}three_quarters; }
+        #{$grid-class-type}#{$namespace}three_fourths {
+			@extend #{$grid-class-type}#{$namespace}three_quarters; }
 
 
-		@if $use-silent-classes and $silent-class-debug {
+		@if $grid-silent-classes and $silent-class-debug {
 			$class-name-list: map-merge($class-name-list,(
-				#{$class-type}#{$namespace}one_whole: 100%
+				#{$grid-class-type}#{$namespace}one_whole: 100%
 			));
 			$silent-class-registry: silents-register($class-name-list, 'widths') !global;
 		}
@@ -471,9 +472,9 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
  // Push classes, to move grid items over to the right by certain amounts.
 
 @mixin push-setup($namespace: ""){
-        $divisor: $columns;
+        $divisor: $grid-columns;
 
-        @for $i from 1 to $columns {                                               // [1]
+        @for $i from 1 to $grid-columns {                                               // [1]
 
             @while $divisor > 0 {                                                  // [2]
 
@@ -490,13 +491,13 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
                     @if $numerator == 1{                                          // [5]
 
-                        #{$class-type}push_#{$namespace}#{$numerators}_#{$denominator} {
+                        #{$grid-class-type}push_#{$namespace}#{$numerators}_#{$denominator} {
                             #{$push-type}: $width; @include silent-relative();
                         }
 
                     }@else{                                                        // [6]
 
-                        #{$class-type}push_#{$namespace}#{$numerators}_#{$denominator}s {
+                        #{$grid-class-type}push_#{$namespace}#{$numerators}_#{$denominator}s {
                             #{$push-type}: $width; @include silent-relative();
                         }
 
@@ -506,17 +507,17 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
             }
         }
 
-        #{$class-type}push_#{$namespace}one_whole {
+        #{$grid-class-type}push_#{$namespace}one_whole {
 			#{$push-type}: 100%; @include silent-relative();
 		}
-        #{$class-type}push_#{$namespace}one_fourth {
-			@extend #{$class-type}push_#{$namespace}one_quarter;
+        #{$grid-class-type}push_#{$namespace}one_fourth {
+			@extend #{$grid-class-type}push_#{$namespace}one_quarter;
 		}
-        #{$class-type}push_#{$namespace}two_fourths {
-			@extend #{$class-type}push_#{$namespace}two_quarters;
+        #{$grid-class-type}push_#{$namespace}two_fourths {
+			@extend #{$grid-class-type}push_#{$namespace}two_quarters;
 		}
-        #{$class-type}push_#{$namespace}three_fourths {
-			@extend #{$class-type}push_#{$namespace}three_quarters;
+        #{$grid-class-type}push_#{$namespace}three_fourths {
+			@extend #{$grid-class-type}push_#{$namespace}three_quarters;
 		}
 }
 
@@ -525,9 +526,9 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 //----------------------\\
 
 @mixin pull-setup($namespace: ""){
-        $divisor: $columns;
+        $divisor: $grid-columns;
 
-        @for $i from 1 to $columns {                                               // [1]
+        @for $i from 1 to $grid-columns {                                               // [1]
 
             @while $divisor > 0 {                                                  // [2]
 
@@ -544,13 +545,13 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 
                     @if $numerator == 1{                                          // [5]
 
-                        #{$class-type}pull_#{$namespace}#{$numerators}_#{$denominator} {
+                        #{$grid-class-type}pull_#{$namespace}#{$numerators}_#{$denominator} {
                             #{$pull-type}: #{$pulls}$width; @include silent-relative();
                         }
 
-                    }@else{                                                        // [6]
+                    }@else {                                                       // [6]
 
-                        #{$class-type}pull_#{$namespace}#{$numerators}_#{$denominator}s {
+                        #{$grid-class-type}pull_#{$namespace}#{$numerators}_#{$denominator}s {
                             #{$pull-type}: #{$pulls}$width; @include silent-relative();
                         }
                     }
@@ -558,17 +559,17 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
                 $divisor: $divisor - 1; //[3b]
             }
         }
-		#{$class-type}pull_#{$namespace}one_whole {
+		#{$grid-class-type}pull_#{$namespace}one_whole {
 			#{$pull-type}: 100%; @include silent-relative();
 		}
-        #{$class-type}pull_#{$namespace}one_fourth {
-			@extend #{$class-type}pull_#{$namespace}one_quarter;
+        #{$grid-class-type}pull_#{$namespace}one_fourth {
+			@extend #{$grid-class-type}pull_#{$namespace}one_quarter;
 		}
-        #{$class-type}pull_#{$namespace}two_fourths    {
-			@extend #{$class-type}pull_#{$namespace}two_quarters;
+        #{$grid-class-type}pull_#{$namespace}two_fourths    {
+			@extend #{$grid-class-type}pull_#{$namespace}two_quarters;
 		}
-        #{$class-type}pull_#{$namespace}three_fourths  {
-			@extend #{$class-type}pull_#{$namespace}three_quarters;
+        #{$grid-class-type}pull_#{$namespace}three_fourths  {
+			@extend #{$grid-class-type}pull_#{$namespace}three_quarters;
 		}
 }
 
@@ -588,9 +589,9 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	    }
 	}
 
-	@if $push == true {
+	@if $grid-push == true {
 	    // Not a particularly great selector, but the DRYest way to do things.
-	    @if $use-silent-classes != true {
+	    @if $grid-silent-classes != true {
 	        [class*="push_"]{ position: relative; }
 	    }
 
@@ -605,9 +606,9 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	    }
 	}
 
-	@if $pull == true {
+	@if $grid-pull == true {
 	    // Not a particularly great selector, but the DRYest way to do things.
-	    @if $use-silent-classes != true {
+	    @if $grid-silent-classes != true {
 	        [class*="pull_"]{ position:relative; }
 	    }
 

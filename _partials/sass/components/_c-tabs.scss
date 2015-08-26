@@ -41,7 +41,7 @@ Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript
 /* SG
 # Tabs/Premade
 
-You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s.
+You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s. Proper `aria-roles` will still be added to this set up. **This should only be done if you are confident that your user will have javascript enabled, as there is no fallback.**
 
 ```html_example
 <div class="tabbed" data-tabbed="true">

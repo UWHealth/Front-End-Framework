@@ -393,39 +393,34 @@ Reference: https://github.com/kenwheeler/slick/#sass-variables
 /* SG
 # Config/Grid Settings [[dev]]
 
-##### `$$gutter`
+##### `$$grid-gutter`
 ###### Pixel value
 Space between grid items. Also used in `type-space()` for horizontal spacing units.
 
 
-##### `$$use-silent-classes`
+##### `$$grid-silent-classes`
 ###### Boolean
 If set to false, actual grid classes will be output to CSS.
 
 
-##### `$$push`, `$$pull`
+##### `$$grid-push`, `$$grid-pull`
 ###### Boolean
 Determines whether to include extra grid classes for positional grid modifiers.
 
 
-##### `$$use-margin-adjustments`
+##### `$$grid-margin-adjustments`
 ###### Boolean
 Used to push and pull with margins rather than 'right' and 'left'.
 
 
-##### `$$use-markup-fix`
+##### `$$grid-markup-fix`
 ###### Boolean
 If set to `true`, html must have comments between grid items. Almost always set to `false`.
 
 
-##### `$$use-floats`
+##### `$$grid-floats`
 ###### Boolean
 If set to `true`, uses floats instead of inline-block.
-
-
-##### `$show-baseline`
-###### Boolean
-For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
 
 
 ##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
@@ -724,17 +719,17 @@ components/layout/_l-mixins.scss
 
 -------------------------------------------
 
-##### `$$class-type`
+##### `$$grid-class-type`
 ###### String
-Either a `%` or a `.` based on `$$use-silent-classes`.
+Either a `%` or a `.` based on `$$grid-silent-classes`.
 
 
-##### `$$human-readable_numerators`
+##### `$$human-readable-numerators`
 ###### List (string)
 First words used to represent numbers corresponding to grid interval names.
 
 
-##### `$$human-readable_denominators`
+##### `$$human-readable-denominators`
 ###### List (string)
 Second words used to represent numbers corresponding to grid interval names.
 
@@ -747,6 +742,7 @@ Allows for conditional `position: relative` for silent push or pull classes.
 ###### mixin()
 Creates basic grid classes (listed below), called by `@grid-init()`.
 
+_Note: `[% , .]` denotes a class that is either silent or
 
 * ###### `%grid_reset`
  Useful for resetting the grid's effects without making full grid items.
@@ -783,19 +779,19 @@ Creates basic grid classes (listed below), called by `@grid-init()`.
 
 ##### `@width-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
+ Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentage widths based on `$$grid-columns`.
 
 ##### `@push-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (`left` or `margin-left`) based on `$$columns`.
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (`left` or `margin-left`) based on `$$grid-columns`.
 
 ##### `@pull-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (`right` or negative `margin-left`) based on `$$columns`.
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (`right` or negative `margin-left`) based on `$$grid-columns`.
 
 ##### `@grid-init()`
 ###### mixin()
- Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`).
+ Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`). Using the namespaces and media-queries defined in `$$breakpoint-has-widths`, `$$breakpoint-has-push`, and `$$breakpoint-has-pull`.
 
 */
 body,
@@ -1562,7 +1558,7 @@ Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript
 /* SG
 # Tabs/Premade
 
-You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s.
+You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s. Proper `aria-roles` will still be added to this set up. **This should only be done if you are confident that your user will have javascript enabled, as there is no fallback.**
 
 ```html_example
 <div class="tabbed" data-tabbed="true">
@@ -1817,9 +1813,9 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 
 /* SG
 
-# Layout/Media object
+# Layout/Isolation object
 
-Useful for creating an association between an image and text. Often used with an icon or a profile image.
+Isolates an image from text wrapping underneath. Useful for creating an association between an image and text. Often used with an icon or avatar. Adding other classes to the `isolate_body` can create a more stylized version.
 
 ```html_example
 <img class="isolate_media" src="http://placehold.it/300x50" alt="placeholder image">
@@ -1887,8 +1883,8 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 ```
 */
 .arrange {
-  min-width: 100%;
-  table-layout: auto; }
+  table-layout: auto;
+  min-width: 100%; }
   .arrange_media img,
   .arrange_fit img {
     max-width: none; }

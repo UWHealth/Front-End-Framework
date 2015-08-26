@@ -234,39 +234,34 @@ $colors: (
 /* SG
 # Config/Grid Settings [[dev]]
 
-##### `$$gutter`
+##### `$$grid-gutter`
 ###### Pixel value
 Space between grid items. Also used in `type-space()` for horizontal spacing units.
 
 
-##### `$$use-silent-classes`
+##### `$$grid-silent-classes`
 ###### Boolean
 If set to false, actual grid classes will be output to CSS.
 
 
-##### `$$push`, `$$pull`
+##### `$$grid-push`, `$$grid-pull`
 ###### Boolean
 Determines whether to include extra grid classes for positional grid modifiers.
 
 
-##### `$$use-margin-adjustments`
+##### `$$grid-margin-adjustments`
 ###### Boolean
 Used to push and pull with margins rather than 'right' and 'left'.
 
 
-##### `$$use-markup-fix`
+##### `$$grid-markup-fix`
 ###### Boolean
 If set to `true`, html must have comments between grid items. Almost always set to `false`.
 
 
-##### `$$use-floats`
+##### `$$grid-floats`
 ###### Boolean
 If set to `true`, uses floats instead of inline-block.
-
-
-##### `$show-baseline`
-###### Boolean
-For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
 
 
 ##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
@@ -275,20 +270,20 @@ Determines what classes get generated at `$$breakpoints`. The list's order deter
 
 */
 
-$columns:                  13;
-$gutter:                 32px;
-$use-silent-classes:     true;
-$push:                   true;
-$pull:                   true;
+$grid-columns:          13;
+$grid-gutter:           32px;
+$grid-silent-classes:	true;
+$grid-push:             true;
+$grid-pull:             true;
 
 //Setting this to true means there can be no whitespce
 // in your HTML markup between grid items.
-$use-markup-fix:        false;
-$use-floats:            false;
+$grid-markup-fix:        false;
+$grid-floats:            false;
 
 //Grids default to using relative (right and left) for pushes and pulls.
 //Setting this to true will use margin-left.
-$use-margin-adjustments: false;
+$grid-margin-adjustments: false;
 
 // Give grid-abilities to breakpoints.
 // The more breakpoints defined here will result in longer preprocessing times

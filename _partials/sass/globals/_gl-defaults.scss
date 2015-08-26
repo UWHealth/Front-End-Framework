@@ -223,7 +223,7 @@ $silent-class-registry: ();
 //    $GRID
 //------------------------------------
 
-$columns: 				12 !default;
+$grid-columns: 				12 !default;
 
 // If you are building a non-responsive site but would still like to use
 // grids, set this to ‘false’:
@@ -238,27 +238,27 @@ $mobile-first:          true !default;
 
  // Set the spacing between your grid items.
 
-$gutter:                24px !default;
+$grid-gutter:                24px !default;
 
 
  // Would you like Sass’ silent classes, or regular CSS classes?
 
-$use-silent-classes:    false !default;
+$grid-silent-classes:    false !default;
 
 
  // Would you like to use floats instead of inline block?
-$use-floats:             false !default;
+$grid-floats:             false !default;
 
 
  // Would you like push and pull classes enabled?
 
-$push:                  false !default;
-$pull:                  false !default;
+$grid-push:                  false !default;
+$grid-pull:                  false !default;
 
 //Would you like to use margins rather than 'right' and 'left' for
 //pushing and pulling?
 
-$use-margin-adjustments: false!default;
+$grid-margin-adjustments: false!default;
 
 
  // Using `inline-block` means that the grid items need their whitespace removing
@@ -272,7 +272,7 @@ $use-margin-adjustments: false!default;
  // github.com/csswizardry/csswizardry-grids/commit/744d4b23c9d2b77d605b5991e54a397df72e0688
  // github.com/csswizardry/inuit.css/issues/170#issuecomment-14859371
 
-$use-markup-fix:        true !default;
+$grid-markup-fix:        true !default;
 
 
  // Define your breakpoints. The first value is the prefix that shall be used for

@@ -216,7 +216,7 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 
 			//if the value is for right or left spacing, use the gutter width for spacing.
 			@if str-contains($property, 'right') or str-contains($property, 'left'){
-				$value: $multiplier * $gutter;
+				$value: $multiplier * $grid-gutter;
 			}
 
 			@include rems($property, $value, $important);
@@ -267,8 +267,8 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless l
 	//Right and left get
 	$top_val: $top * $type-magic-number;
 	$bottom_val: $bottom * $type-magic-number;
-	$right_val: $right * $gutter;
-	$left_val: $left * $gutter;
+	$right_val: $right * $grid-gutter;
+	$left_val: $left * $grid-gutter;
 
 	// Generating only the necessary properties, and leave the rest blank.
 	// e.g. margin: 1px 3px; or margin: 2px 3px 1px;
