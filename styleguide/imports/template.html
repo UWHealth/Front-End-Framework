@@ -15,10 +15,10 @@
     {{> highlight}}
 </head>
 <body>
-<main class="wrap">
+<main class="styleguide-wrap">
     {{!--Menu--}}
-
     <nav id="styleguide-menu">
+        <div id="styleguide-menu-wrap">
         {{#each menus}}
         {{#eachProperty this}}
             <ul class="top_menu">
@@ -51,10 +51,15 @@
             </ul>
         {{/eachProperty}}
         {{/each}}
+        <div class="top_menu">
+            <a href="#" class="sectionlink show_all menu_link">Show All</a>
+        </div>
+        </div>
     </nav>
 
     {{!--SECTIONS--}}
     <section id="styleguide">
+        <div class="wrap">
         {{#if sections}}
 
         <div id="styles" class="section_container style_sections" data-section="style styles">
@@ -133,6 +138,7 @@
         	{{/each}}
         </div>
         {{/if}}
+    </div>
     </section>
 </main>
 <!--JQuery-->
@@ -166,7 +172,7 @@
             }
         });
 
-        $('#styleguide-menu').stick_in_parent();
+        $('#styleguide-menu-wrap').stick_in_parent();
     });
 
     // Style Guide-specific functions
@@ -184,9 +190,9 @@
             $menu.find('a.on').removeClass('on');
             $menuItem.addClass('on');
 
-            if ($menuItem.hasClass('sub-sub')){
+            if ($menuItem.hasClass('menulink_with_subs')){
                 $menuItem.closest('.submenu').siblings('.submenulink').addClass('on')
-                .siblings('.submenu_toggle').not('.toggle_active').trigger('toggle');
+                .siblings('.submenu_toggle').not('.toggle_active').trigger('click');
             }
         };
 

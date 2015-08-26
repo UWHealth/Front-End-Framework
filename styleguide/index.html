@@ -12,18 +12,29 @@
     <script src="../js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <link rel="stylesheet" href="../css/main.css" media="screen">
     <style>
+    .styleguide-wrap {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+    }
     
     #styleguide {
-        float: left;
-        width: 75%;
+        padding-top: 3rem;
+        padding-top: 3vh;
+        flex-basis: 75%;
+    }
+    
+    .wrap {
+        padding-top: 0;
     }
     
     #styleguide .section {
         padding-bottom: 2em;
         border-radius: 3px;
         overflow: hidden;
-        /*box-shadow: 0 2px 0 rgba(0,0,0,0.1),
-            0 3px 6px rgba(0,0,0,0.1);*/
+        max-width: 1200px;
     }
     
     #styleguide .section + .section {
@@ -66,8 +77,8 @@
     }
     
     #styleguide .markup.markup pre,
-    #styleguide .markup{
-        background-color: #43505E;
+    #styleguide .markup {
+        background-color: #4d6b80;
     }
     #styleguide .markup.markup pre,
     #styleguide .markup.markup code {
@@ -90,25 +101,25 @@
         padding: 1em 0;
     }
     
+    #styleguide .section_header {
+        padding-bottom: 0;
+        border-top: 2px solid #E9EEF3;
+    }
+    
     .header_subheading {
         text-transform: uppercase;
         letter-spacing: 0.1em;
-        color: #4d5458;
+        color: #7AA9C6;
         font-size: .85em;
     }
     
-    #styleguide .section_header {
-        padding-bottom: 0;
-        border-top: 1px solid rgba(0,0,0,0.2);
+    .header_heading {
+        margin-bottom: 0;
+        color: #668AA0;
     }
     
     #styleguide .section_comment {
-        border-bottom: 1px solid rgba(0,0,0,0.2);
-    }
-    
-    
-    .header_heading {
-        margin-bottom: 0;
+        border-bottom: 1px solid #E9EEF3;
     }
     
     #styleguide .result {
@@ -137,22 +148,143 @@
       font-weight: normal;
     }
     
-    .comment [id*="_code"] code{
+    .comment [id*="_code"] code {
         white-space: pre-wrap;
     }
     
-    #styleguide h5 code {
-        color: #0d3038;
+    [id*="_code_"] + .main-section-sg-by-emiloberg {
+      margin-top: -1.5rem;
+      margin-bottom: 1.75rem;
+      color: #9DC3C8;
+      font-weight: normal;
+    }
+    #styleguide [id*="_code_"] + .main-section-sg-by-emiloberg code{
+        color: #6ca8b5;
     }
     
+    #styleguide h5 code,
+    #styleguide .section_comment code {
+        color: #4496B5;
+    }
+    
+    /*=============================================*/
     /* menu */
+    /*=============================================*/
+    
     #styleguide-menu {
-        width: calc(25% - 3em - 2px);
-        float: left;
-        padding-right: .5em;
-        margin-right: 3em;
-        height: 100%;
+        display: flex;
+        flex-basis: 25%;
+        flex-direction: column;
+        background-color: #E9EEF3;
         overflow: auto;
+        max-height: 100%;
+        padding: 2em 0 0;
+        padding: 2vh 0 0;
+    }
+    
+    #styleguide-menu-wrap {
+        overflow: auto;
+        max-height: 100%;
+    }
+    
+    #styleguide-menu .submenu {
+        background: rgba(142,204,210,.04);
+    }
+    
+    /* Border Colors */
+    .top_menu,
+    .menu_body {
+        border-bottom: 2px solid;
+        overflow: hidden;
+    }
+    #styleguide-menu li {
+        border-bottom: 1px solid;
+    }
+    #styleguide-menu .submenu {
+        border-top: 1px solid rgb(210,227,228);
+    }
+    
+    .top_menu,
+    .menu_body,
+    #styleguide-menu li {
+        border-color: rgba(180,191,193,.25);
+    }
+    
+    /* Link colors */
+    #styleguide-menu .menu_body a,
+    #styleguide-menu .menu_body a:visited,
+    #styleguide-menu .menu_body a:active {
+        display: block;
+        color: rgb(112,139,148);
+    }
+    
+    #styleguide-menu .submenu a:link,
+    #styleguide-menu .submenu a:visited {
+        color: rgb(122,169,184);
+    }
+    
+    #styleguide-menu a:hover,
+    #styleguide-menu a.on {
+        background-color: rgba(198,226,231,.3);
+    }
+    
+    #styleguide-menu .top_menu a {
+        color: rgb(85,130,145);
+    }
+    
+    #styleguide-menu .top_menu a.on,
+    #styleguide-menu .top_menu a:hover {
+        color: rgb(125,204,219) !important;
+    }
+    
+    .submenu_toggle {
+        color: rgb(142, 204, 210);
+    }
+    .submenu_toggle:hover {
+        color: rgb(132,184,189);
+    }
+    
+    .submenu_toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: pointer;
+      padding: .75em;
+      transform: rotate(0deg);
+      transform-origin: center;
+      transition: transform 200ms ease-out;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      line-height: 1;
+      width: 2.25rem;
+      text-align: center;
+    }
+    
+    .submenu_toggle.toggle_active {
+        transform: rotate(180deg);
+    }
+    
+    /* Menu items padding and positioning */
+    #styleguide-menu a {
+        font-size: .9em;
+        display: block;
+        padding: .75em 1.5em .5em 6%;
+        text-decoration: none;
+    }
+    
+    
+    #styleguide-menu .top_menu a {
+        font-size: .65em;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding-bottom: 1.25em;
+        padding-top: 1.25em;
+    }
+    
+    #styleguide-menu .submenu a {
+        padding: 0.4em 1em 0.4em 8%;
     }
     
     #styleguide-menu .button {
@@ -160,33 +292,18 @@
         margin: 0 auto;
     }
     
-    .menu_body {
-        background-color: #fff;
-        box-shadow: 0 2px 0 rgba(0,0,0,0.1);
-        border-radius: 3px;
-        overflow: hidden;
-    }
-    
     #styleguide-menu .top_menu {
         overflow: hidden;
         font-weight: bold;
     }
     
-    #styleguide-menu > .top_menu a {
-        padding-left: 0 !important;
-    }
-    
-    #styleguide-menu > .top_menu a.on,
-    #styleguide-menu > .top_menu a:hover {
+    #styleguide-menu .top_menu a.on,
+    #styleguide-menu .top_menu a:hover {
         background-color: transparent !important;
-        color: rgb(14, 154, 181) !important;
     }
-    
     
     #styleguide-menu .submenu {
         display: none;
-        background: rgb(241, 247, 249);
-        box-shadow: inset 0px 2px 3px -1px rgba(0,0,0,0.15);
         margin-bottom: 0;
     }
     
@@ -197,7 +314,7 @@
     #styleguide-menu .top_menu {
         margin: 1em 0 0;
     }
-    #styleguide-menu > ul {
+    #styleguide-menu ul {
         list-style-type: none;
         padding: 0;
     }
@@ -206,88 +323,15 @@
         padding: 0;
         margin: 0;
         position: relative;
-        border-bottom: 1px solid #dfefef;
     }
+    
     
     #styleguide-menu li:last-child {
         border-bottom: 0;
     }
     
-    .submenu_toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-      cursor: pointer;
-      padding: .75em 4% .5em;
-      transform: rotate(0deg);
-      transition: transform 200ms ease-out;
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      color: rgb(17, 182, 198);
-      line-height: 1;
-      width: 2.25rem;
-      text-align: center;
-    }
-    
-    .submenu_toggle.toggle_active {
-        transform: rotate(180deg);
-    }
-    
-    .submenu_toggle:hover{
-        color: rgb(51, 229, 246);
-    }
-    
-    #styleguide-menu a {
-        font-size: .9em;
-        display: block;
-        padding: .75em 1.5em .5em 1em;
-        text-decoration: none;
-    }
-    
-    .top_menu {
-        border-bottom: 2px solid #dfdfdf;
-    }
     .top_menu + .menu_body {
         margin-top: -2px;
-    }
-    
-    #styleguide-menu .menu_body a {
-        color: rgba(0, 0, 0, 0.87);
-        transition: background-color 150ms ease-out;
-    }
-    
-    #styleguide-menu ul ul a {
-        padding: 0.4em 1em;
-    }
-    
-    #styleguide-menu .menu_body a:visited,
-    #styleguide-menu .menu_body a:hover,
-    #styleguide-menu .menu_body a:active {
-        display: block;
-        color: rgba(0, 0, 0, 0.87);
-    }
-    
-    #styleguide-menu a:hover {
-        background-color: rgba(14, 154, 181, 0.3);
-    }
-    
-    #styleguide-menu a.on {
-        background-color: rgba(14, 154, 181, 0.1);
-    }
-    
-    [id*="_code_"] + .main-section-sg-by-emiloberg {
-      margin-top: -1.5rem;
-      margin-bottom: 1.75rem;
-      color: #9DC3C8;
-      font-weight: normal;
-    }
-    
-    @media screen and (max-width: 910px) {
-        #styleguide-menu {
-    
-        }
     }
     
     </style>    <style>
@@ -412,9 +456,9 @@
     
     </style></head>
 <body>
-<main class="wrap">
-
+<main class="styleguide-wrap">
     <nav id="styleguide-menu">
+        <div id="styleguide-menu-wrap">
             <ul class="top_menu">
                 <li>
                     <a href="#styles" class="sectionlink show_all menu_link">Styles</a>
@@ -434,7 +478,7 @@
                                         <a href="#layout-arrangement-object" class="submenulink sub-sub menu_link">Arrangement object</a>
                                     </li>
                                     <li>
-                                        <a href="#layout-media-object" class="submenulink sub-sub menu_link">Media object</a>
+                                        <a href="#layout-isolation-object" class="submenulink sub-sub menu_link">Isolation object</a>
                                     </li>
                             </ul>
                     </li>
@@ -592,9 +636,14 @@
                             </ul>
                     </li>
             </ul>
+        <div class="top_menu">
+            <a href="#" class="sectionlink show_all menu_link">Show All</a>
+        </div>
+        </div>
     </nav>
 
     <section id="styleguide">
+        <div class="wrap">
 
         <div id="styles" class="section_container style_sections" data-section="style styles">
             <header class="section section_starter">
@@ -721,14 +770,14 @@
                     </div>
 
         		</article>
-        		<article class="section" id="layout-media-object" data-section="Layout" data-heading="Media-object">
+        		<article class="section" id="layout-isolation-object" data-section="Layout" data-heading="Isolation-object">
 
                     <header class="section_header">
                             <h1 class="h6 header_subheading">Layout</h1>
-                            <h2 class="h4 space_t_neg header_heading">Media object</h2>
+                            <h2 class="h4 space_t_neg header_heading">Isolation object</h2>
                     </header>
                     <div class="section_comment">
-                        <p>Useful for creating an association between an image and text. Often used with an icon or a profile image.</p>
+                        <p>Isolates an image from text wrapping underneath. Useful for creating an association between an image and text. Often used with an icon or avatar. Adding other classes to the <code>isolate_body</code> can create a more stylized version.</p>
                     </div>
 
                     <div class="section_body">
@@ -932,7 +981,7 @@
                             <h2 class="h4 space_t_neg header_heading">Premade</h2>
                     </header>
                     <div class="section_comment">
-                        <p>You can force the tabs.js to ignore a group of pre-made tab elements by adding a <code>data-tabbed=&quot;true&quot;</code> to either the wrapping element or one of the <code>.tab_button</code>s.</p>
+                        <p>You can force the tabs.js to ignore a group of pre-made tab elements by adding a <code>data-tabbed=&quot;true&quot;</code> to either the wrapping element or one of the <code>.tab_button</code>s. Proper <code>aria-roles</code> will still be added to this set up. <strong>This should only be done if you are confident that your user will have javascript enabled, as there is no fallback.</strong></p>
                     </div>
 
                     <div class="section_body">
@@ -1035,27 +1084,24 @@
                             <h2 class="h4 space_t_neg header_heading">Grid Settings</h2>
                     </header>
                     <div class="section_comment">
-                        <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$gutter_class=global_global_variable_data-code-id=$gutter_$gutter__code_"><code id="$gutter" class="global global_variable" data-code-id="$gutter">$gutter</code></h5>
+                        <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$grid-gutter_class=global_global_variable_data-code-id=$grid-gutter_$grid-gutter__code_"><code id="$grid-gutter" class="global global_variable" data-code-id="$grid-gutter">$grid-gutter</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-pixel_value">Pixel value</h6>
 <p>Space between grid items. Also used in <code id="type-space()" class="global global_function" data-code-id="type-space()">type-space()</code> for horizontal spacing units.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$use-silent-classes_class=global_global_variable_data-code-id=$use-silent-classes_$use-silent-classes__code_"><code id="$use-silent-classes" class="global global_variable" data-code-id="$use-silent-classes">$use-silent-classes</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$grid-silent-classes_class=global_global_variable_data-code-id=$grid-silent-classes_$grid-silent-classes__code_"><code id="$grid-silent-classes" class="global global_variable" data-code-id="$grid-silent-classes">$grid-silent-classes</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
 <p>If set to false, actual grid classes will be output to CSS.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$push_class=global_global_variable_data-code-id=$push_$push__code_,__code_id=$pull_class=global_global_variable_data-code-id=$pull_$pull_/code_"><code id="$push" class="global global_variable" data-code-id="$push">$push</code>, <code id="$pull" class="global global_variable" data-code-id="$pull">$pull</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$grid-push_class=global_global_variable_data-code-id=$grid-push_$grid-push__code_,__code_id=$grid-pull_class=global_global_variable_data-code-id=$grid-pull_$grid-pull_/code_"><code id="$grid-push" class="global global_variable" data-code-id="$grid-push">$grid-push</code>, <code id="$grid-pull" class="global global_variable" data-code-id="$grid-pull">$grid-pull</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
 <p>Determines whether to include extra grid classes for positional grid modifiers.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$use-margin-adjustments_class=global_global_variable_data-code-id=$use-margin-adjustments_$use-margin-adjustments__code_"><code id="$use-margin-adjustments" class="global global_variable" data-code-id="$use-margin-adjustments">$use-margin-adjustments</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$grid-margin-adjustments_class=global_global_variable_data-code-id=$grid-margin-adjustments_$grid-margin-adjustments__code_"><code id="$grid-margin-adjustments" class="global global_variable" data-code-id="$grid-margin-adjustments">$grid-margin-adjustments</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
 <p>Used to push and pull with margins rather than &apos;right&apos; and &apos;left&apos;.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$use-markup-fix_class=global_global_variable_data-code-id=$use-markup-fix_$use-markup-fix__code_"><code id="$use-markup-fix" class="global global_variable" data-code-id="$use-markup-fix">$use-markup-fix</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$grid-markup-fix_class=global_global_variable_data-code-id=$grid-markup-fix_$grid-markup-fix__code_"><code id="$grid-markup-fix" class="global global_variable" data-code-id="$grid-markup-fix">$grid-markup-fix</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
 <p>If set to <code>true</code>, html must have comments between grid items. Almost always set to <code>false</code>.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$use-floats_class=global_global_variable_data-code-id=$use-floats_$use-floats__code_"><code id="$use-floats" class="global global_variable" data-code-id="$use-floats">$use-floats</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$grid-floats_class=global_global_variable_data-code-id=$grid-floats_$grid-floats__code_"><code id="$grid-floats" class="global global_variable" data-code-id="$grid-floats">$grid-floats</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
 <p>If set to <code>true</code>, uses floats instead of inline-block.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_$show-baseline__code_"><code>$show-baseline</code></h5>
-<h6 class="main-section-sg-by-emiloberg" id="section-boolean">Boolean</h6>
-<p>For development purposes only. Adds a <code>.baseline_on</code> class that will show horizontal lines on an element with heights determined by <code>$base-line-height</code>.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$breakpoints-has-widths_class=global_global_variable_data-code-id=$breakpoints-has-widths_$breakpoints-has-widths__code_,__code_id=$breakpoints-has-push_class=global_global_variable_data-code-id=$breakpoints-has-push_$breakpoints-has-push_/code_,__code_id=$breakpoints-has-pull_class=global_global_variable_data-code-id=$breakpoints-has-pull_$breakpoints-has-pull_/code_"><code id="$breakpoints-has-widths" class="global global_variable" data-code-id="$breakpoints-has-widths">$breakpoints-has-widths</code>, <code id="$breakpoints-has-push" class="global global_variable" data-code-id="$breakpoints-has-push">$breakpoints-has-push</code>, <code id="$breakpoints-has-pull" class="global global_variable" data-code-id="$breakpoints-has-pull">$breakpoints-has-pull</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_string">List (string)</h6>
 <p>Determines what classes get generated at <code id="$breakpoints" class="global global_variable" data-code-id="$breakpoints">$breakpoints</code>. The list&apos;s order determines cascade (e.g. ).</p>
@@ -1358,11 +1404,11 @@
 <hr>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$class-type_class=global_global_variable_data-code-id=$class-type_$class-type__code_"><code id="$class-type" class="global global_variable" data-code-id="$class-type">$class-type</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-string">String</h6>
-<p>Either a <code>%</code> or a <code>.</code> based on <code id="$use-silent-classes" class="global global_variable" data-code-id="$use-silent-classes">$use-silent-classes</code>.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$human-readable_numerators_class=global_global_variable_data-code-id=$human-readable_numerators_$human-readable_numerators__code_"><code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code></h5>
+<p>Either a <code>%</code> or a <code>.</code> based on <code id="$grid-silent-classes" class="global global_variable" data-code-id="$grid-silent-classes">$grid-silent-classes</code>.</p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$human-readable-numerators_class=global_global_variable_data-code-id=$human-readable-numerators_$human-readable-numerators__code_"><code id="$human-readable-numerators" class="global global_variable" data-code-id="$human-readable-numerators">$human-readable-numerators</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_string">List (string)</h6>
 <p>First words used to represent numbers corresponding to grid interval names.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$human-readable_denominators_class=global_global_variable_data-code-id=$human-readable_denominators_$human-readable_denominators__code_"><code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=$human-readable-denominators_class=global_global_variable_data-code-id=$human-readable-denominators_$human-readable-denominators__code_"><code id="$human-readable-denominators" class="global global_variable" data-code-id="$human-readable-denominators">$human-readable-denominators</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-list_string">List (string)</h6>
 <p>Second words used to represent numbers corresponding to grid interval names.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=silent-relative_class=global_global_variable_data-code-id=silent-relative_@silent-relative__code_"><code id="silent-relative()" class="global global_variable" data-code-id="silent-relative()">@silent-relative()</code></h5>
@@ -1371,6 +1417,7 @@
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=grid-setup_class=global_global_variable_data-code-id=grid-setup_@grid-setup__code_"><code id="grid-setup()" class="global global_variable" data-code-id="grid-setup()">@grid-setup()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin">mixin()</h6>
 <p>Creates basic grid classes (listed below), called by <code id="grid-init()" class="global global_variable" data-code-id="grid-init()">@grid-init()</code>.</p>
+<p>_Note: <code>[% , .]</code> denotes a class that is either silent or</p>
 <ul>
 <li><h6 class="main-section-sg-by-emiloberg" id="section-_code_%grid_reset__code_"><code>%grid_reset</code></h6>
 <p>Useful for resetting the grid&apos;s effects without making full grid items.</p>
@@ -1408,16 +1455,16 @@
 </ul>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=width-setup_class=global_global_variable_data-code-id=width-setup_@width-setup__code_"><code id="width-setup()" class="global global_variable" data-code-id="width-setup()">@width-setup()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace__code_:&quot;&quot;">mixin(<code>$namespace</code>:&quot;&quot;)</h6>
-<p> Uses <code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code> and <code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code> to create percentage widths based on <code id="$columns" class="global global_variable" data-code-id="$columns">$columns</code>.</p>
+<p> Uses <code id="$human-readable-numerators" class="global global_variable" data-code-id="$human-readable-numerators">$human-readable-numerators</code> and <code id="$human-readable-denominators" class="global global_variable" data-code-id="$human-readable-denominators">$human-readable-denominators</code> to create percentage widths based on <code id="$grid-columns" class="global global_variable" data-code-id="$grid-columns">$grid-columns</code>.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=push-setup_class=global_global_variable_data-code-id=push-setup_@push-setup__code_"><code id="push-setup()" class="global global_variable" data-code-id="push-setup()">@push-setup()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace__code_:&quot;&quot;">mixin(<code>$namespace</code>:&quot;&quot;)</h6>
-<p> Uses <code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code> and <code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code> to create percentage pushes (<code>left</code> or <code>margin-left</code>) based on <code id="$columns" class="global global_variable" data-code-id="$columns">$columns</code>.</p>
+<p> Uses <code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code> and <code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code> to create percentage pushes (<code>left</code> or <code>margin-left</code>) based on <code id="$grid-columns" class="global global_variable" data-code-id="$grid-columns">$grid-columns</code>.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=pull-setup_class=global_global_variable_data-code-id=pull-setup_@pull-setup__code_"><code id="pull-setup()" class="global global_variable" data-code-id="pull-setup()">@pull-setup()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$namespace__code_:&quot;&quot;">mixin(<code>$namespace</code>:&quot;&quot;)</h6>
-<p> Uses <code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code> and <code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code> to create percentage pull (<code>right</code> or negative <code>margin-left</code>) based on <code id="$columns" class="global global_variable" data-code-id="$columns">$columns</code>.</p>
+<p> Uses <code id="$human-readable_numerators" class="global global_variable" data-code-id="$human-readable_numerators">$human-readable_numerators</code> and <code id="$human-readable_denominators" class="global global_variable" data-code-id="$human-readable_denominators">$human-readable_denominators</code> to create percentage pull (<code>right</code> or negative <code>margin-left</code>) based on <code id="$grid-columns" class="global global_variable" data-code-id="$grid-columns">$grid-columns</code>.</p>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=grid-init_class=global_global_variable_data-code-id=grid-init_@grid-init__code_"><code id="grid-init()" class="global global_variable" data-code-id="grid-init()">@grid-init()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin">mixin()</h6>
-<p> Calls the above mixins(<code id="grid-setup()" class="global global_variable" data-code-id="grid-setup()">@grid-setup()</code>, <code id="width-setup()" class="global global_variable" data-code-id="width-setup()">@width-setup()</code>, <code id="push-setup()" class="global global_variable" data-code-id="push-setup()">@push-setup()</code>, <code id="pull-setup()" class="global global_variable" data-code-id="pull-setup()">@pull-setup()</code>).</p>
+<p> Calls the above mixins(<code id="grid-setup()" class="global global_variable" data-code-id="grid-setup()">@grid-setup()</code>, <code id="width-setup()" class="global global_variable" data-code-id="width-setup()">@width-setup()</code>, <code id="push-setup()" class="global global_variable" data-code-id="push-setup()">@push-setup()</code>, <code id="pull-setup()" class="global global_variable" data-code-id="pull-setup()">@pull-setup()</code>). Using the namespaces and media-queries defined in <code id="$breakpoint-has-widths" class="global global_variable" data-code-id="$breakpoint-has-widths">$breakpoint-has-widths</code>, <code id="$breakpoint-has-push" class="global global_variable" data-code-id="$breakpoint-has-push">$breakpoint-has-push</code>, and <code id="$breakpoint-has-pull" class="global global_variable" data-code-id="$breakpoint-has-pull">$breakpoint-has-pull</code>.</p>
                     </div>
 
 
@@ -1790,6 +1837,7 @@ This is an example Component.
 
         		</article>
         </div>
+    </div>
     </section>
 </main>
 <!--JQuery-->
@@ -10936,7 +10984,7 @@ return jQuery;
             }
         });
 
-        $('#styleguide-menu').stick_in_parent();
+        $('#styleguide-menu-wrap').stick_in_parent();
     });
 
     // Style Guide-specific functions
@@ -10954,9 +11002,9 @@ return jQuery;
             $menu.find('a.on').removeClass('on');
             $menuItem.addClass('on');
 
-            if ($menuItem.hasClass('sub-sub')){
+            if ($menuItem.hasClass('menulink_with_subs')){
                 $menuItem.closest('.submenu').siblings('.submenulink').addClass('on')
-                .siblings('.submenu_toggle').not('.toggle_active').trigger('toggle');
+                .siblings('.submenu_toggle').not('.toggle_active').trigger('click');
             }
         };
 
