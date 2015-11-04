@@ -37,45 +37,37 @@
 
 </head>
 <body>
-    <div class="toggles" id="toggles">
-        <a id="baseline-on" class="button">
-            Baseline
-        </a>
+    
+<header class="hero" role="banner">
+        <div class="hero_body">
+            <div class="wrap">
+                <h1>e-Health<br>Frontend Framework</h1>
+                <p class="h5 txt_secondary space_t_0">
+                    A number of frontend technologies to get any e&#8209;Health website or application off the ground
+                </p>
+            </div>
+        </div>
     </div>
-<div class="wrap">
-    <header class="row" role="banner">
-            <a href="/" class="link_naked il_bl">
-            <div class="column arrange arrange_top">
-                <div class="arrange_media">
-                    <img src="images/logo.png" role="presentation" class="pad_t_half">
-                </div>
-                <h1 class="arrange_body">
-                    e-Health Frontend Framework
-                </h1>
+</header>
+
+<nav class="box box_open pad_v_half space_b_0" role="navigation" style="background-color: #fff" >
+    <div class="wrap pad_v_0">
+        <div class="arrange space_b_0">
+            <div class="arrange_fit">
+                <img role="presentation" src="images/logo.png">
             </div>
-            </a>
-		<div  class="column">
-            <div class="arrange">
-                <div class="arrange_fit">
-                    <button class="button" data-toggle="#toggle_target" data-toggle-type="[whatever, whatever]">Menu</button>
-                </div>
-                <div class="arrange_fill pad_l_half">
-        			<nav id="toggle_target" class="box box_open pad_v_half space_b_0" role="navigation" >
-        				<ul class="list_inline list_nav h6">
-                            <li><a href="styleguide/?section=styleguide-dev">Documentation</a></li>
-                            <li><a href="styleguide/?section=_setup-">Setup</a></li>
-                            <li><a href="styleguide">Style Guide</a></li>
-        					<li class="align_right">
-        						<a href="https://github.com/UWHealth/Front-End-Framework">
-        							<img src="images/github.png" alt="" class="icon" role="presentation">Github
-        						</a>
-        					</li>
-        				</ul>
-        			</nav>
-                </div>
+            <div class="arrange_fill">
+                <ul class="list_inline list_nav h6 space_b_0 pad_l_half">
+                    <li><a href="styleguide">Styles &amp; Documentation</a></li>
+                    <li><a id="js_baseline_toggle" href="#">Baseline</a></li>
+                </ul>
             </div>
-    	</div>
-    </header>
+        </div>
+    </div>
+</nav>
+
+
+<div class="wrap space_t">
 
     <main role="main">
         <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, voluptate aperiam</h2>
@@ -101,10 +93,10 @@
 
                         <a href="#main" class="tab_button" data-tab="tab_accordion tab_minimal tab_line tab_topline">Main</a>
                         <div id="main" class="tab_content">
-                            <h5><mark>Tabs Test (tab_minimal, tab_line, tab_topline)</mark></h5>
+                            <h5><mark>Crazy Tab animation test</mark></h5>
 
                             <a href="#first" class="tab_button" data-tab="tab_side">First</a>
-                            <div id="first" class="tab_content"><h5><mark>Tabs Test (tab_side)</mark></h5>
+                            <div id="first" class="tab_content"><h5><mark>Nested tab Test</mark></h5>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
                             </div>
 
@@ -148,179 +140,46 @@
                     </aside>
                 </div>
             </article>
-            <div class="column">
-                <hr>
-            </div>
-        </div>
-        <div id="tabs_test2">
-            <h6>
-            <mark>Minimal Side Tabs</mark> Totam, voluptatum, vel, in fuga rerum quo accusantium distinctio saepe voluptate fugiat eveniet commodi officiis sapiente odio expedita sit blanditiis assumenda cupiditate voluptates autem ex consequuntur eius fugit rem neque omnis obcaecati!
-            </h6>
-            <a href="#tab1" class="tab_button">Tab 1</a>
-            <div id="tab1" class="tab_content">
-                <h5><mark>Tabs Test (tab_side, tab_minimal)</mark></h5>
-                <p>hello</p>
-                <!--<a href="#moretabs" class="tab_button" data-tab="tab_minimal tab_line">More Tabs</a>
-            	<div id="moretabs" class="tab_content">
-                	<h6><mark>tab_minimal tab_line</mark></h6>
-                	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
-            	</div>
-
-    			<a href="#anothertab" class="tab_button">Another Tab</a>
-    			<div id="anothertab" class="tab_content">
-    				<p>Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
-            	</div>
-            	<a href="#yetanother" class="tab_button">And Yet another Tab</a>
-    			<div id="yetanother" class="tab_content">
-                <p><strong>Nulla vitae elit libero</strong>, a pharetra augue. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-            	</div>-->
-
-    		</div>
-
-            <a href="#tab2" class="tab_button">Tab 2</a>
-            <div id="tab2" class="tab_content"><p>
-                Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
-
-                <div class="tabs tabbing" data-tabbed="true">
-                    <nav class="tabs">
-                        <a href="#tab3" class="tab">Tab 3</a>
-                        <a href="#tab4" class="tab">Combo tab style</a>
-                    </nav>
-                    <a href="#tab3" class="tab_button" data-tabbed="true">Tab 3</a>
-                    <div id="tab3" class="tab_content"><h5><mark>Tabs Test (normal tabs with grid widths)</mark></h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
-                    </div>
-                    <a href="#tab4" class="tab_button">Combo tab style</a>
-                    <div id="tab4" class="tab_content">
-                    <h5><mark>Stupid Looking Tab Test(grid width-based)</mark></h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
-                    </div>
-                </div>
-
-            </div>
-            <hr class="space_t_2">
-            <h6 class="h4"><mark>Table Test</mark></h6>
-            <table class="table_fixed table_striped table_responsive">
-              <thead>
-                  <tr>
-                    <th>Movie Title</th>
-                    <th>Genre</th>
-                    <th>Year</th>
-                    <th>Gross</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                    <td>Table Test</td>
-                    <td>Testing, Lorem</td>
-                    <td>Ipsum</td>
-                    <td>$Dolor</td>
-                  </tr>
-                  <tr>
-                    <td>Star Wars</td>
-                    <td>Adventure, Sci-fi</td>
-                    <td>1977</td>
-                    <td>$460,935,665</td>
-                  </tr>
-                  <tr>
-                    <td>Howard The Duck</td>
-                    <td>"Comedy"</td>
-                    <td>1986</td>
-                    <td>$16,295,774</td>
-                  </tr>
-                  <tr>
-                    <td>American Graffiti</td>
-                    <td>Comedy, Drama</td>
-                    <td>1973</td>
-                    <td>$115,000,000</td>
-                  </tr>
-
-              </tbody>
-            </table>
         </div>
         <hr class="space_t_2">
-        <p>
-        <h6 class="h4"><mark>Colors</mark></h6>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, odio, incidunt, sapiente repellat reprehenderit minus nam labore soluta odit repellendus architecto laudantium neque vitae maxime totam libero vero quibusdam dignissimos.</p>
-        <div class="space_v_2">
+        <h6 class="h4"><mark>Table Test</mark></h6>
+        <table class="table_fixed table_striped table_responsive">
+          <thead>
+              <tr>
+                <th>Movie Title</th>
+                <th>Genre</th>
+                <th>Year</th>
+                <th>Gross</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <td>Table Test</td>
+                <td>Testing, Lorem</td>
+                <td>Ipsum</td>
+                <td>$Dolor</td>
+              </tr>
+              <tr>
+                <td>Star Wars</td>
+                <td>Adventure, Sci-fi</td>
+                <td>1977</td>
+                <td>$460,935,665</td>
+              </tr>
+              <tr>
+                <td>Howard The Duck</td>
+                <td>"Comedy"</td>
+                <td>1986</td>
+                <td>$16,295,774</td>
+              </tr>
+              <tr>
+                <td>American Graffiti</td>
+                <td>Comedy, Drama</td>
+                <td>1973</td>
+                <td>$115,000,000</td>
+              </tr>
 
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-            <div class="color-block"></div>
-
-        </div>
+          </tbody>
+        </table>
     </main>
 </div>
 
@@ -349,6 +208,19 @@
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
+<!--=======================
+        Google Analytics
+===========================-->
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src='http://www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+
+<!--=======================
+        Custom Scripts
+============================-->
         <script>
            $(function() {
                var test_height = function(element){
@@ -361,60 +233,38 @@
                };
 
                $("#tabs_test1").tabbed({
+                   wrapper: {
+                       class_string: "tabbed"
+                   },
                    tabs: {
                        begin: function(elements) {
                            var $target = $(elements[1]);
                            if(! $target.is(":visible")) {
-							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]},{duration:100});
-                               $target.velocity('slideDown', {opacity: [1, 0]},{duration:100});
+							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]}, 30);
+                               $target.velocity('slideDown', {opacity: [1, 0]}, 30);
 						   }else {
-							   $target.velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]},{duration:100});
+							   $target.velocity('slideUp', {opacity: [0, 'easeInExpo', 1]}, 30);
 						   }
                        },
-                       toggle: true,
+                       toggle: false,
                        animation: {
-                           duration: 200
+                           duration: 50
                        }
                    }
 			   }, function(scope, parents){
-				   parents.find('.tab_active').velocity('slideDown', 0);
+				   parents.find('.tab_active').velocity('slideDown', 20);
 			   });
 
-               $("#tabs_test2").tabbed({
-                   wrapper: {
-                       element: "section",
-                       class_name: "tabbed",
-                       extra_classes: "tab_side tab_line"
-                   },
-                   tabs: {
-                       animation: {
-                           opacity: [1, 0],
-                           duration: 400
-                       },
-                       active_class: 'active'
-                   }
-               }, function(){console.log('Second tab-set callback');});
-           });
-
            //Helper for hiding/showing baseline-grid
-
-           $(function(){
-               $('#toggles').children().click(function(e){
+               $('#js_baseline_toggle').click(function(e){
+                   e.preventDefault();
                    var toggles = $(this).attr("id");
-                   $('body').toggleClass(toggles);
+                   $('body').toggleClass('baseline-on');
                    e.preventDefault();
                });
            });
 
        </script>
-
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src='http://www.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
 </footer>
-
-    </body>
+</body>
 </html>

@@ -3,7 +3,7 @@
 //------------------------------------
 
 /* SG
-#Tools/Type Utilities [[dev]]
+# Tools/Type Utilities [[dev]]
 
 globals/tools/_t-type.scss
 
@@ -54,6 +54,12 @@ The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with 
 	#{$classtype}#{$namespace}txt_space_reset {
 		letter-spacing: normal #{$important_str};
 		word-spacing: normal #{$important_str};
+	}
+	#{$classtype}#{$namespace}txt_primary {
+		font-family: $primary-font-stack;
+	}
+	#{$classtype}#{$namespace}txt_secondary {
+		font-family: $secondary-font-stack;
 	}
 }
 

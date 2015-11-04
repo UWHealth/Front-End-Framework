@@ -10,6 +10,33 @@
 */
 
 /* SG
+# Config/Debug Settings [[dev]]
+
+
+##### `$$font-debug`
+###### Boolean
+Whether to include debug statements about fonts and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
+
+##### `$$silent-class-debug`
+###### Boolean
+Stores silent all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.
+
+_NOTE: This will slow down compilation somewhat._
+
+##### `$$debug-baseline`
+###### Boolean
+Adds style for a `baseline-on` class that will show a grid of the baseline on any element (most useful on the `body` or `html` tag). Makes vertical alignment easier.
+
+*/
+
+$silent-class-debug: 		false;
+
+$font-debug: 				false;
+
+$debug-baseline:       	 	true;
+
+
+/* SG
 # Config/Typography Settings [[dev]]
 
 ##### `$$base-font-size`
@@ -23,10 +50,6 @@ Line-height for base font-size. Will be used to determine the vertical spacing v
 ##### `$$font-looseness`
 ###### Percentage
 What to base the tightness/looseness of automatically-generated `line-heights`.
-
-##### `$$font-debug`
-###### Boolean
-Whether to include debug statements about fonts and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
 
 ##### `$$auto-scale-type`
 ###### Boolean
@@ -50,7 +73,7 @@ Used wherever font-families are declared. Use `null` if nothing exists.
 
 ##### `$$use-web-fonts`
 ###### Boolean
-Whether to generate `@font-face` values based on `$font-[]` vars or not.
+Whether to generate `@font-face` values based on `$$font-file-name` (and the other `$font-` variables).
 
 ##### `$$font-file-name`
 ###### List (string)
@@ -74,91 +97,103 @@ Determines whether to generate `@font-face` values that point at an .eot file. F
 
 ##### `$$type-[h#]-size`
 ###### Pixel Value (optional list(pixel value, pixel or unitless value))
-Variables used to generate heading font-sizes and line-heights. A secondary value will force the line-height to that value.
+Variables used to generate heading (and small) font-sizes and line-heights. A secondary value will force the line-height to that value.
 
-_NOTE: Must be pixel values(or a function that generates a pixel value), but the optional secondary value can be unitless._
+_NOTE: First value must be pixel values(or a function that generates a pixel value like `modular-scale()`), but the optional secondary value can be unitless._
 
 */
 
-//Typography Settings
-
 $base-font-size:            16px;
 $base-line-height:          24px;
-$font-looseness: 			25%;
-$font-debug: 				false;
+$font-looseness: 			30%;
 $auto-scale-type:           false;
 $scale-ratio:               1.250;
 
-// Show baseline grid for easier alignment;
-$show-baseline:       	 true;
-
-//Include px values when rems are generated?
 $rem-px-fallback: 			true;
 
-$primary-font-stack:      	"Asap", helvetica, arial, sans-serif;
-$secondary-font-stack:     	"Asap", helvetica, arial, sans-serif;
+$primary-font-stack:      	"opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$secondary-font-stack:     	"Asap", "Garamond","Baskerville", "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
 $monospace-font-stack: 		"Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
 $icon-font-stack: 			null;
 
+//Custom web fonts
 $use-web-fonts: 		true;
 //Relative path to fonts from CSS
 $font-file-location: 	"fonts";
-//Note: The more fonts and options added here will cause performance decreases.
-$font-file-name: 		("Asap", 		"crimsontext");
-$font-weights: 			(400,  700),	(400,  700);
-$font-italics: 			(true, true), 	(true, false);
+$font-file-name: 		("Asap", 		"opensans");
+$font-weights: 			(400,  700),	(200,  400,  700);
+$font-italics: 			(true, true), 	(true, true, true);
 
-$font-include-woff2: 	(false, 		true);
+$font-include-woff2: 	(false, 		false);
 $font-include-eot: 		true;
 
-
-//Used if auto-scale-type is false.
-//Since functions are called before config,
-//we can use functions to calculate our values.
-$type-h1-size:           ceil(modular-scale(8)), 1;
+//Functions that produce a pixel value are allowed
+//Secondary number represents line-height value override
+$type-h1-size:           ceil(modular-scale(7)), 1;
 $type-h2-size:           ceil(modular-scale(5));
 $type-h3-size:           ceil(modular-scale(4));
 $type-h4-size:           ceil(modular-scale(3));
 $type-h5-size:           ceil(modular-scale(2));
 $type-h6-size:           ceil(modular-scale(1));
+$type-small-size: 		 floor(modular-scale(-1));
 
 
 /* SG
-#Config/General Settings [[dev]]
+# Config/General Settings [[dev]]
 
 ##### `$$breakpoints`
-###### List (nested) (string)
+###### Map (`'breakpoint-name': 'breakpoint-value'`) (string)
 Sets up variables for media-queries. Used in `media-query()`.
+
+**Example Keys and Values**
+```scss
+$breakpoints: ('small':'(min-width: 320px)');
+```
 
 ##### `$$display-classes`
 ###### Map (string: string)
-Variable used to generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
+Variable used to generate display classes. Key value pairs determine the class name and the display value (e.g. `'show':'block'` would create a `.show { display: block }`).
 
 ##### `$$spacing-classes`
 ###### Map (string: string)
 Variable used to generate spacing classes. Classes are created via `@spacing-utilities()`. Classes are named with the following syntax: `prefix_direction_amount`
 
 **Keys and Values**
-* directions: Direction names.
-* amounts: Values
+* 'directions': Direction class suffixes
+* 'amounts': Numeric value multiples (e.g. `2` or `-1`)
+* 'names': Amount names
+* 'prefixes': Prefixes for class names (for margins or padding)
+
+```scss
+//SCSS Input
+$display-classes: (
+	'directions': ('t', 'r'),
+	'amounts': (2, -1),
+	'names': ('2', 'neg'),
+	'prefixes': ('space','pad')
+);
+
+//CSS output
+.space_t_2 { margin-top: 2rem; }
+.space_r_2 { margin-right: 2rem; }
+.space_t_neg { margin-top: -1rem; }
+.space_r_neg { margin-right: -1rem; }
+.pad_t_2 { padding-top: 2rem;}
+.pad_r_2 { padding-right: 2rem;}
+//Negative padding is excluded automatically
+
+@media only screen and (min-width:300px){...}
+//repeated for all media-queries defined by $breakpoints-has-spacing-classes...
+
+```
 
 ##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
 ###### List (string)
-Same as `breakpoint-has-widths`, but for utility classes.
-
-##### `$$silent-class-debug`
-###### Boolean
-Stores silent all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.
-
-_NOTE: This will slow down compilation somewhat._
+Determines what utility classes get generated at `$$breakpoints`. The list's order determines cascade The list's order determines the output order. This is useful if you want one breakpoint to override another.
 
 ##### `$$colors`
 ###### Map (string: color)
 Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
-
-##### `$$slick-[]-[]`
-Configuration for slick carousel jQuery plugin.
-Reference: https://github.com/kenwheeler/slick/#sass-variables
 
 */
 
@@ -166,17 +201,17 @@ Reference: https://github.com/kenwheeler/slick/#sass-variables
 //Media-Query Breakpoints
 $breakpoints: (
 	// Everything up to 640px. Mostly phones.
-    'smalls' '(max-width:640px)',
+    'smalls':'(max-width:640px)',
 	// Up to 480px. Overrides Smalls. Small Phones, including iPhone.
-    'small' '(max-width: 480px)',
+    'small':'(max-width: 480px)',
 	// Between 480 and 640px. Overrides Smalls. Large phones/phablets.
-    'smallish''(min-width: 481px) and (max-width: 640px)',
+    'smallish': '(min-width: 481px) and (max-width: 640px)',
     // Everything larger than 640px. Tablets and Desktops.
-	'bigs' '(min-width: 641px)',
+	'bigs': '(min-width: 641px)',
 	// 640-940px. Overrides Bigs. Mostly Tablets and small laptops.
-    'lap' '(min-width: 641px) and (max-width: 940px)',
+    'lap': '(min-width: 641px) and (max-width: 940px)',
 	// 940 and Up. Overrides Bigs. Large Tablets and Desktops.
-    'desk' '(min-width: 941px)'
+    'desk': '(min-width: 941px)'
 );
 
 //What display types (class-name: display-type) should be output?
@@ -202,106 +237,34 @@ $breakpoint-has-spacing-classes: 			('smalls', 'bigs', 'desk');
 $breakpoint-has-display-classes: 			('smalls', 'bigs');
 $breakpoint-has-type-classes: 				('smalls', 'bigs');
 
-
-//Register silent classes for debugging?
-//All silent classes will be stored in the $silent-class-registry.
-$silent-class-debug: false;
-
 //Defining the color pallete for the project
 // Can be named anything.
 $colors: (
-	type: #0a1c2b, //Required
+	'type': #0a1c2b, //Required
 
-	links: #0d497b, //Required
+	'links': #0d497b, //Required
 
-	bg: #f6f8fb, //Required
+	'bg': #f6f8fb, //Required
 
-	//Change the following to project-specific colors
-	primary: (
-		light: #0cadcd,
-		base: #0c639a
+	//Change the following names and colors project-specific
+	'primary': (
+		'light': #0cadcd,
+		'base': #0c639a
 	),
 
-	accent: mix(#d40026, #AD0909, 45%),
+	'accent': mix(#d40026, #AD0909, 45%),
 
-	function: #d7dde5,
+	'function': #d7dde5,
 
-	success: #bada55
+	'success': #bada55
 
 );
-
-
-/* SG
-#Config/Grid Settings [[dev]]
-
-##### `$$gutter`
-###### Pixel value
-Space between grid items. Also used in `type-space()` for horizontal spacing units.
-
-
-##### `$$use-silent-classes`
-###### Boolean
-If set to false, actual grid classes will be output to CSS.
-
-
-##### `$$push`, `$$pull`
-###### Boolean
-Determines whether to include extra grid classes for positional grid modifiers.
-
-
-##### `$$use-margin-adjustments`
-###### Boolean
-Used to push and pull with margins rather than 'right' and 'left'.
-
-
-##### `$$use-markup-fix`
-###### Boolean
-If set to `true`, html must have comments between grid items. Almost always set to `false`.
-
-
-##### `$$use-floats`
-###### Boolean
-If set to `true`, uses floats instead of inline-block.
-
-
-##### `$show-baseline`
-###### Boolean
-For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
-
-
-##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
-###### List (string)
-Determines what classes get generated at `$$breakpoints`. The list's order determines cascade (e.g. ).
-
-*/
-
-$columns:                  13;
-$gutter:                 32px;
-$use-silent-classes:     true;
-$push:                   true;
-$pull:                   true;
-
-//Setting this to true means there can be no whitespce
-// in your HTML markup between grid items.
-$use-markup-fix:        false;
-$use-floats:            false;
-
-//Grids default to using relative (right and left) for pushes and pulls.
-//Setting this to true will use margin-left.
-$use-margin-adjustments: false;
-
-// Give grid-abilities to breakpoints.
-// The more breakpoints defined here will result in longer preprocessing times
-// and, in the case of non-silent classes, more css.
-$breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
-$breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
-$breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
 //Create color variations based on the map above, using the settings below
 $colors: generate-color-variations(
 	$variations: (
-		light, lighter, lightest,
-		dark, darker, darkest
+		'light', 'lighter', 'lightest',
+		'dark', 'darker', 'darkest'
 	),
 	$functions: (
 		blend-linearlight, blend-lineardodge, tint,
@@ -317,6 +280,78 @@ $colors: generate-color-variations(
 	)
 )  !global;
 
+
+/* SG
+# Config/Grid Settings [[dev]]
+
+##### `$$grid-gutter`
+###### Pixel value
+Space between grid items. Also used in `type-space()` for horizontal spacing units.
+
+
+##### `$$grid-silent-classes`
+###### Boolean
+If set to false, actual grid classes will be output to CSS.
+
+
+##### `$$grid-push`, `$$grid-pull`
+###### Boolean
+Determines whether to include extra grid classes for positional grid modifiers.
+
+
+##### `$$grid-margin-adjustments`
+###### Boolean
+Used to push and pull with margins rather than 'right' and 'left'.
+
+
+##### `$$grid-markup-fix`
+###### Boolean
+If set to `true`, html must have comments between grid items. Almost always set to `false`.
+
+
+##### `$$grid-floats`
+###### Boolean
+If set to `true`, uses floats instead of inline-block.
+
+
+##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
+###### List (string)
+Determines what classes (widths, pushes, pulls) get generated at `$$breakpoints`. The list's order determines the output order. This is useful if you want one breakpoint to override another.
+
+*/
+
+$grid-columns:          13;
+$grid-gutter:           32px;
+$grid-silent-classes:	true;
+$grid-push:             true;
+$grid-pull:             true;
+
+//Setting this to true means there can be no whitespce
+// in your HTML markup between grid items.
+$grid-markup-fix:        false;
+$grid-floats:            false;
+
+//Grids default to using relative (right and left) for pushes and pulls.
+//Setting this to true will use margin-left.
+$grid-margin-adjustments: false;
+
+// Give grid-abilities to breakpoints.
+// The more breakpoints defined here will result in longer preprocessing times
+// and, in the case of non-silent classes, more css.
+$breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
+$breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
+$breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
+
+
+
+/* SG
+# Config/Slick Settings [[dev]]
+
+##### `$$slick-[]-[]`
+Configuration for slick carousel jQuery plugin.
+[Reference](https://github.com/kenwheeler/slick/#sass-variables)
+
+*/
 
 //Slider/Carousel settings
 //A.K.A. Slick: http://kenwheeler.github.io/slick/
@@ -341,7 +376,7 @@ $tab-invert-active:                 false;
 $tab-border:                        color(links);
 $tab-button-bg:                     color(links, light);
 $tab-button-secondary: 				rgb(153,17,37);
-$tab-content-bg:                    rgba(#fff, .8);
+$tab-content-bg:                    #fff;
 $tab-button-text:                   #fff;
 $tab-border-radius:                 2px;
 $tab-spacing:                       2px;

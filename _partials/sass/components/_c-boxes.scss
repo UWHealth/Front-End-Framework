@@ -1,6 +1,6 @@
 .box {
     @extend %grid_reset;
-	@extend %cf;
+	@extend %clearfix;
     @extend %pad;
     @extend %space_b;
 
@@ -31,16 +31,17 @@
 	overflow: hidden;
 	word-break: break-word;
 
-	@include media-query($smalls) {
+	@include media-query($breakpoint-smallest) {
 		@include type-space(max-height, 5);
 	}
 
 	& .body {
-        @include type-space-sc(padding, .5, .5, 0);
+        @include type-space(padding, .5 .5 0);
         display: block;
 		position: absolute;
 		top: 0;
 		left: 0;
+        right: 0;
 		text-align: left;
 	}
 
@@ -64,22 +65,4 @@
 // 1:2 box
 .wide:before {
 	margin-top: 50%;
-}
-
-//Media block.
-// Taken from: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
-// Used for floating an image of any dimension to the left of a flexible-width object that will not wrap.
-
-%media_block {
-    zoom: 1;
-
-    & .img, & .media{
-        float:left;
-        word-break: break-word;
-        display: inline-block;
-        @include rems(margin-right, $gutter);
-    }
-    & .img ~ *, & .media_body {
-        overflow: hidden;
-    }
 }

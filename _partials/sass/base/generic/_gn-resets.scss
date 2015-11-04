@@ -1,63 +1,12 @@
 
-// Set the global `box-sizing` state to `border-box`.
-//
-// css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
-// paulirish.com/2012/box-sizing-border-box-ftw
-
-//Space Resets
-%space_reset,
-%base_space_reset,
-%generic_space_reset {
-	margin: 0;
-	padding: 0;
+//Useful for sticky footers and floats
+html,
+body {
+    min-height: 100%;
 }
-
-//Border reset
-
-%border_reset {
-    border: 0;
-    border-radius: 0;
-}
-
-* {
-    &,
-    &:before,
-    &:after {
-        -webkit-box-sizing: inherit;
-           -moz-box-sizing: inherit;
-                box-sizing: inherit;
-        }
-}
-
-// /**
-//  * 1. Set default font family.
-//  * 2. Prevent iOS text size adjust after orientation change, without disabling
-//  *    user zoom.
-//  */
-
-html {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
-
-    font-size: percentage($base-font-size/16px); //1
-	@extend %generic_primary_font_family; //1
-	-ms-text-size-adjust: 100%; // 2
-	-webkit-text-size-adjust: 100%; // 2
-	background-color: color(bg);
-}
-// /**
-//  * Remove default margin.
-//  */
 
 body {
 	@include type-font-size($base-font-size, true, p);
-	@extend %space_reset;
-}
-
-//Useful for sticky footers
-html, body {
-    min-height: 100%;
 }
 
 abbr[title],
@@ -72,4 +21,56 @@ ins {
 
 ins {
     border-bottom: 1px solid;
+}
+
+mark {
+	background-color: mix(color('links'), color('bg'), 20%);
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary,
+hr {
+	display: block;
+}
+
+a {
+	cursor: pointer;
+	background-color: transparent;
+	color: color('links');
+
+	&:hover,
+	&:focus {
+		color: color('links', light);
+	}
+
+	&:active{
+		color: color('links', darker);
+	}
+
+	&:focus {
+		outline: thin dotted; //normalize browser outlines
+	}
+
+	// Improve readability when focused and also mouse hovered in all browsers.
+
+	&:active,
+	&:hover {
+		outline: 0;
+	}
+}
+
+hr {
+    height: 2px;
+    border-top: 2px solid color('bg', dark);
+	@include type-space(margin, 1 0 );
 }

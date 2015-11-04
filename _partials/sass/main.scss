@@ -1,12 +1,7 @@
 @charset "UTF-8";
 
-//----------------------------
-// NON-CSS-producing files
-// (functionality and setup used by project)
-//-----------------------------
-
 /* SG
-#Main [[dev]]
+# Main [[dev]]
 /main.scss
 
 Imports all Sass files in order from lowest specificity to highest.
@@ -22,6 +17,11 @@ Imports all Sass files in order from lowest specificity to highest.
 10. (Overrides) utility styles, usually end in `!important`
 
 */
+
+//----------------------------
+// NON-CSS-producing files
+// (functionality and setup used by project)
+//-----------------------------
 
 //Global functions and variables
 @import 'globals/gl-import';

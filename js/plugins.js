@@ -7220,7 +7220,7 @@ var change_color = function(col, amt) {
         			}
 
                     t.tab_parents = $(tab_parents);
-                    
+
                     t.create_tab_nav();
                     t.activate_tabs();
                 }
@@ -7293,16 +7293,13 @@ var change_color = function(col, amt) {
     		//		Actions for tab clicks
     		//----------------------------------------------------------
     		t.bind_events = function(){
-                $(t.scope).on('tab-change', t.tabs_class+','+t.buttons_class, function(e){
-
-                    //Set current item
-                    t.current_item = $(e.target);
-                    t.change_tabs();
-                });
 
     			$(t.scope).on('click', t.tabs_class+','+t.buttons_class, function(e) {
                     e.preventDefault();
-                    $(e.target).trigger('tab-change');
+                    t.current_item = $(e.target);
+                    t.current_item.trigger('tab:click');
+                    t.change_tabs();
+                    t.current_item.trigger('tab:changed');
                 });
     		};
 
@@ -7328,6 +7325,8 @@ var change_color = function(col, amt) {
                         //Used for first run; skips all animations.
                         t.skip_animations();
                     }else {
+
+                        t.target.trigger('tabs:changing');
 
                         if (t.is_tab()){
                             //hide/show tabs
@@ -7580,6 +7579,12 @@ var change_color = function(col, amt) {
 			this.do_toggle($this, type);
 		}),
 
+		add_aria: (function($this, $target, expanded){
+			$this.attr('aria-expanded', expanded);
+			expanded = expanded ? false : true;
+			$target.attr('aria-hidden', expanded);
+		}),
+
 		do_toggle: (function($this, type){
 			var toggle = $this.data('toggle');
 			var $toggle_target = $(toggle);
@@ -7587,33 +7592,50 @@ var change_color = function(col, amt) {
 
 			toggle_class = toggle_class.split(',');
 
-			var veloExists = (typeof Velocity === "function") ? true : false;
+			var veloExists = (typeof $.Velocity === "function") ? true : false;
 
 			if (! Array.isArray(toggle_class)){
 				toggle_class = ["", toggle_class];
 			}
 
 			if(type === "class"){
-				$toggle_target.toggleClass(toggle_class[0]);
-				$toggle_target.toggleClass(toggle_class[1]);
+				$toggle.change_class($this, $toggle_target, toggle_class);
 			}else if(type === "slide" && veloExists) {
+				if (toggle_class[0] == 'toggle_active'){
+					$this.toggleClass(toggle_class[0]);
+				}
 				if($toggle_target.is(':visible')){
-					$toggle_target.Velocity('slideUp', 200);
+					$toggle_target.velocity('slideUp', 200, function(){
+						$toggle.change_class($this, $toggle_target, toggle_class);
+					});
+
+				}else{
+					$toggle_target.velocity('slideDown', 200, function(){
+						$toggle.change_class($this, $toggle_target, toggle_class);
+					});
+
 				}
 			}else if(type === "squish" && veloExists) {
 
-			}else{
-				if($toggle_target.is(':visible')){
-					$this.removeClass(toggle_class[0]);
-					$toggle_target.hide().removeClass(toggle_class[1]);
-				}else{
-					$this.addClass(toggle_class[0]);
-					$toggle_target.show().addClass(toggle_class[1]);
-				}
+			}
+
+		}),
+
+		change_class: (function($this, $toggle_target, toggle_class){
+			
+			$toggle_target.toggleClass(toggle_class[0]);
+			$toggle_target.toggleClass(toggle_class[1]);
+
+			if ($toggle_target.hasClass(toggle_class[1])){
+				$toggle.add_aria($this, $toggle_target, true);
+			}else {
+				$toggle.add_aria($this, $toggle_target, false);
 			}
 		})
 
+
 	};
+
 
 	$('[data-toggle]').on('toggle', function(e, _options){
 		$toggle.do_toggle($(e.target), _options);

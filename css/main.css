@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* SG
-#Main [[dev]]
+# Main [[dev]]
 /main.scss
 
 Imports all Sass files in order from lowest specificity to highest.
@@ -17,7 +17,7 @@ Imports all Sass files in order from lowest specificity to highest.
 
 */
 /* SG
-#Functions/Math [[dev]]
+# Functions/Math [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -65,11 +65,18 @@ Determines the Tangent of an angle.
 
 */
 /* SG
-#Functions/Sass Helpers [[dev]]
+# Functions/Sass Helpers [[dev]]
 
 /globals/_gl-functions.scss
 
 ---
+
+##### `cache()`
+###### function(`$function-name` , `$args...`)
+Memoize (cache) a function's return values and arguments. Speeds up processing on intensive functions that get called many times (with the same arguments).
+
+_NOTE: This can actually **increase** processing time if used too often or on simple functions as the lookup process isn't free. Every cached value is unique._
+
 
 ##### Converter Functions #####
 
@@ -85,13 +92,18 @@ Changes percent value to decimal.
 ###### function(`$pixels`)
 Converts pixel dimensions to viewport width (vw) dimensions.
 
-##### `px-to-rems()`,`rems()`
+##### `px-to-rems()`, `rems()`
 ###### function(`$pixels`, `$base-font`:`$$base-font-size`)
 Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is used to calculate the initial value to calculate the value (e.g. if the `body`'s `font-size` is `16px`, then the rem value of `24px` would be `1.5rem`).
 
 ##### `list-to-string()`, `str-join()`
 ###### function(`$list`, `$separator:","`)
 Converts a list to a string with an optional separator.
+
+##### `str-to-number()`
+###### function(`$string` , `$unitless: false`)
+Converts a number-like string to a number. Since Sass accepts quoted and non-quoted values like `"10px"` and `10px`, but can only do math on the unquoted (number) value, it is sometimes necessary to convert/cast a string to a number.
+
 
 ##### String & List Functions #####
 
@@ -111,6 +123,10 @@ Checks whether a `$list` contains a `$value`.
 ###### function(`$list`, `$depth: 1`)
 Used to turn a list into a flat string. For debug purposes.
 
+##### `to-list()`
+###### function(`$string`, `$keep`: `'both'`)
+Convert a value to a list. `$keep` accepts `'keys'`, `'values'`, or `'both'` for map conversion.
+
 
 ##### Map Functions #####
 *[Reference](http://www.sitepoint.com/extra-map-functions-sass/)*
@@ -127,7 +143,7 @@ Find depth of a `$map`. Returns number.
 ###### `[map], [key(s) to be checked ...]`
 Determine whether a map contains certain keys.
 
-##### `map-has-nested-keys()`, `map-contains-nested-keys()`
+##### `map-has-nested-keys()` , `map-contains-nested-keys()`
 ###### function(`$map`, `$keys...`)
 Check for the value of a nested key. Returns boolean value.
 
@@ -143,12 +159,12 @@ Merges multiple maps. Similar to jQuery's .extend().
 ###### function(`$map`, `$new-key:'base'`)
 Adds one level to a map using the new key to a map. Used by `generate_color_varations()`. (e.g. `(key: value, key: value)` becomes `(key:(new-key: value), key:(new-key: value))` )
 
-##### `map-print()`, `map-inspect()`
+##### `map-print()` , `map-inspect()`
 ###### function(`$map`, `$level:1`)
 Prints map into a string (in a JSON-esque format). Useful for debugging.
 */
 /* SG
-#Functions/Photoshop converters [[dev]]
+# Functions/Photoshop converters [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -178,7 +194,7 @@ Converts Photoshop gradient-stops to CSS gradients.
 
 */
 /* SG
-#Functions/Type [[dev]]
+# Functions/Type [[dev]]
 
 /globals/_gl-functions.scss
 
@@ -210,7 +226,7 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 
 */
 /* SG
-#Functions/Colors [[dev]]
+# Functions/Colors [[dev]]
 /globals/_gl-color-functions.scss
 
 ##### `colors()`, `color()`
@@ -226,13 +242,13 @@ Passing only a color name will default to the 'base' color.
 Specialized function used by `generate_color_variations()` to merge two color maps.
 
 
-##### `generate_color_varations()`
-###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`, `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`,`$blending-colors: null`)
+##### `generate-color-varations()`
+###### function(`$map:` `$$colors` , `$functions: (tint, tint, tint, shade, shade, shade)`, `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)` , `$blending-colors: null`)
 Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
 
 **Arguments:**
-`$map`: Color map you want to create variations of.
-`$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function as well, provided `$blending-colors` are provided.
+`$map`: Color map you want to create variations of. Defaults to `$$colors`.
+`$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function, provided `$blending-colors` are provided.
 `$increments`: percentage amount to apply `$function` to each `$variations`.
 `$variations`: actual names for each color tone when `colors()` used.
 `$blending-colors`: used when a function is a `blend-()`. Can be a list or a single color.
@@ -275,6 +291,25 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 
 */
 /* SG
+# Config/Debug Settings [[dev]]
+
+
+##### `$$font-debug`
+###### Boolean
+Whether to include debug statements about fonts and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
+
+##### `$$silent-class-debug`
+###### Boolean
+Stores silent all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.
+
+_NOTE: This will slow down compilation somewhat._
+
+##### `$$debug-baseline`
+###### Boolean
+Adds style for a `baseline-on` class that will show a grid of the baseline on any element (most useful on the `body` or `html` tag). Makes vertical alignment easier.
+
+*/
+/* SG
 # Config/Typography Settings [[dev]]
 
 ##### `$$base-font-size`
@@ -288,10 +323,6 @@ Line-height for base font-size. Will be used to determine the vertical spacing v
 ##### `$$font-looseness`
 ###### Percentage
 What to base the tightness/looseness of automatically-generated `line-heights`.
-
-##### `$$font-debug`
-###### Boolean
-Whether to include debug statements about fonts and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
 
 ##### `$$auto-scale-type`
 ###### Boolean
@@ -315,7 +346,7 @@ Used wherever font-families are declared. Use `null` if nothing exists.
 
 ##### `$$use-web-fonts`
 ###### Boolean
-Whether to generate `@font-face` values based on `$font-[]` vars or not.
+Whether to generate `@font-face` values based on `$$font-file-name` (and the other `$font-` variables).
 
 ##### `$$font-file-name`
 ###### List (string)
@@ -339,94 +370,117 @@ Determines whether to generate `@font-face` values that point at an .eot file. F
 
 ##### `$$type-[h#]-size`
 ###### Pixel Value (optional list(pixel value, pixel or unitless value))
-Variables used to generate heading font-sizes and line-heights. A secondary value will force the line-height to that value.
+Variables used to generate heading (and small) font-sizes and line-heights. A secondary value will force the line-height to that value.
 
-_NOTE: Must be pixel values(or a function that generates a pixel value), but the optional secondary value can be unitless._
+_NOTE: First value must be pixel values(or a function that generates a pixel value like `modular-scale()`), but the optional secondary value can be unitless._
 
 */
 /* SG
-#Config/General Settings [[dev]]
+# Config/General Settings [[dev]]
 
 ##### `$$breakpoints`
-###### List (nested) (string)
+###### Map (`'breakpoint-name': 'breakpoint-value'`) (string)
 Sets up variables for media-queries. Used in `media-query()`.
+
+**Example Keys and Values**
+```scss
+$breakpoints: ('small':'(min-width: 320px)');
+```
 
 ##### `$$display-classes`
 ###### Map (string: string)
-Variable used to generate display classes. Key value pairs determine the class name and the display value (e.g. 'show':'block' would create a `.show { display: block }`).
+Variable used to generate display classes. Key value pairs determine the class name and the display value (e.g. `'show':'block'` would create a `.show { display: block }`).
 
 ##### `$$spacing-classes`
 ###### Map (string: string)
 Variable used to generate spacing classes. Classes are created via `@spacing-utilities()`. Classes are named with the following syntax: `prefix_direction_amount`
 
 **Keys and Values**
-* directions: Direction names.
-* amounts: Values
+* 'directions': Direction class suffixes
+* 'amounts': Numeric value multiples (e.g. `2` or `-1`)
+* 'names': Amount names
+* 'prefixes': Prefixes for class names (for margins or padding)
+
+```scss
+//SCSS Input
+$display-classes: (
+	'directions': ('t', 'r'),
+	'amounts': (2, -1),
+	'names': ('2', 'neg'),
+	'prefixes': ('space','pad')
+);
+
+//CSS output
+.space_t_2 { margin-top: 2rem; }
+.space_r_2 { margin-right: 2rem; }
+.space_t_neg { margin-top: -1rem; }
+.space_r_neg { margin-right: -1rem; }
+.pad_t_2 { padding-top: 2rem;}
+.pad_r_2 { padding-right: 2rem;}
+//Negative padding is excluded automatically
+
+@media only screen and (min-width:300px){...}
+//repeated for all media-queries defined by $breakpoints-has-spacing-classes...
+
+```
 
 ##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
 ###### List (string)
-Same as `breakpoint-has-widths`, but for utility classes.
-
-##### `$$silent-class-debug`
-###### Boolean
-Stores silent all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.
-
-_NOTE: This will slow down compilation somewhat._
+Determines what utility classes get generated at `$$breakpoints`. The list's order determines cascade The list's order determines the output order. This is useful if you want one breakpoint to override another.
 
 ##### `$$colors`
 ###### Map (string: color)
 Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `color()` (e.g. `color(highlight, light)` ). The automatically generated styles can be modified in `colors/_colorfunctions.scss`
 
-##### `$$slick-[]-[]`
-Configuration for slick carousel jQuery plugin.
-Reference: https://github.com/kenwheeler/slick/#sass-variables
-
 */
 /* SG
-#Config/Grid Settings [[dev]]
+# Config/Grid Settings [[dev]]
 
-##### `$$gutter`
+##### `$$grid-gutter`
 ###### Pixel value
 Space between grid items. Also used in `type-space()` for horizontal spacing units.
 
 
-##### `$$use-silent-classes`
+##### `$$grid-silent-classes`
 ###### Boolean
 If set to false, actual grid classes will be output to CSS.
 
 
-##### `$$push`, `$$pull`
+##### `$$grid-push`, `$$grid-pull`
 ###### Boolean
 Determines whether to include extra grid classes for positional grid modifiers.
 
 
-##### `$$use-margin-adjustments`
+##### `$$grid-margin-adjustments`
 ###### Boolean
 Used to push and pull with margins rather than 'right' and 'left'.
 
 
-##### `$$use-markup-fix`
+##### `$$grid-markup-fix`
 ###### Boolean
 If set to `true`, html must have comments between grid items. Almost always set to `false`.
 
 
-##### `$$use-floats`
+##### `$$grid-floats`
 ###### Boolean
 If set to `true`, uses floats instead of inline-block.
 
 
-##### `$show-baseline`
-###### Boolean
-For development purposes only. Adds a `.baseline_on` class that will show horizontal lines on an element with heights determined by `$base-line-height`.
-
-
 ##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
 ###### List (string)
-Determines what classes get generated at `$$breakpoints`. The list's order determines cascade (e.g. ).
+Determines what classes (widths, pushes, pulls) get generated at `$$breakpoints`. The list's order determines the output order. This is useful if you want one breakpoint to override another.
 
 */
 /* SG
-#Variables/Defaults [[dev]]
+# Config/Slick Settings [[dev]]
+
+##### `$$slick-[]-[]`
+Configuration for slick carousel jQuery plugin.
+[Reference](https://github.com/kenwheeler/slick/#sass-variables)
+
+*/
+/* SG
+# Variables/Defaults [[dev]]
 
 /globals/_gl-defaults.scss
 
@@ -438,10 +492,10 @@ Default settings for variables.
 ###### boolean/unitless/pixel value
 Parses `$$type-h[#]-size` for an optional line-height value, if none exists, just set to `true`. This value will be passed to `@type-font-size()`.
 
+
 ##### `$$type-magic-number`
 ###### Number
 Abstraction of the base spacing unit used in any mixin or function that defines spacing units.
-
 
 ##### `$$type-magic-ratio`
 ###### Number
@@ -452,27 +506,22 @@ Ratio used to calculate the difference between font sizes and spacing units.
 ###### List (number)
 Used for defining automatic headings functions.
 
-
 ##### `$$type-modular-scale`
 ###### Number
 Abstracts the `$$scale-ratio` and makes sure it's a positive number.
 
-
-##### `$$type-modular-scale`
-###### Number
-Abstracts the `$$scale-ratio` and makes sure it's a positive number.
 
 ##### `$$all-breakpoints`
 ###### List
 Stores all the names defined in `$$breakpoints` for use in abstract framework components so that if names are chagned, boilerplate media queries won't fail.
 
 
-##### `$$smalls`
+##### `$$breakpoint-smallest`
 ###### String
 Grabs the first `$$breakpoints` name.
 
 
-##### `$$bigs`
+##### `$$breakpoint-largest`
 ###### String
 Grabs the last `$$breakpoints` name.
 
@@ -482,19 +531,35 @@ The names of all colors in the `$$colors` map.
 
 */
 /* SG
-#Tools/ [[dev]]
+# Tools/ [[dev]]
+
 globals/tools/
 
 */
 /* SG
-#Tools/Mixins [[dev]]
+# Tools/Media Queries [[dev]]
 
-globals/tools/_t-mixins.scss
+globals/tools/_t-media-queries.scss
 
 ##### `@media-query()`, `@mq()`, `@media()`, `@breakpoint()`, `@bp()`
-###### mixin(`$media-queries`)
-Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined by using a nested list (double parenthesis).
+###### mixin(`$media-queries...`)
+Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined, separated by a comma. This will place your content into multiple separate media-queries at once (useful if you need the same css at different breakpoints).
 
+**Alternative Uses:**
+
+* Passing multiple media queries separated by an `'and'` (quoted) to combine them, compiles to something like `@media screen and (min-width: 500px) and (max-width: 900px){}`.
+
+* Passing a value like `min-width 1200px` or `max-height 300px` allows for arbitrary breakpoints.
+
+* Passing `max 1200px 'and' smalls` will create a combined media-query with a predefined one from `$$breakpoints`.
+
+* Passing `height smalls` will replace `width` with `height` within the `smalls` breakpoint. Similarly, using `min smalls` would replace 'max' with 'min'.
+
+*/
+/* SG
+# Tools/Mixins [[dev]]
+
+globals/tools/_t-mixins.scss
 
 ##### `@specificity()`
 ###### mixin(`$increase`: 1)
@@ -505,26 +570,49 @@ Specificity increaser. Useful for increasing specificity of a selector instead o
 
 ##### `@opacity()`
 ###### mixin(`$opacity`)
-Cross-browser (including IE) opacity.
+Cross-browser (including IE8-) opacity.
 
 [Reference](https://gist.github.com/jgv/745754)
 
 
 ##### `@px-to-rems()`, `@rems()`
-###### mixin(`$property`, `$sizes`, `$important`: false, `$base-font`: `$$base-font-size`)
-REM generator used to create a property with a rem value and PX fallback.
+###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
+`REM` generator used to create a property with a `rem` value and `px` fallback.
 
 
-##### `@font-size()`, `@type-font-size()`
-###### mixin(`$font-size`, `$line-height`: true, `$selector`:`""`, `$font-base`: `$$base-font-size`)
+##### `@font-size()` , `@type-font-size()`
+###### mixin(`$font-size`, `$line-height`: `true`, `$font-base`: `$$base-font-size`)
 Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 
 _`$line-height` also accepts a pixel value and will be converted to a unitless line-height._
 
 
+##### `@type-space()`
+###### mixin(`$properties`, `$multipliers...`, `important`:false)
+Output REM values using the typographic grid. This is the prefered method of adding padding and margins because it enforces consistent spacing around all elements.
+
+**Arguments:**
+* `$properties`: Can be any `CSS` property that accepts a length value (e.g. `rem`). Also accepts multiple properties as a nested list (e.g. `(padding-left, padding-right)`).
+* `$multipliers`: Accepts unitless values that get converted to `rem` units which are a multiple of the typographic grid. Can be multiple values, **separated by spaces**, in the case of `margin` or `padding`.
+* `important`: Accepts `true` or `!important`.
+
+```scss
+// SCSS input
+
+.foo {
+	@include type-space(padding, 1 .25 .5, '!important');
+}
+
+// CSS output
+.foo {
+	padding: 24px 8px 12px 8px !important;
+	padding: 1.5rem .375rem .75rem .375rem !important;
+}
+```
+
 */
 /* SG
-#Tools/Z-Index [[dev]]
+# Tools/Z-Index [[dev]]
 
 globals/tools/_t-zindex.scss
 
@@ -536,7 +624,7 @@ The `$modifier` is useful if you'd like to closely layer z-indexes within the sa
 
 */
 /* SG
-#Tools/Font Face Generator [[dev]]
+# Tools/Font Face Generator [[dev]]
 
 globals/tools/_t-fontface.scss
 
@@ -556,61 +644,82 @@ $name is required, arbitrary, and what you will use in font stacks.
 * $weight shows if the font is bold, defaults to normal
 * $style defaults to normal, might be also italic
 
-Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/css3/font_face/].
+Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/css3/font_face/).
 
 
 */
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-400.eot");
-  src: url(fonts/Asap-400.eot?#iefix) format('embedded-opentype'), url("fonts/Asap-400.woff") format("woff"), url("fonts/Asap-400.ttf") format("truetype"), url("fonts/Asap-400.svg#Asap400") format("svg");
+  src: url('fonts/Asap-400.eot?#iefix') format('embedded-opentype'), url("fonts/Asap-400.woff") format("woff"), url("fonts/Asap-400.ttf") format("truetype"), url("fonts/Asap-400.svg#Asap400") format("svg");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-400-italic.eot");
-  src: url(fonts/Asap-400-italic.eot?#iefix) format('embedded-opentype'), url('fonts/Asap-400-italic.woff') format('woff'), url('fonts/Asap-400-italic.ttf') format('truetype'), url('fonts/Asap-400-italic.svg#Asap400italic') format('svg');
+  src: url('fonts/Asap-400-italic.eot?#iefix') format('embedded-opentype'), url('fonts/Asap-400-italic.woff') format('woff'), url('fonts/Asap-400-italic.ttf') format('truetype'), url('fonts/Asap-400-italic.svg#Asap400italic') format('svg');
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-700.eot");
-  src: url(fonts/Asap-700.eot?#iefix) format('embedded-opentype'), url("fonts/Asap-700.woff") format("woff"), url("fonts/Asap-700.ttf") format("truetype"), url("fonts/Asap-700.svg#Asap700") format("svg");
+  src: url('fonts/Asap-700.eot?#iefix') format('embedded-opentype'), url("fonts/Asap-700.woff") format("woff"), url("fonts/Asap-700.ttf") format("truetype"), url("fonts/Asap-700.svg#Asap700") format("svg");
   font-weight: 700;
   font-style: normal; }
 
 @font-face {
   font-family: "Asap";
   src: url("fonts/Asap-700-italic.eot");
-  src: url(fonts/Asap-700-italic.eot?#iefix) format('embedded-opentype'), url('fonts/Asap-700-italic.woff') format('woff'), url('fonts/Asap-700-italic.ttf') format('truetype'), url('fonts/Asap-700-italic.svg#Asap700italic') format('svg');
+  src: url('fonts/Asap-700-italic.eot?#iefix') format('embedded-opentype'), url('fonts/Asap-700-italic.woff') format('woff'), url('fonts/Asap-700-italic.ttf') format('truetype'), url('fonts/Asap-700-italic.svg#Asap700italic') format('svg');
   font-weight: 700;
   font-style: italic; }
 
 @font-face {
-  font-family: "crimsontext";
-  src: url("fonts/crimsontext-400.eot");
-  src: url(fonts/crimsontext-400.eot?#iefix) format('embedded-opentype'), url("fonts/crimsontext-400.woff2") format("woff2"), url("fonts/crimsontext-400.woff") format("woff"), url("fonts/crimsontext-400.ttf") format("truetype"), url("fonts/crimsontext-400.svg#crimsontext400") format("svg");
+  font-family: "opensans";
+  src: url("fonts/opensans-200.eot");
+  src: url('fonts/opensans-200.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-200.woff") format("woff"), url("fonts/opensans-200.ttf") format("truetype"), url("fonts/opensans-200.svg#opensans200") format("svg");
+  font-weight: 200;
+  font-style: normal; }
+
+@font-face {
+  font-family: "opensans";
+  src: url("fonts/opensans-200-italic.eot");
+  src: url('fonts/opensans-200-italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-200-italic.woff') format('woff'), url('fonts/opensans-200-italic.ttf') format('truetype'), url('fonts/opensans-200-italic.svg#opensans200italic') format('svg');
+  font-weight: 200;
+  font-style: italic; }
+
+@font-face {
+  font-family: "opensans";
+  src: url("fonts/opensans-400.eot");
+  src: url('fonts/opensans-400.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-400.woff") format("woff"), url("fonts/opensans-400.ttf") format("truetype"), url("fonts/opensans-400.svg#opensans400") format("svg");
   font-weight: 400;
   font-style: normal; }
 
 @font-face {
-  font-family: "crimsontext";
-  src: url("fonts/crimsontext-400-italic.eot");
-  src: url(fonts/crimsontext-400-italic.eot?#iefix) format('embedded-opentype'), url("fonts/crimsontext-400-italic.woff2") format("woff2"), url('fonts/crimsontext-400-italic.woff') format('woff'), url('fonts/crimsontext-400-italic.ttf') format('truetype'), url('fonts/crimsontext-400-italic.svg#crimsontext400italic') format('svg');
+  font-family: "opensans";
+  src: url("fonts/opensans-400-italic.eot");
+  src: url('fonts/opensans-400-italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-400-italic.woff') format('woff'), url('fonts/opensans-400-italic.ttf') format('truetype'), url('fonts/opensans-400-italic.svg#opensans400italic') format('svg');
   font-weight: 400;
   font-style: italic; }
 
 @font-face {
-  font-family: "crimsontext";
-  src: url("fonts/crimsontext-700.eot");
-  src: url(fonts/crimsontext-700.eot?#iefix) format('embedded-opentype'), url("fonts/crimsontext-700.woff2") format("woff2"), url("fonts/crimsontext-700.woff") format("woff"), url("fonts/crimsontext-700.ttf") format("truetype"), url("fonts/crimsontext-700.svg#crimsontext700") format("svg");
+  font-family: "opensans";
+  src: url("fonts/opensans-700.eot");
+  src: url('fonts/opensans-700.eot?#iefix') format('embedded-opentype'), url("fonts/opensans-700.woff") format("woff"), url("fonts/opensans-700.ttf") format("truetype"), url("fonts/opensans-700.svg#opensans700") format("svg");
   font-weight: 700;
   font-style: normal; }
+
+@font-face {
+  font-family: "opensans";
+  src: url("fonts/opensans-700-italic.eot");
+  src: url('fonts/opensans-700-italic.eot?#iefix') format('embedded-opentype'), url('fonts/opensans-700-italic.woff') format('woff'), url('fonts/opensans-700-italic.ttf') format('truetype'), url('fonts/opensans-700-italic.svg#opensans700italic') format('svg');
+  font-weight: 700;
+  font-style: italic; }
 
 /* SG
-#Tools/Spacing Utilities [[dev]]
+# Tools/Spacing Utilities [[dev]]
 
 globals/tools/_t-spacing.scss
 
@@ -640,7 +749,7 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 
 */
 /* SG
-#Tools/Alignment Utilities [[dev]]
+# Tools/Alignment Utilities [[dev]]
 
 globals/tools/_t-alignment.scss
 
@@ -655,7 +764,7 @@ The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilite
 
 */
 /* SG
-#Tools/Type Utilities [[dev]]
+# Tools/Type Utilities [[dev]]
 
 globals/tools/_t-type.scss
 
@@ -669,7 +778,7 @@ The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with 
 
 */
 /* SG
-#Tools/Display Utilities [[dev]]
+# Tools/Display Utilities [[dev]]
 
 globals/tools/_t-display.scss
 
@@ -684,7 +793,7 @@ The responsive component to `@display-utilities()`. Invoke `@display-utilites()`
 
 */
 /* SG
-#Variables/Easing [[dev]]
+# Variables/Easing [[dev]]
 
 globals/tools/_t-easings.scss
 
@@ -694,23 +803,23 @@ Each easing variable is a cubic-bezier value that specifies rate of change of an
 
 */
 /* SG
-#Grid [[dev]]
+# Grid [[dev]]
 
 components/layout/_l-mixins.scss
 
 -------------------------------------------
 
-##### `$$class-type`
+##### `$$grid-class-type`
 ###### String
-Either a `%` or a `.` based on `$$use-silent-classes`.
+Either a `%` or a `.` based on `$$grid-silent-classes`.
 
 
-##### `$$human-readable_numerators`
+##### `$$human-readable-numerators`
 ###### List (string)
 First words used to represent numbers corresponding to grid interval names.
 
 
-##### `$$human-readable_denominators`
+##### `$$human-readable-denominators`
 ###### List (string)
 Second words used to represent numbers corresponding to grid interval names.
 
@@ -723,6 +832,7 @@ Allows for conditional `position: relative` for silent push or pull classes.
 ###### mixin()
 Creates basic grid classes (listed below), called by `@grid-init()`.
 
+_Note: `[% , .]` denotes a class that is either silent or
 
 * ###### `%grid_reset`
  Useful for resetting the grid's effects without making full grid items.
@@ -759,57 +869,29 @@ Creates basic grid classes (listed below), called by `@grid-init()`.
 
 ##### `@width-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage widths based on `$$columns`.
+ Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentage widths based on `$$grid-columns`.
 
 ##### `@push-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (`left` or `margin-left`) based on `$$columns`.
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pushes (`left` or `margin-left`) based on `$$grid-columns`.
 
 ##### `@pull-setup()`
 ###### mixin(`$namespace`:"")
- Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (`right` or negative `margin-left`) based on `$$columns`.
+ Uses `$$human-readable_numerators` and `$$human-readable_denominators` to create percentage pull (`right` or negative `margin-left`) based on `$$grid-columns`.
 
 ##### `@grid-init()`
 ###### mixin()
- Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`).
+ Calls the above mixins(`@grid-setup()`, `@width-setup()`, `@push-setup()`, `@pull-setup()`). Using the namespaces and media-queries defined in `$$breakpoint-has-widths`, `$$breakpoint-has-push`, and `$$breakpoint-has-pull`.
 
 */
-body,
-figure,
-hr,
-fieldset,
-ul, ol, dd, menu, p, address, pre, blockquote, table {
-  margin: 0;
-  padding: 0; }
-
-img, hr, fieldset {
-  border: 0;
-  -moz-border-radius: 0;
-       border-radius: 0; }
-
-*,
-*:before,
-*:after {
-  -webkit-box-sizing: inherit;
-  -moz-box-sizing: inherit;
-  box-sizing: inherit; }
-
-html {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 100%;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  background-color: #f6f8fb; }
+html,
+body {
+  min-height: 100%; }
 
 body {
-  font-size:  16px;
-  font-size:  1rem;
+  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5; }
-
-html, body {
-  min-height: 100%; }
 
 abbr[title],
 dfn[title] {
@@ -822,21 +904,8 @@ ins {
 ins {
   border-bottom: 1px solid; }
 
-audio,
-canvas,
-iframe,
-img,
-svg,
-video {
-  vertical-align: middle; }
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none; }
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none; }
+mark {
+  background-color: #c7d5e1; }
 
 article,
 aside,
@@ -845,78 +914,296 @@ figcaption,
 figure,
 footer,
 header,
-hgroup,
 main,
 menu,
 nav,
 section,
-summary, hr {
+summary,
+hr {
   display: block; }
-
-audio,
-canvas,
-progress,
-video {
-  display: inline-block; }
-
-audio:not([controls]), [hidden],
-template {
-  display: none; }
-
-dfn,
-em {
-  font-style: italic ; }
-
-b,
-strong {
-  font-weight: 700 ;
-  -webkit-font-smoothing: antialiased; }
-
-html {
-  font-family: "Asap", helvetica, arial, sans-serif; }
-
-audio,
-canvas,
-progress,
-video {
-  vertical-align: baseline; }
-
-audio:not([controls]) {
-  height: 0; }
-
-img {
-  max-width: 100%; }
-
-svg:not(:root) {
-  overflow: hidden; }
 
 a {
   cursor: pointer;
   background-color: transparent;
   color: #0d497b; }
-  a:hover,
-  a:focus {
+  a:hover, a:focus {
     color: #5894bd; }
   a:active {
     color: #082c4a; }
   a:focus {
     outline: thin dotted; }
-  a:active,
-  a:hover {
+  a:active, a:hover {
     outline: 0; }
 
-abbr[title] {
-  border-bottom: 1px dotted; }
+hr {
+  height: 2px;
+  border-top: 2px solid #e4eaf3;
+  margin: 24px 0;
+  margin:  1.5rem 0; }
 
-mark {
-  background: #cfdbe5;
-  color: #082c4a; }
+/*! sanitize.css v3.0.0 | CC0 1.0 Public Domain | github.com/10up/sanitize.css */
+/*
+ * Normalization
+ */
+audio:not([controls]) {
+  display: none; }
+
+button {
+  overflow: visible;
+  -webkit-appearance: button; }
+
+html {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%; }
+
+input {
+  -webkit-border-radius: 0; }
+  input[type="button"], input[type="reset"], input[type="submit"] {
+    -webkit-appearance: button; }
+  input[type="number"] {
+    width: auto; }
+  input[type="search"] {
+    -webkit-appearance: textfield; }
+    input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+      -webkit-appearance: none; }
+
+pre {
+  overflow: auto; }
+
+progress {
+  display: inline-block; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
+template {
+  display: none; }
+
+textarea {
+  overflow: auto;
+  resize: vertical; }
+
+[hidden] {
+  display: none; }
+
+/*
+ * Universal inheritance
+ */
+*,
+::before,
+::after {
+  -webkit-box-sizing: inherit;
+     -moz-box-sizing: inherit;
+          box-sizing: inherit; }
+
+* {
+  font-size: inherit;
+  line-height: inherit; }
+
+::before,
+::after {
+  text-decoration: inherit;
+  vertical-align: inherit; }
+
+/*
+ * Opinionated defaults
+ */
+*,
+::before,
+::after {
+  border-style: solid;
+  border-width: 0; }
+
+* {
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0; }
+
+:root {
+  background-color: #f6f8fb;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #0a1c2b;
+  cursor: inherit;
+  font: 100%/1.5 "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  text-rendering: optimizeLegibility; }
+
+a {
+  text-decoration: none; }
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle; }
+
+button,
+input,
+select,
+textarea {
+  color: inherit;
+  font-family: inherit;
+  font-style: inherit;
+  font-weight: inherit; }
+
+button,
+[type="button"],
+[type="date"],
+[type="datetime"],
+[type="datetime-local"],
+[type="email"],
+[type="month"],
+[type="number"],
+[type="password"],
+[type="reset"],
+[type="search"],
+[type="submit"],
+[type="tel"],
+[type="text"],
+[type="time"],
+[type="url"],
+[type="week"],
+select,
+textarea {
+  min-height: 1.5; }
+
+code,
+kbd,
+pre,
+samp {
+  font-family: "Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace, monospace; }
+
+nav ol,
+nav ul {
+  list-style: none; }
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none; }
+  select::-ms-expand {
+    display: none; }
+  select::-ms-value {
+    color: currentColor; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+::-moz-selection {
+  background-color: #3c6c95;
+  color: #FFF;
+  text-shadow: none; }
+
+::selection {
+  background-color: #3c6c95;
+  color: #FFF;
+  text-shadow: none; }
+
+[aria-busy="true"] {
+  cursor: progress; }
+
+[aria-controls] {
+  cursor: pointer; }
+
+[aria-disabled] {
+  cursor: default; }
+
+[hidden][aria-hidden="false"] {
+  clip: rect(0 0 0 0);
+  display: inherit;
+  position: absolute; }
+  [hidden][aria-hidden="false"]:focus {
+    clip: auto; }
+
+/*------------------
+/*  Base styles
+/*------------------*/
+[class*="list_bordered"], .list_inline, .breadcrumbs {
+  list-style: none;
+  margin-left: 0; }
+  [class*="list_bordered"] > li, .list_inline > li, .breadcrumbs > li {
+    list-style-image: none;
+    list-style-type: none;
+    margin-left: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Asap", "Garamond", "Baskerville", "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; }
+
+p, address, pre, table {
+  margin: 0 0 24px;
+  margin:  0 0 1.5rem; }
+
+.visually_hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip: rect(0px, 0px, 0px, 0px);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  -webkit-transition: all 300ms ease-in-out;
+          transition: all 300ms ease-in-out; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 24px;
+  margin-bottom: 1.5rem; }
+
+h1 {
+  font-size: 77px;
+  font-size: 4.8125rem;
+  line-height: 1; }
+
+h2 {
+  font-size: 49px;
+  font-size: 3.0625rem;
+  line-height: 1.22449; }
+
+h3 {
+  font-size: 40px;
+  font-size: 2.5rem;
+  line-height: 1.2; }
+
+h4 {
+  font-size: 32px;
+  font-size: 2rem;
+  line-height: 1.125; }
+
+h5 {
+  font-size: 25px;
+  font-size: 1.5625rem;
+  line-height: 1.44; }
+
+h6 {
+  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 1.8; }
+
+h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
+  margin-top: -24px;
+  margin-top: -1.5rem; }
 
 small {
   display: inline-block;
-  font-size:  12.8px;
-  font-size:  0.8rem;
-  line-height: 1.875; }
+  font-size: 12px;
+  font-size: 0.75rem;
+  line-height: 2; }
+
+b,
+strong {
+  font-weight: bold; }
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto; }
 
 sub,
 sup {
@@ -931,111 +1218,6 @@ sup {
 sub {
   bottom: -0.25em; }
 
-hr {
-  height: 2px;
-  border-top: 2px solid #e4eaf3;
-  margin:  24px 0  ;
-  margin:  1.5rem 0  ; }
-
-pre {
-  overflow: auto; }
-
-code,
-kbd,
-pre,
-samp {
-  font-family: monospace, monospace;
-  font-size: 1em; }
-
-/*------------------
-/*  Base styles
-/*------------------*/
-nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs {
-  list-style: none; }
-  nav ul > li, nav ol > li, [class*="list_bordered"] > li, .list_inline > li, .breadcrumbs > li {
-    list-style-image: none;
-    list-style-type: none;
-    margin-left: 0; }
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Asap", helvetica, arial, sans-serif; }
-
-.visually_hidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-  -webkit-transition: all 300ms ease-in-out;
-          transition: all 300ms ease-in-out; }
-
-ul, ol, dd, menu, p, address, pre, blockquote, table, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  margin-bottom:  24px;
-  margin-bottom:  1.5rem; }
-
-h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, .h1 + p,
-.h1 + .p, .h2 + p,
-.h2 + .p, .h3 + p,
-.h3 + .p, .h4 + p,
-.h4 + .p, .h5 + p,
-.h5 + .p, .h6 + p,
-.h6 + .p {
-  margin-top:  -24px;
-  margin-top:  -1.5rem; }
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  margin-top: 0; }
-
-li > ul,
-li > ol {
-  margin-bottom: 0; }
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  margin-top: 0; }
-
-li > ul,
-li > ol {
-  margin-bottom: 0; }
-
-h1 {
-  font-size:  96px;
-  font-size:  6rem;
-  line-height: 1; }
-
-h2 {
-  font-size:  49px;
-  font-size:  3.0625rem;
-  line-height: 1.10204; }
-
-h3 {
-  font-size:  40px;
-  font-size:  2.5rem;
-  line-height: 1.2; }
-
-h4 {
-  font-size:  32px;
-  font-size:  2rem;
-  line-height: 1.125; }
-
-h5 {
-  font-size:  25px;
-  font-size:  1.5625rem;
-  line-height: 1.44; }
-
-h6 {
-  font-size:  20px;
-  font-size:  1.25rem;
-  line-height: 1.2; }
-
-pre {
-  white-space: pre;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow: auto; }
-
 code,
 kbd,
 pre,
@@ -1044,11 +1226,12 @@ samp {
   _font-family: 'courier new', monospace;
   font-size: 1em; }
 
-/*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
 blockquote {
   text-indent: -.5ex; }
 
 blockquote {
+  margin: 0 0 24px 24px;
+  margin:  0 0 1.5rem 1.5rem;
   quotes: '“' '”'; }
   blockquote p:before {
     content: "“";
@@ -1088,8 +1271,8 @@ table {
 
 th,
 td {
-  padding:  24px 0 12px ;
-  padding:  1.5rem 0 0.75rem ;
+  padding: 24px 0 12px;
+  padding:  1.5rem 0 0.75rem;
   text-align: left;
   vertical-align: top;
   border: 0;
@@ -1100,13 +1283,8 @@ td {
 
 thead th {
   vertical-align: bottom;
-  padding:  24px 0 0 ;
-  padding:  1.5rem 0 0 ; }
-
-textarea {
-  overflow: auto;
-  vertical-align: top;
-  resize: vertical; }
+  padding: 24px 0 0;
+  padding:  1.5rem 0 0; }
 
 legend {
   display: table;
@@ -1116,18 +1294,28 @@ button,
 input {
   line-height: normal; }
 
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border: 0;
+  -webkit-appearance: button;
+  cursor: pointer;
+  *overflow: visible; }
+
+button,
+input,
+select,
+textarea {
+  background-color: #fff; }
+
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
   padding: 0; }
-
-select,
-input[type="submit"],
-input[type="button"],
-input[type="image"],
-input[type="reset"] {
-  -moz-border-radius: 0;
-       border-radius: 0; }
 
 input[type="checkbox"],
 input[type="radio"] {
@@ -1147,29 +1335,66 @@ input[type="number"]::-webkit-outer-spin-button {
   height: auto; }
 
 input[type="search"] {
-  -webkit-appearance: textfield;
-  -moz-appearance: none;
-       appearance: none;
-  -moz-box-sizing: border-box;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box; }
+     -moz-box-sizing: border-box;
+          box-sizing: border-box; }
 
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none; }
+select
+input[type="submit"],
+input[type="button"],
+input[type="image"],
+input[type="reset"] {
+  -moz-border-radius: 0;
+       border-radius: 0;
+  -webkit-border-radius: 0; }
+
+ul,
+ol,
+dd,
+menu {
+  margin: 0 0 24px 24px;
+  margin:  0 0 1.5rem 1.5rem; }
+
+li > ul,
+li > ol {
+  margin-bottom: 0; }
+
+nav ol,
+nav ul {
+  margin-left: 0; }
 
 .wrap {
   margin: 0 auto;
   max-width: 1350px;
   display: block !important;
   float: none;
-  padding:  24px 0  ;
-  padding:  1.5rem 0  ; }
+  padding: 24px 0;
+  padding:  1.5rem 0; }
   @media only screen and (max-width: 480px) {
     .wrap {
       width: 95%; } }
 
-.row > *, .tab_button, .box {
+.hero {
+  display: table;
+  width: 100%;
+  min-height: 50vh;
+  -webkit-background-size: cover;
+          background-size: cover;
+  color: #fff;
+  position: relative;
+  background-image: url("../images/logo.svg");
+  padding: 24px 0 24px;
+  padding:  1.5rem 0 1.5rem; }
+
+.hero_body {
+  display: table-cell;
+  vertical-align: middle;
+  max-width: 99%; }
+
+.row > *, .box {
   letter-spacing: normal;
   word-spacing: normal; }
 
@@ -1177,8 +1402,8 @@ input[type="search"]::-webkit-search-decoration {
   list-style: none;
   margin: 0;
   padding: 0;
-  margin-left:  -32px;
-  margin-left:  -2rem;
+  margin-left: -32px;
+  margin-left: -2rem;
   letter-spacing: -0.35em; }
 
 .opera:-o-prefocus,
@@ -1187,8 +1412,8 @@ input[type="search"]::-webkit-search-decoration {
 
 .column {
   display: inline-block;
-  padding-left:  32px;
-  padding-left:  2rem;
+  padding-left: 32px;
+  padding-left: 2rem;
   vertical-align: top;
   width: 100%;
   letter-spacing: normal;
@@ -1200,11 +1425,11 @@ input[type="search"]::-webkit-search-decoration {
     padding-left: 0; }
 
 .row_narrow {
-  margin-left:  -16px;
-  margin-left:  -1rem; }
+  margin-left: -16px;
+  margin-left: -1rem; }
   .row_narrow > .column {
-    padding-left:  16px;
-    padding-left:  1rem; }
+    padding-left: 16px;
+    padding-left: 1rem; }
 
 .quarter {
   width: 25%; }
@@ -1212,8 +1437,7 @@ input[type="search"]::-webkit-search-decoration {
 .half {
   width: 50%; }
 
-.column, .isolate, .arrange, .arrange_fill,
-.arrange_body {
+.column, .isolate, .arrange, .arrange_fill, .arrange_body {
   width: 100%; }
 
 @media only screen and (min-width: 481px) and (max-width: 640px) {
@@ -1236,96 +1460,52 @@ input[type="search"]::-webkit-search-decoration {
   .content {
     width: 75%; } }
 
-.tab_content, .box {
-  padding:  24px;
-  padding:  1.5rem; }
+.box {
+  padding: 24px;
+  padding: 1.5rem; }
 
 .breadcrumbs {
-  padding-right:  32px;
-  padding-right:  2rem; }
+  padding-right: 32px;
+  padding-right: 2rem; }
 
 .button {
-  padding:  12px;
-  padding:  0.75rem; }
+  padding: 12px;
+  padding: 0.75rem; }
 
-.tab {
-  padding-top:  12px;
-  padding-top:  0.75rem; }
+.table_striped th, .table_striped td, .isolate_body, .arrange_body {
+  padding-left: 16px;
+  padding-left: 1rem; }
 
-.tab {
-  padding-bottom:  12px;
-  padding-bottom:  0.75rem; }
-
-.tab, .table_striped th, .table_striped td, .isolate_body, .arrange_body {
-  padding-left:  16px;
-  padding-left:  1rem; }
-
-.tab, .table_striped th, .table_striped td {
-  padding-right:  16px;
-  padding-right:  1rem; }
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  padding: 0; }
+.table_striped th, .table_striped td {
+  padding-right: 16px;
+  padding-right: 1rem; }
 
 .box_open {
-  padding-left: 0; }
+  padding-left: 0 ; }
 
 .box_open {
-  padding-right: 0; }
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  padding: 0; }
-
-.box_open {
-  padding-left: 0; }
-
-.box_open {
-  padding-right: 0; }
+  padding-right: 0 ; }
 
 [class*="list_bordered"] {
-  margin-top:  24px;
-  margin-top:  1.5rem; }
+  margin-top: 24px;
+  margin-top: 1.5rem; }
 
-table, [class*="list_bordered"], .tabbed, .box, .isolate, .arrange {
-  margin-bottom:  24px;
-  margin-bottom:  1.5rem; }
+table, [class*="list_bordered"], .box, .isolate, .arrange {
+  margin-bottom: 24px;
+  margin-bottom: 1.5rem; }
 
-ul, ol, dd, menu, blockquote {
-  margin-left:  32px;
-  margin-left:  2rem; }
-
-nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs, .breadcrumbs > li,
+.breadcrumbs > li,
 .breadcrumb, .list_nav {
-  margin-left: 0; }
+  margin-left: 0 ; }
 
-nav ul, nav ol, [class*="list_bordered"], .list_inline, .breadcrumbs, .breadcrumbs > li,
-.breadcrumb, .list_nav {
-  margin-left: 0; }
-
-@media only screen and (max-width: 640px) {
-  .tab_content {
-    padding-left:  16px;
-    padding-left:  1rem; }
-  .tab_content {
-    padding-right:  16px;
-    padding-right:  1rem; } }
-
-[class*="list_bordered"] > li, .list_nav a, .tab_content, .box_square, .isolate, .isolate_media, .isolate_media img, .isolate_body, .arrange_media img,
-.arrange_fit img {
+[class*="list_bordered"] > li, .list_nav a, .box_square, .isolate, .isolate_media, .isolate_media img, .isolate_body, .arrange_media img, .arrange_fit img {
   display: block; }
 
 .arrange {
   display: table; }
 
-.arrange_fill,
-.arrange_fit,
-.arrange_media,
-.arrange_body {
+.arrange_fill, .arrange_fit, .arrange_media, .arrange_body {
   display: table-cell; }
-
-@media only screen and (max-width: 640px) {
-  .tab_accordion > .tabs {
-    display: none; } }
 
 th, .button, .table_responsive thead + tbody td:before, .tab,
 .list_nav a {
@@ -1334,15 +1514,15 @@ th, .button, .table_responsive thead + tbody td:before, .tab,
 
 .tab,
 .list_nav a {
-  font-size:  12.8px;
-  font-size:  0.8rem;
+  font-size: 12.8px;
+  font-size: 0.8rem;
   line-height: 1.875; }
 
 @media only screen and (max-width: 640px) {
   .table_scroll,
   .table_pin {
-    font-size:  12.8px;
-    font-size:  0.8rem;
+    font-size: 12.8px;
+    font-size: 0.8rem;
     line-height: 1.875; } }
 
 .button {
@@ -1388,19 +1568,8 @@ th, .button, .table_responsive thead + tbody td:before, .tab,
   .button::-moz-focus-inner {
     border: 0; }
 
-button,
-input[type="button"], input[type="reset"],
-input[type="submit"] {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  border: 0;
-  -webkit-appearance: button;
-  cursor: pointer;
-  *overflow: visible; }
-
 /* SG
-#Lists/Bordered Lists
+# Lists/Bordered Lists
 
 Creates a list with borders above and below each list item. Appending `list_bordered` with `_short` will make reduce the padding between each item.
 
@@ -1420,23 +1589,23 @@ Creates a list with borders above and below each list item. Appending `list_bord
 */
 [class*="list_bordered"] > li {
   border-top: 1px solid #e4eaf3;
-  padding-top:  24px;
-  padding-top:  1.5rem;
-  padding-bottom:  24px;
-  padding-bottom:  1.5rem;
-  margin-top: -1px; }
+  padding-top: 24px;
+  padding-top: 1.5rem;
+  padding-bottom: 24px;
+  padding-bottom: 1.5rem;
+  margin-bottom: -1px; }
 
 [class*="list_bordered"] > li:first-child {
   border-top-color: transparent; }
 
 .list_bordered_short > li {
-  padding-top:  12px;
-  padding-top:  0.75rem;
-  padding-bottom:  12px;
-  padding-bottom:  0.75rem; }
+  padding-top: 12px;
+  padding-top: 0.75rem;
+  padding-bottom: 12px;
+  padding-bottom: 0.75rem; }
 
 /* SG
-#Lists/Inline Lists
+# Lists/Inline Lists
 
 A list where each item is in a row, with spacing to the right of each item
 
@@ -1453,13 +1622,13 @@ A list where each item is in a row, with spacing to the right of each item
   padding-left: 0;
   width: auto;
   vertical-align: middle;
-  padding-right:  16px;
-  padding-right:  1rem; }
+  padding-right: 16px;
+  padding-right: 1rem; }
   .list_inline > li:last-child {
     padding-right: 0; }
 
 /* SG
-#Lists/Breadcrumbs
+# Lists/Breadcrumbs
 
 A list where each item is in a row, with a &#x25B8; between each item.
 
@@ -1485,7 +1654,7 @@ A list where each item is in a row, with a &#x25B8; between each item.
     display: inline-block; }
 
 /* SG
-#Lists/Navigation List
+# Lists/Navigation List
 
 List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn't have to be an `ol` or `ul`).
 
@@ -1510,15 +1679,16 @@ List where anchor tags fill the space of their containers. Useful as a modifier 
     list-style-type: none;
     margin-left: 0; }
   .list_nav a {
-    padding:  12px 0  ;
-    padding:  0.75rem 0  ; }
+    padding: 12px;
+    padding: 0.75rem; }
 
 /* SG
 # Tabs/
 
 A way to show groups of content, with buttons to toggle between them (like tabs in a folder or browser window).
 
-######Set Up
+###### Set Up
+
 Tabs start out as simple anchor + element pairings (with the anchor's href referring to an element's ID).
 
 Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
@@ -1534,28 +1704,6 @@ Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript
 </div>
 ```
 */
-/* SG
-# Tabs/Premade
-
-You can force the tabs.js to ignore a group of pre-made tab elements by adding a `data-tabbed="true"` to either the wrapping element or one of the `.tab_button`s.
-
-```html_example
-<div class="tabbed" data-tabbed="true">
-	<nav class="tabs">
-		<a class="tab active" href="#tab-1">Tab 1</a>
-		<a class="tab" href="#tab-2">Tab 2</a>
-	</nav>
-	<a href="#tab-1" class="tab_button">tab 1</a>
-	<div id="tab-1" class="tab_content">
-		Content Here
-	</div>
-	<a href="#tab-2" class="tab_button">tab 2</a>
-	<div id="tab-2" class="tab_content">
-		Secondary Content Here
-	</div>
-</div>
-```
-*/
 .tab_button, .tab, .tab:hover {
   color: #fff; }
 
@@ -1566,11 +1714,13 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   border-color: #0d497b; }
 
 .tab_button.active, .tab_content {
-  background-color: rgba(255, 255, 255, 0.8); }
+  background-color: #fff; }
 
 .tabbed {
-  min-height:  72px;
-  min-height:  4.5rem; }
+  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
+  min-height: 72px;
+  min-height: 4.5rem; }
 
 .tab_button {
   border-style: solid;
@@ -1580,22 +1730,22 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   line-height: 3;
   text-decoration: none;
   margin-bottom: 0;
-  padding-left:  16px;
-  padding-left:  1rem;
-  padding-right:  16px;
-  padding-right:  1rem;
+  padding-left: 16px;
+  padding-left: 1rem;
+  padding-right: 16px;
+  padding-right: 1rem;
   border-width: 1px;
   border-color: #1e568c;
   position: relative;
   z-index: 1;
   border-bottom-width: 0; }
   .tab_button.active {
-    margin-bottom:  -24px;
-    margin-bottom:  -1.5rem; }
+    margin-bottom: -24px;
+    margin-bottom: -1.5rem; }
   .tab_button.active {
     color: #0d497b;
     border-bottom-color: transparent;
-    z-index: 1; }
+    z-index: 2; }
     .tab_button.active:hover {
       cursor: default; }
 
@@ -1605,7 +1755,9 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   -moz-border-radius: 0 2px 2px 2px;
        border-radius: 0 2px 2px 2px;
   position: relative;
-  z-index: 0; }
+  z-index: 1;
+  padding: 24px;
+  padding: 1.5rem; }
   .tab_content > :last-child {
     margin-bottom: 0; }
 
@@ -1616,6 +1768,9 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   -moz-border-radius: 2px 2px 0 0;
        border-radius: 2px 2px 0 0; }
 
+.tab_accordion > .tabs {
+  display: none; }
+
 .tabs {
   position: relative; }
 
@@ -1623,6 +1778,8 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   position: relative;
   display: inline-block;
   vertical-align: bottom;
+  padding: 12px;
+  padding: 0.75rem;
   margin-bottom: 0;
   margin-right: 2px;
   top: 2px;
@@ -1635,12 +1792,18 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   -webkit-transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
           transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
   border-style: solid;
+  z-index: 0;
   border-width: 1px; }
   .tab:hover {
     background-color: #235495; }
 
 .tab.active {
-  background-color: #0d497b; }
+  outline: none;
+  background-color: #fff;
+  z-index: 2;
+  top: 1px;
+  color: #0d497b;
+  border-bottom-width: 0; }
 
 .table_fixed {
   table-layout: fixed; }
@@ -1670,8 +1833,8 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   .table_pin td {
     white-space: nowrap; }
   .table_wrapper {
-    margin-bottom:  24px;
-    margin-bottom:  1.5rem;
+    margin-bottom: 24px;
+    margin-bottom: 1.5rem;
     border: 1px solid #ced2d5;
     -moz-border-radius: 2px;
          border-radius: 2px; }
@@ -1679,8 +1842,8 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
     margin-bottom: 0; }
     .table_responsive td,
     .table_responsive th {
-      padding-left:  8px;
-      padding-left:  0.5rem; }
+      padding-left: 8px;
+      padding-left: 0.5rem; }
     .table_responsive th:first-child,
     .table_responsive td:first-child,
     .table_responsive td:first-child,
@@ -1702,8 +1865,8 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
       width: 100%; }
     .table_pin th,
     .table_pin td {
-      padding-left:  4.8px;
-      padding-left:  0.3rem; }
+      padding-left: 4.8px;
+      padding-left: 0.3rem; }
     .table_pin td:last-child {
       border-bottom: 0; }
   .table_scroll,
@@ -1733,15 +1896,16 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
   word-break: break-word; }
   @media only screen and (max-width: 640px) {
     .box_square {
-      max-height:  120px;
-      max-height:  7.5rem; } }
+      max-height: 120px;
+      max-height: 7.5rem; } }
   .box_square .body {
-    padding:  12px 16px 0 ;
-    padding:  0.75rem 1rem 0 ;
+    padding: 12px 12px 0;
+    padding:  0.75rem 0.75rem 0;
     display: block;
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
     text-align: left; }
   .box_square:before {
     content: " ";
@@ -1756,41 +1920,66 @@ You can force the tabs.js to ignore a group of pre-made tab elements by adding a
 .wide:before {
   margin-top: 50%; }
 
+/* SG
+# Typography/Heading sizes
+
+Heading sizes should be used in a hierarchical manner, and not used simply for their size. To override a heading size, use a class with the cooresponding heading name.
+
+```html_example
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+
+<h1 class="h4">Heading 1 with an h4 class</h1>
+
+```
+*/
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 24px;
+  margin-bottom: 1.5rem; }
+
 .h1 {
-  font-size:  96px;
-  font-size:  6rem;
+  font-size: 77px;
+  font-size: 4.8125rem;
   line-height: 1; }
 
 .h2 {
-  font-size:  49px;
-  font-size:  3.0625rem;
-  line-height: 1.10204; }
+  font-size: 49px;
+  font-size: 3.0625rem;
+  line-height: 1.22449; }
 
 .h3 {
-  font-size:  40px;
-  font-size:  2.5rem;
+  font-size: 40px;
+  font-size: 2.5rem;
   line-height: 1.2; }
 
 .h4 {
-  font-size:  32px;
-  font-size:  2rem;
+  font-size: 32px;
+  font-size: 2rem;
   line-height: 1.125; }
 
 .h5 {
-  font-size:  25px;
-  font-size:  1.5625rem;
+  font-size: 25px;
+  font-size: 1.5625rem;
   line-height: 1.44; }
 
 .h6 {
-  font-size:  20px;
-  font-size:  1.25rem;
-  line-height: 1.2; }
+  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 1.8; }
+
+.h1 + p, .h2 + p, .h3 + p, .h4 + p, .h5 + p, .h6 + p, .h1 + .p, .h2 + .p, .h3 + .p, .h4 + .p, .h5 + .p, .h6 + .p {
+  margin-top: -24px;
+  margin-top: -1.5rem; }
 
 /* SG
 
-#Layout/Media object
+# Layout/Isolation object
 
-Useful for creating an association between an image and text. Often used with an icon or a profile image.
+Isolates an image from text wrapping underneath. Useful for creating an association between an image and text. Often used with an icon or avatar. Adding other classes to the `isolate_body` can create a more stylized version.
 
 ```html_example
 <img class="isolate_media" src="http://placehold.it/300x50" alt="placeholder image">
@@ -1810,7 +1999,7 @@ Useful for creating an association between an image and text. Often used with an
 
 /* SG
 
-#Layout/Arrangement object
+# Layout/Arrangement object
 
 Creates an image-content block that vertically aligns images and text (centered, bottom, or top).
 Children can be named four things:
@@ -1822,7 +2011,7 @@ You may also combine this with grid items like `row` and `column` if you wish to
 
 _NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is "squishy", but not technically responsive._
 
-```html
+```html_example
 <div class="arrange">
 	<div class="arrange_media">
 		<img src="http://placehold.it/60x50" alt="placeholder image">
@@ -1858,25 +2047,15 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 ```
 */
 .arrange {
-  min-width: 100%;
-  table-layout: auto; }
-  .arrange_media img,
-  .arrange_fit img {
+  table-layout: auto;
+  min-width: 100%; }
+  .arrange_media img, .arrange_fit img {
     max-width: none; }
-  .arrange_media,
-  .arrange_body,
-  .arrange_fill,
-  .arrange_fit {
+  .arrange_media, .arrange_body, .arrange_fill, .arrange_fit {
     vertical-align: middle; }
-    .arrange_top > .arrange_media,
-    .arrange_top > .arrange_body,
-    .arrange_top > .arrange_fill,
-    .arrange_top > .arrange_fit {
+    .arrange_top > .arrange_media, .arrange_top > .arrange_body, .arrange_top > .arrange_fill, .arrange_top > .arrange_fit {
       vertical-align: top; }
-    .arrange_bottom > .arrange_media,
-    .arrange_bottom > .arrange_body,
-    .arrange_bottom > .arrange_fill,
-    .arrange_bottom > .arrange_fit {
+    .arrange_bottom > .arrange_media, .arrange_bottom > .arrange_body, .arrange_bottom > .arrange_fill, .arrange_bottom > .arrange_fit {
       vertical-align: bottom; }
 
 .arrange_equal {
@@ -1886,7 +2065,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
     width: 1%; }
 
 /* SG
-#Color Blocks
+# Color Blocks
 A good way to look over your color pallete.
 
 Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
@@ -2307,13 +2486,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   float: left;
   overflow: hidden; }
   .color-block:before {
-    font-size:  12.8px;
-    font-size:  0.8rem;
+    font-size: 12.8px;
+    font-size: 0.8rem;
     display: block;
     white-space: nowrap; }
   .color-block:after {
-    font-size:  10.24px;
-    font-size:  0.64rem;
+    font-size: 10.24px;
+    font-size: 0.64rem;
     display: block; }
 
 .color-block:before {
@@ -2329,22 +2508,11 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   margin-top: -.25em; }
 
 .box_open {
-  border-width: 2px;
-  z-index: 501; }
-
-.tab_topline > .tabs {
-  background-color: #e3f1fa; }
-
-.tab_minimal > .tab_content {
-  -webkit-box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
-     -moz-box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
-          box-shadow: 0 2px 0 rgba(10, 28, 43, 0.1);
-  z-index: 101; }
+  border-width: 2px 0; }
 
 [class*="list_bordered"] > li {
   border-top-width: 2px;
-  margin-top: -2px;
-  z-index: 502; }
+  margin-top: -2px; }
   [class*="list_bordered"] > li:first-child {
     border-top-color: #e4eaf3; }
   [class*="list_bordered"] > li:last-child {
@@ -2361,7 +2529,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   position: fixed;
   top: -1px;
   right: -1px;
-  z-index: 503;
+  z-index: 501;
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 5px 10px;
@@ -2370,16 +2538,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .editor_content ul {
   list-style: bulleted;
-  margin-left:  32px;
-  margin-left:  2rem; }
-
-.baseline-on {
-  background-image: url(http://basehold.it/i/24);
-  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.5em;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.5em; }
-
-.baseline-off {
-  background-image: none; }
+  margin-left: 32px;
+  margin-left: 2rem; }
 
 .list_naked {
   list-style: none;
@@ -2392,8 +2552,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .link_naked {
   color: inherit;
   text-decoration: none; }
-  .link_naked:hover,
-  .link_naked:focus {
+  .link_naked:hover, .link_naked:focus {
     color: inherit;
     text-decoration: none; }
 
@@ -2413,25 +2572,28 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   display: none !important;
   visibility: hidden !important; }
 
-.wrap, .isolate, .clearfix, .tabbed, .tab_content, .box {
+.contain {
+  position: relative !important; }
+
+.wrap, .tabbed, .tab_content, .box, .isolate, .clearfix {
   *zoom: 1; }
-  .wrap:before, .isolate:before, .clearfix:before, .wrap:after, .isolate:after, .clearfix:after, .tabbed:before, .tab_content:before, .box:before, .tabbed:after, .tab_content:after, .box:after {
+  .wrap:before, .tabbed:before, .tab_content:before, .box:before, .isolate:before, .clearfix:before, .wrap:after, .tabbed:after, .tab_content:after, .box:after, .isolate:after, .clearfix:after {
     display: table;
     content: " "; }
-  .wrap:after, .isolate:after, .clearfix:after, .tabbed:after, .tab_content:after, .box:after {
+  .wrap:after, .tabbed:after, .tab_content:after, .box:after, .isolate:after, .clearfix:after {
     clear: both;
     height: 0;
     width: 0; }
 
 .align_left {
   float: left !important;
-  margin-right:  32px;
-  margin-right:  2rem; }
+  margin-right: 32px;
+  margin-right: 2rem; }
 
 .align_right {
   float: right !important;
-  margin-left:  32px;
-  margin-left:  2rem; }
+  margin-left: 32px;
+  margin-left: 2rem; }
 
 .align_center {
   float: none !important;
@@ -2454,12 +2616,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 @media only screen and (max-width: 640px) {
   .smalls_align_left {
     float: left !important;
-    margin-right:  32px;
-    margin-right:  2rem; }
+    margin-right: 32px;
+    margin-right: 2rem; }
   .smalls_align_right {
     float: right !important;
-    margin-left:  32px;
-    margin-left:  2rem; }
+    margin-left: 32px;
+    margin-left: 2rem; }
   .smalls_align_center {
     float: none !important;
     margin: 0 auto !important;
@@ -2477,12 +2639,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 @media only screen and (min-width: 641px) {
   .bigs_align_left {
     float: left !important;
-    margin-right:  32px;
-    margin-right:  2rem; }
+    margin-right: 32px;
+    margin-right: 2rem; }
   .bigs_align_right {
     float: right !important;
-    margin-left:  32px;
-    margin-left:  2rem; }
+    margin-left: 32px;
+    margin-left: 2rem; }
   .bigs_align_center {
     float: none !important;
     margin: 0 auto !important;
@@ -2500,12 +2662,12 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 @media only screen and (min-width: 941px) {
   .desk_align_left {
     float: left !important;
-    margin-right:  32px;
-    margin-right:  2rem; }
+    margin-right: 32px;
+    margin-right: 2rem; }
   .desk_align_right {
     float: right !important;
-    margin-left:  32px;
-    margin-left:  2rem; }
+    margin-left: 32px;
+    margin-left: 2rem; }
   .desk_align_center {
     float: none !important;
     margin: 0 auto !important;
@@ -2536,84 +2698,84 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   margin-right: 0 !important; }
 
 .space {
-  margin:  24px !important;
-  margin:  1.5rem !important; }
+  margin: 24px !important;
+  margin: 1.5rem !important; }
 
 .space_t, .space_v {
-  margin-top:  24px !important;
-  margin-top:  1.5rem !important; }
+  margin-top: 24px !important;
+  margin-top: 1.5rem !important; }
 
 .space_l, .space_h {
-  margin-left:  32px !important;
-  margin-left:  2rem !important; }
+  margin-left: 32px !important;
+  margin-left: 2rem !important; }
 
 .space_b, .space_v {
-  margin-bottom:  24px !important;
-  margin-bottom:  1.5rem !important; }
+  margin-bottom: 24px !important;
+  margin-bottom: 1.5rem !important; }
 
 .space_r, .space_h {
-  margin-right:  32px !important;
-  margin-right:  2rem !important; }
+  margin-right: 32px !important;
+  margin-right: 2rem !important; }
 
 .space_half {
-  margin:  12px !important;
-  margin:  0.75rem !important; }
+  margin: 12px !important;
+  margin: 0.75rem !important; }
 
 .space_t_half, .space_v_half {
-  margin-top:  12px !important;
-  margin-top:  0.75rem !important; }
+  margin-top: 12px !important;
+  margin-top: 0.75rem !important; }
 
 .space_l_half, .space_h_half {
-  margin-left:  16px !important;
-  margin-left:  1rem !important; }
+  margin-left: 16px !important;
+  margin-left: 1rem !important; }
 
 .space_b_half, .space_v_half {
-  margin-bottom:  12px !important;
-  margin-bottom:  0.75rem !important; }
+  margin-bottom: 12px !important;
+  margin-bottom: 0.75rem !important; }
 
 .space_r_half, .space_h_half {
-  margin-right:  16px !important;
-  margin-right:  1rem !important; }
+  margin-right: 16px !important;
+  margin-right: 1rem !important; }
 
 .space_neg {
-  margin:  -24px !important;
-  margin:  -1.5rem !important; }
+  margin: -24px !important;
+  margin: -1.5rem !important; }
 
 .space_t_neg, .space_v_neg {
-  margin-top:  -24px !important;
-  margin-top:  -1.5rem !important; }
+  margin-top: -24px !important;
+  margin-top: -1.5rem !important; }
 
 .space_l_neg, .space_h_neg {
-  margin-left:  -32px !important;
-  margin-left:  -2rem !important; }
+  margin-left: -32px !important;
+  margin-left: -2rem !important; }
 
 .space_b_neg, .space_v_neg {
-  margin-bottom:  -24px !important;
-  margin-bottom:  -1.5rem !important; }
+  margin-bottom: -24px !important;
+  margin-bottom: -1.5rem !important; }
 
 .space_r_neg, .space_h_neg {
-  margin-right:  -32px !important;
-  margin-right:  -2rem !important; }
+  margin-right: -32px !important;
+  margin-right: -2rem !important; }
 
 .space_2 {
-  margin:  48px !important;
-  margin:  3rem !important; }
+  margin: 48px !important;
+  margin: 3rem !important; }
 
 .space_t_2, .space_v_2 {
-  margin-top:  48px !important;
-  margin-top:  3rem !important; }
+  margin-top: 48px !important;
+  margin-top: 3rem !important; }
 
 .space_l_2, .space_h_2 {
-  margin-left:  64px !important;
-  margin-left:  4rem !important; }
+  margin-left: 64px !important;
+  margin-left: 4rem !important; }
 
 .space_b_2, .space_v_2 {
-  margin-bottom:  48px !important;
-  margin-bottom:  3rem !important; }
+  margin-bottom: 48px !important;
+  margin-bottom: 3rem !important; }
 
 .space_r_2, .space_h_2 {
-  margin-right:  64px !important;
-  margin-right:  4rem !important; }
+  margin-right: 64px !important;
+  margin-right: 4rem !important; }
 
 .pad_0 {
   padding: 0 !important; }
@@ -2631,64 +2793,64 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   padding-right: 0 !important; }
 
 .pad {
-  padding:  24px !important;
-  padding:  1.5rem !important; }
+  padding: 24px !important;
+  padding: 1.5rem !important; }
 
 .pad_t, .pad_v {
-  padding-top:  24px !important;
-  padding-top:  1.5rem !important; }
+  padding-top: 24px !important;
+  padding-top: 1.5rem !important; }
 
 .pad_l, .pad_h {
-  padding-left:  32px !important;
-  padding-left:  2rem !important; }
+  padding-left: 32px !important;
+  padding-left: 2rem !important; }
 
 .pad_b, .pad_v {
-  padding-bottom:  24px !important;
-  padding-bottom:  1.5rem !important; }
+  padding-bottom: 24px !important;
+  padding-bottom: 1.5rem !important; }
 
 .pad_r, .pad_h {
-  padding-right:  32px !important;
-  padding-right:  2rem !important; }
+  padding-right: 32px !important;
+  padding-right: 2rem !important; }
 
 .pad_half {
-  padding:  12px !important;
-  padding:  0.75rem !important; }
+  padding: 12px !important;
+  padding: 0.75rem !important; }
 
 .pad_t_half, .pad_v_half {
-  padding-top:  12px !important;
-  padding-top:  0.75rem !important; }
+  padding-top: 12px !important;
+  padding-top: 0.75rem !important; }
 
 .pad_l_half, .pad_h_half {
-  padding-left:  16px !important;
-  padding-left:  1rem !important; }
+  padding-left: 16px !important;
+  padding-left: 1rem !important; }
 
 .pad_b_half, .pad_v_half {
-  padding-bottom:  12px !important;
-  padding-bottom:  0.75rem !important; }
+  padding-bottom: 12px !important;
+  padding-bottom: 0.75rem !important; }
 
 .pad_r_half, .pad_h_half {
-  padding-right:  16px !important;
-  padding-right:  1rem !important; }
+  padding-right: 16px !important;
+  padding-right: 1rem !important; }
 
 .pad_2 {
-  padding:  48px !important;
-  padding:  3rem !important; }
+  padding: 48px !important;
+  padding: 3rem !important; }
 
 .pad_t_2, .pad_v_2 {
-  padding-top:  48px !important;
-  padding-top:  3rem !important; }
+  padding-top: 48px !important;
+  padding-top: 3rem !important; }
 
 .pad_l_2, .pad_h_2 {
-  padding-left:  64px !important;
-  padding-left:  4rem !important; }
+  padding-left: 64px !important;
+  padding-left: 4rem !important; }
 
 .pad_b_2, .pad_v_2 {
-  padding-bottom:  48px !important;
-  padding-bottom:  3rem !important; }
+  padding-bottom: 48px !important;
+  padding-bottom: 3rem !important; }
 
 .pad_r_2, .pad_h_2 {
-  padding-right:  64px !important;
-  padding-right:  4rem !important; }
+  padding-right: 64px !important;
+  padding-right: 4rem !important; }
 
 @media only screen and (max-width: 640px) {
   .smalls_space_0 {
@@ -2702,65 +2864,65 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .smalls_space_r_0, .smalls_space_h_0 {
     margin-right: 0 !important; }
   .smalls_space {
-    margin:  24px !important;
-    margin:  1.5rem !important; }
+    margin: 24px !important;
+    margin: 1.5rem !important; }
   .smalls_space_t, .smalls_space_v {
-    margin-top:  24px !important;
-    margin-top:  1.5rem !important; }
+    margin-top: 24px !important;
+    margin-top: 1.5rem !important; }
   .smalls_space_l, .smalls_space_h {
-    margin-left:  32px !important;
-    margin-left:  2rem !important; }
+    margin-left: 32px !important;
+    margin-left: 2rem !important; }
   .smalls_space_b, .smalls_space_v {
-    margin-bottom:  24px !important;
-    margin-bottom:  1.5rem !important; }
+    margin-bottom: 24px !important;
+    margin-bottom: 1.5rem !important; }
   .smalls_space_r, .smalls_space_h {
-    margin-right:  32px !important;
-    margin-right:  2rem !important; }
+    margin-right: 32px !important;
+    margin-right: 2rem !important; }
   .smalls_space_half {
-    margin:  12px !important;
-    margin:  0.75rem !important; }
+    margin: 12px !important;
+    margin: 0.75rem !important; }
   .smalls_space_t_half, .smalls_space_v_half {
-    margin-top:  12px !important;
-    margin-top:  0.75rem !important; }
+    margin-top: 12px !important;
+    margin-top: 0.75rem !important; }
   .smalls_space_l_half, .smalls_space_h_half {
-    margin-left:  16px !important;
-    margin-left:  1rem !important; }
+    margin-left: 16px !important;
+    margin-left: 1rem !important; }
   .smalls_space_b_half, .smalls_space_v_half {
-    margin-bottom:  12px !important;
-    margin-bottom:  0.75rem !important; }
+    margin-bottom: 12px !important;
+    margin-bottom: 0.75rem !important; }
   .smalls_space_r_half, .smalls_space_h_half {
-    margin-right:  16px !important;
-    margin-right:  1rem !important; }
+    margin-right: 16px !important;
+    margin-right: 1rem !important; }
   .smalls_space_neg {
-    margin:  -24px !important;
-    margin:  -1.5rem !important; }
+    margin: -24px !important;
+    margin: -1.5rem !important; }
   .smalls_space_t_neg, .smalls_space_v_neg {
-    margin-top:  -24px !important;
-    margin-top:  -1.5rem !important; }
+    margin-top: -24px !important;
+    margin-top: -1.5rem !important; }
   .smalls_space_l_neg, .smalls_space_h_neg {
-    margin-left:  -32px !important;
-    margin-left:  -2rem !important; }
+    margin-left: -32px !important;
+    margin-left: -2rem !important; }
   .smalls_space_b_neg, .smalls_space_v_neg {
-    margin-bottom:  -24px !important;
-    margin-bottom:  -1.5rem !important; }
+    margin-bottom: -24px !important;
+    margin-bottom: -1.5rem !important; }
   .smalls_space_r_neg, .smalls_space_h_neg {
-    margin-right:  -32px !important;
-    margin-right:  -2rem !important; }
+    margin-right: -32px !important;
+    margin-right: -2rem !important; }
   .smalls_space_2 {
-    margin:  48px !important;
-    margin:  3rem !important; }
+    margin: 48px !important;
+    margin: 3rem !important; }
   .smalls_space_t_2, .smalls_space_v_2 {
-    margin-top:  48px !important;
-    margin-top:  3rem !important; }
+    margin-top: 48px !important;
+    margin-top: 3rem !important; }
   .smalls_space_l_2, .smalls_space_h_2 {
-    margin-left:  64px !important;
-    margin-left:  4rem !important; }
+    margin-left: 64px !important;
+    margin-left: 4rem !important; }
   .smalls_space_b_2, .smalls_space_v_2 {
-    margin-bottom:  48px !important;
-    margin-bottom:  3rem !important; }
+    margin-bottom: 48px !important;
+    margin-bottom: 3rem !important; }
   .smalls_space_r_2, .smalls_space_h_2 {
-    margin-right:  64px !important;
-    margin-right:  4rem !important; }
+    margin-right: 64px !important;
+    margin-right: 4rem !important; }
   .smalls_pad_0 {
     padding: 0 !important; }
   .smalls_pad_t_0, .smalls_pad_v_0 {
@@ -2772,50 +2934,50 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .smalls_pad_r_0, .smalls_pad_h_0 {
     padding-right: 0 !important; }
   .smalls_pad {
-    padding:  24px !important;
-    padding:  1.5rem !important; }
+    padding: 24px !important;
+    padding: 1.5rem !important; }
   .smalls_pad_t, .smalls_pad_v {
-    padding-top:  24px !important;
-    padding-top:  1.5rem !important; }
+    padding-top: 24px !important;
+    padding-top: 1.5rem !important; }
   .smalls_pad_l, .smalls_pad_h {
-    padding-left:  32px !important;
-    padding-left:  2rem !important; }
+    padding-left: 32px !important;
+    padding-left: 2rem !important; }
   .smalls_pad_b, .smalls_pad_v {
-    padding-bottom:  24px !important;
-    padding-bottom:  1.5rem !important; }
+    padding-bottom: 24px !important;
+    padding-bottom: 1.5rem !important; }
   .smalls_pad_r, .smalls_pad_h {
-    padding-right:  32px !important;
-    padding-right:  2rem !important; }
+    padding-right: 32px !important;
+    padding-right: 2rem !important; }
   .smalls_pad_half {
-    padding:  12px !important;
-    padding:  0.75rem !important; }
+    padding: 12px !important;
+    padding: 0.75rem !important; }
   .smalls_pad_t_half, .smalls_pad_v_half {
-    padding-top:  12px !important;
-    padding-top:  0.75rem !important; }
+    padding-top: 12px !important;
+    padding-top: 0.75rem !important; }
   .smalls_pad_l_half, .smalls_pad_h_half {
-    padding-left:  16px !important;
-    padding-left:  1rem !important; }
+    padding-left: 16px !important;
+    padding-left: 1rem !important; }
   .smalls_pad_b_half, .smalls_pad_v_half {
-    padding-bottom:  12px !important;
-    padding-bottom:  0.75rem !important; }
+    padding-bottom: 12px !important;
+    padding-bottom: 0.75rem !important; }
   .smalls_pad_r_half, .smalls_pad_h_half {
-    padding-right:  16px !important;
-    padding-right:  1rem !important; }
+    padding-right: 16px !important;
+    padding-right: 1rem !important; }
   .smalls_pad_2 {
-    padding:  48px !important;
-    padding:  3rem !important; }
+    padding: 48px !important;
+    padding: 3rem !important; }
   .smalls_pad_t_2, .smalls_pad_v_2 {
-    padding-top:  48px !important;
-    padding-top:  3rem !important; }
+    padding-top: 48px !important;
+    padding-top: 3rem !important; }
   .smalls_pad_l_2, .smalls_pad_h_2 {
-    padding-left:  64px !important;
-    padding-left:  4rem !important; }
+    padding-left: 64px !important;
+    padding-left: 4rem !important; }
   .smalls_pad_b_2, .smalls_pad_v_2 {
-    padding-bottom:  48px !important;
-    padding-bottom:  3rem !important; }
+    padding-bottom: 48px !important;
+    padding-bottom: 3rem !important; }
   .smalls_pad_r_2, .smalls_pad_h_2 {
-    padding-right:  64px !important;
-    padding-right:  4rem !important; } }
+    padding-right: 64px !important;
+    padding-right: 4rem !important; } }
 
 @media only screen and (min-width: 641px) {
   .bigs_space_0 {
@@ -2829,65 +2991,65 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .bigs_space_r_0, .bigs_space_h_0 {
     margin-right: 0 !important; }
   .bigs_space {
-    margin:  24px !important;
-    margin:  1.5rem !important; }
+    margin: 24px !important;
+    margin: 1.5rem !important; }
   .bigs_space_t, .bigs_space_v {
-    margin-top:  24px !important;
-    margin-top:  1.5rem !important; }
+    margin-top: 24px !important;
+    margin-top: 1.5rem !important; }
   .bigs_space_l, .bigs_space_h {
-    margin-left:  32px !important;
-    margin-left:  2rem !important; }
+    margin-left: 32px !important;
+    margin-left: 2rem !important; }
   .bigs_space_b, .bigs_space_v {
-    margin-bottom:  24px !important;
-    margin-bottom:  1.5rem !important; }
+    margin-bottom: 24px !important;
+    margin-bottom: 1.5rem !important; }
   .bigs_space_r, .bigs_space_h {
-    margin-right:  32px !important;
-    margin-right:  2rem !important; }
+    margin-right: 32px !important;
+    margin-right: 2rem !important; }
   .bigs_space_half {
-    margin:  12px !important;
-    margin:  0.75rem !important; }
+    margin: 12px !important;
+    margin: 0.75rem !important; }
   .bigs_space_t_half, .bigs_space_v_half {
-    margin-top:  12px !important;
-    margin-top:  0.75rem !important; }
+    margin-top: 12px !important;
+    margin-top: 0.75rem !important; }
   .bigs_space_l_half, .bigs_space_h_half {
-    margin-left:  16px !important;
-    margin-left:  1rem !important; }
+    margin-left: 16px !important;
+    margin-left: 1rem !important; }
   .bigs_space_b_half, .bigs_space_v_half {
-    margin-bottom:  12px !important;
-    margin-bottom:  0.75rem !important; }
+    margin-bottom: 12px !important;
+    margin-bottom: 0.75rem !important; }
   .bigs_space_r_half, .bigs_space_h_half {
-    margin-right:  16px !important;
-    margin-right:  1rem !important; }
+    margin-right: 16px !important;
+    margin-right: 1rem !important; }
   .bigs_space_neg {
-    margin:  -24px !important;
-    margin:  -1.5rem !important; }
+    margin: -24px !important;
+    margin: -1.5rem !important; }
   .bigs_space_t_neg, .bigs_space_v_neg {
-    margin-top:  -24px !important;
-    margin-top:  -1.5rem !important; }
+    margin-top: -24px !important;
+    margin-top: -1.5rem !important; }
   .bigs_space_l_neg, .bigs_space_h_neg {
-    margin-left:  -32px !important;
-    margin-left:  -2rem !important; }
+    margin-left: -32px !important;
+    margin-left: -2rem !important; }
   .bigs_space_b_neg, .bigs_space_v_neg {
-    margin-bottom:  -24px !important;
-    margin-bottom:  -1.5rem !important; }
+    margin-bottom: -24px !important;
+    margin-bottom: -1.5rem !important; }
   .bigs_space_r_neg, .bigs_space_h_neg {
-    margin-right:  -32px !important;
-    margin-right:  -2rem !important; }
+    margin-right: -32px !important;
+    margin-right: -2rem !important; }
   .bigs_space_2 {
-    margin:  48px !important;
-    margin:  3rem !important; }
+    margin: 48px !important;
+    margin: 3rem !important; }
   .bigs_space_t_2, .bigs_space_v_2 {
-    margin-top:  48px !important;
-    margin-top:  3rem !important; }
+    margin-top: 48px !important;
+    margin-top: 3rem !important; }
   .bigs_space_l_2, .bigs_space_h_2 {
-    margin-left:  64px !important;
-    margin-left:  4rem !important; }
+    margin-left: 64px !important;
+    margin-left: 4rem !important; }
   .bigs_space_b_2, .bigs_space_v_2 {
-    margin-bottom:  48px !important;
-    margin-bottom:  3rem !important; }
+    margin-bottom: 48px !important;
+    margin-bottom: 3rem !important; }
   .bigs_space_r_2, .bigs_space_h_2 {
-    margin-right:  64px !important;
-    margin-right:  4rem !important; }
+    margin-right: 64px !important;
+    margin-right: 4rem !important; }
   .bigs_pad_0 {
     padding: 0 !important; }
   .bigs_pad_t_0, .bigs_pad_v_0 {
@@ -2899,50 +3061,50 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .bigs_pad_r_0, .bigs_pad_h_0 {
     padding-right: 0 !important; }
   .bigs_pad {
-    padding:  24px !important;
-    padding:  1.5rem !important; }
+    padding: 24px !important;
+    padding: 1.5rem !important; }
   .bigs_pad_t, .bigs_pad_v {
-    padding-top:  24px !important;
-    padding-top:  1.5rem !important; }
+    padding-top: 24px !important;
+    padding-top: 1.5rem !important; }
   .bigs_pad_l, .bigs_pad_h {
-    padding-left:  32px !important;
-    padding-left:  2rem !important; }
+    padding-left: 32px !important;
+    padding-left: 2rem !important; }
   .bigs_pad_b, .bigs_pad_v {
-    padding-bottom:  24px !important;
-    padding-bottom:  1.5rem !important; }
+    padding-bottom: 24px !important;
+    padding-bottom: 1.5rem !important; }
   .bigs_pad_r, .bigs_pad_h {
-    padding-right:  32px !important;
-    padding-right:  2rem !important; }
+    padding-right: 32px !important;
+    padding-right: 2rem !important; }
   .bigs_pad_half {
-    padding:  12px !important;
-    padding:  0.75rem !important; }
+    padding: 12px !important;
+    padding: 0.75rem !important; }
   .bigs_pad_t_half, .bigs_pad_v_half {
-    padding-top:  12px !important;
-    padding-top:  0.75rem !important; }
+    padding-top: 12px !important;
+    padding-top: 0.75rem !important; }
   .bigs_pad_l_half, .bigs_pad_h_half {
-    padding-left:  16px !important;
-    padding-left:  1rem !important; }
+    padding-left: 16px !important;
+    padding-left: 1rem !important; }
   .bigs_pad_b_half, .bigs_pad_v_half {
-    padding-bottom:  12px !important;
-    padding-bottom:  0.75rem !important; }
+    padding-bottom: 12px !important;
+    padding-bottom: 0.75rem !important; }
   .bigs_pad_r_half, .bigs_pad_h_half {
-    padding-right:  16px !important;
-    padding-right:  1rem !important; }
+    padding-right: 16px !important;
+    padding-right: 1rem !important; }
   .bigs_pad_2 {
-    padding:  48px !important;
-    padding:  3rem !important; }
+    padding: 48px !important;
+    padding: 3rem !important; }
   .bigs_pad_t_2, .bigs_pad_v_2 {
-    padding-top:  48px !important;
-    padding-top:  3rem !important; }
+    padding-top: 48px !important;
+    padding-top: 3rem !important; }
   .bigs_pad_l_2, .bigs_pad_h_2 {
-    padding-left:  64px !important;
-    padding-left:  4rem !important; }
+    padding-left: 64px !important;
+    padding-left: 4rem !important; }
   .bigs_pad_b_2, .bigs_pad_v_2 {
-    padding-bottom:  48px !important;
-    padding-bottom:  3rem !important; }
+    padding-bottom: 48px !important;
+    padding-bottom: 3rem !important; }
   .bigs_pad_r_2, .bigs_pad_h_2 {
-    padding-right:  64px !important;
-    padding-right:  4rem !important; } }
+    padding-right: 64px !important;
+    padding-right: 4rem !important; } }
 
 @media only screen and (min-width: 941px) {
   .desk_space_0 {
@@ -2956,65 +3118,65 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .desk_space_r_0, .desk_space_h_0 {
     margin-right: 0 !important; }
   .desk_space {
-    margin:  24px !important;
-    margin:  1.5rem !important; }
+    margin: 24px !important;
+    margin: 1.5rem !important; }
   .desk_space_t, .desk_space_v {
-    margin-top:  24px !important;
-    margin-top:  1.5rem !important; }
+    margin-top: 24px !important;
+    margin-top: 1.5rem !important; }
   .desk_space_l, .desk_space_h {
-    margin-left:  32px !important;
-    margin-left:  2rem !important; }
+    margin-left: 32px !important;
+    margin-left: 2rem !important; }
   .desk_space_b, .desk_space_v {
-    margin-bottom:  24px !important;
-    margin-bottom:  1.5rem !important; }
+    margin-bottom: 24px !important;
+    margin-bottom: 1.5rem !important; }
   .desk_space_r, .desk_space_h {
-    margin-right:  32px !important;
-    margin-right:  2rem !important; }
+    margin-right: 32px !important;
+    margin-right: 2rem !important; }
   .desk_space_half {
-    margin:  12px !important;
-    margin:  0.75rem !important; }
+    margin: 12px !important;
+    margin: 0.75rem !important; }
   .desk_space_t_half, .desk_space_v_half {
-    margin-top:  12px !important;
-    margin-top:  0.75rem !important; }
+    margin-top: 12px !important;
+    margin-top: 0.75rem !important; }
   .desk_space_l_half, .desk_space_h_half {
-    margin-left:  16px !important;
-    margin-left:  1rem !important; }
+    margin-left: 16px !important;
+    margin-left: 1rem !important; }
   .desk_space_b_half, .desk_space_v_half {
-    margin-bottom:  12px !important;
-    margin-bottom:  0.75rem !important; }
+    margin-bottom: 12px !important;
+    margin-bottom: 0.75rem !important; }
   .desk_space_r_half, .desk_space_h_half {
-    margin-right:  16px !important;
-    margin-right:  1rem !important; }
+    margin-right: 16px !important;
+    margin-right: 1rem !important; }
   .desk_space_neg {
-    margin:  -24px !important;
-    margin:  -1.5rem !important; }
+    margin: -24px !important;
+    margin: -1.5rem !important; }
   .desk_space_t_neg, .desk_space_v_neg {
-    margin-top:  -24px !important;
-    margin-top:  -1.5rem !important; }
+    margin-top: -24px !important;
+    margin-top: -1.5rem !important; }
   .desk_space_l_neg, .desk_space_h_neg {
-    margin-left:  -32px !important;
-    margin-left:  -2rem !important; }
+    margin-left: -32px !important;
+    margin-left: -2rem !important; }
   .desk_space_b_neg, .desk_space_v_neg {
-    margin-bottom:  -24px !important;
-    margin-bottom:  -1.5rem !important; }
+    margin-bottom: -24px !important;
+    margin-bottom: -1.5rem !important; }
   .desk_space_r_neg, .desk_space_h_neg {
-    margin-right:  -32px !important;
-    margin-right:  -2rem !important; }
+    margin-right: -32px !important;
+    margin-right: -2rem !important; }
   .desk_space_2 {
-    margin:  48px !important;
-    margin:  3rem !important; }
+    margin: 48px !important;
+    margin: 3rem !important; }
   .desk_space_t_2, .desk_space_v_2 {
-    margin-top:  48px !important;
-    margin-top:  3rem !important; }
+    margin-top: 48px !important;
+    margin-top: 3rem !important; }
   .desk_space_l_2, .desk_space_h_2 {
-    margin-left:  64px !important;
-    margin-left:  4rem !important; }
+    margin-left: 64px !important;
+    margin-left: 4rem !important; }
   .desk_space_b_2, .desk_space_v_2 {
-    margin-bottom:  48px !important;
-    margin-bottom:  3rem !important; }
+    margin-bottom: 48px !important;
+    margin-bottom: 3rem !important; }
   .desk_space_r_2, .desk_space_h_2 {
-    margin-right:  64px !important;
-    margin-right:  4rem !important; }
+    margin-right: 64px !important;
+    margin-right: 4rem !important; }
   .desk_pad_0 {
     padding: 0 !important; }
   .desk_pad_t_0, .desk_pad_v_0 {
@@ -3026,50 +3188,50 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   .desk_pad_r_0, .desk_pad_h_0 {
     padding-right: 0 !important; }
   .desk_pad {
-    padding:  24px !important;
-    padding:  1.5rem !important; }
+    padding: 24px !important;
+    padding: 1.5rem !important; }
   .desk_pad_t, .desk_pad_v {
-    padding-top:  24px !important;
-    padding-top:  1.5rem !important; }
+    padding-top: 24px !important;
+    padding-top: 1.5rem !important; }
   .desk_pad_l, .desk_pad_h {
-    padding-left:  32px !important;
-    padding-left:  2rem !important; }
+    padding-left: 32px !important;
+    padding-left: 2rem !important; }
   .desk_pad_b, .desk_pad_v {
-    padding-bottom:  24px !important;
-    padding-bottom:  1.5rem !important; }
+    padding-bottom: 24px !important;
+    padding-bottom: 1.5rem !important; }
   .desk_pad_r, .desk_pad_h {
-    padding-right:  32px !important;
-    padding-right:  2rem !important; }
+    padding-right: 32px !important;
+    padding-right: 2rem !important; }
   .desk_pad_half {
-    padding:  12px !important;
-    padding:  0.75rem !important; }
+    padding: 12px !important;
+    padding: 0.75rem !important; }
   .desk_pad_t_half, .desk_pad_v_half {
-    padding-top:  12px !important;
-    padding-top:  0.75rem !important; }
+    padding-top: 12px !important;
+    padding-top: 0.75rem !important; }
   .desk_pad_l_half, .desk_pad_h_half {
-    padding-left:  16px !important;
-    padding-left:  1rem !important; }
+    padding-left: 16px !important;
+    padding-left: 1rem !important; }
   .desk_pad_b_half, .desk_pad_v_half {
-    padding-bottom:  12px !important;
-    padding-bottom:  0.75rem !important; }
+    padding-bottom: 12px !important;
+    padding-bottom: 0.75rem !important; }
   .desk_pad_r_half, .desk_pad_h_half {
-    padding-right:  16px !important;
-    padding-right:  1rem !important; }
+    padding-right: 16px !important;
+    padding-right: 1rem !important; }
   .desk_pad_2 {
-    padding:  48px !important;
-    padding:  3rem !important; }
+    padding: 48px !important;
+    padding: 3rem !important; }
   .desk_pad_t_2, .desk_pad_v_2 {
-    padding-top:  48px !important;
-    padding-top:  3rem !important; }
+    padding-top: 48px !important;
+    padding-top: 3rem !important; }
   .desk_pad_l_2, .desk_pad_h_2 {
-    padding-left:  64px !important;
-    padding-left:  4rem !important; }
+    padding-left: 64px !important;
+    padding-left: 4rem !important; }
   .desk_pad_b_2, .desk_pad_v_2 {
-    padding-bottom:  48px !important;
-    padding-bottom:  3rem !important; }
+    padding-bottom: 48px !important;
+    padding-bottom: 3rem !important; }
   .desk_pad_r_2, .desk_pad_h_2 {
-    padding-right:  64px !important;
-    padding-right:  4rem !important; } }
+    padding-right: 64px !important;
+    padding-right: 4rem !important; } }
 
 .show {
   display: block !important; }
@@ -3125,13 +3287,19 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   letter-spacing: 0  !important; }
 
 .txt_small {
-  font-size:  12.8px;
-  font-size:  0.8rem;
+  font-size: 12.8px;
+  font-size: 0.8rem;
   line-height: 1.875; }
 
 .txt_space_reset {
   letter-spacing: normal  !important;
   word-spacing: normal  !important; }
+
+.txt_primary {
+  font-family: "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
+
+.txt_secondary {
+  font-family: "Asap", "Garamond", "Baskerville", "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; }
 
 @media only screen and (max-width: 640px) {
   .smalls_txt_normal {
@@ -3150,12 +3318,16 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     text-transform: none  !important;
     letter-spacing: 0  !important; }
   .smalls_txt_small {
-    font-size:  12.8px;
-    font-size:  0.8rem;
+    font-size: 12.8px;
+    font-size: 0.8rem;
     line-height: 1.875; }
   .smalls_txt_space_reset {
     letter-spacing: normal  !important;
-    word-spacing: normal  !important; } }
+    word-spacing: normal  !important; }
+  .smalls_txt_primary {
+    font-family: "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
+  .smalls_txt_secondary {
+    font-family: "Asap", "Garamond", "Baskerville", "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; } }
 
 @media only screen and (min-width: 641px) {
   .bigs_txt_normal {
@@ -3174,11 +3346,23 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     text-transform: none  !important;
     letter-spacing: 0  !important; }
   .bigs_txt_small {
-    font-size:  12.8px;
-    font-size:  0.8rem;
+    font-size: 12.8px;
+    font-size: 0.8rem;
     line-height: 1.875; }
   .bigs_txt_space_reset {
     letter-spacing: normal  !important;
-    word-spacing: normal  !important; } }
+    word-spacing: normal  !important; }
+  .bigs_txt_primary {
+    font-family: "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
+  .bigs_txt_secondary {
+    font-family: "Asap", "Garamond", "Baskerville", "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; } }
+
+.baseline-on {
+  background-image: url(http://basehold.it/i/24);
+  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.5em;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.5em; }
+
+.baseline-off {
+  background-image: none; }
 
 /*# sourceMappingURL=maps/main.css.map */

@@ -1,5 +1,5 @@
 /* SG
-#Color Blocks
+# Color Blocks
 A good way to look over your color pallete.
 
 Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
@@ -37,30 +37,21 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .button{
     @extend %button;
 }
+
 .icon {
 	width: 1.2em;
 	margin-right: .5em;
 	display: inline-block;
 	margin-top: -.25em;
 }
+
 .box_open{
-	border-width: 2px;
-	z-index: z(modal, true);
-}
-
-.tab_topline > .tabs{
-	background-color: #e3f1fa;
-}
-
-.tab_minimal > .tab_content{
-	box-shadow: 0 2px 0 rgba(color(type), 0.1);
-	z-index: z(head, true);
+	border-width: 2px 0;
 }
 
 [class*="list_bordered"] > li{
 	border-top-width: 2px;
 	margin-top: -2px;
-	z-index: z(modal, true);
 
 	&:first-child{
 		border-top-color: color(bg, dark);
@@ -85,7 +76,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     position: fixed;
     top: -1px;
     right: -1px;
-    z-index: z(modal, true);
+    z-index: z(modal);
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 5px 10px;

@@ -1,8 +1,8 @@
 /* SG
 
-#Layout/Media object
+# Layout/Isolation object
 
-Useful for creating an association between an image and text. Often used with an icon or a profile image.
+Isolates an image from text wrapping underneath. Useful for creating an association between an image and text. Often used with an icon or avatar. Adding other classes to the `isolate_body` can create a more stylized version.
 
 ```html_example
 <img class="isolate_media" src="http://placehold.it/300x50" alt="placeholder image">
@@ -53,7 +53,7 @@ Useful for creating an association between an image and text. Often used with an
 
 /* SG
 
-#Layout/Arrangement object
+# Layout/Arrangement object
 
 Creates an image-content block that vertically aligns images and text (centered, bottom, or top).
 Children can be named four things:
@@ -65,7 +65,7 @@ You may also combine this with grid items like `row` and `column` if you wish to
 
 _NOTE: Do not mistake this for true grid items. This should only be used for the arrangement of a few items. It is "squishy", but not technically responsive._
 
-```html
+```html_example
 <div class="arrange">
 	<div class="arrange_media">
 		<img src="http://placehold.it/60x50" alt="placeholder image">
@@ -103,11 +103,11 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 
 
 .arrange {
+	table-layout: auto;
+	min-width: 100%;
 	@extend %table;
 	@extend %one_whole;
 	@extend %space_b;
-	min-width: 100%;
-	table-layout: auto;
 
 	&_fill,
 	&_fit,

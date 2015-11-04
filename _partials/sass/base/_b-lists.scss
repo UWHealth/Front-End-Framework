@@ -1,5 +1,20 @@
-nav {
-    ul, ol {
-        @extend %list_naked;
-    }
+//-------------------------------
+//   $LISTS
+//-------------------------------
+
+ul,
+ol,
+dd,
+menu {
+    @include type-space(margin, 0 0 1 1);
+}
+
+li > ul,
+li > ol {
+    margin-bottom: 0;
+}
+
+nav ol,
+nav ul {
+    margin-left: 0;
 }

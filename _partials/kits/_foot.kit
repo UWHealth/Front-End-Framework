@@ -23,6 +23,19 @@
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
 
+<!--=======================
+        Google Analytics
+===========================-->
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src='http://www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+
+<!--=======================
+        Custom Scripts
+============================-->
         <script>
            $(function() {
                var test_height = function(element){
@@ -35,60 +48,38 @@
                };
 
                $("#tabs_test1").tabbed({
+                   wrapper: {
+                       class_string: "tabbed"
+                   },
                    tabs: {
                        begin: function(elements) {
                            var $target = $(elements[1]);
                            if(! $target.is(":visible")) {
-							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]},{duration:100});
-                               $target.velocity('slideDown', {opacity: [1, 0]},{duration:100});
+							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]}, 30);
+                               $target.velocity('slideDown', {opacity: [1, 0]}, 30);
 						   }else {
-							   $target.velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]},{duration:100});
+							   $target.velocity('slideUp', {opacity: [0, 'easeInExpo', 1]}, 30);
 						   }
                        },
-                       toggle: true,
+                       toggle: false,
                        animation: {
-                           duration: 200
+                           duration: 50
                        }
                    }
 			   }, function(scope, parents){
-				   parents.find('.tab_active').velocity('slideDown', 0);
+				   parents.find('.tab_active').velocity('slideDown', 20);
 			   });
 
-               $("#tabs_test2").tabbed({
-                   wrapper: {
-                       element: "section",
-                       class_name: "tabbed",
-                       extra_classes: "tab_side tab_line"
-                   },
-                   tabs: {
-                       animation: {
-                           opacity: [1, 0],
-                           duration: 400
-                       },
-                       active_class: 'active'
-                   }
-               }, function(){console.log('Second tab-set callback');});
-           });
-
            //Helper for hiding/showing baseline-grid
-
-           $(function(){
-               $('#toggles').children().click(function(e){
+               $('#js_baseline_toggle').click(function(e){
+                   e.preventDefault();
                    var toggles = $(this).attr("id");
-                   $('body').toggleClass(toggles);
+                   $('body').toggleClass('baseline-on');
                    e.preventDefault();
                });
            });
 
        </script>
-
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src='http://www.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
 </footer>
-
-    </body>
+</body>
 </html>

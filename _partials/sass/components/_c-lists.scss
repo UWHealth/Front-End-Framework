@@ -1,5 +1,5 @@
 /* SG
-#Lists/Bordered Lists
+# Lists/Bordered Lists
 
 Creates a list with borders above and below each list item. Appending `list_bordered` with `_short` will make reduce the padding between each item.
 
@@ -21,25 +21,28 @@ Creates a list with borders above and below each list item. Appending `list_bord
 [class*="list_bordered"] {
     @extend %list_naked;
     @extend %space_v;
+
     > li {
         @extend %block;
         border-top: 1px solid color(bg, dark);
         @include type-space((padding-top, padding-bottom), 1);
-		margin-top: -1px;
+        margin-bottom: -1px;
     }
+
     > li:first-child {
         border-top-color: transparent;
     }
 }
 
 .list_bordered_short {
-	> li {
+
+    > li {
         @include type-space((padding-top, padding-bottom), .5);
     }
 }
 
 /* SG
-#Lists/Inline Lists
+# Lists/Inline Lists
 
 A list where each item is in a row, with spacing to the right of each item
 
@@ -70,7 +73,7 @@ A list where each item is in a row, with spacing to the right of each item
 }
 
 /* SG
-#Lists/Breadcrumbs
+# Lists/Breadcrumbs
 
 A list where each item is in a row, with a &#x25B8; between each item.
 
@@ -107,7 +110,7 @@ A list where each item is in a row, with a &#x25B8; between each item.
 }
 
 /* SG
-#Lists/Navigation List
+# Lists/Navigation List
 
 List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn't have to be an `ol` or `ul`).
 
