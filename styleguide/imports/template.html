@@ -28,26 +28,26 @@
                 </li>
             </ul>
             <ul id="sub-{{key}}" class="menu_body">
-                {{#eachProperty value}}
-                    <li>
-                    {{#with value}}
-                        {{#if headings.1.name}}
-                            <a class="submenulink menulink_with_subs" href="#{{sanitize headings.0.id}}">{{name}}</a>
-                            <span class="submenu_toggle"
-                                data-toggle="[data-submenu='{{headings.0.name}}']"data-toggle-type="slide">&#9662;</span>
-                            <ul class="submenu" data-submenu="{{headings.0.name}}">
-                                {{#each headings}}
-                                    <li>
-                                        <a href="#{{sanitize id}}" class="submenulink sub-sub menu_link">{{name}}</a>
-                                    </li>
-                                {{/each}}
-                            </ul>
-                        {{else}}
-                            <a class="sectionlink menu_link" href="#{{sanitize headings.0.id}}">{{name}}</a>
-                        {{/if}}
-                    </li>
-                    {{/with}}
-                {{/eachProperty}}
+            {{#eachProperty value}}
+                <li>
+                {{#with value}}
+                {{#if headings.1.name}}
+                    <a class="submenulink menulink_with_subs" href="#{{sanitize headings.0.id}}">{{name}}</a>
+                    <span class="submenu_toggle"
+                        data-toggle="[data-submenu='{{headings.0.name}}']"data-toggle-type="slide">&#9662;</span>
+                    <ul class="submenu" data-submenu="{{headings.0.name}}">
+                    {{#each headings}}
+                        <li>
+                            <a href="#{{sanitize id}}" class="submenulink sub-sub menu_link">{{name}}</a>
+                        </li>
+                    {{/each}}
+                    </ul>
+                {{else}}
+                    <a class="sectionlink menu_link" href="#{{sanitize headings.0.id}}">{{name}}</a>
+                {{/if}}
+                </li>
+                {{/with}}
+            {{/eachProperty}}
             </ul>
         {{/eachProperty}}
         {{/each}}
@@ -68,33 +68,29 @@
             </header>
         	{{#each sections}}
         		<article class="section" id="{{sanitize id}}" data-section="{{sanitize section}}" data-heading="{{sanitize heading}}">
-
                     <header class="section_header">
-                        {{#unless isSubsection}}
-                            <h1 class="h4 header_heading">{{section}}</h1>
-                        {{else}}
-                            <h1 class="h6 header_subheading">{{section}}</h1>
-                            <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
-                        {{/unless}}
+                    {{#unless isSubsection}}
+                        <h1 class="h4 header_heading">{{section}}</h1>
+                    {{else}}
+                        <h1 class="h6 header_subheading">{{section}}</h1>
+                        <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
+                    {{/unless}}
                     </header>
                     <div class="section_comment">
                         {{{comment}}}
                     </div>
-
                     {{#if code}}
                     <div class="section_body">
                         <div class="result">
                             {{{code}}}
                         </div>
                     {{/if}}
-
                     {{#if markup}}
                         <div class="markup hljs">
                             <pre><code>{{{markup}}}</code></pre>
                         </div>
                     </div>
                     {{/if}}
-
         		</article>
         	{{/each}}
         </div>
@@ -107,33 +103,29 @@
             </header>
             {{#each developmentSections}}
         		<article class="section" id="{{sanitize id}}" data-section="{{sanitize section}}" data-heading="{{sanitize heading}}">
-
                     <header class="section_header">
-                        {{#unless isSubsection}}
-                            <h1 class="h4 header_heading">{{section}}</h1>
-                        {{else}}
-                            <h1 class="h6 header_subheading">{{section}}</h1>
-                            <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
-                        {{/unless}}
+                    {{#unless isSubsection}}
+                        <h1 class="h4 header_heading">{{section}}</h1>
+                    {{else}}
+                        <h1 class="h6 header_subheading">{{section}}</h1>
+                        <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
+                    {{/unless}}
                     </header>
                     <div class="section_comment">
                         {{{comment}}}
                     </div>
-
                     {{#if code}}
                     <div class="section_body">
                         <div class="result">
                             {{{code}}}
                         </div>
                     {{/if}}
-
                     {{#if markup}}
                         <div class="markup hljs">
                             <pre><code>{{{markup}}}</code></pre>
                         </div>
                     </div>
                     {{/if}}
-
         		</article>
         	{{/each}}
         </div>
