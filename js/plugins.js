@@ -7220,7 +7220,7 @@ var change_color = function(col, amt) {
         			}
 
                     t.tab_parents = $(tab_parents);
-                    
+
                     t.create_tab_nav();
                     t.activate_tabs();
                 }
@@ -7293,16 +7293,13 @@ var change_color = function(col, amt) {
     		//		Actions for tab clicks
     		//----------------------------------------------------------
     		t.bind_events = function(){
-                $(t.scope).on('tab-change', t.tabs_class+','+t.buttons_class, function(e){
-
-                    //Set current item
-                    t.current_item = $(e.target);
-                    t.change_tabs();
-                });
 
     			$(t.scope).on('click', t.tabs_class+','+t.buttons_class, function(e) {
                     e.preventDefault();
-                    $(e.target).trigger('tab-change');
+                    t.current_item = $(e.target);
+                    t.current_item.trigger('tab:click');
+                    t.change_tabs();
+                    t.current_item.trigger('tab:changed');
                 });
     		};
 
@@ -7328,6 +7325,8 @@ var change_color = function(col, amt) {
                         //Used for first run; skips all animations.
                         t.skip_animations();
                     }else {
+
+                        t.target.trigger('tabs:changing');
 
                         if (t.is_tab()){
                             //hide/show tabs
