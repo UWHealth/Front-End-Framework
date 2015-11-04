@@ -1,7 +1,6 @@
 var gulp		 = require('gulp');
 var sass		 = require('gulp-sass');
 var browserSync  = require('browser-sync');
-var concat		 = require('gulp-concat');
 var plumber		 = require('gulp-plumber');
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps   = require('gulp-sourcemaps');
@@ -23,15 +22,35 @@ var chalk		 = utility.colors;
 /*---------------------------------
  * Config
  * --------------------------------*/
-var paths = {
-	scss: ['./_partials/sass/*.scss', './_partials/sass/**/*.scss'],
-	css: './css',
-	js: ['./_partials/js/*.js', './_partials/js/vendor/*.js'],
-	kits: ['./_partials/kits/*.kit', '!./_partials/**/_*.kit'],
-	styleGuide: ['./styleguide/imports/*', './**/*.scss']
-};
 
-var browserSyncWatch= ['./css/*.css', './js/**', './*.html', './styleguide/**', '!**.map'];
+// gulp.on('task_start', function(e){
+// 	console.log(e);
+// });
+
+var paths = {
+	scss: {
+		watch:	['./_partials/sass/**/*.scss'],
+		main:	['./_partials/sass/main.scss'],
+		dest:  	'./css'
+	},
+	js: {
+		watch:	['./_partials/js/**/*.js'],
+		main:   ['./_partials/js/main.js','./_partials/js/plugins.js', '!./**/_*.js' ],
+		dest:  	'./js'
+	},
+	kits: {
+		watch:	['./_partials/kits/**/*.kit'],
+		main: 	['./_partials/kits/*.kit', '!./_partials/kits/_*.kit'],
+		dest:  	'./'
+	},
+	styleGuide: {
+		watch: ['./**/*.scss', './styleguide/imports/*']
+	},
+	browserSync: {
+		watch: ['./css/*.css', './js/**/*.js', './*.html', './styleguide/*.html'],
+		ignore:['!**.map', '!./gulpfile.js']
+	}
+}
 
 var autoprefixer_browsers = [
 	'> 1%',
@@ -47,37 +66,31 @@ var autoprefixer_browsers = [
  * --------------------------------*/
 
 var style_guide_output = true;
-var js_task = 'js';
-var sass_task = 'sass';
 var sass_output = 'nested';
-var open_new_tab = false;
-var js_partials = paths.js;
+var open_new_tab = null;
 var source_maps = false;
 var minify = false;
 var lint = false;
-var dir = false;
+var browsersync_dir_view = false;
 
-// console.log(yarg);
-// js_partials.push('!./_partials/js/_*.js');
+
+/*---------------------------------
+ * Arguments
+ * --------------------------------*/
 
 //Run gulp --ls to show directories instead of index.html in Browser Sync
 if (yarg.ls || yarg.dir){
-	dir = true;
+	browsersync_dir_view = true;
 }
-
 //Run 'gulp --no-sg' if you don't want to compile the style guide
 if (yarg.sg === false || yarg.nosg){
-	browserSyncWatch = ['./css/*.css', './js/**', './*.html'];
+	paths.browserSync.ignore = [paths.scss.dest, paths.kits.dest, paths.js.dest];
 	style_guide_output = false;
 }
 //Run 'gulp --uglify' if you want to compress sass and JS
 if (yarg.uglify || yarg.minify){
 	sass_output = 'compressed';
 	minify = true;
-}
-//Run 'gulp --newtab' to open a new tab when gulp first runs
-if (yarg.newtab || yarg.launch){
-	open_new_tab = 'local';
 }
 //Run 'gulp --sm' for sass sourcemaps
 if (yarg.sm || yarg.source || yarg.sourcemaps){
@@ -87,23 +100,9 @@ if (yarg.sm || yarg.source || yarg.sourcemaps){
 if (yarg.lint || yarg.hint) {
 	lint = true;
 }
-
-//Extracts filenames from a path
-function _filename(path) {
-	return path.substr(path.lastIndexOf('/') + 1);
-}
-
-//Error handler
-function _error(err) {
-	// console.log(chalk.red("["+err.plugin+"] Error\n")+err.message);
-	browserSync.notify(err.message);
-	notify.onError({
-		title:    "Error",
-		subtitle: "<%= error.plugin %>",
-		message:  "<%= error.message %>",
-	})(err);
-
-	this.emit('end');
+//Run 'gulp --newtab' to open a new tab when gulp first runs
+if (yarg.newtab || yarg.launch){
+	open_new_tab = 'local';
 }
 
 
@@ -111,17 +110,14 @@ function _error(err) {
  * Utility Tasks
  * --------------------------------*/
 
-//First task called when gulp is invoked
-gulp.task('default', ['watch', 'browser-sync', 'styleGuide']);
-
 //Watch file paths for changes (as defined in the paths variable)
 gulp.task('watch', function(){
-	gulp.watch(paths.scss, [sass_task]);
-	gulp.watch(paths.js, [js_task]);
-	gulp.watch(paths.kits, ['kits']);
+	gulp.watch(paths.scss.watch, ['sass']);
+	gulp.watch(paths.js.watch, ['js']);
+	gulp.watch(paths.kits.watch, ['kits']);
 
 	if (style_guide_output){
-		gulp.watch(paths.styleGuide, ['styleGuide']);
+		gulp.watch(paths.styleGuide.watch, ['styleGuide']);
 	}
 
 });
@@ -129,11 +125,12 @@ gulp.task('watch', function(){
 //Browser-sync
 //Spins up local http server
 // and syncs actions across browsers
-gulp.task('browser-sync', [sass_task, js_task, 'kits'], function() {
-    browserSync.init(browserSyncWatch, {
+gulp.task('browser-sync', function() {
+    browserSync.init(paths.browserSync.watch.concat(paths.browserSync.ignore), {
+		port: 3000,
 		server: {
             baseDir: ['./'],
-			directory: dir
+			directory: browsersync_dir_view
         },
 		ui:{
 			port: 3030
@@ -158,9 +155,7 @@ gulp.task('browser-sync', [sass_task, js_task, 'kits'], function() {
 //Sass with Source maps
 gulp.task('sass', function() {
 
-	browserSync.notify("Compiling Sass");
-
-	return gulp.src(paths.scss[0])
+	return gulp.src(paths.scss.main)
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(_if(source_maps, sourcemaps.init()))
 		.pipe(sass({
@@ -185,46 +180,47 @@ gulp.task('sass', function() {
 		.pipe(_if(source_maps, sourcemaps.write('./maps')))
 		//Remove Styleguide Comments
 		.pipe(_if(source_maps == false, replace(/(\/\* ?SG[\s\S]+?\*\/)/gmi, "")))
-		//Remove those new lines
+		//Remove extra new lines
 		.pipe(_if(source_maps == false, replace(/(\n{1,}(?=\n{2}))/gi, "")) )
-		.pipe(gulp.dest(paths.css))
+		.pipe(gulp.dest(paths.scss.dest))
 });
 
 
 //Javascript concatenating and renaming
-// Same as above, but with uglification
 
 gulp.task('js', function(){
-	// var filter = gFilter(['!**/_*.js']);
 
-	return gulp.src(js_partials)
+	return gulp.src(paths.js.main)
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(_if(lint, jshint('./.jshintrc')))
 		.pipe(_if(lint, jshint.reporter('jshint-stylish')))
 		.pipe(_if(source_maps, sourcemaps.init()))
 		.pipe(include())
 		.pipe(_if(minify, uglify({preserveComments: 'some'})))
-		.pipe(rename(function(path){
-			path.dirname = path.dirname.replace("./_partials/js","");
-			path.basename = path.basename.replace("_","");
+		.pipe(rename(function(path) {
+			//remove underscores from the beginning of partials
+			path.basename = path.basename.replace(/^_/gi,"");
 		}))
 		.pipe(size({title: 'JS', showFiles: true, gzip: true}))
 		.pipe(_if(source_maps, sourcemaps.write('./maps')))
-		.pipe(gulp.dest('./js'));
+		.pipe(gulp.dest(paths.js.dest));
 });
 
 //Compile .kit files into html
 gulp.task('kits', function(){
-	// var filter = gFilter(['**/_*.kit']);
-	return gulp.src(paths.kits)
+
+	return gulp.src(paths.kits.main)
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(kit())
-		.pipe(gulp.dest('./'));
+		.pipe(gulp.dest(paths.kits.dest));
 });
 
-gulp.task('prod', ['switch-vars', sass_task, js_task, 'kits']);
+gulp.task('prod', ['switch-vars', 'sass', 'js', 'kits']);
 //Alias
 gulp.task('production', ['prod']);
+
+//First task called when gulp is invoked
+gulp.task('default', ['watch', 'browser-sync']);
 
 //Change variables for production
 gulp.task('switch-vars', function(){
@@ -240,3 +236,30 @@ gulp.task('styleGuide', function(){
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(shell('md_documentation no-lf'));
 });
+
+
+/*---------------------------------
+ * Private functions
+ * --------------------------------*/
+
+//Extracts filenames from a path
+function _filename(path) {
+	return path.substr(path.lastIndexOf('/') + 1);
+}
+
+//Error handler
+function _error(err) {
+
+	//Must be wrapped in try in case an error occurs when browser-sync isn't running
+	try {
+		browserSync.notify(err.message);
+	}catch(e){};
+
+	notify.onError({
+		title:    "Error",
+		subtitle: "<%= error.plugin %>",
+		message:  "<%= error.message %>",
+	})(err);
+
+	this.emit('end');
+}
