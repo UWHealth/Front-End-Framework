@@ -13,28 +13,15 @@ Enclose a block of code with a media query as named in `$breakpoints`. To create
 
 **Alternative Uses:**
 
-* Passing multiple media queries separated by an `'and'` (quoted) to combine them, creating statements that look like `@media screen and (min-width: 500px) and (max-width: 900px){}`.
+* Passing multiple media queries separated by an `'and'` (quoted) to combine them, compiles to something like `@media screen and (min-width: 500px) and (max-width: 900px){}`.
 
 * Passing a value like `min-width 1200px` or `max-height 300px` allows for arbitrary breakpoints.
 
 * Passing `max 1200px 'and' smalls` will create a combined media-query with a predefined one from `$$breakpoints`.
 
-* Passing `height smalls` will change all instances of width to height within the `smalls` breakpoint. Similarly, using `min smalls` would change all instances of 'max' to 'min'.
+* Passing `height smalls` will replace `width` with `height` within the `smalls` breakpoint. Similarly, using `min smalls` would replace 'max' with 'min'.
 
 */
-
-//
-//Enclose a block of code with a media query as named in `$breakpoints`.
-//To create more consolodated code, most (if not all) media queries
-//should be called through this mixin.
-//Multiple media-queries can be defined by using:
-//@include media-query(breakpoint, breakpoint){
-//   [Your code here]
-//}
-//Also accepts abritrary breakpoint values and operators:
-//@include media-query(max 860px){}
-//Combining media-queries can also be acomplished by adding 'nested' argument
-//@include media-query(max 860px, min 400px, nested){}
 
 $media-query-operators: (
 	'max-width'	:	'max',
@@ -76,6 +63,122 @@ $media-query-devices: (
 );
 
 
+@mixin media-query($media-queries...) {
+
+	$breakpoint: null;
+	$operator: null;
+	$query: null;
+	$stored-breakpoints: ();
+	$end: false;
+	$nested: false;
+	$media-type: null;
+	$nest-args: ("nest","nested","combine");
+	$debug: false;
+
+	//Check for 'and' arguments, and replace with 'nest' argument for simpler parsing
+	@if index(nth($media-queries, 1), 'and' ) or
+		index(nth($media-queries, 1), 'AND' ) {
+		$media-queries: remove($media-queries);
+		$media-queries: join($media-queries, (nest));
+	}
+
+	$last-arg: nth($media-queries, -1);
+
+	//Determine if last argument is nest "directive"
+	$nested: if(index($nest-args, $last-arg), true, false);
+
+	//Loop through all arguments
+	@each $media-query in $media-queries {
+
+		//Grab first argument
+		$query: nth($media-query, 1);
+
+		//Check if nest argument matches a known value
+		@if index($nest-args, $media-query) {
+			$query: $media-query;
+			$end: true;
+		}
+
+		//Check if argument matches the name of a $breakpoint
+		$declaration: map-get($breakpoints, $query);
+
+		//if first value is recognized in $$breakpoints map, then save to $breakpoint
+		@if $declaration or $end {
+			$breakpoint: #{$declaration};
+		}
+		@else if index($media-query-devices, $query){
+			$media-type: $query;
+		}
+		@else {
+			$breakpoint: media-query-parse($media-query);
+		}
+
+		@if $breakpoint or $end {
+			$media-type: if($media-type, $media-type, "screen");
+
+			//If not a nested media-query, just output the single value
+			@if not $nested {
+
+				@media only #{$media-type} and #{$breakpoint} {
+					@content;
+				}
+
+			}
+			//If we've reached the last argument, output the nested media-query
+			@else if $end {
+				$media-type: if($media-type, $media-type, "screen");
+				$stored-breakpoints: list-to-string($stored-breakpoints, 'and');
+
+				@media only #{$media-type} and #{$stored-breakpoints} {
+					@content;
+				}
+
+			}
+			@else {
+				//if this is a nested media-query, store the value for later
+				$stored-breakpoints: append($stored-breakpoints, $breakpoint);
+			}
+		}
+		@else if (not $media-type) and (not $breakpoint) {
+			@warn "Breakpoint #{$media-query} does not exist. Check $breakpoints.";
+		}
+	}
+}
+
+//Aliases: Same as above, but shorter
+@mixin breakpoint   ($mq...)	{ @include media-query($mq...) { @content; } }
+@mixin bp           ($mq...)	{ @include media-query($mq...) { @content; } }
+@mixin media        ($mq...)	{ @include media-query($mq...) { @content; } }
+@mixin mq           ($mq...)    { @include media-query($mq...) { @content; } }
+@mixin mq-debug 	($mq...)	{ @include media-query($mq...) { @content; } }
+
+
+//-------------------------
+// Private media-query functions
+//-------------------------
+
+//Strip values from a list
+@function remove($list, $value: 'and') {
+	$result: ();
+
+	@if type-of($list) == arglist {
+		$list: nth($list, 1);
+	}
+
+	@for $i from 1 through length($list) {
+
+		$test-value: to-lower-case(nth($list, $i));
+
+		@if $test-value != $value {
+			$result: append($result, nth($list, $i));
+		}
+	}
+
+	@return $result;
+}
+
+//Check for proper media-query arguments
+// Converting them to proper CSS values
 @function media-query-operator($operator) {
 
 	$operator-check: map-get($media-query-operators, $operator);
@@ -91,19 +194,12 @@ $media-query-devices: (
 
 }
 
+//Check for media-query expressions (width/height/orientation/etc)
+// Convert them into proper CSS values
 @function media-query-declaration($operator, $value){
 
 	@if type-of($value) == number {
 		$value: if(unitless($value), $value * 1px, $value);
-
-		// TO DO: change media-queries so they change based on operator
-		//$interval: map-get($media-query-intervals, unit($value));
-		//
-		//@if $operator == 'min' {
-		//	$value: $value + $interval;
-		//} @else if $operator == 'max' {
-		//	$value: $value - $interval;
-		//}
 	}
 
 	@if not index($media-query-expressions, $operator){
@@ -113,6 +209,8 @@ $media-query-devices: (
 	@return '(#{$operator}: #{$value})';
 }
 
+//Formats @media-query() arguments to real CSS values
+// by checking for $media-query-switch values
 @function media-query-parse($media-query) {
 	$operator: media-query-operator(nth($media-query, 1));
 	$value: nth($media-query, -1);
@@ -131,106 +229,3 @@ $media-query-devices: (
 
 	@return $declaration;
 }
-
-@function media-query-and($list, $remove: 'and') {
-	$list-store: ();
-	$list-map: ();
-	@if type-of($list) == arglist {
-		$list: nth($list, 1);
-	}
-
-	@for $i from 1 through length($list) {
-		$word: quote(unquote(nth($list, $i)));
-
-		@if $word != $remove {
-			$list-store: append($list-store, $word, 'space');
-			@if $i == length($list){
-				$list-map: append($list-map, ($list-store));
-			}
-		}@else {
-			$list-map: append(($list-map), ($list-store), 'comma');
-			$list-store: ();
-		}
-	}
-	@return $list-map;
-}
-
-
-@mixin media-query($media-queries...) {
-
-	$breakpoint: null;
-	$operator: null;
-	$query: null;
-	$stored-breakpoints: ();
-	$end: false;
-	$nested: false;
-	$media-type: null;
-	$nest-args: ("nest","nested","combine");
-
-	@if index(nth($media-queries, 1), 'and') {
-		$media-queries: media-query-and($media-queries);
-		$media-queries: join($media-queries, ('nested'));
-	}
-
-	//Determine if last value is nested
-	$nested: if(index($nest-args, nth($media-queries, -1)), true, false);
-
-	//Loop through all arguments
-	@each $media-query in $media-queries {
-
-		//Grab first value of argument
-		$query: nth($media-query, 1);
-
-		//Check if nest argument matches a known value
-		@if index($nest-args, $media-query) {
-			$query: $media-query;
-			$end: true;
-		}
-		//Check if argument matches the name of a $breakpoint
-		$declaration: map-get($breakpoints, $query);
-
-		//if first value is recognized in $$breakpoints map, then save to $breakpoint
-		@if $declaration or $end {
-			$breakpoint: #{$declaration};
-		}
-		@else if index($media-query-devices, $query){
-			$media-type: $query;
-		}
-		@else {
-			$breakpoint: media-query-parse($media-query);
-		}
-
-		@if $breakpoint or $end {
-			$media-type: if($media-type, $media-type, "screen");
-
-			@if not $nested {
-
-				@media only #{$media-type} and #{$breakpoint} {
-					@content;
-				}
-
-			}
-			@else if $end {
-				$media-type: if($media-type, $media-type, "screen");
-				$stored-breakpoints: list-to-string($stored-breakpoints, 'and');
-
-				@media only #{$media-type} and #{$stored-breakpoints} {
-					@content;
-				}
-
-			}
-			@else {
-				$stored-breakpoints: append($stored-breakpoints, $breakpoint);
-			}
-		}
-		@else if (not $media-type) and (not $breakpoint) {
-			@warn "Breakpoint #{$media-query} does not exist. Check $breakpoints.";
-		}
-	}
-}
-
-//Aliases: Same as above, but shorter
-@mixin breakpoint   ($mq...)   { @include media-query($mq...) { @content; } }
-@mixin bp           ($mq...)   { @include media-query($mq...) { @content; } }
-@mixin media        ($mq...)   { @include media-query($mq...) { @content; } }
-@mixin mq           ($mq...)   { @include media-query($mq...) { @content; } }

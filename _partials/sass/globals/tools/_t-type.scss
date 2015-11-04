@@ -55,6 +55,12 @@ The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with 
 		letter-spacing: normal #{$important_str};
 		word-spacing: normal #{$important_str};
 	}
+	#{$classtype}#{$namespace}txt_primary {
+		font-family: $primary-font-stack;
+	}
+	#{$classtype}#{$namespace}txt_secondary {
+		font-family: $secondary-font-stack;
+	}
 }
 
 @mixin type-utilities-init(

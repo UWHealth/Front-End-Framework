@@ -12,7 +12,6 @@ $generic_namespace: 'generic_';
 %#{$generic_namespace} {
 
 	&type-vertical-rhythm {
-		@extend %space_reset;
 		@include type-space(margin-bottom, 1);
 	}
 

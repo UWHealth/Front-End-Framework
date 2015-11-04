@@ -10,7 +10,7 @@ table {
 
 th,
 td {
-	@include type-space-sc(padding, 1, 0, .5);
+	@include type-space(padding, 1 0 .5);
 	text-align: left;
 	vertical-align:top;
 	border: 0;
@@ -26,5 +26,5 @@ th {
 
 thead th {
 	vertical-align: bottom;
-	@include type-space-sc(padding, 1, 0, 0 );
+	@include type-space(padding, 1 0 0 );
 }

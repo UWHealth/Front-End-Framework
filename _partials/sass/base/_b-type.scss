@@ -3,19 +3,10 @@
 //------------------------------------
 
 %base_heading_space {
-	@extend %base_space_t_n;
-	@extend %base_space_b;
-	@extend %pad_n;
+	@include type-space(margin-bottom, 1);
 }
 
-@if $auto-scale-type == true {
-	@include headings(1,6) {
-		margin: 0;
-		padding: 0;
-	}
-    @include headings-scale($scale-ratio);
-
-}@else{
+@if not $auto-scale-type {
 
     %base_h1 {
 		@extend %base_heading_space;
@@ -60,27 +51,18 @@
     h6 {
         @extend %base_h6;
     }
+
+}@else {
+	@include headings-scale($scale-ratio);
 }
 
-h1, h2, h3, h4, h5, h6 {
+
+@include headings(1, 6) {
 	@extend %secondary_font_family;
 
     & + p {
-        @extend %base_space_t_neg;
+        @include type-space(margin-top, -1);
     }
-}
-
-//-------------------------------
-//   $LISTS
-//-------------------------------
-ul, ol, dd, menu {
-    @extend %base_type_vertical_rhythm;
-    @extend %space_l;
-}
-
-li > ul,
-li > ol {
-    @extend %base_space_b_n;
 }
 
 //-------------------------------
@@ -92,11 +74,21 @@ p {
     @if $indented-paragraphs == true {
 
         & + & {
-            @include type-space(text-indent, 1);
-            @extend %base_space_t_neg;
+            @include type-space(text-indent, .5);
+            @include type-space(margin-top, -1);
         }
 
     }
+}
+
+small {
+	display: inline-block; //allows for own line-height
+
+	@if $auto-scale-type {
+		@include font-size(modular-scale(-1), true);
+	}@else {
+		@include font-size($type-small-size, $small-lh);
+	}
 }
 
 //
@@ -106,6 +98,10 @@ address {
     @extend %base_type_vertical_rhythm;
 }
 
+b,
+strong {
+	font-weight: bold;
+}
 
 pre {
     @extend %base_type_vertical_rhythm;
@@ -113,6 +109,22 @@ pre {
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow: auto;
+}
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5em;
+}
+
+sub {
+	bottom: -0.25em;
 }
 
 
@@ -128,7 +140,7 @@ samp {
     font-size: 1em; // [1]
 }
 
-/*Address styling not present in IE 7/8/9, Safari 5, and Chrome.*/
+//Address styling not present in IE 7/8/9, Safari 5, and Chrome.
 
 
 //-------------------------------
@@ -136,15 +148,15 @@ samp {
 //-------------------------------
 //
 // 1. Hang the opening quote of the blockquote.
+//	Uses ex length for font-relative spacing
 //
 blockquote {
     text-indent: -.5ex; // [1]
 }
 
 blockquote {
-    @extend %base_type_vertical_rhythm;
+    @include type-space(margin, 0 0 1 1);
     quotes: '“' '”';
-    @extend %space_l;
 
     p {
         &:before {

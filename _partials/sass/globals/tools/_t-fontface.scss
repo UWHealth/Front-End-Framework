@@ -23,21 +23,10 @@ $name is required, arbitrary, and what you will use in font stacks.
 * $weight shows if the font is bold, defaults to normal
 * $style defaults to normal, might be also italic
 
-Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/css3/font_face/].
+Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/css3/font_face/).
 
 
 */
-
-//------------------------------------
-//    FONTS
-//------------------------------------
-
- // CONTENTS
- // INTRODUCTION.........Explanation.
- // VARIABLES............List of variables and how they're used.
- // MIXIN................Font-face generation mixin.
- // EXAMPLE..............Example of what gets generated.
-
 
 //------------------------------------
 //    $VARIABLES
@@ -99,7 +88,13 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
 // To support iOS < 4.2, an SVG file must be provided
 // If you need to generate other formats check out the Font Squirrel font generator
 
-@mixin font-face($name, $font-files, $weight: false, $style: false, $eot: false) {
+@mixin font-face(
+	$name,
+	$font-files,
+	$weight: false,
+	$style: false,
+	$eot: false
+){
 	$iefont: unquote("'#{$eot}?#iefix'");
 	@font-face {
 		font-family: quote($name);
@@ -118,15 +113,16 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
 }
 
 
-@mixin fonts($name: $font-file-name,
-					$path: $font-file-location,
-					$weights: $font-weights,
-					$italics: $font-italics)
-	{
+@mixin fonts(
+	$name: $font-file-name,
+	$path: $font-file-location,
+	$weights: $font-weights,
+	$italics: $font-italics
+){
 		$weight-group: $weights;
 
 		@if length($font-file-name) > 1{
-			$weight-group: nth($weights, $loop);		//[1]
+			$weight-group: nth($weights, $fontface-loop);		//[1]
 		}
 
 		@each $weight in $weight-group{			//[1B]
@@ -143,7 +139,7 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
 			);
 
 			@if length($font-include-woff2) > 1{
-				@if nth($font-include-woff2, $loop) == true {
+				@if nth($font-include-woff2, $fontface-loop) == true {
 					$font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
 				}
 			}@else if $font-include-woff2 == true{
@@ -151,7 +147,7 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
 			}
 
 			@if length($font-include-eot) > 1{
-				@if nth($font-include-eot, $loop) {
+				@if nth($font-include-eot, $fontface-loop) {
 					$font-eot: '#{$font-name}.eot';	//[4]
 				}
 			}@else if $font-include-eot == true{
@@ -160,7 +156,7 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
 
 			@include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
 
-			$italic: nth($italics, $loop);
+			$italic: nth($italics, $fontface-loop);
 			@if length($italic) > 1{
 				$italic: nth($italic, index($weight-group, $weight));
 			}
@@ -174,7 +170,7 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
 				);
 
 				@if length($font-include-woff2) > 1{
-					@if nth($font-include-woff2, $loop) == true {
+					@if nth($font-include-woff2, $fontface-loop) == true {
 						$font-files: join(unquote('url("#{$font-name}-italic.woff2") format("woff2")'), $font-files);
 					}
 				}@else if $font-include-woff2 == true {
@@ -182,7 +178,7 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
 				}
 
 				@if length($font-include-eot) > 1{
-					@if nth($font-include-eot, $loop) {
+					@if nth($font-include-eot, $fontface-loop) {
 						$font-eot: '#{$font-name}-italic.eot';	//[4]
 					}
 				}@else if $font-include-eot == true{
@@ -194,10 +190,11 @@ Based on (Compass' font-face mixin)[http://compass-style.org/reference/compass/c
 		}
 }
 
-$loop: 0;
-@if $use-web-fonts == true{
+$fontface-loop: 0;
+
+@if $use-web-fonts and $font-file-name {
 	@each $font in $font-file-name{ //[7]
-		$loop: $loop + 1 !global;
+		$fontface-loop: $fontface-loop + 1 !global;
 		@include fonts($font);
 	}
 }

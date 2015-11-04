@@ -82,31 +82,35 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 			1, .25, .5, 2, -.25, -.5, -1, -2, 0, 0
 		),
 		names: (
-			'', 'quarter', 'half', '2', 'neg_quarter', 'neg_half', 'neg', 'neg_2', 'n', '0'
+			'', 'quarter', 'half', '2', 'neg_quarter', 'neg_half', 'neg', 'neg_2', '0', 'n'
 		),
 		prefixes: (
 			'pad', 'space'
 		)
 	), $config, true);
 
-	//Convert map values to variables for simpler parsing.
+
+	//Convert map values to variables for simpler parsing
 	$classtype: if(map-get($config, silent), unquote('%'),unquote("."));
 	$spaces: map-get($config, prefixes);
 	$directions: map-get($config, directions);
 	$amounts: map-get($config, amounts);
 	$names: map-get($config, names);
 	$important: map-get($config, important);
-	$important-string: if($important, ' !important', '');
+	$important-string: if($important, '!important', null);
 	$class-name-list: ();
+
 
 	//Loop through base names, then amounts, then directions.
 	@each $space in $spaces {
-		@each $amount in $amounts {
+		@for $i from 1 through length($amounts) { //Using a for loop so we can have duplicate values
+			$amount: nth($amounts, $i);
+			$current_name: nth($names, $i);
 			$amount_name: '';
 
 			//Prepend an underscore to amount names(if not blank) for formatting.
-			@if $amount != 1 {
-				$amount_name: '_'+nth($names, index($amounts, $amount));
+			@if $current_name != '' {
+				$amount_name: '_' + $current_name;
 			}
 
 			@each $direction in $directions {
@@ -119,9 +123,8 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 
 				//Output the space name.
 				//(e.g.: %desk_pad_t_half )
-				@if str-contains($layout_type, 'padding') and $amount < 0 {
+				@if not (str-contains($layout_type, 'padding') and ($amount < 0)) {
 					//Don't do anything if the padding is a negative value.
-				}@else{
 					#{$classtype}#{$namespace}#{$space}#{$direction}#{$amount_name} {
 						//For vertical and horizontal directions,
 						// just extend previously defined directions
@@ -136,7 +139,7 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 						}@else {
 							@if $amount == 0 {
 								//For 0 amounts, just output a 0
-								#{$layout_type}:0#{$important-string};
+								#{$layout_type}:0 #{$important-string};
 
 							}@else {
 								//Using type-space mixin, output the REM-based value

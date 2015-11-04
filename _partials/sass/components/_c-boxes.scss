@@ -1,6 +1,6 @@
 .box {
     @extend %grid_reset;
-	@extend %cf;
+	@extend %clearfix;
     @extend %pad;
     @extend %space_b;
 
@@ -31,16 +31,17 @@
 	overflow: hidden;
 	word-break: break-word;
 
-	@include media-query($smalls) {
+	@include media-query($breakpoint-smallest) {
 		@include type-space(max-height, 5);
 	}
 
 	& .body {
-        @include type-space-sc(padding, .5, .5, 0);
+        @include type-space(padding, .5 .5 0);
         display: block;
 		position: absolute;
 		top: 0;
 		left: 0;
+        right: 0;
 		text-align: left;
 	}
 

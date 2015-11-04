@@ -236,8 +236,8 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	    @include type-space(padding-left, 1); //[2]
 	    vertical-align: top;             // [3]
 
-		@if $mobile-first == true{
-	        width:100%;                 // [4]
+		@if $mobile-first {
+	        width: 100%;                 // [4]
 	    }
 
 	    @if $grid-markup-fix != true and $grid-floats != true { //5
@@ -247,7 +247,7 @@ $human-readable_denominators: whole, half, third, quarter, fifth, sixth, seventh
 	}
 
 	// Special class for grid items that need to behave like both grids and grid__items.
-	#{$grid-class-type}grid_grid_item{
+	#{$grid-class-type}grid_reset_item {
 	    @extend #{$grid-class-type}grid;
 	    @extend #{$grid-class-type}grid_item;
 	    padding-left: 0;

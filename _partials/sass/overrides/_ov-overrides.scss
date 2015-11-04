@@ -5,21 +5,6 @@
 // or high-specificity selectors.
 //-----------------------------------
 
-//Allow a toggle for baseline image
-@if $show-baseline == true {
-
-    $type-baseline-size: strip-units($type-magic-number);
-
-	.baseline-on {
-        background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
-        background: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) top left / auto $type-magic-ratio * 1em;
-    }
-
-    .baseline-off {
-        background-image: none;
-    }
-}
-
 .list_naked {
     @include no-bullets();
     margin: 0;
@@ -59,12 +44,19 @@
 	visibility: hidden !important;
 }
 
+.contain {
+    position: relative !important;
+}
+
 //
 // Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
 //
-%clearfix, %cf{
+%clearfix,
+%cf {
 	*zoom: 1;
-	&:before,&:after{
+
+	&:before,
+    &:after{
 		display: table;
 		content: " ";
 	}
@@ -130,10 +122,4 @@
         $silent: false,
         $important: true
     );
-}
-
-@if $silent-class-debug {
-    /*
-    Silent classes: #{map-inspect($silent-class-registry)}
-    */
 }

@@ -400,6 +400,13 @@ $golden_ratio: golden();
 
 ---
 
+##### `cache()`
+###### function(`$function-name` , `$args...`)
+Memoize (cache) a function's return values and arguments. Speeds up processing on intensive functions that get called many times (with the same arguments).
+
+_NOTE: This can actually **increase** processing time if used too often or on simple functions as the lookup process isn't free. Every cached value is unique._
+
+
 ##### Converter Functions #####
 
 ##### `strip-units()`
@@ -414,7 +421,7 @@ Changes percent value to decimal.
 ###### function(`$pixels`)
 Converts pixel dimensions to viewport width (vw) dimensions.
 
-##### `px-to-rems()`,`rems()`
+##### `px-to-rems()`, `rems()`
 ###### function(`$pixels`, `$base-font`:`$$base-font-size`)
 Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is used to calculate the initial value to calculate the value (e.g. if the `body`'s `font-size` is `16px`, then the rem value of `24px` would be `1.5rem`).
 
@@ -422,9 +429,9 @@ Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is us
 ###### function(`$list`, `$separator:","`)
 Converts a list to a string with an optional separator.
 
-##### `str-to-number()`, `to-number()`
-###### function(`$string`, `$unitless: false`)
-Converts a string to a number. Turn `$unitless` to `true` if you a unitless value.
+##### `str-to-number()`
+###### function(`$string` , `$unitless: false`)
+Converts a number-like string to a number. Since Sass accepts quoted and non-quoted values like `"10px"` and `10px`, but can only do math on the unquoted (number) value, it is sometimes necessary to convert/cast a string to a number.
 
 
 ##### String & List Functions #####
@@ -445,9 +452,10 @@ Checks whether a `$list` contains a `$value`.
 ###### function(`$list`, `$depth: 1`)
 Used to turn a list into a flat string. For debug purposes.
 
-##### to-list()
-###### function(`$string`, `$keep`: `both`)
-Convert an item to a list.
+##### `to-list()`
+###### function(`$string`, `$keep`: `'both'`)
+Convert a value to a list. `$keep` accepts `'keys'`, `'values'`, or `'both'` for map conversion.
+
 
 ##### Map Functions #####
 *[Reference](http://www.sitepoint.com/extra-map-functions-sass/)*
@@ -464,7 +472,7 @@ Find depth of a `$map`. Returns number.
 ###### `[map], [key(s) to be checked ...]`
 Determine whether a map contains certain keys.
 
-##### `map-has-nested-keys()`, `map-contains-nested-keys()`
+##### `map-has-nested-keys()` , `map-contains-nested-keys()`
 ###### function(`$map`, `$keys...`)
 Check for the value of a nested key. Returns boolean value.
 
@@ -480,10 +488,28 @@ Merges multiple maps. Similar to jQuery's .extend().
 ###### function(`$map`, `$new-key:'base'`)
 Adds one level to a map using the new key to a map. Used by `generate_color_varations()`. (e.g. `(key: value, key: value)` becomes `(key:(new-key: value), key:(new-key: value))` )
 
-##### `map-print()`, `map-inspect()`
+##### `map-print()` , `map-inspect()`
 ###### function(`$map`, `$level:1`)
 Prints map into a string (in a JSON-esque format). Useful for debugging.
 */
+
+//Caching(memoization) function
+$c-i: 0;
+$cached-values: ();
+@function cache($function-name, $args...) {
+	$cache-map: "#{$function-name}, #{$args}";
+	$cached-value: map-get($cached-values, $cache-map);
+
+	@if $cached-value != null and $cached-value != '' {
+		//$c-i: 1 + $c-i !global;
+		//@debug "(#{$c-i}):#{$cache-map}";
+		@return $cached-value;
+	} @else {
+		$result: call(#{$function-name}, $args...);
+		$cached-values: map-merge($cached-values, ($cache-map: $result)) !global;
+		@return $result;
+	}
+}
 
 // Strip units from a sass value
 // Taken from:
@@ -546,6 +572,8 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
 	@return $string;
 }
 
+//String to number conversion
+// Casts a number-like string to a true number
 @function str-to-number($string, $unitless: false){
 	//Maps to check against
 	$str-numbers:('0':0,'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9);
@@ -636,7 +664,8 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
   @if type-of($value) == "map" {
     $keys: ();
     $values: ();
-    @each $key, $val in $value {
+
+	@each $key, $val in $value {
       $keys: append($keys, $key);
       $values: append($values, $val);
     }
@@ -1113,18 +1142,22 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 }
 
 //Adjustable curve for returning exponential values
-//accepts
+// accepts:
 // $x: 0 - 1.0, $accel: -2 - 2.5
 // $accel changes the severity of the curve. Negative values invert.
 //returns a decimal that cooresponds to the same percentage on the curve
+// Formula:
+// y = (sqrt((x^1)+x)-sqrt(x^1)) / .4142135623730951
 @function baseline-curve($x, $accel:1) {
-	//y = (sqrt((x^1)+x)-sqrt(x^1)) / .4142135623730951
+	//Cache this exponent since it uses a decimal and requires a lot of computation
 	$x2: cache(pow, $x, $accel);
 	$x3: $x2 + $x;
 	$sqrt1: sqrt($x3);
 	$sqrt2: sqrt($x2);
 	$const: $SQRT2 - 1; // value used by logarithm (.4142135623730951)
+
 	$curve: ($sqrt1 - $sqrt2) / $const;
+
 	@return min(1, $curve);
 }
 
@@ -1300,23 +1333,5 @@ $font-warn: false;
 		@return map-deep-set($silent-class-registry, $key, $map);
 	}@else {
 		@return null;
-	}
-}
-
-$c-i: 0;
-$cached-values: ();
-//Caching(memoization) function
-@function cache($function-name, $args...) {
-	$cache-map: "#{$function-name}, #{$args}";
-	$cached-value: map-get($cached-values, $cache-map);
-
-	@if $cached-value != null and $cached-value != '' {
-		//$c-i: 1 + $c-i !global;
-		//@debug "(#{$c-i}):#{$cache-map}";
-		@return $cached-value;
-	} @else {
-		$result: call(#{$function-name}, $args...);
-		$cached-values: map-merge($cached-values, ($cache-map: $result)) !global;
-		@return $result;
 	}
 }

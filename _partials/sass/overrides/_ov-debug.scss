@@ -1,0 +1,23 @@
+//Allow a toggle for baseline image
+@if $debug-baseline == true {
+
+    $type-baseline-size: strip-units($type-magic-number);
+
+	.baseline-on {
+        background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+        background: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px) top left / auto $type-magic-ratio * 1em;
+    }
+
+    .baseline-off {
+        background-image: none;
+    }
+}
+
+
+//Output all silent classes and values at the end of the CSS file if silent-class debugging is enabled.
+
+@if $silent-class-debug {
+/* Silent classes:
+	#{map-inspect($silent-class-registry)}
+*/
+}

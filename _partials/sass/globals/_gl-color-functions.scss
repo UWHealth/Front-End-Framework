@@ -19,13 +19,13 @@ Passing only a color name will default to the 'base' color.
 Specialized function used by `generate_color_variations()` to merge two color maps.
 
 
-##### `generate_color_varations()`
-###### function(`$map: $colors`, `$functions: (tint, tint, tint, shade, shade, shade)`, `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)`,`$blending-colors: null`)
+##### `generate-color-varations()`
+###### function(`$map:` `$$colors` , `$functions: (tint, tint, tint, shade, shade, shade)`, `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)` , `$blending-colors: null`)
 Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
 
 **Arguments:**
-`$map`: Color map you want to create variations of.
-`$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function as well, provided `$blending-colors` are provided.
+`$map`: Color map you want to create variations of. Defaults to `$$colors`.
+`$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function, provided `$blending-colors` are provided.
 `$increments`: percentage amount to apply `$function` to each `$variations`.
 `$variations`: actual names for each color tone when `colors()` used.
 `$blending-colors`: used when a function is a `blend-()`. Can be a list or a single color.
@@ -286,7 +286,7 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 
 //Same as above but simpler
 @function luma($color) {
-  @return color-luminance($color);
+	@return color-luminance($color);
 }
 
 
@@ -406,4 +406,49 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 		}
 	}
 
+}
+
+//Harmonize colors
+@function harmonize-colors(
+	$color-list: null,
+	$blending-mode: 'overlay',
+	$blending-color: null,
+	$amount: null
+) {
+	$temp-name-map: ();
+	$temp-top-map: ();
+	$temp-list: ();
+	$return: null;
+
+	$blending-mode:
+	if(
+		str-contains($blending-mode, 'blend'),
+		$blending-mode, 'blend-' + $blending-mode
+	);
+
+	@if type-of($color-list) == 'map' {
+		$color-list: map-add-depth($color-list);
+
+		@each $color, $name in $color-list {
+			@each $key, $value in $name {
+				$value: call($blending-mode, $blending-color, $value, $amount);
+				$temp-key: ($key: $value);
+				$temp-color: ($color: ($temp-key));
+				$temp-name-map: map-merge($temp-name-map, $temp-color);
+				@debug $temp-name-map;
+			}
+			$temp-top-map: map-merge($temp-top-map, $temp-name-map);
+		}
+
+		$return: map-merge($color-list, $temp-top-map);
+
+	}@else {
+		@each $value in $color-list {
+			$value: call($blending-mode, $blending-color, $value, $amount);
+			$temp-list: append($temp-list, $value);
+		}
+		$return: $temp-list;
+	}
+
+	@return $return;
 }

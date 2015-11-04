@@ -4,11 +4,28 @@
 	display: block !important;
     float: none;
 	@extend %clearfix;
-	@include type-space-sc(padding, 1, 0);
+	@include type-space(padding, 1 0);
 
 	@extend %bigs_nine_tenths; //90%
 	@extend %smallish_eleven_twelfths; //~92%
 	@include mq(small){
 		width: 95%;
 	}
+}
+
+.hero {
+	display: table;
+	width: 100%;
+	min-height: 50vh;
+	background-size: cover;
+	color: #fff;
+	position: relative;
+	background-image: url('../images/logo.svg');
+	@include type-space(padding, 1 0 1);
+}
+
+.hero_body {
+	display: table-cell;
+	vertical-align: middle;
+	max-width: 99%;
 }

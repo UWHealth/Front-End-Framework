@@ -25,7 +25,7 @@
 
 //Responsive tables
 
-@include mq(#{$smalls}) {
+@include mq(#{$breakpoint-smallest}) {
 
     %rt_o_hide {
         overflow: hidden;
@@ -95,7 +95,7 @@
     .table_pin {
         overflow: scroll;
         overflow-y: hidden;
-        @extend %#{$smalls}_txt_small;
+        @extend %#{$breakpoint-smallest}_txt_small;
     }
 
     .table_scroll table {
