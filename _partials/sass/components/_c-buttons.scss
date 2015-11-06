@@ -1,105 +1,59 @@
-@mixin button(
-    $flat-button: true,
-    $button-color-bg: colors(link),
-    $button-color-secondary: colors(link,dark),
-    $button-color-text: #fff,
-    $border-radius: 2px,
-	$reversed: false
-    )
-{
-    cursor: pointer;
-    vertical-align: middle;
-	user-select: none;
-    display: inline-block;
-    border-radius: $border-radius;
-	text-decoration: none;
-    text-align: center;
-	background-color: $button-color-bg;
-    @if $flat-button == true{
+/* SG
+# Buttons
+Applying the `btn` class to anything will make it look like a button. Always declare `type="button"` on `<button>` elements for proper accessibility.
 
-		@if $reversed == false{
-			box-shadow: inset 0 -3px $button-color-secondary;
-		}@else{
-			box-shadow: inset 0 2px $button-color-secondary;
-		}
-        border-bottom: 0px;
-    }@else{
+```html_example
+<button type="button" class="btn">Button</button>
 
-        background-image: linear-gradient(top, $button-color-bg 0.05%, $button-color-secondary 100% );
-        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='$button-color-bg', endColorstr='$button-color-secondary');
-        box-shadow:inset 0px -1px 0px 0px lighten($button-color-bg, 10%);
-        border: 1px solid lighten($button-color-bg, 5%);
-        text-shadow: 1px 1px 0px pick_best_color($button-color-text,($button-color-secondary,darken($button-color-text,25%),lighten($button-color-text,25%),darken($button-color-bg,25%),lighten($button-color-bg,25%)));
+<a href="" class="btn">Faux Button</a>
+```
 
-    }
-	color: $button-color-text;
-    @extend %pad_half;
-
-
-    &:hover, &:focus {
-        outline: 0;
-        @if $flat-button == true{
-
-           @if $reversed == false{
-			   color: mix($button-color-text, lighten($button-color-secondary, 5%), 95%);
-			   background-color: lighten($button-color-secondary, 5%);
-			   box-shadow: inset 0 -2px 1px darken($button-color-secondary, 10%);
-		   }@else{
-			   color: mix($button-color-text, lighten($button-color-bg, 5%), 95%);
-			   background-color: lighten($button-color-bg, 5%);
-			   box-shadow: inset 0 2px 1px lighten($button-color-secondary, 10%);
-		   }
-        }@else{
-			color: mix($button-color-text, $button-color-secondary, 95%);
-            background-color: $button-color-secondary;
-            background: linear-gradient( top, $button-color-secondary 0.05%, $button-color-bg 100% );
-            filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='$button-color-secondary', endColorstr='$button-color-bg');
-        }
-    }
-
-    &:active, &.active {
-        position:relative;
-        top: 1px;
-
-        @if $flat-button == true{
-			@if $reversed == false{
-				color: mix($button-color-text, darken($button-color-secondary, 2%), 80%);
-				background-color: darken($button-color-secondary, 2%);
-            box-shadow: inset 0 1px 1px darken($button-color-secondary, 12%);
-			}@else{
-				color: mix($button-color-text, darken($button-color-bg, 5%), 80%);
-				background-color: darken($button-color-bg, 5%);
-            box-shadow: inset 0 -2px 0px mix($button-color-secondary, $button-color-bg, 15%);
-			}
-        }@else{
-			color: mix($button-color-text, darken($button-color-secondary, 2%), 80%);
-			background-color: darken($button-color-secondary, 2%);
-            background: linear-gradient( top, darken($button-color-secondary, 5%) 0.05%, darken($button-color-bg, 5%)100%);
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='darken($button-color-secondary ,  5%)', endColorstr='darken($button-color-bg, 5%)');
-            box-shadow: inset 0px -1px 0px 0px lighten($button-color-bg, 8%);
-            text-shadow: -1px -1px 0px pick_best_color(darken($button-color-text, 10%),($button-color-secondary,darken($button-color-text,25%),lighten($button-color-text,25%),darken($button-color-bg,25%),lighten($button-color-bg,25%)));
-        }
-        border-color: lighten($button-color-bg, 2%);
-    }
-    &::selection{background: transparent;}
-	&::-moz-selection{background: transparent;}
-	&::-moz-focus-inner{border: 0}
-
-}
+*/
 
 //Useful placeholder selector for simple button creation.
 
-%button{
-    @extend %txt_bold;
-    @include button(true, #0c639a, blend-colordodge(#808080,#0c639a), #ebfbff, 2px, true);
+%button {
+    //@include button($style: 'reflective', $border: 2px, $radius: 4px); //reflective style
+    //@include button($style: 'reflective', $radius: 4px); //shiny style
+    @include button(transparent, inherit, 2px solid currentColor, 4px); //Ghost style
+    font-weight: 700;
+    padding: 0 .5em;
+    @include type-space((padding-top, padding-bottom), .5);
+    transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out;
+
+    &:focus {
+        outline: none;
+        @include button($border: color(links));
+    }
+
+    &:hover {
+        @include button(
+            $bg-color: rgba(color('links'), .6),
+            $text-color: tint(color('links'), 95%),
+            $border: color('links', 'light')
+        ); //Ghost
+    }
+
+    &:active {
+        @include button(color('links'),#fff, $border: color(links));
+        box-shadow: 0 0 4px 1px rgba(color('links','light'), .3);
+        outline: none;
+    }
+
 }
-%button_big{
+%button_big {
     @include type-font-size(modular-scale(2), false);
-    @include type-space(padding, .5 1);
+    line-height: 1;
+    @include type-space((padding-top, padding-bottom), 1);
 }
-%button_small{
-	@include type-font-size(modular-scale(0), false);
+%button_small {
+    @include type-font-size(modular-scale(0), false);
+    line-height: 1;
 }
-%button_wide{
+%button_wide {
     @extend %one_whole;
+}
+
+.btn {
+    @extend %button;
 }

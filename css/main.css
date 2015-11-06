@@ -574,13 +574,47 @@ Cross-browser (including IE8-) opacity.
 
 [Reference](https://gist.github.com/jgv/745754)
 
+##### `@border()`
+###### mixin(`$border`)
+Allows creating many border properties at once. Works like the standard border shorthand style but allows varied styles on different border directions.
+
+```scss
+//scss
+.foo {
+	@include border(2px 3px solid dashed dotted blue currentColor yellow);
+}
+
+//css
+.foo {
+	border-width: 2px 3px;
+	border-style: solid dashed dotted;
+	border-color: blue currentColor yellow;
+}
+
+```
+
+##### `@button()`
+###### mixin(`$bg-color`: `color('links')`, `$text-color`: `null`, `$border`: `null`, `$radius`: `null`, `$text-radius`: `null`, `$style`: `null`, `$inset`: `false`)
+Generates common button styles, allowing for simple creation of more complex gradient styles. Intelligently excludes unnecessary styles from states like hover, focus, and active. _Does not generate hover, focus, or active psuedo selectors on its own._
+
+**Accepted arguments:**
+
+* `$bg-color`: Color values. This cannot accept null.
+* `$text-color`: Color or null (null will let the mixin decide the best color based on contrast).
+* `$border`: Any border properties (colors, styles, widths) or `null`. Uses the `@border()` mixin.
+* `$radius`: `border-radius` values. `null` produces no border-radius property.
+* `$style`: `null`, `shiny` or `reflective`.
+   `shiny` creates a simple gradient backgroud based on the `$bg-color`.
+   `reflective` creates a stacked gradient based on the `$bg-color`.
+* `$inset`: Boolean. `True` adds a dark box-shadow inset.
+   If combined with 'shiny' or 'reflective' `$style`, background gradients are inverted.
 
 ##### `@px-to-rems()`, `@rems()`
 ###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
 `REM` generator used to create a property with a `rem` value and `px` fallback.
 
 
-##### `@font-size()` , `@type-font-size()`
+##### `@font-size()`, `@type-font-size()`
 ###### mixin(`$font-size`, `$line-height`: `true`, `$font-base`: `$$base-font-size`)
 Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 
@@ -1468,10 +1502,6 @@ nav ul {
   padding-right: 32px;
   padding-right: 2rem; }
 
-.button {
-  padding: 12px;
-  padding: 0.75rem; }
-
 .table_striped th, .table_striped td, .isolate_body, .arrange_body {
   padding-left: 16px;
   padding-left: 1rem; }
@@ -1507,7 +1537,7 @@ table, [class*="list_bordered"], .box, .isolate, .arrange {
 .arrange_fill, .arrange_fit, .arrange_media, .arrange_body {
   display: table-cell; }
 
-th, .button, .table_responsive thead + tbody td:before, .tab,
+th, .table_responsive thead + tbody td:before, .tab,
 .list_nav a {
   font-weight: 700 ;
   -webkit-font-smoothing: antialiased; }
@@ -1525,48 +1555,54 @@ th, .button, .table_responsive thead + tbody td:before, .tab,
     font-size: 0.8rem;
     line-height: 1.875; } }
 
-.button {
-  cursor: pointer;
-  vertical-align: middle;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  display: inline-block;
-  -moz-border-radius: 2px;
-       border-radius: 2px;
-  text-decoration: none;
+/* SG
+# Buttons
+Applying the `btn` class to anything will make it look like a button. Always declare `type="button"` on `<button>` elements for proper accessibility.
+
+```html_example
+<button type="button" class="btn">Button</button>
+
+<a href="" class="btn">Faux Button</a>
+```
+
+*/
+.btn {
+  background: transparent;
+  color: inherit;
   text-align: center;
-  background-color: #0c639a;
-  -webkit-box-shadow: inset 0 2px #18c8ff;
-     -moz-box-shadow: inset 0 2px #18c8ff;
-          box-shadow: inset 0 2px #18c8ff;
-  border-bottom: 0px;
-  color: #ebfbff; }
-  .button:hover, .button:focus {
-    outline: 0;
-    color: #e0f4fb;
-    background-color: #0e72b2;
-    -webkit-box-shadow: inset 0 2px 1px #4bd4ff;
-       -moz-box-shadow: inset 0 2px 1px #4bd4ff;
-            box-shadow: inset 0 2px 1px #4bd4ff; }
-  .button:active, .active.button {
-    position: relative;
-    top: 1px;
-    color: #bedae6;
-    background-color: #0a5482;
-    -webkit-box-shadow: inset 0 -2px 0px #0e72a9;
-       -moz-box-shadow: inset 0 -2px 0px #0e72a9;
-            box-shadow: inset 0 -2px 0px #0e72a9;
-    border-color: #0d69a3; }
-  .button::-moz-selection {
-    background: transparent; }
-  .button::selection {
-    background: transparent; }
-  .button::-moz-selection {
-    background: transparent; }
-  .button::-moz-focus-inner {
-    border: 0; }
+  text-decoration: none;
+  display: inline-block;
+  border: 2px solid currentColor;
+  -moz-border-radius: 4px;
+       border-radius: 4px;
+  font-weight: 700;
+  padding: 0 .5em;
+  padding-top: 12px;
+  padding-top: 0.75rem;
+  padding-bottom: 12px;
+  padding-bottom: 0.75rem;
+  -webkit-transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out;
+          transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out; }
+  .btn:focus {
+    outline: none;
+    background: #0d497b;
+    color: #FFF;
+    text-decoration: none;
+    border-color: #0d497b; }
+  .btn:hover {
+    background: rgba(13, 73, 123, 0.6);
+    color: #f3f6f8;
+    text-decoration: none;
+    border-color: #5894bd; }
+  .btn:active {
+    background: #0d497b;
+    color: #fff;
+    text-decoration: none;
+    border-color: #0d497b;
+    -webkit-box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
+       -moz-box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
+            box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
+    outline: none; }
 
 /* SG
 # Lists/Bordered Lists

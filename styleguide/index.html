@@ -467,6 +467,9 @@
             </ul>
             <ul id="sub-styles" class="menu_body">
                 <li>
+                    <a class="sectionlink menu_link" href="#buttons-">Buttons</a>
+                </li>
+                <li>
                     <a class="sectionlink menu_link" href="#color-blocks-">Color Blocks</a>
                 </li>
                 <li>
@@ -648,6 +651,26 @@
             <header class="section section_starter">
                 <h1 class="h3">Styles</h1>
             </header>
+        		<article class="section" id="buttons-" data-section="Buttons" data-heading="">
+                    <header class="section_header">
+                        <h1 class="h4 header_heading">Buttons</h1>
+                    </header>
+                    <div class="section_comment">
+                        <p>Applying the <code>btn</code> class to anything will make it look like a button. Always declare <code>type=&quot;button&quot;</code> on <code>&lt;button&gt;</code> elements for proper accessibility.</p>
+                    </div>
+                    <div class="section_body">
+                        <div class="result">
+                            <button type="button" class="btn">Button</button>
+
+<a href="" class="btn">Faux Button</a>
+                        </div>
+                        <div class="markup hljs">
+                            <pre><code><span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"button"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"btn"</span>&gt;</span>Button<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">""</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"btn"</span>&gt;</span>Faux Button<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span></code></pre>
+                        </div>
+                    </div>
+        		</article>
         		<article class="section" id="color-blocks-" data-section="Color-Blocks" data-heading="">
                     <header class="section_header">
                         <h1 class="h4 header_heading">Color Blocks</h1>
@@ -1553,10 +1576,39 @@
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$opacity__code_">mixin(<code>$opacity</code>)</h6>
 <p>Cross-browser (including IE8-) opacity.</p>
 <p><a href="https://gist.github.com/jgv/745754">Reference</a></p>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=border_class=global_global_variable_data-code-id=border_@border__code_"><code id="border()" class="global global_variable" data-code-id="border()">@border()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$border__code_">mixin(<code>$border</code>)</h6>
+<p>Allows creating many border properties at once. Works like the standard border shorthand style but allows varied styles on different border directions.</p>
+
+<div class="markup hljs">
+<pre><code class="plain_code"><span class="hljs-comment">//scss</span>
+<span class="hljs-class">.foo</span> {
+    <span class="hljs-at_rule">@<span class="hljs-keyword">include</span><span class="hljs-preprocessor"> border</span>(<span class="hljs-number">2px</span><span class="hljs-preprocessor"> 3px</span><span class="hljs-preprocessor"> solid</span><span class="hljs-preprocessor"> dashed</span><span class="hljs-preprocessor"> dotted</span><span class="hljs-preprocessor"> blue</span><span class="hljs-preprocessor"> currentColor</span><span class="hljs-preprocessor"> yellow</span>);</span>
+}
+
+<span class="hljs-comment">//css</span>
+<span class="hljs-class">.foo</span> {
+    <span class="hljs-attribute">border-width</span><span class="hljs-value">: <span class="hljs-number">2px</span> <span class="hljs-number">3px</span>;</span>
+    <span class="hljs-attribute">border-style</span><span class="hljs-value">: solid dashed dotted;</span>
+    <span class="hljs-attribute">border-color</span><span class="hljs-value">: blue currentColor yellow;</span>
+}
+</code></pre></div>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=button_class=global_global_variable_data-code-id=button_@button__code_"><code id="button()" class="global global_variable" data-code-id="button()">@button()</code></h5>
+<h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$bg-color__code_:__code_color(&amp;_39;links&apos;_/code_,__code_$text-color_/code_:__code_null_/code_,__code_$border_/code_:__code_null_/code_,__code_$radius_/code_:__code_null_/code_,__code_$text-radius_/code_:__code_null_/code_,__code_$style_/code_:__code_null_/code_,__code_$inset_/code_:__code_false_/code_)">mixin(<code>$bg-color</code>: <code>color(&apos;links&apos;)</code>, <code>$text-color</code>: <code>null</code>, <code>$border</code>: <code>null</code>, <code>$radius</code>: <code>null</code>, <code>$text-radius</code>: <code>null</code>, <code>$style</code>: <code>null</code>, <code>$inset</code>: <code>false</code>)</h6>
+<p>Generates common button styles, allowing for simple creation of more complex gradient styles. Intelligently excludes unnecessary styles from states like hover, focus, and active. <em>Does not generate hover, focus, or active psuedo selectors on its own.</em></p>
+<p><strong>Accepted arguments:</strong></p>
+<ul>
+<li><code>$bg-color</code>: Color values. This cannot accept null.</li>
+<li><code>$text-color</code>: Color or null (null will let the mixin decide the best color based on contrast).</li>
+<li><code>$border</code>: Any border properties (colors, styles, widths) or <code>null</code>. Uses the <code id="border()" class="global global_variable" data-code-id="border()">@border()</code> mixin.</li>
+<li><code>$radius</code>: <code>border-radius</code> values. <code>null</code> produces no border-radius property.</li>
+<li><code>$style</code>: <code>null</code>, <code>shiny</code> or <code>reflective</code>.<br> <code>shiny</code> creates a simple gradient backgroud based on the <code>$bg-color</code>.<br> <code>reflective</code> creates a stacked gradient based on the <code>$bg-color</code>.</li>
+<li><code>$inset</code>: Boolean. <code>True</code> adds a dark box-shadow inset.<br> If combined with &apos;shiny&apos; or &apos;reflective&apos; <code>$style</code>, background gradients are inverted.</li>
+</ul>
 <h5 class="main-section-sg-by-emiloberg" id="section-_code_id=px-to-rems_class=global_global_variable_data-code-id=px-to-rems_@px-to-rems__code_,__code_id=rems_class=global_global_variable_data-code-id=rems_@rems_/code_"><code id="px-to-rems()" class="global global_variable" data-code-id="px-to-rems()">@px-to-rems()</code>, <code id="rems()" class="global global_variable" data-code-id="rems()">@rems()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$property__code_,__code_$sizes_/code_,__code_$important_/code_:__code_false_/code_,__code_$base-font_/code_:__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_">mixin(<code>$property</code>, <code>$sizes</code>, <code>$important</code>: <code>false</code>, <code>$base-font</code>: <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>)</h6>
 <p><code>REM</code> generator used to create a property with a <code>rem</code> value and <code>px</code> fallback.</p>
-<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=font-size_class=global_global_variable_data-code-id=font-size_@font-size__code__,__code_id=type-font-size_class=global_global_variable_data-code-id=type-font-size_@type-font-size_/code_"><code id="font-size()" class="global global_variable" data-code-id="font-size()">@font-size()</code> , <code id="type-font-size()" class="global global_variable" data-code-id="type-font-size()">@type-font-size()</code></h5>
+<h5 class="main-section-sg-by-emiloberg" id="section-_code_id=font-size_class=global_global_variable_data-code-id=font-size_@font-size__code_,__code_id=type-font-size_class=global_global_variable_data-code-id=type-font-size_@type-font-size_/code_"><code id="font-size()" class="global global_variable" data-code-id="font-size()">@font-size()</code>, <code id="type-font-size()" class="global global_variable" data-code-id="type-font-size()">@type-font-size()</code></h5>
 <h6 class="main-section-sg-by-emiloberg" id="section-mixin_code_$font-size__code_,__code_$line-height_/code_:__code_true_/code_,__code_$font-base_/code_:__code_id=$base-font-size_class=global_global_variable_data-code-id=$base-font-size_$base-font-size_/code_">mixin(<code>$font-size</code>, <code>$line-height</code>: <code>true</code>, <code>$font-base</code>: <code id="$base-font-size" class="global global_variable" data-code-id="$base-font-size">$base-font-size</code>)</h6>
 <p>Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using <code id="$base-line-height" class="global global_variable" data-code-id="$base-line-height">$base-line-height</code>.</p>
 <p><em><code>$line-height</code> also accepts a pixel value and will be converted to a unitless line-height.</em></p>
@@ -10878,6 +10930,7 @@ return jQuery;
 
 }));
 
+//# sourceMappingURL=maps/jquery-2.1.0.js.map
 </script><!--<![endif]-->
 
     <script src="../js/plugins.js"></script>
