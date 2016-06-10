@@ -5,9 +5,9 @@
 /* SG
 # Tools/Z-Index [[dev]]
 
-globals/tools/_t-zindex.scss
+@file globals/tools/_t-zindex.scss
 
-##### `z()`,
+##### `z()`
 ###### function(`$layer`, `$modifier: false`)
 Returns a numeric value (used for z-index) from a named layer, stored in `$$z-index`. Changing the modifier to anything other than `false` will add 1 plus however many times the value has been called. So, if you've called `z(head, true)` 5 times, and `head`'s default value is 100, you would get a value of 105.
 

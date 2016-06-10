@@ -2,6 +2,7 @@
 
 @include grid-init();
 
+
 .row {
     @extend %grid;
 }
@@ -20,7 +21,6 @@
 
 .column {
     @extend %grid_item;
-    @extend %one_whole;
 }
 
 .half {
@@ -47,4 +47,14 @@
 .wide_content {
     @extend %smallish_four_fifths;
     @extend %bigs_five_sixths;
+}
+
+.push_TEST {
+    @extend %push_one_half;
+}
+.pull_TEST {
+    @extend %pull_one_third;
+}
+.push_TEST2 {
+    @extend %push_one_third;
 }

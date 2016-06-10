@@ -3,18 +3,21 @@
 	"devIdentifier": "[[dev]]",
 	"srcFolder": "./",
 	"outputFile": "./styleguide/index.html",
+  "jsonOutput": "./styleguide/index.json",
 	"templateFile": "./styleguide/imports/template.html",
 	"themeFile": "./styleguide/imports/theme.css",
 	"highlightFolder": "./node_modules/highlight.js/styles",
 	"highlightStyle": "zenburn",
 	"excludeDirs": [
 		"target",
-		"node_modules"
+		"node_modules",
+    "_partials/sass",
+    "_partials/kits"
 	],
 	"fileExtensions": {
-		"scss": true,
+		"scss": false,
 		"sass": false,
-		"css": false,
+		"css": true,
 		"less": false,
 		"md": true
 	},

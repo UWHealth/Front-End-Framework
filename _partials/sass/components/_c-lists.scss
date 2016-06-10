@@ -19,8 +19,9 @@ Creates a list with borders above and below each list item. Appending `list_bord
 */
 
 [class*="list_bordered"] {
-    @extend %list_naked;
-    @extend %space_v;
+    @include no-bullets;
+    margin-left: 0;
+    @include type-space((padding-top,padding-bottom), 1);
 
     > li {
         @extend %block;
@@ -41,6 +42,7 @@ Creates a list with borders above and below each list item. Appending `list_bord
     }
 }
 
+
 /* SG
 # Lists/Inline Lists
 
@@ -56,7 +58,8 @@ A list where each item is in a row, with spacing to the right of each item
 */
 
 .list_inline {
-    @extend %list_naked;
+    @include no-bullets;
+    margin-left: 0;
 
     > li {
         display: inline-block;
@@ -71,6 +74,7 @@ A list where each item is in a row, with spacing to the right of each item
 	}
 
 }
+
 
 /* SG
 # Lists/Breadcrumbs
@@ -87,8 +91,9 @@ A list where each item is in a row, with a &#x25B8; between each item.
 */
 
 .breadcrumbs {
-    @extend %list_naked;
-    @extend %pad_r;
+    @include no-bullets;
+    margin-left: 0;
+    @include type-space(padding-right, 1);
 }
 
 .breadcrumbs > li,
@@ -96,7 +101,6 @@ A list where each item is in a row, with a &#x25B8; between each item.
     display: inline-block;
     white-space: nowrap;
     margin-left: 0;
-    @extend %space_l_n;
 
     a {
         display: block;
@@ -109,10 +113,13 @@ A list where each item is in a row, with a &#x25B8; between each item.
 
 }
 
+
 /* SG
 # Lists/Navigation List
 
-List where anchor tags fill the space of their containers. Useful as a modifier class. Can be used on any item with multiple child anchors (doesn't have to be an `ol` or `ul`).
+A list of anchor tags that fill the space of their containers. Used when you need larger click/tap targets on a group on links.
+
+Also useful as a modifier class since it can be used on any container with anchors (doesn't have to be an `ol` or `ul`).
 
 ```html_example
 <ul class="list_nav">
@@ -129,13 +136,12 @@ List where anchor tags fill the space of their containers. Useful as a modifier 
 ```
 */
 
-//Make links fill their list items for easier clickability.
 .list_nav {
     @include no-bullets;
-    @extend %space_l_n;
+    margin-left: 0;
 
 	& a {
 		@extend %block;
-        @include type-space(padding, .5, 0, .5);
+        @include type-space((padding-top, padding-bottom), .5);
 	}
 }

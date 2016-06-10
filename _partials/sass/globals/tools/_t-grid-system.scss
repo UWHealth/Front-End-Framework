@@ -1,0 +1,535 @@
+/* SG
+# Grid System/Variables [[dev]]
+
+@file globals/tools/_t-grid-system.scss
+
+##### `$$human-readable-numerators`
+###### List (string)
+First words used to represent numbers in a fraction; Corresponds to grid interval names (one, two, three, etc.).
+
+
+##### `$$human-readable-denominators`
+###### List (string)
+Second words used to represent numbers in a fraction; Corresponds to grid interval names (whole, half, third, etc.).
+*/
+
+
+//Grid
+$human-readable-numerators: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty;
+
+$human-readable-denominators: whole, half, third, quarter, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nineteenth, twentieth, twentyfirst, twentysecond, twentythird, twentyfourth, twentyfifth, twentysixth, twentyseventh,twentyeigth, twentyninth;
+
+
+/* SG
+# Grid System/Functions [[dev]]
+
+@file globals/tools/_t-grid-system.scss
+
+##### `grid-size()`
+###### function(`$size, $total:` `$$grid-columns`)
+Creates a percentage based on the `$size / $total`.
+
+*/
+
+@function grid-size($size, $total: $grid-columns) {
+    @return percentage($size / $total);
+}
+
+
+/* SG
+# Grid System/Mixins [[dev]]
+
+@file globals/tools/_t-grid-system.scss
+
+##### `@silent-relative()`
+###### mixin()
+Allows for conditional `position: relative` for silent push or pull classes.
+
+*/
+
+//
+// Drop relative positioning into silent classes which can’t take advantage of
+// the `[class*="push--"]` and `[class*="pull--"]` selectors.
+//
+@mixin silent-relative($silent: true){
+    @if $silent == true {
+        position: relative;
+    }
+}
+
+/* SG
+# Grid System/Mixins [[dev]]
+
+##### `@grid-setup()`
+###### mixin(`$silent:` `$$grid-silent-classes`)
+Creates basic grid classes (listed below), called by `@grid-init()`.
+
+_Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`). Based on the `$$grid-silent-classes` setting._
+
+* ###### `%grid_reset`
+ Useful for resetting the grid's effects without making full grid items.
+
+* ###### `[% || .]grid`
+ Wrapper class for grid widths. Puts a negative left margin of one unit. When not using floats, adds appropriate letter-spacing (for inline-block-based grid).
+
+* ###### `[% || .]grid_item`
+ Sets up a grid column. Uses column padding inherited from parent `%/.grid`.
+
+* ###### `[% || .]grid_rev`
+ Makes grid columns start from the right.
+
+* ###### `[% || .]grid_right`
+ Makes all grid columns align to the right.
+
+* ###### `[% || .]grid_center`
+ Makes all grid columns align to the center.
+
+* ###### `[% || .]grid_middle`
+ Makes all grid columns vertical align to the middle.
+
+* ###### `[% || .]grid_bottom`
+ Makes all grid columns vertical align to the bottom.
+
+* ###### `[% || .]grid_full`
+ Eliminates padding between grid columns.
+
+* ###### `[% || .]grid_narrow`
+ Reduces the padding between grid columns.
+
+* ###### `[% || .]grid_wide`
+ Increases the padding between grid columns.
+
+*/
+
+
+@mixin grid-setup($silent: $grid-silent-classes) {
+
+    $class-type: if($silent, "%", ".");
+
+	%grid_reset {
+		letter-spacing: normal;
+		word-spacing: normal;
+	}
+
+	//*------------------------------------
+	//    $GRID SETUP
+	//*------------------------------------
+	 // 1. Allow the grid system to be used on lists.
+	 // 2. Remove any margins and paddings that might affect the grid system.
+	 // 3. Apply a negative `margin-left` to negate the columns’ gutters.
+	 //
+	#{$class-type}grid {
+	    list-style: none;                // [1]
+	    margin: 0;                       // [2]
+	    padding: 0;                      // [2]
+	    @include type-space(margin-left, -1);
+
+		@if (
+            $grid-markup-fix != true
+            and $grid-floats != true
+        ) {
+	        letter-spacing:-0.35em;
+	    }
+
+		@if $grid-floats {
+	        @extend %clearfix;
+	    }
+	}
+
+	@if (
+        $grid-markup-fix != true
+        and $grid-floats != true
+    ) {
+	    // Opera hack
+	    .opera:-o-prefocus,
+	    #{$class-type}grid{
+	        word-spacing:-0.43em;
+	    }
+	}
+
+	// 1. Cause columns to stack side-by-side.
+	// 2. Space columns apart.
+	// 3. Align columns to the tops of each other.
+	// 4. Full-width unless told to behave otherwise.
+	// 5. Required to combine fluid widths and fixed gutters.
+	//
+	#{$class-type}grid_item {
+	    @if $grid-floats != true {
+	        display:inline-block;              // [1]
+	    }@else{
+	        display: block;
+	        float: left;
+	    }
+	    @include type-space(padding-left, 1); // [2]
+	    vertical-align: top;                  // [3]
+
+		@if $mobile-first {
+	        width: 100%;                      // [4]
+	    }
+
+	    @if (
+            $grid-markup-fix != true and
+            $grid-floats != true
+        ) { //5
+	        letter-spacing: normal;
+	        word-spacing: normal;
+	    }
+	}
+
+	// Special class for grid items that need to behave like both grids and grid__items.
+	#{$class-type}grid_reset_item {
+	    @extend #{$class-type}grid;
+	    @extend #{$class-type}grid_item;
+	    padding-left: 0;
+	    margin-left: 0;
+	}
+
+	//
+	// Reversed grids allow you to structure your source in the opposite order to
+	// how your rendered layout will appear. Extends `.grid`.
+	//
+	#{$class-type}grid_rev{
+	    @if $grid-floats {
+	        @extend %clearfix;
+	    }
+	    @if $grid-floats != true {
+	        direction: rtl;
+	        text-align: left;
+
+	        #{$class-type}grid_item{
+	            direction: ltr;
+	            text-align: left;
+	        }
+	    }@else{
+	        > #{$class-type}grid_item{
+	            float: right;
+	            text-align: left;
+	        }
+	    }
+	}
+
+
+	//
+	// Align the entire grid to the right. Extends `.grid`.
+	//
+	#{$class-type}grid_right{
+	    @if $grid-floats != true {
+	        text-align:right;
+
+	        > #{$class-type}grid_item {
+	            text-align: left;
+	        }
+	    }@else{
+	        float: right;
+	        @extend %clearfix;
+
+	        > #{$class-type}grid_item {
+	        float: right;
+	        }
+	    }
+	}
+
+
+	//
+	// Centered grids align grid items centrally without needing to use push or pull
+	// classes. Extends `.grid`.
+	//
+	// Not availabe
+	#{$class-type}grid_center{
+	    @if $grid-floats != true {
+	        text-align:center;
+
+	        > #{$class-type}grid_item {
+	            text-align:left;
+	        }
+	    }
+	}
+
+
+	//
+	// Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
+	// `.grid`.
+	//
+	#{$class-type}grid_middle{
+
+	    > #{$class-type}grid_item {
+	        vertical-align:middle;
+	    }
+	}
+
+	#{$class-type}grid_bottom{
+
+	    > #{$class-type}grid_item {
+	        vertical-align:bottom;
+	    }
+	}
+
+
+	//
+	// Gutterless grids have all the properties of regular grids, minus any spacing.
+	// Extends `.grid`.
+	//
+	#{$class-type}grid_full{
+	    margin-left: 0;
+
+		@if $grid-floats {
+	        @extend %clearfix;
+	    }
+
+	    > #{$class-type}grid_item {
+	        padding-left:0;
+	    }
+	}
+
+
+	//
+	// Create grids with narrower gutters. Extends `.grid`.
+	//
+	#{$class-type}grid_narrow {
+	    @include type-space(margin-left, -.5);
+
+		> #{$class-type}grid_item {
+	        @include type-space(padding-left, .5);
+	    }
+	}
+
+
+	//
+	// Create grids with wider gutters. Extends `.grid`.
+	//
+	#{$class-type}grid_wide {
+	    @include type-space(margin-left, -2);
+
+		> #{$class-type}grid_item {
+	        @include type-space(margin-left, 2);
+	    }
+	}
+}
+
+
+/* SG
+
+# Grid System/Mixins [[dev]]
+
+##### `@grid-width()`
+###### mixin(`$size, $total:` `$$grid-columns`)
+Creates a width property with a percentage based on the `$size / $total`.
+@requires `grid-size()`, `$$grid-columns`
+
+
+##### `@width-setup()`
+###### mixin(`$namespace:"", $silent:` `$$grid-silent-classes`)
+ Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentage widths based on `$$grid-columns`.
+@requires `grid-size()`, `cache()`, `$$human-readable-numerators`, `$$human-readable-denominators`
+
+*/
+
+@mixin grid-width($size, $total:$grid-columns) {
+    width: #{grid-size($size, $total)};
+}
+
+@mixin width-setup($namespace:"", $silent: $grid-silent-classes ) {
+
+    //
+    // Automatic Grids.
+	// @author: Chris Lee, based on css-wizardry grids.
+    // Just FOR REFERENCE: A numerator is the first (top) number in a fraction. The denominator is the second (bottom) number.
+    //
+    // [1] Loop through the $grid-columns.
+    // [2] Loop through $divisor (same number as $grid-columns). This acts as the second number in our column fraction.
+    // [3a]Loop through $divisor before it decreases by 1 from the previous loop.
+    // [3b]After widths are defined, subtract 1 from $divisor.
+    // [4] Assign the numerator and denominator of our fraction to human-readable versions (e.g. three, four, third, quarter, etc.).
+    // [5] Check if the numerator equals 1 (one). If so, we keep our singular human-readable numerators and denominators (e.g. one_twelfth).
+    // [6] If the numerator is larger than 1(one), add an 's' to our selector (e.g. two_eighths).
+    //
+    // Same system used for pushes and pulls.
+
+        $class-type: if($silent, "%", ".");
+        $divisor: $grid-columns;
+		$class-name: "";
+		$class-name-list: ();
+        $prefix: "#{$class-type}#{$namespace}";
+
+        @for $i from 1 to $grid-columns {                                          // [1]
+
+            @while $divisor > 0 {                                                  // [2]
+
+                @for $numerator from 1 to $divisor{                                // [3a]
+					//Create numerator (first number, e.g. 'two').
+                    $numerators: nth($human-readable-numerators, $numerator);      // [4]
+
+					//Create denominator (second number, e.g. 'twelfths').
+                    $denominator: nth($human-readable-denominators, $divisor);
+
+					//Divide first number(numerator) by second number(denominator).
+                    $width: cache(grid-size, $numerator, $divisor);
+
+                    @if $numerator == 1 {                                          // [5]
+
+						$class-name: #{$prefix}#{$numerators}_#{$denominator};
+
+                    }@else{                                                        // [6]
+                        $class-name: #{$prefix}#{$numerators}_#{$denominator}s;
+                    }
+
+					#{$class-name} {
+                        width: $width;
+                    }
+
+					@if $grid-silent-classes and $debug-silent-classes {
+						$class-name-list: map-merge($class-name-list, ($class-name:$width));
+					}
+
+                }
+                $divisor: $divisor - 1; //[3b]
+            }
+        }
+
+        #{$prefix}one_whole {
+			width:100%; }
+
+        #{$prefix}one_fourth {
+			@extend #{$prefix}one_quarter; }
+
+        #{$prefix}two_fourths {
+			@extend #{$prefix}two_quarters; }
+
+        #{$prefix}three_fourths {
+			@extend #{$prefix}three_quarters; }
+
+
+		@if $silent and $debug-silent-classes {
+			$class-name-list: map-merge($class-name-list,(
+				#{$prefix}one_whole: 100%
+			));
+			$silent-class-registry: silents-register($class-name-list, 'widths') !global;
+		}
+}
+
+/* SG
+# Grid System/Mixins [[dev]]
+
+##### `@push-pull-setup()`
+###### mixin(`$namespace:"", $type:"", $silent:` `$$grid-silent-classes`)
+Outputs left/right percentage values for each grid size. Uses `$$human-readable-numerators` and `$$human-readable-denominators` for class names.
+
+@requires `@silent-relative()`, `cache()`, `grid-size()`,`$$human-readable-numerators`, `$$human-readable-denominators`
+
+*/
+
+ // Push classes, to move grid items over to the right by certain amounts.
+
+@mixin push-pull-setup($namespace: "", $type:"push", $silent: $grid-silent-classes ){
+
+
+    @if $silent != true {
+        [class*="#{$type}_"]{ position: relative; }
+    }
+
+    $class-type: if($silent, "%", ".");
+    $divisor: $grid-columns;
+    $prefix: "#{$class-type}#{$type}_#{$namespace}";
+    $property: if($type == "push", "left", "right");
+
+    @for $i from 1 to $grid-columns {                                          // [1]
+
+        @while $divisor > 0 {                                                  // [2]
+
+            @for $numerator from 1 to $divisor {                               // [3a]
+                //Create numerator (first number, e.g. 'two').
+                $numerators: nth($human-readable-numerators, $numerator);      // [4]
+
+                //Create denominator (second number, e.g. 'twelfths').
+                $denominator: nth($human-readable-denominators, $divisor);
+
+                //Divide first number(numerator) by second number(denominator).
+                $width: cache(grid-size, $numerator, $divisor);
+
+                @if $numerator == 1 {                                          // [5]
+
+                    #{$prefix}#{$numerators}_#{$denominator} {
+                        #{$property}: $width;
+                        @include silent-relative($silent);
+                    }
+
+                }@else{                                                        // [6]
+
+                    #{$prefix}#{$numerators}_#{$denominator}s {
+                        #{$property}: $width;
+                        @include silent-relative($silent);
+                    }
+
+                }
+            }
+            $divisor: $divisor - 1; //[3b]
+        }
+    }
+
+    #{$prefix}one_whole {
+		#{$property}: 100%;
+        @include silent-relative($silent);
+	}
+    #{$prefix}one_fourth {
+		@extend #{$prefix}one_quarter;
+	}
+    #{$prefix}two_fourths {
+		@extend #{$prefix}two_quarters;
+	}
+    #{$prefix}three_fourths {
+		@extend #{$prefix}three_quarters;
+	}
+}
+
+
+/* SG
+# Grid System/Mixins [[dev]]
+
+##### `@grid-init()`
+###### mixin(`$silent:` `$$grid-silent-classes`, `$responsive`)
+Creates responsive grid classes by running through all the grid-setup mixins. Uses the media-queries defined in the `$breakpoint-has-` variables to create media-query-scoped classes.
+@requires `@media-query()`, `@grid-setup()`, `@width-setup()`, `@push-pull-setup()`, `$$breakpoints-has-push`, `$$breakpoint-has-pull`
+
+*/
+
+@mixin grid-init($silent: $grid-silent-classes, $responsive: $responsive) {
+
+	@include grid-setup($silent);
+
+	@include width-setup("", $silent);
+
+	// Our responsive classes, if we have enabled them.
+	@if $responsive {
+	    @each $name in $breakpoint-has-widths {
+	        @include media-query($name) {
+	           @include width-setup('#{$name}_', $silent);
+	        }
+	    }
+	}
+
+	@if $grid-push {
+
+	    @include push-pull-setup("", "push", $silent);
+
+	    @if $responsive {
+	        @each $name in $breakpoint-has-push {
+	            @include media-query($name) {
+	               @include push-pull-setup('#{$name}_', "push", $silent);
+	            }
+	        }
+	    }
+	}
+
+	@if $grid-pull {
+
+	    @include push-pull-setup("","pull",$silent);
+
+	    @if $responsive {
+	        @each $name in $breakpoint-has-pull {
+	            @include media-query($name) {
+	               @include push-pull-setup('#{$name}_', "pull", $silent);
+	            }
+	        }
+	    }
+	}
+}

@@ -4,83 +4,56 @@
 
 /* SG
 # Functions/Colors [[dev]]
-/globals/_gl-color-functions.scss
 
-##### `colors()`, `color()`
-###### function(`$color-name` , `$tone:base` , `$opacity:1`)
-Get a color value from the global `$$color` map. Darker and lighter tones are available by passing a second tone string (e.g. `background-color: colors(links, light)`).
+@file globlas/_gl-color-functions.scss
+
+##### `colors()`
+###### function(`$color-name, $tone: 'base', $opacity: 1`)
+Get a color value from the global `$$base-colors` map. Darker and lighter tones are available by passing a second string.
+
+```scss
+.foo {
+    background-color: colors(links, light));
+}
+```
+
 Passing only a color name will default to the 'base' color.
 
+@alias color()
+@requires `$$base-colors`
+
 [Reference](http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/)
-
-
-##### `combine-color-maps()`
-###### function(`$map1` , `$map2`)
-Specialized function used by `generate_color_variations()` to merge two color maps.
-
-
-##### `generate-color-varations()`
-###### function(`$map:` `$$colors` , `$functions: (tint, tint, tint, shade, shade, shade)`, `$increments:(20%, 40%, 80%, 20%, 40%, 80%)`, `$variations: (light, lighter, lightest, dark, darker, darkest)` , `$blending-colors: null`)
-Takes base color values and generates a full color palette. Used by the `$$colors` map to create a project's palette, accessible via `colors()`.
-
-**Arguments:**
-`$map`: Color map you want to create variations of. Defaults to `$$colors`.
-`$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend-()` function, provided `$blending-colors` are provided.
-`$increments`: percentage amount to apply `$function` to each `$variations`.
-`$variations`: actual names for each color tone when `colors()` used.
-`$blending-colors`: used when a function is a `blend-()`. Can be a list or a single color.
-
-
-##### `black-or-white()`, `set-text-color()`
-###### function(`$color`)
-Change text color based on background-color's darkness.
-
-
-##### `pick-best-color()`
-###### function(`$base`, `$colors`, `$tolerance:0`)
-Determines most contrasting color of `$base`. `$colors` should be a list.
-
-[Reference](https://gist.github.com/voxpelli/6304812)
-
-
-##### `color-contrast()`
-###### function(`$color1`, `$color2`)
-Find contrast between two colors. Used by pick-best-color().
-
-[Reference](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
-
-
-##### `color-luminance()`, `luma()`
-###### function(`$color1`)
-Find the relative luminance of a color. Used by color-contrast().
-
-[Reference](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
-
-
-##### `@color-palette-output()`
-###### mixin(`$selection`, `$color-map:``$$colors`)
-Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for "color blocks" output, in style guide.
 */
 
 
-// FUNCTION: grab colors from global color map
 @function colors($color-name, $tone: 'base', $opacity: 1) {
 
-	@if not map-has-key($colors, $color-name) {
-		@warn "Key `#{$color-name}` not found in $colors map. Cannot compile Sass.";
-	}@else if not map-has-key(map-get($colors, $color-name), $tone) {
+	@if not map-has-key($base-colors, $color-name) {
+		@warn "Key '#{$color-name}' not found in $base-colors map. Cannot compile Sass.";
+	}@else if not map-has-key(map-get($base-colors, $color-name), $tone) {
 		@warn "Tone '#{$tone}' not found in #{$color-name}. Cannot compile Sass.";
 	}
 
 	@if $opacity < 1 {
-		@return rgba(map-get(map-get($colors, $color-name), $tone), $opacity);
+		@return rgba(map-get(map-get($base-colors, $color-name), $tone), $opacity);
 	}
 
-	@return map-get(map-get($colors, $color-name), $tone);
+	@return map-get(map-get($base-colors, $color-name), $tone);
 }
 // ALIAS: Same as above, but easier to type
-@function color($color, $tone: 'base') 	{ @return colors($color, $tone);}
+@function color($color, $tone: 'base'){ @return colors($color, $tone);}
 
+
+/* SG
+# Functions/Colors [[dev]]
+
+##### `combine-color-maps()`
+###### function(`$map1 , $map2`)
+Specialized function used by `generate-color-variations()` to merge two color maps.
+
+@returns map
+
+*/
 
 // FUNCTION: combine-color-maps()
 // Combines two color maps (or really any double-nested map)
@@ -94,7 +67,25 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 	@return $map1;
 }
 
-//FUNCTION: generate_color_varations()
+/* SG
+# Functions/Colors [[dev]]
+
+##### `generate-color-varations()`
+###### function( `$map: $colors, $functions: (tint, tint, tint, shade, shade, shade), $increments: (20%, 40%, 80%, 20%, 40%, 80%), $variations: (light, lighter, lightest, dark, darker, darkest), $blending-colors: null`)
+
+Takes base color values and generates a full color palette. Used by the `$$base-colors` map to create a project's palette, accessible via `colors()`.
+
+**Arguments:**
+* `$map`: Color map you want to create variations of. Defaults to `$$base-colors`.
+* `$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend` function, provided `$blending-colors` are provided.
+* `$increments`: percentage amount to apply `$function` to each `$variations`.
+* `$variations`: actual names for each color tone when `colors()` used.
+* `$blending-colors`: used when a function is a `blend`. Can be a list or a single color.
+
+@requires `combine-color-maps()`
+
+*/
+
 // Adds color variations to a color map
 // 1a. Color functions.
 // 1b. Function percentages (e.g. lighten($foo, [percentages])).
@@ -123,7 +114,7 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 // 9. Return the map with the new values.
 
 @function generate-color-variations(
-	$map: $colors,
+	$map: $base-colors,
 	$functions: (tint, tint, tint, shade, shade, shade),			//[1a]
 	$increments: (20%,  40%,   80%,   20%,   40%,   80%), 			//[1b]
 	$variations: (light, lighter, lightest, dark, darker, darkest),//[1c]
@@ -176,6 +167,10 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 							$amount: $temp-color;
 						}
 					}
+                    //Try to add "blend" to the current function if it's not valid
+                    @if not function-exists($curr_fn){
+                        $curr_fn: unquote('blend-')+$curr_fn;
+                    }
 
 					$new-color: call($curr_fn, $curr_color, $amount); 	//[7a]
 					$value: ($variant: $new-color); 					//[7b]
@@ -195,39 +190,69 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 		@return $new-map; 								//[9]
 }
 
+/* SG
+# Functions/Colors [[dev]]
 
-//FUNCTION: Output black or white
-//====================================
-// Change text color based on background-color's darkness, e.g.:
-// div{
-//    background-color: #f8cd12;
-//    color: set_text_color(#f8cd12);
-//    }
-//  Your text color would be black because #f8cd12 and #00000 contain enough
-//  contrast to be readable.
-//  This will ONLY give you black or white.
-// Use color: pick_best_color(#f00, (#fff, #ccc, #666)); for better control.
+
+##### `black-or-white()`
+###### function(`$color`)
+Change text color based on background-color's darkness.
+
+```scss
+div {
+    background-color: #f8cd12;
+    color: set_text_color(#f8cd12);
+}
+// Your text color would be black because #f8cd12 and #00000 have more contrast.
+```
+@alias set-text-color()
+@requires `color-luminance`
+
+
+##### `pick-best-color()`
+###### function(`$base, $colors, $tolerance: 0`)
+Compares a set of colors against `$base` and returns the color with the most contrast. `$colors` should be a list.
+[Taken from here](https://gist.github.com/voxpelli/6304812)
+
+```scss
+div {
+    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
+}
+// The function would test the colors and find that #2c2c2c is the best.
+```
+@requires `color-contrast()`, `color-luminance()`
+@returns color
+
+
+##### `color-contrast()`
+###### function(`$color1, $color2`)
+Find contrast between two colors.
+[Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+@requires `color-luminance()`
+@returns number(0 - 1)
+
+
+##### `color-luminance()`
+###### function(`$color1`)
+Find the relative luminance of a color. Used by `color-contrast()`.
+[Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+@alias luma()
+@returns number(0 - 1)
+
+*/
+
+
 @function black-or-white($color) {
 	@if (color-luminance($color) > .45) {
 		@return #000;
 	}
 	@else {
-		@return #FFF;
+		@return #fff;
 	}
 }
-//ALIAS: Named after what it's usually used for
-@function set-text-color($color) {
-	@return black-or-white($color);
-}
+//ALIAS
+@function set-text-color($color){ @return black-or-white($color); }
 
-//FUNCTION: Pick best color
-//====================================
-//Complex color calculation to determine best color based on contrast.
-//Taken from: https://gist.github.com/voxpelli/6304812
-//USAGE:
-//    background-color: #f8cd12;
-//    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
-// The function would test the colors and find that #2c2c2c is the best.
 
 @function pick-best-color($base, $colors, $tolerance: 0) {
 	$contrast: color-contrast($base, nth($colors, 1));
@@ -244,11 +269,6 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 	@return $best;
 }
 
-//FUNCTION: Contrast between two colors
-//===============================
-// Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
-// Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
-// Used by pick-best-color()
 
 @function color-contrast($color1, $color2) {
 	$luminance1: color-luminance($color1) + .05;
@@ -264,10 +284,7 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 	@return $ratio;
 }
 
-//FUNCTION: Find a color's luminance
-//===============================
-// Adapted from: https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js
-// Formula: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+
 @function color-luminance($color) {
 
 	$rgba: red($color), green($color), blue($color);
@@ -284,21 +301,22 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 	@return (.2126 * nth($rgba2, 1)) + (.7152 * nth($rgba2, 2)) + (0.0722 * nth($rgba2, 3));
 }
 
-//Same as above but simpler
-@function luma($color) {
-	@return color-luminance($color);
-}
+//Alias
+@function luma($color){ @return color-luminance($color); }
 
 
-// Unfinished function
-//@function luminate($color, $percent) {
-//	$luma: percentage(luma($color));
-//	$hsl: hue($color), saturation($color), lightness($color);
-//}
+/* SG
+# Functions/Colors [[dev]]
 
-//Creates a pretty color palette (in columns) using psuedo selectors (nth-child required)
-// This would be 1000x easier with flexbox
-@mixin color-palette-output($selection, $color-map: $colors) {
+##### `@color-palette-output()`
+###### mixin(`$selector`, `$color-map:` `$$base-colors`)
+Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for "color blocks" output, in style guide.
+
+@requires `map-add-depth()`, `black-or-white()`
+
+*/
+
+@mixin color-palette-output($selector, $color-map: $base-colors) {
 	$color-names: 	  ( );
 	$color-subnames:  ( );
 	$color-fullnames: ( );
@@ -352,7 +370,7 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 		$current-color-name: nth($color-fullnames, $color-index);
 
 		//Apply it to the selection based on nth-child (using $i)
-		#{$selection}:nth-child(#{$i}){
+		#{$selector}:nth-child(#{$i}){
 			background-color: #{$current-color-value};
 			//Determine if black or white should be used for text color
 			color: #{black-or-white( $current-color-value )};
@@ -386,7 +404,7 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 	}
 
 	//Base styles
-	#{$selection}{
+	#{$selector}{
 		//Width is a percentage of the total top-level colors (minus 1% for margin)
 		width: percentage(1 / $top-colors-len) - 1%;
 		padding: 1%;
@@ -409,6 +427,9 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 }
 
 //Harmonize colors
+//Takes all colors in a map and blends them with a secondary color to even them out
+// Should only be used as a tool to create color palletes.
+// Shouldn't be used on every compilation since it can make development fairly abstract.
 @function harmonize-colors(
 	$color-list: null,
 	$blending-mode: 'overlay',
@@ -420,6 +441,8 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 	$temp-list: ();
 	$return: null;
 
+    //Make sure non-prefixed blending modes
+    // are appended with the correct function namespace
 	$blending-mode:
 	if(
 		str-contains($blending-mode, 'blend'),

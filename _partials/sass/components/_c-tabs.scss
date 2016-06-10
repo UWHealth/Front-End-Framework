@@ -1,13 +1,3 @@
-//------------------------------------
-//    $Tabs
-//------------------------------------
-
- // CONTENTS
- // SETUP................Variables.
- // EXTENDS..............Placeholder classes for cleaner output.
- // GENERAL..............Normal styles for all tab boxes.
-
-
 /* SG
 # Tabs/
 
@@ -20,14 +10,28 @@ Tabs start out as simple anchor + element pairings (with the anchor's href refer
 Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
 
 ```html_example
-<a href="#tab1" class="tab_button">Tab 1</a>
-<div id="tab1" class="tab_content">
-	Content Here
+<div id="tabs">
+<!--Wrapper is optional-->
+
+    <a href="#tab1" class="tab_button">Tab 1</a>
+    <div id="tab1" class="tab_content">
+    	Content Here
+    </div>
+
+    <a href="#tab2" class="tab_button">Tab 2</a>
+    <div id="tab2" class="tab_content">
+    	Secondary Content Here
+    </div>
+
 </div>
-<a href="#tab2" class="tab_button">Tab 2</a>
-<div id="tab2" class="tab_content">
-	Secondary Content Here
-</div>
+
+<!--Initialize tabs javascript-->
+<script>
+$(function() {
+    //JQuery selector scopes tabs to wrapper, otherwise it can be scoped to "body"
+    $("#tabs").tabbed();
+});
+</script>
 ```
 */
 

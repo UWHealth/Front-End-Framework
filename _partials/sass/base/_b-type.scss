@@ -6,54 +6,49 @@
 	@include type-space(margin-bottom, 1);
 }
 
-@if not $auto-scale-type {
+h1 {
+    @extend %base_h1;
+}
+h2 {
+    @extend %base_h2;
+}
+h3 {
+    @extend %base_h3;
+}
+h4 {
+    @extend %base_h4;
+}
+h5 {
+    @extend %base_h5;
+}
+h6 {
+    @extend %base_h6;
+}
 
-    %base_h1 {
-		@extend %base_heading_space;
-        @include font-size($type-h1-size, $h1-lh);
-    }
-    %base_h2 {
-		@extend %base_heading_space;
-        @include font-size($type-h2-size, $h2-lh);
-    }
-    %base_h3 {
-		@extend %base_heading_space;
-        @include font-size($type-h3-size, $h3-lh);
-    }
-    %base_h4 {
-		@extend %base_heading_space;
-        @include font-size($type-h4-size, $h4-lh);
-    }
-    %base_h5 {
-		@extend %base_heading_space;
-        @include font-size($type-h5-size, $h5-lh);
-    }
-    %base_h6 {
-		@extend %base_heading_space;
-        @include font-size($type-h6-size, $h6-lh);
-    }
 
-    h1 {
-        @extend %base_h1;
-    }
-    h2 {
-        @extend %base_h2;
-    }
-    h3 {
-        @extend %base_h3;
-    }
-    h4 {
-        @extend %base_h4;
-    }
-    h5 {
-        @extend %base_h5;
-    }
-    h6 {
-        @extend %base_h6;
-    }
-
-}@else {
-	@include headings-scale($scale-ratio);
+%base_h1 {
+	@extend %base_heading_space;
+    @include font-size($type-h1-size, $h1-lh);
+}
+%base_h2 {
+	@extend %base_heading_space;
+    @include font-size($type-h2-size, $h2-lh);
+}
+%base_h3 {
+	@extend %base_heading_space;
+    @include font-size($type-h3-size, $h3-lh);
+}
+%base_h4 {
+	@extend %base_heading_space;
+    @include font-size($type-h4-size, $h4-lh);
+}
+%base_h5 {
+	@extend %base_heading_space;
+    @include font-size($type-h5-size, $h5-lh);
+}
+%base_h6 {
+	@extend %base_heading_space;
+    @include font-size($type-h6-size, $h6-lh);
 }
 
 
@@ -65,9 +60,19 @@
     }
 }
 
-//-------------------------------
-//    $PARAGRAPHS
-//-------------------------------
+/* SG
+# Typography/Body copy
+
+The default font size for all typography is #{$base-font-size} with line-height of #{$base-line-height}(#{$type-base-ratio}). This is applied to the body and all paragraphs. `<p>` tags all receive a bottom margin of #{$type-base-unit}.
+
+```html_example
+<p>Example</p>
+<p>Aenean lacinia bibendum nulla sed consectetur. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. </p>
+<p>Nullam quis risus eget urna mollis ornare vel eu leo. Nulla vitae elit libero, a pharetra augue.</p>
+```
+
+*/
+
 p {
 	@extend %base_type_vertical_rhythm;
 
@@ -83,12 +88,7 @@ p {
 
 small {
 	display: inline-block; //allows for own line-height
-
-	@if $auto-scale-type {
-		@include font-size(modular-scale(-1), true);
-	}@else {
-		@include font-size($type-small-size, $small-lh);
-	}
+	@include font-size($type-small-size, $small-lh);
 }
 
 //
@@ -120,11 +120,11 @@ sup {
 }
 
 sup {
-	top: -0.5em;
+	top: -0.5ex;
 }
 
 sub {
-	bottom: -0.25em;
+	bottom: -0.25ex;
 }
 
 
@@ -198,7 +198,7 @@ q   {
         content: open-quote;
     }
 
-    q:after{
+    q:after {
         content: "”";
         content: close-quote;
     }

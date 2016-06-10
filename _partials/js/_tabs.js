@@ -10,6 +10,9 @@
     }
 }(this, function($) {
 
+    if(!$) {
+		return console.warn('Tabs need jQuery');
+	}
 
     var default_options = {
         "wrapper": {
@@ -26,7 +29,7 @@
         "tabs": {
             "class_string": "tab",
             "active_class": "active",
-            "extra_classes": '',
+            "extra_classes": "",
             "toggle": false,
             "begin": null,
             "animation": {
@@ -38,8 +41,8 @@
             "class_string": "tab_button",
             "active_class": "active",
             "toggle": false,
-            begin: null,
-            animation: {
+            "begin": null,
+            "animation": {
                 easing: "easeInOutCubic",
                 duration: 300
             }
@@ -57,8 +60,8 @@
 
         var $this = this;
 
-            var t = {},
-                element = this; //Scope to this function (prevents polluting the jQuery object)
+        var t = {},
+            element = this; //Scope to this function (prevents polluting the jQuery object)
 
     		t.init = function(user_options, callback, element) {
                 t.scope = element; //Create scope based on element
@@ -229,8 +232,7 @@
                     $this = $(this);
 
                     //Don't perform on previously tabbed items
-                    if ($this
-                        .children(t.buttons_class)
+                    if ($this.children(t.buttons_class)
                         .hasClass(t.buttons_active) !== true
                     ){
                         t.current_item = $this.children(t.buttons_class).first();
@@ -489,9 +491,11 @@
             t.add_aria_roles = function() {
 
                 var hash = "";
+                var $tabs_and_buttons = $(t.buttons_class+','+t.tabs_class);
 
-                $(t.buttons_class+','+t.tabs_class).each(function(){
+                $tabs_and_buttons.each(function(){
                     $this = $(this);
+
                     if ($this.attr('aria-controls') !== undefined &&
                         $this.attr('role') !== undefined){
 
