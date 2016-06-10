@@ -1,6 +1,6 @@
 .wrap {
 	margin: 0 auto;
-	max-width: 1350px;
+	max-width: $max-site-width;
 	display: block !important;
     float: none;
 	@extend %clearfix;
@@ -16,7 +16,8 @@
 .hero {
 	display: table;
 	width: 100%;
-	min-height: 50vh;
+	height: 80vh;
+	@include type-space(max-height, 27.75);
 	background-size: cover;
 	color: #fff;
 	position: relative;

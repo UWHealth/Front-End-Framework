@@ -1,20 +1,29 @@
 @charset "UTF-8";
 
 /* SG
-# Main [[dev]]
-/main.scss
+# Imports [[dev]]
 
-Imports all Sass files in order from lowest specificity to highest.
-1.  (globals) global functions
-2.  (globals) Settings
-3.  (globals) default variables
-4.  (tools) general-use mixins and sass utilities
-5.  (generic) normalize/reset styles
-6.  (base) element styles
-7.  (layout) basic layout and object styles
-8.  (components) module and component styles
-9.  (Sections) view- and page-specific and scoped styles.
-10. (Overrides) utility styles, usually end in `!important`
+@file main.scss
+
+Sass files are imported in order from lowest specificity to highest.
+1. `/globals`
+  * Functions
+  * Settings
+  * System variables and defaults
+2. `/globals/tools`
+  * General-use mixins and sass utilities
+3. `base/generic`
+  * Normalize/reset styles (unclassed)
+4. `/base`
+  * Element styles (unclassed)
+5. `/layout`
+  * Basic layout and object styles (single-class)
+6. `/components`
+  * Module and component styles (single- and child-classes)
+7. `/sections`
+  * View- and page-specific and scoped styles (typically `parent > child` classes).
+8. `/overrides`
+  * Utility styles, usually end in `!important`.
 
 */
 
@@ -24,14 +33,29 @@ Imports all Sass files in order from lowest specificity to highest.
 //-----------------------------
 
 //Global functions and variables
-@import 'globals/gl-import';
+@import 'globals/tools/t-easings';
+@import 'globals/gl-blendmodes';
+@import 'globals/gl-functions';
+@import 'globals/gl-color-functions';
 
-//Settings/Default variables
-@import 'globals/config';
+//Settings
+@import 'config';
+
+//Default variables
 @import 'globals/gl-defaults';
 
-//Utility placeholder classes and mixins
-@import 'globals/tools/t-import';
+//Utility mixins
+@import 'globals/tools/t-fontface';
+@import 'globals/tools/t-media-queries';
+@import 'globals/tools/t-mixins';
+@import 'globals/tools/t-zindex';
+
+//Utility placeholder classes
+@import 'globals/tools/t-alignment';
+@import 'globals/tools/t-display';
+@import 'globals/tools/t-grid-system';
+@import 'globals/tools/t-spacing';
+@import 'globals/tools/t-type';
 
 
 //----------------------------
@@ -42,24 +66,42 @@ Imports all Sass files in order from lowest specificity to highest.
 //Ground-zero styles
 //(normalize and resets, * selectors)
 // !!Do not use extends here!!
-@import 'base/generic/gn-import';
+@import 'base/generic/gn-resets';
+@import 'base/generic/gn-sanitize';
 
 //Elements and un-classed selectors
 // (lowest specificity)
-@import 'base/b-import';
+@import 'base/b-silents';
+@import 'base/b-forms';
+@import 'base/b-lists';
+@import 'base/b-tables';
+@import 'base/b-type';
 
 //Grids, alignment and higher-level classes
 // (+1 specificity)
-@import 'components/layout/l-import';
+@import 'layout/l-composition';
+@import 'layout/l-grid';
 
 //OOCSS styles and base-level classes
 // (+1 specificity)
-@import 'components/c-import';
+@import 'components/c-silents';
+@import 'components/c-buttons';
+@import 'components/c-headings';
+@import 'components/c-lists';
+@import 'components/c-media-object';
+@import 'components/c-tables';
+@import 'components/c-tabs';
+
+//vendor components
+@import 'components/vendor/slick'; //Slider import
 
 //Section-specific and theme-/skin-based styles
 //(+2-4 specificity)
-@import 'sections/s-import';
+@import 'sections/s-editor';
+@import 'sections/s-page';
 
 //High-specificity css and overrides classes (usually have !important).
 // Typically single-use classes
-@import 'overrides/ov-import';
+@import 'overrides/ov-polyfills';
+@import 'overrides/ov-overrides';
+@import 'overrides/ov-debug';

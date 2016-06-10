@@ -26,37 +26,38 @@ The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilite
 {
 	$classtype: if($silent, unquote('%'), unquote("."));
 	$important_str: if($important, unquote('!important'), '');
+    $prefix: "#{$classtype}#{$namespace}";
 
-	#{$classtype}#{$namespace}align_left
+	#{$prefix}align_left
 	{
 		float: left #{$important_str};
 		@include type-space(margin-right, 1);
 	}
-	#{$classtype}#{$namespace}align_right
+	#{$prefix}align_right
 	{
 		float: right #{$important_str};
 		@include type-space(margin-left, 1);
 	}
-	#{$classtype}#{$namespace}align_center
+	#{$prefix}align_center
 	{
 		float: none #{$important_str};
 		margin: 0 auto #{$important_str};
 		display: block #{$important_str};
 	}
-	#{$classtype}#{$namespace}align_none
+	#{$prefix}align_none
 	{
 		float: none #{$important_str};
 		margin: 0 #{$important_str};
 	}
-	#{$classtype}#{$namespace}float_left
+	#{$prefix}float_left
 	{
 		float: left #{$important_str};
 	}
-	#{$classtype}#{$namespace}float_right
+	#{$prefix}float_right
 	{
 		float: right #{$important_str};
 	}
-	#{$classtype}#{$namespace}float_none
+	#{$prefix}float_none
 	{
 		float: none #{$important_str};
 	}

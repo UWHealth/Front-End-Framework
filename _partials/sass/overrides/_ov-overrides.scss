@@ -51,8 +51,8 @@
 //
 // Clear fix. Add @extend %clearfix or @extend %cf to any element that needs self-clearing.
 //
-%clearfix,
-%cf {
+%cf,
+%clearfix {
 	*zoom: 1;
 
 	&:before,

@@ -5,13 +5,15 @@
 /* SG
 # Tools/Font Face Generator [[dev]]
 
-globals/tools/_t-fontface.scss
+@file globals/tools/_t-fontface.scss
 
 ##### `@fonts()`
-###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`))
+###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`)
 A wrapper function for `@font-face()`. Takes global configuration variables and passes them to `@font-face()`. Loops through each `$name` based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files. Formats these variables so they can be passed to `@font-face()`.
 
 Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: 'arial'; font-weight: 400.
+
+@requires `@font-face()`
 
 ##### `@font-face()`
 ###### mixin(`$name`, `$font-files`, `$weight:false`,` $style:false`, `$eot:false`)
@@ -25,36 +27,7 @@ $name is required, arbitrary, and what you will use in font stacks.
 
 Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/css3/font_face/).
 
-
 */
-
-//------------------------------------
-//    $VARIABLES
-//------------------------------------
-//The following are stored in utilities/_variables.scss
-
-//$use-web-fonts: 			true     !default;
-//	Set to true or false. This will initialize the font-face import process.
-
-//$font-file-location: 	    'fonts'  !default;'
-//	Folder location, relative to the processed css file.
-
-//$font-file-name: 		    'Asap' 	 !default;
-//	Beginning of the font-file name. This will also be used as the fontname.
-//  May be a list of names if you plan to include more than one font.
-//  Font files should be named in the format: [Font name]-[weight]-[style].ttf
-//	e.g. Asap-400-italic.tff
-
-//$font-italics: 			true  	 !default;
-//	Does your font-family include italics?
-// 	May be a list for secondary fonts and weights. e.g. true, (false, true)
-
-//$font-weights: 			400,700  !default;
-//  List of font-weights.
-//  May be a multi-tiered list. e.g. (400,700),(400)
-
-//$font-include-eot: 		true 	 !default;
-//	Include IE8 font fix? (requires a .eot font-file)
 
 
 //------------------------------------
@@ -130,7 +103,7 @@ Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/c
 			$font-eot: false;
 			$font-woff2: null;
 			$svg-id: ('##{$name}#{$weight}');		//[2]
-			$font-name: #{$path}/#{$name}-#{$weight};		//[3]
+			$font-name: #{$path}/#{unquote($name)}-#{$weight};		//[3]
 
 			$font-files: (
 				'url("#{$font-name}.woff") format("woff")',
@@ -138,29 +111,29 @@ Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/c
 				'url("#{$font-name}.svg#{$svg-id}") format("svg")'
 			);
 
-			@if length($font-include-woff2) > 1{
+			@if length($font-include-woff2) > 1 {
 				@if nth($font-include-woff2, $fontface-loop) == true {
 					$font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
 				}
-			}@else if $font-include-woff2 == true{
+			}@else if $font-include-woff2 == true {
 				$font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
 			}
 
-			@if length($font-include-eot) > 1{
+			@if length($font-include-eot) > 1 {
 				@if nth($font-include-eot, $fontface-loop) {
 					$font-eot: '#{$font-name}.eot';	//[4]
 				}
-			}@else if $font-include-eot == true{
+			}@else if $font-include-eot == true {
 				$font-eot: '#{$font-name}.eot';		//[4]
 			}
 
 			@include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
 
 			$italic: nth($italics, $fontface-loop);
-			@if length($italic) > 1{
+			@if length($italic) > 1 {
 				$italic: nth($italic, index($weight-group, $weight));
 			}
-			@if $italic == true{		//[6]
+			@if $italic == true {		//[6]
 				$svg-id: ('##{$name}#{$weight}italic');
 
 				$font-files: (
@@ -169,7 +142,7 @@ Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/c
 					unquote("url('#{$font-name}-italic.svg#{$svg-id}') format('svg')")
 				);
 
-				@if length($font-include-woff2) > 1{
+				@if length($font-include-woff2) > 1 {
 					@if nth($font-include-woff2, $fontface-loop) == true {
 						$font-files: join(unquote('url("#{$font-name}-italic.woff2") format("woff2")'), $font-files);
 					}
@@ -177,11 +150,11 @@ Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/c
 					$font-files: join('url("#{$font-name}-italic.woff2") format("woff2")', $font-files);
 				}
 
-				@if length($font-include-eot) > 1{
+				@if length($font-include-eot) > 1 {
 					@if nth($font-include-eot, $fontface-loop) {
 						$font-eot: '#{$font-name}-italic.eot';	//[4]
 					}
-				}@else if $font-include-eot == true{
+				}@else if $font-include-eot == true {
 					$font-eot: '#{$font-name}-italic.eot';		//[4]
 				}
 

@@ -1,8 +1,8 @@
 .box {
     @extend %grid_reset;
 	@extend %clearfix;
-    @extend %pad;
-    @extend %space_b;
+    @include type-space(padding, 1);
+    @include type-space(margin-bottom, 1);
 
     > :last-child {
     	margin-bottom: 0;
@@ -10,7 +10,8 @@
 }
 
 .box_open {
-	@extend %pad_h_n;
+    padding-left: 0;
+    padding-right: 0;
 	border-width: 1px;
 	border-style: solid;
     border-top-color: color(bg, dark);
@@ -35,7 +36,7 @@
 		@include type-space(max-height, 5);
 	}
 
-	& .body {
+	& .box_body {
         @include type-space(padding, .5 .5 0);
         display: block;
 		position: absolute;

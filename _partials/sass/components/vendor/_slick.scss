@@ -211,7 +211,7 @@ display: none;
 
 .slick-dots {
     position: absolute;
-    @include rems(bottom, -($type-magic-number));
+    @include rems(bottom, -($type-base-unit));
     list-style: none;
     display: block;
     text-align: center;

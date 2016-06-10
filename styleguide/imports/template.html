@@ -10,28 +10,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{customVars.pageTitle}}</title>
     <script src="../js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    <link rel="stylesheet" href="../css/main.css" media="screen">
-    {{> theme}}
+    <link rel="stylesheet" href="../css/main.min.css" media="screen">
     {{> highlight}}
+    {{> theme}}
+    <!--JQuery-->
+    <!--[if lte IE 9]>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <![endif]-->
+
+    <!--[if gt IE 9]><!-->
+    {{> jquery}}
+    <!--<![endif]-->
 </head>
 <body>
 <main class="styleguide-wrap">
     {{!--Menu--}}
-    <nav id="styleguide-menu">
+    <nav id="styleguide-menu" class="sg-menu">
         <div id="styleguide-menu-wrap">
-        {{#each menus}}
-        {{#eachProperty this}}
+            <h1 class="sg-logo h5 space_0"><a href="#" class="sectionlink show_all menu_link">Front-End Framework</a></h1>
+            {{#each menus}}
+            {{#eachProperty this}}
             <ul class="top_menu">
                 <li>
                     <a href="#{{key}}" class="sectionlink show_all menu_link">{{titleize key}}</a>
-                    <span class="submenu_toggle toggle_active" data-toggle="#sub-{{key}}" data-toggle-type="slide">&#9662;</span>
+                    <span class="topmenu_toggle submenu_toggle toggle_active" data-toggle="#sub-{{key}}" data-toggle-type="slide">&#9662;</span>
                 </li>
             </ul>
             <ul id="sub-{{key}}" class="menu_body">
-            {{#eachProperty value}}
-                <li>
+                {{#eachProperty value}}
                 {{#with value}}
-                {{#if headings.1.name}}
+                <li>
+                    {{#if headings.1.name}}
                     <a class="submenulink menulink_with_subs" href="#{{sanitize headings.0.id}}">{{name}}</a>
                     <span class="submenu_toggle"
                         data-toggle="[data-submenu='{{headings.0.name}}']"data-toggle-type="slide">&#9662;</span>
@@ -42,193 +51,187 @@
                         </li>
                     {{/each}}
                     </ul>
-                {{else}}
+                    {{else}}
                     <a class="sectionlink menu_link" href="#{{sanitize headings.0.id}}">{{name}}</a>
-                {{/if}}
+                    {{/if}}
                 </li>
                 {{/with}}
-            {{/eachProperty}}
+                {{/eachProperty}}
             </ul>
-        {{/eachProperty}}
-        {{/each}}
-        <div class="top_menu">
-            <a href="#" class="sectionlink show_all menu_link">Show All</a>
-        </div>
+            {{/eachProperty}}
+            {{/each}}
         </div>
     </nav>
 
     {{!--SECTIONS--}}
-    <section id="styleguide">
+    <main id="styleguide">
         <div class="wrap">
-        {{#if sections}}
+        {{#each sections}}
+            <section id="{{@key}}" class="sg-section {{@key}}-section" data-section="{{@key}}">
+                <div class="sg-article sg-section_start">
+                    <h1 class="sg-heading sg-heading-section h3">{{titleize @key}}</h1>
+                </div>
+                {{#each this}}
 
-        <div id="styles" class="section_container style_sections" data-section="style styles">
-            <header class="section section_starter">
-                <h1 class="h3">Styles</h1>
-            </header>
-        	{{#each sections}}
-        		<article class="section" id="{{sanitize id}}" data-section="{{sanitize section}}" data-heading="{{sanitize heading}}">
-                    <header class="section_header">
-                    {{#unless isSubsection}}
-                        <h1 class="h4 header_heading">{{section}}</h1>
-                    {{else}}
-                        <h1 class="h6 header_subheading">{{section}}</h1>
-                        <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
-                    {{/unless}}
+                <div class="sg-category">
+                    {{#if articles.[1]}} {{!--Check for more than one article --}}
+                    <header class="sg-article sg-category_header" data-section="{{sanitize name}}">
+                        <h2 class="sg-heading-category h4">
+                            {{name}}
+                        </h2>
                     </header>
-                    <div class="section_comment">
+                    {{/if}}
+                {{#each articles}}
+                <article class="sg-article" id="{{sanitize id}}" data-section="{{sanitize category}}" data-heading="{{sanitize heading}}">
+                    <header class="sg-article_header pad_b{{#unless heading}} sg-category_header{{/unless}}">
+                        <h3 class="sg-heading sg-heading-article h4">
+                            {{~#if heading~}}
+                                {{heading}}
+                            {{else}}
+                                {{category}}
+                            {{~/if~}}
+                        </h3>
+                        {{~#if isDevelopment~}}
+                            <code class="sg-codespan">{{fileLocation}}</code>
+                        {{~/if}}
+                    </header>
+
+                    <div class="sg-article_comment">
                         {{{comment}}}
                     </div>
                     {{#if code}}
-                    <div class="section_body">
-                        <div class="result">
-                            {{{code}}}
-                        </div>
+                    <div class="sg-article_example">
+                        {{#each code}}
+                        <div class="sg-result">{{{this}}}</div>
+                        {{/each}}
                     {{/if}}
-                    {{#if markup}}
-                        <div class="markup hljs">
-                            <pre><code>{{{markup}}}</code></pre>
+                    {{~#if markup~}}
+                        {{#each markup}}
+                        <div class="sg-article_markup sg-markup hljs">
+                            <pre class="sg-markup_wrap"><code>{{{this}}}</code></pre>
                         </div>
+                        {{/each}}
                     </div>
-                    {{/if}}
-        		</article>
-        	{{/each}}
+                    {{~/if}}
+                </article>
+                {{/each}}
+                </div>
+                {{~/each}}
+            </section>
+        {{~/each}}
         </div>
-        {{/if}}
+    </main>
 
-        {{#if developmentSections}}
-        <div id="development" class="section_container dev_sections" data-section="styleguide-dev">
-            <header class="section section_starter">
-                <h1 class="h3">Development</h1>
-            </header>
-            {{#each developmentSections}}
-        		<article class="section" id="{{sanitize id}}" data-section="{{sanitize section}}" data-heading="{{sanitize heading}}">
-                    <header class="section_header">
-                    {{#unless isSubsection}}
-                        <h1 class="h4 header_heading">{{section}}</h1>
-                    {{else}}
-                        <h1 class="h6 header_subheading">{{section}}</h1>
-                        <h2 class="h4 space_t_neg header_heading">{{heading}}</h2>
-                    {{/unless}}
-                    </header>
-                    <div class="section_comment">
-                        {{{comment}}}
-                    </div>
-                    {{#if code}}
-                    <div class="section_body">
-                        <div class="result">
-                            {{{code}}}
-                        </div>
-                    {{/if}}
-                    {{#if markup}}
-                        <div class="markup hljs">
-                            <pre><code>{{{markup}}}</code></pre>
-                        </div>
-                    </div>
-                    {{/if}}
-        		</article>
-        	{{/each}}
-        </div>
-        {{/if}}
-    </div>
-    </section>
-</main>
-<!--JQuery-->
-<!--[if lte IE 8]>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<![endif]-->
-
-<!--[if gt IE 8]><!-->
-{{> jquery}}
-<!--<![endif]-->
+{{!--Custom Script includes--}}
 
 {{#each customVars.scripts}}
     <script src="{{this}}"></script>
 {{/each}}
 
-<script type="text/javascript">
-    //Tab functions
-    $(function() {
-        $("body").tabbed({
-            wrapper: {
-                element: "section",
-                "class_string": "tabbed",
-                extra_classes: ""
-            },
-            tabs: {
-                animation: {
-                    opacity: [1, 0],
-                    duration: 400
-                },
-                active_class: 'active'
-            }
-        });
-
-        $('#styleguide-menu-wrap').stick_in_parent();
-    });
-
+<script>
     // Style Guide-specific functions
-    // Show and hide sections
     $(function() {
+
+        //Sticky left menu
+        $('#styleguide-menu-wrap').stick_in_parent();
+        $('.sg-category_header').stick_in_parent();
+        $('.sg-article_header').stick_in_parent({
+            bottoming: true
+            }).on('sticky_kit:bottom', function(){
+                $(this).addClass('is_stuck_bottom');
+            }).on('sticky_kit:unbottom sticky_kit:stick sticky_kit:unstick', function(){
+                $(this).removeClass('is_stuck_bottom');
+            });
+        $('.is_stuck_bottom').removeClass('is_stuck_bottom');
+
         var History = window.History;
         var $menu = $("#styleguide-menu");
-        var $sections = $('#styleguide .section');
+        var $sections = $('#styleguide .sg-article');
         var Title = document.title;
 
+        // Show and hide sections
         $sections.hide();
 
-        var updateMenu = function(state) {
-            var $menuItem = $menu.find('a[href="#'+state+'"]').not('.toggle');
+        function updateMenu(sectionID) {
+            var $menuItem = $menu.find('a[href="'+sectionID+'"]').not('.toggle');
             $menu.find('a.on').removeClass('on');
             $menuItem.addClass('on');
 
+            var $parentToggle = $menuItem.closest('.submenu').prev();
+
+            //Toggle other menu accordions off
+            $('.toggle_active').not($parentToggle).not('.topmenu_toggle').trigger('click');
+
+            //Make sure top menu clicks "sink" down to their first menu item
             if ($menuItem.hasClass('menulink_with_subs')){
                 $menuItem.closest('.submenu').siblings('.submenulink').addClass('on')
                 .siblings('.submenu_toggle').not('.toggle_active').trigger('click');
+
+            }else if($menuItem.hasClass('sub-sub')){
+
+                $menuItem.closest('ul').siblings('.submenu_toggle').not('.toggle_active').trigger('click');
+
             }
         };
 
-        var updateContent = function(state, hash){
-            var sectionID = "#"+state;
+        function updateContent(state, hash){
+            if (state.indexOf('heading-_') > -1 ){
+                var $heading = $("#"+state);
+                var sectionID = $heading.closest('.sg-article').attr('id');
+                sectionID = "#" + sectionID;
+            }else {
+                var sectionID = "#"+state;
+            }
+
             try {
                 var $section = $('#styleguide').find(sectionID);
                 var dataSection = "[data-section='"+$section.data('section')+"']";
+                var $scrollTo = $heading ? $heading : $section;
 
                     $sections.hide();
                     //show all articles of the same sections
                     $(dataSection).show();
 
                     //Handle section containers
-                    $section.children($sections).show()
+                    $section.find($sections).show()
                         $('html, body').animate({
-                            scrollTop: $section.offset().top
+                            scrollTop: Math.max(0, ($scrollTo.offset().top - 65))
                         }, 200);
+
+                updateMenu(sectionID);
 
             }catch(err){
                 //Just show all sections if section doesn't exist
                 $sections.show();
+                console.log(err);
             }
+
+            $('.is_stuck_bottom').removeClass('is_stuck_bottom');
         };
 
-        var getState = function(e){
+        function getState(e) {
             var state = History.getState();
             if (window.location.pathname == state.hash) {
                 $sections.show();
             }else{
                 var replacement = window.location.pathname + '?section=';
-                var saneState = state["hash"].replace(replacement,"");
-                saneState = saneState.replace("&_suid="+state.id, "");
-                updateMenu(saneState);
+                var saneState = state["hash"]
+                    .replace(replacement,"")
+                    .replace("&_suid="+state.id, "");
                 updateContent(saneState);
             }
         }
-
+        $(window).on('hashchange', function(e) {
+            e.preventDefault();
+        });
         //On hashchange
-        $(window).on('hashchange', function(e){
+        $(window).on('hashchange', function(e) {
             var winHash = window.location.hash;
             var winState = winHash.replace("#", "");
             var stated = "?section=" + winState;
-            History.pushState(null, Title, stated);
+
+            History.replaceState(null, Title, stated);
+
             return false;
         });
 
@@ -239,6 +242,20 @@
 
         //Get state of document on load
         getState();
+
+        //Wrap code references in links
+        $('.global').each(function(i){
+          if (!($(this).parent().hasClass('sg-heading'))){
+            var id = $(this).data('code-id');
+                id = "_"+id+"_";
+
+            if($('#heading-'+id).length > 0) {
+            	var aWrapper = '<a class="code_reference" href="#heading-'+id+'"></a>';
+            	$(this).wrap(aWrapper);
+            }
+          }
+        });
+
 
     });
 </script>

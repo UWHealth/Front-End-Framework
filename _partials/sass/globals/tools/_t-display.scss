@@ -5,7 +5,7 @@
 /* SG
 # Tools/Display Utilities [[dev]]
 
-globals/tools/_t-display.scss
+@file globals/tools/_t-display.scss
 
 ##### `@display-utilities()`
 ###### mixin(`$namespace`:"", `$silent`:false, `$important`:true, `$class-list`:`$$display-classes`)
@@ -69,7 +69,7 @@ $silent-display-classes: map-extend($display-classes, $default-display-classes, 
 
 		//Keep track of display values so we can extend if necessary
 		@if index($display-registry, "#{$display}") != null {
-			@if $silent and $silent-class-debug {
+			@if $silent and $debug-silent-classes {
 				$class-name-list:map-merge($class-name-list,($display-class:$display));
 			}
 
@@ -80,7 +80,7 @@ $silent-display-classes: map-extend($display-classes, $default-display-classes, 
 	}
 
 	//Register silent class names for debugging
-	@if $silent and $silent-class-debug {
+	@if $silent and $debug-silent-classes {
 		$silent-class-registry: silents-register($class-name-list, 'display') !global;
 	}
 }

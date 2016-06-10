@@ -1,24 +1,33 @@
-//------------------------------------
-//      $MIXINS
-//------------------------------------
-
 /* SG
-# Tools/Mixins [[dev]]
 
-globals/tools/_t-mixins.scss
+# Mixins/CSS Helpers [[dev]]
+
+@file globals/tools/_t-mixins.scss
 
 ##### `@specificity()`
-###### mixin(`$increase`: 1)
-Specificity increaser. Useful for increasing specificity of a selector instead of using !important
+###### mixin(`$specificity: 1`)
+Specificity increaser. Useful for increasing specificity of a selector instead of using `!important`.
+```scss
+.class {
+    @include specificity(2) {
+        color: red;
+    }
+}
 
+//css
+.class.class {
+    color: red;
+}
+
+```
 [Reference](http://www.sitepoint.com/selector-specificity-css-preprocessors/)
 
 
 ##### `@opacity()`
 ###### mixin(`$opacity`)
 Cross-browser (including IE8-) opacity.
-
 [Reference](https://gist.github.com/jgv/745754)
+
 
 ##### `@border()`
 ###### mixin(`$border`)
@@ -38,80 +47,18 @@ Allows creating many border properties at once. Works like the standard border s
 }
 
 ```
-
-##### `@button()`
-###### mixin(`$bg-color`: `color('links')`, `$text-color`: `null`, `$border`: `null`, `$radius`: `null`, `$text-radius`: `null`, `$style`: `null`, `$inset`: `false`)
-Generates common button styles, allowing for simple creation of more complex gradient styles. Intelligently excludes unnecessary styles from states like hover, focus, and active. _Does not generate hover, focus, or active psuedo selectors on its own._
-
-**Accepted arguments:**
-
-* `$bg-color`: Color values. This cannot accept null.
-* `$text-color`: Color or null (null will let the mixin decide the best color based on contrast).
-* `$border`: Any border properties (colors, styles, widths) or `null`. Uses the `@border()` mixin.
-* `$radius`: `border-radius` values. `null` produces no border-radius property.
-* `$style`: `null`, `shiny` or `reflective`.
-   `shiny` creates a simple gradient backgroud based on the `$bg-color`.
-   `reflective` creates a stacked gradient based on the `$bg-color`.
-* `$inset`: Boolean. `True` adds a dark box-shadow inset.
-   If combined with 'shiny' or 'reflective' `$style`, background gradients are inverted.
-
-##### `@px-to-rems()`, `@rems()`
-###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
-`REM` generator used to create a property with a `rem` value and `px` fallback.
-
-
-##### `@font-size()`, `@type-font-size()`
-###### mixin(`$font-size`, `$line-height`: `true`, `$font-base`: `$$base-font-size`)
-Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
-
-_`$line-height` also accepts a pixel value and will be converted to a unitless line-height._
-
-
-##### `@type-space()`
-###### mixin(`$properties`, `$multipliers...`, `important`:false)
-Output REM values using the typographic grid. This is the prefered method of adding padding and margins because it enforces consistent spacing around all elements.
-
-**Arguments:**
-* `$properties`: Can be any `CSS` property that accepts a length value (e.g. `rem`). Also accepts multiple properties as a nested list (e.g. `(padding-left, padding-right)`).
-* `$multipliers`: Accepts unitless values that get converted to `rem` units which are a multiple of the typographic grid. Can be multiple values, **separated by spaces**, in the case of `margin` or `padding`.
-* `important`: Accepts `true` or `!important`.
-
-```scss
-// SCSS input
-
-.foo {
-	@include type-space(padding, 1 .25 .5, '!important');
-}
-
-// CSS output
-.foo {
-	padding: 24px 8px 12px 8px !important;
-	padding: 1.5rem .375rem .75rem .375rem !important;
-}
-```
-
 */
-
-
-//==========================================================================
-// Mixins used for cleaning up and consolodating code
-//==========================================================================
-
-
-//------------------------------------
-//    $HELPERS
-//------------------------------------
 
 // Specificity increaser
 // Useful for increasing specificity of a selector instead of using !important
 //
 // Taken from: http://www.sitepoint.com/selector-specificity-css-preprocessors/
 
-@mixin specificity($increase: 1) {
+@mixin specificity($specificity: 1) {
 	$selector: unquote('&');
 
-	@if $increase > 1 {
-		@for $i from 1 to $increase {
+	@if $specificity > 1 {
+		@for $i from 1 to $specificity {
 			$selector: $selector + unquote('&');
 		}
 		@at-root #{$selector} {
@@ -177,11 +124,28 @@ Output REM values using the typographic grid. This is the prefered method of add
 	}
 }
 
+/* SG
 
+# Mixins/Buttons [[dev]]
 
-//------------------------------------
-//    $BUTTONS
-//------------------------------------
+@file globals/tools/_t-mixins.scss
+
+##### `@button()`
+###### mixin(`$bg-color`: `color('links')`, `$text-color`: `null`, `$border`: `null`, `$radius`: `null`, `$text-radius`: `null`, `$style`: `null`, `$inset`: `false`)
+Generates common button styles, allowing for simple creation of more complex gradient styles. Intelligently excludes unnecessary styles from states like hover, focus, and active. _Does not generate hover, focus, or active psuedo selectors on its own._
+
+**Accepted arguments**
+* `$bg-color`: Color values. This cannot accept null.
+* `$text-color`: Color or null (null will let the mixin decide the best color based on contrast).
+* `$border`: Any border properties (colors, styles, widths) or `null`. Uses the `@border()` mixin.
+* `$radius`: `border-radius` values. `null` produces no border-radius property.
+* `$style`: `null`, `shiny` or `reflective`.
+   `shiny` creates a simple gradient backgroud based on the `$bg-color`.
+   `reflective` creates a stacked gradient based on the `$bg-color`.
+* `$inset`: Boolean. `True` adds a dark box-shadow inset.
+   If combined with 'shiny' or 'reflective' `$style`, background gradients are inverted.
+
+*/
 
 @mixin button(
     $bg-color: color('links'),
@@ -248,13 +212,21 @@ Output REM values using the typographic grid. This is the prefered method of add
     }
 }
 
-//------------------------------------
-//    $TYPOGRAPHY
-//------------------------------------
+/* SG
+# Mixins/Typography [[dev]]
+
+@file globals/tools/_t-mixins.scss
+
+##### `@px-to-rems()`
+###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
+Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fallback` is `true`, a pixel fallback is also included.
+@alias `@rems()`
+
+*/
 
 // REM generator
 // Used to create a property with a rem value and PX fallback
-@mixin rems($property, $sizes, $important: false, $base-font: $base-font-size) {
+@mixin px-to-rems($property, $sizes, $important: false, $base-font: $base-font-size) {
 	$important_val: '';
 	$rem_sizes: null;
 	$px_sizes: null;
@@ -289,20 +261,24 @@ Output REM values using the typographic grid. This is the prefered method of add
 }
 
 //ALIAS: same as above
-@mixin px-to-rems($property, $sizes, $important:false, $base-font: $base-font-size){
-	@include rems($property, $sizes, $important, $base-font);
+@mixin rems($property, $sizes, $important:false, $base-font: $base-font-size){
+	@include px-to-rems($property, $sizes, $important, $base-font);
 }
 
-// Quickly generate a font-size in rems, with a pixel fallback, based on the
-// value we pass into the mixin, e.g.:
-// h1 {
-//     @include type-font-size(24px);
-// }
-// 1. Set the base element’s `font-size` to the value of your choosing. Set in
-//    rems, assuming a browser default of 16px.
-// 2. Work out the unitless `line-height` for your project based around your
-//    desired `line-height` (defined previously in pixels), and your project’s
-//    base font size.
+
+/* SG
+# Mixins/Typography [[dev]]
+
+##### `@type-font-size()`
+###### mixin(`$font-size, $line-height: true, $font-base:``$$base-font-size`)
+Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
+
+_`$line-height` also accepts a pixel value and will be converted to a unitless one._
+
+@alias `@font-size()`
+@requires `@px-to-rems()`, `cache()`, `baseline-calc()`
+
+*/
 
 @mixin type-font-size (
 		$font-size,
@@ -314,7 +290,7 @@ Output REM values using the typographic grid. This is the prefered method of add
 		@debug "font-size: #{$font-size}, line-height: #{$line-height}, type: #{type-of($line-height)}";
 	}
 	//Create REM-based font-size
-	@include rems(font-size, $font-size);
+	@include px-to-rems(font-size, $font-size);
 
 	@if $line-height == true {
 
@@ -336,76 +312,71 @@ Output REM values using the typographic grid. This is the prefered method of add
 
 	}
 }
-//AlIAS
-@mixin font-size(
-	$font-size,
-	$line-height: true,
-	$font-base: $base-font-size,
-	$debug: false
-){
+//Alias
+@mixin font-size($font-size, $line-height:true,$font-base: $base-font-size,$debug: false){
 	@include type-font-size($font-size, $line-height, $font-base, $debug);
 }
 
- // Space elements by an amount based on line-height/gutter. Pass in the property
- // to be indented as a paramater and the number of lines to use as an optional paramater, e.g.:
- // pre {
- //     @include type-space(padding-left, 1);
- // }
- // Accepts multiple properties as a nested list.
+/* SG
+# Mixins/Typography [[dev]]
 
-@mixin type-space($properties, $multipliers.../*important*/) {
+##### `@type-space()`
+###### mixin(`$properties, $multipliers, $important: false`)
+Output REM values using the typographic grid. This is the prefered method of adding padding and margins because it enforces consistent spacing around all elements.
 
-	$important: false;
-	$multiplier: nth($multipliers, 1);
-	$m-length: length($multipliers);
+**Arguments:**
+* `$properties`: Can be any `CSS` property that accepts a length value (e.g. `rem`). Also accepts multiple properties as a nested list (e.g. `(padding-left, padding-right)`).
+* `$multipliers`: Accepts unitless values that get converted to `rem` units which are a multiple of the typographic grid. Can be multiple values, **separated by spaces**, in the case of `margin` or `padding`.
+* `$important`: Accepts `true` or `!important`.
 
-	//Check if multiple arguments have been passed
-	@if $m-length > 1 {
-		//If so, see if the last argument is $important
-		$important_check: nth($multipliers, -1);
+**Example**
+```scss
+// SCSS input
+.foo {
+	@include type-space(padding, 1 .25 .5, '!important');
+}
 
-		//If last value is $important, then set the $multiplier and $important accordingly
-		@if (type-of($important_check) == bool)
-		or (type-of($important_check) == string) {
-			@if ($important_check == true)
-			or (index($important_check, 'i') != null)  {
-				$important: true;
-				$multiplier: nth($multipliers, 1);
-			}
-		}
-	}
+// CSS output
+.foo {
+	padding: 24px 8px 12px 8px !important;
+	padding: 1.5rem .375rem .75rem .375rem !important;
+}
+```
 
-	@each $property in $properties {
-		@if length($multiplier) > 1 {
-			$values: null;
+@requires `@px-to-rems()`, `str-contains()`
 
-			@each $multiple in $multiplier {
+*/
 
-				$value: $type-magic-number * $multiple;
-				//If it's the second or fourth value in a list, give it left/right treatment
-				// (multiply by gutter)
-				@if ((index($multiplier, $multiple) % 2) == 0) {
-					$value: $grid-gutter * $multiple;
-				}
-				$values: append($values, $value);
-			}
+@mixin type-space($properties, $multipliers, $important: false) {
 
-			@include rems($property, $values, $important);
+    $multiplier: nth($multipliers, 1);
+    $m-length: length($multipliers);
+    $important: if($important, true, false); //Allow for strings, convert to boolean
 
+    @each $property in $properties {
+    	$values: null;
+    	$multiple-index: 1;
 
-		}@else {
-			//If multiplier is only 1 value, then do expected stuff
-			$value: $type-magic-number * $multiplier;
+    	@each $multiple in $multipliers {
 
-			//if the value is for right or left spacing, use the gutter width for spacing.
-			@if str-contains($property, 'right') or str-contains($property, 'left'){
-				$value: $grid-gutter * $multiplier;
-			}
+    		$value: $type-base-unit * $multiple;
+    		//If value is the second or fourth value in a list,
+            // multiply by the $grid-gutter
+    		@if ($multiple-index % 2 == 0) or
+    		(
+    			str-contains($property, 'right') or
+    			str-contains($property, 'left') or
+    			str-contains($property, 'width')
+    		) {
+    			$value: $grid-gutter * $multiple;
+    		}
+    		$values: append($values, $value);
+    		$multiple-index: $multiple-index + 1;
+    	}
 
-			@include rems($property, $value, $important);
-		}
-	}
+        @include px-to-rems($property, $values, $important);
 
+    }
 }
 
 // Generates Values based on type-scale ($scale-ratio in _config.scss)
@@ -424,67 +395,10 @@ Output REM values using the typographic grid. This is the prefered method of add
 	@else{
 		$scale: modular-scale($mod-scale-value);
 
-		@include rems($property, $scale);
+		@include px-to-rems($property, $scale);
 	}
 }
 
-@mixin headings-scale($scale: $scale-ratio, $name-space:"") {
-	//Checking for floats in $scale
-	@if length($scale) == 2{
-	// Making sure we don't have a ratio below 1.
-		@if nth($scale,1) < nth($scale,2) {
-			$scale:   nth($scale, 2)/nth($scale, 1);
-		}@else {
-			$scale:   nth($scale, 1)/nth($scale, 2);
-		}
-	}
-
-	@each $heading-number in $type-headings {
-
-		$font-size: modular-scale($heading-number, $scale);
-		$current-heading: nth($type-headings,$heading-number);
-
-		%headings_#{$name_space}h#{$current_heading} {
-			@include font-size($font_size, true);
-			@extend %#{$name_space}space_b !optional;
-		}
-
-		h#{$current-heading} {
-			@extend %headings_#{$name_space}h#{$current_heading};
-		}
-
-		@if $type-scale-classes == true {
-			h#{$current-heading},
-			.h#{$current-heading} {
-				+ p{
-					@extend %#{$name-space}space_t_neg !optional;
-				}
-			}
-
-		}@else {
-
-			h#{$current-heading}, %headings_h#{$current-heading}{
-				@include type-font-size($font-size, true);
-
-				+ p{
-					@extend %#{$name-space}space_t_neg !optional;
-				}
-			}
-		}
-	}
-
-	@if $type-scale-classes == true {
-		@each $heading-number in $type-headings{
-			$font-size: modular-scale($heading-number, $scale);
-			$current-heading: nth($type-headings,$heading-number);
-
-			.h#{$current-heading} {
-				@include font-size($font_size, true);
-				@extend %#{$name_space}space_b !optional;
-			}
-		}
-	}
-}
 // Style any number of headings in one fell swoop, e.g.:
 //
 //	@include headings(1, 3){color:#BADA55;}
