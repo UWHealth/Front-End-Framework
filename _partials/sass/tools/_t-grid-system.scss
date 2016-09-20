@@ -128,7 +128,7 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
             $grid-markup-fix != true
             and $grid-floats != true
         ) {
-	        letter-spacing:-0.35em;
+	        letter-spacing:-0.43em;
 	    }
 
 		@if $grid-floats {
@@ -155,8 +155,8 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	//
 	#{$class-type}grid_item {
 	    @if $grid-floats != true {
-	        display:inline-block;              // [1]
-	    }@else{
+	        display: inline-block;             // [1]
+	    }@else {
 	        display: block;
 	        float: left;
 	    }
@@ -170,7 +170,7 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	    @if (
             $grid-markup-fix != true and
             $grid-floats != true
-        ) { //5
+        ) {                                     //[5]
 	        letter-spacing: normal;
 	        word-spacing: normal;
 	    }
@@ -196,11 +196,12 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	        direction: rtl;
 	        text-align: left;
 
-	        #{$class-type}grid_item{
+	        > #{$class-type}grid_item{
 	            direction: ltr;
 	            text-align: left;
 	        }
-	    }@else{
+	    }
+        @else {
 	        > #{$class-type}grid_item{
 	            float: right;
 	            text-align: left;
@@ -219,50 +220,48 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	        > #{$class-type}grid_item {
 	            text-align: left;
 	        }
-	    }@else{
+	    }
+        @else {
 	        float: right;
 	        @extend %clearfix;
 
 	        > #{$class-type}grid_item {
-	        float: right;
+	               float: right;
 	        }
 	    }
 	}
 
+	@if $grid-floats != true {
+        //
+    	// Centered grids align grid items centrally without needing to use push or pull
+    	// classes. Extends `.grid`.
+        //
+    	#{$class-type}grid_center{
+            text-align: center;
 
-	//
-	// Centered grids align grid items centrally without needing to use push or pull
-	// classes. Extends `.grid`.
-	//
-	// Not availabe
-	#{$class-type}grid_center{
-	    @if $grid-floats != true {
-	        text-align:center;
+            > #{$class-type}grid_item {
+                text-align: left;
+            }
+    	}
+        //
+        //
+    	// Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
+    	// `.grid`.
+    	//
+    	#{$class-type}grid_middle{
 
-	        > #{$class-type}grid_item {
-	            text-align:left;
-	        }
-	    }
-	}
+    	    > #{$class-type}grid_item {
+    	        vertical-align: middle;
+    	    }
+    	}
 
+    	#{$class-type}grid_bottom{
 
-	//
-	// Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
-	// `.grid`.
-	//
-	#{$class-type}grid_middle{
-
-	    > #{$class-type}grid_item {
-	        vertical-align:middle;
-	    }
-	}
-
-	#{$class-type}grid_bottom{
-
-	    > #{$class-type}grid_item {
-	        vertical-align:bottom;
-	    }
-	}
+    	    > #{$class-type}grid_item {
+    	        vertical-align: bottom;
+    	    }
+    	}
+    }
 
 
 	//
@@ -304,6 +303,16 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	        @include type-space(margin-left, 2);
 	    }
 	}
+
+    //
+    // Cause layout items to take up a non-explicit amount of width.
+    //
+    #{$class-type}grid_auto {
+
+        > #{$class-type}grid_item {
+            width: auto;
+        }
+    }
 }
 
 
@@ -312,8 +321,8 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 # Grid System/Mixins [[dev]]
 
 ##### `@grid-width()`
-###### mixin(`$size, $total:` `$$grid-columns`)
-Creates a width property with a percentage based on the `$size / $total`.
+###### mixin(`$columns, $total:` `$$grid-columns`)
+Creates a width property with a percentage based on the `$columns / $total`.
 @requires `grid-size()`, `$$grid-columns`
 
 
@@ -324,17 +333,16 @@ Creates a width property with a percentage based on the `$size / $total`.
 
 */
 
-@mixin grid-width($size, $total:$grid-columns) {
-    width: #{grid-size($size, $total)};
+@mixin grid-width($columns, $total:$grid-columns) {
+    width: #{grid-size($columns, $total)};
 }
 
-@mixin width-setup($namespace:"", $silent: $grid-silent-classes ) {
+@mixin width-setup(
+    $namespace:"",
+    $silent: $grid-silent-classes,
+    $columns: $grid-columns
+) {
 
-    //
-    // Automatic Grids.
-	// @author: Chris Lee, based on css-wizardry grids.
-    // Just FOR REFERENCE: A numerator is the first (top) number in a fraction. The denominator is the second (bottom) number.
-    //
     // [1] Loop through the $grid-columns.
     // [2] Loop through $divisor (same number as $grid-columns). This acts as the second number in our column fraction.
     // [3a]Loop through $divisor before it decreases by 1 from the previous loop.
@@ -346,31 +354,31 @@ Creates a width property with a percentage based on the `$size / $total`.
     // Same system used for pushes and pulls.
 
         $class-type: if($silent, "%", ".");
-        $divisor: $grid-columns;
-		$class-name: "";
+        $divisor: $columns;
 		$class-name-list: ();
         $prefix: "#{$class-type}#{$namespace}";
 
-        @for $i from 1 to $grid-columns {                                          // [1]
+        #{$prefix}one_whole {
+			width: 100%;
+        }
 
-            @while $divisor > 0 {                                                  // [2]
+        @for $i from 1 to $columns {                                              // [1]
 
-                @for $numerator from 1 to $divisor{                                // [3a]
+            @while $divisor > 0 {                                                // [2]
+
+                @for $dividen from 1 to $divisor {                              // [3a]
 					//Create numerator (first number, e.g. 'two').
-                    $numerators: nth($human-readable-numerators, $numerator);      // [4]
+                    $numerator: nth($human-readable-numerators, $dividen);      // [4]
 
-					//Create denominator (second number, e.g. 'twelfths').
+					//Create denominator (second number, e.g. 'thirds').
                     $denominator: nth($human-readable-denominators, $divisor);
 
 					//Divide first number(numerator) by second number(denominator).
-                    $width: cache(grid-size, $numerator, $divisor);
+                    $width: cache(grid-size, $dividen, $divisor);
+                    $class-name: "#{$prefix}#{$numerator}_#{$denominator}";
 
-                    @if $numerator == 1 {                                          // [5]
-
-						$class-name: #{$prefix}#{$numerators}_#{$denominator};
-
-                    }@else{                                                        // [6]
-                        $class-name: #{$prefix}#{$numerators}_#{$denominator}s;
+                    @if $numerator != "one" {                                    // [5]
+						$class-name: "#{$class-name}s";                          // [6]
                     }
 
 					#{$class-name} {
@@ -382,21 +390,23 @@ Creates a width property with a percentage based on the `$size / $total`.
 					}
 
                 }
+
                 $divisor: $divisor - 1; //[3b]
             }
         }
 
-        #{$prefix}one_whole {
-			width:100%; }
-
+        //Allow for fourth instead of quarter
         #{$prefix}one_fourth {
-			@extend #{$prefix}one_quarter; }
+			@extend #{$prefix}one_quarter;
+        }
 
         #{$prefix}two_fourths {
-			@extend #{$prefix}two_quarters; }
+			@extend #{$prefix}two_quarters;
+        }
 
         #{$prefix}three_fourths {
-			@extend #{$prefix}three_quarters; }
+			@extend #{$prefix}three_quarters;
+        }
 
 
 		@if $silent and $debug-silent-classes {
@@ -420,56 +430,54 @@ Outputs left/right percentage values for each grid size. Uses `$$human-readable-
 
  // Push classes, to move grid items over to the right by certain amounts.
 
-@mixin push-pull-setup($namespace: "", $type:"push", $silent: $grid-silent-classes ){
-
-
-    @if $silent != true {
-        [class*="#{$type}_"]{ position: relative; }
-    }
+@mixin push-pull-setup(
+    $namespace: "",
+    $type: "push",
+    $silent: $grid-silent-classes,
+    $columns: $grid-columns
+){
 
     $class-type: if($silent, "%", ".");
-    $divisor: $grid-columns;
+    $divisor: $columns;
     $prefix: "#{$class-type}#{$type}_#{$namespace}";
-    $property: if($type == "push", "left", "right");
-
-    @for $i from 1 to $grid-columns {                                          // [1]
-
-        @while $divisor > 0 {                                                  // [2]
-
-            @for $numerator from 1 to $divisor {                               // [3a]
-                //Create numerator (first number, e.g. 'two').
-                $numerators: nth($human-readable-numerators, $numerator);      // [4]
-
-                //Create denominator (second number, e.g. 'twelfths').
-                $denominator: nth($human-readable-denominators, $divisor);
-
-                //Divide first number(numerator) by second number(denominator).
-                $width: cache(grid-size, $numerator, $divisor);
-
-                @if $numerator == 1 {                                          // [5]
-
-                    #{$prefix}#{$numerators}_#{$denominator} {
-                        #{$property}: $width;
-                        @include silent-relative($silent);
-                    }
-
-                }@else{                                                        // [6]
-
-                    #{$prefix}#{$numerators}_#{$denominator}s {
-                        #{$property}: $width;
-                        @include silent-relative($silent);
-                    }
-
-                }
-            }
-            $divisor: $divisor - 1; //[3b]
-        }
-    }
+    $property: if($type == "push", "left", "right"); //use left for push, right for pull
 
     #{$prefix}one_whole {
 		#{$property}: 100%;
         @include silent-relative($silent);
 	}
+
+    @for $i from 1 to $columns {                                          // [1]
+
+        @while $divisor > 0 {                                                  // [2]
+
+            @for $dividen from 1 to $divisor {                               // [3a]
+                //Create numerator (first number, e.g. 'two').
+                $numerator: nth($human-readable-numerators, $dividen);      // [4]
+
+                //Create denominator (second number, e.g. 'twelfths').
+                $denominator: nth($human-readable-denominators, $divisor);
+
+                //Divide first number(numerator) by second number(denominator).
+                $width: cache(grid-size, $dividen, $divisor);
+
+                $class-name: #{$prefix}#{$numerator}_#{$denominator};
+
+                @if $numerator != "one" {                                          // [5]
+                    $class-name: "#{$class-name}s";                                // [6]
+                }
+
+                #{$class-name} {
+                    #{$property}: $width;
+                    @include silent-relative($silent);
+                }
+
+            }
+
+            $divisor: $divisor - 1; //[3b]
+        }
+    }
+
     #{$prefix}one_fourth {
 		@extend #{$prefix}one_quarter;
 	}
@@ -502,19 +510,23 @@ Creates responsive grid classes by running through all the grid-setup mixins. Us
 	@if $responsive {
 	    @each $name in $breakpoint-has-widths {
 	        @include media-query($name) {
-	           @include width-setup('#{$name}_', $silent);
+	           @include width-setup("#{$name}_", $silent);
 	        }
 	    }
 	}
 
 	@if $grid-push {
 
+        @if $silent != true {
+            [class*="push_"]{ position: relative; }
+        }
+
 	    @include push-pull-setup("", "push", $silent);
 
 	    @if $responsive {
 	        @each $name in $breakpoint-has-push {
 	            @include media-query($name) {
-	               @include push-pull-setup('#{$name}_', "push", $silent);
+	               @include push-pull-setup("#{$name}_", "push", $silent);
 	            }
 	        }
 	    }
@@ -522,12 +534,16 @@ Creates responsive grid classes by running through all the grid-setup mixins. Us
 
 	@if $grid-pull {
 
+        @if $silent != true {
+            [class*="pull_"]{ position: relative; }
+        }
+
 	    @include push-pull-setup("","pull",$silent);
 
 	    @if $responsive {
 	        @each $name in $breakpoint-has-pull {
 	            @include media-query($name) {
-	               @include push-pull-setup('#{$name}_', "pull", $silent);
+	               @include push-pull-setup("#{$name}_", "pull", $silent);
 	            }
 	        }
 	    }

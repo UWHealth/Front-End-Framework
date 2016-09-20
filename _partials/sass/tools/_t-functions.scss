@@ -16,6 +16,7 @@ _NOTE: This can actually **increase** processing time if used too often or on si
 //Caching(memoization) function
 $c-i: 0;
 $cached-values: ();
+
 @function cache($function-name, $args...) {
 	$cache-map: "#{$function-name}, #{$args}";
 	$cached-value: map-get($cached-values, $cache-map);
@@ -49,12 +50,12 @@ Changes percent value to decimal.
 ##### `px-to-vw()`
 ###### function(`$pixels`)
 Converts pixel dimensions to viewport width (vw) dimensions.
-@returns number(vw)
+@returns number (vw)
 
 ##### `px-to-rems()`
 ###### function(`$pixels, $base-font:` `$$base-font-size`)
-Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is used to calculate the value (e.g. if the `body`'s `font-size` is `16px`, then the rem value of `24px` would be `1.5rem`).
-@returns number(rems)
+Function for calculating `rem` values. Used by `@px-to-rems()`. The `$base-size` is used to calculate the value (e.g. if the body's font-size is `16px`, then the rem value of `24px` would be `1.5rem`).
+@returns number (rems)
 @alias rems()
 
 ##### `px-to-ems()`
@@ -90,7 +91,6 @@ Converts a number-like string to a number. Since Sass accepts quoted and non-quo
 
 @function px-to-vw($pixels) {
 	$vw-context: ($max-site-width * .01) * 1px;
-    @debug $vw-context;
 	@return ($pixels/$vw-context) * 1vw;
 }
 
@@ -99,7 +99,7 @@ Converts a number-like string to a number. Since Sass accepts quoted and non-quo
 		$pixels: $pixels * 1px;
 	}
 
-	//If 0, don't include rems
+	//If 0, don't include units
 	@if $pixels == 0px {
 		@return 0;
 	}
@@ -110,7 +110,9 @@ Converts a number-like string to a number. Since Sass accepts quoted and non-quo
 
 }
 //ALIAS: Same as above
-@function rems($pixels, $base-size:$base-font-size) {@return px-to-rems($pixels, $base-size);}
+@function rems($pixels, $base-size:$base-font-size){
+    @return px-to-rems($pixels, $base-size);
+}
 
 //Pixels to em
 @function px-to-ems($pixels, $context: $base-font-size) {
@@ -675,7 +677,7 @@ Aligns a font-size to a baseline (`$baseline`). Returns a unitless value relativ
 ###### function(`$x` , `$accel`: `1`)
 Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`. An `$accel` of 1 is a smooth arc.
 @returns number
-@requires `sqrt()`
+@requires `sqrt()`, `pow()`
 
 
 ##### `baseline-calc()`
@@ -700,17 +702,17 @@ Depends on `baseline()` for calculation and `baseline-curve()` to determine the 
 // $accel changes the severity of the curve. Negative values invert.
 //returns a decimal that cooresponds to the same percentage on the curve
 // Formula:
-// y = (sqrt((x^1)+x)-sqrt(x^1)) / .4142135623730951
+// y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951
 // Visual: https://www.desmos.com/calculator/qswvc6q9kt
 @function baseline-curve($x, $accel:1) {
 	//Cache this exponent since it uses a decimal and requires a lot of computation
 	$x2: cache(pow, $x, $accel);
 	$x3: $x2 + $x;
-	$sqrt1: sqrt($x3);
-	$sqrt2: sqrt($x2);
+	$x3-root: sqrt($x3);
+	$x2-root: sqrt($x2);
 	$const: $SQRT2 - 1; // value used by logarithm (.4142135623730951)
 
-	$curve: ($sqrt1 - $sqrt2) / $const;
+	$curve: ($x3-root - $x2-root) / $const;
 
 	@return min(1, $curve);
 }
@@ -724,96 +726,102 @@ $font-warn: false;
 	$font-base: $base-font-size,
 	$baseline-slack: $font-looseness
 ){
+	//Get smallest type size (make sure it comes across as a number and not a list)
+	$smallest-size: if(length($type-small-size) > 1, nth($type-small-size, 1), $type-small-size);
+
     //Make sure baseline-slack is a percentage
     @if unit($baseline-slack) != "%" {
-        @warn "Baseline-slack should be a percentage.";
+        @warn "Baseline-slack/font-looseness should be a percentage. Trying to convert.";
         $basline-slack: strip-units($baseline-slack);
         $baseline-slack: percentage($baseline-slack);
     }
 
     //Base Highest and lowest line-height multiples
-	$LHupperBound: 1.9;
-	$LHlowerBound: 1.1;
+	$base-lh-upper-bound: 1.9;
+	$base-lh-lower-bound: 1.1;
 
     //smallest font-size's highest/lowest line-height multiple
-	$smallFontUpperBound: max(
+    // Use global settings to help determine, where possible
+	$sm-lh-upper-bound: max(
         2.75,
-        baseline($type-small-size, $base-line-height) + 1.25
+        baseline($smallest-size, $base-line-height) + 1.25
     );
-	$smallFontLowerBound: min(
-        baseline($type-small-size,
+	$sm-lh-lower-bound: min(
+        baseline($smallest-size,
             ($base-line-height - ($base-line-height / 3))
         ),
-        $smallFontUpperBound - .5
+        $sm-lh-upper-bound - .5
     );
 
     //Largest font-size's highest/lowest line-height multiple
-	$largeFontUpperBound: 1.05 + (($baseline-slack / 100%) / 5);
-	$largeFontLowerBound: 0.91 + (($baseline-slack / 100%) / 8);
+    // Use baseline slack to determine constraints
+	$lg-lh-upper-bound: 1.05 + (($baseline-slack / 100%) / 5);
+	$lg-lh-lower-bound: 0.91 + (($baseline-slack / 100%) / 8);
 
-    //Smallest/Largest base font sizes
-	$fontSizeSmall: $type-small-size / 1px - 1.5;
-	$fontSizeLarge: max(10, 250 * ($baseline-slack / 100%));
+    //Smallest/Largest font sizes to calculate against
+	$sm-font-size: $smallest-size / 1px - 1.5;
+	$lg-font-size: max(10, 250 * ($baseline-slack / 100%));
 
     //Baseline-curve progress percentages
-	$percentAlong: 0;
-	$percentAlongUpper: 0;
-	$percentAlongLower: 0;
+	$percent-along-current: 0;
+	$percent-along-upper: 0;
+	$percent-along-lower: 0;
 
     //Non-adjusted placement of the font-size between largest and smallest font sizes
-	$truePercent: ($font-size - $fontSizeSmall) / ($fontSizeLarge - $fontSizeSmall) / 1px;
+    // divide by 1px to make sure
+	$true-percent-along: strip-units(($font-size - $sm-font-size) / ($lg-font-size - $sm-font-size));
 
     //Make sure handle fonts larger than our initial assumptions
-	@if $font-size <= $fontSizeSmall {
-		$LHlowerBound: $type-base-ratio - .01;
-		$LHupperBound: $smallFontUpperBound;
+	@if $font-size <= $sm-font-size {
+		$base-lh-lower-bound: $type-base-ratio - .01;
+		$base-lh-upper-bound: $sm-lh-upper-bound;
 	}
-	@else if $font-size >= $fontSizeLarge {
+	@else if $font-size >= $lg-font-size {
         //Set progress to 100%
-		$percentAlong: 1;
-		$percentAlongUpper: 1;
-		$percentAlongLower: 1;
-		$LHlowerBound: $largeFontLowerBound;
-		$LHupperBound: $largeFontUpperBound;
+		$percent-along-current: 1;
+		$percent-along-upper: 1;
+		$percent-along-lower: 1;
+		$base-lh-lower-bound: $lg-lh-lower-bound;
+		$base-lh-upper-bound: $lg-lh-upper-bound;
 	}
 	@else {
-		$percentAlong: 		cache(baseline-curve, $truePercent, 1);
-		$percentAlongUpper: cache(baseline-curve, $truePercent, 1.4);
-		$percentAlongLower: cache(baseline-curve, $truePercent, 1.9);
+		$percent-along-current:cache(baseline-curve, $true-percent-along, 1);
+		$percent-along-upper:  cache(baseline-curve, $true-percent-along, 1.4);
+		$percent-along-lower:  cache(baseline-curve, $true-percent-along, 1.9);
 	}
 
-	$LHupperBound: $smallFontUpperBound - $percentAlongUpper * ($smallFontUpperBound - $largeFontUpperBound);
+	$base-lh-upper-bound: $sm-lh-upper-bound - $percent-along-upper * ($sm-lh-upper-bound - $lg-lh-upper-bound);
 
-	$LHlowerBound: $smallFontLowerBound - $percentAlongLower * ($smallFontLowerBound - $largeFontLowerBound);
+	$base-lh-lower-bound: $sm-lh-lower-bound - $percent-along-lower * ($sm-lh-lower-bound - $lg-lh-lower-bound);
 
 	@if $debug-fonts {
 		@if index($font-index, $font-size) == null {
 			@debug "font-size: #{$font-size}";
-			@debug "%: #{percentage($truePercent)}";
-			@debug "%u: #{percentage($percentAlongUpper)}, %l: #{percentage($percentAlongLower)}";
-			@debug "ub: #{$LHupperBound}, lb: #{$LHlowerBound}";
+			@debug "%: #{percentage($true-percent-along)}";
+			@debug "%u: #{percentage($percent-along-upper)}, %l: #{percentage($percent-along-lower)}";
+			@debug "ub: #{$base-lh-upper-bound}, lb: #{$base-lh-lower-bound}";
 		}
 	}
 
 	//If the lower bound is somehow higher than the upper bound,
     // let's just reset the bounds to simple values
-	@if $LHlowerBound > $LHupperBound {
-		$LHlowerBound: 1;
-		$LHupperBound: 2;
+	@if $base-lh-lower-bound > $base-lh-upper-bound {
+		$base-lh-lower-bound: 1;
+		$base-lh-upper-bound: 2;
 	}
 
     //First attempt
     $baseline: $base-line-height;
-	$lineHeight: baseline($font-size, $baseline);
+	$line-height: baseline($font-size, $baseline);
 
 	//Second attempt
-	@if $lineHeight < $LHlowerBound or $lineHeight > $LHupperBound {
+	@if $line-height < $base-lh-lower-bound or $line-height > $base-lh-upper-bound {
 
         @if $font-size < $base-font-size {
-            $lineHeight: baseline($font-size, $baseline, 1.5);
+            $line-height: baseline($font-size, $baseline, 1.5);
         }
         @else {
-            $lineHeight: baseline($font-size, $baseline, .5);
+            $line-height: baseline($font-size, $baseline, .5);
         }
 	}
 
@@ -823,27 +831,27 @@ $font-warn: false;
 
     //Test baselines until we find a match
 	@while(
-        ($lineHeight < $LHlowerBound or $lineHeight > $LHupperBound)
+        ($line-height < $base-lh-lower-bound or $line-height > $base-lh-upper-bound)
 		and
         not $quit //allows for infinite loop bailout
     ){
         $i: $i + 1;
         //Try baselines in half increments
-		$lineHeight: baseline($font-size, $baseline, ($i * .5));
+		$line-height: baseline($font-size, $baseline, ($i * .5));
 
 		//Bail-out function to prevent infinite loops
 		// Set quit to true so we can escape this hellish loop
 		@if $i > ($font-size / 1px)  {
 			@if (not $font-warn) {
                 @debug "Your font-looseness might be too high or low, watch for weird baselines and slow compile times.";
-    			@debug "FS: #{$font-size} / LH: #{$lineHeight}";
-    			@debug "Tolerances: #{$LHupperBound} / #{$LHlowerBound}";
+    			@debug "FS: #{$font-size} / LH: #{$line-height}";
+    			@debug "Tolerances: #{$base-lh-upper-bound} / #{$base-lh-lower-bound}";
                 @debug "loops: #{$i}";
     			$font-warn: true !global;
             }
 
 			//default to normal calculated line-height
-			$lineHeight: baseline($font-size, $baseline);
+			$line-height: baseline($font-size, $baseline);
 			$quit: true;
 		}
 	}
@@ -851,13 +859,13 @@ $font-warn: false;
 	@if $debug-fonts {
 		@if index($font-index, $font-size) == null {
 			$font-index: append($font-index, $font-size) !global;
-			@debug "lh: #{$lineHeight * $font-size} / #{$lineHeight} ";
+			@debug "lh: #{$line-height * $font-size} / #{$line-height} ";
 			@debug "loops: #{$i}";
 			@debug "-----";
 		}
 	}
 
-	@return $lineHeight;
+	@return $line-height;
 }
 
 /* SG

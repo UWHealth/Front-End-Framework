@@ -24,7 +24,6 @@ Creates a list with borders above and below each list item. Appending `list_bord
     @include type-space((padding-top,padding-bottom), 1);
 
     > li {
-        @extend %block;
         border-top: 1px solid color(bg, dark);
         @include type-space((padding-top, padding-bottom), 1);
         margin-bottom: -1px;
@@ -141,7 +140,7 @@ Also useful as a modifier class since it can be used on any container with ancho
     margin-left: 0;
 
 	& a {
-		@extend %block;
+		display: block;
         @include type-space((padding-top, padding-bottom), .5);
 	}
 }

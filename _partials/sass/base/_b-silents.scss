@@ -1,6 +1,7 @@
 $base_namespace: 'base_';
 
-%list_naked {
+%list_naked,
+%naked_list {
 	@include no-bullets;
     margin-left: 0;
 }
@@ -12,7 +13,7 @@ $base_namespace: 'base_';
 	font-family: $secondary-font-stack;
 }
 
-%base_type_vertical_rhythm {
+%type_vertical_rhythm {
 	@include type-space(margin, 0 0 1);
 }
 
@@ -32,14 +33,10 @@ $base_namespace: 'base_';
 
 	&:before{
 		content: "";
-		@extend %show;
+		display: block;
 		width: 0;
 		height: 150%;
 	}
-}
-
-%naked_list {
-	@include no-bullets;
 }
 
 //Hide Visually. Usefuly for Accessiblity.
@@ -57,26 +54,3 @@ $base_namespace: 'base_';
 	position: absolute;
 	transition: all 300ms ease-in-out;
 }
-
-@include spacing-utilities-init(
-	$namespace: $base_namespace,
-	$config: (important: false, silent: true)
-);
-
-@include alignment-utilities-init(
-	$namespace: $base_namespace,
-	$important: false,
-	$silent: true
-);
-
-@include display-utilities-init(
-	$namespace: $base_namespace,
-	$important: false,
-	$silent: true
-);
-
-//@include type-utilities-init(
-//	$namespace: $base_namespace,
-//	$important: false,
-//	$silent: true
-//);

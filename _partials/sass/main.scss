@@ -3,26 +3,26 @@
 /* SG
 # Imports [[dev]]
 
+@priority 1
 @file main.scss
 
 Sass files are imported in order from lowest specificity to highest.
-1. `/globals`
+1. `/tools`
   * Functions
   * Settings
   * System variables and defaults
-2. `/globals/tools`
   * General-use mixins and sass utilities
-3. `base/generic`
+2. `base/generic`
   * Normalize/reset styles (unclassed)
-4. `/base`
+3. `/base`
   * Element styles (unclassed)
-5. `/layout`
+4. `/layout`
   * Basic layout and object styles (single-class)
-6. `/components`
+5. `/components`
   * Module and component styles (single- and child-classes)
-7. `/sections`
+6. `/sections`
   * View- and page-specific and scoped styles (typically `parent > child` classes).
-8. `/overrides`
+7. `/overrides`
   * Utility styles, usually end in `!important`.
 
 */
@@ -33,29 +33,29 @@ Sass files are imported in order from lowest specificity to highest.
 //-----------------------------
 
 //Global functions and variables
-@import 'globals/tools/t-easings';
-@import 'globals/gl-blendmodes';
-@import 'globals/gl-functions';
-@import 'globals/gl-color-functions';
+@import 'tools/t-functions';
+@import 'tools/t-color-functions';
+@import 'tools/t-blendmodes';
+@import 'tools/t-easings';
 
 //Settings
 @import 'config';
 
-//Default variables
-@import 'globals/gl-defaults';
+//Framework variables
+@import 'tools/t-variables';
 
 //Utility mixins
-@import 'globals/tools/t-fontface';
-@import 'globals/tools/t-media-queries';
-@import 'globals/tools/t-mixins';
-@import 'globals/tools/t-zindex';
+@import 'tools/t-fontface';
+@import 'tools/t-media-queries';
+@import 'tools/t-mixins';
+@import 'tools/t-zindex';
 
 //Utility placeholder classes
-@import 'globals/tools/t-alignment';
-@import 'globals/tools/t-display';
-@import 'globals/tools/t-grid-system';
-@import 'globals/tools/t-spacing';
-@import 'globals/tools/t-type';
+@import 'tools/t-alignment';
+@import 'tools/t-display';
+@import 'tools/t-grid-system';
+@import 'tools/t-spacing';
+@import 'tools/t-type';
 
 
 //----------------------------

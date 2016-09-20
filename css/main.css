@@ -2,37 +2,27 @@
 /* SG
 # Imports [[dev]]
 
+@priority 1
 @file main.scss
 
 Sass files are imported in order from lowest specificity to highest.
-1. `/globals`
+1. `/tools`
   * Functions
   * Settings
   * System variables and defaults
-2. `/globals/tools`
   * General-use mixins and sass utilities
-3. `base/generic`
+2. `base/generic`
   * Normalize/reset styles (unclassed)
-4. `/base`
+3. `/base`
   * Element styles (unclassed)
-5. `/layout`
+4. `/layout`
   * Basic layout and object styles (single-class)
-6. `/components`
+5. `/components`
   * Module and component styles (single- and child-classes)
-7. `/sections`
+6. `/sections`
   * View- and page-specific and scoped styles (typically `parent > child` classes).
-8. `/overrides`
+7. `/overrides`
   * Utility styles, usually end in `!important`.
-
-*/
-/* SG
-# Variables/Easing [[dev]]
-
-@file globals/tools/_t-easings.scss
-
-Each easing variable is a cubic-bezier value that specifies rate of change of an animation. [See easings for more](http://www.easings.net).
-
-[Reference](https://github.com/matthewlein/Ceaser/blob/master/developer/)
 
 */
 /* SG
@@ -67,12 +57,12 @@ Changes percent value to decimal.
 ##### `px-to-vw()`
 ###### function(`$pixels`)
 Converts pixel dimensions to viewport width (vw) dimensions.
-@returns number(vw)
+@returns number (vw)
 
 ##### `px-to-rems()`
 ###### function(`$pixels, $base-font:` `$$base-font-size`)
-Function for calculating `rem` values. Used by `@rems()`. The `$base-size` is used to calculate the value (e.g. if the `body`'s `font-size` is `16px`, then the rem value of `24px` would be `1.5rem`).
-@returns number(rems)
+Function for calculating `rem` values. Used by `@px-to-rems()`. The `$base-size` is used to calculate the value (e.g. if the body's font-size is `16px`, then the rem value of `24px` would be `1.5rem`).
+@returns number (rems)
 @alias rems()
 
 ##### `px-to-ems()`
@@ -212,7 +202,7 @@ Aligns a font-size to a baseline (`$baseline`). Returns a unitless value relativ
 ###### function(`$x` , `$accel`: `1`)
 Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`. An `$accel` of 1 is a smooth arc.
 @returns number
-@requires `sqrt()`
+@requires `sqrt()`, `pow()`
 
 
 ##### `baseline-calc()`
@@ -307,9 +297,11 @@ Determines the Tangent of an angle.
 
 */
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Lookup [[dev]]
 
-@file globlas/_gl-color-functions.scss
+@file tools/_t-color-functions.scss
+
+@priority 99
 
 ##### `colors()`
 ###### function(`$color-name, $tone: 'base', $opacity: 1`)
@@ -329,7 +321,7 @@ Passing only a color name will default to the 'base' color.
 [Reference](http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/)
 */
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Lookup [[dev]]
 
 ##### `combine-color-maps()`
 ###### function(`$map1 , $map2`)
@@ -339,7 +331,9 @@ Specialized function used by `generate-color-variations()` to merge two color ma
 
 */
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Manipulation [[dev]]
+
+@file tools/_t-color-functions.scss
 
 ##### `generate-color-varations()`
 ###### function( `$map: $colors, $functions: (tint, tint, tint, shade, shade, shade), $increments: (20%, 40%, 80%, 20%, 40%, 80%), $variations: (light, lighter, lightest, dark, darker, darkest), $blending-colors: null`)
@@ -357,7 +351,7 @@ Takes base color values and generates a full color palette. Used by the `$$base-
 
 */
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Manipulation [[dev]]
 
 
 ##### `black-or-white()`
@@ -407,13 +401,66 @@ Find the relative luminance of a color. Used by `color-contrast()`.
 
 */
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Debugging [[dev]]
+
+@file tools/_t-color-functions.scss
 
 ##### `@color-palette-output()`
 ###### mixin(`$selector`, `$color-map:` `$$base-colors`)
 Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for "color blocks" output, in style guide.
 
 @requires `map-add-depth()`, `black-or-white()`
+
+*/
+/* SG
+
+# Colors/Blending Modes [[dev]]
+
+@file tools/_t-blend-modes.scss
+
+@priority 2
+
+[Taken from Sass Blend Modes](https://github.com/heygrady/scss-blend-modes/blob/master/stylesheets/_blend-modes.scss)
+
+##### `blend-normal()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-multiply()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-lighten()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-darken()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-lineardodge()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-linearburn()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-difference`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-screen()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-exclusion()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-multiply()`
+###### function(`$forground, $background, $amount:0`)
+
+*/
+/* SG
+# Variables/Easing [[dev]]
+
+@file globals/tools/_t-easings.scss
+
+Each easing variable is a cubic-bezier value that specifies rate of change of an animation. [See easings for more](http://www.easings.net).
+
+[Reference](https://github.com/matthewlein/Ceaser/blob/master/developer/)
 
 */
 /* SG
@@ -444,6 +491,10 @@ Used for `$$auto-scale-type` and for `modular-scale()`.
 ##### `$$rem-px-fallback`
 ###### Boolean
 Determines whether `rems()` conversion includes a pixel-value fallback for older browsers like IE8.
+
+##### `$$indented-paragraphs`
+###### Boolean
+Determines whether to generate css for paragraphs with a text indent, rather than paragraphs with margins between them.
 
 */
 /* SG
@@ -518,15 +569,13 @@ Determines whether to include extra grid classes for positional grid modifiers.
 
 ##### `$$grid-markup-fix`
 ###### Boolean
-If set to `true`, html must have comments between grid items. Almost always set to `false`.
+If set to `true`, html must have no white space (or comments) between grid items. Almost always set to `false`.
 
 ##### `$$grid-floats`
 ###### Boolean
-If set to `true`, uses floats instead of inline-block.
+If set to `true`, the grid uses floats instead of inline-block for layout.
 
-##### `$$breakpoints-has-widths`,
-##### `$$breakpoints-has-push`,
-##### `$$breakpoints-has-pull`
+##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
 ###### List (string)
 Determines what classes (widths, pushes, pulls) get generated at `$$breakpoints`. The list's order determines the output order. This is useful if you want one breakpoint to override another.
 
@@ -613,11 +662,35 @@ A `false` value will output no classes of that type.
 
 */
 /* SG
-# Config/General Settings [[dev]]
+# Config/Color Settings [[dev]]
+
+@file _config.scss
 
 ##### `$$base-colors`
 ###### Map (key : color value)
-Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `colors()`. The generated styles can be modified in `colors/_color-functions.scss`
+Sets up consistent color names to be used for color-palette. Dark and light values will be automatically generated. Key values should be accessed through `colors()`.
+`type`, `links`, and `bg` key values are required for some starter styles. If you choose not to use them, just replace their references in the appropriate files.
+
+Supports a nested map style like the following:
+```scss
+$base-colors: (
+  'type':(
+    'base':red,
+    'light': pink,
+    'dark':maroon
+  ),
+  'links':(
+    'base':blue,
+    'light': sky,
+    'dark': navy
+  ),
+  'bg': (
+    'base': #fff,
+    'dark': #ddd
+  )
+);
+
+```
 */
 /* SG
 # Config/Debug Settings [[dev]]
@@ -658,9 +731,9 @@ Configuration for slick carousel jQuery plugin.
 
 */
 /* SG
-# Variables/Defaults [[dev]]
+# Variables/System [[dev]]
 
-@file /globals/_gl-defaults.scss
+@file /tools/_t-variables.scss
 
 -------------------------------------------
 
@@ -841,7 +914,7 @@ Enclose a block of code with a media query as named in `$breakpoints`. To create
 
 # Mixins/CSS Helpers [[dev]]
 
-@file globals/tools/_t-mixins.scss
+@file tools/_t-mixins.scss
 
 ##### `@specificity()`
 ###### mixin(`$specificity: 1`)
@@ -891,7 +964,7 @@ Allows creating many border properties at once. Works like the standard border s
 
 # Mixins/Buttons [[dev]]
 
-@file globals/tools/_t-mixins.scss
+@file tools/_t-mixins.scss
 
 ##### `@button()`
 ###### mixin(`$bg-color`: `color('links')`, `$text-color`: `null`, `$border`: `null`, `$radius`: `null`, `$text-radius`: `null`, `$style`: `null`, `$inset`: `false`)
@@ -910,59 +983,6 @@ Generates common button styles, allowing for simple creation of more complex gra
 
 */
 /* SG
-# Mixins/Typography [[dev]]
-
-@file globals/tools/_t-mixins.scss
-
-##### `@px-to-rems()`
-###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
-Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fallback` is `true`, a pixel fallback is also included.
-@alias `@rems()`
-
-*/
-/* SG
-# Mixins/Typography [[dev]]
-
-##### `@type-font-size()`
-###### mixin(`$font-size, $line-height: true, $font-base:``$$base-font-size`)
-Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
-
-_`$line-height` also accepts a pixel value and will be converted to a unitless one._
-
-@alias `@font-size()`
-@requires `@px-to-rems()`, `cache()`, `baseline-calc()`
-
-*/
-/* SG
-# Mixins/Typography [[dev]]
-
-##### `@type-space()`
-###### mixin(`$properties, $multipliers, $important: false`)
-Output REM values using the typographic grid. This is the prefered method of adding padding and margins because it enforces consistent spacing around all elements.
-
-**Arguments:**
-* `$properties`: Can be any `CSS` property that accepts a length value (e.g. `rem`). Also accepts multiple properties as a nested list (e.g. `(padding-left, padding-right)`).
-* `$multipliers`: Accepts unitless values that get converted to `rem` units which are a multiple of the typographic grid. Can be multiple values, **separated by spaces**, in the case of `margin` or `padding`.
-* `$important`: Accepts `true` or `!important`.
-
-**Example**
-```scss
-// SCSS input
-.foo {
-	@include type-space(padding, 1 .25 .5, '!important');
-}
-
-// CSS output
-.foo {
-	padding: 24px 8px 12px 8px !important;
-	padding: 1.5rem .375rem .75rem .375rem !important;
-}
-```
-
-@requires `@px-to-rems()`, `str-contains()`
-
-*/
-/* SG
 # Tools/Z-Index [[dev]]
 
 @file globals/tools/_t-zindex.scss
@@ -977,7 +997,7 @@ The `$modifier` is useful if you'd like to closely layer z-indexes within the sa
 /* SG
 # Tools/Alignment Utilities [[dev]]
 
-globals/tools/_t-alignment.scss
+@file tools/_t-alignment.scss
 
 ##### `@alignment-utilities()`
 ###### mixin(`$namespace:''`, `$silent:true`, `$important:false`)
@@ -995,12 +1015,12 @@ The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilite
 @file globals/tools/_t-display.scss
 
 ##### `@display-utilities()`
-###### mixin(`$namespace`:"", `$silent`:false, `$important`:true, `$class-list`:`$$display-classes`)
+###### mixin(`$namespace:"", $silent:false, $important:true, $class-list:$display-classes`)
 Generates classes with display properties defined in `$class-list`. Intelligently extends duplicated display properties.
 
 
 ##### `@display-utilities-init()`
-###### mixin(`$breakpoints:` `$$all-breakpoints`, `$namespace:''`, `$config:(silent:true)`)
+###### mixin(`$breakpoints: $all-breakpoints, $namespace: '', $silent: true, $important: false`)
 The responsive component to `@display-utilities()`. Invoke `@display-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive display classes.
 
 */
@@ -1086,8 +1106,8 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 # Grid System/Mixins [[dev]]
 
 ##### `@grid-width()`
-###### mixin(`$size, $total:` `$$grid-columns`)
-Creates a width property with a percentage based on the `$size / $total`.
+###### mixin(`$columns, $total:` `$$grid-columns`)
+Creates a width property with a percentage based on the `$columns / $total`.
 @requires `grid-size()`, `$$grid-columns`
 
 
@@ -1119,7 +1139,7 @@ Creates responsive grid classes by running through all the grid-setup mixins. Us
 /* SG
 # Tools/Spacing Utilities [[dev]]
 
-@file globals/tools/_t-spacing.scss
+@file tools/_t-spacing.scss
 
 ##### `layout-type()`
 ###### function(`$space-type:''`, `$space-direction:''`)
@@ -1147,7 +1167,7 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 /* SG
 # Tools/Type Utilities [[dev]]
 
-@file globals/tools/_t-type.scss
+@file tools/_t-type.scss
 
 ##### `@type-utilities()`
 ###### mixin(`$namespace:''`, `$silent: true`, `$important: false)`
@@ -1156,6 +1176,60 @@ A set of typography-based utility classes that can be generated within media-que
 ##### `@type-utilities-init()`
 ###### mixin(`$breakpoints`:`$$all-breakpoints`, `$namespace:''`, `$silent: true`, `$important: false`)
 The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive typography-based utility classes.
+
+*/
+/* SG
+# Mixins/Typography [[dev]]
+
+@file tools/_t-type.scss
+
+##### `@px-to-rems()`
+###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
+Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fallback` is `true`, a pixel fallback is also included.
+@alias `@rems()`
+@requires `px-to-rems()`
+
+*/
+/* SG
+# Mixins/Typography [[dev]]
+
+##### `@type-font-size()`
+###### mixin(`$font-size, $line-height: true, $font-base:``$$base-font-size`)
+Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
+
+_`$line-height` also accepts a pixel value and will be converted to a unitless one._
+
+@alias `@font-size()`
+@requires `@px-to-rems()`, `cache()`, `baseline-calc()`
+
+*/
+/* SG
+# Mixins/Typography [[dev]]
+
+##### `@type-space()`
+###### mixin(`$properties, $multipliers, $important: false`)
+Output REM values using the typographic grid. This is the prefered method of adding padding and margins because it enforces consistent spacing around all elements.
+
+**Arguments:**
+* `$properties`: Can be any `CSS` property that accepts a length value (e.g. `rem`). Also accepts multiple properties as a nested list (e.g. `(padding-left, padding-right)`).
+* `$multipliers`: Accepts unitless values that get converted to `rem` units which are a multiple of the typographic grid. Can be multiple values, **separated by spaces**, in the case of `margin` or `padding`.
+* `$important`: Accepts `true` or `!important`.
+
+**Example**
+```scss
+// SCSS input
+.foo {
+	@include type-space(padding, 1 .25 .5, '!important');
+}
+
+// CSS output
+.foo {
+	padding: 24px 8px 12px 8px !important;
+	padding: 1.5rem .375rem .75rem .375rem !important;
+}
+```
+
+@requires `@px-to-rems()`, `str-contains()`
 
 */
 html,
@@ -1590,6 +1664,10 @@ td {
   border-style: solid;
 }
 
+th {
+  font-weight: bold;
+}
+
 thead th {
   vertical-align: bottom;
   padding: 24px 0 0;
@@ -1648,7 +1726,6 @@ h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
 The default font size for all typography is 16px with line-height of 24px(1.5). This is applied to the body and all paragraphs. `<p>` tags all receive a bottom margin of 24px.
 
 ```html_example
-<p>Example</p>
 <p>Aenean lacinia bibendum nulla sed consectetur. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. </p>
 <p>Nullam quis risus eget urna mollis ornare vel eu leo. Nulla vitae elit libero, a pharetra augue.</p>
 ```
@@ -1663,7 +1740,7 @@ small {
 
 b,
 strong {
-  font-weight: bold;
+  font-weight: 700;
 }
 
 pre {
@@ -1801,7 +1878,7 @@ q:first-child {
   padding: 0;
   margin-left: -32px;
   margin-left:  -2rem;
-  letter-spacing: -0.35em;
+  letter-spacing: -0.43em;
 }
 
 .opera:-o-prefocus,
@@ -1843,10 +1920,6 @@ q:first-child {
 
 .half {
   width: 50%;
-}
-
-.isolate, .arrange, .arrange_fill, .arrange_body {
-  width: 100%;
 }
 
 @media only screen and (min-width: 481px) and (max-width: 640px) {
@@ -1894,7 +1967,7 @@ q:first-child {
   position: relative;
 }
 
-.isolate_body, .arrange_body, .table_striped th, .table_striped td {
+.arrange_body, .table_striped th, .table_striped td {
   padding-left: 16px;
   padding-left:  1rem;
 }
@@ -1904,24 +1977,12 @@ q:first-child {
   padding-right:  1rem;
 }
 
-table, .isolate, .arrange {
+table {
   margin-bottom: 24px;
   margin-bottom:  1.5rem;
 }
 
-[class*="list_bordered"] > li, .list_nav a, .isolate, .isolate_media, .isolate_media img, .isolate_body, .arrange_media img, .arrange_fit img {
-  display: block;
-}
-
-.arrange {
-  display: table;
-}
-
-.arrange_fill, .arrange_fit, .arrange_media, .arrange_body {
-  display: table-cell;
-}
-
-th, .table_responsive thead + tbody td:before, .tab,
+.tab,
 .list_nav a {
   font-weight: 700 ;
   -webkit-font-smoothing: antialiased;
@@ -2231,6 +2292,7 @@ Also useful as a modifier class since it can be used on any container with ancho
 }
 
 .list_nav a {
+  display: block;
   padding-top: 12px;
   padding-top:  0.75rem;
   padding-bottom: 12px;
@@ -2244,7 +2306,7 @@ Also useful as a modifier class since it can be used on any container with ancho
 Isolates an image from text wrapping underneath. Useful for creating an association between an image and text. Often used with an icon or avatar. Adding other classes to the `isolate_body` can create a more stylized version.
 
 ```html_example
-<img class="isolate_media" src="http://placehold.it/300x50" alt="placeholder image">
+<img class="isolate_media" src="http://placehold.it/300x48" alt="placeholder image">
 <p class="isolate_body">
 	Content that sits to the right of the image but will never wrap underneath the image to the left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
 </p>
@@ -2259,6 +2321,21 @@ Isolates an image from text wrapping underneath. Useful for creating an associat
 
 .isolate_media {
   float: left;
+}
+
+.isolate, .isolate_media, .isolate_media img, .isolate_body {
+  display: block;
+}
+
+.isolate {
+  width: 100%;
+  margin-bottom: 24px;
+  margin-bottom:  1.5rem;
+}
+
+.isolate_body {
+  padding-left: 16px;
+  padding-left:  1rem;
 }
 
 /* SG
@@ -2278,7 +2355,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 ```html_example
 <div class="arrange">
 	<div class="arrange_media">
-		<img src="http://placehold.it/60x50" alt="placeholder image">
+		<img src="http://placehold.it/60x48" alt="placeholder image">
 	</div>
 	<div class="arrange_body">
 		Content that is vertically (middle) aligned with the image.
@@ -2288,7 +2365,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 <!-- Bottom Arrangement -->
 <div class="arrange arrange_bottom">
 	<div class="arrange_media">
-		<img src="http://placehold.it/60x50" alt="placeholder image">
+		<img src="http://placehold.it/60x48" alt="placeholder image">
 	</div>
 	<div class="arrange_body">
 		Content that is bottom aligned to the image.
@@ -2301,7 +2378,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 		Equal width columns.
 	</div>
 	<div class="arrange_fill">
-		<img class="show" src="http://placehold.it/120x80" alt="placeholder image" style="margin: auto;">
+		<img class="show" src="http://placehold.it/120x72" alt="placeholder image" style="margin: auto;">
 	</div>
 	<div class="arrange_fill">
 		Can be as many columns as you want.
@@ -2313,9 +2390,22 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 .arrange {
   table-layout: auto;
   min-width: 100%;
+  display: table;
+  width: 100%;
+  margin-bottom: 24px;
+  margin-bottom:  1.5rem;
+}
+
+.arrange_fill, .arrange_fit, .arrange_media, .arrange_body {
+  display: table-cell;
+}
+
+.arrange_fill, .arrange_body {
+  width: 100%;
 }
 
 .arrange_media img, .arrange_fit img {
+  display: block;
   max-width: none;
 }
 
@@ -2346,6 +2436,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 
 .table_responsive thead + tbody td:before {
   content: attr(data-th) " ";
+  font-weight: 700;
   padding-right: .25em;
   display: none;
 }
@@ -2679,581 +2770,489 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(6) {
-  background-color: #d7dde5;
-  color: #000;
-  padding: 2% 1% 2.5%;
-}
-
-.color-block:nth-child(6):before {
-  content: "function";
-}
-
-.color-block:nth-child(6):after {
-  content: "#d7dde5";
-}
-
-.color-block:nth-child(7) {
   background-color: #bada55;
   color: #000;
   padding: 2% 1% 2.5%;
 }
 
-.color-block:nth-child(7):before {
+.color-block:nth-child(6):before {
   content: "success";
 }
 
-.color-block:nth-child(7):after {
+.color-block:nth-child(6):after {
   content: "#bada55";
 }
 
-.color-block:nth-child(8) {
+.color-block:nth-child(7) {
   background-color: #556776;
   color: #fff;
 }
 
-.color-block:nth-child(8):before {
+.color-block:nth-child(7):before {
   content: "type light";
 }
 
-.color-block:nth-child(8):after {
+.color-block:nth-child(7):after {
   content: "#556776";
 }
 
-.color-block:nth-child(9) {
+.color-block:nth-child(8) {
   background-color: #5894bd;
   color: #fff;
 }
 
-.color-block:nth-child(9):before {
+.color-block:nth-child(8):before {
   content: "links light";
 }
 
-.color-block:nth-child(9):after {
+.color-block:nth-child(8):after {
   content: "#5894bd";
 }
 
-.color-block:nth-child(10) {
+.color-block:nth-child(9) {
   background-color: #fbfcfd;
   color: #000;
 }
 
-.color-block:nth-child(10):before {
+.color-block:nth-child(9):before {
   content: "bg light";
 }
 
-.color-block:nth-child(10):after {
+.color-block:nth-child(9):after {
   content: "#fbfcfd";
 }
 
-.color-block:nth-child(11) {
+.color-block:nth-child(10) {
   background-color: #95C3CE;
   color: #000;
 }
 
-.color-block:nth-child(11):before {
+.color-block:nth-child(10):before {
   content: "styleguide light";
 }
 
-.color-block:nth-child(11):after {
+.color-block:nth-child(10):after {
   content: "#95C3CE";
 }
 
-.color-block:nth-child(12) {
+.color-block:nth-child(11) {
   background-color: #df5061;
   color: #fff;
 }
 
-.color-block:nth-child(12):before {
+.color-block:nth-child(11):before {
   content: "accent light";
 }
 
-.color-block:nth-child(12):after {
+.color-block:nth-child(11):after {
   content: "#df5061";
 }
 
-.color-block:nth-child(13) {
-  background-color: #ebeef2;
-  color: #000;
-}
-
-.color-block:nth-child(13):before {
-  content: "function light";
-}
-
-.color-block:nth-child(13):after {
-  content: "#ebeef2";
-}
-
-.color-block:nth-child(14) {
+.color-block:nth-child(12) {
   background-color: #ddeda0;
   color: #000;
 }
 
-.color-block:nth-child(14):before {
+.color-block:nth-child(12):before {
   content: "success light";
 }
 
-.color-block:nth-child(14):after {
+.color-block:nth-child(12):after {
   content: "#ddeda0";
 }
 
-.color-block:nth-child(15) {
+.color-block:nth-child(13) {
   background-color: #99a4aa;
   color: #fff;
 }
 
-.color-block:nth-child(15):before {
+.color-block:nth-child(13):before {
   content: "type lighter";
 }
 
-.color-block:nth-child(15):after {
+.color-block:nth-child(13):after {
   content: "#99a4aa";
 }
 
-.color-block:nth-child(16) {
+.color-block:nth-child(14) {
   background-color: #9cb6ca;
   color: #fff;
 }
 
-.color-block:nth-child(16):before {
+.color-block:nth-child(14):before {
   content: "links lighter";
 }
 
-.color-block:nth-child(16):after {
+.color-block:nth-child(14):after {
   content: "#9cb6ca";
 }
 
-.color-block:nth-child(17) {
+.color-block:nth-child(15) {
   background-color: #fbfcfd;
   color: #000;
 }
 
-.color-block:nth-child(17):before {
+.color-block:nth-child(15):before {
   content: "bg lighter";
 }
 
-.color-block:nth-child(17):after {
+.color-block:nth-child(15):after {
   content: "#fbfcfd";
 }
 
-.color-block:nth-child(18) {
+.color-block:nth-child(16) {
   background-color: #D1F5ED;
   color: #000;
 }
 
-.color-block:nth-child(18):before {
+.color-block:nth-child(16):before {
   content: "styleguide lighter";
 }
 
-.color-block:nth-child(18):after {
+.color-block:nth-child(16):after {
   content: "#D1F5ED";
 }
 
-.color-block:nth-child(19) {
+.color-block:nth-child(17) {
   background-color: #e594a2;
   color: #fff;
 }
 
-.color-block:nth-child(19):before {
+.color-block:nth-child(17):before {
   content: "accent lighter";
 }
 
-.color-block:nth-child(19):after {
+.color-block:nth-child(17):after {
   content: "#e594a2";
 }
 
-.color-block:nth-child(20) {
-  background-color: #eff1f5;
-  color: #000;
-}
-
-.color-block:nth-child(20):before {
-  content: "function lighter";
-}
-
-.color-block:nth-child(20):after {
-  content: "#eff1f5";
-}
-
-.color-block:nth-child(21) {
+.color-block:nth-child(18) {
   background-color: #e3f0bb;
   color: #000;
 }
 
-.color-block:nth-child(21):before {
+.color-block:nth-child(18):before {
   content: "success lighter";
 }
 
-.color-block:nth-child(21):after {
+.color-block:nth-child(18):after {
   content: "#e3f0bb";
 }
 
-.color-block:nth-child(22) {
+.color-block:nth-child(19) {
   background-color: #ced2d5;
   color: #000;
 }
 
-.color-block:nth-child(22):before {
+.color-block:nth-child(19):before {
   content: "type lightest";
 }
 
-.color-block:nth-child(22):after {
+.color-block:nth-child(19):after {
   content: "#ced2d5";
 }
 
-.color-block:nth-child(23) {
+.color-block:nth-child(20) {
   background-color: #cfdbe5;
   color: #000;
 }
 
-.color-block:nth-child(23):before {
+.color-block:nth-child(20):before {
   content: "links lightest";
 }
 
-.color-block:nth-child(23):after {
+.color-block:nth-child(20):after {
   content: "#cfdbe5";
 }
 
-.color-block:nth-child(24) {
+.color-block:nth-child(21) {
   background-color: #fdfefe;
   color: #000;
 }
 
-.color-block:nth-child(24):before {
+.color-block:nth-child(21):before {
   content: "bg lightest";
 }
 
-.color-block:nth-child(24):after {
+.color-block:nth-child(21):after {
   content: "#fdfefe";
 }
 
-.color-block:nth-child(25) {
+.color-block:nth-child(22) {
   background-color: #29DECE;
   color: #000;
 }
 
-.color-block:nth-child(25):before {
+.color-block:nth-child(22):before {
   content: "styleguide lightest";
 }
 
-.color-block:nth-child(25):after {
+.color-block:nth-child(22):after {
   content: "#29DECE";
 }
 
-.color-block:nth-child(26) {
+.color-block:nth-child(23) {
   background-color: #f2cdd0;
   color: #000;
 }
 
-.color-block:nth-child(26):before {
+.color-block:nth-child(23):before {
   content: "accent lightest";
 }
 
-.color-block:nth-child(26):after {
+.color-block:nth-child(23):after {
   content: "#f2cdd0";
 }
 
-.color-block:nth-child(27) {
-  background-color: #f7f8fa;
-  color: #000;
-}
-
-.color-block:nth-child(27):before {
-  content: "function lightest";
-}
-
-.color-block:nth-child(27):after {
-  content: "#f7f8fa";
-}
-
-.color-block:nth-child(28) {
+.color-block:nth-child(24) {
   background-color: #f1f8dd;
   color: #000;
 }
 
-.color-block:nth-child(28):before {
+.color-block:nth-child(24):before {
   content: "success lightest";
 }
 
-.color-block:nth-child(28):after {
+.color-block:nth-child(24):after {
   content: "#f1f8dd";
 }
 
-.color-block:nth-child(29) {
+.color-block:nth-child(25) {
   background-color: #050f16;
   color: #fff;
 }
 
-.color-block:nth-child(29):before {
+.color-block:nth-child(25):before {
   content: "type dark";
 }
 
-.color-block:nth-child(29):after {
+.color-block:nth-child(25):after {
   content: "#050f16";
 }
 
-.color-block:nth-child(30) {
+.color-block:nth-child(26) {
   background-color: #0b3b64;
   color: #fff;
 }
 
-.color-block:nth-child(30):before {
+.color-block:nth-child(26):before {
   content: "links dark";
 }
 
-.color-block:nth-child(30):after {
+.color-block:nth-child(26):after {
   content: "#0b3b64";
 }
 
-.color-block:nth-child(31) {
+.color-block:nth-child(27) {
   background-color: #e4eaf3;
   color: #000;
 }
 
-.color-block:nth-child(31):before {
+.color-block:nth-child(27):before {
   content: "bg dark";
 }
 
-.color-block:nth-child(31):after {
+.color-block:nth-child(27):after {
   content: "#e4eaf3";
 }
 
-.color-block:nth-child(32) {
+.color-block:nth-child(28) {
   background-color: #475665;
   color: #fff;
 }
 
-.color-block:nth-child(32):before {
+.color-block:nth-child(28):before {
   content: "styleguide dark";
 }
 
-.color-block:nth-child(32):after {
+.color-block:nth-child(28):after {
   content: "#475665";
 }
 
-.color-block:nth-child(33) {
+.color-block:nth-child(29) {
   background-color: #a60413;
   color: #fff;
 }
 
-.color-block:nth-child(33):before {
+.color-block:nth-child(29):before {
   content: "accent dark";
 }
 
-.color-block:nth-child(33):after {
+.color-block:nth-child(29):after {
   content: "#a60413";
 }
 
-.color-block:nth-child(34) {
-  background-color: #c8d0db;
-  color: #000;
-}
-
-.color-block:nth-child(34):before {
-  content: "function dark";
-}
-
-.color-block:nth-child(34):after {
-  content: "#c8d0db";
-}
-
-.color-block:nth-child(35) {
+.color-block:nth-child(30) {
   background-color: #b2d540;
   color: #000;
 }
 
-.color-block:nth-child(35):before {
+.color-block:nth-child(30):before {
   content: "success dark";
 }
 
-.color-block:nth-child(35):after {
+.color-block:nth-child(30):after {
   content: "#b2d540";
 }
 
-.color-block:nth-child(36) {
+.color-block:nth-child(31) {
   background-color: #06111a;
   color: #fff;
 }
 
-.color-block:nth-child(36):before {
+.color-block:nth-child(31):before {
   content: "type darker";
 }
 
-.color-block:nth-child(36):after {
+.color-block:nth-child(31):after {
   content: "#06111a";
 }
 
-.color-block:nth-child(37) {
+.color-block:nth-child(32) {
   background-color: #082c4a;
   color: #fff;
 }
 
-.color-block:nth-child(37):before {
+.color-block:nth-child(32):before {
   content: "links darker";
 }
 
-.color-block:nth-child(37):after {
+.color-block:nth-child(32):after {
   content: "#082c4a";
 }
 
-.color-block:nth-child(38) {
+.color-block:nth-child(33) {
   background-color: #aeb6be;
   color: #000;
 }
 
-.color-block:nth-child(38):before {
+.color-block:nth-child(33):before {
   content: "bg darker";
 }
 
-.color-block:nth-child(38):after {
+.color-block:nth-child(33):after {
   content: "#aeb6be";
 }
 
-.color-block:nth-child(39) {
+.color-block:nth-child(34) {
   background-color: #314958;
   color: #fff;
 }
 
-.color-block:nth-child(39):before {
+.color-block:nth-child(34):before {
   content: "styleguide darker";
 }
 
-.color-block:nth-child(39):after {
+.color-block:nth-child(34):after {
   content: "#314958";
 }
 
-.color-block:nth-child(40) {
+.color-block:nth-child(35) {
   background-color: #77030d;
   color: #fff;
 }
 
-.color-block:nth-child(40):before {
+.color-block:nth-child(35):before {
   content: "accent darker";
 }
 
-.color-block:nth-child(40):after {
+.color-block:nth-child(35):after {
   content: "#77030d";
 }
 
-.color-block:nth-child(41) {
-  background-color: #8f9ba8;
-  color: #fff;
-}
-
-.color-block:nth-child(41):before {
-  content: "function darker";
-}
-
-.color-block:nth-child(41):after {
-  content: "#8f9ba8";
-}
-
-.color-block:nth-child(42) {
+.color-block:nth-child(36) {
   background-color: #729833;
   color: #fff;
 }
 
-.color-block:nth-child(42):before {
+.color-block:nth-child(36):before {
   content: "success darker";
 }
 
-.color-block:nth-child(42):after {
+.color-block:nth-child(36):after {
   content: "#729833";
 }
 
-.color-block:nth-child(43) {
+.color-block:nth-child(37) {
   background-color: #03080d;
   color: #fff;
 }
 
-.color-block:nth-child(43):before {
+.color-block:nth-child(37):before {
   content: "type darkest";
 }
 
-.color-block:nth-child(43):after {
+.color-block:nth-child(37):after {
   content: "#03080d";
 }
 
-.color-block:nth-child(44) {
+.color-block:nth-child(38) {
   background-color: #041625;
   color: #fff;
 }
 
-.color-block:nth-child(44):before {
+.color-block:nth-child(38):before {
   content: "links darkest";
 }
 
-.color-block:nth-child(44):after {
+.color-block:nth-child(38):after {
   content: "#041625";
 }
 
-.color-block:nth-child(45) {
+.color-block:nth-child(39) {
   background-color: #677077;
   color: #fff;
 }
 
-.color-block:nth-child(45):before {
+.color-block:nth-child(39):before {
   content: "bg darkest";
 }
 
-.color-block:nth-child(45):after {
+.color-block:nth-child(39):after {
   content: "#677077";
 }
 
-.color-block:nth-child(46) {
+.color-block:nth-child(40) {
   background-color: #12334A;
   color: #fff;
 }
 
-.color-block:nth-child(46):before {
+.color-block:nth-child(40):before {
   content: "styleguide darkest";
 }
 
-.color-block:nth-child(46):after {
+.color-block:nth-child(40):after {
   content: "#12334A";
 }
 
-.color-block:nth-child(47) {
+.color-block:nth-child(41) {
   background-color: #390207;
   color: #fff;
 }
 
-.color-block:nth-child(47):before {
+.color-block:nth-child(41):before {
   content: "accent darkest";
 }
 
-.color-block:nth-child(47):after {
+.color-block:nth-child(41):after {
   content: "#390207";
 }
 
-.color-block:nth-child(48) {
-  background-color: #485561;
-  color: #fff;
-}
-
-.color-block:nth-child(48):before {
-  content: "function darkest";
-}
-
-.color-block:nth-child(48):after {
-  content: "#485561";
-}
-
-.color-block:nth-child(49) {
+.color-block:nth-child(42) {
   background-color: #38521a;
   color: #fff;
 }
 
-.color-block:nth-child(49):before {
+.color-block:nth-child(42):before {
   content: "success darkest";
 }
 
-.color-block:nth-child(49):after {
+.color-block:nth-child(42):after {
   content: "#38521a";
 }
 
 .color-block {
-  width: 13.28571%;
+  width: 15.66667%;
   padding: 1%;
   margin-right: .95%;
   float: left;
@@ -4325,8 +4324,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .baseline-on {
   background-image: url(http://basehold.it/i/24);
-  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.5em;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 1.5em;
+  background: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 1px, transparent 1px, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 0.75em;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 1px, transparent 1px, rgba(0, 0, 0, 0.15) 1px, transparent 1px) top left/auto 0.75em;
 }
 
 .baseline-off {

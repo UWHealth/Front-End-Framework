@@ -5,7 +5,7 @@
 Isolates an image from text wrapping underneath. Useful for creating an association between an image and text. Often used with an icon or avatar. Adding other classes to the `isolate_body` can create a more stylized version.
 
 ```html_example
-<img class="isolate_media" src="http://placehold.it/300x50" alt="placeholder image">
+<img class="isolate_media" src="http://placehold.it/300x48" alt="placeholder image">
 <p class="isolate_body">
 	Content that sits to the right of the image but will never wrap underneath the image to the left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
 </p>
@@ -27,26 +27,30 @@ Isolates an image from text wrapping underneath. Useful for creating an associat
 	float: right;
 }
 
+%media_block {
+    display: block;
+}
+
 .isolate {
-	@extend %one_whole;
-	@extend %block;
+	width: 100%;
+	@extend %media_block;
 	@extend %clearfix;
-	@extend %space_b;
+	@include type-space(margin-bottom, 1);
 
 	&_media {
 		@extend %media_left;
-		@extend %block;
+		@extend %media_block;
 		@extend %media_overflow;
 
 		img {
-			@extend %block;
+			@extend %media_block;
 		}
 	}
 
 	&_body {
-		@extend %block;
+		@extend %media_block;
 		@extend %media_overflow;
-		@extend %pad_l_half;
+		@include type-space(padding-left, .5);
 	}
 }
 
@@ -68,7 +72,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 ```html_example
 <div class="arrange">
 	<div class="arrange_media">
-		<img src="http://placehold.it/60x50" alt="placeholder image">
+		<img src="http://placehold.it/60x48" alt="placeholder image">
 	</div>
 	<div class="arrange_body">
 		Content that is vertically (middle) aligned with the image.
@@ -78,7 +82,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 <!-- Bottom Arrangement -->
 <div class="arrange arrange_bottom">
 	<div class="arrange_media">
-		<img src="http://placehold.it/60x50" alt="placeholder image">
+		<img src="http://placehold.it/60x48" alt="placeholder image">
 	</div>
 	<div class="arrange_body">
 		Content that is bottom aligned to the image.
@@ -91,7 +95,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 		Equal width columns.
 	</div>
 	<div class="arrange_fill">
-		<img class="show" src="http://placehold.it/120x80" alt="placeholder image" style="margin: auto;">
+		<img class="show" src="http://placehold.it/120x72" alt="placeholder image" style="margin: auto;">
 	</div>
 	<div class="arrange_fill">
 		Can be as many columns as you want.
@@ -105,26 +109,26 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 .arrange {
 	table-layout: auto;
 	min-width: 100%;
-	@extend %table;
-	@extend %one_whole;
-	@extend %space_b;
+	display: table;
+	width: 100%;
+	@include type-space(margin-bottom, 1);
 
 	&_fill,
 	&_fit,
 	&_media,
 	&_body {
-		@extend %table_cell;
+		display: table-cell;
 	}
 
 	&_fill,
 	&_body {
-		@extend %one_whole;
+		width: 100%;
 	}
 
 	&_media,
 	&_fit {
 		img {
-			@extend %block;
+			display: block;
 			max-width: none;
 		}
 	}

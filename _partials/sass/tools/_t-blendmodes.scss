@@ -1,6 +1,45 @@
-//--------------------------------
-// Color Blending modes
-//--------------------------------
+/* SG
+
+# Colors/Blending Modes [[dev]]
+
+@file tools/_t-blend-modes.scss
+
+@priority 2
+
+[Taken from Sass Blend Modes](https://github.com/heygrady/scss-blend-modes/blob/master/stylesheets/_blend-modes.scss)
+
+##### `blend-normal()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-multiply()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-lighten()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-darken()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-lineardodge()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-linearburn()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-difference`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-screen()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-exclusion()`
+###### function(`$forground, $background, $amount:0`)
+
+##### `blend-multiply()`
+###### function(`$forground, $background, $amount:0`)
+
+*/
+
 //Taken from: https://github.com/heygrady/scss-blend-modes/blob/master/stylesheets/_blend-modes.scss
 
 //Mimic blending modes found in photoshop.
@@ -279,8 +318,8 @@
 }
 
 @function blend-hardlight ($foreground, $background, $amount:0) {
-		$amount: $amount / 100;
-		$foreground: transparentize($foreground, $amount);
+	$amount: $amount / 100;
+	$foreground: transparentize($foreground, $amount);
 	$bm-red: blend-hardlight-color(red($foreground), red($background));
 	$bm-green: blend-hardlight-color(green($foreground), green($background));
 	$bm-blue: blend-hardlight-color(blue($foreground), blue($background));
@@ -308,8 +347,8 @@
 }
 
 @function blend-colordodge ($foreground, $background, $amount:0) {
-		$amount: $amount / 100;
-		$foreground: transparentize($foreground, $amount);
+	$amount: $amount / 100;
+	$foreground: transparentize($foreground, $amount);
 	$bm-red: blend-colordodge-color(red($foreground), red($background));
 	$bm-green: blend-colordodge-color(green($foreground), green($background));
 	$bm-blue: blend-colordodge-color(blue($foreground), blue($background));
@@ -324,7 +363,6 @@
 @function blend-colorburn-color($foreground, $background) {
 	$tmp: (255 - ((255 - $background) * 255) / $foreground);
 
-	// TODO: hacked to replicate photoshop
 	@if $foreground == 0 {
 		$foreground: 255;
 	} @elseif $tmp < 0 {

@@ -11,12 +11,6 @@ $components_namespace: '';
 	$silent: true
 );
 
-@include display-utilities-init(
-	$namespace: $components_namespace,
-	$important: false,
-	$silent: true
-);
-
 @include type-utilities-init(
 	$namespace: $components_namespace,
 	$important: false,

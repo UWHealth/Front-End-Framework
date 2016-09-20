@@ -7,52 +7,27 @@
 }
 
 h1 {
-    @extend %base_h1;
-}
-h2 {
-    @extend %base_h2;
-}
-h3 {
-    @extend %base_h3;
-}
-h4 {
-    @extend %base_h4;
-}
-h5 {
-    @extend %base_h5;
-}
-h6 {
-    @extend %base_h6;
-}
-
-
-%base_h1 {
-	@extend %base_heading_space;
     @include font-size($type-h1-size, $h1-lh);
 }
-%base_h2 {
-	@extend %base_heading_space;
+h2 {
     @include font-size($type-h2-size, $h2-lh);
 }
-%base_h3 {
-	@extend %base_heading_space;
+h3 {
     @include font-size($type-h3-size, $h3-lh);
 }
-%base_h4 {
-	@extend %base_heading_space;
+h4 {
     @include font-size($type-h4-size, $h4-lh);
 }
-%base_h5 {
-	@extend %base_heading_space;
+h5 {
     @include font-size($type-h5-size, $h5-lh);
 }
-%base_h6 {
-	@extend %base_heading_space;
+h6 {
     @include font-size($type-h6-size, $h6-lh);
 }
 
 
 @include headings(1, 6) {
+    @extend %base_heading_space;
 	@extend %secondary_font_family;
 
     & + p {
@@ -66,7 +41,6 @@ h6 {
 The default font size for all typography is #{$base-font-size} with line-height of #{$base-line-height}(#{$type-base-ratio}). This is applied to the body and all paragraphs. `<p>` tags all receive a bottom margin of #{$type-base-unit}.
 
 ```html_example
-<p>Example</p>
 <p>Aenean lacinia bibendum nulla sed consectetur. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. </p>
 <p>Nullam quis risus eget urna mollis ornare vel eu leo. Nulla vitae elit libero, a pharetra augue.</p>
 ```
@@ -74,9 +48,9 @@ The default font size for all typography is #{$base-font-size} with line-height 
 */
 
 p {
-	@extend %base_type_vertical_rhythm;
+	@extend %type_vertical_rhythm;
 
-    @if $indented-paragraphs == true {
+    @if $indented-paragraphs {
 
         & + & {
             @include type-space(text-indent, .5);
@@ -95,16 +69,16 @@ small {
 // Not strictly a paragraph, but probably doesn’t need its own section.
 //
 address {
-    @extend %base_type_vertical_rhythm;
+    @extend %type_vertical_rhythm;
 }
 
 b,
 strong {
-	font-weight: bold;
+	font-weight: 700;
 }
 
 pre {
-    @extend %base_type_vertical_rhythm;
+    @extend %type_vertical_rhythm;
     white-space: pre;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -178,7 +152,7 @@ blockquote {
 
 }
 
-q   {
+q {
     *quotes: none;
     quotes: "‘" "’" "“" "”";
     overflow: visible;

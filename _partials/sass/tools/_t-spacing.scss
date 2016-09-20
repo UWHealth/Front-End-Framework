@@ -5,7 +5,7 @@
 /* SG
 # Tools/Spacing Utilities [[dev]]
 
-@file globals/tools/_t-spacing.scss
+@file tools/_t-spacing.scss
 
 ##### `layout-type()`
 ###### function(`$space-type:''`, `$space-direction:''`)
@@ -41,18 +41,22 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 	@if str-contains($space-type, 'm')
 	or str-contains($space-type, 'spa') {
 		$space-type: 'margin';
-	}@else if str-contains($space-type, 'pad')
+	}
+    @else if str-contains($space-type, 'pad')
 	or str-contains($space-type, 'p') {
 		$space-type: 'padding';
 	}
 
 	@if str-contains($space-direction, 't') {
 		$space-direction: '-top';
-	}@else if str-contains($space-direction, 'r') {
+	}
+    @else if str-contains($space-direction, 'r') {
 		$space-direction: '-right';
-	}@else if str-contains($space-direction, 'b') {
+	}
+    @else if str-contains($space-direction, 'b') {
 		$space-direction: '-bottom';
-	}@else if str-contains($space-direction, 'l') {
+	}
+    @else if str-contains($space-direction, 'l') {
 		$space-direction: '-left';
 	};
 
@@ -130,21 +134,24 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 							@extend #{$classtype}#{$namespace}#{$space}_t#{$amount_name};
 							@extend #{$classtype}#{$namespace}#{$space}_b#{$amount_name};
 
-						}@else if str-contains($direction, 'h') {
+						}
+                        @else if str-contains($direction, 'h') {
 							@extend #{$classtype}#{$namespace}#{$space}_r#{$amount_name};
 							@extend #{$classtype}#{$namespace}#{$space}_l#{$amount_name};
 
-						}@else {
+						}
+                        @else {
 							@if $amount == 0 {
 								//For 0 amounts, just output a 0
 								#{$layout_type}:0 #{$important-string};
-
-							}@else {
+							}
+                            @else {
 								//Using type-space mixin, output the REM-based value
 								@include type-space($layout_type, $amount, $important);
 							}
 						}
 					}
+
 					$class-name: #{$classtype}#{$namespace}#{$space}#{$direction}#{$amount_name};
 					$class-name-list: map-merge($class-name-list, ($class-name: $amount));
 				}

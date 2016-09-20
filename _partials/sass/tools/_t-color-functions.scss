@@ -3,9 +3,11 @@
 //------------------------------------*/
 
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Lookup [[dev]]
 
-@file globlas/_gl-color-functions.scss
+@file tools/_t-color-functions.scss
+
+@priority 99
 
 ##### `colors()`
 ###### function(`$color-name, $tone: 'base', $opacity: 1`)
@@ -45,7 +47,7 @@ Passing only a color name will default to the 'base' color.
 
 
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Lookup [[dev]]
 
 ##### `combine-color-maps()`
 ###### function(`$map1 , $map2`)
@@ -68,7 +70,9 @@ Specialized function used by `generate-color-variations()` to merge two color ma
 }
 
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Manipulation [[dev]]
+
+@file tools/_t-color-functions.scss
 
 ##### `generate-color-varations()`
 ###### function( `$map: $colors, $functions: (tint, tint, tint, shade, shade, shade), $increments: (20%, 40%, 80%, 20%, 40%, 80%), $variations: (light, lighter, lightest, dark, darker, darkest), $blending-colors: null`)
@@ -191,7 +195,7 @@ Takes base color values and generates a full color palette. Used by the `$$base-
 }
 
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Manipulation [[dev]]
 
 
 ##### `black-or-white()`
@@ -306,7 +310,9 @@ Find the relative luminance of a color. Used by `color-contrast()`.
 
 
 /* SG
-# Functions/Colors [[dev]]
+# Colors/Debugging [[dev]]
+
+@file tools/_t-color-functions.scss
 
 ##### `@color-palette-output()`
 ###### mixin(`$selector`, `$color-map:` `$$base-colors`)
@@ -444,10 +450,11 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
     //Make sure non-prefixed blending modes
     // are appended with the correct function namespace
 	$blending-mode:
-	if(
-		str-contains($blending-mode, 'blend'),
-		$blending-mode, 'blend-' + $blending-mode
-	);
+    	if(
+    		str-contains($blending-mode, 'blend'),
+    		$blending-mode,
+            'blend-' + $blending-mode
+    	);
 
 	@if type-of($color-list) == 'map' {
 		$color-list: map-add-depth($color-list);

@@ -27,6 +27,10 @@ Used for `$$auto-scale-type` and for `modular-scale()`.
 ###### Boolean
 Determines whether `rems()` conversion includes a pixel-value fallback for older browsers like IE8.
 
+##### `$$indented-paragraphs`
+###### Boolean
+Determines whether to generate css for paragraphs with a text indent, rather than paragraphs with margins between them.
+
 */
 
 $base-font-size:            16px;
@@ -36,6 +40,8 @@ $auto-scale-type:           false;
 $scale-ratio:               1.35;
 
 $rem-px-fallback: 			true;
+
+$indented-paragraphs:       false;
 
 
 
@@ -98,8 +104,11 @@ Determines whether to generate `@font-face` values that point at an .eot file. F
 
 
 $primary-font-stack:      	"opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
 $secondary-font-stack:     	"Asap", "Garamond","Baskerville", "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
+
 $monospace-font-stack: 		"Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
+
 $icon-font-stack: 			null;
 
 //Custom web fonts
@@ -141,15 +150,13 @@ Determines whether to include extra grid classes for positional grid modifiers.
 
 ##### `$$grid-markup-fix`
 ###### Boolean
-If set to `true`, html must have comments between grid items. Almost always set to `false`.
+If set to `true`, html must have no white space (or comments) between grid items. Almost always set to `false`.
 
 ##### `$$grid-floats`
 ###### Boolean
-If set to `true`, uses floats instead of inline-block.
+If set to `true`, the grid uses floats instead of inline-block for layout.
 
-##### `$$breakpoints-has-widths`,
-##### `$$breakpoints-has-push`,
-##### `$$breakpoints-has-pull`
+##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
 ###### List (string)
 Determines what classes (widths, pushes, pulls) get generated at `$$breakpoints`. The list's order determines the output order. This is useful if you want one breakpoint to override another.
 
@@ -294,11 +301,35 @@ $breakpoint-has-type-classes: 				('smalls', 'bigs');
 
 
 /* SG
-# Config/General Settings [[dev]]
+# Config/Color Settings [[dev]]
+
+@file _config.scss
 
 ##### `$$base-colors`
 ###### Map (key : color value)
-Set up variable names to be used for color-palette. Dark and light values will be automatically generated. Variables can be accessed through the `colors()`. The generated styles can be modified in `colors/_color-functions.scss`
+Sets up consistent color names to be used for color-palette. Dark and light values will be automatically generated. Key values should be accessed through `colors()`.
+`type`, `links`, and `bg` key values are required for some starter styles. If you choose not to use them, just replace their references in the appropriate files.
+
+Supports a nested map style like the following:
+```scss
+$base-colors: (
+  'type':(
+    'base':red,
+    'light': pink,
+    'dark':maroon
+  ),
+  'links':(
+    'base':blue,
+    'light': sky,
+    'dark': navy
+  ),
+  'bg': (
+    'base': #fff,
+    'dark': #ddd
+  )
+);
+
+```
 */
 
 $base-colors: (
@@ -321,8 +352,6 @@ $base-colors: (
 
 	'accent': mix(#d40026, #AD0909, 45%),
 
-	'function': #d7dde5,
-
 	'success': #bada55
 
 );
@@ -334,8 +363,8 @@ $base-colors: generate-color-variations(
 		'dark', 'darker', 'darkest'
 	),
 	$functions: ( //functions to use when creating variations
-		linearlight, lineardodge, tint,
-		darken, linearburn, linearburn
+		'linearlight', 'lineardodge', 'tint',
+		'darken', 'linearburn', 'linearburn'
 	),
 	$blending-colors: ( //Allows for more uniform colors
 		#cbcbcb, #efefef, null,

@@ -4,7 +4,7 @@
 
 .table_responsive thead + tbody td:before {
 	content: attr(data-th)" ";
-	@extend %txt_bold;
+	font-weight: 700;
 	padding-right: .25em;
 	display: none;
 }
