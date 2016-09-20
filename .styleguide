@@ -6,8 +6,7 @@
   "jsonOutput": "./styleguide/index.json",
 	"templateFile": "./styleguide/imports/template.html",
 	"themeFile": "./styleguide/imports/theme.css",
-	"highlightFolder": "./node_modules/highlight.js/styles",
-	"highlightStyle": "zenburn",
+	"highlightStyle": "rainbow",
 	"excludeDirs": [
 		"target",
 		"node_modules",

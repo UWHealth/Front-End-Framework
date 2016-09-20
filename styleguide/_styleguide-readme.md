@@ -2,15 +2,21 @@
 / 		README            \
 /*************************\
 This file is exclusively used for the style guide.
+<SG>
+# Getting Started [[dev]]
+
+@priority last
+
+</SG>
 
 <SG>
-# \_Setup/ [[dev]]
+# Getting Started/Introduction [[dev]]
 
 ## A number of front-end technologies to get any e-Health website or application off the ground.
 </SG>
 
 <SG>
-# \_Setup/1. Software [[dev]]
+# Getting Started/Software [[dev]]
 
 1. [Node](https://nodejs.org/)
 2. [Gulp](http://gulpjs.com/)
@@ -18,10 +24,10 @@ This file is exclusively used for the style guide.
 </SG>
 
 <SG>
-# \_Setup/2. Getting Started [[dev]]
+# Getting Started/Setup [[dev]]
 
 1. [Clone or Fork](https://github.com/UWHealth/Front-End-Framework.git)
-2. Using the command line (preferably using PowerShell rather than cmd.exe), `cd` to the Framework's directory.
+2. Using the command line (preferably using PowerShell rather than cmd.exe), `cd` to the project's directory.
 3. Run `npm install`.
 4. Run `npm install gulp -g` to install gulp globally (if you haven't already)
 5. Run `gulp`
@@ -31,7 +37,7 @@ This file is exclusively used for the style guide.
 </SG>
 
 <SG>
-# \_Setup/3. Tips and Tricks [[dev]]
+# Getting Started/Tips and Tricks [[dev]]
 
 ## Style Guide generation
 The style guide you are reading is generated on the fly by the `gulp` task `styleguide` (using the markdown-styleguide-generator node module).
@@ -47,7 +53,7 @@ Create `html` examples (with a code snippet) by creating a code block followed b
     ```html_example
     <div>...</div>
     ```
-    * /
+    */
 
 Separating "development" comments from "styles" requires adding a `[[dev]]` anywhere within the title of that section.
 
@@ -59,7 +65,7 @@ Everything will be run through [Markdown (GitHub-flavored)](https://guides.githu
 
 #### Markdown Use
 
-Sometimes meta information that does not fit logically into a scss file is necessary. In those cases, you can use a plain markdown file. To make the  wrap your style-guide-specific comments in an `<SG>` "tag" rather than a `/* SG` comment.
+Sometimes meta information that does not fit logically into a scss file is necessary. In those cases, you can use a plain markdown file. To start a style guide block, wrap your comments in an `<SG>` "tag" rather than a `/* SG */` comment.
 
 ---
 
@@ -72,7 +78,7 @@ Compress and uglify your css and js files.
 
 #### No Style Guide
 ###### `--no-sg`
-Prevents style guide generation. This can be useful if you are simply working on styles only since the style guide forces a page reload.
+Prevents style guide generation.
 
 #### Sourcemaps
 ###### `--sm`

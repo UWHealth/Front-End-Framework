@@ -27,13 +27,19 @@
     {{!--Menu--}}
     <nav id="styleguide-menu" class="sg-menu">
         <div id="styleguide-menu-wrap">
-            <h1 class="sg-logo h5 space_0"><a href="#" class="sectionlink show_all menu_link">Front-End Framework</a></h1>
+            <h1 class="sg-logo h5 space_0">
+                <a href="#" class="sg-menu_section-link js-sg-menu_show-all sg-menu_link">Front-End Framework</a>
+            </h1>
             {{#each menus}}
             {{#eachProperty this}}
-            <ul class="top_menu">
+            <ul class="sg-menu_list">
                 <li>
-                    <a href="#{{key}}" class="sectionlink show_all menu_link">{{titleize key}}</a>
-                    <span class="topmenu_toggle submenu_toggle toggle_active" data-toggle="#sub-{{key}}" data-toggle-type="slide">&#9662;</span>
+                    <a href="#{{key}}" class="sg-menu_section-link js-sg-menu_show-all sg-menu_link">
+                        {{titleize key}}
+                    </a>
+                    <span class="sg-menu_toggle sg-menu_toggle-top toggle_active" data-toggle="#sub-{{key}}" data-toggle-type="slide">
+                        &#9662;
+                    </span>
                 </li>
             </ul>
             <ul id="sub-{{key}}" class="menu_body">
@@ -41,18 +47,19 @@
                 {{#with value}}
                 <li>
                     {{#if headings.1.name}}
-                    <a class="submenulink menulink_with_subs" href="#{{sanitize headings.0.id}}">{{name}}</a>
-                    <span class="submenu_toggle"
-                        data-toggle="[data-submenu='{{headings.0.name}}']"data-toggle-type="slide">&#9662;</span>
+                    <a class="submenulink menulink_with_subs" href="#{{sanitize headings.0.id}}">
+                        {{name}}
+                    </a>
+                    <span class="sg-menu_toggle" data-toggle="[data-submenu='{{headings.0.name}}']" data-toggle-type="slide">&#9662;</span>
                     <ul class="submenu" data-submenu="{{headings.0.name}}">
                     {{#each headings}}
                         <li>
-                            <a href="#{{sanitize id}}" class="submenulink sub-sub menu_link">{{name}}</a>
+                            <a href="#{{sanitize id}}" class="submenulink sub-sub sg-menu_link">{{name}}</a>
                         </li>
                     {{/each}}
                     </ul>
                     {{else}}
-                    <a class="sectionlink menu_link" href="#{{sanitize headings.0.id}}">{{name}}</a>
+                    <a class="sg-menu_section-link sg-menu_link" href="#{{sanitize headings.0.id}}">{{name}}</a>
                     {{/if}}
                 </li>
                 {{/with}}
@@ -69,28 +76,28 @@
         {{#each sections}}
             <section id="{{@key}}" class="sg-section {{@key}}-section" data-section="{{@key}}">
                 <div class="sg-article sg-section_start">
-                    <h1 class="sg-heading sg-heading-section h3">{{titleize @key}}</h1>
+                    <h2 class="sg-heading sg-heading-section h3">{{titleize @key}}</h2>
                 </div>
                 {{#each this}}
 
                 <div class="sg-category">
                     {{#if articles.[1]}} {{!--Check for more than one article --}}
                     <header class="sg-article sg-category_header" data-section="{{sanitize name}}">
-                        <h2 class="sg-heading-category h4">
+                        <h3 class="sg-heading-category h4">
                             {{name}}
-                        </h2>
+                        </h3>
                     </header>
                     {{/if}}
                 {{#each articles}}
                 <article class="sg-article" id="{{sanitize id}}" data-section="{{sanitize category}}" data-heading="{{sanitize heading}}">
                     <header class="sg-article_header pad_b{{#unless heading}} sg-category_header{{/unless}}">
-                        <h3 class="sg-heading sg-heading-article h4">
+                        <h4 class="sg-heading sg-heading-article">
                             {{~#if heading~}}
                                 {{heading}}
                             {{else}}
                                 {{category}}
                             {{~/if~}}
-                        </h3>
+                        </h4>
                         {{~#if isDevelopment~}}
                             <code class="sg-codespan">{{fileLocation}}</code>
                         {{~/if}}
@@ -134,15 +141,15 @@
 
         //Sticky left menu
         $('#styleguide-menu-wrap').stick_in_parent();
-        $('.sg-category_header').stick_in_parent();
-        $('.sg-article_header').stick_in_parent({
+
+        $('.sg-article_header, .sg-category_header').stick_in_parent({
             bottoming: true
             }).on('sticky_kit:bottom', function(){
                 $(this).addClass('is_stuck_bottom');
             }).on('sticky_kit:unbottom sticky_kit:stick sticky_kit:unstick', function(){
-                $(this).removeClass('is_stuck_bottom');
+                $('.is_stuck_bottom').removeClass('is_stuck_bottom');
             });
-        $('.is_stuck_bottom').removeClass('is_stuck_bottom');
+
 
         var History = window.History;
         var $menu = $("#styleguide-menu");
@@ -160,16 +167,16 @@
             var $parentToggle = $menuItem.closest('.submenu').prev();
 
             //Toggle other menu accordions off
-            $('.toggle_active').not($parentToggle).not('.topmenu_toggle').trigger('click');
+            $('.toggle_active').not($parentToggle).not('.sg-menu_toggle-top').trigger('click');
 
             //Make sure top menu clicks "sink" down to their first menu item
             if ($menuItem.hasClass('menulink_with_subs')){
                 $menuItem.closest('.submenu').siblings('.submenulink').addClass('on')
-                .siblings('.submenu_toggle').not('.toggle_active').trigger('click');
+                .siblings('.sg-menu_toggle').not('.toggle_active').trigger('click');
 
             }else if($menuItem.hasClass('sub-sub')){
 
-                $menuItem.closest('ul').siblings('.submenu_toggle').not('.toggle_active').trigger('click');
+                $menuItem.closest('ul').siblings('.sg-menu_toggle').not('.toggle_active').trigger('click');
 
             }
         };
@@ -206,7 +213,7 @@
                 console.log(err);
             }
 
-            $('.is_stuck_bottom').removeClass('is_stuck_bottom');
+            $('.sg-article_header, .sg-category_header').trigger('sticky_kit:unbottom');
         };
 
         function getState(e) {
@@ -250,8 +257,7 @@
                 id = "_"+id+"_";
 
             if($('#heading-'+id).length > 0) {
-            	var aWrapper = '<a class="code_reference" href="#heading-'+id+'"></a>';
-            	$(this).wrap(aWrapper);
+            	$(this).wrap('<a class="code_reference" href="#heading-'+id+'"></a>');
             }
           }
         });
