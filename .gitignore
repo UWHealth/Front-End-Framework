@@ -11,3 +11,4 @@ styleguide/index.json
 *.iml
 
 npm-debug.log
+.imdone
