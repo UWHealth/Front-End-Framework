@@ -12,7 +12,7 @@ var notify      = require('gulp-notify');
 var plumber     = require('gulp-plumber');
 var rename      = require('gulp-rename');
 var replace     = require('gulp-replace');
-var sass		    = require('gulp-sass');
+var sass		= require('gulp-sass');
 var shell       = require('gulp-shell');
 var size        = require('gulp-size');
 var sourcemaps  = require('gulp-sourcemaps');
@@ -146,33 +146,33 @@ gulp.task('sass', function() {
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(_if(_sourceMaps, sourcemaps.init()))
 		.pipe(sass({
-			outputStyle: 'expanded',
-      sourcemap: _sourceMaps,
-		  errLogToConsole: true
-      })
-    )
+            outputStyle: 'expanded',
+            sourcemap: _sourceMaps,
+            errLogToConsole: true
+        }))
+    //Autoprefix
 		.pipe(autoprefixer({
 			browsers: AUTOPREFIXER_BROWSERS
 		}))
     //Report size of uncompressed CSS
-    .pipe(size({
-      title: 'CSS: ', gzip: true, showFiles: true
-    }))
+        .pipe(size({
+            title: 'CSS', gzip: true, showFiles: true
+        }))
     //Output non-minified
-    .pipe(gulp.dest(PATHS.scss.dest))
+        .pipe(gulp.dest(PATHS.scss.dest))
     //Minify
-    .pipe(cssnano({
-      discardComments: {removeAll: false},
-      zindex: false
-    }))
-    .pipe(rename({
-      suffix: '.min'
-    }))
-	  .pipe(_if(_sourceMaps, sourcemaps.write('./maps')))
+        .pipe(cssnano({
+            discardComments: {removeAll: false},
+            zindex: false
+        }))
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(_if(_sourceMaps, sourcemaps.write('./maps')))
     //Report size of compressed files
-    .pipe(size({
-      title: 'CSS (minified): ', gzip: true, showFiles: true
-    }))
+        .pipe(size({
+            title: 'CSS (minified)', gzip: true, showFiles: true
+        }))
     //Output minified CSS
 		.pipe(gulp.dest(PATHS.scss.dest));
 });
@@ -191,18 +191,19 @@ gulp.task('js', function(){
 		.pipe(_if(_sourceMaps, sourcemaps.init()))
     //Concatenate JS partials
 		.pipe(include())
-      //Uglify
-      .pipe(_if(_minify,
-        uglify({preserveComments: 'some'})
-      ))
 		.pipe(rename(function(path) {
 			//remove underscores from the beginning of partials
 			path.basename = path.basename.replace(/^_/gi,"");
 		}))
-    .pipe(_if(_sourceMaps, sourcemaps.write('./maps')))
-    //Report size of processed files
+        .pipe(_if(_sourceMaps, sourcemaps.write('./maps')))
+        //Report size of processed files
 		.pipe(size({title: 'JS', showFiles: true, gzip: true}))
-		.pipe(gulp.dest(PATHS.js.dest));
+		.pipe(gulp.dest(PATHS.js.dest))
+        //Uglify
+        .pipe(uglify({preserveComments: 'some'}))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(size({title: 'JS (minified)', showFiles: true, gzip: true}))
+        .pipe(gulp.dest(PATHS.js.dest));
 });
 
 //Compile .kit files into html
@@ -211,7 +212,7 @@ gulp.task('kits', function(){
 	return gulp.src(PATHS.kits.main)
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(kit())
-    .pipe(size({title: 'HTML', showFiles: true, gzip: true}))
+        .pipe(size({title: 'HTML', showFiles: true, gzip: true}))
 		.pipe(gulp.dest(PATHS.kits.dest));
 });
 
@@ -222,9 +223,9 @@ gulp.task('styleGuide', function(){
 	return gulp.src('./')
 		.pipe(plumber({errorHandler: _error}))
 		.pipe(shell('md_documentation'))
-    .pipe(_if(_bsIsRunning, function(){
-      browserSync.notify("Style Guide Compiled.")
-    }));
+        .pipe(_if(_bsIsRunning, function(){
+          browserSync.notify("Style Guide Compiled.")
+        }));
 });
 
 
