@@ -31,31 +31,51 @@
 				toggle_class = ["", toggle_class];
 			}
 
+            if (toggle_class[0] == 'toggle_active'){
+                $this.toggleClass(toggle_class[0]);
+            }
+
 			if(type === "class"){
 				$toggle.change_class($this, $toggle_target, toggle_class);
-			}else if(type === "slide" && veloExists) {
-				if (toggle_class[0] == 'toggle_active'){
-					$this.toggleClass(toggle_class[0]);
-				}
+			}
+            else if(type === "slide" && veloExists) {
+
 				if($toggle_target.is(':visible')){
 					$toggle_target.velocity('slideUp', 200, function(){
 						$toggle.change_class($this, $toggle_target, toggle_class);
 					});
 
-				}else{
+				}
+                else {
 					$toggle_target.velocity('slideDown', 200, function(){
 						$toggle.change_class($this, $toggle_target, toggle_class);
 					});
 
 				}
-			}else if(type === "squish" && veloExists) {
+			}
+            else if(type === "squish" && veloExists) {
+                if($toggle_target.is(':visible')){
+					$toggle_target.velocity({
+                        scaleY: 0
+                    }, 200, function(){
+						$toggle.change_class($this, $toggle_target, toggle_class);
+					});
 
+				}
+                else {
+					$toggle_target.velocity({
+                        scaleY: 1
+                    }, 200, function(){
+						$toggle.change_class($this, $toggle_target, toggle_class);
+					});
+
+				}
 			}
 
 		}),
 
 		change_class: (function($this, $toggle_target, toggle_class){
-			
+
 			$toggle_target.toggleClass(toggle_class[0]);
 			$toggle_target.toggleClass(toggle_class[1]);
 
