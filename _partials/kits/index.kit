@@ -1,37 +1,37 @@
-<!--$pageTitle= e-Health Frontend Framework-->
-<!--@import 'meta.kit'-->
-<div id="toggles">
-    <a id="baseline-on" class="button">
-        Baseline
-    </a>
-</div>
-<div class="wrap">
-    <header class="row" role="banner">
-        <div class="column media_block">
-            <a href="/" class="link_naked">
-                <img src="images/logo.png" class="img align_left">
-                <h1>
-                    e-Health Frontend Framework
-                </h1>
-            </a>
-		</div>
-		<div class="column">
-			<nav class="box box_open pad_v_half" role="navigation">
-				<ul class="list_inline list_nav h6">
-					<li><a href="grid.html">Grid</a></li>
-					<li><a href="lists.html">Lists</a></li>
-					<li><a href="components.html">Components</a></li>
-					<li><a href="functions.html">Functions</a></li>
-					<li><a href="misc.html">Misc.</a></li>
-					<li class="align_right">
-						<a href="https://github.com/UWHealth/Front-End-Framework" target="_blank">
-							<img src="images/github.png" class="icon">Github
-						</a>
-					</li>
-				</ul>
-			</nav>
-    	</div>
-    </header>
+<!--$pageTitle = e-Health Frontend Framework-->
+<!--@import '_meta.kit'-->
+<header class="hero" role="banner">
+        <div class="hero_body">
+            <div class="wrap">
+                <h1>e-Health<br>Frontend Framework</h1>
+                <p class="h5 txt_secondary space_t_0">
+                    A number of frontend technologies to get any e&#8209;Health website or application off the ground
+                </p>
+                <a class="btn" href="styleguide">View Documentation</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav class="pad_v_half space_b_0" role="navigation" style="background-color: #fff" >
+    <div class="wrap pad_v_0">
+        <div class="arrange space_b_0">
+            <div class="arrange_fit">
+                <img role="presentation" src="images/logo.png">
+            </div>
+            <div class="arrange_fill">
+                <ul class="list_inline list_nav h6 space_b_0 pad_l_half">
+                    <li><a href="//github.com/UWHealth/Front-End-Framework">GitHub Repository</a></li>
+                    <li><a href="styleguide">Documentation</a></li>
+                    <li class="bigs_align_right"><a class="btn" id="js_baseline_toggle" href="#">Toggle Baseline</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="wrap space_t">
 
     <main role="main">
         <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, voluptate aperiam</h2>
@@ -49,7 +49,7 @@
                 </ul>
                 <p>Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</p>
             </aside>
-            <article class="content column">
+            <article id="tabs_test1" class="content column">
                  <div class="row">
                     <div class="wide_content column">
                         <h3><mark>Grid Test - Main Content</mark> ipsum dolor sit amet.</h3>
@@ -57,20 +57,15 @@
 
                         <a href="#main" class="tab_button" data-tab="tab_accordion tab_minimal tab_line tab_topline">Main</a>
                         <div id="main" class="tab_content">
-                            <h5><mark>Tabs Test (tab_minimal, tab_line, tab_topline)</mark></h5>
+                            <h5><mark>Crazy Tab animation test</mark></h5>
 
-                            <a href="#tab5" class="tab_button" data-tab="tab_side">First</a>
-                            <div id="tab5" class="tab_content"><h5><mark>Tabs Test (tab_side)</mark></h5>
+                            <a href="#first" class="tab_button" data-tab="tab_side">First</a>
+                            <div id="first" class="tab_content"><h5><mark>Nested tab Test</mark></h5>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
                             </div>
 
-                            <a href="#tab6" class="tab_button">Second</a>
-                            <div id="tab6" class="tab_content"><p>
-                                Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
-                            </div>
-                            <a href="#tab7" class="tab_button">Third</a>
+                            <a href="#tab7" class="tab_button">Single</a>
                             <div id="tab7" class="tab_content">
-
                                 <a href="#tab12" class="tab_button">Non-tab</a>
                             	<div id="tab12" class="tab_content"><p>
                                 This is tab_content with a single tab. It receives the tab wrapper, but no tab buttons</p>
@@ -92,64 +87,27 @@
 								<div class="content column">
 									<aside class="add_on align_right">
 									<p><small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate assumenda cumque magni dolore vitae blanditiis!</small></p>
-									</aside><!--
-								--><p class="wide_content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, non, accusamus, harum sed fugit dolorum dolore enim corrupti totam tenetur rem rerum repellendus delectus excepturi et sunt facilis soluta necessitatibus.</p>
+									</aside>
+								<p class="wide_content">This is just to show that any content can be contained within tab content areas.</p>
 									<p>Et, perferendis, repellat, asperiores enim esse dolorum ut provident sint reprehenderit pariatur expedita vitae quam possimus natus hic magni maxime dignissimos ducimus aperiam voluptas! Suscipit voluptas hic error cum optio?</p>
 									<p>Consequatur, repellat, ipsa, cum nesciunt reprehenderit quod temporibus impedit deserunt inventore atque magnam hic voluptatum vero dignissimos corrupti enim officia beatae voluptatibus ab adipisci! Libero sapiente excepturi quidem minima neque.</p>
 								</div>
 							</div>
-
+                        </div>
+                        <a href="#other2" class="tab_button">Tertiary</a>
+                        <div id="other2" class="tab_content">
+                            <p>Check it out!</p>
                         </div>
                     </div>
-                    <aside class="add_on column" role="complementary">
+                    <aside class="add_on column smalls_space_t" role="complementary">
                         <p><small><mark><strong>Grid Test - Add-on</strong></mark> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio, quam assumenda modi quibusdam omnis nesciunt incidunt dolore dolorem nostrum ducimus laborum eum soluta quos fugit totam illum tempore dolor sint!</small></p>
                     </aside>
                 </div>
             </article>
-            <div class="column">
-                <hr>
-            </div>
         </div>
-        <h6>
-        <mark>Minimal Side Tabs</mark> Totam, voluptatum, vel, in fuga rerum quo accusantium distinctio saepe voluptate fugiat eveniet commodi officiis sapiente odio expedita sit blanditiis assumenda cupiditate voluptates autem ex consequuntur eius fugit rem neque omnis obcaecati!
-        </h6>
-        <a href="#tab1" class="tab_button" data-tab="tab_side tab_accordion tab_minimal">Tab 1</a>
-        <div id="tab1" class="tab_content">
-            <h5><mark>Tabs Test (tab_side, tab_minimal)</mark></h5>
-
-            <a href="#moretabs" class="tab_button" data-tab="tab_minimal tab_line">More Tabs</a>
-        	<div id="moretabs" class="tab_content">
-            	<h6><mark>tab_minimal tab_line</mark></h6>
-            	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
-        	</div>
-
-			<a href="#anothertab" class="tab_button">Another Tab</a>
-			<div id="anothertab" class="tab_content">
-				<p>Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
-        	</div>
-        	<a href="#yetanother" class="tab_button">And Yet another Tab</a>
-			<div id="yetanother" class="tab_content">
-				<p>Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
-        	</div>
-
-		</div>
-
-        <a href="#tab2" class="tab_button">Tab 2</a>
-        <div id="tab2" class="tab_content"><p>
-            Consectetur adipisicing elit. Atque, tenetur, odio impedit nihil in quae reprehenderit ipsa qui iste ut iusto vitae voluptatibus maiores veniam asperiores totam quod aut porro?</p>
-
-                <a href="#tab3" class="tab_button quarter" data-tab="">Tab 3</a>
-                <div id="tab3" class="tab_content"><h5><mark>Tabs Test (normal tabs with grid widths)</mark></h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
-                </div>
-                <a href="#tab4" class="tab_button half">Combo tab style</a>
-                <div id="tab4" class="tab_content"><h5><mark>Stupid Looking Tab Test(grid width-based)</mark></h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, ratione doloremque obcaecati provident necessitatibus. Enim, vero quisquam repellat consequatur sed.</p>
-                </div>
-
-        </div>
-        <h6 class="h4 space_n_v"><mark>Table Test</mark></h6>
-        <table class="table_fixed table_striped">
+        <hr class="space_t_2">
+        <h6 class="h4"><mark>Table Test</mark></h6>
+        <table class="table_fixed table_striped table_responsive">
           <thead>
               <tr>
                 <th>Movie Title</th>
@@ -186,44 +144,6 @@
 
           </tbody>
         </table>
-
-        <p>
-        <h6 class="h4"><mark>Colors</mark></h6>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, odio, incidunt, sapiente repellat reprehenderit minus nam labore soluta odit repellendus architecto laudantium neque vitae maxime totam libero vero quibusdam dignissimos.</p>
-        <div class="fixed_row space_v_2">
-
-            <div class="color-block">$primary-color</div>
-            <div class="color-block">$accent-color</div>
-            <div class="color-block">$action-color</div>
-            <div class="color-block">$function-color</div>
-            <div class="color-block">$alert-color</div>
-
-            <div class="color-block">$primary-color-dark</div>
-            <div class="color-block">$accent-color-dark</div>
-            <div class="color-block">$action-color-dark</div>
-            <div class="color-block">$function-color-dark</div>
-            <div class="color-block">$alert-color-dark</div>
-
-            <div class="color-block">$primary-color-light</div>
-            <div class="color-block">$accent-color-light</div>
-            <div class="color-block">$action-color-light</div>
-            <div class="color-block">$function-color-light</div>
-            <div class="color-block">$alert-color-light</div>
-
-            <div class="color-block">$primary-color-lighter</div>
-            <div class="color-block">$accent-color-lighter</div>
-            <div class="color-block">$action-color-lighter</div>
-            <div class="color-block">$function-color-lighter</div>
-            <div class="color-block">$alert-color-lighter</div>
-
-            <div class="color-block">$primary-color-darker</div>
-            <div class="color-block">$accent-color-darker</div>
-            <div class="color-block">$action-color-darker</div>
-            <div class="color-block">$function-color-darker</div>
-            <div class="color-block">$alert-color-darker</div>
-
-
-        </div>
     </main>
 </div>
 

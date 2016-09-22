@@ -1,0 +1,72 @@
+/* SG
+# Color Blocks
+A good way to look over your color pallete.
+
+Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
+
+```html_example
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+```
+*/
+
+@include color-palette-output('.color-block');
+
+.color-block:before {
+	text-transform: capitalize;
+}
+
+.color-block:after {
+	letter-spacing: 0.1em;
+}
+
+
+.icon {
+	width: 1.2em;
+	margin-right: .5em;
+	display: inline-block;
+	margin-top: -.25em;
+}
+
+.box_open{
+	border-width: 2px 0;
+}
+
+[class*="list_bordered"] > li{
+	border-top-width: 2px;
+	margin-top: -2px;
+
+	&:first-child{
+		border-top-color: color(bg, dark);
+	}
+
+	&:last-child {
+		border-bottom: 2px solid color(bg, dark);
+		margin-bottom: 4px;
+	}
+}
+
+.tab,
+.list_nav a{
+	text-transform: uppercase;
+	letter-spacing: .5px;
+	@extend %txt_bold;
+	@extend %txt_small;
+	text-decoration: none;
+}
+
+.toggles{
+    position: fixed;
+    top: -1px;
+    right: -1px;
+    z-index: z(modal);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 0px 0px 0px 3px;
+}

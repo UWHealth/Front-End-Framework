@@ -1,39 +1,41 @@
 //Responsive tables
-(function(t) {
-        var all_tables = t("table");
-        var y = [];
-        var z, current_cell = 0;
-		var skip_cell = 0;
-
-        for (var i = 0; i < all_tables.length; i++) {
-
-			var $current = t(all_tables[i]);
-
-			$current.addClass('table_responsive');
-			z = $current.find("thead th").map(function() {
-				t(this).each(function() {
-					return this.innerText;
-				});
+// http://zurb.com/playground/projects/responsive-tables/index.html
+(function($) {
+	var switched = false;
+	var updateTables = function() {
+		if (($(window)[0].outerWidth < 640) && !switched) {
+			switched = true;
+			$(".table_responsive").each(function(i, element) {
+				splitTable($(element));
 			});
-
-			if (typeof y.push !== 'undefined')
-				y.push(z.prevObject);
-			if (typeof y[0] !== 'undefined')
-				y = y[0];
-
-			//Checking for colspans
-			$current.find("tbody tr").each(function() {
-				skip_cell = 0;
-				t(this).children("td, th").each(function(j) {
-					j = skip_cell + j;
-					if (typeof y[j] !== 'undefined'){
-							t(this).attr("data-th", y[j].innerText);
-						if(this.colSpan > 1){
-							skip_cell = this.colSpan;
-							skip_cell = skip_cell - 1;
-						}
-					}
-				});
+			return true;
+		}
+		else if (switched && ($(window)[0].outerWidth > 640)) {
+			switched = false;
+			$(".table_responsive").each(function(i, element) {
+				unsplitTable($(element));
 			});
-        }
-    })(jQuery);
+		}
+	};
+
+	$(window).load(updateTables);
+	$(window).bind("resize", updateTables);
+
+    function splitTable(original)
+	{
+		original.wrap("<div class='table_wrapper' />");
+		var copy = original.clone();
+		copy.find("td:not(:first-child), th:not(:first-child)").css("display", "none");
+		copy.removeClass("table_responsive");
+		original.closest(".table_wrapper").append(copy);
+		copy.wrap("<div class='table_pin' />");
+		original.wrap("<div class='table_scroll' />");
+	}
+
+	function unsplitTable(original) {
+		original.closest(".table_wrapper").find(".table_pin").remove();
+		original.unwrap();
+		original.unwrap();
+	}
+
+})(jQuery);

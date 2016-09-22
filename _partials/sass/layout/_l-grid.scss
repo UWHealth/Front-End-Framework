@@ -1,0 +1,60 @@
+//Create grid classes
+
+@include grid-init();
+
+
+.row {
+    @extend %grid;
+}
+
+.row_narrow {
+    @extend %grid_narrow;
+}
+
+.row_full {
+	@extend %grid_full;
+}
+
+.row > * {
+	@extend %grid_reset;
+}
+
+.column {
+    @extend %grid_item;
+}
+
+.half {
+	@extend %one_half;
+}
+
+.quarter {
+	@extend %one_quarter;
+}
+
+.sidebar {
+    @extend %bigs_one_quarter;
+}
+
+.content {
+    @extend %bigs_three_quarters;
+}
+
+.add_on {
+    @extend %smallish_one_fifth;
+    @extend %bigs_one_sixth;
+}
+
+.wide_content {
+    @extend %smallish_four_fifths;
+    @extend %bigs_five_sixths;
+}
+
+.push_TEST {
+    @extend %push_one_half;
+}
+.pull_TEST {
+    @extend %pull_one_third;
+}
+.push_TEST2 {
+    @extend %push_one_third;
+}

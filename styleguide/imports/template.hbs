@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{customVariables.pageTitle}}</title>
+    <style>
+    {{> theme}}
+    {{> highlight}}
+    </style>
+    <link rel="stylesheet" href="../css/main.min.css" media="screen">
+</head>
+<script>{{> jquery}}</script>
+<script src="../js/plugins.min.js"></script>
+<body class="sg-body" id="styleguide">{{!-- Required ID --}}
+
+{{!--Menu--}}
+<nav id="sg-menu" class="sg-menu">
+    <h1 class="sg-logo">
+        <a href="#" class="sg-menu_link js-menu_showall">Frontend Framework</a>
+    </h1>
+    <div id="sg-menu_wrap" class="txt-small"></div>
+</nav>
+
+<main id="sg-main" class="sg-main">
+{{~#each sections}}
+    <section id="{{sanitize @key}}" class="sg-section sg-section-{{sanitize @key}}" data-sg-section="{{@key}}">
+        <div class="sg-section_head sg-category">
+            <h1 class="sg-heading sg-heading-section">{{titleize @key}}</h1>
+        </div>
+
+        {{#each this}} {{!--Looping through Categories --}}
+            <div class="sg-category">
+            <div class="sg-category_wrap">
+            {{#if category}}
+                <header class="sg-category_head" data-sg-section="{{sanitize category}}" {{#unless articles.[1]}}id="{{sanitize articles.[0].id}}"{{/unless}}>
+                    <h2 class="sg-heading-category">
+                        {{~category~}}
+                    </h2>
+                </header>
+            {{~/if}}
+
+            {{~#each articles}}
+                <article class="sg-article" {{#if ../articles.[1]}}id="{{sanitize id}}"{{/if}} data-sg-section="{{category}}" data-sg-heading="{{heading}}">
+                {{#if heading}}
+                    <header class="sg-article_head {{#unless heading}}sg-category_head{{/unless}}">
+                        <h3 class="sg-heading sg-heading-article">
+                            {{~heading~}}
+                        </h3>
+                        {{~#if fileLocation}}
+                        <code class="sg-codespan sg-file">
+                            {{~fileLocation~}}
+                        </code>
+                        {{~/if~}}
+                    </header>
+                {{/if}}
+                    <div class="sg-article_comment">
+                        {{{comment}}}
+                    </div>
+                {{#if code}}
+                    <div class="sg-example">
+                        <div class="sg-example_wrap">
+                            {{#each code}}{{{this}}}{{/each}}
+                        </div>
+                        <div class="sg-example_markup">
+                        {{#each markup}}
+                            <div class="sg-markup sg-markup-block">
+                                <pre class="sg-markup_wrap"><code class="hljs">
+                                    {{~{this}~}}
+                                </code></pre>
+                            </div>
+                        {{/each}}
+                        </div>
+                    </div>
+                {{/if}}
+                </article>
+            {{~/each}}
+        </div>
+        </div>
+        {{~/each}}
+    </section>
+{{~/each}}
+</main>
+
+<script>
+    {{> toc}};
+
+    $('#sg-menu_wrap').toc({
+        'selectors': '.sg-heading-section,.sg-heading-category,.sg-heading-article', //elements to use as headings
+        'container': '#sg-main', //element to find all selectors in
+        'smoothScrolling': function(target, options, callback) { //enable or disable smooth scrolling on click
+            $(target).smoothScroller({
+              offset: 50,
+              speed: 10
+            }).on('smoothScrollerComplete', function() {
+              callback();
+            });
+        },
+        'listType': '<ul class="sg-menu_list"></ul>',
+        'prefix': 'sg', //prefix for anchor tags and class names
+        'onHighlight': function(el) { //called when a new section is highlighted
+            var $el = $(el);
+            $el.closest('.sg-menu_category').addClass('sg-category-active')
+            $('.sg-category-active').not($el.closest('.sg-menu_category')).removeClass('sg-category-active');
+            expandCategory($el);
+        },
+        'activeClass': 'sg-toc-active',
+        'highlightOnScroll': true, //add class to heading that is currently in focus
+        'highlightOffset': 50, //offset to trigger the next headline
+        'headerText': function(i, heading, $heading) { //custom function building the header-item text
+            return $heading.text();
+        },
+        'itemClass': function(i, heading, $heading, prefix) { // custom function for item class
+            //List items class="sg-menu_[section,category,article] sg-menu_item"
+            return $heading.attr('class').replace('sg-heading-', 'sg-menu_').replace('sg-heading ', ' ') + ' sg-menu_item';
+        }
+    });
+
+    function expandCategory($el) {
+        if($el.hasClass('sg-menu_category')){
+            $('.sg-category-active').removeClass('sg-category-active');
+            $el.addClass('sg-category-active');
+        }
+    }
+
+    $("#sg-menu_wrap").find('a').addClass('sg-menu_link').on('click', function(el){
+        expandCategory($(el));
+    });
+
+    $('.sg-menu_article').each(function(i, el){
+        var category = $(el).prevAll('.sg-menu_category')[0];
+        $(el).appendTo(category);
+    });
+
+    $('.sg-menu_category').each(function(i, el){
+        var section = $(el).prevAll('.sg-menu_section')[0];
+        $(el).appendTo(section);
+    }).each(function(i, el){
+        $(this).find('.sg-menu_article').wrapAll('<ul class="sg-menu_list"></ul>');
+    });
+</script>
+
+</body>
+</html>

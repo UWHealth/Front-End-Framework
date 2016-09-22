@@ -1,0 +1,481 @@
+//------------------------------------*\
+//    $Color Functions
+//------------------------------------*/
+
+/* SG
+# Colors/Lookup [[dev]]
+
+@file tools/_t-color-functions.scss
+
+@priority 99
+
+##### `colors()`
+###### function(`$color-name, $tone: 'base', $opacity: 1`)
+Get a color value from the global `$$base-colors` map. Darker and lighter tones are available by passing a second string.
+
+```scss
+.foo {
+    background-color: colors(links, light));
+}
+```
+
+Passing only a color name will default to the 'base' color.
+
+@alias color()
+@requires `$$base-colors`
+
+[Reference](http://blog.12spokes.com/web-design-development/simple-css-color-management-with-sass/)
+*/
+
+
+@function colors($color-name, $tone: 'base', $opacity: 1) {
+
+	@if not map-has-key($base-colors, $color-name) {
+		@warn "Key '#{$color-name}' not found in $base-colors map. Cannot compile Sass.";
+	}@else if not map-has-key(map-get($base-colors, $color-name), $tone) {
+		@warn "Tone '#{$tone}' not found in #{$color-name}. Cannot compile Sass.";
+	}
+
+	@if $opacity < 1 {
+		@return rgba(map-get(map-get($base-colors, $color-name), $tone), $opacity);
+	}
+
+	@return map-get(map-get($base-colors, $color-name), $tone);
+}
+// ALIAS: Same as above, but easier to type
+@function color($color, $tone: 'base'){ @return colors($color, $tone);}
+
+
+/* SG
+# Colors/Lookup [[dev]]
+
+##### `combine-color-maps()`
+###### function(`$map1 , $map2`)
+Specialized function used by `generate-color-variations()` to merge two color maps.
+
+@returns map
+
+*/
+
+// FUNCTION: combine-color-maps()
+// Combines two color maps (or really any double-nested map)
+@function combine-color-maps($map1, $map2) {
+
+	@each $pal, $color in $map2 {
+		$value: ($pal: $color);
+		$map1: map-merge($map1, $value);
+	}
+
+	@return $map1;
+}
+
+/* SG
+# Colors/Manipulation [[dev]]
+
+##### `generate-color-varations()`
+###### function( `$map: $colors, $functions: (tint, tint, tint, shade, shade, shade), $increments: (20%, 40%, 80%, 20%, 40%, 80%), $variations: (light, lighter, lightest, dark, darker, darkest), $blending-colors: null`)
+
+Takes base color values and generates a full color palette. Used by the `$$base-colors` map to create a project's palette, accessible via `colors()`.
+
+**Arguments:**
+* `$map`: Color map you want to create variations of. Defaults to `$$base-colors`.
+* `$functions`: color functions used to generate variations (e.g. lighten or darken). Can use any `blend` function, provided `$blending-colors` are provided.
+* `$increments`: percentage amount to apply `$function` to each `$variations`.
+* `$variations`: actual names for each color tone when `colors()` used.
+* `$blending-colors`: used when a function is a `blend`. Can be a list or a single color.
+
+@requires `combine-color-maps()`
+
+*/
+
+// Adds color variations to a color map
+// 1a. Color functions.
+// 1b. Function percentages (e.g. lighten($foo, [percentages])).
+// 1c. Variation names (output to map).
+// 1d. Blending color. Only used when a blending mode is used (e.g. blend-colordodge)
+// 2a. Determine how often to switch functions.
+// 2b. Make sure map is properly formatted.
+// 2c. Define new map (for easier to understand return value).
+// 3a. Loop through the pallets and colors of the map input.
+// 3b. Store $color map in a list
+//     (this is required to prevent bugs on colors with names of real colors).
+// 3c. Define color function increment.
+// 4a. Loop through the variation names.
+// 4b. Get index and find the amount to use with the current color function.
+// 5a. Divide the loop increment by the number of color functions.
+// 5b. If the loop is larger than the variation frequency,
+//	   move to the next color function.
+// 6a. Get the current color function and current color.
+// 6b. Add blending mode color if necessary (useful for mixing colors).
+// 6c. If blending-color is defined, use it to blend colors (use list-value if exists)
+// 7a. Call the color function, the color(s), and the amount and store that value.
+// 7b. Create the variation and color definition in map format ("name": color).
+// 7c. Merge the current base color map with the new variant map.
+// 8a. Format the previous loop results into a nested map.
+// 8b. Merge the input map with itself and the new nested map.
+// 9. Return the map with the new values.
+
+@function generate-color-variations(
+	$map: $base-colors,
+	$functions: (tint, tint, tint, shade, shade, shade),			//[1a]
+	$increments: (20%,  40%,   80%,   20%,   40%,   80%), 			//[1b]
+	$variations: (light, lighter, lightest, dark, darker, darkest),//[1c]
+	$blending-colors: null 												//[1d]
+){
+		$variation-frequency:
+			length($variations) / length($functions); //[2a]
+
+		$map: map-add-depth($map, 'base');						 //[2b]
+		$new-map: $map;							 	     		 //[2c]
+		$blend-value: '';
+
+		@each $palette, $color in $map { 						 //[3a]
+			$values-list: $color;								 //[3b]
+			$color_fn-i: 1;										 //[3c]
+
+			@each $variant in $variations {        	//[4a]
+				@if not map-has-key($color, $variant) {
+					$i: index($variations, $variant);	//[4b]
+					$amount: nth($increments, $i);			//[4b]
+
+					$color_fn_place: $i/$variation-frequency;	//[5a]
+
+					@if $color_fn_place > $color_fn-i{ 			//[5b]
+						$color_fn-i: $color_fn-i + 1;			//[5b]
+					}
+
+					$curr_fn: nth($functions, $color_fn-i); 		//[6a]
+					$curr_color: map-get($color, base);					//[6b]
+
+					@if $blending-colors != null
+						or type-of($blending-colors) == 'list'{			//[6c]
+
+						@if type-of($blending-colors) == 'list' {
+							$blend-value: nth($blending-colors, $color_fn-i);
+						}@else {
+							$blend-value: $blending-colors;
+						}
+
+						@if $blend-value == 'self' {
+							$blend-value: $curr_color;
+						}
+
+						@if $blend-value != null {
+							$amount: 1 - ($amount / 100%); //Invert the amount
+							$temp-color: $curr_color;
+							//Use amount to transparency of blending color
+							$curr_color: transparentize($blend-value, $amount);
+							//$amount becomes 'background' color we're blending
+							$amount: $temp-color;
+						}
+					}
+                    //Try to add "blend" to the current function if it's not valid
+                    @if not function-exists($curr_fn){
+                        $curr_fn: unquote('blend-')+$curr_fn;
+                    }
+
+					$new-color: call($curr_fn, $curr_color, $amount); 	//[7a]
+					$value: ($variant: $new-color); 					//[7b]
+
+					$values-list: map-merge($value, $values-list);		//[7c]
+				}
+			}
+
+			// This is required because sass maps are formatted
+			// with double parenthesis as they get more nested.
+			// (first-level: ( (second-level: value) ) )
+			$inner-map: ($palette:($values-list));				//[8a]
+			$new-map: combine-color-maps($new-map, $inner-map); 	//[8b]
+
+		}
+
+		@return $new-map; 								//[9]
+}
+
+/* SG
+# Colors/Manipulation [[dev]]
+
+
+##### `black-or-white()`
+###### function(`$color`)
+Change text color based on background-color's darkness.
+
+```scss
+div {
+    background-color: #f8cd12;
+    color: set_text_color(#f8cd12);
+}
+// Your text color would be black because #f8cd12 and #00000 have more contrast.
+```
+@alias set-text-color()
+@requires `color-luminance`
+
+*/
+
+
+@function black-or-white($color) {
+	@if (color-luminance($color) > .45) {
+		@return #000;
+	}
+	@else {
+		@return #fff;
+	}
+}
+//ALIAS
+@function set-text-color($color){ @return black-or-white($color); }
+
+/* SG
+##### `pick-best-color()`
+###### function(`$base, $colors, $tolerance: 0`)
+Compares a set of colors against `$base` and returns the color with the most contrast. `$colors` should be a list.
+[Taken from here](https://gist.github.com/voxpelli/6304812)
+
+```scss
+div {
+    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
+}
+// The function would test the colors and find that #2c2c2c is the best.
+```
+@requires `color-contrast()`, `color-luminance()`
+@returns color
+*/
+
+@function pick-best-color($base, $colors, $tolerance: 0) {
+	$contrast: color-contrast($base, nth($colors, 1));
+	$best: nth($colors, 1);
+
+	@for $i from 2 through length($colors) {
+		$current_contrast: color-contrast($base, nth($colors, $i));
+
+		@if ($current_contrast - $contrast > $tolerance) {
+			$contrast: color-contrast($base, nth($colors, $i));
+			$best: nth($colors, $i);
+		}
+	}
+	@return $best;
+}
+/* SG
+##### `color-contrast()`
+###### function(`$color1, $color2`)
+Find contrast between two colors.
+[Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+@requires `color-luminance()`
+@returns number(0 - 1)
+
+*/
+
+@function color-contrast($color1, $color2) {
+	$luminance1: color-luminance($color1) + .05;
+	$luminance2: color-luminance($color2) + .05;
+	$ratio: $luminance1 / $luminance2;
+
+	@if $luminance2 > $luminance1 {
+		$ratio: 1 / $ratio;
+	}
+
+	$ratio: round($ratio * 10) / 10;
+
+	@return $ratio;
+}
+
+/* SG
+##### `color-luminance()`
+###### function(`$color1`)
+Find the relative luminance of a color. Used by `color-contrast()`. [Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+@alias luma()
+@returns number(0 - 1)
+*/
+
+@function color-luminance($color) {
+
+	$rgba: red($color), green($color), blue($color);
+	$rgba2: ();
+
+	@for $i from 1 through 3 {
+		$rgb: nth($rgba, $i);
+		$rgb: $rgb / 255;
+
+		$rgb: if($rgb < .03928, $rgb / 12.92, pow(($rgb + .055) / 1.055, 2.4));
+
+		$rgba2: append($rgba2, $rgb);
+	}
+	@return (.2126 * nth($rgba2, 1)) + (.7152 * nth($rgba2, 2)) + (0.0722 * nth($rgba2, 3));
+}
+
+//Alias
+@function luma($color){ @return color-luminance($color); }
+
+
+/* SG
+# Colors/Debugging [[dev]]
+
+@file tools/_t-color-functions.scss
+
+##### `@color-palette-output()`
+###### mixin(`$selector`, `$color-map:` `$$base-colors`)
+Debugging tool that creates a pretty color palette (in columns) using psuedo selectors (nth-child required). Used for "color blocks" output, in style guide.
+
+@requires `map-add-depth()`, `black-or-white()`
+
+*/
+
+@mixin color-palette-output($selector, $color-map: $base-colors) {
+	$color-names: 	  ( );
+	$color-subnames:  ( );
+	$color-fullnames: ( );
+	$color-values: 	  ( );
+
+	//Loop through the color map,
+	// adding all names, variants, and values to individual lists
+	@each $color, $color-variants in $color-map {
+		//Put color names into a list
+		$color-names: append($color-names, nth($color, 1));
+
+		//Put 'base' at beginning of list
+		@if index(map-keys($color-variants), base) == length(map-keys($color-variants)) {
+			$color-variants: list-reverse($color-variants);
+		}
+
+		//Loop through color variants (light, dark, etc.)
+		@each $color-variant in $color-variants {
+
+			//Add a non-breaking space before the color name
+			$subname-temp: unquote(' ' + nth($color-variant, 1));
+
+			//Remove 'base' from titles for nicer output
+			@if $subname-temp == ' base' {
+				$subname-temp: unquote('');
+			}
+
+			//Create name by adding the color and color-subname (e.g. blue dark)
+			$fullname-temp: unquote($color + $subname-temp);
+
+			//Add names to lists for later use
+			$color-fullnames: append($color-fullnames, $fullname-temp);
+			$color-subnames:
+				append($color-subnames, unquote(nth($color-variant, 1)));
+			$color-values:
+				append($color-values, nth($color-variant, 2));
+		}
+	}
+
+	//Store color lengths for selector loop
+	$top-colors-len: length($color-names);
+	$sub-colors-len: length($color-subnames) / $top-colors-len;
+	$color-index: 1;
+	$color-loop: 1;
+
+	//Loop through all colors
+	@for $i from 1 through length($color-fullnames){
+
+		//Grab the current color value and name
+		$current-color-value: nth($color-values, $color-index);
+		$current-color-name: nth($color-fullnames, $color-index);
+
+		//Apply it to the selection based on nth-child (using $i)
+		#{$selector}:nth-child(#{$i}){
+			background-color: #{$current-color-value};
+			//Determine if black or white should be used for text color
+			color: #{black-or-white( $current-color-value )};
+
+			//Make first row of colors a little larger
+			@if $i <= $top-colors-len {
+				padding: 2% 1% 2.5%;
+			}
+
+			//Describe the color and show its hex value
+			&:before {
+				content: "#{$current-color-name}";
+			}
+			&:after {
+				content: "#{$current-color-value}";
+			}
+		}
+
+		//Determine the index of the color to use
+		// This essentially makes the color chosen 1 loop ahead of $i
+		// E.G. if there are 9 top-level colors, $color-index will be 9 ahead of the current $i value
+		$color-index: ($color-index - $color-loop) + ($sub-colors-len + $color-loop);
+
+		// Increase the loop when we've reached the highest value
+		// And reset the color index.
+		@if $color-index > length($color-fullnames) {
+			$color-loop: $color-loop + 1;
+			$color-index: $color-loop;
+		}
+
+	}
+
+	//Base styles
+	#{$selector}{
+		//Width is a percentage of the total top-level colors (minus 1% for margin)
+		width: percentage(1 / $top-colors-len) - 1%;
+		padding: 1%;
+		margin-right: .95%;
+		float: left;
+		overflow: hidden;
+
+		&:before{
+			@include rems(font-size, modular-scale(-1));
+			display: block;
+			white-space: nowrap;
+		}
+
+		&:after{
+			@include rems(font-size, modular-scale(-2));
+			display: block;
+		}
+	}
+
+}
+
+//Harmonize colors
+//Takes all colors in a map and blends them with a secondary color to even them out
+// Should only be used as a tool to create color palletes.
+// Shouldn't be used on every compilation since it can make development fairly abstract.
+@function harmonize-colors(
+	$color-list: null,
+	$blending-mode: 'overlay',
+	$blending-color: null,
+	$amount: null
+) {
+	$temp-name-map: ();
+	$temp-top-map: ();
+	$temp-list: ();
+	$return: null;
+
+    //Make sure non-prefixed blending modes
+    // are appended with the correct function namespace
+	$blending-mode:
+    	if(
+    		str-contains($blending-mode, 'blend'),
+    		$blending-mode,
+            'blend-' + $blending-mode
+    	);
+
+	@if type-of($color-list) == 'map' {
+		$color-list: map-add-depth($color-list);
+
+		@each $color, $name in $color-list {
+			@each $key, $value in $name {
+				$value: call($blending-mode, $blending-color, $value, $amount);
+				$temp-key: ($key: $value);
+				$temp-color: ($color: ($temp-key));
+				$temp-name-map: map-merge($temp-name-map, $temp-color);
+				@debug $temp-name-map;
+			}
+			$temp-top-map: map-merge($temp-top-map, $temp-name-map);
+		}
+
+		$return: map-merge($color-list, $temp-top-map);
+
+	}@else {
+		@each $value in $color-list {
+			$value: call($blending-mode, $blending-color, $value, $amount);
+			$temp-list: append($temp-list, $value);
+		}
+		$return: $temp-list;
+	}
+
+	@return $return;
+}

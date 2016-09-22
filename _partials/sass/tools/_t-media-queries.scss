@@ -1,0 +1,227 @@
+//------------------------------------
+//	$MEDIA QUERIES
+//------------------------------------
+
+/* SG
+# Mixins/Media Queries [[dev]]
+
+@file globals/tools/_t-media-queries.scss
+
+##### `@media-query()`
+###### mixin(`$media-queries...`)
+Enclose a block of code with a media query as named in `$breakpoints`. To create more consolodated code, most (if not all) media queries should be called through this mixin. Multiple media-queries can be defined, separated by a comma. This will place your content into multiple separate media-queries at once (useful if you need the same css at different breakpoints).
+
+**Alternative Uses:**
+
+* Passing multiple media queries separated by an `'and'` (quoted) to combine them, compiles to something like `@media screen and (min-width: 500px) and (max-width: 900px){}`.
+
+* Passing a value like `min-width 1200px` or `max-height 300px` allows for arbitrary breakpoints.
+
+* Passing `max 1200px 'and' smalls` will create a combined media-query with a predefined one from `$$breakpoints`.
+
+* Passing `height smalls` will replace `width` with `height` within the `smalls` breakpoint. Similarly, using `min smalls` would replace 'max' with 'min'.
+
+@requires `mq-arglist-to-map()`, `$$breakpoints`
+@alias @mq(), @breakpoint(), @bp()
+
+*/
+
+//Accepted media-query expression types
+$media-query-expressions: (
+	'device-width', 'orientation', 'aspect-ratio', 'device-aspect-ratio',
+	'color', 'color-index', 'monochrome', 'resolution', 'scan', 'grid'
+);
+//Accepted media-query device types
+$media-query-devices: (
+	'screen','all','print','tv','handheld','braille',
+	'embossed','projection','speech','tty'
+);
+//Accepted media-query operator arguments
+$media-query-operators: (
+	'max-width',
+	'max-height',
+	'min-width',
+	'min-height',
+	'device-width',
+	'min-device-width',
+	'max-device-width',
+	'min-device-height',
+	'max-device-height',
+	'aspect-ratio',
+	'device-aspect-ratio',
+	'resolution'
+);
+
+//Used to switch a media-query from one type to another
+$media-query-switch: (
+	'max',
+	'min',
+	'height',
+	'width',
+	'landscape',
+	'portrait'
+);
+
+//Values to increase media-queries by
+$media-query-intervals: (
+	'px'		: 	  1,
+	'em'		: 	.01,
+	'rem'		: 	.01,
+	'vh'		: 	.01,
+	'vw'		:	.01
+);
+
+//Stored for switching on and off
+$rem-px-default: $rem-px-fallback;
+
+@mixin media-query($mq...) {
+
+	//format arglist into maps with key-value pairs
+	//Should return (1:(operator:...,value:...,'device':...), 2:(...));
+	$arguments-map: mq-arglist-to-map($mq);
+
+	//Use a string storage for multiple media-queries
+	$media-query-string: '';
+
+	//Turn off px-fallback inside media-queries
+	// since 99% of mobile browsers support rems
+	$rem-px-fallback: false !global;
+
+	@each $mq-id, $mq-group in $arguments-map {
+
+		//Extract each value from the arguments map
+		$operator: map-get($mq-group, 'operator');
+
+		$value: map-get($mq-group, 'value');
+
+		$device: map-get($mq-group, 'device');
+
+		$device: if($device, $device, 'screen'); //Default to screen if no device specified
+
+		$logical-operator: unquote('#{$operator}#{$value}');
+
+		//Multiple media-queries in the map indicates an 'or' media-query
+		// So let's concatenate those media-queries together
+		@if length($arguments-map) > 1 {
+
+			$media-query-string: $media-query-string + '#{$device} and #{$logical-operator}';
+
+			//Use the IDs assigned to each media-query as a way to compare length
+			// (Libsass has an issue with indexes in maps)
+			@if $mq-id != length($arguments-map) {
+
+				//Add a comma to the end of all but the last query
+				$media-query-string: $media-query-string + ', ';
+
+			}@else {
+
+				@media only #{$media-query-string}  {
+					@content;
+				}
+
+			}
+
+		}
+		@else {
+
+			@if $operator { //Only output media-queries with operators
+
+				@media only #{$device} and #{$logical-operator} {
+					@content;
+				}
+
+			}@else {
+				@warn "the media-query mixin requires a logical-operator and a value (min-width 2px). You will have to write your own media query if you'd like something else";
+			}
+
+		}
+
+	}
+
+	//Change back to user setting
+	$rem-px-fallback: $rem-px-default !global;
+
+}
+
+//Aliases: Same as above, but shorter
+@mixin media        ($mq...)	{ @include media-query($mq...) { @content; } }
+@mixin mq           ($mq...)    { @include media-query($mq...) { @content; } }
+@mixin breakpoint   ($mq...)	{ @include media-query($mq...) { @content; } }
+@mixin bp           ($mq...)	{ @include media-query($mq...) { @content; } }
+
+//-------------------------
+// Private media-query functions
+//-------------------------
+
+//Check for proper media-query arguments
+// Converting them to proper CSS values
+@function mq-arglist-to-map($arguments-list) {
+	$stored: ();
+	$arg-map: ();
+	$structure: ();
+
+	//For loop used because each loops produce different results in Ruby and LibSass
+	@for $i from 1 to (length($arguments-list)+1) {
+		$argument: nth($arguments-list, $i);
+
+		//Check all values in the argument for valid media-query arguments
+		$structure: map-merge($structure, mq-parse-query-args($argument));
+
+		//Since value should be last, we can assume the grouping is done
+		@if (map-get($structure, 'value')) {
+			//Wrap arguments into an array-object-like structure (1:(key:value, key:value))
+			$arg-map: map-merge($arg-map, ($i: ($structure)));
+			//Empty the map so we can rewrite it
+			$structure: ();
+		}
+	}
+
+	@return $arg-map;
+}
+
+// Test each argument for its type and match it up to a proper map key
+@function mq-parse-query-args($argument, $call: 0, $check: null){
+	$query-map: ();
+	//Check global $breakpoints config variable for matches
+	@if	(map-get($breakpoints, $argument)){
+		$query-map: map-merge($query-map, ('operator': map-get($breakpoints, $argument)));
+		//Also set value to nothing since we already have it
+		$query-map: map-merge($query-map, ('value': ''));
+	}
+	//Check operators for matches
+	@elseif (index($media-query-operators, $argument)) {
+		//Format operator as the beginning of a parenthesis
+		$query-map: map-merge($query-map, ('operator': "(#{$argument}"));
+	}
+	//If its a number, assume its a value
+	@elseif(type-of($argument) == number){
+		//Format value with a colon and closing parenthesis
+		$query-map: map-merge($query-map, ('value': ":#{$argument})"));
+	}
+	//Check devices for matches
+	@elseif(index($media-query-devices, $argument)) {
+		$query-map: map-merge($query-map, ('device': $argument));
+	}
+	@else {
+		//if not a device, $breakpoint, value, or operator, it's probably a nested list
+		//We'll need to loop through that list and re-call this function until we get to the bottom
+		@for $i from 1 to (length($argument) + 1) {
+			$arg: nth($argument, $i);
+			//Set a reasonable number so we don't loop forever
+			//Only set if nothing has been set before
+			$check: if($check, $check, length($argument));
+			//If we've looped through this more times than the length of the argument,
+			//we can assume an error and return nothing.
+			@if $call > ($check + 1) {
+				@warn "#{$arg} is not valid argument for media-query mixin";
+				@return ();
+			}
+			//Add to the loop count
+			$call: $call + 1;
+			//Re-run this function through all arguments
+			$query-map: map-merge($query-map, mq-parse-query-args($arg, $call, $check));
+		}
+	}
+
+	@return $query-map;
+}

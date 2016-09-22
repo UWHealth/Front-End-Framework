@@ -1,16 +1,107 @@
 @charset "UTF-8";
 
-//Imports (must be called after variables are defined).
-@import 'utilities/_functions',
-        'base/_config',
-        'utilities/_variables',
-        'colors/_colors',
-        'type/_fonts',
-		'utilities/_helpers',
-		'layout/_import',
-        'type/_typography',
-        'vendor/_normalize',
-        'components/_import',
-        'base/_app';
+/* SG
+# Imports [[dev]]
+
+@priority 1
+@file main.scss
+
+Sass files are imported in order from lowest specificity to highest.
+1. `/tools`
+  * Functions
+  * Settings
+  * System variables and defaults
+  * General-use mixins and sass utilities
+2. `base/generic`
+  * Normalize/reset styles (unclassed)
+3. `/base`
+  * Element styles (unclassed)
+4. `/layout`
+  * Basic layout and object styles (single-class)
+5. `/components`
+  * Module and component styles (single- and child-classes)
+6. `/sections`
+  * View- and page-specific and scoped styles (typically `parent > child` classes).
+7. `/overrides`
+  * Utility styles, usually end in `!important`.
+
+*/
+
+//----------------------------
+// NON-CSS-producing files
+// (functionality and setup used by project)
+//-----------------------------
+
+//Global functions and variables
+@import 'tools/t-functions';
+@import 'tools/t-color-functions';
+@import 'tools/t-blendmodes';
+@import 'tools/t-easings';
+
+//Settings
+@import 'config';
+
+//Framework variables
+@import 'tools/t-variables';
+
+//Utility mixins
+@import 'tools/t-fontface';
+@import 'tools/t-media-queries';
+@import 'tools/t-mixins';
+@import 'tools/t-zindex';
+
+//Utility placeholder classes
+@import 'tools/t-alignment';
+@import 'tools/t-display';
+@import 'tools/t-grid-system';
+@import 'tools/t-spacing';
+@import 'tools/t-type';
 
 
+//----------------------------
+// CSS-producing files
+// (after import, CSS will be written out)
+//-----------------------------
+
+//Ground-zero styles
+//(normalize and resets, * selectors)
+// !!Do not use extends here!!
+@import 'base/generic/gn-resets';
+@import 'base/generic/gn-sanitize';
+
+//Elements and un-classed selectors
+// (lowest specificity)
+@import 'base/b-silents';
+@import 'base/b-forms';
+@import 'base/b-lists';
+@import 'base/b-tables';
+@import 'base/b-type';
+
+//Grids, alignment and higher-level classes
+// (+1 specificity)
+@import 'layout/l-composition';
+@import 'layout/l-grid';
+
+//OOCSS styles and base-level classes
+// (+1 specificity)
+@import 'components/c-silents';
+@import 'components/c-buttons';
+@import 'components/c-headings';
+@import 'components/c-lists';
+@import 'components/c-media-object';
+@import 'components/c-tables';
+@import 'components/c-tabs';
+
+//vendor components
+@import 'components/vendor/slick'; //Slider import
+
+//Section-specific and theme-/skin-based styles
+//(+2-4 specificity)
+@import 'sections/s-editor';
+@import 'sections/s-page';
+
+//High-specificity css and overrides classes (usually have !important).
+// Typically single-use classes
+@import 'overrides/ov-polyfills';
+@import 'overrides/ov-overrides';
+@import 'overrides/ov-debug';

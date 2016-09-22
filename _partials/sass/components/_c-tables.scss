@@ -1,0 +1,105 @@
+.table_fixed {
+    table-layout: fixed;
+}
+
+.table_responsive thead + tbody td:before {
+	content: attr(data-th)" ";
+	font-weight: 700;
+	padding-right: .25em;
+	display: none;
+}
+
+.table_striped {
+    & th, & td{
+		@extend %pad_r_half;
+        @extend %pad_l_half;
+        border-color: color(type, lightest);
+        border-style: solid;
+    }
+
+    & tr:nth-child(odd) td{
+        background-color: color(bg, dark);
+        background-color: rgba(color(bg, dark), .75)
+    }
+}
+
+//Responsive tables
+
+@include mq(#{$breakpoint-smallest}) {
+
+    %rt_o_hide {
+        overflow: hidden;
+    }
+    %rt_relative {
+        position: relative;
+    }
+    %rt_no_wrap {
+        white-space: nowrap;
+    }
+
+    .table_wrapper {
+        @extend %rt_o_hide;
+        @extend %rt_relative;
+        @include type-space(margin-bottom, 1);
+        border: 1px solid color(type, lightest);
+        border-radius: 2px;
+    }
+
+    .table_responsive {
+        margin-bottom: 0;
+
+        td,
+        th {
+            @extend %rt_relative;
+            @extend %rt_o_hide;
+            @extend %rt_no_wrap;
+            @include type-space(padding-left, .25);
+        }
+
+        th:first-child,
+        td:first-child,
+        td:first-child,
+        &.table_pin td {
+            display: none;
+        }
+    }
+
+    .table_pin {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 25%;
+        background: color(bg);
+        box-shadow: 3px 0 2px rgba(color(type, light), .2);
+
+        table {
+            table-layout: auto;
+            border-right: none;
+            border-left: none;
+            width: 100%;
+        }
+
+        th,
+        td {
+            @include type-space(padding-left, .15);
+            @extend %rt_no_wrap;
+        }
+
+        td:last-child {
+            border-bottom: 0;
+        }
+
+    }
+
+    .table_scroll,
+    .table_pin {
+        overflow: scroll;
+        overflow-y: hidden;
+        @extend %#{$breakpoint-smallest}_txt_small;
+    }
+
+    .table_scroll table {
+        margin-left: 25%;
+    }
+
+}
