@@ -1931,7 +1931,7 @@ $name is required, arbitrary, and what you will use in font stacks.
 <p>The names of all colors in the <code id="variable--colors" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$colors">$colors</code> map.</p>
                     </div>
                 </article>        </div>
-        </div>    </section>    <section id="getting-started" class="sg-section sg-section-getting-started" data-sg-section="getting started">
+        </div>    </section>    <section id="Getting-Started" class="sg-section sg-section-Getting-Started" data-sg-section="Getting Started">
         <div class="sg-section_head sg-category">
             <h1 class="sg-heading sg-heading-section">Getting Started</h1>
         </div>
@@ -1941,7 +1941,40 @@ $name is required, arbitrary, and what you will use in font stacks.
             <div class="sg-category_wrap">
                 <header class="sg-category_head" data-sg-section="Getting-Started" >
                     <h2 class="sg-heading-category">Getting Started</h2>
-                </header>                <article class="sg-article" id="getting-started-getting-started-introduction" data-sg-section="Getting Started" data-sg-heading="Introduction">
+                </header>                <article class="sg-article" id="getting-started-getting-started-gulp-arguments" data-sg-section="Getting Started" data-sg-heading="Gulp arguments">
+                    <header class="sg-article_head ">
+                        <h3 class="sg-heading sg-heading-article">Gulp arguments</h3></header>
+                    <div class="sg-article_comment">
+                        <p>Running <code class="sg-code sg-codespan">gulp</code> by itself will compile your Sass and concatenate your Javascript, but you may need some additional build steps for a complete workflow. Our gulp file accepts arguments in the form of <code class="sg-code sg-codespan">gulp --argument1 --argument2</code> to turn certain tasks on and off.</p>
+                <h4 id="minify-uglify" class="sg-heading sg-heading-4">Minify/Uglify</h4>
+
+                <h6 id="-minify" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--minify</code></h6>
+<p>Compress and uglify your css and js files.</p>
+                <h4 id="no-style-guide" class="sg-heading sg-heading-4">No Style Guide</h4>
+
+                <h6 id="-no-sg" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--no-sg</code></h6>
+<p>Prevents style guide generation.</p>
+                <h4 id="sourcemaps" class="sg-heading sg-heading-4">Sourcemaps</h4>
+
+                <h6 id="-sm" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--sm</code></h6>
+<p>Adds source maps to your Javascript and CSS. Very useful if working with concatenated, uglified, or tangled Sass code. <a href="http://blog.teamtreehouse.com/introduction-source-maps">Learn more about source maps</a>.</p>
+                <h4 id="js-hint" class="sg-heading sg-heading-4">JS Hint</h4>
+
+                <h6 id="-lint" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--lint</code></h6>
+<p>Runs your JS through <a href="https://github.com/jshint/jshint">JSHint</a>. You can change the project&#x2019;s hinting rules by modifying the <code class="sg-code sg-codespan">.jshintrc</code> file and ignore files via the <code class="sg-code sg-codespan">.jshintignore</code> file (both at the root of the project). This is usually necessary for plugins or other highly optimized javascript since JSHint will emit errors about code readability.</p>
+                <h4 id="browsersync" class="sg-heading sg-heading-4">Browsersync</h4>
+
+                <h6 id="-bs-" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--bs[]=</code></h6>
+<p>Changes the default Browsersync options.</p><ul>
+<li><code class="sg-code sg-codespan">--bsserver</code>: Change the server options (typically just the base directory).</li>
+<li><code class="sg-code sg-codespan">--bsproxy</code>:  Run browsersync through a proxy address (cannot be used along side server options).</li>
+<li><code class="sg-code sg-codespan">--bsservestatic</code>: Add additional directories from which static files should be served. Should only be used in proxy mode.</li>
+<li><code class="sg-code sg-codespan">--bsport</code>: Change the default port (80 on Windows, 3000 on Unix-based systems).</li>
+<li><code class="sg-code sg-codespan">--bstunnel</code>: Tunnel the server through a URL.</li>
+</ul>
+<p><em>See <a href="https://www.browsersync.io/docs/options/">Browsersync&#x2019;s documentation</a> for details on the options.</em></p>
+                    </div>
+                </article>                <article class="sg-article" id="getting-started-getting-started-introduction" data-sg-section="Getting Started" data-sg-heading="Introduction">
                     <header class="sg-article_head ">
                         <h3 class="sg-heading sg-heading-article">Introduction</h3></header>
                     <div class="sg-article_comment">
@@ -1999,36 +2032,6 @@ This <span class="hljs-keyword">is</span> an example Component.
 <p>Everything will be run through <a href="https://guides.github.com/features/mastering-markdown/">Markdown (GitHub-flavored)</a>. This allows text formatting and code samples.</p>
                 <h4 id="markdown-use" class="sg-heading sg-heading-4">Markdown Use</h4>
 <p>Sometimes meta information that does not fit logically into a scss file is necessary. In those cases, you can use a plain markdown file. To start a style guide block, wrap your comments in an <code class="sg-code sg-codespan">&lt;SG&gt;</code> &#x201C;tag&#x201D; rather than a <code class="sg-code sg-codespan">/* SG */</code> comment.</p><hr>
-
-                <h2 id="gulp-arguments" class="sg-heading sg-heading-2">Gulp arguments</h2>
-<p>Running <code class="sg-code sg-codespan">gulp</code> by itself will compile your Sass and concatenate your Javascript, but you may need some additional build steps for a complete workflow. Our gulp file accepts arguments in the form of <code class="sg-code sg-codespan">gulp --argument1 --argument2</code> to turn certain tasks on and off.</p>
-                <h4 id="minify-uglify" class="sg-heading sg-heading-4">Minify/Uglify</h4>
-
-                <h6 id="-minify" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--minify</code></h6>
-<p>Compress and uglify your css and js files.</p>
-                <h4 id="no-style-guide" class="sg-heading sg-heading-4">No Style Guide</h4>
-
-                <h6 id="-no-sg" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--no-sg</code></h6>
-<p>Prevents style guide generation.</p>
-                <h4 id="sourcemaps" class="sg-heading sg-heading-4">Sourcemaps</h4>
-
-                <h6 id="-sm" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--sm</code></h6>
-<p>Adds source maps to your Javascript and CSS. Very useful if working with concatenated, uglified, or tangled Sass code. <a href="http://blog.teamtreehouse.com/introduction-source-maps">Learn more about source maps</a>.</p>
-                <h4 id="js-hint" class="sg-heading sg-heading-4">JS Hint</h4>
-
-                <h6 id="-lint" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--lint</code></h6>
-<p>Runs your JS through <a href="https://github.com/jshint/jshint">JSHint</a>. You can change the project&#x2019;s hinting rules by modifying the <code class="sg-code sg-codespan">.jshintrc</code> file and ignore files via the <code class="sg-code sg-codespan">.jshintignore</code> file (both at the root of the project). This is usually necessary for plugins or other highly optimized javascript since JSHint will emit errors about code readability.</p>
-                <h4 id="browsersync" class="sg-heading sg-heading-4">Browsersync</h4>
-
-                <h6 id="-bs-" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">--bs[]=</code></h6>
-<p>Changes the default Browsersync options.</p><ul>
-<li><code class="sg-code sg-codespan">--bsserver</code>: Change the server options (typically just the base directory).</li>
-<li><code class="sg-code sg-codespan">--bsproxy</code>:  Run browsersync through a proxy address (cannot be used along side server options).</li>
-<li><code class="sg-code sg-codespan">--bsservestatic</code>: Add additional directories from which static files should be served. Should only be used in proxy mode.</li>
-<li><code class="sg-code sg-codespan">--bsport</code>: Change the default port (80 on Windows, 3000 on Unix-based systems).</li>
-<li><code class="sg-code sg-codespan">--bstunnel</code>: Tunnel the server through a URL.</li>
-</ul>
-<p><em>See <a href="https://www.browsersync.io/docs/options/">Browsersync&#x2019;s documentation</a> for details on the options.</em></p>
                     </div>
                 </article>        </div>
         </div>    </section></main>
