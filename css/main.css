@@ -46,7 +46,7 @@ _NOTE: This can actually **increase** processing time if used too often or on si
 
 ##### `strip-units()`
 ###### function(`$value`)
-Remove px,em,rem, etc. from a value. Usually a variable. This is sometimes required because Sass cannot calculate incompatible (px * rem for instance) units.
+Remove lengths (`px`, `em`, `rem`, etc.) from a value. Usually a variable. This is sometimes required because Sass cannot calculate incompatible units (`px * rem` for instance).
 [Reference](http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass)
 
 ##### `percentage-to-decimal()`
@@ -194,19 +194,30 @@ Generates a pixel value that is an exponent of a ratio (`$ratio` defaults to `$$
 
 ##### `baseline()`
 ###### function(`$font-size`, `$baseline`, `$multiple:1`)
+
 Aligns a font-size to a baseline (`$baseline`). Returns a unitless value relative to the font-size (equivilent to ems). An optional multiple can be used to make a variation on the given baseline (using decimals will divide the the baseline).
 @returns number (unitless)
 
+*/
+/* SG
 
 ##### `baseline-curve()`
 ###### function(`$x` , `$accel`: `1`)
+
 Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`. An `$accel` of 1 is a smooth arc.
+
+`$accel` accepts any number between -2 and 2.5. A negative will invert the curve.
+
+The formula: `y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951` [Visual](https://www.desmos.com/calculator/qswvc6q9kt)
+
 @returns number
 @requires `sqrt()`, `pow()`
 
-
+*/
+/*SG
 ##### `baseline-calc()`
 ###### function(`$font-size: $base-font-size, $font-base: $base-font-size, $basline-slack: $font-looseness`)
+
 Creates unitless line-heights that align to the baseline grid with consideration to the aesthetics of a given font size. Essentially makes sure larger font-sizes have smaller line-heights, while smaller font-sizes have larger ones.
 Uses constraints based on upper and lower limits of pleasing line-heights, and finds where a given font-size should sit within those constraints. `$$font-looseness` increases the upper constraints, allowing for taller line heights on larger font sizes.
 Depends on `baseline()` for calculation and `baseline-curve()` to determine the deviance from the upper and lower constraints.
@@ -333,8 +344,6 @@ Specialized function used by `generate-color-variations()` to merge two color ma
 /* SG
 # Colors/Manipulation [[dev]]
 
-@file tools/_t-color-functions.scss
-
 ##### `generate-color-varations()`
 ###### function( `$map: $colors, $functions: (tint, tint, tint, shade, shade, shade), $increments: (20%, 40%, 80%, 20%, 40%, 80%), $variations: (light, lighter, lightest, dark, darker, darkest), $blending-colors: null`)
 
@@ -368,7 +377,8 @@ div {
 @alias set-text-color()
 @requires `color-luminance`
 
-
+*/
+/* SG
 ##### `pick-best-color()`
 ###### function(`$base, $colors, $tolerance: 0`)
 Compares a set of colors against `$base` and returns the color with the most contrast. `$colors` should be a list.
@@ -382,8 +392,8 @@ div {
 ```
 @requires `color-contrast()`, `color-luminance()`
 @returns color
-
-
+*/
+/* SG
 ##### `color-contrast()`
 ###### function(`$color1, $color2`)
 Find contrast between two colors.
@@ -391,14 +401,13 @@ Find contrast between two colors.
 @requires `color-luminance()`
 @returns number(0 - 1)
 
-
+*/
+/* SG
 ##### `color-luminance()`
 ###### function(`$color1`)
-Find the relative luminance of a color. Used by `color-contrast()`.
-[Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+Find the relative luminance of a color. Used by `color-contrast()`. [Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
 @alias luma()
 @returns number(0 - 1)
-
 */
 /* SG
 # Colors/Debugging [[dev]]
@@ -1191,7 +1200,6 @@ Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fall
 
 */
 /* SG
-# Mixins/Typography [[dev]]
 
 ##### `@type-font-size()`
 ###### mixin(`$font-size, $line-height: true, $font-base:``$$base-font-size`)
@@ -1682,7 +1690,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 96.85512px;
   font-size: 6.05345rem;
-  line-height: 1.11507;
+  line-height: 1.23896;
 }
 
 h2 {
@@ -1694,13 +1702,13 @@ h2 {
 h3 {
   font-size: 45.73916px;
   font-size: 2.8587rem;
-  line-height: 1.04943;
+  line-height: 1.57414;
 }
 
 h4 {
   font-size: 39.366px;
   font-size: 2.46038rem;
-  line-height: 1.21933;
+  line-height: 1.82899;
 }
 
 h5 {
@@ -1712,7 +1720,7 @@ h5 {
 h6 {
   font-size: 21.6px;
   font-size: 1.35rem;
-  line-height: 1.11111;
+  line-height: 1.66667;
 }
 
 h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
@@ -1723,7 +1731,7 @@ h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
 /* SG
 # Typography/Body copy
 
-The default font size for all typography is 16px with line-height of 24px(1.5). This is applied to the body and all paragraphs. `<p>` tags all receive a bottom margin of 24px.
+The default font size for all typography is 16px with line-height of 24px (1.5). This is applied to the body and all paragraphs. `<p>` tags all receive a bottom margin of 24px.
 
 ```html_example
 <p>Aenean lacinia bibendum nulla sed consectetur. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. </p>
@@ -2062,17 +2070,17 @@ Applying the `btn` class to anything will make it look like a button. Always dec
 /* SG
 # Typography/Heading sizes
 
-Moving from `h6` up to `h1`, the heading font sizes get larger on a scale of 1.35. For instance, `h6` is 1.35 times larger than the base font size of 16px. Headings have a default bottom margin of 24px.
+Moving from `h6` up to `h1`, the heading font sizes get larger on a scale. For instance, `h6` is 1.35 times larger than the base font size of 16px. Headings have a default bottom margin of 24px.
 
 **Heading tags should be used in a hierarchical manner**, appropriate for the page, and not used for their size. To override a heading size, use a class with the corresponding heading name. See the example below.
 
 ```html_example
-<h1>Heading 1 <small>(96.85512px / 1.11507)</small></h1>
-<h2>Heading 2 <small>(53.1441px / 1.35481)</small></h2>
-<h3>Heading 3 <small>(45.73916px / 1.04943)</small></h3>
-<h4>Heading 4 <small>(39.366px / 1.21933)</small></h4>
-<h5>Heading 5 <small>(29.16px / 1.64609)</small></h5>
-<h6>Heading 6 <small>(21.6px / 1.11111)</small></h6>
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
 
 <h1 class="h4">Heading 1 with an h4 class</h1>
 
@@ -2086,7 +2094,7 @@ Moving from `h6` up to `h1`, the heading font sizes get larger on a scale of 1.3
 .h1 {
   font-size: 96.85512px;
   font-size: 6.05345rem;
-  line-height: 1.11507;
+  line-height: 1.23896;
 }
 
 .h2 {
@@ -2098,13 +2106,13 @@ Moving from `h6` up to `h1`, the heading font sizes get larger on a scale of 1.3
 .h3 {
   font-size: 45.73916px;
   font-size: 2.8587rem;
-  line-height: 1.04943;
+  line-height: 1.57414;
 }
 
 .h4 {
   font-size: 39.366px;
   font-size: 2.46038rem;
-  line-height: 1.21933;
+  line-height: 1.82899;
 }
 
 .h5 {
@@ -2116,7 +2124,7 @@ Moving from `h6` up to `h1`, the heading font sizes get larger on a scale of 1.3
 .h6 {
   font-size: 21.6px;
   font-size: 1.35rem;
-  line-height: 1.11111;
+  line-height: 1.66667;
 }
 
 .h1 + p, .h2 + p, .h3 + p, .h4 + p, .h5 + p, .h6 + p {

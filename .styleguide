@@ -1,35 +1,39 @@
 {
 	"sgComment": "SG",
-	"devIdentifier": "[[dev]]",
-	"srcFolder": "./",
-	"outputFile": "./styleguide/index.html",
-  "jsonOutput": "./styleguide/index.json",
-	"templateFile": "./styleguide/imports/template.html",
-	"themeFile": "./styleguide/imports/theme.css",
-	"highlightStyle": "rainbow",
+	"exampleIdentifier": "html_example",
+	"sortCategories": true,
 	"excludeDirs": [
 		"target",
 		"node_modules",
-    "_partials/sass",
-    "_partials/kits"
+		".git"
 	],
 	"fileExtensions": {
-		"scss": false,
+		"scss": true,
 		"sass": false,
-		"css": true,
-		"less": false,
+		"css": false,
+		"less": true,
 		"md": true
 	},
-	"walkerOptions": {
-		"followLinks": false
+	"templateFile": "./styleguide/imports/template.hbs",
+	"themeFile": "./styleguide/imports/theme.css",
+	"htmlOutput": "./styleguide/index.html",
+	"jsonOutput": "./styleguide/index.json",
+	"handlebarsPartials": {
+		"jquery": "./styleguide/imports/jquery.js",
+		"toc": "./styleguide/imports/toc.js"
 	},
-	"jqFile": "./js/jquery-2.1.0.js",
-	"customVars": {
-		"pageTitle": "Style Guide",
-		"scripts": [
-			"../js/plugins.js",
-			"imports/hash.js",
-			"imports/sticky.js"
-		]
+  "sections": {
+    "styles": "",
+    "development": "[[dev]]"
+  },
+	"highlightStyle": "arduino-light",
+	"highlightFolder": "./node_modules/highlight.js/styles/",
+	"customVariables": {
+		"tocMenu": true,
+		"pageTitle": "FEF - Documentation"
+	},
+	"markedOptions": {
+		"gfm": true,
+		"breaks": true
 	}
 }

@@ -138,7 +138,6 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
                         @else if str-contains($direction, 'h') {
 							@extend #{$classtype}#{$namespace}#{$space}_r#{$amount_name};
 							@extend #{$classtype}#{$namespace}#{$space}_l#{$amount_name};
-
 						}
                         @else {
 							@if $amount == 0 {

@@ -1,3 +1,4 @@
+/*jshint node: true*/
 var gulp		    = require('gulp');
 
 var _if         = require('gulp-if');
@@ -11,14 +12,13 @@ var kit         = require('gulp-kit');
 var notify      = require('gulp-notify');
 var plumber     = require('gulp-plumber');
 var rename      = require('gulp-rename');
-var replace     = require('gulp-replace');
 var sass		= require('gulp-sass');
 var shell       = require('gulp-shell');
 var size        = require('gulp-size');
 var sourcemaps  = require('gulp-sourcemaps');
 var uglify      = require('gulp-uglify');
-var utility     = require('gulp-util');
 var yarg        = require('yargs').argv;
+var styleguide  = require('markdown-documentation-generator');
 
 
 /*---------------------------------
@@ -42,13 +42,13 @@ var PATHS = {
 		dest:  	'./'
 	},
 	styleGuide: {
-		watch:  ['./css/main.css', './styleguide/imports/*']
+		watch:  ['./css/main.css', 'styleguide/imports/*']
 	},
 	browserSync: {
 		watch:  ['css/*.css', 'js/**/*.js', '*.html'],
 		ignore: ['!**.map', '!./gulpfile.js', '!./**/*.min.*']
 	}
-}
+};
 
 var AUTOPREFIXER_BROWSERS = [
 	'> 1%',
@@ -97,7 +97,6 @@ gulp.task('watch', function(){
 // and syncs actions across browsers
 gulp.task('browserSync', function() {
 
-  var _bsIsRunning = true;
   var bsFiles = PATHS.browserSync.watch.concat(PATHS.browserSync.ignore);
 
   //Allow for --bsserver argument. Otherwise, use default
@@ -139,8 +138,6 @@ gulp.task('browserSync', function() {
 
 //Sass with Source maps
 gulp.task('sass', function() {
-
-  var styleGuidePattern = new RegExp('/\\* ?SG([\\s\\S]*?)\\*/', 'gi');
 
 	return gulp.src(PATHS.scss.main)
 		.pipe(plumber({errorHandler: _error}))
@@ -220,12 +217,48 @@ gulp.task('kits', function(){
 // use --no-sg argument to disable this
 gulp.task('styleGuide', function(){
 
-	return gulp.src('./')
-		.pipe(plumber({errorHandler: _error}))
-		.pipe(shell('md_documentation'))
-        .pipe(_if(_bsIsRunning, function(){
-          browserSync.notify("Style Guide Compiled.")
-        }));
+	styleguide.create(
+		{
+			"sgComment": "SG",
+			"exampleIdentifier": "html_example",
+			"sortCategories": true,
+			"excludeDirs": [
+				"target",
+				"node_modules",
+				".git"
+			],
+			"fileExtensions": {
+				"scss": true,
+				"sass": false,
+				"css": false,
+				"less": true,
+				"md": true
+			},
+			"templateFile": "./styleguide/imports/template.hbs",
+			"themeFile": "./styleguide/imports/theme.css",
+			"htmlOutput": "./styleguide/index.html",
+			"jsonOutput": "./styleguide/index.json",
+			"handlebarsPartials": {
+				"jquery": "./styleguide/imports/jquery.js",
+				"toc": "./styleguide/imports/toc.js"
+			},
+			"sections": {
+				"styles": "",
+				"development": "[[dev]]",
+				"Getting Started": "Setup:"
+			},
+			"highlightStyle": "tomorrow-night-blue",
+			"highlightFolder": "./node_modules/highlight.js/styles/",
+			"customVariables": {
+				"tocMenu": true,
+				"pageTitle": "FEF - Documentation"
+			},
+			"markedOptions": {
+				"gfm": true,
+				"breaks": true
+			}
+		}
+	);
 });
 
 

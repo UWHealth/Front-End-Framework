@@ -72,8 +72,6 @@ Specialized function used by `generate-color-variations()` to merge two color ma
 /* SG
 # Colors/Manipulation [[dev]]
 
-@file tools/_t-color-functions.scss
-
 ##### `generate-color-varations()`
 ###### function( `$map: $colors, $functions: (tint, tint, tint, shade, shade, shade), $increments: (20%, 40%, 80%, 20%, 40%, 80%), $variations: (light, lighter, lightest, dark, darker, darkest), $blending-colors: null`)
 
@@ -212,37 +210,6 @@ div {
 @alias set-text-color()
 @requires `color-luminance`
 
-
-##### `pick-best-color()`
-###### function(`$base, $colors, $tolerance: 0`)
-Compares a set of colors against `$base` and returns the color with the most contrast. `$colors` should be a list.
-[Taken from here](https://gist.github.com/voxpelli/6304812)
-
-```scss
-div {
-    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
-}
-// The function would test the colors and find that #2c2c2c is the best.
-```
-@requires `color-contrast()`, `color-luminance()`
-@returns color
-
-
-##### `color-contrast()`
-###### function(`$color1, $color2`)
-Find contrast between two colors.
-[Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
-@requires `color-luminance()`
-@returns number(0 - 1)
-
-
-##### `color-luminance()`
-###### function(`$color1`)
-Find the relative luminance of a color. Used by `color-contrast()`.
-[Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
-@alias luma()
-@returns number(0 - 1)
-
 */
 
 
@@ -257,6 +224,21 @@ Find the relative luminance of a color. Used by `color-contrast()`.
 //ALIAS
 @function set-text-color($color){ @return black-or-white($color); }
 
+/* SG
+##### `pick-best-color()`
+###### function(`$base, $colors, $tolerance: 0`)
+Compares a set of colors against `$base` and returns the color with the most contrast. `$colors` should be a list.
+[Taken from here](https://gist.github.com/voxpelli/6304812)
+
+```scss
+div {
+    color: pick_best_color(#f8cd12, (#a0a0c0, #fff, #2c2c2c));
+}
+// The function would test the colors and find that #2c2c2c is the best.
+```
+@requires `color-contrast()`, `color-luminance()`
+@returns color
+*/
 
 @function pick-best-color($base, $colors, $tolerance: 0) {
 	$contrast: color-contrast($base, nth($colors, 1));
@@ -272,7 +254,15 @@ Find the relative luminance of a color. Used by `color-contrast()`.
 	}
 	@return $best;
 }
+/* SG
+##### `color-contrast()`
+###### function(`$color1, $color2`)
+Find contrast between two colors.
+[Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+@requires `color-luminance()`
+@returns number(0 - 1)
 
+*/
 
 @function color-contrast($color1, $color2) {
 	$luminance1: color-luminance($color1) + .05;
@@ -288,6 +278,13 @@ Find the relative luminance of a color. Used by `color-contrast()`.
 	@return $ratio;
 }
 
+/* SG
+##### `color-luminance()`
+###### function(`$color1`)
+Find the relative luminance of a color. Used by `color-contrast()`. [Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+@alias luma()
+@returns number(0 - 1)
+*/
 
 @function color-luminance($color) {
 

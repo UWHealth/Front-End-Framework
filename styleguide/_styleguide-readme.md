@@ -2,21 +2,16 @@
 / 		README            \
 /*************************\
 This file is exclusively used for the style guide.
-<SG>
-# Getting Started [[dev]]
 
-@priority last
-
-</SG>
 
 <SG>
-# Getting Started/Introduction [[dev]]
+# Setup:Getting Started/Introduction
 
 ## A number of front-end technologies to get any e-Health website or application off the ground.
 </SG>
 
 <SG>
-# Getting Started/Software [[dev]]
+# Setup:Getting Started/Software
 
 1. [Node](https://nodejs.org/)
 2. [Gulp](http://gulpjs.com/)
@@ -24,7 +19,7 @@ This file is exclusively used for the style guide.
 </SG>
 
 <SG>
-# Getting Started/Setup [[dev]]
+# Setup:Getting Started/Setup
 
 1. [Clone or Fork](https://github.com/UWHealth/Front-End-Framework.git)
 2. Using the command line (preferably using PowerShell rather than cmd.exe), `cd` to the project's directory.
@@ -37,7 +32,7 @@ This file is exclusively used for the style guide.
 </SG>
 
 <SG>
-# Getting Started/Tips and Tricks [[dev]]
+# Setup:Getting Started/Tips and Tricks
 
 ## Style Guide generation
 The style guide you are reading is generated on the fly by the `gulp` task `styleguide` (using the markdown-styleguide-generator node module).

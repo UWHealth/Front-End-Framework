@@ -39,7 +39,7 @@ $cached-values: ();
 
 ##### `strip-units()`
 ###### function(`$value`)
-Remove px,em,rem, etc. from a value. Usually a variable. This is sometimes required because Sass cannot calculate incompatible (px * rem for instance) units.
+Remove lengths (`px`, `em`, `rem`, etc.) from a value. Usually a variable. This is sometimes required because Sass cannot calculate incompatible units (`px * rem` for instance).
 [Reference](http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass)
 
 ##### `percentage-to-decimal()`
@@ -669,41 +669,36 @@ Generates a pixel value that is an exponent of a ratio (`$ratio` defaults to `$$
 
 ##### `baseline()`
 ###### function(`$font-size`, `$baseline`, `$multiple:1`)
+
 Aligns a font-size to a baseline (`$baseline`). Returns a unitless value relative to the font-size (equivilent to ems). An optional multiple can be used to make a variation on the given baseline (using decimals will divide the the baseline).
 @returns number (unitless)
 
-
-##### `baseline-curve()`
-###### function(`$x` , `$accel`: `1`)
-Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`. An `$accel` of 1 is a smooth arc.
-@returns number
-@requires `sqrt()`, `pow()`
-
-
-##### `baseline-calc()`
-###### function(`$font-size: $base-font-size, $font-base: $base-font-size, $basline-slack: $font-looseness`)
-Creates unitless line-heights that align to the baseline grid with consideration to the aesthetics of a given font size. Essentially makes sure larger font-sizes have smaller line-heights, while smaller font-sizes have larger ones.
-Uses constraints based on upper and lower limits of pleasing line-heights, and finds where a given font-size should sit within those constraints. `$$font-looseness` increases the upper constraints, allowing for taller line heights on larger font sizes.
-Depends on `baseline()` for calculation and `baseline-curve()` to determine the deviance from the upper and lower constraints.
-
-@returns number (unitless)
-@requires `baseline()`, `baseline-curve()`
-
 */
 
-//Baseline function. Converts to floated integer.
-@function baseline($font-size, $baseline, $multiple:1) {
+@function baseline($font-size, $baseline: $base-line-height, $multiple:1) {
 	@return ceil($font-size / ($baseline * $multiple)) * ($baseline * $multiple) / $font-size;
 }
 
-//Adjustable curve for returning exponential values
-// accepts:
+/* SG
+
+##### `baseline-curve()`
+###### function(`$x` , `$accel`: `1`)
+
+Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`. An `$accel` of 1 is a smooth arc.
+
+`$accel` accepts any number between -2 and 2.5. A negative will invert the curve.
+
+The formula: `y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951` [Visual](https://www.desmos.com/calculator/qswvc6q9kt)
+
+@returns number
+@requires `sqrt()`, `pow()`
+
+*/
+
 // $x: 0 - 1.0, $accel: -2 - 2.5
 // $accel changes the severity of the curve. Negative values invert.
 //returns a decimal that cooresponds to the same percentage on the curve
-// Formula:
-// y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951
-// Visual: https://www.desmos.com/calculator/qswvc6q9kt
+
 @function baseline-curve($x, $accel:1) {
 	//Cache this exponent since it uses a decimal and requires a lot of computation
 	$x2: cache(pow, $x, $accel);
@@ -717,8 +712,22 @@ Depends on `baseline()` for calculation and `baseline-curve()` to determine the 
 	@return min(1, $curve);
 }
 
-$font-index: ();
-$font-warn: false;
+
+/*SG
+##### `baseline-calc()`
+###### function(`$font-size: $base-font-size, $font-base: $base-font-size, $basline-slack: $font-looseness`)
+
+Creates unitless line-heights that align to the baseline grid with consideration to the aesthetics of a given font size. Essentially makes sure larger font-sizes have smaller line-heights, while smaller font-sizes have larger ones.
+Uses constraints based on upper and lower limits of pleasing line-heights, and finds where a given font-size should sit within those constraints. `$$font-looseness` increases the upper constraints, allowing for taller line heights on larger font sizes.
+Depends on `baseline()` for calculation and `baseline-curve()` to determine the deviance from the upper and lower constraints.
+
+@returns number (unitless)
+@requires `baseline()`, `baseline-curve()`
+
+*/
+
+$__font-index: ();
+$__font-warn: false;
 
 // Calculate the baseline of any particular font-size.
 @function baseline-calc(
@@ -726,7 +735,6 @@ $font-warn: false;
 	$font-base: $base-font-size,
 	$baseline-slack: $font-looseness
 ){
-	//Get smallest type size (make sure it comes across as a number and not a list)
 	$smallest-size: if(length($type-small-size) > 1, nth($type-small-size, 1), $type-small-size);
 
     //Make sure baseline-slack is a percentage
@@ -739,28 +747,19 @@ $font-warn: false;
     //Base Highest and lowest line-height multiples
 	$base-lh-upper-bound: 1.9;
 	$base-lh-lower-bound: 1.1;
-
     //smallest font-size's highest/lowest line-height multiple
     // Use global settings to help determine, where possible
-	$sm-lh-upper-bound: max(
-        2.75,
-        baseline($smallest-size, $base-line-height) + 1.25
-    );
-	$sm-lh-lower-bound: min(
-        baseline($smallest-size,
-            ($base-line-height - ($base-line-height / 3))
-        ),
-        $sm-lh-upper-bound - .5
-    );
+	$sm-lh-upper-bound: (baseline($smallest-size, $base-line-height) + ($baseline-slack / 100%));
+	$sm-lh-lower-bound: 1.2 + ($baseline-slack / 100%);
 
     //Largest font-size's highest/lowest line-height multiple
     // Use baseline slack to determine constraints
-	$lg-lh-upper-bound: 1.05 + (($baseline-slack / 100%) / 5);
-	$lg-lh-lower-bound: 0.91 + (($baseline-slack / 100%) / 8);
+	$lg-lh-upper-bound: 1.05 + (($baseline-slack / 100%) / 2);
+	$lg-lh-lower-bound: 0.91 + (($baseline-slack / 100%) / 5);
 
     //Smallest/Largest font sizes to calculate against
 	$sm-font-size: $smallest-size / 1px - 1.5;
-	$lg-font-size: max(10, 250 * ($baseline-slack / 100%));
+	$lg-font-size: 250;
 
     //Baseline-curve progress percentages
 	$percent-along-current: 0;
@@ -773,7 +772,8 @@ $font-warn: false;
 
     //Make sure handle fonts larger than our initial assumptions
 	@if $font-size <= $sm-font-size {
-		$base-lh-lower-bound: $type-base-ratio - .01;
+		@debug "Font: #{$font-size}, Small: #{$sm-font-size}";
+		$base-lh-lower-bound: 1;
 		$base-lh-upper-bound: $sm-lh-upper-bound;
 	}
 	@else if $font-size >= $lg-font-size {
@@ -795,11 +795,12 @@ $font-warn: false;
 	$base-lh-lower-bound: $sm-lh-lower-bound - $percent-along-lower * ($sm-lh-lower-bound - $lg-lh-lower-bound);
 
 	@if $debug-fonts {
-		@if index($font-index, $font-size) == null {
+		@if index($__font-index, $font-size) == null {
+			@debug "sm-lh-ub: #{$sm-lh-upper-bound}, sm-lh-lb: #{$sm-lh-lower-bound}";
 			@debug "font-size: #{$font-size}";
 			@debug "%: #{percentage($true-percent-along)}";
 			@debug "%u: #{percentage($percent-along-upper)}, %l: #{percentage($percent-along-lower)}";
-			@debug "ub: #{$base-lh-upper-bound}, lb: #{$base-lh-lower-bound}";
+			@debug "ub: #{$base-lh-upper-bound} (#{$font-size * $base-lh-upper-bound}), lb: #{$base-lh-lower-bound} (#{$font-size * $base-lh-lower-bound})";
 		}
 	}
 
@@ -815,7 +816,7 @@ $font-warn: false;
 	$line-height: baseline($font-size, $baseline);
 
 	//Second attempt
-	@if $line-height < $base-lh-lower-bound or $line-height > $base-lh-upper-bound {
+	@if ($line-height < $base-lh-lower-bound) or ($line-height > $base-lh-upper-bound) {
 
         @if $font-size < $base-font-size {
             $line-height: baseline($font-size, $baseline, 1.5);
@@ -842,12 +843,12 @@ $font-warn: false;
 		//Bail-out function to prevent infinite loops
 		// Set quit to true so we can escape this hellish loop
 		@if $i > ($font-size / 1px)  {
-			@if (not $font-warn) {
+			@if (not $__font-warn) {
                 @debug "Your font-looseness might be too high or low, watch for weird baselines and slow compile times.";
     			@debug "FS: #{$font-size} / LH: #{$line-height}";
     			@debug "Tolerances: #{$base-lh-upper-bound} / #{$base-lh-lower-bound}";
                 @debug "loops: #{$i}";
-    			$font-warn: true !global;
+    			$__font-warn: true !global;
             }
 
 			//default to normal calculated line-height
@@ -857,8 +858,8 @@ $font-warn: false;
 	}
 
 	@if $debug-fonts {
-		@if index($font-index, $font-size) == null {
-			$font-index: append($font-index, $font-size) !global;
+		@if index($__font-index, $font-size) == null {
+			$__font-index: append($__font-index, $font-size) !global;
 			@debug "lh: #{$line-height * $font-size} / #{$line-height} ";
 			@debug "loops: #{$i}";
 			@debug "-----";
