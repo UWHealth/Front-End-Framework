@@ -2,8 +2,6 @@
 
 # Mixins/CSS Helpers [[dev]]
 
-@file tools/_t-mixins.scss
-
 ##### `@specificity()`
 ###### mixin(`$specificity: 1`)
 Specificity increaser. Useful for increasing specificity of a selector instead of using `!important`.
@@ -22,31 +20,6 @@ Specificity increaser. Useful for increasing specificity of a selector instead o
 ```
 [Reference](http://www.sitepoint.com/selector-specificity-css-preprocessors/)
 
-
-##### `@opacity()`
-###### mixin(`$opacity`)
-Cross-browser (including IE8-) opacity.
-[Reference](https://gist.github.com/jgv/745754)
-
-
-##### `@border()`
-###### mixin(`$border`)
-Allows creating many border properties at once. Works like the standard border shorthand style but allows varied styles on different border directions.
-
-```scss
-//scss
-.foo {
-	@include border(2px 3px solid dashed dotted blue currentColor yellow);
-}
-
-//css
-.foo {
-	border-width: 2px 3px;
-	border-style: solid dashed dotted;
-	border-color: blue currentColor yellow;
-}
-
-```
 */
 
 // Specificity increaser
@@ -69,21 +42,42 @@ Allows creating many border properties at once. Works like the standard border s
 	}
 }
 
-// Cross-browser (including IE) opacity
-// Taken from:
-// https://gist.github.com/jgv/745754
+
+/* SG
+
+##### `@opacity()`
+###### mixin(`$opacity`)
+Cross-browser (including IE8-) opacity.
+[Reference](https://gist.github.com/jgv/745754)
+
+*/
+
 @mixin opacity($opacity) {
 	// filter: alpha(opactiy=($trans * 100));
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$opacity * 100})";
 	opacity: $opacity;
 }
 
-//Better border syntax
-//Allows for multiple border properties
-// e.g.
-//	.foo {
-//		@include border(2px 2px solid dashed dotted blue currentColor yellow);
-//	}
+
+/* SG
+##### `@border()`
+###### mixin(`$border`)
+Allows creating many border properties at once. Works like the standard border shorthand style but allows varied styles on different border directions.
+
+```scss
+	//scss
+	.foo {
+		@include border(2px 3px solid dashed dotted blue currentColor yellow);
+	}
+
+	//css
+	.foo {
+		border-width: 2px 3px;
+		border-style: solid dashed dotted;
+		border-color: blue currentColor yellow;
+	}
+```
+*/
 
 @mixin border($border) {
 	$border-width: ();
@@ -132,8 +126,6 @@ Allows creating many border properties at once. Works like the standard border s
 /* SG
 
 # Mixins/Buttons [[dev]]
-
-@file tools/_t-mixins.scss
 
 ##### `@button()`
 ###### mixin(`$bg-color`: `color('links')`, `$text-color`: `null`, `$border`: `null`, `$radius`: `null`, `$text-radius`: `null`, `$style`: `null`, `$inset`: `false`)

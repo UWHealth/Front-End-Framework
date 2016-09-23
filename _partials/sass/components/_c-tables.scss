@@ -10,9 +10,9 @@
 }
 
 .table_striped {
-    & th, & td{
-		@extend %pad_r_half;
-        @extend %pad_l_half;
+    & th,
+    & td {
+        @include type-space(padding-right padding-left, .5);
         border-color: color(type, lightest);
         border-style: solid;
     }

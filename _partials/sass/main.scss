@@ -84,7 +84,6 @@ Sass files are imported in order from lowest specificity to highest.
 
 //OOCSS styles and base-level classes
 // (+1 specificity)
-@import 'components/c-silents';
 @import 'components/c-buttons';
 @import 'components/c-headings';
 @import 'components/c-lists';

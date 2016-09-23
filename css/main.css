@@ -215,6 +215,7 @@ The formula: `y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951` [Visual](http
 
 */
 /*SG
+
 ##### `baseline-calc()`
 ###### function(`$font-size: $base-font-size, $font-base: $base-font-size, $basline-slack: $font-looseness`)
 
@@ -229,80 +230,172 @@ Depends on `baseline()` for calculation and `baseline-curve()` to determine the 
 /* SG
 # Functions/Typography [[dev]]
 
-@file globals/_gl-functions.scss
-
-##### `type-space()`
-###### function(`$multiplier`: `1`)
-Multiplies a value by the `$$base-line-height`.
-
 ##### `get-type()`, `type()`
 ###### `[font-size],[font-size-value]`
 function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.
 
+*/
+/* SG
 ##### `define-type()`
 ###### `[font-size], [property], [new value]`
 Registers new values to type map. [Property] accepts px, rem, and line-height.
 
 */
 /* SG
-# Functions/Math [[dev]]
 
-@file globals/_gl-functions.scss
+# Functions/Math [[dev]]
 
 Most functions taken from [Sassy Math](https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss).
 
----
+*/
+/* SG
 
 ##### `pow()`
 ###### function(`$number`, `$exponent`, `$precision:12`)
+
 A more robust exponent multiplication which allows for decimal-based exponents. This **fully** replaces Compass' pow() function (allows for float-based exponents).
+
+[Reference](https://gist.github.com/nathancrank/7539155)
+
 @returns number
 @requires log()
 @alias exponent()
 
+*/
+/* SG
+
+#### `log()`
+##### function(`$x`)
+Returns the natural logarithm of a number.
+
+```scss
+$value:   log(2)  // 0.69315
+$value2:  log(10) // 2.30259
+```
+
+@returns number
+
+*/
+/* SG
+
 ##### `frexp()`
 ###### function(`$x`)
 Returns a two-element list containing the normalized fraction and exponent of number.
+
 @returns list (fraction, exponent)
 
+*/
+/* SG
+
+#### `ldexp()`
+##### function(`$x, $exp`)
+
+Returns $x * 2^$exp
+
+*/
+/* SG
+
+#### `exp()`
+#### function(`$x`)
+
+Returns E^x, where x is the argument, and E is Euler's constant, the base of the natural logarithms.
+
+```scss
+$value: exp(1)  // 2.71828
+$value2: exp(-1) // 0.36788
+```
+
+@returns Number
+
+*/
+/* SG
+
+#### `fact()`
+##### function(`$x`)
+
+Returns the factorial of a non-negative integer.
+
+```scss
+$value:  fact(0) // 1
+$value2: fact(8) // 40320
+```
+@return Number
+
+*/
+/* SG
 
 ##### `gcd()`
 ###### function(`$number-1`, `$number-2`)
+
 Greatest Common Divisor calculation (useful for calculating grids and widths).
 @returns number
 
+*/
+/* SG
+
 ##### `lcm()`
 ###### function(`$a`, `$b`)
-Finds the least common multiple.
+
+Finds the least common multiple. Use with caution...if there is no LCM, then you compilation will error out.
+
 @returns number
+
+*/
+/* SG
 
 ##### `nth_root()`
 ###### function(`$base`, `$n:2`, `$precision:12`)
+
 Advanced calculation for square roots, cube roots, etc. of a value.
+[Reference](http://rosettacode.org/wiki/Nth_root#JavaScript)
+
 @returns number
+
+*/
+/* SG
 
 ##### `sqrt()`
 ###### function(`$base`, `$precision:12`)
+
 Find the square root of a value.
+
 @returns number
+@alias `sqroot()`
+
+*/
+/* SG
 
 ##### `golden()`
 ###### function(`$base: 1`)
+
 Get the golden ratio from `$base`.
 @returns number
+@alias `$$golden_ratio`
+
+*/
+/* SG
 
 ##### `sin()`
 ###### function(`$angle`)
+
 Determines the Sine of an angle.
+[Reference](https://unindented.org/articles/trigonometry-in-sass/)
+
 @returns number
+*/
+/* SG
 
 ##### `cos()`
 ###### function(`$angle`)
+
 Determines the Cosine of an angle.
 @returns number
 
+*/
+/* SG
 ##### `tan()`
 ###### function(`$angle`)
+
 Determines the Tangent of an angle.
 @returns number
 
@@ -710,7 +803,7 @@ _NOTE: These settings, when set to `true`, will slow down compilation somewhat._
 
 ##### `$$debug-fonts`
 ###### Boolean
-Whether to include debug statements about fonts and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
+Whether to include debug statements about font sizes and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
 
 * %: Distance from the lowest font-size.
 * ub: Line-height upperbounds
@@ -718,21 +811,18 @@ Whether to include debug statements about fonts and line-heights as they're gene
 * lh: Final line-height (in pixels and unit-less).
 * loops: Number of times it took to process the line-height. High numbers can indicate font-sizes that are very difficult to process.
 
+##### `$$debug-baseline`
+###### Boolean
+Adds style for a `baseline-on` class that will show a grid of the baseline on any element (most useful on the `body` or `html` tag). Makes vertical alignment easier.
+
 
 ##### `$$debug-silent-classes`
 ###### Boolean
 Stores all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.
 
-
-##### `$$debug-baseline`
-###### Boolean
-Adds style for a `baseline-on` class that will show a grid of the baseline on any element (most useful on the `body` or `html` tag). Makes vertical alignment easier.
-
 */
 /* SG
 # Config/Slick Settings [[dev]]
-
-@file _config.scss
 
 ##### `$$slick-[]-[]`
 Configuration for slick carousel jQuery plugin.
@@ -923,8 +1013,6 @@ Enclose a block of code with a media query as named in `$breakpoints`. To create
 
 # Mixins/CSS Helpers [[dev]]
 
-@file tools/_t-mixins.scss
-
 ##### `@specificity()`
 ###### mixin(`$specificity: 1`)
 Specificity increaser. Useful for increasing specificity of a selector instead of using `!important`.
@@ -943,37 +1031,37 @@ Specificity increaser. Useful for increasing specificity of a selector instead o
 ```
 [Reference](http://www.sitepoint.com/selector-specificity-css-preprocessors/)
 
+*/
+/* SG
 
 ##### `@opacity()`
 ###### mixin(`$opacity`)
 Cross-browser (including IE8-) opacity.
 [Reference](https://gist.github.com/jgv/745754)
 
-
+*/
+/* SG
 ##### `@border()`
 ###### mixin(`$border`)
 Allows creating many border properties at once. Works like the standard border shorthand style but allows varied styles on different border directions.
 
 ```scss
-//scss
-.foo {
-	@include border(2px 3px solid dashed dotted blue currentColor yellow);
-}
+	//scss
+	.foo {
+		@include border(2px 3px solid dashed dotted blue currentColor yellow);
+	}
 
-//css
-.foo {
-	border-width: 2px 3px;
-	border-style: solid dashed dotted;
-	border-color: blue currentColor yellow;
-}
-
+	//css
+	.foo {
+		border-width: 2px 3px;
+		border-style: solid dashed dotted;
+		border-color: blue currentColor yellow;
+	}
 ```
 */
 /* SG
 
 # Mixins/Buttons [[dev]]
-
-@file tools/_t-mixins.scss
 
 ##### `@button()`
 ###### mixin(`$bg-color`: `color('links')`, `$text-color`: `null`, `$border`: `null`, `$radius`: `null`, `$text-radius`: `null`, `$style`: `null`, `$inset`: `false`)
@@ -1560,6 +1648,27 @@ table, p, address, pre {
           transition: all 300ms ease-in-out;
 }
 
+.tab,
+.list_nav a {
+  font-weight: 700 ;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tab,
+.list_nav a {
+  font-size: 12px;
+  font-size: 0.75rem;
+  line-height: 2;
+}
+
+@media only screen and (max-width: 640px) {
+  .table_scroll,
+  .table_pin {
+    font-size: 0.75rem;
+    line-height: 2;
+  }
+}
+
 legend {
   display: table;
   white-space: normal;
@@ -1690,37 +1799,37 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 96.85512px;
   font-size: 6.05345rem;
-  line-height: 1.23896;
+  line-height: 0.99117;
 }
 
 h2 {
-  font-size: 53.1441px;
-  font-size: 3.32151rem;
-  line-height: 1.35481;
+  font-size: 71.74454px;
+  font-size: 4.48403rem;
+  line-height: 1.00356;
 }
 
 h3 {
-  font-size: 45.73916px;
-  font-size: 2.8587rem;
-  line-height: 1.57414;
+  font-size: 53.1441px;
+  font-size: 3.32151rem;
+  line-height: 1.12901;
 }
 
 h4 {
   font-size: 39.366px;
   font-size: 2.46038rem;
-  line-height: 1.82899;
+  line-height: 1.21933;
 }
 
 h5 {
   font-size: 29.16px;
   font-size: 1.8225rem;
-  line-height: 1.64609;
+  line-height: 1.23457;
 }
 
 h6 {
   font-size: 21.6px;
   font-size: 1.35rem;
-  line-height: 1.66667;
+  line-height: 1.11111;
 }
 
 h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p {
@@ -1975,42 +2084,6 @@ q:first-child {
   position: relative;
 }
 
-.arrange_body, .table_striped th, .table_striped td {
-  padding-left: 16px;
-  padding-left:  1rem;
-}
-
-.table_striped th, .table_striped td {
-  padding-right: 16px;
-  padding-right:  1rem;
-}
-
-table {
-  margin-bottom: 24px;
-  margin-bottom:  1.5rem;
-}
-
-.tab,
-.list_nav a {
-  font-weight: 700 ;
-  -webkit-font-smoothing: antialiased;
-}
-
-.tab,
-.list_nav a {
-  font-size: 12px;
-  font-size: 0.75rem;
-  line-height: 2;
-}
-
-@media only screen and (max-width: 640px) {
-  .table_scroll,
-  .table_pin {
-    font-size: 0.75rem;
-    line-height: 2;
-  }
-}
-
 /* SG
 # Buttons
 Applying the `btn` class to anything will make it look like a button. Always declare `type="button"` on `<button>` elements for proper accessibility.
@@ -2094,37 +2167,37 @@ Moving from `h6` up to `h1`, the heading font sizes get larger on a scale. For i
 .h1 {
   font-size: 96.85512px;
   font-size: 6.05345rem;
-  line-height: 1.23896;
+  line-height: 0.99117;
 }
 
 .h2 {
-  font-size: 53.1441px;
-  font-size: 3.32151rem;
-  line-height: 1.35481;
+  font-size: 71.74454px;
+  font-size: 4.48403rem;
+  line-height: 1.00356;
 }
 
 .h3 {
-  font-size: 45.73916px;
-  font-size: 2.8587rem;
-  line-height: 1.57414;
+  font-size: 53.1441px;
+  font-size: 3.32151rem;
+  line-height: 1.12901;
 }
 
 .h4 {
   font-size: 39.366px;
   font-size: 2.46038rem;
-  line-height: 1.82899;
+  line-height: 1.21933;
 }
 
 .h5 {
   font-size: 29.16px;
   font-size: 1.8225rem;
-  line-height: 1.64609;
+  line-height: 1.23457;
 }
 
 .h6 {
   font-size: 21.6px;
   font-size: 1.35rem;
-  line-height: 1.66667;
+  line-height: 1.11111;
 }
 
 .h1 + p, .h2 + p, .h3 + p, .h4 + p, .h5 + p, .h6 + p {
@@ -2417,6 +2490,11 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
   max-width: none;
 }
 
+.arrange_body {
+  padding-left: 16px;
+  padding-left:  1rem;
+}
+
 .arrange_media, .arrange_body, .arrange_fill, .arrange_fit {
   vertical-align: middle;
 }
@@ -2449,7 +2527,12 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
   display: none;
 }
 
-.table_striped th, .table_striped td {
+.table_striped th,
+.table_striped td {
+  padding-right: 16px;
+  padding-right:  1rem;
+  padding-left: 16px;
+  padding-left:  1rem;
   border-color: #ced2d5;
   border-style: solid;
 }

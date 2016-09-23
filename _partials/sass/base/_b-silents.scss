@@ -1,4 +1,4 @@
-$base_namespace: 'base_';
+$base_namespace: '';
 
 %list_naked,
 %naked_list {
@@ -54,3 +54,17 @@ $base_namespace: 'base_';
 	position: absolute;
 	transition: all 300ms ease-in-out;
 }
+
+@include spacing-utilities-init(
+	$config: (important: false, silent: true)
+);
+
+@include alignment-utilities-init(
+	$important: false,
+	$silent: true
+);
+
+@include type-utilities-init(
+	$important: false,
+	$silent: true
+);

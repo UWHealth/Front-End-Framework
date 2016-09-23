@@ -134,7 +134,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 	}
 
 	&_body {
-		@extend %pad_l_half;
+		@include type-space(padding-left, .5);
 	}
 
 	&_media,

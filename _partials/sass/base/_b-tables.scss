@@ -1,7 +1,6 @@
 //Base table styles
 table {
     @extend %type_vertical_rhythm;
-    @extend %space_b;
     width: 100%;
     background-color: transparent;
     border-collapse: collapse;

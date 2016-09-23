@@ -49,7 +49,7 @@ The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with 
 		letter-spacing: 0 #{$important_str};
 	}
 	#{$classtype}#{$namespace}txt_small {
-		@include type-font-size($type-small-size);
+		@include type-font-size($type-small-size, $small-lh);
 	}
 	#{$classtype}#{$namespace}txt_space_reset {
 		letter-spacing: normal #{$important_str};
