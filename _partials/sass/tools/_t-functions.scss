@@ -687,20 +687,17 @@ Aligns a font-size to a baseline (`$baseline`). Returns a unitless value relativ
 ##### `baseline-curve()`
 ###### function(`$x` , `$accel`: `1`)
 
-Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`. An `$accel` of 1 is a smooth arc.
+Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`.
+An `$accel` of 1 is a smooth arc.
+`$accel` accepts any number between -2 and 2.35. A negative will invert the curve.
 
-`$accel` accepts any number between -2 and 2.5. A negative will invert the curve.
-
-The formula: `y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951` [Visual](https://www.desmos.com/calculator/qswvc6q9kt)
+The formula: `y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951`
+( [Visual](https://www.desmos.com/calculator/qswvc6q9kt) )
 
 @returns number
 @requires `sqrt()`, `pow()`
 
 */
-
-// $x: 0 - 1.0, $accel: -2 - 2.5
-// $accel changes the severity of the curve. Negative values invert.
-//returns a decimal that cooresponds to the same percentage on the curve
 
 @function baseline-curve($x, $accel:1) {
 	//Cache this exponent since it uses a decimal and requires a lot of computation
@@ -846,7 +843,6 @@ $__font-warn: false;
 		//Attempt using a negative line-height for very large sizes
 		@if ($true-percent-along > .9) {
 			$line-height: baseline($font-size, $baseline, .5, $floor: true);
-			@debug $line-height;
 		}
         @else if $font-size < $base-font-size {
             $line-height: baseline($font-size, $baseline, 1.5);
@@ -1008,8 +1004,8 @@ A more robust exponent multiplication which allows for decimal-based exponents. 
 
 /* SG
 
-#### `log()`
-##### function(`$x`)
+##### `log()`
+###### function(`$x`)
 Returns the natural logarithm of a number.
 
 ```scss
@@ -1073,8 +1069,8 @@ Returns a two-element list containing the normalized fraction and exponent of nu
 
 /* SG
 
-#### `ldexp()`
-##### function(`$x, $exp`)
+##### `ldexp()`
+###### function(`$x, $exp`)
 
 Returns $x * 2^$exp
 
@@ -1097,8 +1093,8 @@ Returns $x * 2^$exp
 
 /* SG
 
-#### `exp()`
-#### function(`$x`)
+##### `exp()`
+###### function(`$x`)
 
 Returns E^x, where x is the argument, and E is Euler's constant, the base of the natural logarithms.
 
@@ -1121,8 +1117,8 @@ $value2: exp(-1) // 0.36788
 
 /* SG
 
-#### `fact()`
-##### function(`$x`)
+##### `fact()`
+###### function(`$x`)
 
 Returns the factorial of a non-negative integer.
 
@@ -1267,39 +1263,6 @@ Find the square root of a value.
   }
 }
 
-/* SG
-
-##### `golden()`
-###### function(`$base: 1`)
-
-Get the golden ratio from `$base`.
-@returns number
-@alias `$$golden_ratio`
-
-*/
-
-@function golden($base: 1) {
-
-	@return (1/2 + sqrt(5) / 2) * $base;
-}
-
-$golden_ratio: golden();
-
-
-@function rad($angle) {
-	$unit: unit($angle);
-	$unitless: $angle / ($angle * 0 + 1);
-	// If the angle has 'deg' as unit, convert to radians.
-	@if $unit == deg {
-		$unitless: $unitless / 180 * $pi;
-	}
-	@return $unitless;
-}
-
-//Alias
-@function angle-to-rad($angle) {
-	@return rad($angle);
-}
 
 /* SG
 
@@ -1360,6 +1323,40 @@ Determines the Tangent of an angle.
 
 @function tan($angle) {
 	@return sin($angle) / cos($angle);
+}
+
+/* SG
+
+##### `golden()`
+###### function(`$base: 1`)
+
+Get the golden ratio from `$base`.
+@returns number
+@alias `$$golden_ratio`
+
+*/
+
+@function golden($base: 1) {
+
+	@return (1/2 + sqrt(5) / 2) * $base;
+}
+
+$golden_ratio: golden();
+
+
+@function rad($angle) {
+	$unit: unit($angle);
+	$unitless: $angle / ($angle * 0 + 1);
+	// If the angle has 'deg' as unit, convert to radians.
+	@if $unit == deg {
+		$unitless: $unitless / 180 * $pi;
+	}
+	@return $unitless;
+}
+
+//Alias
+@function angle-to-rad($angle) {
+	@return rad($angle);
 }
 
 

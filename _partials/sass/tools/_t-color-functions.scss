@@ -259,9 +259,9 @@ div {
 ###### function(`$color1, $color2`)
 Find contrast between two colors.
 [Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+
 @requires `color-luminance()`
 @returns number(0 - 1)
-
 */
 
 @function color-contrast($color1, $color2) {

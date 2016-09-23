@@ -204,11 +204,12 @@ Aligns a font-size to a baseline (`$baseline`). Returns a unitless value relativ
 ##### `baseline-curve()`
 ###### function(`$x` , `$accel`: `1`)
 
-Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`. An `$accel` of 1 is a smooth arc.
+Calculates a where a number(`$x`) sits along a parabolic arc (curve). Change the curve's severity by changing its `$accel`.
+An `$accel` of 1 is a smooth arc.
+`$accel` accepts any number between -2 and 2.35. A negative will invert the curve.
 
-`$accel` accepts any number between -2 and 2.5. A negative will invert the curve.
-
-The formula: `y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951` [Visual](https://www.desmos.com/calculator/qswvc6q9kt)
+The formula: `y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951`
+( [Visual](https://www.desmos.com/calculator/qswvc6q9kt) )
 
 @returns number
 @requires `sqrt()`, `pow()`
@@ -264,8 +265,8 @@ A more robust exponent multiplication which allows for decimal-based exponents. 
 */
 /* SG
 
-#### `log()`
-##### function(`$x`)
+##### `log()`
+###### function(`$x`)
 Returns the natural logarithm of a number.
 
 ```scss
@@ -287,16 +288,16 @@ Returns a two-element list containing the normalized fraction and exponent of nu
 */
 /* SG
 
-#### `ldexp()`
-##### function(`$x, $exp`)
+##### `ldexp()`
+###### function(`$x, $exp`)
 
 Returns $x * 2^$exp
 
 */
 /* SG
 
-#### `exp()`
-#### function(`$x`)
+##### `exp()`
+###### function(`$x`)
 
 Returns E^x, where x is the argument, and E is Euler's constant, the base of the natural logarithms.
 
@@ -310,8 +311,8 @@ $value2: exp(-1) // 0.36788
 */
 /* SG
 
-#### `fact()`
-##### function(`$x`)
+##### `fact()`
+###### function(`$x`)
 
 Returns the factorial of a non-negative integer.
 
@@ -365,16 +366,6 @@ Find the square root of a value.
 */
 /* SG
 
-##### `golden()`
-###### function(`$base: 1`)
-
-Get the golden ratio from `$base`.
-@returns number
-@alias `$$golden_ratio`
-
-*/
-/* SG
-
 ##### `sin()`
 ###### function(`$angle`)
 
@@ -398,6 +389,16 @@ Determines the Cosine of an angle.
 
 Determines the Tangent of an angle.
 @returns number
+
+*/
+/* SG
+
+##### `golden()`
+###### function(`$base: 1`)
+
+Get the golden ratio from `$base`.
+@returns number
+@alias `$$golden_ratio`
 
 */
 /* SG
@@ -491,9 +492,9 @@ div {
 ###### function(`$color1, $color2`)
 Find contrast between two colors.
 [Adapted from color.js](https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js)
+
 @requires `color-luminance()`
 @returns number(0 - 1)
-
 */
 /* SG
 ##### `color-luminance()`
@@ -830,13 +831,8 @@ Configuration for slick carousel jQuery plugin.
 
 */
 /* SG
-# Variables/System [[dev]]
+# Variables/Globals [[dev]]
 
-@file /tools/_t-variables.scss
-
--------------------------------------------
-
-Default settings for variables.
 
 ##### `$$h[#]-lh`
 ###### boolean/unitless/pixel value

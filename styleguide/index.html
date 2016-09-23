@@ -11,9 +11,6 @@
     <title>FEF - Documentation</title>
     <style>
     /******Base Layout******/
-    body {
-        background-color: #fafbfc;
-    }
     
     .sg-body {
         margin: 0;
@@ -47,10 +44,6 @@
         padding-left: 5%;
         padding-right: 5%;
         overflow: auto;
-    }
-    
-    .sg-category:nth-child(even) {
-        background-color: rgba(232, 233, 234, 0.3);
     }
     
     .sg-category_wrap {
@@ -186,11 +179,10 @@
     /******Headings******/
     
     .sg-heading-section {
-        color: #8e9da2;
-        border-bottom: 1px solid rgba(208,217,219,.65);
-        padding-bottom: .5em;
+        color: #88a8b3;
         font-size: 2.8587rem;
         line-height: 1.57414;
+        font-weight: normal;
     }
     
     .sg-heading-category {
@@ -200,9 +192,21 @@
     }
     
     .sg-heading-article {
-        font-size: 1.4em;
-        color: #4F5455;
+        color: #18d2c0;
         font-weight: normal;
+    }
+    
+    .sg-heading .sg-code {
+    	color: #435270;
+    }
+    
+    .sg-heading-6 {
+        font-weight: normal;
+    }
+    
+    .sg-heading-5 + .sg-heading-6 {
+        margin-top: -1rem;
+        padding-bottom: .25rem;
     }
     
     
@@ -213,32 +217,30 @@
     }
     
     /* Article spacing */
-    .sg-section {
-        padding-top: 3em;
-        padding-bottom: 3em;
-    }
     
     .sg-section,
-    .sg-category,
     .sg-article_comment,
     .sg-example {
         margin-bottom: 1.5em;
+    }
+    
+    .sg-category:nth-child(even) {
+        background-color: rgba(224,229,235,.3);
     }
     
     .sg-article {
         margin-bottom: 3em;
     }
     
-    .sg-category + .sg-category {
-        padding-top: 1.5em;
+    .sg-category,
+    .sg-article {
+        padding-top: 3em;
     }
     
     .sg-article_comment {
         margin-top: -1.5rem;
     }
     
-    .sg-category_head,
-    .sg-section_head,
     .sg-article_head {
         padding-bottom: 1.5em;
     }
@@ -286,17 +288,24 @@
     }
     
     .sg-codespan {
-        color: #00979D;
+        color: #648D9C;
+    }
+    
+    .sg-file {
+        color: #88a8b3;
     }
     
     .sg-codeblock {
         margin-bottom: 2em;
     }
     
+    .sg-code-meta + .sg-code-meta {
+        margin-top: -1.5rem;
+    }
+    
     .sg-code-meta:before {
     	content: attr(data-code-meta)": ";
     	text-transform: capitalize;
-        font-weight: bold;
     }
     
     
@@ -419,7 +428,9 @@
 
 <main id="sg-main" class="sg-main">    <section id="styles" class="sg-section sg-section-styles" data-sg-section="styles">
         <div class="sg-section_head sg-category">
-            <h1 class="sg-heading sg-heading-section">Styles</h1>
+            <div class="sg-category_wrap">
+                <h1 class="sg-heading sg-heading-section">Styles</h1>
+            </div>
         </div>
 
          
@@ -835,7 +846,9 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                 </article>        </div>
         </div>    </section>    <section id="development" class="sg-section sg-section-development" data-sg-section="development">
         <div class="sg-section_head sg-category">
-            <h1 class="sg-heading sg-heading-section">Development</h1>
+            <div class="sg-category_wrap">
+                <h1 class="sg-heading sg-heading-section">Development</h1>
+            </div>
         </div>
 
          
@@ -845,7 +858,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                     <h2 class="sg-heading-category">Colors</h2>
                 </header>                <article class="sg-article" id="development-colors-blending-modes" data-sg-section="Colors" data-sg-heading="Blending Modes">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Blending Modes</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Blending Modes</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-blendmodes.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <p><a href="https://github.com/heygrady/scss-blend-modes/blob/master/stylesheets/_blend-modes.scss">Taken from Sass Blend Modes</a></p>
                 <h5 id="blend-normal-" class="sg-heading sg-heading-5"><code id="function-blend-normal" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="blend-normal()">blend-normal()</code></h5>
@@ -890,7 +904,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                     </div>
                 </article>                <article class="sg-article" id="development-colors-debugging" data-sg-section="Colors" data-sg-heading="Debugging">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Debugging</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Debugging</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-color-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-color-palette-output-" class="sg-heading sg-heading-5"><code id="mixin-color-palette-output" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@color-palette-output()">@color-palette-output()</code></h5>
 
@@ -899,7 +914,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                     </div>
                 </article>                <article class="sg-article" id="development-colors-manipulation" data-sg-section="Colors" data-sg-heading="Manipulation">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Manipulation</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Manipulation</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-color-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="generate-color-varations-" class="sg-heading sg-heading-5"><code id="function-generate-color-varations" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="generate-color-varations()">generate-color-varations()</code></h5>
 
@@ -943,12 +959,10 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 <p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  color </p><h5 id="color-contrast-" class="sg-heading sg-heading-5"><code id="function-color-contrast" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-contrast()">color-contrast()</code></h5>
 
                 <h6 id="function-color1-color2-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$color1, $color2</code>)</h6>
-<p>Find contrast between two colors.</p>
-
-<a href="https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js">Adapted from color.js</a>
-
-<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-color-luminance" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-luminance()">color-luminance()</code></code> </p>
+<p>Find contrast between two colors.
 <br>
+<a href="https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js">Adapted from color.js</a></p><p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-color-luminance" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-luminance()">color-luminance()</code></code> </p>
+
 <p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number(0 - 1) </p><h5 id="color-luminance-" class="sg-heading sg-heading-5"><code id="function-color-luminance" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-luminance()">color-luminance()</code></h5>
 
                 <h6 id="function-color1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$color1</code>)</h6>
@@ -960,7 +974,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                     </div>
                 </article>                <article class="sg-article" id="development-colors-lookup" data-sg-section="Colors" data-sg-heading="Lookup">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Lookup</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Lookup</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-color-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="colors-" class="sg-heading sg-heading-5"><code id="function-colors" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="colors()">colors()</code></h5>
 
@@ -987,7 +1002,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                     <h2 class="sg-heading-category">Config</h2>
                 </header>                <article class="sg-article" id="development-config-color-settings" data-sg-section="Config" data-sg-heading="Color Settings">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Color Settings</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Color Settings</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/_config.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-base-colors" class="sg-heading sg-heading-5"><code id="variable--base-colors" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$base-colors">$base-colors</code></h5>
 
@@ -1017,7 +1033,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                     </div>
                 </article>                <article class="sg-article" id="development-config-debug-settings" data-sg-section="Config" data-sg-heading="Debug Settings">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Debug Settings</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Debug Settings</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/_config.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <p><em>NOTE: These settings, when set to <code class="sg-code sg-codespan">true</code>, will slow down compilation somewhat.</em></p>
                 <h5 id="-debug-fonts" class="sg-heading sg-heading-5"><code id="variable--debug-fonts" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$debug-fonts">$debug-fonts</code></h5>
@@ -1042,7 +1059,8 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                     </div>
                 </article>                <article class="sg-article" id="development-config-general-settings" data-sg-section="Config" data-sg-heading="General Settings">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">General Settings</h3></header>
+                        <h3 class="sg-heading sg-heading-article">General Settings</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/_config.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-breakpoints" class="sg-heading sg-heading-5"><code id="variable--breakpoints" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoints">$breakpoints</code></h5>
 
@@ -1107,7 +1125,8 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     </div>
                 </article>                <article class="sg-article" id="development-config-grid-settings" data-sg-section="Config" data-sg-heading="Grid Settings">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Grid Settings</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Grid Settings</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/_config.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-max-site-width" class="sg-heading sg-heading-5"><code id="variable--max-site-width" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$max-site-width">$max-site-width</code></h5>
 
@@ -1144,7 +1163,8 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     </div>
                 </article>                <article class="sg-article" id="development-config-slick-settings" data-sg-section="Config" data-sg-heading="Slick Settings">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Slick Settings</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Slick Settings</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/_config.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-slick-" class="sg-heading sg-heading-5"><code id="variable--slick------" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$slick-[]-[]">$slick-[]-[]</code></h5>
 <p>Configuration for slick carousel jQuery plugin.
@@ -1153,7 +1173,8 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     </div>
                 </article>                <article class="sg-article" id="development-config-typography-settings" data-sg-section="Config" data-sg-heading="Typography Settings">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Typography Settings</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Typography Settings</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/_config.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-base-font-size" class="sg-heading sg-heading-5"><code id="variable--base-font-size" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$base-font-size">$base-font-size</code></h5>
 
@@ -1222,7 +1243,8 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     <h2 class="sg-heading-category">Functions</h2>
                 </header>                <article class="sg-article" id="development-functions-conversion" data-sg-section="Functions" data-sg-heading="Conversion">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Conversion</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Conversion</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="strip-units-" class="sg-heading sg-heading-5"><code id="function-strip-units" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="strip-units()">strip-units()</code></h5>
 
@@ -1275,7 +1297,8 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     </div>
                 </article>                <article class="sg-article" id="development-functions-general" data-sg-section="Functions" data-sg-heading="General">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">General</h3></header>
+                        <h3 class="sg-heading sg-heading-article">General</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="cache-" class="sg-heading sg-heading-5"><code id="function-cache" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="cache()">cache()</code></h5>
 
@@ -1284,7 +1307,8 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     </div>
                 </article>                <article class="sg-article" id="development-functions-maps" data-sg-section="Functions" data-sg-heading="Maps">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Maps</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Maps</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <p><a href="http://www.sitepoint.com/extra-map-functions-sass/">Reference</a></p>
                 <h5 id="map-deep-set-" class="sg-heading sg-heading-5"><code id="function-map-deep-set" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="map-deep-set()">map-deep-set()</code></h5>
@@ -1344,7 +1368,8 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     </div>
                 </article>                <article class="sg-article" id="development-functions-math" data-sg-section="Functions" data-sg-heading="Math">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Math</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Math</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <p>Most functions taken from <a href="https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss">Sassy Math</a>.</p><h5 id="pow-" class="sg-heading sg-heading-5"><code id="function-pow" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pow()">pow()</code></h5>
 
@@ -1353,9 +1378,9 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
 
 <p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code id="function-log" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="log()">log()</code> </p>
 
-<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code id="function-exponent" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exponent()">exponent()</code> </p><h4 id="log-" class="sg-heading sg-heading-4"><code id="function-log" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="log()">log()</code></h4>
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code id="function-exponent" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exponent()">exponent()</code> </p><h5 id="log-" class="sg-heading sg-heading-5"><code id="function-log" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="log()">log()</code></h5>
 
-                <h5 id="function-x-" class="sg-heading sg-heading-5">function(<code class="sg-code sg-codespan">$x</code>)</h5>
+                <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
 <p>Returns the natural logarithm of a number.</p>
 <div class="sg-markup sg-codeblock">
 <pre class="sg-markup_wrap"><code class="hljs sg-code undefined"><span class="hljs-variable">$value</span>:   log(<span class="hljs-number">2</span>)  // <span class="hljs-number">0.69315</span>
@@ -1365,21 +1390,21 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
 <p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="frexp-" class="sg-heading sg-heading-5"><code id="function-frexp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="frexp()">frexp()</code></h5>
 
                 <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
-<p>Returns a two-element list containing the normalized fraction and exponent of number.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  list (fraction, exponent) </p><h4 id="ldexp-" class="sg-heading sg-heading-4"><code id="function-ldexp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="ldexp()">ldexp()</code></h4>
+<p>Returns a two-element list containing the normalized fraction and exponent of number.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  list (fraction, exponent) </p><h5 id="ldexp-" class="sg-heading sg-heading-5"><code id="function-ldexp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="ldexp()">ldexp()</code></h5>
 
-                <h5 id="function-x-exp-" class="sg-heading sg-heading-5">function(<code class="sg-code sg-codespan">$x, $exp</code>)</h5>
-<p>Returns $x * 2^$exp</p><h4 id="exp-" class="sg-heading sg-heading-4"><code id="function-exp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exp()">exp()</code></h4>
+                <h6 id="function-x-exp-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x, $exp</code>)</h6>
+<p>Returns $x * 2^$exp</p><h5 id="exp-" class="sg-heading sg-heading-5"><code id="function-exp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exp()">exp()</code></h5>
 
-                <h4 id="function-x-" class="sg-heading sg-heading-4">function(<code class="sg-code sg-codespan">$x</code>)</h4>
+                <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
 <p>Returns E^x, where x is the argument, and E is Euler&#x2019;s constant, the base of the natural logarithms.</p>
 <div class="sg-markup sg-codeblock">
 <pre class="sg-markup_wrap"><code class="hljs sg-code undefined"><span class="hljs-variable">$value</span>: exp(<span class="hljs-number">1</span>)  // <span class="hljs-number">2.71828</span>
 <span class="hljs-variable">$value2</span>: exp(-<span class="hljs-number">1</span>) // <span class="hljs-number">0.36788</span>
 </code></pre>
 </div>
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  Number </p><h4 id="fact-" class="sg-heading sg-heading-4"><code id="function-fact" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="fact()">fact()</code></h4>
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  Number </p><h5 id="fact-" class="sg-heading sg-heading-5"><code id="function-fact" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="fact()">fact()</code></h5>
 
-                <h5 id="function-x-" class="sg-heading sg-heading-5">function(<code class="sg-code sg-codespan">$x</code>)</h5>
+                <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
 <p>Returns the factorial of a non-negative integer.</p>
 <div class="sg-markup sg-codeblock">
 <pre class="sg-markup_wrap"><code class="hljs sg-code undefined"><span class="hljs-variable">$value</span>:  fact(<span class="hljs-number">0</span>) // <span class="hljs-number">1</span>
@@ -1404,14 +1429,7 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                 <h6 id="function-base-precision-12-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base</code>, <code class="sg-code sg-codespan">$precision:12</code>)</h6>
 <p>Find the square root of a value.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
 
-<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-sqroot" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqroot()">sqroot()</code></code> </p><h5 id="golden-" class="sg-heading sg-heading-5"><code id="function-golden" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="golden()">golden()</code></h5>
-
-                <h6 id="function-base-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base: 1</code>)</h6>
-<p>Get the golden ratio from <code class="sg-code sg-codespan">$base</code>.</p>
-
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
-
-<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="variable--golden_ratio" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$golden_ratio">$golden_ratio</code></code> </p><h5 id="sin-" class="sg-heading sg-heading-5"><code id="function-sin" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sin()">sin()</code></h5>
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-sqroot" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqroot()">sqroot()</code></code> </p><h5 id="sin-" class="sg-heading sg-heading-5"><code id="function-sin" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sin()">sin()</code></h5>
 
                 <h6 id="function-angle-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$angle</code>)</h6>
 <p>Determines the Sine of an angle.
@@ -1426,11 +1444,19 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                 <h6 id="function-angle-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$angle</code>)</h6>
 <p>Determines the Tangent of an angle.</p>
 
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="golden-" class="sg-heading sg-heading-5"><code id="function-golden" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="golden()">golden()</code></h5>
+
+                <h6 id="function-base-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base: 1</code>)</h6>
+<p>Get the golden ratio from <code class="sg-code sg-codespan">$base</code>.</p>
+
 <p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
+
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="variable--golden_ratio" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$golden_ratio">$golden_ratio</code></code> </p>
                     </div>
                 </article>                <article class="sg-article" id="development-functions-strings---lists" data-sg-section="Functions" data-sg-heading="Strings &amp; Lists">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Strings &amp; Lists</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Strings &amp; Lists</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <p><a href="https://github.com/devatrox/Sunglass">Reference</a></p>
                 <h5 id="contains-" class="sg-heading sg-heading-5"><code id="function-contains" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="contains()">contains()</code></h5>
@@ -1480,7 +1506,8 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     </div>
                 </article>                <article class="sg-article" id="development-functions-typography" data-sg-section="Functions" data-sg-heading="Typography">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Typography</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Typography</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="modular-scale-" class="sg-heading sg-heading-5"><code id="function-modular-scale" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="modular-scale()">modular-scale()</code></h5>
 
@@ -1497,7 +1524,13 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
 <p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number (unitless) </p><h5 id="baseline-curve-" class="sg-heading sg-heading-5"><code id="function-baseline-curve" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-curve()">baseline-curve()</code></h5>
 
                 <h6 id="function-x-accel-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code> , <code class="sg-code sg-codespan">$accel</code>: <code class="sg-code sg-codespan">1</code>)</h6>
-<p>Calculates a where a number(<code class="sg-code sg-codespan">$x</code>) sits along a parabolic arc (curve). Change the curve&#x2019;s severity by changing its <code class="sg-code sg-codespan">$accel</code>. An <code class="sg-code sg-codespan">$accel</code> of 1 is a smooth arc.</p><p><code class="sg-code sg-codespan">$accel</code> accepts any number between -2 and 2.5. A negative will invert the curve.</p><p>The formula: <code class="sg-code sg-codespan">y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951</code> <a href="https://www.desmos.com/calculator/qswvc6q9kt">Visual</a></p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
+<p>Calculates a where a number(<code class="sg-code sg-codespan">$x</code>) sits along a parabolic arc (curve). Change the curve&#x2019;s severity by changing its <code class="sg-code sg-codespan">$accel</code>.
+<br>
+An <code class="sg-code sg-codespan">$accel</code> of 1 is a smooth arc.
+<br>
+<code class="sg-code sg-codespan">$accel</code> accepts any number between -2 and 2.35. A negative will invert the curve.</p><p>The formula: <code class="sg-code sg-codespan">y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951</code>
+<br>
+( <a href="https://www.desmos.com/calculator/qswvc6q9kt">Visual</a> )</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
 
 <p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-sqrt" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqrt()">sqrt()</code>, <code id="function-pow" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pow()">pow()</code></code> </p><h5 id="baseline-calc-" class="sg-heading sg-heading-5"><code id="function-baseline-calc" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-calc()">baseline-calc()</code></h5>
 
@@ -1524,7 +1557,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     <h2 class="sg-heading-category">Grid System</h2>
                 </header>                <article class="sg-article" id="development-grid-system-functions" data-sg-section="Grid System" data-sg-heading="Functions">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Functions</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Functions</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-grid-system.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="grid-size-" class="sg-heading sg-heading-5"><code id="function-grid-size" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="grid-size()">grid-size()</code></h5>
 
@@ -1533,7 +1567,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     </div>
                 </article>                <article class="sg-article" id="development-grid-system-mixins" data-sg-section="Grid System" data-sg-heading="Mixins">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Mixins</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Mixins</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-grid-system.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-silent-relative-" class="sg-heading sg-heading-5"><code id="mixin-silent-relative" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@silent-relative()">@silent-relative()</code></h5>
 
@@ -1598,7 +1633,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     </div>
                 </article>                <article class="sg-article" id="development-grid-system-variables" data-sg-section="Grid System" data-sg-heading="Variables">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Variables</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Variables</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-grid-system.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-human-readable-numerators" class="sg-heading sg-heading-5"><code id="variable--human-readable-numerators" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$human-readable-numerators">$human-readable-numerators</code></h5>
 
@@ -1659,7 +1695,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     <h2 class="sg-heading-category">Mixins</h2>
                 </header>                <article class="sg-article" id="development-mixins-buttons" data-sg-section="Mixins" data-sg-heading="Buttons">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Buttons</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Buttons</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-mixins.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-button-" class="sg-heading sg-heading-5"><code id="mixin-button" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@button()">@button()</code></h5>
 
@@ -1681,7 +1718,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     </div>
                 </article>                <article class="sg-article" id="development-mixins-css-helpers" data-sg-section="Mixins" data-sg-heading="CSS Helpers">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">CSS Helpers</h3></header>
+                        <h3 class="sg-heading sg-heading-article">CSS Helpers</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-mixins.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-specificity-" class="sg-heading sg-heading-5"><code id="mixin-specificity" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@specificity()">@specificity()</code></h5>
 
@@ -1726,7 +1764,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     </div>
                 </article>                <article class="sg-article" id="development-mixins-media-queries" data-sg-section="Mixins" data-sg-heading="Media Queries">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Media Queries</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Media Queries</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-media-queries.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-media-query-" class="sg-heading sg-heading-5"><code id="mixin-media-query" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@media-query()">@media-query()</code></h5>
 
@@ -1743,7 +1782,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     </div>
                 </article>                <article class="sg-article" id="development-mixins-typography" data-sg-section="Mixins" data-sg-heading="Typography">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Typography</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Typography</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-type.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-px-to-rems-" class="sg-heading sg-heading-5"><code id="mixin-px-to-rems" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@px-to-rems()">@px-to-rems()</code></h5>
 
@@ -1789,7 +1829,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     <h2 class="sg-heading-category">Tools</h2>
                 </header>                <article class="sg-article" id="development-tools-alignment-utilities" data-sg-section="Tools" data-sg-heading="Alignment Utilities">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Alignment Utilities</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Alignment Utilities</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-alignment.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-alignment-utilities-" class="sg-heading sg-heading-5"><code id="mixin-alignment-utilities" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@alignment-utilities()">@alignment-utilities()</code></h5>
 
@@ -1802,7 +1843,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     </div>
                 </article>                <article class="sg-article" id="development-tools-display-utilities" data-sg-section="Tools" data-sg-heading="Display Utilities">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Display Utilities</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Display Utilities</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-display.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-display-utilities-" class="sg-heading sg-heading-5"><code id="mixin-display-utilities" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@display-utilities()">@display-utilities()</code></h5>
 
@@ -1815,7 +1857,8 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
                     </div>
                 </article>                <article class="sg-article" id="development-tools-font-face-generator" data-sg-section="Tools" data-sg-heading="Font Face Generator">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Font Face Generator</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Font Face Generator</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-fontface.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-fonts-" class="sg-heading sg-heading-5"><code id="mixin-fonts" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@fonts()">@fonts()</code></h5>
 
@@ -1838,7 +1881,8 @@ $name is required, arbitrary, and what you will use in font stacks.
                     </div>
                 </article>                <article class="sg-article" id="development-tools-spacing-utilities" data-sg-section="Tools" data-sg-heading="Spacing Utilities">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Spacing Utilities</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Spacing Utilities</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-spacing.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="layout-type-" class="sg-heading sg-heading-5"><code id="function-layout-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="layout-type()">layout-type()</code></h5>
 
@@ -1863,7 +1907,8 @@ $name is required, arbitrary, and what you will use in font stacks.
                     </div>
                 </article>                <article class="sg-article" id="development-tools-type-utilities" data-sg-section="Tools" data-sg-heading="Type Utilities">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Type Utilities</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Type Utilities</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-type.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="-type-utilities-" class="sg-heading sg-heading-5"><code id="mixin-type-utilities" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@type-utilities()">@type-utilities()</code></h5>
 
@@ -1876,7 +1921,8 @@ $name is required, arbitrary, and what you will use in font stacks.
                     </div>
                 </article>                <article class="sg-article" id="development-tools-z-index" data-sg-section="Tools" data-sg-heading="Z-Index">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Z-Index</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Z-Index</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-zindex.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <h5 id="z-" class="sg-heading sg-heading-5"><code id="function-z" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="z()">z()</code></h5>
 
@@ -1891,17 +1937,17 @@ $name is required, arbitrary, and what you will use in font stacks.
                     <h2 class="sg-heading-category">Variables</h2>
                 </header>                <article class="sg-article" id="development-variables-easing" data-sg-section="Variables" data-sg-heading="Easing">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Easing</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Easing</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-easings.scss</code></p><hr></header>
                     <div class="sg-article_comment">
                         <p>Each easing variable is a cubic-bezier value that specifies rate of change of an animation. <a href="http://www.easings.net">See easings for more</a>.</p><p><a href="https://github.com/matthewlein/Ceaser/blob/master/developer/">Reference</a></p>
                     </div>
-                </article>                <article class="sg-article" id="development-variables-system" data-sg-section="Variables" data-sg-heading="System">
+                </article>                <article class="sg-article" id="development-variables-globals" data-sg-section="Variables" data-sg-heading="Globals">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">System</h3></header>
+                        <h3 class="sg-heading sg-heading-article">Globals</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-variables.scss</code></p><hr></header>
                     <div class="sg-article_comment">
-                        <hr>
-<p>Default settings for variables.</p>
-                <h5 id="-h-lh" class="sg-heading sg-heading-5"><code id="variable--h----lh" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$h[#]-lh">$h[#]-lh</code></h5>
+                        <h5 id="-h-lh" class="sg-heading sg-heading-5"><code id="variable--h----lh" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$h[#]-lh">$h[#]-lh</code></h5>
 
                 <h6 id="boolean-unitless-pixel-value" class="sg-heading sg-heading-6">boolean/unitless/pixel value</h6>
 <p>Parses <code id="variable--type-h----size" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$type-h[#]-size">$type-h[#]-size</code> for an optional line-height value, if none exists, just set to <code class="sg-code sg-codespan">true</code>. This value will be passed to <code id="mixin-type-font-size" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@type-font-size()">@type-font-size()</code>.</p>
@@ -1941,7 +1987,9 @@ $name is required, arbitrary, and what you will use in font stacks.
                 </article>        </div>
         </div>    </section>    <section id="Getting-Started" class="sg-section sg-section-Getting-Started" data-sg-section="Getting Started">
         <div class="sg-section_head sg-category">
-            <h1 class="sg-heading sg-heading-section">Getting Started</h1>
+            <div class="sg-category_wrap">
+                <h1 class="sg-heading sg-heading-section">Getting Started</h1>
+            </div>
         </div>
 
          

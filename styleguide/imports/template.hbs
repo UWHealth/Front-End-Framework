@@ -31,7 +31,9 @@
 {{~#each sections}}
     <section id="{{sanitize @key}}" class="sg-section sg-section-{{sanitize @key}}" data-sg-section="{{@key}}">
         <div class="sg-section_head sg-category">
-            <h1 class="sg-heading sg-heading-section">{{titleize @key}}</h1>
+            <div class="sg-category_wrap">
+                <h1 class="sg-heading sg-heading-section">{{titleize @key}}</h1>
+            </div>
         </div>
 
         {{#each this}} {{!--Looping through Categories --}}
@@ -52,11 +54,11 @@
                         <h3 class="sg-heading sg-heading-article">
                             {{~heading~}}
                         </h3>
-                        {{~#if fileLocation}}
-                        <code class="sg-codespan sg-file">
-                            {{~fileLocation~}}
-                        </code>
-                        {{~/if~}}
+                        {{~#if section.development}}{{#if filelocation}}
+                        <p><code class="sg-codespan sg-file">
+                            {{~filelocation~}}
+                        </code></p><hr>
+                        {{~/if}}{{/if~}}
                     </header>
                 {{/if}}
                     <div class="sg-article_comment">
