@@ -1023,7 +1023,7 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                 <h5 id="-debug-fonts" class="sg-heading sg-heading-5"><code id="variable--debug-fonts" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$debug-fonts">$debug-fonts</code></h5>
 
                 <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
-<p>Whether to include debug statements about fonts and line-heights as they&#x2019;re generated. Useful if you&#x2019;re getting weird values on auto-generated line-heights.</p><ul>
+<p>Whether to include debug statements about font sizes and line-heights as they&#x2019;re generated. Useful if you&#x2019;re getting weird values on auto-generated line-heights.</p><ul>
 <li>%: Distance from the lowest font-size.</li>
 <li>ub: Line-height upperbounds</li>
 <li>lb: Line-height lowerbounds</li>
@@ -1031,14 +1031,14 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 <li>loops: Number of times it took to process the line-height. High numbers can indicate font-sizes that are very difficult to process.</li>
 </ul>
 
-                <h5 id="-debug-silent-classes" class="sg-heading sg-heading-5"><code id="variable--debug-silent-classes" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$debug-silent-classes">$debug-silent-classes</code></h5>
-
-                <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
-<p>Stores all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.</p>
                 <h5 id="-debug-baseline" class="sg-heading sg-heading-5"><code id="variable--debug-baseline" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$debug-baseline">$debug-baseline</code></h5>
 
                 <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
 <p>Adds style for a <code class="sg-code sg-codespan">baseline-on</code> class that will show a grid of the baseline on any element (most useful on the <code class="sg-code sg-codespan">body</code> or <code class="sg-code sg-codespan">html</code> tag). Makes vertical alignment easier.</p>
+                <h5 id="-debug-silent-classes" class="sg-heading sg-heading-5"><code id="variable--debug-silent-classes" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$debug-silent-classes">$debug-silent-classes</code></h5>
+
+                <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
+<p>Stores all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.</p>
                     </div>
                 </article>                <article class="sg-article" id="development-config-general-settings" data-sg-section="Config" data-sg-heading="General Settings">
                     <header class="sg-article_head ">
@@ -1346,67 +1346,82 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                     <header class="sg-article_head ">
                         <h3 class="sg-heading sg-heading-article">Math</h3></header>
                     <div class="sg-article_comment">
-                        <p>Most functions taken from <a href="https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss">Sassy Math</a>.</p><hr>
-
-                <h5 id="pow-" class="sg-heading sg-heading-5"><code id="function-pow" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pow()">pow()</code></h5>
+                        <p>Most functions taken from <a href="https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss">Sassy Math</a>.</p><h5 id="pow-" class="sg-heading sg-heading-5"><code id="function-pow" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pow()">pow()</code></h5>
 
                 <h6 id="function-number-exponent-precision-12-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$number</code>, <code class="sg-code sg-codespan">$exponent</code>, <code class="sg-code sg-codespan">$precision:12</code>)</h6>
-<p>A more robust exponent multiplication which allows for decimal-based exponents. This <strong>fully</strong> replaces Compass&#x2019; pow() function (allows for float-based exponents).</p>
-
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
+<p>A more robust exponent multiplication which allows for decimal-based exponents. This <strong>fully</strong> replaces Compass&#x2019; pow() function (allows for float-based exponents).</p><p><a href="https://gist.github.com/nathancrank/7539155">Reference</a></p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
 
 <p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code id="function-log" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="log()">log()</code> </p>
 
-<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code id="function-exponent" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exponent()">exponent()</code> </p>
-                <h5 id="frexp-" class="sg-heading sg-heading-5"><code id="function-frexp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="frexp()">frexp()</code></h5>
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code id="function-exponent" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exponent()">exponent()</code> </p><h4 id="log-" class="sg-heading sg-heading-4"><code id="function-log" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="log()">log()</code></h4>
+
+                <h5 id="function-x-" class="sg-heading sg-heading-5">function(<code class="sg-code sg-codespan">$x</code>)</h5>
+<p>Returns the natural logarithm of a number.</p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code undefined"><span class="hljs-variable">$value</span>:   log(<span class="hljs-number">2</span>)  // <span class="hljs-number">0.69315</span>
+<span class="hljs-variable">$value2</span>:  log(<span class="hljs-number">10</span>) // <span class="hljs-number">2.30259</span>
+</code></pre>
+</div>
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="frexp-" class="sg-heading sg-heading-5"><code id="function-frexp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="frexp()">frexp()</code></h5>
 
                 <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
-<p>Returns a two-element list containing the normalized fraction and exponent of number.</p>
+<p>Returns a two-element list containing the normalized fraction and exponent of number.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  list (fraction, exponent) </p><h4 id="ldexp-" class="sg-heading sg-heading-4"><code id="function-ldexp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="ldexp()">ldexp()</code></h4>
 
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  list (fraction, exponent) </p>
-                <h5 id="gcd-" class="sg-heading sg-heading-5"><code id="function-gcd" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="gcd()">gcd()</code></h5>
+                <h5 id="function-x-exp-" class="sg-heading sg-heading-5">function(<code class="sg-code sg-codespan">$x, $exp</code>)</h5>
+<p>Returns $x * 2^$exp</p><h4 id="exp-" class="sg-heading sg-heading-4"><code id="function-exp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exp()">exp()</code></h4>
+
+                <h4 id="function-x-" class="sg-heading sg-heading-4">function(<code class="sg-code sg-codespan">$x</code>)</h4>
+<p>Returns E^x, where x is the argument, and E is Euler&#x2019;s constant, the base of the natural logarithms.</p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code undefined"><span class="hljs-variable">$value</span>: exp(<span class="hljs-number">1</span>)  // <span class="hljs-number">2.71828</span>
+<span class="hljs-variable">$value2</span>: exp(-<span class="hljs-number">1</span>) // <span class="hljs-number">0.36788</span>
+</code></pre>
+</div>
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  Number </p><h4 id="fact-" class="sg-heading sg-heading-4"><code id="function-fact" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="fact()">fact()</code></h4>
+
+                <h5 id="function-x-" class="sg-heading sg-heading-5">function(<code class="sg-code sg-codespan">$x</code>)</h5>
+<p>Returns the factorial of a non-negative integer.</p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code undefined"><span class="hljs-variable">$value</span>:  fact(<span class="hljs-number">0</span>) // <span class="hljs-number">1</span>
+<span class="hljs-variable">$value2</span>: fact(<span class="hljs-number">8</span>) // <span class="hljs-number">40320</span>
+</code></pre>
+</div>
+<p data-code-meta="return" class="sg-code-meta sg-code-meta-value">  Number </p><h5 id="gcd-" class="sg-heading sg-heading-5"><code id="function-gcd" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="gcd()">gcd()</code></h5>
 
                 <h6 id="function-number-1-number-2-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$number-1</code>, <code class="sg-code sg-codespan">$number-2</code>)</h6>
 <p>Greatest Common Divisor calculation (useful for calculating grids and widths).</p>
 
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
-                <h5 id="lcm-" class="sg-heading sg-heading-5"><code id="function-lcm" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="lcm()">lcm()</code></h5>
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="lcm-" class="sg-heading sg-heading-5"><code id="function-lcm" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="lcm()">lcm()</code></h5>
 
                 <h6 id="function-a-b-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$a</code>, <code class="sg-code sg-codespan">$b</code>)</h6>
-<p>Finds the least common multiple.</p>
-
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
-                <h5 id="nth_root-" class="sg-heading sg-heading-5"><code id="function-nth_root" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="nth_root()">nth_root()</code></h5>
+<p>Finds the least common multiple. Use with caution&#x2026;if there is no LCM, then you compilation will error out.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="nth_root-" class="sg-heading sg-heading-5"><code id="function-nth_root" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="nth_root()">nth_root()</code></h5>
 
                 <h6 id="function-base-n-2-precision-12-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base</code>, <code class="sg-code sg-codespan">$n:2</code>, <code class="sg-code sg-codespan">$precision:12</code>)</h6>
-<p>Advanced calculation for square roots, cube roots, etc. of a value.</p>
-
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
-                <h5 id="sqrt-" class="sg-heading sg-heading-5"><code id="function-sqrt" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqrt()">sqrt()</code></h5>
+<p>Advanced calculation for square roots, cube roots, etc. of a value.
+<br>
+<a href="http://rosettacode.org/wiki/Nth_root#JavaScript">Reference</a></p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="sqrt-" class="sg-heading sg-heading-5"><code id="function-sqrt" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqrt()">sqrt()</code></h5>
 
                 <h6 id="function-base-precision-12-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base</code>, <code class="sg-code sg-codespan">$precision:12</code>)</h6>
-<p>Find the square root of a value.</p>
+<p>Find the square root of a value.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
 
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
-                <h5 id="golden-" class="sg-heading sg-heading-5"><code id="function-golden" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="golden()">golden()</code></h5>
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-sqroot" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqroot()">sqroot()</code></code> </p><h5 id="golden-" class="sg-heading sg-heading-5"><code id="function-golden" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="golden()">golden()</code></h5>
 
                 <h6 id="function-base-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base: 1</code>)</h6>
 <p>Get the golden ratio from <code class="sg-code sg-codespan">$base</code>.</p>
 
 <p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
-                <h5 id="sin-" class="sg-heading sg-heading-5"><code id="function-sin" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sin()">sin()</code></h5>
+
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="variable--golden_ratio" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$golden_ratio">$golden_ratio</code></code> </p><h5 id="sin-" class="sg-heading sg-heading-5"><code id="function-sin" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sin()">sin()</code></h5>
 
                 <h6 id="function-angle-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$angle</code>)</h6>
-<p>Determines the Sine of an angle.</p>
-
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
-                <h5 id="cos-" class="sg-heading sg-heading-5"><code id="function-cos" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="cos()">cos()</code></h5>
+<p>Determines the Sine of an angle.
+<br>
+<a href="https://unindented.org/articles/trigonometry-in-sass/">Reference</a></p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="cos-" class="sg-heading sg-heading-5"><code id="function-cos" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="cos()">cos()</code></h5>
 
                 <h6 id="function-angle-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$angle</code>)</h6>
 <p>Determines the Cosine of an angle.</p>
 
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
-                <h5 id="tan-" class="sg-heading sg-heading-5"><code id="function-tan" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="tan()">tan()</code></h5>
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="tan-" class="sg-heading sg-heading-5"><code id="function-tan" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="tan()">tan()</code></h5>
 
                 <h6 id="function-angle-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$angle</code>)</h6>
 <p>Determines the Tangent of an angle.</p>
@@ -1493,15 +1508,10 @@ Uses constraints based on upper and lower limits of pleasing line-heights, and f
 <br>
 Depends on <code id="function-baseline" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline()">baseline()</code> for calculation and <code id="function-baseline-curve" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-curve()">baseline-curve()</code> to determine the deviance from the upper and lower constraints.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number (unitless) </p>
 
-<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-baseline" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline()">baseline()</code>, <code id="function-baseline-curve" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-curve()">baseline-curve()</code></code> </p><h5 id="type-space-" class="sg-heading sg-heading-5"><code id="function-type-space" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="type-space()">type-space()</code></h5>
-
-                <h6 id="function-multiplier-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$multiplier</code>: <code class="sg-code sg-codespan">1</code>)</h6>
-<p>Multiplies a value by the <code id="variable--base-line-height" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$base-line-height">$base-line-height</code>.</p>
-                <h5 id="get-type-type-" class="sg-heading sg-heading-5"><code id="function-get-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="get-type()">get-type()</code>, <code id="function-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="type()">type()</code></h5>
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-baseline" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline()">baseline()</code>, <code id="function-baseline-curve" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-curve()">baseline-curve()</code></code> </p><h5 id="get-type-type-" class="sg-heading sg-heading-5"><code id="function-get-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="get-type()">get-type()</code>, <code id="function-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="type()">type()</code></h5>
 
                 <h6 id="-font-size-font-size-value-" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">[font-size],[font-size-value]</code></h6>
-<p>function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.</p>
-                <h5 id="define-type-" class="sg-heading sg-heading-5"><code id="function-define-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="define-type()">define-type()</code></h5>
+<p>function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.</p><h5 id="define-type-" class="sg-heading sg-heading-5"><code id="function-define-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="define-type()">define-type()</code></h5>
 
                 <h6 id="-font-size-property-new-value-" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">[font-size], [property], [new value]</code></h6>
 <p>Registers new values to type map. [Property] accepts px, rem, and line-height.</p>
@@ -1690,29 +1700,27 @@ Depends on <code id="function-baseline" class="sg-global-function sg-code sg-cod
 }
 </code></pre>
 </div>
-<p><a href="http://www.sitepoint.com/selector-specificity-css-preprocessors/">Reference</a></p>
-                <h5 id="-opacity-" class="sg-heading sg-heading-5"><code id="mixin-opacity" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@opacity()">@opacity()</code></h5>
+<p><a href="http://www.sitepoint.com/selector-specificity-css-preprocessors/">Reference</a></p><h5 id="-opacity-" class="sg-heading sg-heading-5"><code id="mixin-opacity" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@opacity()">@opacity()</code></h5>
 
                 <h6 id="mixin-opacity-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$opacity</code>)</h6>
 <p>Cross-browser (including IE8-) opacity.
 <br>
-<a href="https://gist.github.com/jgv/745754">Reference</a></p>
-                <h5 id="-border-" class="sg-heading sg-heading-5"><code id="mixin-border" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@border()">@border()</code></h5>
+<a href="https://gist.github.com/jgv/745754">Reference</a></p><h5 id="-border-" class="sg-heading sg-heading-5"><code id="mixin-border" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@border()">@border()</code></h5>
 
                 <h6 id="mixin-border-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$border</code>)</h6>
 <p>Allows creating many border properties at once. Works like the standard border shorthand style but allows varied styles on different border directions.</p>
 <div class="sg-markup sg-codeblock">
-<pre class="sg-markup_wrap"><code class="hljs sg-code undefined"><span class="hljs-comment">//scss</span>
-<span class="hljs-selector-class">.foo</span> {
-    @<span class="hljs-keyword">include</span> border(<span class="hljs-number">2px</span> 3px solid dashed dotted blue currentColor yellow);
-}
+<pre class="sg-markup_wrap"><code class="hljs sg-code undefined">    <span class="hljs-comment">//scss</span>
+    <span class="hljs-selector-class">.foo</span> {
+        @<span class="hljs-keyword">include</span> border(<span class="hljs-number">2px</span> 3px solid dashed dotted blue currentColor yellow);
+    }
 
-<span class="hljs-comment">//css</span>
-<span class="hljs-selector-class">.foo</span> {
-    <span class="hljs-attribute">border-width</span>: <span class="hljs-number">2px</span> <span class="hljs-number">3px</span>;
-    <span class="hljs-attribute">border-style</span>: solid dashed dotted;
-    <span class="hljs-attribute">border-color</span>: blue currentColor yellow;
-}
+    <span class="hljs-comment">//css</span>
+    <span class="hljs-selector-class">.foo</span> {
+        <span class="hljs-attribute">border-width</span>: <span class="hljs-number">2px</span> <span class="hljs-number">3px</span>;
+        <span class="hljs-attribute">border-style</span>: solid dashed dotted;
+        <span class="hljs-attribute">border-color</span>: blue currentColor yellow;
+    }
 </code></pre>
 </div>
                     </div>

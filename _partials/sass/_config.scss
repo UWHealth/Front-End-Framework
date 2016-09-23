@@ -35,7 +35,7 @@ Determines whether to generate css for paragraphs with a text indent, rather tha
 
 $base-font-size:            16px;
 $base-line-height:          24px;
-$font-looseness: 			35%;
+$font-looseness: 			15%;
 $auto-scale-type:           false;
 $scale-ratio:               1.35;
 
@@ -59,8 +59,8 @@ _NOTE: First value must be pixel values(or a function that generates a pixel val
 
 
 $type-h1-size:           (modular-scale(6));
-$type-h2-size:           (modular-scale(4));
-$type-h3-size:           (modular-scale(3.5));
+$type-h2-size:           (modular-scale(5));
+$type-h3-size:           (modular-scale(4));
 $type-h4-size:           (modular-scale(3));
 $type-h5-size:           (modular-scale(2));
 $type-h6-size:           (modular-scale(1));
@@ -386,7 +386,7 @@ _NOTE: These settings, when set to `true`, will slow down compilation somewhat._
 
 ##### `$$debug-fonts`
 ###### Boolean
-Whether to include debug statements about fonts and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
+Whether to include debug statements about font sizes and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
 
 * %: Distance from the lowest font-size.
 * ub: Line-height upperbounds
@@ -394,29 +394,26 @@ Whether to include debug statements about fonts and line-heights as they're gene
 * lh: Final line-height (in pixels and unit-less).
 * loops: Number of times it took to process the line-height. High numbers can indicate font-sizes that are very difficult to process.
 
+##### `$$debug-baseline`
+###### Boolean
+Adds style for a `baseline-on` class that will show a grid of the baseline on any element (most useful on the `body` or `html` tag). Makes vertical alignment easier.
+
 
 ##### `$$debug-silent-classes`
 ###### Boolean
 Stores all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.
 
-
-##### `$$debug-baseline`
-###### Boolean
-Adds style for a `baseline-on` class that will show a grid of the baseline on any element (most useful on the `body` or `html` tag). Makes vertical alignment easier.
-
 */
 
-$debug-silent-classes: 		false;
-
-$debug-fonts: 				false;
+$debug-fonts: 				true;
 
 $debug-baseline:       	 	true;
+
+$debug-silent-classes: 		false;
 
 
 /* SG
 # Config/Slick Settings [[dev]]
-
-@file _config.scss
 
 ##### `$$slick-[]-[]`
 Configuration for slick carousel jQuery plugin.

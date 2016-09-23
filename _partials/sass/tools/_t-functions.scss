@@ -675,7 +675,10 @@ Aligns a font-size to a baseline (`$baseline`). Returns a unitless value relativ
 
 */
 
-@function baseline($font-size, $baseline: $base-line-height, $multiple:1) {
+@function baseline($font-size, $baseline: $base-line-height, $multiple:1, $floor: false) {
+	@if ($floor) {
+		@return floor($font-size / ($baseline * $multiple)) * ($baseline * $multiple) / $font-size;
+	}
 	@return ceil($font-size / ($baseline * $multiple)) * ($baseline * $multiple) / $font-size;
 }
 
@@ -714,6 +717,7 @@ The formula: `y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951` [Visual](http
 
 
 /*SG
+
 ##### `baseline-calc()`
 ###### function(`$font-size: $base-font-size, $font-base: $base-font-size, $basline-slack: $font-looseness`)
 
@@ -736,30 +740,36 @@ $__font-warn: false;
 	$baseline-slack: $font-looseness
 ){
 	$smallest-size: if(length($type-small-size) > 1, nth($type-small-size, 1), $type-small-size);
+	$smallest-size: max(10px, $smallest-size);
+	$largest-size: if(length($type-h1-size) > 1, nth($type-h1-size, 1), $type-h1-size);
+	$i: 0;
 
     //Make sure baseline-slack is a percentage
     @if unit($baseline-slack) != "%" {
-        @warn "Baseline-slack/font-looseness should be a percentage. Trying to convert.";
+        @warn "Baseline-slack/font-looseness should be a percentage.";
         $basline-slack: strip-units($baseline-slack);
         $baseline-slack: percentage($baseline-slack);
     }
 
+	$slack: ($baseline-slack / 100%);
+
     //Base Highest and lowest line-height multiples
 	$base-lh-upper-bound: 1.9;
 	$base-lh-lower-bound: 1.1;
+
     //smallest font-size's highest/lowest line-height multiple
     // Use global settings to help determine, where possible
-	$sm-lh-upper-bound: (baseline($smallest-size, $base-line-height) + ($baseline-slack / 100%));
-	$sm-lh-lower-bound: 1.2 + ($baseline-slack / 100%);
+	$sm-lh-upper-bound: 2 + ($slack / 2);
+	$sm-lh-lower-bound: 1 + ($slack / 2);
 
     //Largest font-size's highest/lowest line-height multiple
     // Use baseline slack to determine constraints
-	$lg-lh-upper-bound: 1.05 + (($baseline-slack / 100%) / 2);
-	$lg-lh-lower-bound: 0.91 + (($baseline-slack / 100%) / 5);
+	$lg-lh-upper-bound: 1.02 + ($slack / 2);
+	$lg-lh-lower-bound: 0.91 + ($slack / 2);
 
     //Smallest/Largest font sizes to calculate against
-	$sm-font-size: $smallest-size / 1px - 1.5;
-	$lg-font-size: 250;
+	$sm-font-size: 9 + ($slack * 10);
+	$lg-font-size: 95 + ($slack * 50);
 
     //Baseline-curve progress percentages
 	$percent-along-current: 0;
@@ -767,40 +777,55 @@ $__font-warn: false;
 	$percent-along-lower: 0;
 
     //Non-adjusted placement of the font-size between largest and smallest font sizes
-    // divide by 1px to make sure
 	$true-percent-along: strip-units(($font-size - $sm-font-size) / ($lg-font-size - $sm-font-size));
 
     //Make sure handle fonts larger than our initial assumptions
 	@if $font-size <= $sm-font-size {
-		@debug "Font: #{$font-size}, Small: #{$sm-font-size}";
+		//Set progress to 0%
 		$base-lh-lower-bound: 1;
 		$base-lh-upper-bound: $sm-lh-upper-bound;
+
+		@if $font-size > $smallest-size {
+			$true-percent-along: ($slack / 10);
+		}@else {
+			$true-percent-along: .001;
+		}
 	}
 	@else if $font-size >= $lg-font-size {
         //Set progress to 100%
 		$percent-along-current: 1;
-		$percent-along-upper: 1;
 		$percent-along-lower: 1;
+		$percent-along-upper: 1;
 		$base-lh-lower-bound: $lg-lh-lower-bound;
 		$base-lh-upper-bound: $lg-lh-upper-bound;
+		$lg-font-size: $font-size + ($slack * 50);
 	}
+	// Determine where we're at on the curve
 	@else {
+		//Standard curve
 		$percent-along-current:cache(baseline-curve, $true-percent-along, 1);
-		$percent-along-upper:  cache(baseline-curve, $true-percent-along, 1.4);
+		//Upper boundary curve
+		$percent-along-upper:  cache(baseline-curve, $true-percent-along, 1.3);
+		//Lower boundary curve
 		$percent-along-lower:  cache(baseline-curve, $true-percent-along, 1.9);
 	}
 
-	$base-lh-upper-bound: $sm-lh-upper-bound - $percent-along-upper * ($sm-lh-upper-bound - $lg-lh-upper-bound);
+	$upper-boundary: ($sm-lh-upper-bound - $lg-lh-upper-bound);
+	$lower-boundary: ($sm-lh-lower-bound - $lg-lh-lower-bound);
 
-	$base-lh-lower-bound: $sm-lh-lower-bound - $percent-along-lower * ($sm-lh-lower-bound - $lg-lh-lower-bound);
+	//Adjust percentages to line-height values
+	$base-lh-upper-bound: $sm-lh-upper-bound - ($percent-along-upper * $upper-boundary);
+	$base-lh-lower-bound: $sm-lh-lower-bound - ($percent-along-lower * $lower-boundary);
 
 	@if $debug-fonts {
 		@if index($__font-index, $font-size) == null {
-			@debug "sm-lh-ub: #{$sm-lh-upper-bound}, sm-lh-lb: #{$sm-lh-lower-bound}";
 			@debug "font-size: #{$font-size}";
 			@debug "%: #{percentage($true-percent-along)}";
 			@debug "%u: #{percentage($percent-along-upper)}, %l: #{percentage($percent-along-lower)}";
 			@debug "ub: #{$base-lh-upper-bound} (#{$font-size * $base-lh-upper-bound}), lb: #{$base-lh-lower-bound} (#{$font-size * $base-lh-lower-bound})";
+			@debug "sm-lh-ub: #{$sm-lh-upper-bound}, sm-lh-lb: #{$sm-lh-lower-bound}";
+			@debug "lg-lh-ub: #{$lg-lh-upper-bound}, lg-lh-lb: #{$lg-lh-lower-bound}";
+			@debug "slack: #{$slack}";
 		}
 	}
 
@@ -818,7 +843,12 @@ $__font-warn: false;
 	//Second attempt
 	@if ($line-height < $base-lh-lower-bound) or ($line-height > $base-lh-upper-bound) {
 
-        @if $font-size < $base-font-size {
+		//Attempt using a negative line-height for very large sizes
+		@if ($true-percent-along > .9) {
+			$line-height: baseline($font-size, $baseline, .5, $floor: true);
+			@debug $line-height;
+		}
+        @else if $font-size < $base-font-size {
             $line-height: baseline($font-size, $baseline, 1.5);
         }
         @else {
@@ -828,7 +858,6 @@ $__font-warn: false;
 
     //Set up while loop
 	$quit: false;
-	$i: 0;
 
     //Test baselines until we find a match
 	@while(
@@ -836,19 +865,20 @@ $__font-warn: false;
 		and
         not $quit //allows for infinite loop bailout
     ){
-        $i: $i + 1;
+        $i: $i + .5;
         //Try baselines in half increments
-		$line-height: baseline($font-size, $baseline, ($i * .5));
+		$line-height: baseline($font-size, $baseline, $i);
 
 		//Bail-out function to prevent infinite loops
 		// Set quit to true so we can escape this hellish loop
-		@if $i > ($font-size / 1px)  {
-			@if (not $__font-warn) {
-                @debug "Your font-looseness might be too high or low, watch for weird baselines and slow compile times.";
-    			@debug "FS: #{$font-size} / LH: #{$line-height}";
-    			@debug "Tolerances: #{$base-lh-upper-bound} / #{$base-lh-lower-bound}";
-                @debug "loops: #{$i}";
-    			$__font-warn: true !global;
+		@if $i > (($font-size / 1px) / 2)  {
+			@if (not $__font-warn) and ($debug-fonts) {
+                @warn "
+				Your font-looseness might be too high or low, watch for weird baselines and slow compile times.
+				FS: #{$font-size} / LH: #{$line-height}
+				Tolerances: #{$base-lh-upper-bound} / #{$base-lh-lower-bound}
+				loops: #{$i * 2}";
+    			$__font-warn: true !global; //Prevent seeing this warning multiple times
             }
 
 			//default to normal calculated line-height
@@ -861,7 +891,7 @@ $__font-warn: false;
 		@if index($__font-index, $font-size) == null {
 			$__font-index: append($__font-index, $font-size) !global;
 			@debug "lh: #{$line-height * $font-size} / #{$line-height} ";
-			@debug "loops: #{$i}";
+			@debug "loops: #{$i * 2}";
 			@debug "-----";
 		}
 	}
@@ -872,33 +902,13 @@ $__font-warn: false;
 /* SG
 # Functions/Typography [[dev]]
 
-@file globals/_gl-functions.scss
-
-##### `type-space()`
-###### function(`$multiplier`: `1`)
-Multiplies a value by the `$$base-line-height`.
-
 ##### `get-type()`, `type()`
 ###### `[font-size],[font-size-value]`
 function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.
 
-##### `define-type()`
-###### `[font-size], [property], [new value]`
-Registers new values to type map. [Property] accepts px, rem, and line-height.
-
 */
 
 
-//Generates a number based on the typographic grid
-@function type-space($multiplier: 1){
-	@return $multiplier * $type-base-unit;
-}
-
-//Get the property of a particular font. e.g.:
-// h1{
-//    font-size: type(h2, px)
-// }
-// Would return the pixel value of the h2 font-size.
 @function get-type($font-size, $property: 'px'){
 	@if $property == 'font-size'{
 		$property: 'px';
@@ -906,8 +916,12 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 	@return map-get(map-get($type, $font-size), $property);
 }
 
+/* SG
+##### `define-type()`
+###### `[font-size], [property], [new value]`
+Registers new values to type map. [Property] accepts px, rem, and line-height.
 
-//Internal function used for definining the type map.
+*/
 @function define-type($font-size, $property: 'px', $new-value: "") {
 	$target_font: map-get($type, $font-size);
 	$target-w-property: map-merge($target_font, ($property : $new-value));
@@ -927,72 +941,9 @@ Registers new values to type map. [Property] accepts px, rem, and line-height.
 	}
 }
 
-/* SG
-# Functions/Math [[dev]]
-
-@file globals/_gl-functions.scss
-
-Most functions taken from [Sassy Math](https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss).
-
----
-
-##### `pow()`
-###### function(`$number`, `$exponent`, `$precision:12`)
-A more robust exponent multiplication which allows for decimal-based exponents. This **fully** replaces Compass' pow() function (allows for float-based exponents).
-@returns number
-@requires log()
-@alias exponent()
-
-##### `frexp()`
-###### function(`$x`)
-Returns a two-element list containing the normalized fraction and exponent of number.
-@returns list (fraction, exponent)
 
 
-##### `gcd()`
-###### function(`$number-1`, `$number-2`)
-Greatest Common Divisor calculation (useful for calculating grids and widths).
-@returns number
-
-##### `lcm()`
-###### function(`$a`, `$b`)
-Finds the least common multiple.
-@returns number
-
-##### `nth_root()`
-###### function(`$base`, `$n:2`, `$precision:12`)
-Advanced calculation for square roots, cube roots, etc. of a value.
-@returns number
-
-##### `sqrt()`
-###### function(`$base`, `$precision:12`)
-Find the square root of a value.
-@returns number
-
-##### `golden()`
-###### function(`$base: 1`)
-Get the golden ratio from `$base`.
-@returns number
-
-##### `sin()`
-###### function(`$angle`)
-Determines the Sine of an angle.
-@returns number
-
-##### `cos()`
-###### function(`$angle`)
-Determines the Cosine of an angle.
-@returns number
-
-##### `tan()`
-###### function(`$angle`)
-Determines the Tangent of an angle.
-@returns number
-
-*/
-
-//Useful variables for calculating math functions
-
+//Global math constants
 $pi: 	3.1415926535897932384626433832795028841971693993751;
 $π: 	$pi;
 $PI:    $pi;
@@ -1002,11 +953,30 @@ $LN2:   0.6931471805599453;
 $SQRT2: 1.4142135623730951;
 
 
-//Advanced fraction and exponent functions
-// Reference: https://gist.github.com/nathancrank/7539155
+/* SG
 
-//Power Function
-//Super advanced and awesome. Allows decimal exponents.
+# Functions/Math [[dev]]
+
+Most functions taken from [Sassy Math](https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss).
+
+*/
+
+
+/* SG
+
+##### `pow()`
+###### function(`$number`, `$exponent`, `$precision:12`)
+
+A more robust exponent multiplication which allows for decimal-based exponents. This **fully** replaces Compass' pow() function (allows for float-based exponents).
+
+[Reference](https://gist.github.com/nathancrank/7539155)
+
+@returns number
+@requires log()
+@alias exponent()
+
+*/
+
 @function pow($base, $exp) {
     @if $exp == floor($exp) {
         $r: 1;
@@ -1035,11 +1005,22 @@ $SQRT2: 1.4142135623730951;
 	@return pow($base, $exponent);
 }
 
-// Returns the natural logarithm of a number.
-// @param {Number} $x
-// @example
-//     log(2)  // 0.69315
-//     log(10) // 2.30259
+
+/* SG
+
+#### `log()`
+##### function(`$x`)
+Returns the natural logarithm of a number.
+
+```scss
+$value:   log(2)  // 0.69315
+$value2:  log(10) // 2.30259
+```
+
+@returns number
+
+*/
+
 @function log($x) {
     @if $x <= 0 {
         @return 0;
@@ -1061,9 +1042,16 @@ $SQRT2: 1.4142135623730951;
     @return $LN2 * $k + 2 * $s;
 }
 
-// Returns a two-element list containing the normalized fraction and exponent of number.
-// @param {Number} $x
-// @return {List} fraction, exponent
+/* SG
+
+##### `frexp()`
+###### function(`$x`)
+Returns a two-element list containing the normalized fraction and exponent of number.
+
+@returns list (fraction, exponent)
+
+*/
+
 @function frexp($x) {
     $exp: 0;
     @if $x < 0 {
@@ -1083,9 +1071,15 @@ $SQRT2: 1.4142135623730951;
     @return $x, $exp;
 }
 
-// Returns $x * 2^$exp
-// @param {Number} $x
-// @param {Number} $exp
+/* SG
+
+#### `ldexp()`
+##### function(`$x, $exp`)
+
+Returns $x * 2^$exp
+
+*/
+
 @function ldexp($x, $exp) {
     $b: if($exp >= 0, 2, 1 / 2);
     @if $exp < 0 {
@@ -1101,11 +1095,22 @@ $SQRT2: 1.4142135623730951;
     @return $x;
 }
 
-// Returns E^x, where x is the argument, and E is Euler's constant, the base of the natural logarithms.
-// @param {Number} $x
-// @example
-//     exp(1)  // 2.71828
-//     exp(-1) // 0.36788
+/* SG
+
+#### `exp()`
+#### function(`$x`)
+
+Returns E^x, where x is the argument, and E is Euler's constant, the base of the natural logarithms.
+
+```scss
+$value: exp(1)  // 2.71828
+$value2: exp(-1) // 0.36788
+```
+
+@returns Number
+
+*/
+
 @function exp($x) {
     $ret: 0;
     @for $n from 0 to 24 {
@@ -1114,12 +1119,21 @@ $SQRT2: 1.4142135623730951;
     @return $ret;
 }
 
-// Returns the factorial of a non-negative integer.
-// @param {Number} $x A non-negative integer.
-// @return {Number}
-// @example
-//     fact(0) // 1
-//     fact(8) // 40320
+/* SG
+
+#### `fact()`
+##### function(`$x`)
+
+Returns the factorial of a non-negative integer.
+
+```scss
+$value:  fact(0) // 1
+$value2: fact(8) // 40320
+```
+@return Number
+
+*/
+
 @function fact($x) {
     @if $x < 0 or  $x != floor($x) {
         @warn "Argument for `fact()` must be a positive integer.";
@@ -1136,7 +1150,16 @@ $SQRT2: 1.4142135623730951;
     @return $ret;
 }
 
-//Greatest Common Divisor
+/* SG
+
+##### `gcd()`
+###### function(`$number-1`, `$number-2`)
+
+Greatest Common Divisor calculation (useful for calculating grids and widths).
+@returns number
+
+*/
+
 @function gcd($number-1, $number-2) {
   // From: http://rosettacode.org/wiki/Greatest_common_divisor#JavaScript
 	@if $number-2 != 0 {
@@ -1146,8 +1169,17 @@ $SQRT2: 1.4142135623730951;
 	}
 }
 
-//Least common Multiple
-//Use with caution...if there is no LCM, then you compilation will error out.
+/* SG
+
+##### `lcm()`
+###### function(`$a`, `$b`)
+
+Finds the least common multiple. Use with caution...if there is no LCM, then you compilation will error out.
+
+@returns number
+
+*/
+
 @function lcm($a, $b) {
 	$a: round($a);
 	$b: round($b);
@@ -1156,8 +1188,19 @@ $SQRT2: 1.4142135623730951;
 	@return $result;
 }
 
-//Nth Root Function
-// From: http://rosettacode.org/wiki/Nth_root#JavaScript
+
+/* SG
+
+##### `nth_root()`
+###### function(`$base`, `$n:2`, `$precision:12`)
+
+Advanced calculation for square roots, cube roots, etc. of a value.
+[Reference](http://rosettacode.org/wiki/Nth_root#JavaScript)
+
+@returns number
+
+*/
+
 @function nth_root($base, $n: 2, $precision: 12) {
 	$prec: $precision;
 	$x: 1;
@@ -1169,7 +1212,18 @@ $SQRT2: 1.4142135623730951;
 	@return $x;
 }
 
-//Square Root functions
+/* SG
+
+##### `sqrt()`
+###### function(`$base`, `$precision:12`)
+
+Find the square root of a value.
+
+@returns number
+@alias `sqroot()`
+
+*/
+
 @function sqrt($base, $precision: 12) {
 	$guess: random(20);
 	$root: $guess;
@@ -1213,7 +1267,17 @@ $SQRT2: 1.4142135623730951;
   }
 }
 
-//Golden Ratio generator.
+/* SG
+
+##### `golden()`
+###### function(`$base: 1`)
+
+Get the golden ratio from `$base`.
+@returns number
+@alias `$$golden_ratio`
+
+*/
+
 @function golden($base: 1) {
 
 	@return (1/2 + sqrt(5) / 2) * $base;
@@ -1221,7 +1285,7 @@ $SQRT2: 1.4142135623730951;
 
 $golden_ratio: golden();
 
-//Angle to Radians
+
 @function rad($angle) {
 	$unit: unit($angle);
 	$unitless: $angle / ($angle * 0 + 1);
@@ -1237,8 +1301,17 @@ $golden_ratio: golden();
 	@return rad($angle);
 }
 
-//Sine
-// From: https://unindented.org/articles/trigonometry-in-sass/
+/* SG
+
+##### `sin()`
+###### function(`$angle`)
+
+Determines the Sine of an angle.
+[Reference](https://unindented.org/articles/trigonometry-in-sass/)
+
+@returns number
+*/
+
 @function sin($angle) {
 	$sin: 0;
 	$angle: rad($angle);
@@ -1256,7 +1329,16 @@ $golden_ratio: golden();
 	@return  $top / $bottom;
 }
 
-//Cosine
+/* SG
+
+##### `cos()`
+###### function(`$angle`)
+
+Determines the Cosine of an angle.
+@returns number
+
+*/
+
 @function cos($angle) {
 	$cos: 0;
 	$angle: rad($angle);
@@ -1267,10 +1349,19 @@ $golden_ratio: golden();
 	@return $cos;
 }
 
-//Tangent
+/* SG
+##### `tan()`
+###### function(`$angle`)
+
+Determines the Tangent of an angle.
+@returns number
+
+*/
+
 @function tan($angle) {
 	@return sin($angle) / cos($angle);
 }
+
 
 // Math helpers
 // From https://github.com/inuitcss/tools.functions/blob/master/_tools.functions.scss
