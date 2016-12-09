@@ -72,15 +72,14 @@ The responsive component to `@alignment-utilities()`. Invoke `@alignment-utilite
 
 	@include alignment-utilities($namespace, $silent, $important);
 
-	@if $responsive {
-	    @each $name in $breakpoints {
+    @each $name in $breakpoints {
 
-	        @include media-query($name) {
+        @include media-query($name) {
 
-				$name: $namespace+$name;
-	        	@include alignment-utilities('#{$name}_', $silent, $important);
+			$name: $namespace+$name;
+        	@include alignment-utilities('#{$name}_', $silent, $important);
 
-			}
-	    }
-	}
+		}
+    }
+
 }

@@ -1,42 +1,4 @@
 /* SG
-# Grid System/Variables [[dev]]
-
-@file globals/tools/_t-grid-system.scss
-
-##### `$$human-readable-numerators`
-###### List (string)
-First words used to represent numbers in a fraction; Corresponds to grid interval names (one, two, three, etc.).
-
-
-##### `$$human-readable-denominators`
-###### List (string)
-Second words used to represent numbers in a fraction; Corresponds to grid interval names (whole, half, third, etc.).
-*/
-
-
-//Grid
-$human-readable-numerators: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty;
-
-$human-readable-denominators: whole, half, third, quarter, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelfth, thirteenth, fourteenth, fifteenth, sixteenth, seventeenth, eighteenth, nineteenth, twentieth, twentyfirst, twentysecond, twentythird, twentyfourth, twentyfifth, twentysixth, twentyseventh,twentyeigth, twentyninth;
-
-
-/* SG
-# Grid System/Functions [[dev]]
-
-@file globals/tools/_t-grid-system.scss
-
-##### `grid-size()`
-###### function(`$size, $total:` `$$grid-columns`)
-Creates a percentage based on the `$size / $total`.
-
-*/
-
-@function grid-size($size, $total: $grid-columns) {
-    @return percentage($size / $total);
-}
-
-
-/* SG
 # Grid System/Mixins [[dev]]
 
 @file globals/tools/_t-grid-system.scss
@@ -122,13 +84,13 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	    list-style: none;                // [1]
 	    margin: 0;                       // [2]
 	    padding: 0;                      // [2]
-	    @include type-space(margin-left, -1);
+	    @include type-space(margin-left, -1, $unit: $grid-gutter);
 
 		@if (
             $grid-markup-fix != true
             and $grid-floats != true
         ) {
-	        letter-spacing:-0.43em;
+	        letter-spacing: $grid-letter-space-fix;
 	    }
 
 		@if $grid-floats {
@@ -143,7 +105,7 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	    // Opera hack
 	    .opera:-o-prefocus,
 	    #{$class-type}grid{
-	        word-spacing:-0.43em;
+	        word-spacing: $grid-letter-space-fix;
 	    }
 	}
 
@@ -160,7 +122,7 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	        display: block;
 	        float: left;
 	    }
-	    @include type-space(padding-left, 1); // [2]
+	    @include type-space(padding-left, 1, $unit: $grid-gutter); // [2]
 	    vertical-align: top;                  // [3]
 
 		@if $mobile-first {
@@ -188,7 +150,8 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	// Reversed grids allow you to structure your source in the opposite order to
 	// how your rendered layout will appear. Extends `.grid`.
 	//
-	#{$class-type}grid_rev{
+	#{$class-type}grid_rev,
+    #{$class-type}grid_reverse{
 	    @if $grid-floats {
 	        @extend %clearfix;
 	    }
@@ -285,10 +248,10 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	// Create grids with narrower gutters. Extends `.grid`.
 	//
 	#{$class-type}grid_narrow {
-	    @include type-space(margin-left, -.5);
+	    @include type-space(margin-left, -.5, $unit: $grid-gutter);
 
 		> #{$class-type}grid_item {
-	        @include type-space(padding-left, .5);
+	        @include type-space(padding-left, .5, $unit: $grid-gutter);
 	    }
 	}
 
@@ -297,10 +260,10 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 	// Create grids with wider gutters. Extends `.grid`.
 	//
 	#{$class-type}grid_wide {
-	    @include type-space(margin-left, -2);
+	    @include type-space(margin-left, -2, $unit: $grid-gutter);
 
 		> #{$class-type}grid_item {
-	        @include type-space(margin-left, 2);
+	        @include type-space(padding-left, 2, $unit: $grid-gutter);
 	    }
 	}
 
@@ -316,179 +279,6 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 }
 
 
-/* SG
-
-# Grid System/Mixins [[dev]]
-
-##### `@grid-width()`
-###### mixin(`$columns, $total:` `$$grid-columns`)
-Creates a width property with a percentage based on the `$columns / $total`.
-@requires `grid-size()`, `$$grid-columns`
-
-
-##### `@width-setup()`
-###### mixin(`$namespace:"", $silent:` `$$grid-silent-classes`)
- Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentage widths based on `$$grid-columns`.
-@requires `grid-size()`, `cache()`, `$$human-readable-numerators`, `$$human-readable-denominators`
-
-*/
-
-@mixin grid-width($columns, $total:$grid-columns) {
-    width: #{grid-size($columns, $total)};
-}
-
-@mixin width-setup(
-    $namespace:"",
-    $silent: $grid-silent-classes,
-    $columns: $grid-columns
-) {
-
-    // [1] Loop through the $grid-columns.
-    // [2] Loop through $divisor (same number as $grid-columns). This acts as the second number in our column fraction.
-    // [3a]Loop through $divisor before it decreases by 1 from the previous loop.
-    // [3b]After widths are defined, subtract 1 from $divisor.
-    // [4] Assign the numerator and denominator of our fraction to human-readable versions (e.g. three, four, third, quarter, etc.).
-    // [5] Check if the numerator equals 1 (one). If so, we keep our singular human-readable numerators and denominators (e.g. one_twelfth).
-    // [6] If the numerator is larger than 1(one), add an 's' to our selector (e.g. two_eighths).
-    //
-    // Same system used for pushes and pulls.
-
-        $class-type: if($silent, "%", ".");
-        $divisor: $columns;
-		$class-name-list: ();
-        $prefix: "#{$class-type}#{$namespace}";
-
-        #{$prefix}one_whole {
-			width: 100%;
-        }
-
-        @for $i from 1 to $columns {                                              // [1]
-
-            @while $divisor > 0 {                                                // [2]
-
-                @for $dividen from 1 to $divisor {                              // [3a]
-					//Create numerator (first number, e.g. 'two').
-                    $numerator: nth($human-readable-numerators, $dividen);      // [4]
-
-					//Create denominator (second number, e.g. 'thirds').
-                    $denominator: nth($human-readable-denominators, $divisor);
-
-					//Divide first number(numerator) by second number(denominator).
-                    $width: cache(grid-size, $dividen, $divisor);
-                    $class-name: "#{$prefix}#{$numerator}_#{$denominator}";
-
-                    @if $numerator != "one" {                                    // [5]
-						$class-name: "#{$class-name}s";                          // [6]
-                    }
-
-					#{$class-name} {
-                        width: $width;
-                    }
-
-					@if $grid-silent-classes and $debug-silent-classes {
-						$class-name-list: map-merge($class-name-list, ($class-name:$width));
-					}
-
-                }
-
-                $divisor: $divisor - 1; //[3b]
-            }
-        }
-
-        //Allow for fourth instead of quarter
-        #{$prefix}one_fourth {
-			@extend #{$prefix}one_quarter;
-        }
-
-        #{$prefix}two_fourths {
-			@extend #{$prefix}two_quarters;
-        }
-
-        #{$prefix}three_fourths {
-			@extend #{$prefix}three_quarters;
-        }
-
-
-		@if $silent and $debug-silent-classes {
-			$class-name-list: map-merge($class-name-list,(
-				#{$prefix}one_whole: 100%
-			));
-			$silent-class-registry: silents-register($class-name-list, 'widths') !global;
-		}
-}
-
-/* SG
-# Grid System/Mixins [[dev]]
-
-##### `@push-pull-setup()`
-###### mixin(`$namespace:"", $type:"", $silent:` `$$grid-silent-classes`)
-Outputs left/right percentage values for each grid size. Uses `$$human-readable-numerators` and `$$human-readable-denominators` for class names.
-
-@requires `@silent-relative()`, `cache()`, `grid-size()`,`$$human-readable-numerators`, `$$human-readable-denominators`
-
-*/
-
- // Push classes, to move grid items over to the right by certain amounts.
-
-@mixin push-pull-setup(
-    $namespace: "",
-    $type: "push",
-    $silent: $grid-silent-classes,
-    $columns: $grid-columns
-){
-
-    $class-type: if($silent, "%", ".");
-    $divisor: $columns;
-    $prefix: "#{$class-type}#{$type}_#{$namespace}";
-    $property: if($type == "push", "left", "right"); //use left for push, right for pull
-
-    #{$prefix}one_whole {
-		#{$property}: 100%;
-        @include silent-relative($silent);
-	}
-
-    @for $i from 1 to $columns {                                          // [1]
-
-        @while $divisor > 0 {                                                  // [2]
-
-            @for $dividen from 1 to $divisor {                               // [3a]
-                //Create numerator (first number, e.g. 'two').
-                $numerator: nth($human-readable-numerators, $dividen);      // [4]
-
-                //Create denominator (second number, e.g. 'twelfths').
-                $denominator: nth($human-readable-denominators, $divisor);
-
-                //Divide first number(numerator) by second number(denominator).
-                $width: cache(grid-size, $dividen, $divisor);
-
-                $class-name: #{$prefix}#{$numerator}_#{$denominator};
-
-                @if $numerator != "one" {                                          // [5]
-                    $class-name: "#{$class-name}s";                                // [6]
-                }
-
-                #{$class-name} {
-                    #{$property}: $width;
-                    @include silent-relative($silent);
-                }
-
-            }
-
-            $divisor: $divisor - 1; //[3b]
-        }
-    }
-
-    #{$prefix}one_fourth {
-		@extend #{$prefix}one_quarter;
-	}
-    #{$prefix}two_fourths {
-		@extend #{$prefix}two_quarters;
-	}
-    #{$prefix}three_fourths {
-		@extend #{$prefix}three_quarters;
-	}
-}
-
 
 /* SG
 # Grid System/Mixins [[dev]]
@@ -496,40 +286,36 @@ Outputs left/right percentage values for each grid size. Uses `$$human-readable-
 ##### `@grid-init()`
 ###### mixin(`$silent:` `$$grid-silent-classes`, `$responsive`)
 Creates responsive grid classes by running through all the grid-setup mixins. Uses the media-queries defined in the `$breakpoint-has-` variables to create media-query-scoped classes.
-@requires `@media-query()`, `@grid-setup()`, `@width-setup()`, `@push-pull-setup()`, `$$breakpoints-has-push`, `$$breakpoint-has-pull`
+@requires `@media-query()`, `@grid-setup()`, `@width-setup()`, `$$breakpoints-has-push`, `$$breakpoint-has-pull`
 
 */
 
-@mixin grid-init($silent: $grid-silent-classes, $responsive: $responsive) {
+@mixin grid-init($silent: $grid-silent-classes) {
 
 	@include grid-setup($silent);
 
 	@include width-setup("", $silent);
 
 	// Our responsive classes, if we have enabled them.
-	@if $responsive {
-	    @each $name in $breakpoint-has-widths {
-	        @include media-query($name) {
-	           @include width-setup("#{$name}_", $silent);
-	        }
-	    }
-	}
+
+    @each $name in $breakpoint-has-widths {
+        @include media-query($name) {
+           @include width-setup("#{$name}_", $silent);
+        }
+    }
+
 
 	@if $grid-push {
 
-        @if $silent != true {
-            [class*="push_"]{ position: relative; }
+	    @include width-setup("push_", "push", $silent);
+
+
+        @each $name in $breakpoint-has-push {
+            @include media-query($name) {
+               @include width-setup("#{$name}_push_", $silent, "push");
+            }
         }
 
-	    @include push-pull-setup("", "push", $silent);
-
-	    @if $responsive {
-	        @each $name in $breakpoint-has-push {
-	            @include media-query($name) {
-	               @include push-pull-setup("#{$name}_", "push", $silent);
-	            }
-	        }
-	    }
 	}
 
 	@if $grid-pull {
@@ -538,14 +324,14 @@ Creates responsive grid classes by running through all the grid-setup mixins. Us
             [class*="pull_"]{ position: relative; }
         }
 
-	    @include push-pull-setup("","pull",$silent);
+	    @include width-setup("pull_","pull",$silent);
 
-	    @if $responsive {
-	        @each $name in $breakpoint-has-pull {
-	            @include media-query($name) {
-	               @include push-pull-setup("#{$name}_", "pull", $silent);
-	            }
-	        }
-	    }
+
+        @each $name in $breakpoint-has-pull {
+            @include media-query($name) {
+               @include width-setup("#{$name}_pull_", $silent, "pull");
+            }
+        }
+
 	}
 }

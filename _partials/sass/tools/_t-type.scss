@@ -71,28 +71,25 @@ The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with 
 ){
 	@include type-utilities($namespace, $silent, $important);
 
-	@if $responsive {
-	    @each $name in $breakpoints {
+    @each $name in $breakpoints {
 
-	        @include media-query($name) {
+        @include media-query($name) {
 
-				$name: $namespace+$name;
-	        	@include type-utilities('#{$name}_', $silent, $important);
+			$name: $namespace+$name;
+        	@include type-utilities('#{$name}_', $silent, $important);
 
-			}
-	    }
-	}
+		}
+    }
+
 }
 
 
 /* SG
 # Mixins/Typography [[dev]]
 
-@file tools/_t-type.scss
-
 ##### `@px-to-rems()`
 ###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
-Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fallback` is `true`, a pixel fallback is also included.
+Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fallback` is `true`, a pixel fallback is also included. `$sizes` also accepts 'auto'.
 @alias `@rems()`
 @requires `px-to-rems()`
 
@@ -113,6 +110,9 @@ Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fall
 	@each $size in $sizes {
 		@if $size == '' {
 			$size: null;
+			$px-sizes: join($px-sizes, $size, space);
+		}
+		@else if $size == auto {
 			$px-sizes: join($px-sizes, $size, space);
 		}
         @else {
@@ -143,7 +143,7 @@ Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fall
 /* SG
 
 ##### `@type-font-size()`
-###### mixin(`$font-size, $line-height: true, $font-base:``$$base-font-size`)
+###### mixin(`$font-size, $line-height: auto, $font-base:``$$base-font-size`)
 Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 
 _`$line-height` also accepts a pixel value and will be converted to a unitless one._
@@ -155,22 +155,19 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless o
 
 @mixin type-font-size (
 		$font-size,
-		$line-height: true,
-		$font-base: $base-font-size,
-		$debug: false
+		$line-height: "auto",
+		$font-base: $base-font-size
 ) {
-	@if $debug {
-		@debug "font-size: #{$font-size}, line-height: #{$line-height}, type: #{type-of($line-height)}";
-	}
 	//Create REM-based font-size
-	@include px-to-rems(font-size, $font-size);
+	@include px-to-rems("font-size", $font-size);
 
-	@if $line-height == true {
+	@if $line-height == true or $line-height == "auto" {
 
 		$line-height: cache(baseline-calc, $font-size, $font-base);
 		line-height: $line-height;
 
-	} @else if type-of($line-height) == "number" {
+	}
+	@else if type-of($line-height) == "number" {
 
 		//Convert to unitless
 		@if not unitless($line-height) {
@@ -184,14 +181,17 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless o
 		line-height: $line-height;
 
 	}
+	@else if $line-height == "inherit" or $line-height == "normal" {
+		line-height: $line-height;
+	}
 }
 //Alias
-@mixin font-size($font-size, $line-height:true,$font-base: $base-font-size,$debug: false){
-	@include type-font-size($font-size, $line-height, $font-base, $debug);
+@mixin font-size($font-size, $line-height:true,$font-base: $base-font-size){
+	@include type-font-size($font-size, $line-height, $font-base);
 }
 
+
 /* SG
-# Mixins/Typography [[dev]]
 
 ##### `@type-space()`
 ###### mixin(`$properties, $multipliers, $important: false`)
@@ -206,21 +206,27 @@ Output REM values using the typographic grid. This is the prefered method of add
 ```scss
 // SCSS input
 .foo {
-	@include type-space(padding, 1 .25 .5, '!important');
+	@include type-space(padding, 1 .25 .5 auto, '!important');
 }
 
 // CSS output
 .foo {
-	padding: 24px 8px 12px 8px !important;
-	padding: 1.5rem .375rem .75rem .375rem !important;
+	padding: 24px 8px 12px auto !important;
+	padding: 1.5rem .375rem .75rem auto !important;
 }
 ```
 
 @requires `@px-to-rems()`, `str-contains()`
+@alias `@space()`
 
 */
 
-@mixin type-space($properties, $multipliers, $important: false) {
+@mixin type-space(
+	$properties,
+	$multipliers,
+	$important: false,
+	$unit: $vertical-space
+) {
 
     $multiplier: nth($multipliers, 1);
     $m-length: length($multipliers);
@@ -232,20 +238,27 @@ Output REM values using the typographic grid. This is the prefered method of add
 
     	@each $multiple in $multipliers {
 
-    		$value: $type-base-unit * $multiple;
-    		//If value is the second or fourth value in a list,
-    		// or is a left, right, or width value,
-            // multiply by the $grid-gutter
-    		@if ($multiple-index % 2 == 0) or
-    		(
-    			str-contains($property, 'right') or
-    			str-contains($property, 'left') or
-    			str-contains($property, 'width')
-    		) {
-    			$value: $grid-gutter * $multiple;
-    		}
-    		$values: append($values, $value);
-    		$multiple-index: $multiple-index + 1;
+			@if $multiple == 'auto' {
+				$values: append($values, 'auto');
+	    		$multiple-index: $multiple-index + 1;
+			}
+			@else {
+    			$value: $unit * $multiple;
+
+	    		//If value is the second or fourth value in a list,
+	    		// or is a left, right, or width value,
+	            // multiply by the $horizontal-space
+	    		@if ($multiple-index % 2 == 0) or
+	    		(
+	    			str-contains($property, 'right') or
+	    			str-contains($property, 'left') or
+	    			str-contains($property, 'width')
+	    		) {
+	    			$value: $horizontal-space * $multiple;
+	    		}
+	    		$values: append($values, $value);
+	    		$multiple-index: $multiple-index + 1;
+			}
     	}
 
         @include px-to-rems($property, $values, $important);
@@ -253,25 +266,9 @@ Output REM values using the typographic grid. This is the prefered method of add
     }
 }
 
-// Generates Values based on type-scale ($scale-ratio in _config.scss)
-// By using @include type-scale([property], [scale number]);.
-// This is most useful for font sizing, but can be used for any property
-// e.g.: div{
-//          @include type-scale(margin-top, 2);}
-// Would produce a margin-top value of the second value within your typographic scale.
-// If your scale is set to 1.35, your output would be:
-// div{margin-top: 20.63314px; margin-top: 1.4738rem;}
-
-@mixin type-scale($property: "font-size", $mod-scale-value: 1){
-	@if $property == "font-size" {
-		$font-size: modular-scale($mod-scale-value);
-		@include type-font-size($font-size, true);
-	}
-	@else{
-		$scale: modular-scale($mod-scale-value);
-
-		@include px-to-rems($property, $scale);
-	}
+//Alias
+@mixin space($properties,$multipliers,$important:false,$unit:$vertical-space) {
+	@include type-space($properties, $multipliers, $important, $unit);
 }
 
 // Style any number of headings in one fell swoop, e.g.:

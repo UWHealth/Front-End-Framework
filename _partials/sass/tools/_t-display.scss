@@ -92,18 +92,18 @@ $silent-display-classes: map-extend($display-classes, $default-display-classes, 
 	$important: false
 ){
 	$classes: if($silent, $silent-display-classes, $display-classes);
+
 	@include display-utilities($namespace, $silent, $important, $classes);
 
-	@if $responsive == true {
-		@each $name in $breakpoints {
-			@include media-query($name) {
+	@each $name in $breakpoints {
+		@include media-query($name) {
 
-				$name: $namespace + $name;
+			$name: $namespace + $name;
 
-				@include display-utilities(
-					'#{$name}_', $silent, $important, $classes
-				);
-			}
+			@include display-utilities(
+				'#{$name}_', $silent, $important, $classes
+			);
 		}
 	}
+
 }

@@ -39,6 +39,9 @@ $font-looseness: 			15%;
 $auto-scale-type:           false;
 $scale-ratio:               1.35;
 
+$vertical-space:			$base-line-height; //Maintains best vertical rhythm
+$horizontal-space: 			$base-line-height;
+
 $rem-px-fallback: 			true;
 
 $indented-paragraphs:       false;
@@ -171,6 +174,7 @@ $grid-push:             true;
 $grid-pull:             true;
 
 $grid-markup-fix:        false;
+$grid-letter-space-fix:  -0.45em;
 $grid-floats:            false;
 
 $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');

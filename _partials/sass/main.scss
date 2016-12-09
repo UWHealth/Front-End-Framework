@@ -49,10 +49,9 @@ Sass files are imported in order from lowest specificity to highest.
 @import 'tools/t-media-queries';
 @import 'tools/t-mixins';
 @import 'tools/t-zindex';
-
-//Utility placeholder classes
 @import 'tools/t-alignment';
 @import 'tools/t-display';
+@import 'tools/t-widths';
 @import 'tools/t-grid-system';
 @import 'tools/t-spacing';
 @import 'tools/t-type';
@@ -63,11 +62,13 @@ Sass files are imported in order from lowest specificity to highest.
 // (after import, CSS will be written out)
 //-----------------------------
 
+
 //Ground-zero styles
 //(normalize and resets, * selectors)
 // !!Do not use extends here!!
 @import 'base/generic/gn-resets';
 @import 'base/generic/gn-sanitize';
+
 
 //Elements and un-classed selectors
 // (lowest specificity)
@@ -77,27 +78,33 @@ Sass files are imported in order from lowest specificity to highest.
 @import 'base/b-tables';
 @import 'base/b-type';
 
+
 //Grids, alignment and higher-level classes
 // (+1 specificity)
+@import 'layout/l-boxes';
 @import 'layout/l-composition';
 @import 'layout/l-grid';
+@import 'layout/l-headings';
+@import 'layout/l-lists';
+@import 'layout/l-media-object';
+@import 'layout/l-tables';
+
 
 //OOCSS styles and base-level classes
 // (+1 specificity)
 @import 'components/c-buttons';
-@import 'components/c-headings';
-@import 'components/c-lists';
-@import 'components/c-media-object';
-@import 'components/c-tables';
 @import 'components/c-tabs';
+
 
 //vendor components
 @import 'components/vendor/slick'; //Slider import
 
+
 //Section-specific and theme-/skin-based styles
 //(+2-4 specificity)
-@import 'sections/s-editor';
-@import 'sections/s-page';
+@import 'sections/s-editor.example';
+@import 'sections/s-page.example';
+
 
 //High-specificity css and overrides classes (usually have !important).
 // Typically single-use classes

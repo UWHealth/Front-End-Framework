@@ -59,11 +59,6 @@ $base_namespace: '';
 	$config: (important: false, silent: true)
 );
 
-@include alignment-utilities-init(
-	$important: false,
-	$silent: true
-);
-
 @include type-utilities-init(
 	$important: false,
 	$silent: true

@@ -88,7 +88,8 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 		),
 		prefixes: (
 			'pad', 'space'
-		)
+		),
+		unit: $vertical-space
 	), $config, true);
 
 
@@ -100,6 +101,7 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 	$names: map-get($config, names);
 	$important: map-get($config, important);
 	$important-string: if($important, '!important', null);
+	$unit: map-get($config, unit);
 	$class-name-list: ();
 
 
@@ -146,7 +148,7 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 							}
                             @else {
 								//Using type-space mixin, output the REM-based value
-								@include type-space($layout_type, $amount, $important);
+								@include type-space($layout_type, $amount, $important, $unit);
 							}
 						}
 					}
@@ -172,15 +174,14 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 
 	@include spacing-utilities($namespace, $config);
 
-	@if $responsive {
-	    @each $name in $breakpoints {
+    @each $name in $breakpoints {
 
-	        @include media-query($name) {
+        @include media-query($name) {
 
-				$name: $namespace+$name;
-	        	@include spacing-utilities('#{$name}_', $config);
+			$name: $namespace+$name;
+        	@include spacing-utilities('#{$name}_', $config);
 
-			}
-	    }
-	}
+		}
+    }
+
 }

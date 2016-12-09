@@ -1,6 +1,5 @@
 .box {
     @extend %grid_reset;
-	@extend %clearfix;
     @include type-space(padding, 1);
     @include type-space(margin-bottom, 1);
 
@@ -28,7 +27,7 @@
 //Must have a .body inside for content.
 .box_square {
     position: relative;
-    @extend %block;
+    display: block;
 	overflow: hidden;
 	word-break: break-word;
 

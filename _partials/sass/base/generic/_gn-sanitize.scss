@@ -220,7 +220,7 @@ button,
 [type="week"],
 select,
 textarea {
-	min-height: $form-element-min-height;
+	@include px-to-rems('min-height', $form-element-min-height);
 }
 
 // specify the font family of code elements

@@ -1,11 +1,16 @@
 /* SG
 # Variables/Globals [[dev]]
 
+The variables here are created based on the config variables passed by the user. These are generally abstracted to make them a little easier to parse, programmatically.
 
-##### `$$h[#]-lh`
+##### `$$type-[h1-6,p,small]-lh`
 ###### boolean/unitless/pixel value
-Parses `$$type-h[#]-size` for an optional line-height value, if none exists, just set to `true`. This value will be passed to `@type-font-size()`.
+Parses `$$type-h[#]-size` for an optional line-height value, if none exists, pass it along to `baseline-calc()`.
+@alias `$$h[#]-lh`
 
+##### `$$type-[h1-6,p,small]-size`
+###### Number (pixel)
+Font sizes, as defined by the user or `$$auto-scale-type`.
 
 ##### `$$type-base-unit`
 ###### Number
@@ -15,7 +20,6 @@ Abstraction of the base spacing unit used in any mixin or function that defines 
 ###### Number
 Ratio used to calculate the difference between font sizes and spacing units.
 
-
 ##### `$$type-headings`
 ###### List (number)
 Used for defining automatic headings functions.
@@ -24,29 +28,23 @@ Used for defining automatic headings functions.
 ###### Number
 Abstracts the `$$scale-ratio` and makes sure it's a positive number.
 
-
 ##### `$$all-breakpoints`
 ###### List
 Stores all the names defined in `$$breakpoints` for use in abstract framework components so that if names are chagned, boilerplate media queries won't fail.
-
 
 ##### `$$breakpoint-smallest`
 ###### String
 Grabs the first `$$breakpoints` name.
 
-
 ##### `$$breakpoint-largest`
 ###### String
 Grabs the last `$$breakpoints` name.
 
-##### `$$colors-list`
-###### List (string)
-The names of all colors in the `$$colors` map.
 
 */
 
 
-// Heading sizes if you'd rather set them yourself (set $auto-scale-type to false).
+// Heading sizes (if you'd rather set them yourself, set $auto-scale-type to false).
 @if $auto-scale-type {
     $type-h1-size:          modular-scale(7);
     $type-h2-size:          modular-scale(5);
@@ -58,20 +56,37 @@ The names of all colors in the `$$colors` map.
 }
 
 //Check for existence of line-height override, and store it
-$h1-lh: 					if(length($type-h1-size) > 1, nth($type-h1-size, 2),
+$type-h1-lh: 					if(length($type-h1-size) > 1, nth($type-h1-size, 2),
     baseline-calc(nth($type-h1-size,1)));
-$h2-lh: 					if(length($type-h2-size) > 1, nth($type-h2-size, 2),
+$h1-lh: $type-h1-lh; //alias
+
+$type-h2-lh: 					if(length($type-h2-size) > 1, nth($type-h2-size, 2),
     baseline-calc(nth($type-h2-size,1)));
-$h3-lh: 					if(length($type-h3-size) > 1, nth($type-h3-size, 2),
+$h2-lh: $type-h2-lh; //alias
+
+$type-h3-lh: 					if(length($type-h3-size) > 1, nth($type-h3-size, 2),
     baseline-calc(nth($type-h3-size,1)));
-$h4-lh: 					if(length($type-h4-size) > 1, nth($type-h4-size, 2),
+$h3-lh: $type-h3-lh; //alias
+
+$type-h4-lh: 					if(length($type-h4-size) > 1, nth($type-h4-size, 2),
     baseline-calc(nth($type-h4-size,1)));
-$h5-lh: 					if(length($type-h5-size) > 1, nth($type-h5-size, 2),
+$h4-lh: $type-h4-lh; //alias
+
+$type-h5-lh: 					if(length($type-h5-size) > 1, nth($type-h5-size, 2),
     baseline-calc(nth($type-h5-size,1)));
-$h6-lh: 					if(length($type-h6-size) > 1, nth($type-h6-size, 2),
+$h5-lh: $type-h5-lh; //alias
+
+$type-h6-lh: 					if(length($type-h6-size) > 1, nth($type-h6-size, 2),
     baseline-calc(nth($type-h6-size,1)));
-$small-lh:					if(length($type-small-size) > 1, nth($type-small-size, 2),
+$h6-lh: $type-h6-lh; //alias
+
+$type-p-lh:                     baseline-calc($base-font-size);
+$p-lh: $type-p-lh; //alias
+
+$type-small-lh:					if(length($type-small-size) > 1, nth($type-small-size, 2),
     baseline-calc(nth($type-small-size,1)));
+$small-lh: $type-small-lh; //alias
+
 
 //Make sure we only grab the first-value
 $type-h1-size: 				nth($type-h1-size, 1);
@@ -80,13 +95,13 @@ $type-h3-size:              nth($type-h3-size, 1);
 $type-h4-size:              nth($type-h4-size, 1);
 $type-h5-size:              nth($type-h5-size, 1);
 $type-h6-size:              nth($type-h6-size, 1);
+$type-p-size:               $base-font-size;
 $type-small-size: 			nth($type-small-size, 1);
 
-// Would you like indented (rather than spaced) paragraph delimiting?
-$indented-paragraphs: false !default;
 
 // Do not modify these variables; they are internal settings upon which the
 // library depends.
+$indented-paragraphs: false !default;
 
 $type-base-unit:        $base-line-height;
 
@@ -94,7 +109,7 @@ $type-base-unit:        $base-line-height;
 	$type-base-unit: baseline-calc($base-font-size) * $base-font-size !global;
 }
 
-$type-base-ratio: ($type-base-unit / $base-font-size) !global;
+$type-base-ratio: ($type-base-unit / $base-font-size);
 
 $type-headings:            6,5,4,3,2,1;
 $type-modular-scale:       0;
@@ -121,10 +136,6 @@ $type-modular-scale: $scale-ratio;
 //Silent class registry
 // Holds all auto-generated silent classes for debugging.
 $silent-class-registry: ();
-
-// If you are building a non-responsive site but would still like to use
-// grids, set this to ‘false’:
-$responsive:            true;
 
 // Is this build mobile first? Setting to ‘true’ means that all grids will be
 // 100% width if you do not apply a more specific class to them.
@@ -153,7 +164,7 @@ $breakpoint-largest:  nth($all-breakpoints, length($all-breakpoints));
 $root-background-color: color('bg');
 $root-color: color('type');
 $root-font-family: $primary-font-stack;
-$root-font-size: 100%;
+$root-font-size: percentage($base-font-size/16px);
 $root-line-height: $type-base-ratio;
 $root-text-rendering: optimizeLegibility;
 $root-cursor: inherit;
@@ -161,7 +172,7 @@ $root-cursor: inherit;
 $anchor-text-decoration: none;
 $background-repeat: no-repeat;
 
-$form-element-min-height: $root-line-height;
+$form-element-min-height: $base-line-height;
 $textarea-resize: vertical;
 
 $media-element-vertical-align: middle;
