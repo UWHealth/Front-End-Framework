@@ -15,7 +15,7 @@
 		"md": true
 	},
 	"templateFile": "./styleguide/imports/template.hbs",
-	"themeFile": "./styleguide/imports/theme.css",
+	"themeFile": "./css/styleguide.css",
 	"htmlOutput": "./styleguide/index.html",
 	"jsonOutput": "./styleguide/index.json",
 	"handlebarsPartials": {
@@ -24,9 +24,10 @@
 	},
   "sections": {
     "styles": "",
-    "development": "[[dev]]"
+    "development": "[[dev]]",
+		"getting started": "Setup:"
   },
-	"highlightStyle": "arduino-light",
+	"highlightStyle": "rainbow",
 	"highlightFolder": "./node_modules/highlight.js/styles/",
 	"customVariables": {
 		"tocMenu": true,

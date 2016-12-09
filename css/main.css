@@ -833,11 +833,16 @@ Configuration for slick carousel jQuery plugin.
 /* SG
 # Variables/Globals [[dev]]
 
+The variables here are created based on the config variables passed by the user. These are generally abstracted to make them a little easier to parse, programmatically.
 
-##### `$$h[#]-lh`
+##### `$$type-[h1-6,p,small]-lh`
 ###### boolean/unitless/pixel value
-Parses `$$type-h[#]-size` for an optional line-height value, if none exists, just set to `true`. This value will be passed to `@type-font-size()`.
+Parses `$$type-h[#]-size` for an optional line-height value, if none exists, pass it along to `baseline-calc()`.
+@alias `$$h[#]-lh`
 
+##### `$$type-[h1-6,p,small]-size`
+###### Number (pixel)
+Font sizes, as defined by the user or `$$auto-scale-type`.
 
 ##### `$$type-base-unit`
 ###### Number
@@ -847,7 +852,6 @@ Abstraction of the base spacing unit used in any mixin or function that defines 
 ###### Number
 Ratio used to calculate the difference between font sizes and spacing units.
 
-
 ##### `$$type-headings`
 ###### List (number)
 Used for defining automatic headings functions.
@@ -856,24 +860,18 @@ Used for defining automatic headings functions.
 ###### Number
 Abstracts the `$$scale-ratio` and makes sure it's a positive number.
 
-
 ##### `$$all-breakpoints`
 ###### List
 Stores all the names defined in `$$breakpoints` for use in abstract framework components so that if names are chagned, boilerplate media queries won't fail.
-
 
 ##### `$$breakpoint-smallest`
 ###### String
 Grabs the first `$$breakpoints` name.
 
-
 ##### `$$breakpoint-largest`
 ###### String
 Grabs the last `$$breakpoints` name.
 
-##### `$$colors-list`
-###### List (string)
-The names of all colors in the `$$colors` map.
 
 */
 /* SG
@@ -1120,8 +1118,6 @@ The responsive component to `@display-utilities()`. Invoke `@display-utilites()`
 /* SG
 # Grid System/Variables [[dev]]
 
-@file globals/tools/_t-grid-system.scss
-
 ##### `$$human-readable-numerators`
 ###### List (string)
 First words used to represent numbers in a fraction; Corresponds to grid interval names (one, two, three, etc.).
@@ -1139,6 +1135,25 @@ Second words used to represent numbers in a fraction; Corresponds to grid interv
 ##### `grid-size()`
 ###### function(`$size, $total:` `$$grid-columns`)
 Creates a percentage based on the `$size / $total`.
+
+*/
+/* SG
+
+# Grid System/Mixins [[dev]]
+
+##### `@width()`
+###### mixin(`$columns, $total:` `$$grid-columns`)
+Creates a width property with a percentage based on the `$columns / $total`.
+@requires `grid-size()`, `$$grid-columns`
+
+*/
+/* SG
+
+##### `@width-setup()`
+###### mixin(`$namespace:"", $silent:` `$$grid-silent-classes`, $type:"width")
+ Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentage widths based on `$$grid-columns`. `$type` accepts "width", "push" or "pull".
+
+@requires `grid-size()`, `cache()`, `$$human-readable-numerators`, `$$human-readable-denominators`
 
 */
 /* SG
@@ -1195,38 +1210,12 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 
 */
 /* SG
-
-# Grid System/Mixins [[dev]]
-
-##### `@grid-width()`
-###### mixin(`$columns, $total:` `$$grid-columns`)
-Creates a width property with a percentage based on the `$columns / $total`.
-@requires `grid-size()`, `$$grid-columns`
-
-
-##### `@width-setup()`
-###### mixin(`$namespace:"", $silent:` `$$grid-silent-classes`)
- Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentage widths based on `$$grid-columns`.
-@requires `grid-size()`, `cache()`, `$$human-readable-numerators`, `$$human-readable-denominators`
-
-*/
-/* SG
-# Grid System/Mixins [[dev]]
-
-##### `@push-pull-setup()`
-###### mixin(`$namespace:"", $type:"", $silent:` `$$grid-silent-classes`)
-Outputs left/right percentage values for each grid size. Uses `$$human-readable-numerators` and `$$human-readable-denominators` for class names.
-
-@requires `@silent-relative()`, `cache()`, `grid-size()`,`$$human-readable-numerators`, `$$human-readable-denominators`
-
-*/
-/* SG
 # Grid System/Mixins [[dev]]
 
 ##### `@grid-init()`
 ###### mixin(`$silent:` `$$grid-silent-classes`, `$responsive`)
 Creates responsive grid classes by running through all the grid-setup mixins. Uses the media-queries defined in the `$breakpoint-has-` variables to create media-query-scoped classes.
-@requires `@media-query()`, `@grid-setup()`, `@width-setup()`, `@push-pull-setup()`, `$$breakpoints-has-push`, `$$breakpoint-has-pull`
+@requires `@media-query()`, `@grid-setup()`, `@width-setup()`, `$$breakpoints-has-push`, `$$breakpoint-has-pull`
 
 */
 /* SG
@@ -1274,11 +1263,9 @@ The responsive component to `@type-utilities()`. Invoke `@type-utilites()` with 
 /* SG
 # Mixins/Typography [[dev]]
 
-@file tools/_t-type.scss
-
 ##### `@px-to-rems()`
 ###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
-Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fallback` is `true`, a pixel fallback is also included.
+Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fallback` is `true`, a pixel fallback is also included. `$sizes` also accepts 'auto'.
 @alias `@rems()`
 @requires `px-to-rems()`
 
@@ -1286,7 +1273,7 @@ Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fall
 /* SG
 
 ##### `@type-font-size()`
-###### mixin(`$font-size, $line-height: true, $font-base:``$$base-font-size`)
+###### mixin(`$font-size, $line-height: auto, $font-base:``$$base-font-size`)
 Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
 
 _`$line-height` also accepts a pixel value and will be converted to a unitless one._
@@ -1296,7 +1283,6 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless o
 
 */
 /* SG
-# Mixins/Typography [[dev]]
 
 ##### `@type-space()`
 ###### mixin(`$properties, $multipliers, $important: false`)
@@ -1311,17 +1297,18 @@ Output REM values using the typographic grid. This is the prefered method of add
 ```scss
 // SCSS input
 .foo {
-	@include type-space(padding, 1 .25 .5, '!important');
+	@include type-space(padding, 1 .25 .5 auto, '!important');
 }
 
 // CSS output
 .foo {
-	padding: 24px 8px 12px 8px !important;
-	padding: 1.5rem .375rem .75rem .375rem !important;
+	padding: 24px 8px 12px auto !important;
+	padding: 1.5rem .375rem .75rem auto !important;
 }
 ```
 
 @requires `@px-to-rems()`, `str-contains()`
+@alias `@space()`
 
 */
 html,
@@ -1554,7 +1541,8 @@ button,
 [type="week"],
 select,
 textarea {
-  min-height: 1.5;
+  min-height: 24px;
+  min-height: 1.5rem;
 }
 
 code,
@@ -1743,8 +1731,8 @@ ul,
 ol,
 dl,
 menu {
-  margin: 0 0 24px 32px;
-  margin:  0 0 1.5rem 2rem;
+  margin: 0 0 24px 24px;
+  margin:  0 0 1.5rem 1.5rem;
 }
 
 li > ul,
@@ -1893,8 +1881,8 @@ blockquote {
 }
 
 blockquote {
-  margin: 0 0 24px 32px;
-  margin:  0 0 1.5rem 2rem;
+  margin: 0 0 24px 24px;
+  margin:  0 0 1.5rem 1.5rem;
   quotes: '“' '”';
 }
 
@@ -1944,6 +1932,72 @@ q:first-child {
   text-indent: -0.22em;
 }
 
+.box {
+  padding: 24px;
+  padding:  1.5rem;
+  margin-bottom: 24px;
+  margin-bottom:  1.5rem;
+}
+
+.box > :last-child {
+  margin-bottom: 0;
+}
+
+.box_open {
+  padding-left: 0;
+  padding-right: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #e4eaf3;
+  border-bottom-color: #e4eaf3;
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+.box_closed {
+  border: 1px solid #e4eaf3;
+}
+
+.box_square {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+@media only screen and (max-width: 640px) {
+  .box_square {
+    max-height:  7.5rem;
+  }
+}
+
+.box_square .box_body {
+  padding: 12px 12px 0;
+  padding:  0.75rem 0.75rem 0;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: left;
+}
+
+.box_square:before {
+  content: " ";
+  margin-top: 100%;
+  display: block;
+  font-size: 0;
+  color: transparent;
+}
+
+.pano:before {
+  margin-top: 75%;
+}
+
+.wide:before {
+  margin-top: 50%;
+}
+
 .wrap {
   margin: 0 auto;
   max-width: 1500px;
@@ -1980,7 +2034,7 @@ q:first-child {
   max-width: 99%;
 }
 
-.row > * {
+.box, .row > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
@@ -1989,8 +2043,8 @@ q:first-child {
   list-style: none;
   margin: 0;
   padding: 0;
-  margin-left: -32px;
-  margin-left:  -2rem;
+  margin-left: -24px;
+  margin-left:  -1.5rem;
   letter-spacing: -0.43em;
 }
 
@@ -2001,8 +2055,8 @@ q:first-child {
 
 .column {
   display: inline-block;
-  padding-left: 32px;
-  padding-left:  2rem;
+  padding-left: 24px;
+  padding-left:  1.5rem;
   vertical-align: top;
   width: 100%;
   letter-spacing: normal;
@@ -2018,13 +2072,13 @@ q:first-child {
 }
 
 .row_narrow {
-  margin-left: -16px;
-  margin-left:  -1rem;
+  margin-left: -12px;
+  margin-left:  -0.75rem;
 }
 
 .row_narrow > .column {
-  padding-left: 16px;
-  padding-left:  1rem;
+  padding-left: 12px;
+  padding-left:  0.75rem;
 }
 
 .quarter {
@@ -2066,74 +2120,18 @@ q:first-child {
 }
 
 .push_TEST2 {
-  left: 33.33333%;
+  true: 33.33333%;
   position: relative;
 }
 
 .push_TEST {
-  left: 50%;
+  true: 50%;
   position: relative;
 }
 
 .pull_TEST {
-  right: 33.33333%;
+  true: 33.33333%;
   position: relative;
-}
-
-/* SG
-# Buttons
-Applying the `btn` class to anything will make it look like a button. Always declare `type="button"` on `<button>` elements for proper accessibility.
-
-```html_example
-<button type="button" class="btn">Button</button>
-
-<a href="" class="btn">Faux Button</a>
-```
-
-*/
-.btn {
-  background: transparent;
-  color: inherit;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border: 2px solid currentColor;
-  -moz-border-radius: 4px;
-       border-radius: 4px;
-  font-weight: 700;
-  padding: 0 .5em;
-  padding-top: 12px;
-  padding-top:  0.75rem;
-  padding-bottom: 12px;
-  padding-bottom:  0.75rem;
-  -webkit-transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out;
-          transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out;
-}
-
-.btn:focus {
-  outline: none;
-  background: #0d497b;
-  color: #fff;
-  text-decoration: none;
-  border-color: #0d497b;
-}
-
-.btn:hover {
-  background: rgba(13, 73, 123, 0.6);
-  color: #f3f6f8;
-  text-decoration: none;
-  border-color: #5894bd;
-}
-
-.btn:active {
-  background: #0d497b;
-  color: #fff;
-  text-decoration: none;
-  border-color: #0d497b;
-  -webkit-box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
-     -moz-box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
-          box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
-  outline: none;
 }
 
 /* SG
@@ -2284,8 +2282,8 @@ A list where each item is in a row, with spacing to the right of each item
   padding-left: 0;
   width: auto;
   vertical-align: middle;
-  padding-right: 16px;
-  padding-right:  1rem;
+  padding-right: 12px;
+  padding-right:  0.75rem;
 }
 
 .list_inline > li:last-child {
@@ -2308,8 +2306,8 @@ A list where each item is in a row, with a &#x25B8; between each item.
 .breadcrumbs {
   list-style: none;
   margin-left: 0;
-  padding-right: 32px;
-  padding-right:  2rem;
+  padding-right: 24px;
+  padding-right:  1.5rem;
 }
 
 .breadcrumbs > li {
@@ -2411,8 +2409,8 @@ Isolates an image from text wrapping underneath. Useful for creating an associat
 }
 
 .isolate_body {
-  padding-left: 16px;
-  padding-left:  1rem;
+  padding-left: 12px;
+  padding-left:  0.75rem;
 }
 
 /* SG
@@ -2487,8 +2485,8 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 }
 
 .arrange_body {
-  padding-left: 16px;
-  padding-left:  1rem;
+  padding-left: 12px;
+  padding-left:  0.75rem;
 }
 
 .arrange_media, .arrange_body, .arrange_fill, .arrange_fit {
@@ -2525,10 +2523,10 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 
 .table_striped th,
 .table_striped td {
-  padding-right: 16px;
-  padding-right:  1rem;
-  padding-left: 16px;
-  padding-left:  1rem;
+  padding-right: 12px;
+  padding-right:  0.75rem;
+  padding-left: 12px;
+  padding-left:  0.75rem;
   border-color: #ced2d5;
   border-style: solid;
 }
@@ -2563,7 +2561,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
   }
   .table_responsive td,
   .table_responsive th {
-    padding-left:  0.5rem;
+    padding-left:  0.375rem;
   }
   .table_responsive th:first-child,
   .table_responsive td:first-child,
@@ -2589,7 +2587,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
   }
   .table_pin th,
   .table_pin td {
-    padding-left:  0.3rem;
+    padding-left:  0.225rem;
   }
   .table_pin td:last-child {
     border-bottom: 0;
@@ -2602,6 +2600,62 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
   .table_scroll table {
     margin-left: 25%;
   }
+}
+
+/* SG
+# Buttons
+Applying the `btn` class to anything will make it look like a button. Always declare `type="button"` on `<button>` elements for proper accessibility.
+
+```html_example
+<button type="button" class="btn">Button</button>
+
+<a href="" class="btn">Faux Button</a>
+```
+
+*/
+.btn {
+  background: transparent;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border: 2px solid currentColor;
+  -moz-border-radius: 4px;
+       border-radius: 4px;
+  font-weight: 700;
+  padding: 0 .5em;
+  padding-top: 12px;
+  padding-top:  0.75rem;
+  padding-bottom: 12px;
+  padding-bottom:  0.75rem;
+  -webkit-transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out;
+          transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out;
+}
+
+.btn:focus {
+  outline: none;
+  background: #0d497b;
+  color: #fff;
+  text-decoration: none;
+  border-color: #0d497b;
+}
+
+.btn:hover {
+  background: rgba(13, 73, 123, 0.6);
+  color: #f3f6f8;
+  text-decoration: none;
+  border-color: #5894bd;
+}
+
+.btn:active {
+  background: #0d497b;
+  color: #fff;
+  text-decoration: none;
+  border-color: #0d497b;
+  -webkit-box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
+     -moz-box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
+          box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
+  outline: none;
 }
 
 /* SG
@@ -2671,10 +2725,10 @@ $(function() {
   line-height: 3;
   text-decoration: none;
   margin-bottom: 0;
-  padding-left: 16px;
-  padding-left:  1rem;
-  padding-right: 16px;
-  padding-right:  1rem;
+  padding-left: 12px;
+  padding-left:  0.75rem;
+  padding-right: 12px;
+  padding-right:  0.75rem;
   border-width: 1px;
   border-color: #1e568c;
   position: relative;
@@ -2766,605 +2820,8 @@ $(function() {
 
 .editor_content ul {
   list-style: bulleted;
-  margin-left: 32px;
-  margin-left:  2rem;
-}
-
-/* SG
-# Color Blocks
-A good way to look over your color pallete.
-
-Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
-
-```html_example
-<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
-<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
-<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
-<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
-<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
-<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
-<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
-```
-*/
-.color-block:nth-child(1) {
-  background-color: #0a1c2b;
-  color: #fff;
-  padding: 2% 1% 2.5%;
-}
-
-.color-block:nth-child(1):before {
-  content: "type";
-}
-
-.color-block:nth-child(1):after {
-  content: "#0a1c2b";
-}
-
-.color-block:nth-child(2) {
-  background-color: #0d497b;
-  color: #fff;
-  padding: 2% 1% 2.5%;
-}
-
-.color-block:nth-child(2):before {
-  content: "links";
-}
-
-.color-block:nth-child(2):after {
-  content: "#0d497b";
-}
-
-.color-block:nth-child(3) {
-  background-color: #f6f8fb;
-  color: #000;
-  padding: 2% 1% 2.5%;
-}
-
-.color-block:nth-child(3):before {
-  content: "bg";
-}
-
-.color-block:nth-child(3):after {
-  content: "#f6f8fb";
-}
-
-.color-block:nth-child(4) {
-  background-color: #5E839E;
-  color: #fff;
-  padding: 2% 1% 2.5%;
-}
-
-.color-block:nth-child(4):before {
-  content: "styleguide";
-}
-
-.color-block:nth-child(4):after {
-  content: "#5E839E";
-}
-
-.color-block:nth-child(5) {
-  background-color: #bf0516;
-  color: #fff;
-  padding: 2% 1% 2.5%;
-}
-
-.color-block:nth-child(5):before {
-  content: "accent";
-}
-
-.color-block:nth-child(5):after {
-  content: "#bf0516";
-}
-
-.color-block:nth-child(6) {
-  background-color: #bada55;
-  color: #000;
-  padding: 2% 1% 2.5%;
-}
-
-.color-block:nth-child(6):before {
-  content: "success";
-}
-
-.color-block:nth-child(6):after {
-  content: "#bada55";
-}
-
-.color-block:nth-child(7) {
-  background-color: #556776;
-  color: #fff;
-}
-
-.color-block:nth-child(7):before {
-  content: "type light";
-}
-
-.color-block:nth-child(7):after {
-  content: "#556776";
-}
-
-.color-block:nth-child(8) {
-  background-color: #5894bd;
-  color: #fff;
-}
-
-.color-block:nth-child(8):before {
-  content: "links light";
-}
-
-.color-block:nth-child(8):after {
-  content: "#5894bd";
-}
-
-.color-block:nth-child(9) {
-  background-color: #fbfcfd;
-  color: #000;
-}
-
-.color-block:nth-child(9):before {
-  content: "bg light";
-}
-
-.color-block:nth-child(9):after {
-  content: "#fbfcfd";
-}
-
-.color-block:nth-child(10) {
-  background-color: #95C3CE;
-  color: #000;
-}
-
-.color-block:nth-child(10):before {
-  content: "styleguide light";
-}
-
-.color-block:nth-child(10):after {
-  content: "#95C3CE";
-}
-
-.color-block:nth-child(11) {
-  background-color: #df5061;
-  color: #fff;
-}
-
-.color-block:nth-child(11):before {
-  content: "accent light";
-}
-
-.color-block:nth-child(11):after {
-  content: "#df5061";
-}
-
-.color-block:nth-child(12) {
-  background-color: #ddeda0;
-  color: #000;
-}
-
-.color-block:nth-child(12):before {
-  content: "success light";
-}
-
-.color-block:nth-child(12):after {
-  content: "#ddeda0";
-}
-
-.color-block:nth-child(13) {
-  background-color: #99a4aa;
-  color: #fff;
-}
-
-.color-block:nth-child(13):before {
-  content: "type lighter";
-}
-
-.color-block:nth-child(13):after {
-  content: "#99a4aa";
-}
-
-.color-block:nth-child(14) {
-  background-color: #9cb6ca;
-  color: #fff;
-}
-
-.color-block:nth-child(14):before {
-  content: "links lighter";
-}
-
-.color-block:nth-child(14):after {
-  content: "#9cb6ca";
-}
-
-.color-block:nth-child(15) {
-  background-color: #fbfcfd;
-  color: #000;
-}
-
-.color-block:nth-child(15):before {
-  content: "bg lighter";
-}
-
-.color-block:nth-child(15):after {
-  content: "#fbfcfd";
-}
-
-.color-block:nth-child(16) {
-  background-color: #D1F5ED;
-  color: #000;
-}
-
-.color-block:nth-child(16):before {
-  content: "styleguide lighter";
-}
-
-.color-block:nth-child(16):after {
-  content: "#D1F5ED";
-}
-
-.color-block:nth-child(17) {
-  background-color: #e594a2;
-  color: #fff;
-}
-
-.color-block:nth-child(17):before {
-  content: "accent lighter";
-}
-
-.color-block:nth-child(17):after {
-  content: "#e594a2";
-}
-
-.color-block:nth-child(18) {
-  background-color: #e3f0bb;
-  color: #000;
-}
-
-.color-block:nth-child(18):before {
-  content: "success lighter";
-}
-
-.color-block:nth-child(18):after {
-  content: "#e3f0bb";
-}
-
-.color-block:nth-child(19) {
-  background-color: #ced2d5;
-  color: #000;
-}
-
-.color-block:nth-child(19):before {
-  content: "type lightest";
-}
-
-.color-block:nth-child(19):after {
-  content: "#ced2d5";
-}
-
-.color-block:nth-child(20) {
-  background-color: #cfdbe5;
-  color: #000;
-}
-
-.color-block:nth-child(20):before {
-  content: "links lightest";
-}
-
-.color-block:nth-child(20):after {
-  content: "#cfdbe5";
-}
-
-.color-block:nth-child(21) {
-  background-color: #fdfefe;
-  color: #000;
-}
-
-.color-block:nth-child(21):before {
-  content: "bg lightest";
-}
-
-.color-block:nth-child(21):after {
-  content: "#fdfefe";
-}
-
-.color-block:nth-child(22) {
-  background-color: #29DECE;
-  color: #000;
-}
-
-.color-block:nth-child(22):before {
-  content: "styleguide lightest";
-}
-
-.color-block:nth-child(22):after {
-  content: "#29DECE";
-}
-
-.color-block:nth-child(23) {
-  background-color: #f2cdd0;
-  color: #000;
-}
-
-.color-block:nth-child(23):before {
-  content: "accent lightest";
-}
-
-.color-block:nth-child(23):after {
-  content: "#f2cdd0";
-}
-
-.color-block:nth-child(24) {
-  background-color: #f1f8dd;
-  color: #000;
-}
-
-.color-block:nth-child(24):before {
-  content: "success lightest";
-}
-
-.color-block:nth-child(24):after {
-  content: "#f1f8dd";
-}
-
-.color-block:nth-child(25) {
-  background-color: #050f16;
-  color: #fff;
-}
-
-.color-block:nth-child(25):before {
-  content: "type dark";
-}
-
-.color-block:nth-child(25):after {
-  content: "#050f16";
-}
-
-.color-block:nth-child(26) {
-  background-color: #0b3b64;
-  color: #fff;
-}
-
-.color-block:nth-child(26):before {
-  content: "links dark";
-}
-
-.color-block:nth-child(26):after {
-  content: "#0b3b64";
-}
-
-.color-block:nth-child(27) {
-  background-color: #e4eaf3;
-  color: #000;
-}
-
-.color-block:nth-child(27):before {
-  content: "bg dark";
-}
-
-.color-block:nth-child(27):after {
-  content: "#e4eaf3";
-}
-
-.color-block:nth-child(28) {
-  background-color: #475665;
-  color: #fff;
-}
-
-.color-block:nth-child(28):before {
-  content: "styleguide dark";
-}
-
-.color-block:nth-child(28):after {
-  content: "#475665";
-}
-
-.color-block:nth-child(29) {
-  background-color: #a60413;
-  color: #fff;
-}
-
-.color-block:nth-child(29):before {
-  content: "accent dark";
-}
-
-.color-block:nth-child(29):after {
-  content: "#a60413";
-}
-
-.color-block:nth-child(30) {
-  background-color: #b2d540;
-  color: #000;
-}
-
-.color-block:nth-child(30):before {
-  content: "success dark";
-}
-
-.color-block:nth-child(30):after {
-  content: "#b2d540";
-}
-
-.color-block:nth-child(31) {
-  background-color: #06111a;
-  color: #fff;
-}
-
-.color-block:nth-child(31):before {
-  content: "type darker";
-}
-
-.color-block:nth-child(31):after {
-  content: "#06111a";
-}
-
-.color-block:nth-child(32) {
-  background-color: #082c4a;
-  color: #fff;
-}
-
-.color-block:nth-child(32):before {
-  content: "links darker";
-}
-
-.color-block:nth-child(32):after {
-  content: "#082c4a";
-}
-
-.color-block:nth-child(33) {
-  background-color: #aeb6be;
-  color: #000;
-}
-
-.color-block:nth-child(33):before {
-  content: "bg darker";
-}
-
-.color-block:nth-child(33):after {
-  content: "#aeb6be";
-}
-
-.color-block:nth-child(34) {
-  background-color: #314958;
-  color: #fff;
-}
-
-.color-block:nth-child(34):before {
-  content: "styleguide darker";
-}
-
-.color-block:nth-child(34):after {
-  content: "#314958";
-}
-
-.color-block:nth-child(35) {
-  background-color: #77030d;
-  color: #fff;
-}
-
-.color-block:nth-child(35):before {
-  content: "accent darker";
-}
-
-.color-block:nth-child(35):after {
-  content: "#77030d";
-}
-
-.color-block:nth-child(36) {
-  background-color: #729833;
-  color: #fff;
-}
-
-.color-block:nth-child(36):before {
-  content: "success darker";
-}
-
-.color-block:nth-child(36):after {
-  content: "#729833";
-}
-
-.color-block:nth-child(37) {
-  background-color: #03080d;
-  color: #fff;
-}
-
-.color-block:nth-child(37):before {
-  content: "type darkest";
-}
-
-.color-block:nth-child(37):after {
-  content: "#03080d";
-}
-
-.color-block:nth-child(38) {
-  background-color: #041625;
-  color: #fff;
-}
-
-.color-block:nth-child(38):before {
-  content: "links darkest";
-}
-
-.color-block:nth-child(38):after {
-  content: "#041625";
-}
-
-.color-block:nth-child(39) {
-  background-color: #677077;
-  color: #fff;
-}
-
-.color-block:nth-child(39):before {
-  content: "bg darkest";
-}
-
-.color-block:nth-child(39):after {
-  content: "#677077";
-}
-
-.color-block:nth-child(40) {
-  background-color: #12334A;
-  color: #fff;
-}
-
-.color-block:nth-child(40):before {
-  content: "styleguide darkest";
-}
-
-.color-block:nth-child(40):after {
-  content: "#12334A";
-}
-
-.color-block:nth-child(41) {
-  background-color: #390207;
-  color: #fff;
-}
-
-.color-block:nth-child(41):before {
-  content: "accent darkest";
-}
-
-.color-block:nth-child(41):after {
-  content: "#390207";
-}
-
-.color-block:nth-child(42) {
-  background-color: #38521a;
-  color: #fff;
-}
-
-.color-block:nth-child(42):before {
-  content: "success darkest";
-}
-
-.color-block:nth-child(42):after {
-  content: "#38521a";
-}
-
-.color-block {
-  width: 15.66667%;
-  padding: 1%;
-  margin-right: .95%;
-  float: left;
-  overflow: hidden;
-}
-
-.color-block:before {
-  font-size: 11.85185px;
-  font-size: 0.74074rem;
-  display: block;
-  white-space: nowrap;
-}
-
-.color-block:after {
-  font-size: 8.77915px;
-  font-size: 0.5487rem;
-  display: block;
-}
-
-.color-block:before {
-  text-transform: capitalize;
-}
-
-.color-block:after {
-  letter-spacing: 0.1em;
+  margin-left: 24px;
+  margin-left:  1.5rem;
 }
 
 .icon {
@@ -3492,14 +2949,14 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .align_left {
   float: left !important;
-  margin-right: 32px;
-  margin-right:  2rem;
+  margin-right: 24px;
+  margin-right:  1.5rem;
 }
 
 .align_right {
   float: right !important;
-  margin-left: 32px;
-  margin-left:  2rem;
+  margin-left: 24px;
+  margin-left:  1.5rem;
 }
 
 .align_center {
@@ -3528,11 +2985,11 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 @media only screen and (max-width: 640px) {
   .smalls_align_left {
     float: left !important;
-    margin-right:  2rem;
+    margin-right:  1.5rem;
   }
   .smalls_align_right {
     float: right !important;
-    margin-left:  2rem;
+    margin-left:  1.5rem;
   }
   .smalls_align_center {
     float: none !important;
@@ -3557,11 +3014,11 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 @media only screen and (min-width: 641px) {
   .bigs_align_left {
     float: left !important;
-    margin-right:  2rem;
+    margin-right:  1.5rem;
   }
   .bigs_align_right {
     float: right !important;
-    margin-left:  2rem;
+    margin-left:  1.5rem;
   }
   .bigs_align_center {
     float: none !important;
@@ -3586,11 +3043,11 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 @media only screen and (min-width: 941px) {
   .desk_align_left {
     float: left !important;
-    margin-right:  2rem;
+    margin-right:  1.5rem;
   }
   .desk_align_right {
     float: right !important;
-    margin-left:  2rem;
+    margin-left:  1.5rem;
   }
   .desk_align_center {
     float: none !important;
@@ -3643,8 +3100,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .space_l, .space_h {
-  margin-left: 32px !important;
-  margin-left:  2rem !important;
+  margin-left: 24px !important;
+  margin-left:  1.5rem !important;
 }
 
 .space_b, .space_v {
@@ -3653,8 +3110,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .space_r, .space_h {
-  margin-right: 32px !important;
-  margin-right:  2rem !important;
+  margin-right: 24px !important;
+  margin-right:  1.5rem !important;
 }
 
 .space_half {
@@ -3668,8 +3125,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .space_l_half, .space_h_half {
-  margin-left: 16px !important;
-  margin-left:  1rem !important;
+  margin-left: 12px !important;
+  margin-left:  0.75rem !important;
 }
 
 .space_b_half, .space_v_half {
@@ -3678,8 +3135,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .space_r_half, .space_h_half {
-  margin-right: 16px !important;
-  margin-right:  1rem !important;
+  margin-right: 12px !important;
+  margin-right:  0.75rem !important;
 }
 
 .space_neg {
@@ -3693,8 +3150,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .space_l_neg, .space_h_neg {
-  margin-left: -32px !important;
-  margin-left:  -2rem !important;
+  margin-left: -24px !important;
+  margin-left:  -1.5rem !important;
 }
 
 .space_b_neg, .space_v_neg {
@@ -3703,8 +3160,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .space_r_neg, .space_h_neg {
-  margin-right: -32px !important;
-  margin-right:  -2rem !important;
+  margin-right: -24px !important;
+  margin-right:  -1.5rem !important;
 }
 
 .space_2 {
@@ -3718,8 +3175,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .space_l_2, .space_h_2 {
-  margin-left: 64px !important;
-  margin-left:  4rem !important;
+  margin-left: 48px !important;
+  margin-left:  3rem !important;
 }
 
 .space_b_2, .space_v_2 {
@@ -3728,8 +3185,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .space_r_2, .space_h_2 {
-  margin-right: 64px !important;
-  margin-right:  4rem !important;
+  margin-right: 48px !important;
+  margin-right:  3rem !important;
 }
 
 .pad_0 {
@@ -3763,8 +3220,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .pad_l, .pad_h {
-  padding-left: 32px !important;
-  padding-left:  2rem !important;
+  padding-left: 24px !important;
+  padding-left:  1.5rem !important;
 }
 
 .pad_b, .pad_v {
@@ -3773,8 +3230,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .pad_r, .pad_h {
-  padding-right: 32px !important;
-  padding-right:  2rem !important;
+  padding-right: 24px !important;
+  padding-right:  1.5rem !important;
 }
 
 .pad_half {
@@ -3788,8 +3245,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .pad_l_half, .pad_h_half {
-  padding-left: 16px !important;
-  padding-left:  1rem !important;
+  padding-left: 12px !important;
+  padding-left:  0.75rem !important;
 }
 
 .pad_b_half, .pad_v_half {
@@ -3798,8 +3255,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .pad_r_half, .pad_h_half {
-  padding-right: 16px !important;
-  padding-right:  1rem !important;
+  padding-right: 12px !important;
+  padding-right:  0.75rem !important;
 }
 
 .pad_2 {
@@ -3813,8 +3270,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .pad_l_2, .pad_h_2 {
-  padding-left: 64px !important;
-  padding-left:  4rem !important;
+  padding-left: 48px !important;
+  padding-left:  3rem !important;
 }
 
 .pad_b_2, .pad_v_2 {
@@ -3823,8 +3280,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .pad_r_2, .pad_h_2 {
-  padding-right: 64px !important;
-  padding-right:  4rem !important;
+  padding-right: 48px !important;
+  padding-right:  3rem !important;
 }
 
 @media only screen and (max-width: 640px) {
@@ -3850,13 +3307,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  1.5rem !important;
   }
   .smalls_space_l, .smalls_space_h {
-    margin-left:  2rem !important;
+    margin-left:  1.5rem !important;
   }
   .smalls_space_b, .smalls_space_v {
     margin-bottom:  1.5rem !important;
   }
   .smalls_space_r, .smalls_space_h {
-    margin-right:  2rem !important;
+    margin-right:  1.5rem !important;
   }
   .smalls_space_half {
     margin:  0.75rem !important;
@@ -3865,13 +3322,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  0.75rem !important;
   }
   .smalls_space_l_half, .smalls_space_h_half {
-    margin-left:  1rem !important;
+    margin-left:  0.75rem !important;
   }
   .smalls_space_b_half, .smalls_space_v_half {
     margin-bottom:  0.75rem !important;
   }
   .smalls_space_r_half, .smalls_space_h_half {
-    margin-right:  1rem !important;
+    margin-right:  0.75rem !important;
   }
   .smalls_space_neg {
     margin:  -1.5rem !important;
@@ -3880,13 +3337,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  -1.5rem !important;
   }
   .smalls_space_l_neg, .smalls_space_h_neg {
-    margin-left:  -2rem !important;
+    margin-left:  -1.5rem !important;
   }
   .smalls_space_b_neg, .smalls_space_v_neg {
     margin-bottom:  -1.5rem !important;
   }
   .smalls_space_r_neg, .smalls_space_h_neg {
-    margin-right:  -2rem !important;
+    margin-right:  -1.5rem !important;
   }
   .smalls_space_2 {
     margin:  3rem !important;
@@ -3895,13 +3352,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  3rem !important;
   }
   .smalls_space_l_2, .smalls_space_h_2 {
-    margin-left:  4rem !important;
+    margin-left:  3rem !important;
   }
   .smalls_space_b_2, .smalls_space_v_2 {
     margin-bottom:  3rem !important;
   }
   .smalls_space_r_2, .smalls_space_h_2 {
-    margin-right:  4rem !important;
+    margin-right:  3rem !important;
   }
   .smalls_pad_0 {
     padding: 0 !important;
@@ -3925,13 +3382,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  1.5rem !important;
   }
   .smalls_pad_l, .smalls_pad_h {
-    padding-left:  2rem !important;
+    padding-left:  1.5rem !important;
   }
   .smalls_pad_b, .smalls_pad_v {
     padding-bottom:  1.5rem !important;
   }
   .smalls_pad_r, .smalls_pad_h {
-    padding-right:  2rem !important;
+    padding-right:  1.5rem !important;
   }
   .smalls_pad_half {
     padding:  0.75rem !important;
@@ -3940,13 +3397,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  0.75rem !important;
   }
   .smalls_pad_l_half, .smalls_pad_h_half {
-    padding-left:  1rem !important;
+    padding-left:  0.75rem !important;
   }
   .smalls_pad_b_half, .smalls_pad_v_half {
     padding-bottom:  0.75rem !important;
   }
   .smalls_pad_r_half, .smalls_pad_h_half {
-    padding-right:  1rem !important;
+    padding-right:  0.75rem !important;
   }
   .smalls_pad_2 {
     padding:  3rem !important;
@@ -3955,13 +3412,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  3rem !important;
   }
   .smalls_pad_l_2, .smalls_pad_h_2 {
-    padding-left:  4rem !important;
+    padding-left:  3rem !important;
   }
   .smalls_pad_b_2, .smalls_pad_v_2 {
     padding-bottom:  3rem !important;
   }
   .smalls_pad_r_2, .smalls_pad_h_2 {
-    padding-right:  4rem !important;
+    padding-right:  3rem !important;
   }
 }
 
@@ -3988,13 +3445,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  1.5rem !important;
   }
   .bigs_space_l, .bigs_space_h {
-    margin-left:  2rem !important;
+    margin-left:  1.5rem !important;
   }
   .bigs_space_b, .bigs_space_v {
     margin-bottom:  1.5rem !important;
   }
   .bigs_space_r, .bigs_space_h {
-    margin-right:  2rem !important;
+    margin-right:  1.5rem !important;
   }
   .bigs_space_half {
     margin:  0.75rem !important;
@@ -4003,13 +3460,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  0.75rem !important;
   }
   .bigs_space_l_half, .bigs_space_h_half {
-    margin-left:  1rem !important;
+    margin-left:  0.75rem !important;
   }
   .bigs_space_b_half, .bigs_space_v_half {
     margin-bottom:  0.75rem !important;
   }
   .bigs_space_r_half, .bigs_space_h_half {
-    margin-right:  1rem !important;
+    margin-right:  0.75rem !important;
   }
   .bigs_space_neg {
     margin:  -1.5rem !important;
@@ -4018,13 +3475,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  -1.5rem !important;
   }
   .bigs_space_l_neg, .bigs_space_h_neg {
-    margin-left:  -2rem !important;
+    margin-left:  -1.5rem !important;
   }
   .bigs_space_b_neg, .bigs_space_v_neg {
     margin-bottom:  -1.5rem !important;
   }
   .bigs_space_r_neg, .bigs_space_h_neg {
-    margin-right:  -2rem !important;
+    margin-right:  -1.5rem !important;
   }
   .bigs_space_2 {
     margin:  3rem !important;
@@ -4033,13 +3490,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  3rem !important;
   }
   .bigs_space_l_2, .bigs_space_h_2 {
-    margin-left:  4rem !important;
+    margin-left:  3rem !important;
   }
   .bigs_space_b_2, .bigs_space_v_2 {
     margin-bottom:  3rem !important;
   }
   .bigs_space_r_2, .bigs_space_h_2 {
-    margin-right:  4rem !important;
+    margin-right:  3rem !important;
   }
   .bigs_pad_0 {
     padding: 0 !important;
@@ -4063,13 +3520,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  1.5rem !important;
   }
   .bigs_pad_l, .bigs_pad_h {
-    padding-left:  2rem !important;
+    padding-left:  1.5rem !important;
   }
   .bigs_pad_b, .bigs_pad_v {
     padding-bottom:  1.5rem !important;
   }
   .bigs_pad_r, .bigs_pad_h {
-    padding-right:  2rem !important;
+    padding-right:  1.5rem !important;
   }
   .bigs_pad_half {
     padding:  0.75rem !important;
@@ -4078,13 +3535,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  0.75rem !important;
   }
   .bigs_pad_l_half, .bigs_pad_h_half {
-    padding-left:  1rem !important;
+    padding-left:  0.75rem !important;
   }
   .bigs_pad_b_half, .bigs_pad_v_half {
     padding-bottom:  0.75rem !important;
   }
   .bigs_pad_r_half, .bigs_pad_h_half {
-    padding-right:  1rem !important;
+    padding-right:  0.75rem !important;
   }
   .bigs_pad_2 {
     padding:  3rem !important;
@@ -4093,13 +3550,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  3rem !important;
   }
   .bigs_pad_l_2, .bigs_pad_h_2 {
-    padding-left:  4rem !important;
+    padding-left:  3rem !important;
   }
   .bigs_pad_b_2, .bigs_pad_v_2 {
     padding-bottom:  3rem !important;
   }
   .bigs_pad_r_2, .bigs_pad_h_2 {
-    padding-right:  4rem !important;
+    padding-right:  3rem !important;
   }
 }
 
@@ -4126,13 +3583,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  1.5rem !important;
   }
   .desk_space_l, .desk_space_h {
-    margin-left:  2rem !important;
+    margin-left:  1.5rem !important;
   }
   .desk_space_b, .desk_space_v {
     margin-bottom:  1.5rem !important;
   }
   .desk_space_r, .desk_space_h {
-    margin-right:  2rem !important;
+    margin-right:  1.5rem !important;
   }
   .desk_space_half {
     margin:  0.75rem !important;
@@ -4141,13 +3598,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  0.75rem !important;
   }
   .desk_space_l_half, .desk_space_h_half {
-    margin-left:  1rem !important;
+    margin-left:  0.75rem !important;
   }
   .desk_space_b_half, .desk_space_v_half {
     margin-bottom:  0.75rem !important;
   }
   .desk_space_r_half, .desk_space_h_half {
-    margin-right:  1rem !important;
+    margin-right:  0.75rem !important;
   }
   .desk_space_neg {
     margin:  -1.5rem !important;
@@ -4156,13 +3613,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  -1.5rem !important;
   }
   .desk_space_l_neg, .desk_space_h_neg {
-    margin-left:  -2rem !important;
+    margin-left:  -1.5rem !important;
   }
   .desk_space_b_neg, .desk_space_v_neg {
     margin-bottom:  -1.5rem !important;
   }
   .desk_space_r_neg, .desk_space_h_neg {
-    margin-right:  -2rem !important;
+    margin-right:  -1.5rem !important;
   }
   .desk_space_2 {
     margin:  3rem !important;
@@ -4171,13 +3628,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-top:  3rem !important;
   }
   .desk_space_l_2, .desk_space_h_2 {
-    margin-left:  4rem !important;
+    margin-left:  3rem !important;
   }
   .desk_space_b_2, .desk_space_v_2 {
     margin-bottom:  3rem !important;
   }
   .desk_space_r_2, .desk_space_h_2 {
-    margin-right:  4rem !important;
+    margin-right:  3rem !important;
   }
   .desk_pad_0 {
     padding: 0 !important;
@@ -4201,13 +3658,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  1.5rem !important;
   }
   .desk_pad_l, .desk_pad_h {
-    padding-left:  2rem !important;
+    padding-left:  1.5rem !important;
   }
   .desk_pad_b, .desk_pad_v {
     padding-bottom:  1.5rem !important;
   }
   .desk_pad_r, .desk_pad_h {
-    padding-right:  2rem !important;
+    padding-right:  1.5rem !important;
   }
   .desk_pad_half {
     padding:  0.75rem !important;
@@ -4216,13 +3673,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  0.75rem !important;
   }
   .desk_pad_l_half, .desk_pad_h_half {
-    padding-left:  1rem !important;
+    padding-left:  0.75rem !important;
   }
   .desk_pad_b_half, .desk_pad_v_half {
     padding-bottom:  0.75rem !important;
   }
   .desk_pad_r_half, .desk_pad_h_half {
-    padding-right:  1rem !important;
+    padding-right:  0.75rem !important;
   }
   .desk_pad_2 {
     padding:  3rem !important;
@@ -4231,13 +3688,13 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     padding-top:  3rem !important;
   }
   .desk_pad_l_2, .desk_pad_h_2 {
-    padding-left:  4rem !important;
+    padding-left:  3rem !important;
   }
   .desk_pad_b_2, .desk_pad_v_2 {
     padding-bottom:  3rem !important;
   }
   .desk_pad_r_2, .desk_pad_h_2 {
-    padding-right:  4rem !important;
+    padding-right:  3rem !important;
   }
 }
 

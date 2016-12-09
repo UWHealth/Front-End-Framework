@@ -1,0 +1,378 @@
+//Global functions and variables
+@import 'tools/t-functions';
+@import 'tools/t-color-functions';
+@import 'tools/t-blendmodes';
+@import 'tools/t-easings';
+
+//Settings
+@import 'config';
+
+//Framework variables
+@import 'tools/t-variables';
+
+//Utility mixins
+@import 'tools/t-fontface';
+@import 'tools/t-media-queries';
+@import 'tools/t-mixins';
+@import 'tools/t-zindex';
+
+//Utility placeholder classes
+@import 'tools/t-alignment';
+@import 'tools/t-display';
+@import 'tools/t-widths';
+@import 'tools/t-grid-system';
+@import 'tools/t-spacing';
+@import 'tools/t-type';
+
+/* SG
+# Colors
+A good way to look over your color pallete.
+
+Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
+
+```html_example
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+```
+*/
+
+@include color-palette-output('.color-block');
+
+.color-block:before {
+	text-transform: capitalize;
+}
+
+.color-block:after {
+	letter-spacing: 0.1em;
+}
+
+
+
+/******Base Layout******/
+
+.sg-body {
+    margin: 0;
+}
+
+.sg-wrap {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    overflow: auto;
+}
+
+.sg-menu {
+    position: fixed;
+    vertical-align: top;
+    background-color: color('styleguide', darkest);
+    width: 18rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    font-size: .9em;
+}
+
+.sg-main {
+    padding-left: 18rem;
+    transition: padding .15s ease-out;
+}
+
+.sg-category {
+    padding-left: 5%;
+    padding-right: 5%;
+    overflow: auto;
+}
+
+.sg-category_wrap {
+    max-width: 58em; /* Should be wider for universal box-sizing: border-box */
+    margin: auto;
+}
+
+.sg-example {
+    width: 110%;
+    margin-left: -5%;
+}
+
+@media only screen and (max-width: 1100px) {
+    .sg-example {
+        width: 115%;
+        margin-left: -7.5%;
+    }
+
+    .sg-menu {
+        width: 10em;
+    }
+
+    .sg-main {
+        padding-left: 10em;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .sg-menu {
+        width: 0;
+    }
+
+    .sg-main {
+        padding-left: 0;
+    }
+}
+
+
+/******Menu******/
+.sg-menu {
+    transition: all .2s ease-out;
+    overflow: auto;
+}
+
+.sg_menu_list,
+.sg-menu_item {
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+.sg-menu_list {
+    list-style: none;
+    padding: 0;
+    color: rgba(29, 234, 216, 0.15); /* Used for border colors */
+}
+
+.sg-menu_section {
+    border-top: 1px solid;
+}
+
+.sg-menu_article > .sg-menu_link {
+    color: rgba(172, 209, 218, .65);
+}
+
+.sg-category-active {
+    background: rgba(142,204,210,.04);
+}
+
+/* Menu links */
+.sg-menu_link {
+    display: block;
+    padding: .75rem 1.65rem .65rem;
+    text-decoration: none;
+    color: rgb(149, 195, 206);
+}
+
+.sg-menu_link:hover,
+.sg-menu_link:focus {
+    background-color: rgba(134,230,240,.05);
+    color: rgb(172, 209, 218);
+}
+
+.sg-toc-active > .sg-menu_link {
+    background-color: rgba(134,230,240,.15);
+}
+
+.sg-menu_section > .sg-menu_link {
+    color: #0ED2C0;
+}
+
+.sg-menu_article .sg-menu_link {
+    padding-left: 2.5rem;
+    padding-right: 2rem;
+}
+
+.sg-menu_article {
+    display: none;
+}
+
+.sg-category-active .sg-menu_article,
+.sg-menu_article.sg-toc-active {
+    display: block;
+}
+
+.sg-category-active > .sg-menu_link {
+    border-left: 2px solid #18d2c0;
+    text-indent: -2px;
+}
+
+/******Project Logo******/
+
+.sg-logo {
+    font-weight: normal;
+    background-color: #18d2c0;
+    color: #fff;
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.sg-logo:hover,
+.sg-logo:focus {
+    background-color: #14E9D5;
+    color: #ECFCFB;
+}
+
+.sg-logo .sg-menu_link {
+    color: inherit;
+    padding-top: 1em;
+    padding-bottom: .75em;
+}
+
+/******Headings******/
+
+.sg-heading-section {
+    color: #88a8b3;
+    font-size: 2.8587rem;
+    line-height: 1.57414;
+    font-weight: normal;
+}
+
+.sg-heading-category {
+    color: #18d2c0;
+    font-weight: normal;
+    font-size: 1.6em;
+}
+
+.sg-heading-article {
+    color: #18d2c0;
+    font-weight: normal;
+}
+
+.sg-heading .sg-code {
+	color: #435270;
+}
+
+.sg-heading-6 {
+    font-weight: normal;
+}
+
+.sg-heading-5 + .sg-heading-6 {
+    margin-top: -1rem;
+    padding-bottom: .25rem;
+}
+
+
+/******Section, Category & Article Layout******/
+
+.sg-section:nth-child(even) {
+    padding-bottom: 1.5em;
+}
+
+/* Article spacing */
+
+.sg-section,
+.sg-article_comment,
+.sg-example {
+    margin-bottom: 1.5em;
+}
+
+.sg-category:nth-child(even) {
+    background-color: rgba(224,229,235,.3);
+}
+
+.sg-article {
+    margin-bottom: 3em;
+}
+
+.sg-category,
+.sg-article {
+    padding-top: 3em;
+}
+
+.sg-article_comment {
+    margin-top: -1.5rem;
+}
+
+.sg-article_head {
+    padding-bottom: 1.5em;
+}
+
+.sg-example {
+    background-color: rgba(255,255,255,.8);
+    border-top: 1px solid #fff;
+}
+
+.sg-example:before {
+    content: 'Example';
+    background-color: #EDF0F2;
+    color: #647582;
+    display: inline-block;
+    font-size: .9em;
+    padding: .45em .5em;
+    margin-bottom: .5em;
+    margin-left: 1px;
+    clear: both;
+}
+
+.sg-example_wrap {
+    padding: .75em 1.25em;
+    position: relative;
+}
+
+/* Clearfix */
+.sg-example_wrap:after {
+    content: " ";
+    display: table;
+    height: 0;
+    width: 100%;
+}
+
+.sg-example_wrap:after {
+    clear: both;
+}
+
+.sg-markup_wrap {
+    margin: 0;
+}
+
+.sg-markup-block {
+    border-top: 1px solid #EFF2F6;
+}
+
+.sg-codespan {
+    color: #648D9C;
+}
+
+.sg-file {
+    color: #88a8b3;
+}
+
+.sg-codeblock {
+    margin-bottom: 2em;
+}
+
+.sg-code-meta + .sg-code-meta {
+    margin-top: -1.5rem;
+}
+
+.sg-code-meta:before {
+	content: attr(data-code-meta)": ";
+	text-transform: capitalize;
+}
+
+
+/* Highlight.js Code Blocks */
+#styleguide .sg-markup_wrap,
+#styleguide .sg-markup code {
+    overflow: auto;
+}
+#styleguide .sg-markup_wrap {
+    max-height: 30em;
+}
+
+#styleguide .sg-markup code {
+    display: block;
+    word-wrap: normal;
+    white-space: pre;
+    padding: 1em;
+}
+
+/* Custom background color to match nav. Overwrites highlight.js default */
+#styleguide .hljs {
+    background-color: #40546b;
+    font-size: .9em;
+}
+#styleguide .hljs-comment {
+    color: #8aaeb7;
+}

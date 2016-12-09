@@ -7,6 +7,7 @@ var browserSync = require('browser-sync');
 var chalk       = require('gulp-util').colors;
 var cssnano     = require('gulp-cssnano');
 var include     = require('gulp-include');
+var fs          = require('fs');
 var jshint      = require('gulp-jshint');
 var kit         = require('gulp-kit');
 var notify      = require('gulp-notify');
@@ -28,7 +29,7 @@ var styleguide  = require('markdown-documentation-generator');
 var PATHS = {
 	scss: {
 		watch:	['_partials/sass/**/*.scss'],
-		main:	  ['./_partials/sass/main.scss'],
+		main:	  ['./_partials/sass/main.scss', './_partials/sass/styleguide.scss'],
 		dest:  	'./css'
 	},
 	js: {
@@ -42,7 +43,7 @@ var PATHS = {
 		dest:  	'./'
 	},
 	styleGuide: {
-		watch:  ['./css/main.css', 'styleguide/imports/*']
+		watch:  ['css/styleguide.min.css', 'styleguide/imports/*', '.styleguide']
 	},
 	browserSync: {
 		watch:  ['css/*.css', 'js/**/*.js', '*.html'],
@@ -216,49 +217,16 @@ gulp.task('kits', function(){
 //Compile style guide
 // use --no-sg argument to disable this
 gulp.task('styleGuide', function(){
-
-	styleguide.create(
-		{
-			"sgComment": "SG",
-			"exampleIdentifier": "html_example",
-			"sortCategories": true,
-			"excludeDirs": [
-				"target",
-				"node_modules",
-				".git"
-			],
-			"fileExtensions": {
-				"scss": true,
-				"sass": false,
-				"css": false,
-				"less": true,
-				"md": true
-			},
-			"templateFile": "./styleguide/imports/template.hbs",
-			"themeFile": "./styleguide/imports/theme.css",
-			"htmlOutput": "./styleguide/index.html",
-			"jsonOutput": "./styleguide/index.json",
-			"handlebarsPartials": {
-				"jquery": "./styleguide/imports/jquery.js",
-				"toc": "./styleguide/imports/toc.js"
-			},
-			"sections": {
-				"styles": "",
-				"development": "[[dev]]",
-				"Getting Started": "Setup:"
-			},
-			"highlightStyle": "tomorrow-night-blue",
-			"highlightFolder": "./node_modules/highlight.js/styles/",
-			"customVariables": {
-				"tocMenu": true,
-				"pageTitle": "FEF - Documentation"
-			},
-			"markedOptions": {
-				"gfm": true,
-				"breaks": true
-			}
+	//Grab the styleguide file and use its settings
+	fs.readFile('./.styleguide', function(err, data){
+		if(err) {
+			_error(err);
 		}
-	);
+		else {
+			styleguide.create(JSON.parse(data));
+		}
+	});
+
 });
 
 
