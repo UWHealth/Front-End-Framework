@@ -2045,12 +2045,12 @@ q:first-child {
   padding: 0;
   margin-left: -24px;
   margin-left:  -1.5rem;
-  letter-spacing: -0.43em;
+  letter-spacing: -0.45em;
 }
 
 .opera:-o-prefocus,
 .row {
-  word-spacing: -0.43em;
+  word-spacing: -0.45em;
 }
 
 .column {

@@ -68,7 +68,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-menu {
-    position: fixed;
+    position: absolute;
     vertical-align: top;
     background-color: color('styleguide', darkest);
     width: 18rem;
