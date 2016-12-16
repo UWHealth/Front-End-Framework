@@ -1,23 +1,9 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{customVariables.pageTitle}}</title>
-    <style>
-    {{> theme}}
-    {{> highlight}}
-    </style>
-    <link rel="stylesheet" href="../css/main.min.css" media="screen">
-</head>
+<style>{{> theme}}{{> highlight}}</style>
+
 <script>{{> jquery}}</script>
 <script src="../js/plugins.min.js"></script>
-<body class="sg-body" id="styleguide">{{!-- Required ID --}}
+
+<div class="sg-body" id="styleguide">{{!-- Required ID --}}
 
 {{!--Menu--}}
 <nav id="sg-menu" class="sg-menu">
@@ -90,7 +76,8 @@
 </main>
 
 <script>
-    {{> toc}};
+{{> toc}};
+
 
     $('#sg-menu_wrap').toc({
         'selectors': '.sg-heading-section,.sg-heading-category,.sg-heading-article', //elements to use as headings
@@ -240,18 +227,25 @@
 
     })(this);
 
-
-
-    var $w = $(window).scroll($.debounce(5, false, function(){
+    function checkMenuOffset($window){
         var targetOffset = $("#sg-main").offset().top;
-        if ( $w.scrollTop() > targetOffset ) {
+
+        if ( $window.scrollTop() > targetOffset ) {
             $('#sg-menu').css({'position':'fixed'});
         } else {
             $('#sg-menu').css({'position':'absolute'});
         }
+    }
+
+
+    var $w = $(window).scroll($.debounce(5, false, function(){
+        checkMenuOffset($w);
     }));
+
+    $(function(){
+        checkMenuOffset($w);
+    });
 
 </script>
 
-</body>
-</html>
+</div>

@@ -15,8 +15,8 @@
 		"md": true
 	},
 	"templateFile": "./styleguide/imports/template.hbs",
-	"themeFile": "./css/styleguide.css",
-	"htmlOutput": "./styleguide/index.html",
+	"themeFile": "./css/styleguide.min.css",
+	"htmlOutput": "./_partials/kits/_styleguide.kit",
 	"jsonOutput": "./styleguide/index.json",
 	"handlebarsPartials": {
 		"jquery": "./styleguide/imports/jquery.js",

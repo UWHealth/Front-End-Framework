@@ -1424,7 +1424,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(10) {
-  background-color: #95C3CE;
+  background-color: #CADDE2;
   color: #000;
 }
 
@@ -1433,7 +1433,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(10):after {
-  content: "#95C3CE";
+  content: "#CADDE2";
 }
 
 .color-block:nth-child(11) {
@@ -1502,7 +1502,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(16) {
-  background-color: #D1F5ED;
+  background-color: #F5D1DD;
   color: #000;
 }
 
@@ -1511,7 +1511,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(16):after {
-  content: "#D1F5ED";
+  content: "#F5D1DD";
 }
 
 .color-block:nth-child(17) {
@@ -1580,8 +1580,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(22) {
-  background-color: #29DECE;
-  color: #000;
+  background-color: #f60255;
+  color: #fff;
 }
 
 .color-block:nth-child(22):before {
@@ -1589,7 +1589,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(22):after {
-  content: "#29DECE";
+  content: "#f60255";
 }
 
 .color-block:nth-child(23) {
@@ -1658,7 +1658,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(28) {
-  background-color: #475665;
+  background-color: #175CA2;
   color: #fff;
 }
 
@@ -1667,7 +1667,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(28):after {
-  content: "#475665";
+  content: "#175CA2";
 }
 
 .color-block:nth-child(29) {
@@ -1736,7 +1736,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(34) {
-  background-color: #314958;
+  background-color: #114a84;
   color: #fff;
 }
 
@@ -1745,7 +1745,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(34):after {
-  content: "#314958";
+  content: "#114a84";
 }
 
 .color-block:nth-child(35) {
@@ -1814,7 +1814,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(40) {
-  background-color: #12334A;
+  background-color: #081D33;
   color: #fff;
 }
 
@@ -1823,7 +1823,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(40):after {
-  content: "#12334A";
+  content: "#081D33";
 }
 
 .color-block:nth-child(41) {
@@ -1897,7 +1897,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .sg-menu {
   position: absolute;
   vertical-align: top;
-  background-color: #12334A;
+  background-color: #081D33;
   width: 18rem;
   top: 0;
   left: 0;
@@ -1908,7 +1908,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .sg-main {
   padding-left: 18rem;
   -webkit-transition: padding .15s ease-out;
-          transition: padding .15s ease-out;
+  transition: padding .15s ease-out;
 }
 
 .sg-category {
@@ -1953,7 +1953,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 /******Menu******/
 .sg-menu {
   -webkit-transition: all .2s ease-out;
-          transition: all .2s ease-out;
+  transition: all .2s ease-out;
   overflow: auto;
 }
 
@@ -1967,7 +1967,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .sg-menu_list {
   list-style: none;
   padding: 0;
-  color: rgba(29, 234, 216, 0.15);
+  color: rgba(245, 209, 221, 0.1);
   /* Used for border colors */
 }
 
@@ -1976,11 +1976,11 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-menu_article > .sg-menu_link {
-  color: rgba(172, 209, 218, 0.65);
+  color: rgba(202, 221, 226, 0.65);
 }
 
 .sg-category-active {
-  background: rgba(142, 204, 210, 0.04);
+  background: rgba(94, 131, 158, 0.04);
 }
 
 /* Menu links */
@@ -1988,21 +1988,21 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   display: block;
   padding: .75rem 1.65rem .65rem;
   text-decoration: none;
-  color: #95c3ce;
+  color: #CADDE2;
 }
 
 .sg-menu_link:hover,
 .sg-menu_link:focus {
-  background-color: rgba(134, 230, 240, 0.05);
-  color: #acd1da;
+  background-color: rgba(202, 221, 226, 0.05);
+  color: #CADDE2;
 }
 
 .sg-toc-active > .sg-menu_link {
-  background-color: rgba(134, 230, 240, 0.15);
+  background-color: rgba(245, 209, 221, 0.1);
 }
 
 .sg-menu_section > .sg-menu_link {
-  color: #0ED2C0;
+  color: #f60255;
 }
 
 .sg-menu_article .sg-menu_link {
@@ -2020,14 +2020,14 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-category-active > .sg-menu_link {
-  border-left: 2px solid #18d2c0;
+  border-left: 2px solid #f60255;
   text-indent: -2px;
 }
 
 /******Project Logo******/
 .sg-logo {
   font-weight: normal;
-  background-color: #18d2c0;
+  background-color: #f60255;
   color: #fff;
   margin: 0;
   font-size: 1.5em;
@@ -2035,8 +2035,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .sg-logo:hover,
 .sg-logo:focus {
-  background-color: #14E9D5;
-  color: #ECFCFB;
+  background-color: #fd246e;
 }
 
 .sg-logo .sg-menu_link {
@@ -2047,20 +2046,20 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 /******Headings******/
 .sg-heading-section {
-  color: #88a8b3;
+  color: #5E839E;
   font-size: 2.8587rem;
   line-height: 1.57414;
   font-weight: normal;
 }
 
 .sg-heading-category {
-  color: #18d2c0;
+  color: #175CA2;
   font-weight: normal;
   font-size: 1.6em;
 }
 
 .sg-heading-article {
-  color: #18d2c0;
+  color: #175CA2;
   font-weight: normal;
 }
 
@@ -2192,7 +2191,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 /* Custom background color to match nav. Overwrites highlight.js default */
 #styleguide .hljs {
-  background-color: #40546b;
+  background-color: #40476B;
   font-size: .9em;
 }
 

@@ -37,47 +37,6 @@
         Custom Scripts
 ============================-->
         <script>
-           $(function() {
-               var test_height = function(element){
-                   var el_height = element.scrollHeight || element[0].scrollHeight;
-                   return el_height;
-               };
-               var test_height_parent = function(element){
-                   var el_height = element.parentNode.scrollHeight;
-                   return el_height;
-               };
-
-               $("#tabs_test1").tabbed({
-                   wrapper: {
-                       class_string: "tabbed"
-                   },
-                   tabs: {
-                       begin: function(elements) {
-                           var $target = $(elements[1]);
-                           if(! $target.is(":visible")) {
-							   $target.siblings('.tab_active').velocity('slideUp', {opacity: [0, 'easeOutExpo', 1]}, 30);
-                               $target.velocity('slideDown', {opacity: [1, 0]}, 30);
-						   }else {
-							   $target.velocity('slideUp', {opacity: [0, 'easeInExpo', 1]}, 30);
-						   }
-                       },
-                       toggle: false,
-                       animation: {
-                           duration: 50
-                       }
-                   }
-			   }, function(scope, parents){
-				   parents.find('.tab_active').velocity('slideDown', 20);
-			   });
-
-           //Helper for hiding/showing baseline-grid
-               $('#js_baseline_toggle').click(function(e){
-                   e.preventDefault();
-                   var toggles = $(this).attr("id");
-                   $('body').toggleClass('baseline-on');
-                   e.preventDefault();
-               });
-           });
 
        </script>
 </footer>

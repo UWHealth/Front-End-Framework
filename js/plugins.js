@@ -1,4 +1,5 @@
 "use strict";
+
 //Add selector based on jQuery data
 // e.g. $('element').data('foo', 'whatever')
 // $('[foo]')
@@ -14,7 +15,6 @@
         return _dataFn.apply(this, arguments);
     };
 })(jQuery);
-
 
 /* VelocityJS.org (1.2.1). (C) 2014 Julian Shapiro. MIT @license: en.wikipedia.org/wiki/MIT_License */
 
@@ -3885,7 +3885,6 @@ return function (global, window, document, undefined) {
 Velocity, however, doesn't make this distinction. Thus, converting to or from the % unit with these subproperties
 will produce an inaccurate conversion value. The same issue exists with the cx/cy attributes of SVG circles and ellipses. */
 
-
 /**********************
    Velocity UI Pack
 **********************/
@@ -4643,7 +4642,6 @@ return function (global, window, document, undefined) {
     };
 }((window.jQuery || window.Zepto || window), window, document);
 }));
-
 
 /*
      _ _      _       _
@@ -6344,7 +6342,6 @@ return function (global, window, document, undefined) {
 
 }));
 
-
 /**
  * Copyright 2016 Craig Campbell
  *
@@ -7389,7 +7386,6 @@ return function (global, window, document, undefined) {
     }
 }) (typeof window !== 'undefined' ? window : null, typeof  window !== 'undefined' ? document : null);
 
-
 /*
 
 StackBlur - a fast almost Gaussian Blur For Canvas
@@ -8002,7 +7998,6 @@ function BlurStack()
 	this.next = null;
 }
 
-
 //= include "vendor/imageblur.js"
 //Responsive tables
 // http://zurb.com/playground/projects/responsive-tables/index.html
@@ -8046,7 +8041,6 @@ function BlurStack()
 
 })(jQuery);
 
-
 // Lighten or darken a color function
 // Adapted from: http://css-tricks.com/snippets/javascript/lighten-darken-color/
 // Usage:
@@ -8082,7 +8076,6 @@ var change_color = function(col, amt) {
     return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
 
 };
-
 
 !function(root, factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
@@ -8605,7 +8598,6 @@ var change_color = function(col, amt) {
     $.fn.tabbed.defaults = default_options;
 }); // jshint ignore:line
 
-
 //General toggle functions
 
 ;(function($){
@@ -8710,7 +8702,6 @@ var change_color = function(col, amt) {
 }(jQuery));
 
 
-
 // Avoid `console` errors in browsers that lack a console.
 
 (function() {
@@ -8747,3 +8738,14 @@ var change_color = function(col, amt) {
 }());
 
 // Place any jQuery/helper plugins in here.
+
+$(function() {
+
+//Helper for hiding/showing baseline-grid
+    $('#js_baseline_toggle').click(function(e){
+        e.preventDefault();
+        var toggles = $(this).attr("id");
+        $('body').toggleClass('baseline-on');
+        e.preventDefault();
+    });
+});

@@ -70,7 +70,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .sg-menu {
     position: absolute;
     vertical-align: top;
-    background-color: color('styleguide', darkest);
+    background-color: color(styleguide, darkest);
     width: 18rem;
     top: 0;
     left: 0;
@@ -141,7 +141,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 .sg-menu_list {
     list-style: none;
     padding: 0;
-    color: rgba(29, 234, 216, 0.15); /* Used for border colors */
+    color: rgba(color(styleguide, lighter), 0.1); /* Used for border colors */
 }
 
 .sg-menu_section {
@@ -149,11 +149,11 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-menu_article > .sg-menu_link {
-    color: rgba(172, 209, 218, .65);
+    color: rgba(color(styleguide, light), .65);
 }
 
 .sg-category-active {
-    background: rgba(142,204,210,.04);
+    background: rgba(color(styleguide), .04);
 }
 
 /* Menu links */
@@ -161,21 +161,21 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     display: block;
     padding: .75rem 1.65rem .65rem;
     text-decoration: none;
-    color: rgb(149, 195, 206);
+    color: color(styleguide, light);
 }
 
 .sg-menu_link:hover,
 .sg-menu_link:focus {
-    background-color: rgba(134,230,240,.05);
-    color: rgb(172, 209, 218);
+    background-color: rgba(color(styleguide, light), .05);
+    color: color(styleguide, light);
 }
 
 .sg-toc-active > .sg-menu_link {
-    background-color: rgba(134,230,240,.15);
+    background-color: rgba(color(styleguide, lighter), .1);
 }
 
 .sg-menu_section > .sg-menu_link {
-    color: #0ED2C0;
+    color: color(styleguide, lightest);
 }
 
 .sg-menu_article .sg-menu_link {
@@ -193,7 +193,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-category-active > .sg-menu_link {
-    border-left: 2px solid #18d2c0;
+    border-left: 2px solid color(styleguide, lightest);
     text-indent: -2px;
 }
 
@@ -201,7 +201,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .sg-logo {
     font-weight: normal;
-    background-color: #18d2c0;
+    background-color: color(styleguide, lightest);
     color: #fff;
     margin: 0;
     font-size: 1.5em;
@@ -209,8 +209,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .sg-logo:hover,
 .sg-logo:focus {
-    background-color: #14E9D5;
-    color: #ECFCFB;
+    background-color: lighten(color(styleguide, lightest), 8%);
 }
 
 .sg-logo .sg-menu_link {
@@ -222,20 +221,20 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 /******Headings******/
 
 .sg-heading-section {
-    color: #88a8b3;
+    color: color(styleguide);
     font-size: 2.8587rem;
     line-height: 1.57414;
     font-weight: normal;
 }
 
 .sg-heading-category {
-    color: #18d2c0;
+    color: color(styleguide, dark);
     font-weight: normal;
     font-size: 1.6em;
 }
 
 .sg-heading-article {
-    color: #18d2c0;
+    color: color(styleguide, dark);
     font-weight: normal;
 }
 
@@ -370,7 +369,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 /* Custom background color to match nav. Overwrites highlight.js default */
 #styleguide .hljs {
-    background-color: #40546b;
+    background-color: #40476B;
     font-size: .9em;
 }
 #styleguide .hljs-comment {
