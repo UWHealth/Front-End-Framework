@@ -5,7 +5,9 @@ This file is exclusively used for the style guide.
 
 
 <SG>
-# Setup:Getting Started/Introduction
+# Setup:Getting Started
+
+@priority 1
 
 ## A number of front-end technologies to get any e-Health website or application off the ground.
 </SG>
@@ -68,6 +70,8 @@ Sometimes meta information that does not fit logically into a scss file is neces
 
 <SG>
 # Setup:Getting Started/Gulp arguments
+
+@priority 1000
 
 Running `gulp` by itself will compile your Sass and concatenate your Javascript, but you may need some additional build steps for a complete workflow. Our gulp file accepts arguments in the form of `gulp --argument1 --argument2` to turn certain tasks on and off.
 

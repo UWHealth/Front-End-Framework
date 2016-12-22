@@ -8,7 +8,7 @@
 {{!--Menu--}}
 <nav id="sg-menu" class="sg-menu">
     <h1 class="sg-logo">
-        <a href="#" class="sg-menu_link js-menu_showall">Frontend Framework</a>
+        <a href="#styleguide" class="sg-menu_link js-menu_showall">Frontend Framework</a>
     </h1>
     <div id="sg-menu_wrap" class="txt-small"></div>
 </nav>
@@ -25,13 +25,13 @@
         {{#each this}} {{!--Looping through Categories --}}
             <div class="sg-category">
             <div class="sg-category_wrap">
-            {{#if category}}
+            {{#unless articles.[0].section.gettingStarted}}{{#if category}}
                 <header class="sg-category_head" data-sg-section="{{sanitize category}}" {{#unless articles.[1]}}id="{{sanitize articles.[0].id}}"{{/unless}}>
-                    <h2 class="sg-heading-category">
+                    <h2 class="sg-heading-category{{#unless articles.[1]}}sg-heading sg-heading-article{{/unless}}">
                         {{~category~}}
                     </h2>
                 </header>
-            {{~/if}}
+            {{~/if}}{{/unless}}
 
             {{~#each articles}}
                 <article class="sg-article" {{#if ../articles.[1]}}id="{{sanitize id}}"{{/if}} data-sg-section="{{category}}" data-sg-heading="{{heading}}">

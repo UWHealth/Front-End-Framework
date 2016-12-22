@@ -19,14 +19,14 @@
 	"htmlOutput": "./_partials/kits/_styleguide.kit",
 	"jsonOutput": "./styleguide/index.json",
 	"handlebarsPartials": {
-		"jquery": "./styleguide/imports/jquery.js",
+        "jquery": "./styleguide/imports/jquery.js",
 		"toc": "./styleguide/imports/toc.js"
 	},
-  "sections": {
-    "styles": "",
-    "development": "[[dev]]",
-		"getting started": "Setup:"
-  },
+    "sections": {
+        "getting started": "Setup:",
+        "styles": "",
+        "development": "[[dev]]"
+    },
 	"highlightStyle": "rainbow",
 	"highlightFolder": "./node_modules/highlight.js/styles/",
 	"customVariables": {

@@ -34,7 +34,7 @@
     "gulp-util": "^3.0.5",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.0.1",
-    "markdown-documentation-generator": "^2.3.2",
+    "markdown-documentation-generator": "^2.4.0",
     "node-kit": "^0.8.1",
     "yargs": "^6.5.0"
   }

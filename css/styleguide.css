@@ -1285,10 +1285,7 @@ Output REM values using the typographic grid. This is the prefered method of add
 
 */
 /* SG
-# Colors
-A good way to look over your color pallete.
-
-Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
+# Color Palette
 
 ```html_example
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
@@ -1357,31 +1354,31 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(5) {
-  background-color: #bf0516;
+  background-color: #081D33;
   color: #fff;
   padding: 2% 1% 2.5%;
 }
 
 .color-block:nth-child(5):before {
-  content: "accent";
+  content: "styleguide darkest";
 }
 
 .color-block:nth-child(5):after {
-  content: "#bf0516";
+  content: "#081D33";
 }
 
 .color-block:nth-child(6) {
-  background-color: #bada55;
-  color: #000;
+  background-color: #390207;
+  color: #fff;
   padding: 2% 1% 2.5%;
 }
 
 .color-block:nth-child(6):before {
-  content: "success";
+  content: "accent darkest";
 }
 
 .color-block:nth-child(6):after {
-  content: "#bada55";
+  content: "#390207";
 }
 
 .color-block:nth-child(7) {
@@ -1437,29 +1434,29 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(11) {
-  background-color: #df5061;
+  background-color: #bf0516;
   color: #fff;
 }
 
 .color-block:nth-child(11):before {
-  content: "accent light";
+  content: "accent";
 }
 
 .color-block:nth-child(11):after {
-  content: "#df5061";
+  content: "#bf0516";
 }
 
 .color-block:nth-child(12) {
-  background-color: #ddeda0;
+  background-color: #bada55;
   color: #000;
 }
 
 .color-block:nth-child(12):before {
-  content: "success light";
+  content: "success";
 }
 
 .color-block:nth-child(12):after {
-  content: "#ddeda0";
+  content: "#bada55";
 }
 
 .color-block:nth-child(13) {
@@ -1515,29 +1512,29 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(17) {
-  background-color: #e594a2;
+  background-color: #df5061;
   color: #fff;
 }
 
 .color-block:nth-child(17):before {
-  content: "accent lighter";
+  content: "accent light";
 }
 
 .color-block:nth-child(17):after {
-  content: "#e594a2";
+  content: "#df5061";
 }
 
 .color-block:nth-child(18) {
-  background-color: #e3f0bb;
+  background-color: #ddeda0;
   color: #000;
 }
 
 .color-block:nth-child(18):before {
-  content: "success lighter";
+  content: "success light";
 }
 
 .color-block:nth-child(18):after {
-  content: "#e3f0bb";
+  content: "#ddeda0";
 }
 
 .color-block:nth-child(19) {
@@ -1580,8 +1577,8 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(22) {
-  background-color: #f60255;
-  color: #fff;
+  background-color: #E0ECF0;
+  color: #000;
 }
 
 .color-block:nth-child(22):before {
@@ -1589,33 +1586,33 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(22):after {
-  content: "#f60255";
+  content: "#E0ECF0";
 }
 
 .color-block:nth-child(23) {
-  background-color: #f2cdd0;
-  color: #000;
+  background-color: #e594a2;
+  color: #fff;
 }
 
 .color-block:nth-child(23):before {
-  content: "accent lightest";
+  content: "accent lighter";
 }
 
 .color-block:nth-child(23):after {
-  content: "#f2cdd0";
+  content: "#e594a2";
 }
 
 .color-block:nth-child(24) {
-  background-color: #f1f8dd;
+  background-color: #e3f0bb;
   color: #000;
 }
 
 .color-block:nth-child(24):before {
-  content: "success lightest";
+  content: "success lighter";
 }
 
 .color-block:nth-child(24):after {
-  content: "#f1f8dd";
+  content: "#e3f0bb";
 }
 
 .color-block:nth-child(25) {
@@ -1658,42 +1655,42 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(28) {
-  background-color: #175CA2;
+  background-color: #f60255;
   color: #fff;
 }
 
 .color-block:nth-child(28):before {
-  content: "styleguide dark";
+  content: "styleguide highlight";
 }
 
 .color-block:nth-child(28):after {
-  content: "#175CA2";
+  content: "#f60255";
 }
 
 .color-block:nth-child(29) {
-  background-color: #a60413;
-  color: #fff;
+  background-color: #f2cdd0;
+  color: #000;
 }
 
 .color-block:nth-child(29):before {
-  content: "accent dark";
+  content: "accent lightest";
 }
 
 .color-block:nth-child(29):after {
-  content: "#a60413";
+  content: "#f2cdd0";
 }
 
 .color-block:nth-child(30) {
-  background-color: #b2d540;
+  background-color: #f1f8dd;
   color: #000;
 }
 
 .color-block:nth-child(30):before {
-  content: "success dark";
+  content: "success lightest";
 }
 
 .color-block:nth-child(30):after {
-  content: "#b2d540";
+  content: "#f1f8dd";
 }
 
 .color-block:nth-child(31) {
@@ -1736,42 +1733,42 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(34) {
-  background-color: #114a84;
+  background-color: #175CA2;
   color: #fff;
 }
 
 .color-block:nth-child(34):before {
-  content: "styleguide darker";
+  content: "styleguide dark";
 }
 
 .color-block:nth-child(34):after {
-  content: "#114a84";
+  content: "#175CA2";
 }
 
 .color-block:nth-child(35) {
-  background-color: #77030d;
+  background-color: #a60413;
   color: #fff;
 }
 
 .color-block:nth-child(35):before {
-  content: "accent darker";
+  content: "accent dark";
 }
 
 .color-block:nth-child(35):after {
-  content: "#77030d";
+  content: "#a60413";
 }
 
 .color-block:nth-child(36) {
-  background-color: #729833;
-  color: #fff;
+  background-color: #b2d540;
+  color: #000;
 }
 
 .color-block:nth-child(36):before {
-  content: "success darker";
+  content: "success dark";
 }
 
 .color-block:nth-child(36):after {
-  content: "#729833";
+  content: "#b2d540";
 }
 
 .color-block:nth-child(37) {
@@ -1814,42 +1811,55 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .color-block:nth-child(40) {
-  background-color: #081D33;
+  background-color: #114a84;
   color: #fff;
 }
 
 .color-block:nth-child(40):before {
-  content: "styleguide darkest";
+  content: "styleguide darker";
 }
 
 .color-block:nth-child(40):after {
-  content: "#081D33";
+  content: "#114a84";
 }
 
 .color-block:nth-child(41) {
-  background-color: #390207;
+  background-color: #77030d;
   color: #fff;
 }
 
 .color-block:nth-child(41):before {
-  content: "accent darkest";
+  content: "accent darker";
 }
 
 .color-block:nth-child(41):after {
-  content: "#390207";
+  content: "#77030d";
 }
 
 .color-block:nth-child(42) {
-  background-color: #38521a;
+  background-color: #729833;
   color: #fff;
 }
 
 .color-block:nth-child(42):before {
-  content: "success darkest";
+  content: "success darker";
 }
 
 .color-block:nth-child(42):after {
-  content: "#38521a";
+  content: "#729833";
+}
+
+.color-block:nth-child(43) {
+  background-color: #0d497b;
+  color: #fff;
+}
+
+.color-block:nth-child(43):before {
+  content: "links";
+}
+
+.color-block:nth-child(43):after {
+  content: "#0d497b";
 }
 
 .color-block {
@@ -2088,8 +2098,20 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
   margin-bottom: 1.5em;
 }
 
-.sg-category:nth-child(even) {
+.sg-category:nth-child(odd) {
   background-color: rgba(224, 229, 235, 0.3);
+}
+
+.sg-category:nth-child(odd):last-child {
+  margin-bottom: -48px;
+  margin-bottom:  -3rem;
+  padding-bottom: 72px;
+  padding-bottom:  4.5rem;
+}
+
+.sg-category:first-child {
+  background-color: transparent;
+  border-top: 1px solid #e0e5eb;
 }
 
 .sg-article {
@@ -2148,15 +2170,15 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-markup-block {
-  border-top: 1px solid #EFF2F6;
+  border-top: 1px solid #E0ECF0;
 }
 
 .sg-codespan {
-  color: #648D9C;
+  color: #5E839E;
 }
 
 .sg-file {
-  color: #88a8b3;
+  color: #5E839E;
 }
 
 .sg-codeblock {

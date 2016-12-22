@@ -25,10 +25,7 @@
 @import 'tools/t-type';
 
 /* SG
-# Colors
-A good way to look over your color pallete.
-
-Include a bunch of elements with `class="color-blocks"`, and the css will do the rest. Requires `@color-palette-output()` to generate. Uses `$$colors` map.
+# Color Palette
 
 ```html_example
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
@@ -40,7 +37,6 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 <div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
 ```
 */
-
 @include color-palette-output('.color-block');
 
 .color-block:before {
@@ -175,7 +171,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-menu_section > .sg-menu_link {
-    color: color(styleguide, lightest);
+    color: color(styleguide, highlight);
 }
 
 .sg-menu_article .sg-menu_link {
@@ -193,7 +189,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-category-active > .sg-menu_link {
-    border-left: 2px solid color(styleguide, lightest);
+    border-left: 2px solid color(styleguide, highlight);
     text-indent: -2px;
 }
 
@@ -201,7 +197,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .sg-logo {
     font-weight: normal;
-    background-color: color(styleguide, lightest);
+    background-color: color(styleguide, highlight);
     color: #fff;
     margin: 0;
     font-size: 1.5em;
@@ -209,7 +205,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 
 .sg-logo:hover,
 .sg-logo:focus {
-    background-color: lighten(color(styleguide, lightest), 8%);
+    background-color: lighten(color(styleguide, highlight), 8%);
 }
 
 .sg-logo .sg-menu_link {
@@ -266,8 +262,18 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
     margin-bottom: 1.5em;
 }
 
-.sg-category:nth-child(even) {
-    background-color: rgba(224,229,235,.3);
+.sg-category:nth-child(odd) {
+	background-color: rgba(224,229,235,.3);
+}
+
+.sg-category:nth-child(odd):last-child {
+	@include type-space(margin-bottom, -2);
+    @include type-space(padding-bottom, 3);
+}
+
+.sg-category:first-child {
+	background-color: transparent;
+	border-top: 1px solid rgb(224,229,235);
 }
 
 .sg-article {
@@ -288,7 +294,7 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-example {
-    background-color: rgba(255,255,255,.8);
+    background-color: rgba(#fff,.8);
     border-top: 1px solid #fff;
 }
 
@@ -326,15 +332,15 @@ Include a bunch of elements with `class="color-blocks"`, and the css will do the
 }
 
 .sg-markup-block {
-    border-top: 1px solid #EFF2F6;
+    border-top: 1px solid color(styleguide, lightest);
 }
 
 .sg-codespan {
-    color: #648D9C;
+    color: color(styleguide);
 }
 
 .sg-file {
-    color: #88a8b3;
+    color: color(styleguide);
 }
 
 .sg-codeblock {
