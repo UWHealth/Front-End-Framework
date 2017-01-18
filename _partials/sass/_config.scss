@@ -127,13 +127,72 @@ $font-include-eot: 		true;
 
 
 /* SG
-# Config/Grid Settings [[dev]]
-
-@file _config.scss
+# Config/Responsive Settings [[dev]]
 
 ##### `$$max-site-width`
 ###### Pixel value
 Maximum desktop width for the site wrapper.
+_This value is also useful as a breakpoint, since this is the point at which your site is going to squish._
+
+##### `$$max-content-width`
+###### Pixel value
+Maximum width for content set at the `$$base-font-size`. This should be set to whatever creates the ideal line-length for standard content (Usually 45-75 characters).
+_Also useful as a breakpoint, since it is typical that your viewport is now smaller than your ideal line-length._
+
+##### `$$max-wide-content-width`
+###### Pixel value
+Similar to `$$max-content-width`, but for type that might be a little larger, but smaller than your maximum site width(`$$max-site-width`). Useful for hero-style text treatments and content blocks that need a bit of constraint.
+
+*/
+
+$max-site-width:         1360px;
+
+$max-content-width: 	 690px;
+
+$max-wide-content-width: 910px;
+
+
+/* SG
+# Config/Breakpoints [[dev]]
+
+##### `$$breakpoints`
+###### Map (`breakpoint-name: 'breakpoint-value'`)
+Sets up variables for media-queries. Used in `@media-query()`.
+
+_Note: It's usually good to convert your pixel values to ems to ensure best browser behavior. Can be accomplished via `#{ems(10px)}`_
+
+**Example**
+```scss
+$breakpoints: (
+  'small':'(min-width: 320px)',
+  'bigs':'(min-width: 850px)'
+);
+```
+*/
+
+$breakpoints: (
+	//Mostly phones
+    'smalls':'(max-width:#{ems($max-wide-content-width)})',
+
+    //Small Phones
+    'small':'(max-width: #{ems($max-content-width)})',
+
+    //Large (Modern) phones/phablets
+    'smallish': '(min-width: #{ems($max-content-width+1px)}) and (max-width: #{ems($max-wide-content-width)})',
+
+    //Tablets, Desktops and larger
+	'bigs': '(min-width: #{ems($max-wide-content-width+1px)})',
+
+    //Mostly Tablets and small laptops. Overrides Bigs
+    'lap': '(min-width: #{ems($max-wide-content-width + 1px)}) and (max-width: #{ems($max-site-width)})',
+
+    //Large Tablets and Desktops. Overrides Bigs.
+    'desk': '(min-width: #{ems($max-site-width)})'
+);
+
+
+/* SG
+# Config/Grid Settings [[dev]]
 
 ##### `$$grid-columns`
 ###### Number
@@ -150,73 +209,55 @@ If set to false, actual grid classes will be output to CSS.
 ##### `$$grid-push`, `$$grid-pull`
 ###### Boolean
 Determines whether to include extra grid classes for positional grid modifiers.
+*/
+
+$grid-columns:           13;
+$grid-gutter:            32px;
+$grid-silent-classes:	 true;
+$grid-push:              true;
+$grid-pull:              true;
+
+
+/* SG
+##### `$$grid-inline-block`
+###### Boolean
+Create grids using an inline-block-based layout.
 
 ##### `$$grid-markup-fix`
 ###### Boolean
-If set to `true`, html must have no white space (or comments) between grid items. Almost always set to `false`.
+**Only applicable to inline-block grid.** If set to `true`, html must have no white space (or comments) between grid items. Almost always set to `false`.
+
+##### `$$grid-letter-space-fix`
+###### em value
+**Only applicable to inline-block grid.** If `$$grid-markup-fix` is not used, then a negative `em` value must be set to remove whitespace between columns. Usually, `-0.45em` works, but this should be adjusted based on the natural width of the font-family set on the body element.
+
+##### `$$grid-flex`
+###### Boolean
+If set to `true`, the grid will add markup for a flexbox-based layout. Can be combined with an inline-block-based grid to provide an older browser fallback.
 
 ##### `$$grid-floats`
 ###### Boolean
-If set to `true`, the grid uses floats instead of inline-block for layout.
+If set to `true`, the grid uses floats-based layout. **This is usually not recommended since inline-block and flexbox are much are more flexible.**
+*/
 
+$grid-inline-block:      true;
+$grid-markup-fix:        false;
+$grid-letter-space-fix:  -0.45em;
+
+$grid-flex:              true;
+$grid-floats:            false;
+
+
+/* SG
 ##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
 ###### List (string)
 Determines what classes (widths, pushes, pulls) get generated at `$$breakpoints`. The list's order determines the output order. This is useful if you want one breakpoint to override another.
-
 */
-
-$max-site-width:        1500px;
-
-$grid-columns:          13;
-$grid-gutter:           32px;
-$grid-silent-classes:	true;
-$grid-push:             true;
-$grid-pull:             true;
-
-$grid-markup-fix:        false;
-$grid-letter-space-fix:  -0.45em;
-$grid-floats:            false;
 
 $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
-
-/* SG
-# Config/General Settings [[dev]]
-
-@file _config.scss
-
-##### `$$breakpoints`
-###### Map (`breakpoint-name: 'breakpoint-value'`)
-Sets up variables for media-queries. Used in `@media-query()`.
-
-**Example**
-```scss
-$breakpoints: (
-  'small':'(min-width: 320px)',
-  'bigs':'(min-width: 850px)'
-);
-```
-*/
-
-$breakpoints: (
-	// Everything up to 640px. Mostly phones.
-    'smalls':'(max-width:640px)',
-	// Up to 480px. Overrides Smalls. Small Phones, including iPhone.
-    'small':'(max-width: 480px)',
-	// Between 480 and 640px. Overrides Smalls. Large phones/phablets.
-    'smallish': '(min-width: 481px) and (max-width: 640px)',
-    // Everything larger than 640px. Tablets and Desktops.
-	'bigs': '(min-width: 641px)',
-	// 640-940px. Overrides Bigs. Mostly Tablets and small laptops.
-    'lap': '(min-width: 641px) and (max-width: 940px)',
-	// 940 and Up. Overrides Bigs. Large Tablets and Desktops.
-    'desk': '(min-width: 941px)'
-);
-
-/* SG
-# Config/General Settings [[dev]]
 
 @file _config.scss
 

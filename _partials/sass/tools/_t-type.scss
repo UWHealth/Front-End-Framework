@@ -98,39 +98,40 @@ Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fall
 // REM generator
 // Used to create a property with a rem value and PX fallback
 @mixin px-to-rems($property, $sizes, $important: false, $base-font: $base-font-size) {
-	$important_val: '';
-	$rem-sizes: (null);
-	$px-sizes: (null);
-
-	@if $important {
-		$important_val: ' !important';
-	}
+	$important_val: if($important, ' !important', '');
+	$rem-sizes: ();
+	$px-sizes: ();
+    $is-zero: true;
 
 	//Loop through sizes, combining them into single lists
 	@each $size in $sizes {
-		@if $size == '' {
+		@if $size == '' or $size == null {
 			$size: null;
 			$px-sizes: join($px-sizes, $size, space);
 		}
-		@else if $size == auto {
+		@else if $size == "auto" or $size == "normal" {
 			$px-sizes: join($px-sizes, $size, space);
 		}
         @else {
-
 			@if $size == 0px {
 				$size: 0; //optimization
 			}
+            @else {
+                $is-zero: false;
+            }
 
 			$px-sizes: join($px-sizes, $size, space);
 			$size: if($size, px-to-rems($size, $base-font), '');
 		}
+
 		$rem-sizes: join($rem-sizes, $size, space);
 	}
 
-	@if $rem-px-fallback {
+    @if $is-zero == false and $rem-px-fallback {
 		#{$property}:#{$px-sizes}#{$important_val};
-	}
-	#{$property}:#{$rem-sizes}#{$important_val};
+    }
+
+    #{$property}:#{$rem-sizes}#{$important_val};
 
 }
 
@@ -156,7 +157,8 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless o
 @mixin type-font-size (
 		$font-size,
 		$line-height: "auto",
-		$font-base: $base-font-size
+		$font-base: $base-font-size,
+        $important: false
 ) {
 	//Create REM-based font-size
 	@include px-to-rems("font-size", $font-size);
@@ -186,8 +188,8 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless o
 	}
 }
 //Alias
-@mixin font-size($font-size, $line-height:true,$font-base: $base-font-size){
-	@include type-font-size($font-size, $line-height, $font-base);
+@mixin font-size($font-size, $line-height:true, $font-base: $base-font-size, $important: false){
+	@include type-font-size($font-size, $line-height, $font-base, $important);
 }
 
 
@@ -225,7 +227,7 @@ Output REM values using the typographic grid. This is the prefered method of add
 	$properties,
 	$multipliers,
 	$important: false,
-	$unit: $vertical-space
+	$unit: "auto"
 ) {
 
     $multiplier: nth($multipliers, 1);
@@ -243,19 +245,25 @@ Output REM values using the typographic grid. This is the prefered method of add
 	    		$multiple-index: $multiple-index + 1;
 			}
 			@else {
-    			$value: $unit * $multiple;
+                $value: $unit;
 
-	    		//If value is the second or fourth value in a list,
-	    		// or is a left, right, or width value,
-	            // multiply by the $horizontal-space
-	    		@if ($multiple-index % 2 == 0) or
-	    		(
-	    			str-contains($property, 'right') or
-	    			str-contains($property, 'left') or
-	    			str-contains($property, 'width')
-	    		) {
-	    			$value: $horizontal-space * $multiple;
-	    		}
+                @if $unit == "auto" {
+                    $value: $vertical-space;
+
+    	    		//If value is the second or fourth value in a list,
+    	    		// or is a left, right, or width value,
+    	            // multiply by the $horizontal-space
+    	    		@if ($multiple-index % 2 == 0) or
+    	    		(
+    	    			str-contains($property, 'right') or
+    	    			str-contains($property, 'left') or
+    	    			str-contains($property, 'width')
+    	    		) {
+    	    			$value: $horizontal-space;
+    	    		}
+                }
+
+                $value: $value * $multiple;
 	    		$values: append($values, $value);
 	    		$multiple-index: $multiple-index + 1;
 			}

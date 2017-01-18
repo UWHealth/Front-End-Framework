@@ -22,11 +22,10 @@ $human-readable-denominators: whole, half, third, quarter, fifth, sixth, seventh
 /* SG
 # Grid System/Functions [[dev]]
 
-@file globals/tools/_t-grid-system.scss
-
 ##### `grid-size()`
 ###### function(`$size, $total:` `$$grid-columns`)
 Creates a percentage based on the `$size / $total`.
+@requires `$$grid-columns`
 
 */
 
@@ -34,30 +33,38 @@ Creates a percentage based on the `$size / $total`.
     @return percentage($size / $total);
 }
 
-/* SG
 
+/* SG
 # Grid System/Mixins [[dev]]
 
-##### `@width()`
+##### `@grid-width()`
 ###### mixin(`$columns, $total:` `$$grid-columns`)
 Creates a width property with a percentage based on the `$columns / $total`.
 @requires `grid-size()`, `$$grid-columns`
+@alias `@width()`
 
 */
 
+@mixin grid-width($columns, $total:$grid-columns) {
+    width: #{percentage($columns/$total)};
+    @if $grid-flex {
+        flex-basis: #{percentage($columns/$grid-columns)};
+        max-width: #{percentage($columns/$grid-columns)};
+    }
+}
 
 @mixin width($columns, $total:$grid-columns) {
-    width: #{percentage($columns/$total)};
+    @include grid-width($columns, $total);
 }
 
 
 /* SG
 
 ##### `@width-setup()`
-###### mixin(`$namespace:"", $silent:` `$$grid-silent-classes`, $type:"width")
- Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentage widths based on `$$grid-columns`. `$type` accepts "width", "push" or "pull".
+###### mixin(`$namespace:"", $silent:` `$$grid-silent-classes`, $property:"width")
+ Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentages based on `$$grid-columns`. `$property` accepts any property, as well as lists of properties.
 
-@requires `grid-size()`, `cache()`, `$$human-readable-numerators`, `$$human-readable-denominators`
+@requires `grid-size()`, `$$human-readable-numerators`, `$$human-readable-denominators`
 
 */
 
@@ -65,7 +72,8 @@ Creates a width property with a percentage based on the `$columns / $total`.
 @mixin width-setup(
     $namespace:"",
     $silent: $grid-silent-classes,
-    $type: "width",
+    $property: "width",
+    $important: false,
     $columns: $grid-columns
 ) {
 
@@ -82,17 +90,13 @@ Creates a width property with a percentage based on the `$columns / $total`.
     $divisor: $columns;
 	$class-name-list: ();
     $prefix: "#{$class-type}#{$namespace}";
+    $important: if($important, "!important", "");
 
-    @if $type == "push" {
-        $type: "left";
-    }
-    @else if $type == "pull" {
-        $type: "right";
-    }
-
-    //To prevent stuff like 12/12 (5/5, 3/3, etc), we need to declare 1/1 here
+    //To prevent stuff like 12/12 (five-fifths, etc.), we need to declare 1/1 here
     #{$prefix}one_whole {
-        #{$type}: 100%;
+        @each $type in $property {
+            #{$type}: 100% #{$important};
+        }
     }
 
     @for $i from 1 through $columns {                                         // [1]
@@ -107,8 +111,7 @@ Creates a width property with a percentage based on the `$columns / $total`.
                 $denominator: nth($human-readable-denominators, $divisor);
 
 				//Divide first number(numerator) by second number(denominator).
-				//Caching that value since this will be done many times.
-                $width: cache(grid-size, $dividen, $divisor);
+                $size: grid-size($dividen, $divisor);
 
                 //Create class name
                 $class-name: "#{$prefix}#{$numerator}_#{$denominator}";
@@ -119,15 +122,16 @@ Creates a width property with a percentage based on the `$columns / $total`.
                 }
 
 				#{$class-name} {
-                    #{$type}: $width;
-
-                    @if $type != "width" {
-                        position: relative;
+                    @each $type in $property {
+                        @if index("top" "right" "bottom" "left", $type) != null {
+                            position: relative;
+                        }
+                        #{$type}: $size #{$important};
                     }
                 }
 
 				@if $grid-silent-classes and $debug-silent-classes {
-					$class-name-list: map-merge($class-name-list, ($class-name:$width));
+					$class-name-list: map-merge($class-name-list, ($class-name:$size));
 				}
 
             }
@@ -136,7 +140,7 @@ Creates a width property with a percentage based on the `$columns / $total`.
         }
     }
 
-    //Allow for fourth instead of quarter
+    //Allow for fourths as an alias to quarters
     #{$prefix}one_fourth {
 		@extend #{$prefix}one_quarter;
     }
