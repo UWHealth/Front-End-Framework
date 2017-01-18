@@ -10,7 +10,7 @@
     <h1 class="sg-logo">
         <a href="#styleguide" class="sg-menu_link js-menu_showall">Frontend Framework</a>
     </h1>
-    <div id="sg-menu_wrap" class="txt-small"></div>
+    <div id="sg-menu_wrap"></div>
 </nav>
 
 <main id="sg-main" class="sg-main">
@@ -23,11 +23,11 @@
         </div>
 
         {{#each this}} {{!--Looping through Categories --}}
-            <div class="sg-category">
+        <div class="sg-category">
             <div class="sg-category_wrap">
             {{#unless articles.[0].section.gettingStarted}}{{#if category}}
                 <header class="sg-category_head" data-sg-section="{{sanitize category}}" {{#unless articles.[1]}}id="{{sanitize articles.[0].id}}"{{/unless}}>
-                    <h2 class="sg-heading-category{{#unless articles.[1]}}sg-heading sg-heading-article{{/unless}}">
+                    <h2 class="sg-heading-category{{#unless articles.[1]}} sg-heading sg-heading-category-article{{/unless}}">
                         {{~category~}}
                     </h2>
                 </header>
@@ -68,7 +68,7 @@
                 {{/if}}
                 </article>
             {{~/each}}
-        </div>
+            </div>
         </div>
         {{~/each}}
     </section>
@@ -104,9 +104,10 @@
         'headerText': function(i, heading, $heading) { //custom function building the header-item text
             return $heading.text();
         },
-        'itemClass': function(i, heading, $heading, prefix) { // custom function for item class
-            //List items class="sg-menu_[section,category,article] sg-menu_item"
-            return $heading.attr('class').replace('sg-heading-', 'sg-menu_').replace('sg-heading ', ' ') + ' sg-menu_item';
+        'itemClass': function(i, heading, $heading, prefix) {
+            // Custom function for item class
+            // List items class="sg-menu_[section,category,article] sg-menu_item"
+            return $heading.attr('class').replace(/(sg\-heading\-)/g, 'sg-menu_').replace('sg-heading ', ' ') + ' sg-menu_item';
         }
     });
 

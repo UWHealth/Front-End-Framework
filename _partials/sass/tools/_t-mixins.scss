@@ -22,10 +22,6 @@ Specificity increaser. Useful for increasing specificity of a selector instead o
 
 */
 
-// Specificity increaser
-// Useful for increasing specificity of a selector instead of using !important
-//
-// Taken from: http://www.sitepoint.com/selector-specificity-css-preprocessors/
 
 @mixin specificity($specificity: 1) {
 	$selector: unquote('&');
@@ -44,7 +40,6 @@ Specificity increaser. Useful for increasing specificity of a selector instead o
 
 
 /* SG
-
 ##### `@opacity()`
 ###### mixin(`$opacity`)
 Cross-browser (including IE8-) opacity.

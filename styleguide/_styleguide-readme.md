@@ -1,16 +1,8 @@
 /*************************\
 / 		README            \
 /*************************\
-This file is exclusively used for the style guide.
+This file is exclusively used for the style guide. All style-guide-related comments must be enclosed by SG tags.
 
-
-<SG>
-# Setup:Getting Started
-
-@priority 1
-
-## A number of front-end technologies to get any e-Health website or application off the ground.
-</SG>
 
 <SG>
 # Setup:Getting Started/Software

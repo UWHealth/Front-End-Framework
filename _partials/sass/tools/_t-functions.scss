@@ -1,8 +1,6 @@
 /* SG
 # Functions/General [[dev]]
 
-@file globals/_gl-functions.scss
-
 ##### `cache()`
 ###### function(`$function-name, $args...`)
 Memoize (cache) a function's return values and arguments. Speeds up processing on intensive functions that get called many times (with the same arguments).

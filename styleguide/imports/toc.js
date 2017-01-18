@@ -79,11 +79,24 @@ $.fn.toc = function(options) {
 
   //highlight on scroll
   var timeout;
-  var highlightOnScroll = function(e) {
-    if (timeout) {
-      clearTimeout(timeout);
+
+  function debounce(func, wait, immediate) {
+    	var timeout;
+    	return function() {
+    		var context = this, args = arguments;
+    		var later = function() {
+    			timeout = null;
+    			if (!immediate) {func.apply(context, args)}
+    		};
+    		var callNow = immediate && !timeout;
+    		clearTimeout(timeout);
+    		timeout = setTimeout(later, wait);
+    		if (callNow) {func.apply(context, args)}
+    	};
     }
-    timeout = setTimeout(function() {
+
+  var highlightOnScroll = debounce(function() {
+      if (timeout) {clearTimeout(timeout)}
       var top = $(window).scrollTop(),
         highlighted, closest = Number.MAX_VALUE, index = 0;
 
@@ -98,8 +111,8 @@ $.fn.toc = function(options) {
       $('li', self).removeClass(activeClassName);
       highlighted = $('li:eq('+ index +')', self).addClass(activeClassName);
       opts.onHighlight(highlighted);
-    }, 50);
-  };
+  }, 25);
+
   if (opts.highlightOnScroll) {
     $(window).bind('scroll', highlightOnScroll);
     highlightOnScroll();
