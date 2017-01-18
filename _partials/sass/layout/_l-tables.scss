@@ -95,7 +95,7 @@
     .table_pin {
         overflow: scroll;
         overflow-y: hidden;
-        @extend %#{$breakpoint-smallest}_txt_small;
+        @include type-font-size($type-small-size, $type-small-lh);
     }
 
     .table_scroll table {

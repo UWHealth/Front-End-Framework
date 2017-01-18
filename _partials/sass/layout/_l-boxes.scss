@@ -8,24 +8,13 @@
     }
 }
 
-.box_open {
-    padding-left: 0;
-    padding-right: 0;
-	border-width: 1px;
-	border-style: solid;
-    border-top-color: color(bg, dark);
-    border-bottom-color: color(bg, dark);
-    border-left-color: transparent;
-    border-right-color: transparent;
-}
-
 .box_closed {
     border: 1px solid color(bg, dark);
 }
 
 //Creates a responsive, square container.
 //Must have a .body inside for content.
-.box_square {
+.box_ratio {
     position: relative;
     display: block;
 	overflow: hidden;
@@ -44,25 +33,16 @@
         right: 0;
 		text-align: left;
 	}
-
-	&:before {
-        content:" ";
-		margin-top: 100%;
-		display: block;
-		font-size: 0;
-		color: transparent;
-	}
-
 }
 //
-//Modifiers for box_square
+//Modifiers for box_ratio
 //
 
 // 3:4 box
-.pano:before {
+.box_pano:before {
 	margin-top: 75%;
 }
 // 1:2 box
-.wide:before {
+.box_wide:before {
 	margin-top: 50%;
 }

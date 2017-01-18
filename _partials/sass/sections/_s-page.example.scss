@@ -24,11 +24,11 @@
 }
 
 .tab,
-.list_nav a{
+.list_nav a {
 	text-transform: uppercase;
 	letter-spacing: .5px;
-	@extend %txt_bold;
-	@extend %txt_small;
+	font-weight: bold;
+    @include font-size($type-small-size, $type-small-lh);
 	text-decoration: none;
 }
 

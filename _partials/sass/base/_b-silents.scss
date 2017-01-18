@@ -58,8 +58,3 @@ $base_namespace: '';
 @include spacing-utilities-init(
 	$config: (important: false, silent: true)
 );
-
-@include type-utilities-init(
-	$important: false,
-	$silent: true
-);
