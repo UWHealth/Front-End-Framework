@@ -82,7 +82,7 @@ Sass files are imported in order from lowest specificity to highest.
 //Grids, alignment and higher-level classes
 // (+1 specificity)
 @import 'layout/l-boxes';
-@import 'layout/l-composition';
+@import 'layout/l-wrapper';
 @import 'layout/l-grid';
 @import 'layout/l-lists';
 @import 'layout/l-media-object';
