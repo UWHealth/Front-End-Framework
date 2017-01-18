@@ -1,0 +1,20 @@
+@include create-overrides(
+    (
+        'float-left': (
+            float: left
+        ),
+        'float-right': (
+            float: right
+        ),
+        'float-none': (
+            float: none
+        ),
+        'fixed': (
+            position: fixed
+        ),
+        'absolute': (
+            position: absolute
+        )
+    ),
+    $breakpoint-has-alignment-classes
+);

@@ -38,11 +38,18 @@ h6 {
 /* SG
 # Typography/Body copy
 
-The default font size for all typography is 16px with line-height of 24px (1.5). This is applied to the body and all paragraphs. `<p>` tags all receive a bottom margin of 24px.
+The default font-size for all typography is **16px** with line-height of **24px** (1.5). This is applied to the `<body>` and inherited by paragraphs and lists. `<p>` tags all receive a bottom margin of 1rem.
+
+When a `<p>` follows a heading tag (`<h1>` for instance), the paragraph receives a negative top margin so it sits directly beneath the heading.
+
+The default font-family is set in **Asap**.
 
 ```html_example
 <p>Aenean lacinia bibendum nulla sed consectetur. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. </p>
 <p>Nullam quis risus eget urna mollis ornare vel eu leo. Nulla vitae elit libero, a pharetra augue.</p>
+
+<h5>A Heading...</h5>
+<p>...Followed by a paragraph. Notice how there's no margin between these two items.</p>
 ```
 
 */

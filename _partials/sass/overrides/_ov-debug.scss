@@ -21,3 +21,19 @@
 	#{map-inspect($silent-class-registry)}
 */
 }
+
+@if $debug-breakpoints {
+    @each $breakpoint in $all-breakpoints {
+        @include mq($breakpoint) {
+            body:after {
+                content: "#{$breakpoint}";
+                position: fixed;
+                top: 0;
+                right: 0;
+                background: #fff;
+                padding: 10px;
+                z-index: 999999;
+            }
+        }
+    }
+}

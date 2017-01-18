@@ -47,9 +47,9 @@ Sass files are imported in order from lowest specificity to highest.
 //Utility mixins
 @import 'tools/t-fontface';
 @import 'tools/t-media-queries';
+@import 'tools/t-overrides';
 @import 'tools/t-mixins';
 @import 'tools/t-zindex';
-@import 'tools/t-alignment';
 @import 'tools/t-display';
 @import 'tools/t-widths';
 @import 'tools/t-grid-system';
@@ -84,7 +84,6 @@ Sass files are imported in order from lowest specificity to highest.
 @import 'layout/l-boxes';
 @import 'layout/l-composition';
 @import 'layout/l-grid';
-@import 'layout/l-headings';
 @import 'layout/l-lists';
 @import 'layout/l-media-object';
 @import 'layout/l-tables';
@@ -108,6 +107,13 @@ Sass files are imported in order from lowest specificity to highest.
 
 //High-specificity css and overrides classes (usually have !important).
 // Typically single-use classes
-@import 'overrides/ov-polyfills';
-@import 'overrides/ov-overrides';
+@import 'overrides/ov-alignment';
+@import 'overrides/ov-display';
+@import 'overrides/ov-spacing';
+@import 'overrides/ov-type';
+
+//Example Overrides (can be removed)
+@import 'overrides/ov-polyfills.example';
+@import 'overrides/ov-overrides.example';
+
 @import 'overrides/ov-debug';
