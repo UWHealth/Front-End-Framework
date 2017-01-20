@@ -33,8 +33,6 @@ $cached-values: ();
 /* SG
 # Functions/Conversion [[dev]]
 
-@file globals/_gl-functions.scss
-
 ##### `strip-units()`
 ###### function(`$value`)
 Remove lengths (`px`, `em`, `rem`, etc.) from a value. Usually a variable. This is sometimes required because Sass cannot calculate incompatible units (`px * rem` for instance).
@@ -233,8 +231,6 @@ Converts a number-like string to a number. Since Sass accepts quoted and non-quo
 
 /* SG
 # Functions/Strings & Lists [[dev]]
-
-@file globals/_gl-functions.scss
 
 [Reference](https://github.com/devatrox/Sunglass)
 
@@ -632,9 +628,7 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
 }
 
 /* SG
-# Functions/Typography [[dev]]
-
-@file globals/_gl-functions.scss
+# Typography/Sizing [[dev]]
 
 ##### `modular-scale()`
 ###### function(`$scale`, `$ratio:``$$scale-ratio`)
@@ -663,7 +657,7 @@ Generates a pixel value that is an exponent of a ratio (`$ratio` defaults to `$$
 }
 
 /* SG
-# Functions/Typography [[dev]]
+# Typography/Line-height [[dev]]
 
 ##### `baseline()`
 ###### function(`$font-size`, `$baseline`, `$multiple:1`)
@@ -891,35 +885,6 @@ $__font-warn: false;
 	}
 
 	@return $line-height;
-}
-
-/* SG
-# Functions/Typography [[dev]]
-
-##### `get-type()`, `type()`
-###### `[font-size],[font-size-value]`
-function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.
-
-*/
-
-
-@function get-type($font-size, $property: 'px'){
-	@if $property == 'font-size'{
-		$property: 'px';
-	}
-	@return map-get(map-get($type, $font-size), $property);
-}
-
-/* SG
-##### `define-type()`
-###### `[font-size], [property], [new value]`
-Registers new values to type map. [Property] accepts px, rem, and line-height.
-
-*/
-@function define-type($font-size, $property: 'px', $new-value: "") {
-	$target_font: map-get($type, $font-size);
-	$target-w-property: map-merge($target_font, ($property : $new-value));
-	@return map-merge($type, ($font-size:$target-w-property));
 }
 
 //Add to silent classes registry

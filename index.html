@@ -719,63 +719,6 @@ Children can be named four things:</p><ul>
         <div class="sg-category">
             <div class="sg-category_wrap">
             
-                <header class="sg-category_head" data-sg-section="Mixins" id="patterns-mixins-overrides">
-                    <h2 class="sg-heading-category sg-heading sg-heading-category-article">Mixins</h2>
-                </header>                <article class="sg-article"  data-sg-section="Mixins" data-sg-heading="Overrides">
-                    <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Overrides</h3></header>
-                    <div class="sg-article_comment">
-                        <h5 id="-create-overrides-" class="sg-heading sg-heading-5"><code id="mixin-create-overrides" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@create-overrides()">@create-overrides()</code></h5>
-
-                <h6 id="mixin-map-breakpoints-namespace-quot-quot-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$map, $breakpoints, $namespace: &quot;&quot;</code>)</h6>
-<p>Takes a map of class names and style properties and outputs utility (override) classes over a specified number of breakpoints. Useful for creating a number of single-use classes over multiple breakpoints. Always makes property declarations <code class="sg-code sg-codespan">!important</code>.</p><p>Example:</p>
-<div class="sg-markup sg-codeblock">
-<pre class="sg-markup_wrap"><code class="hljs sg-code  "><span class="hljs-comment">//Input</span>
-@<span class="hljs-keyword">include</span> creat-overrides(
-    (
-        <span class="hljs-string">&quot;class-name&quot;</span>: (
-            <span class="hljs-string">&quot;property&quot;</span>: <span class="hljs-string">&quot;value&quot;</span>,
-        ),
-        <span class="hljs-string">&quot;float-right, align_right&quot;</span>: (
-            <span class="hljs-string">&quot;float&quot;</span>: <span class="hljs-string">&quot;right&quot;</span>
-        )
-    ),
-    (<span class="hljs-string">&apos;smalls&apos;</span>, <span class="hljs-string">&apos;bigs&apos;</span>)
-);
-
-<span class="hljs-comment">//CSS-output</span>
-<span class="hljs-selector-class">.float-left</span> {
-    <span class="hljs-attribute">float</span>: left <span class="hljs-meta">!important</span>;
-}
-<span class="hljs-selector-class">.float-right</span>,
-<span class="hljs-selector-class">.align_right</span> {
-    <span class="hljs-attribute">float</span>: right <span class="hljs-meta">!important</span>;
-}
-@<span class="hljs-keyword">media</span> (max-width: 600px) {
-    <span class="hljs-selector-class">.float-left</span> {
-        <span class="hljs-attribute">float</span>: left <span class="hljs-meta">!important</span>;
-    }
-    <span class="hljs-selector-class">.float-right</span>,
-    <span class="hljs-selector-class">.align_right</span> {
-        <span class="hljs-attribute">float</span>: right <span class="hljs-meta">!important</span>;
-    }
-}
-@<span class="hljs-keyword">media</span> (min-width: 601px) {
-    ...
-}
-</code></pre>
-</div>
-
-                <h5 id="-_override-output-" class="sg-heading sg-heading-5"><code id="mixin-_override-output" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@_override-output()">@_override-output()</code></h5>
-
-                <h6 id="mixin-map-namespace-quot-quot-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$map, $namespace: &quot;&quot;</code>)</h6>
-<p>Used exclusively by <code id="mixin-create-overrides" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@create-overrides()">@create-overrides()</code> to iterate through a map of classes, properties, and values to create responsive classes.</p>
-                    </div>
-                </article>            </div>
-        </div> 
-        <div class="sg-category">
-            <div class="sg-category_wrap">
-            
                 <header class="sg-category_head" data-sg-section="Tabs" id="patterns-tabs-">
                     <h2 class="sg-heading-category sg-heading sg-heading-category-article">Tabs</h2>
                 </header>                <article class="sg-article"  data-sg-section="Tabs" data-sg-heading="">
@@ -996,7 +939,36 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
 </div>
 <p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code id="function-set-text-color" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="set-text-color()">set-text-color()</code> </p>
 
-<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code class="sg-code sg-codespan">color-luminance</code></code> </p>
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code class="sg-code sg-codespan">color-luminance</code></code> </p><h5 id="pick-best-color-" class="sg-heading sg-heading-5"><code id="function-pick-best-color" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pick-best-color()">pick-best-color()</code></h5>
+
+                <h6 id="function-base-colors-tolerance-0-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base, $colors, $tolerance: 0</code>)</h6>
+<p>Compares a set of colors against <code class="sg-code sg-codespan">$base</code> and returns the color with the most contrast. <code class="sg-code sg-codespan">$colors</code> should be a list.
+<br>
+<a href="https://gist.github.com/voxpelli/6304812">Taken from here</a></p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code  "><span class="hljs-selector-tag">div</span> {
+    <span class="hljs-attribute">color</span>: pick_best_color(<span class="hljs-number">#f8cd12</span>, (<span class="hljs-number">#a0a0c0</span>, <span class="hljs-number">#fff</span>, <span class="hljs-number">#2c2c2c</span>));
+}
+<span class="hljs-comment">// The function would test the colors and find that #2c2c2c is the best.</span>
+</code></pre>
+</div>
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-color-contrast" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-contrast()">color-contrast()</code>, <code id="function-color-luminance" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-luminance()">color-luminance()</code></code> </p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  color </p><h5 id="color-contrast-" class="sg-heading sg-heading-5"><code id="function-color-contrast" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-contrast()">color-contrast()</code></h5>
+
+                <h6 id="function-color1-color2-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$color1, $color2</code>)</h6>
+<p>Find contrast between two colors.
+<br>
+<a href="https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js">Adapted from color.js</a></p><p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-color-luminance" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-luminance()">color-luminance()</code></code> </p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number(0 - 1) </p><h5 id="color-luminance-" class="sg-heading sg-heading-5"><code id="function-color-luminance" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-luminance()">color-luminance()</code></h5>
+
+                <h6 id="function-color1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$color1</code>)</h6>
+<p>Find the relative luminance of a color. Used by <code id="function-color-contrast" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="color-contrast()">color-contrast()</code>. <a href="https://github.com/LeaVerou/contrast-ratio/blob/gh-pages/color.js">Adapted from color.js</a></p>
+
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code id="function-luma" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="luma()">luma()</code> </p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number(0 - 1) </p>
                     </div>
                 </article>                <article class="sg-article" id="development-colors-lookup" data-sg-section="Colors" data-sg-heading="Lookup">
                     <header class="sg-article_head ">
@@ -1125,7 +1097,29 @@ $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span c
                 <h5 id="-grid-push-grid-pull" class="sg-heading sg-heading-5"><code id="variable--grid-push" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-push">$grid-push</code>, <code id="variable--grid-pull" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-pull">$grid-pull</code></h5>
 
                 <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
-<p>Determines whether to include extra grid classes for positional grid modifiers.</p>
+<p>Determines whether to include extra grid classes for positional grid modifiers.</p><h5 id="-grid-inline-block" class="sg-heading sg-heading-5"><code id="variable--grid-inline-block" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-inline-block">$grid-inline-block</code></h5>
+
+                <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
+<p>Create grids using an inline-block-based layout.</p>
+                <h5 id="-grid-markup-fix" class="sg-heading sg-heading-5"><code id="variable--grid-markup-fix" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-markup-fix">$grid-markup-fix</code></h5>
+
+                <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
+<p><strong>Only applicable to inline-block grid.</strong> If set to <code class="sg-code sg-codespan">true</code>, html must have no white space (or comments) between grid items. Almost always set to <code class="sg-code sg-codespan">false</code>.</p>
+                <h5 id="-grid-letter-space-fix" class="sg-heading sg-heading-5"><code id="variable--grid-letter-space-fix" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-letter-space-fix">$grid-letter-space-fix</code></h5>
+
+                <h6 id="em-value" class="sg-heading sg-heading-6">em value</h6>
+<p><strong>Only applicable to inline-block grid.</strong> If <code id="variable--grid-markup-fix" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-markup-fix">$grid-markup-fix</code> is not used, then a negative <code class="sg-code sg-codespan">em</code> value must be set to remove whitespace between columns. Usually, <code class="sg-code sg-codespan">-0.45em</code> works, but this should be adjusted based on the natural width of the font-family set on the body element.</p>
+                <h5 id="-grid-flex" class="sg-heading sg-heading-5"><code id="variable--grid-flex" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-flex">$grid-flex</code></h5>
+
+                <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
+<p>If set to <code class="sg-code sg-codespan">true</code>, the grid will add markup for a flexbox-based layout. Can be combined with an inline-block-based grid to provide an older browser fallback.</p>
+                <h5 id="-grid-floats" class="sg-heading sg-heading-5"><code id="variable--grid-floats" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-floats">$grid-floats</code></h5>
+
+                <h6 id="boolean" class="sg-heading sg-heading-6">Boolean</h6>
+<p>If set to <code class="sg-code sg-codespan">true</code>, the grid uses floats-based layout. <strong>This is usually not recommended since inline-block and flexbox are much are more flexible.</strong></p><h5 id="-breakpoints-has-widths-breakpoints-has-push-breakpoints-has-pull" class="sg-heading sg-heading-5"><code id="variable--breakpoints-has-widths" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoints-has-widths">$breakpoints-has-widths</code>, <code id="variable--breakpoints-has-push" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoints-has-push">$breakpoints-has-push</code>, <code id="variable--breakpoints-has-pull" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoints-has-pull">$breakpoints-has-pull</code></h5>
+
+                <h6 id="list-string-" class="sg-heading sg-heading-6">List (string)</h6>
+<p>Determines what classes (widths, pushes, pulls) get generated at <code id="variable--breakpoints" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoints">$breakpoints</code>. The list&#x2019;s order determines the output order. This is useful if you want one breakpoint to override another.</p>
                     </div>
                 </article>                <article class="sg-article" id="development-config-responsive-settings" data-sg-section="Config" data-sg-heading="Responsive Settings">
                     <header class="sg-article_head ">
@@ -1427,7 +1421,87 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                         <h3 class="sg-heading sg-heading-article">Math</h3>
                         <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
                     <div class="sg-article_comment">
-                        <p>Most functions taken from <a href="https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss">Sassy Math</a>.</p>
+                        <p>Most functions taken from <a href="https://github.com/Team-Sass/Sassy-math/blob/master/sass/math.scss">Sassy Math</a>.</p><h5 id="pow-" class="sg-heading sg-heading-5"><code id="function-pow" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pow()">pow()</code></h5>
+
+                <h6 id="function-number-exponent-precision-12-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$number</code>, <code class="sg-code sg-codespan">$exponent</code>, <code class="sg-code sg-codespan">$precision:12</code>)</h6>
+<p>A more robust exponent multiplication which allows for decimal-based exponents. This <strong>fully</strong> replaces Compass&#x2019; pow() function (allows for float-based exponents).</p><p><a href="https://gist.github.com/nathancrank/7539155">Reference</a></p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code id="function-log" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="log()">log()</code> </p>
+
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code id="function-exponent" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exponent()">exponent()</code> </p><h5 id="log-" class="sg-heading sg-heading-5"><code id="function-log" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="log()">log()</code></h5>
+
+                <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
+<p>Returns the natural logarithm of a number.</p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code  "><span class="hljs-variable">$value</span>:   log(<span class="hljs-number">2</span>)  // <span class="hljs-number">0.69315</span>
+<span class="hljs-variable">$value2</span>:  log(<span class="hljs-number">10</span>) // <span class="hljs-number">2.30259</span>
+</code></pre>
+</div>
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="frexp-" class="sg-heading sg-heading-5"><code id="function-frexp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="frexp()">frexp()</code></h5>
+
+                <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
+<p>Returns a two-element list containing the normalized fraction and exponent of number.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  list (fraction, exponent) </p><h5 id="ldexp-" class="sg-heading sg-heading-5"><code id="function-ldexp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="ldexp()">ldexp()</code></h5>
+
+                <h6 id="function-x-exp-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x, $exp</code>)</h6>
+<p>Returns $x * 2^$exp</p><h5 id="exp-" class="sg-heading sg-heading-5"><code id="function-exp" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="exp()">exp()</code></h5>
+
+                <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
+<p>Returns E^x, where x is the argument, and E is Euler&#x2019;s constant, the base of the natural logarithms.</p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code  "><span class="hljs-variable">$value</span>: exp(<span class="hljs-number">1</span>)  // <span class="hljs-number">2.71828</span>
+<span class="hljs-variable">$value2</span>: exp(-<span class="hljs-number">1</span>) // <span class="hljs-number">0.36788</span>
+</code></pre>
+</div>
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  Number </p><h5 id="fact-" class="sg-heading sg-heading-5"><code id="function-fact" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="fact()">fact()</code></h5>
+
+                <h6 id="function-x-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code>)</h6>
+<p>Returns the factorial of a non-negative integer.</p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code  "><span class="hljs-variable">$value</span>:  fact(<span class="hljs-number">0</span>) // <span class="hljs-number">1</span>
+<span class="hljs-variable">$value2</span>: fact(<span class="hljs-number">8</span>) // <span class="hljs-number">40320</span>
+</code></pre>
+</div>
+<p data-code-meta="return" class="sg-code-meta sg-code-meta-value">  Number </p><h5 id="gcd-" class="sg-heading sg-heading-5"><code id="function-gcd" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="gcd()">gcd()</code></h5>
+
+                <h6 id="function-number-1-number-2-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$number-1</code>, <code class="sg-code sg-codespan">$number-2</code>)</h6>
+<p>Greatest Common Divisor calculation (useful for calculating grids and widths).</p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="lcm-" class="sg-heading sg-heading-5"><code id="function-lcm" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="lcm()">lcm()</code></h5>
+
+                <h6 id="function-a-b-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$a</code>, <code class="sg-code sg-codespan">$b</code>)</h6>
+<p>Finds the least common multiple. Use with caution&#x2026;if there is no LCM, then you compilation will error out.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="nth_root-" class="sg-heading sg-heading-5"><code id="function-nth_root" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="nth_root()">nth_root()</code></h5>
+
+                <h6 id="function-base-n-2-precision-12-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base</code>, <code class="sg-code sg-codespan">$n:2</code>, <code class="sg-code sg-codespan">$precision:12</code>)</h6>
+<p>Advanced calculation for square roots, cube roots, etc. of a value.
+<br>
+<a href="http://rosettacode.org/wiki/Nth_root#JavaScript">Reference</a></p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="sqrt-" class="sg-heading sg-heading-5"><code id="function-sqrt" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqrt()">sqrt()</code></h5>
+
+                <h6 id="function-base-precision-12-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base</code>, <code class="sg-code sg-codespan">$precision:12</code>)</h6>
+<p>Find the square root of a value.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
+
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-sqroot" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqroot()">sqroot()</code></code> </p><h5 id="sin-" class="sg-heading sg-heading-5"><code id="function-sin" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sin()">sin()</code></h5>
+
+                <h6 id="function-angle-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$angle</code>)</h6>
+<p>Determines the Sine of an angle.
+<br>
+<a href="https://unindented.org/articles/trigonometry-in-sass/">Reference</a></p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="cos-" class="sg-heading sg-heading-5"><code id="function-cos" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="cos()">cos()</code></h5>
+
+                <h6 id="function-angle-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$angle</code>)</h6>
+<p>Determines the Cosine of an angle.</p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="tan-" class="sg-heading sg-heading-5"><code id="function-tan" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="tan()">tan()</code></h5>
+
+                <h6 id="function-angle-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$angle</code>)</h6>
+<p>Determines the Tangent of an angle.</p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p><h5 id="golden-" class="sg-heading sg-heading-5"><code id="function-golden" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="golden()">golden()</code></h5>
+
+                <h6 id="function-base-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$base: 1</code>)</h6>
+<p>Get the golden ratio from <code class="sg-code sg-codespan">$base</code>.</p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
+
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="variable--golden_ratio" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$golden_ratio">$golden_ratio</code></code> </p>
                     </div>
                 </article>                <article class="sg-article" id="development-functions-strings---lists" data-sg-section="Functions" data-sg-heading="Strings &amp; Lists">
                     <header class="sg-article_head ">
@@ -1479,28 +1553,6 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
 <p>Convert a value to a list. <code class="sg-code sg-codespan">$keep</code> accepts <code class="sg-code sg-codespan">&apos;keys&apos;</code>, <code class="sg-code sg-codespan">&apos;values&apos;</code>, or <code class="sg-code sg-codespan">&apos;both&apos;</code> for map conversion.</p>
 
 <p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  list </p>
-                    </div>
-                </article>                <article class="sg-article" id="development-functions-typography" data-sg-section="Functions" data-sg-heading="Typography">
-                    <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Typography</h3>
-                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
-                    <div class="sg-article_comment">
-                        <h5 id="modular-scale-" class="sg-heading sg-heading-5"><code id="function-modular-scale" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="modular-scale()">modular-scale()</code></h5>
-
-                <h6 id="function-scale-scale-ratio-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$scale</code>, <code id="variable--scale-ratio" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$scale-ratio">$scale-ratio</code>)</h6>
-<p>Generates a pixel value that is an exponent of a ratio (<code class="sg-code sg-codespan">$ratio</code> defaults to <code id="variable--scale-ratio" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$scale-ratio">$scale-ratio</code> value).</p>
-
-<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-pow" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pow()">pow()</code>, <code id="function-cache" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="cache()">cache()</code>, <code id="function-strip-units" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="strip-units()">strip-units()</code></code> </p>
-
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number (pixels) </p><h5 id="baseline-" class="sg-heading sg-heading-5"><code id="function-baseline" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline()">baseline()</code></h5>
-
-                <h6 id="function-font-size-baseline-multiple-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$font-size</code>, <code class="sg-code sg-codespan">$baseline</code>, <code class="sg-code sg-codespan">$multiple:1</code>)</h6>
-<p>Aligns a font-size to a baseline (<code class="sg-code sg-codespan">$baseline</code>). Returns a unitless value relative to the font-size (equivilent to ems). An optional multiple can be used to make a variation on the given baseline (using decimals will divide the the baseline).</p>
-
-<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number (unitless) </p><h5 id="get-type-type-" class="sg-heading sg-heading-5"><code id="function-get-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="get-type()">get-type()</code>, <code id="function-type" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="type()">type()</code></h5>
-
-                <h6 id="-font-size-font-size-value-" class="sg-heading sg-heading-6"><code class="sg-code sg-codespan">[font-size],[font-size-value]</code></h6>
-<p>function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.</p>
                     </div>
                 </article>            </div>
         </div> 
@@ -1574,14 +1626,45 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
                 <h6 id="mixin-columns-grid-columns-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$columns: $grid-columns</code>)</h6>
 <p>Creates a grid item (column) based on your grid configuration set to a width based on the <code class="sg-code sg-codespan">$columns</code> passed in.</p>
 
-<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-type-space" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@type-space()">@type-space()</code>, <code id="mixin-grid-width" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-width()">@grid-width()</code></code> </p><h5 id="-grid-width-" class="sg-heading sg-heading-5"><code id="mixin-grid-width" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-width()">@grid-width()</code></h5>
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-type-space" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@type-space()">@type-space()</code>, <code id="mixin-grid-width" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-width()">@grid-width()</code></code> </p><h5 id="-grid-init-" class="sg-heading sg-heading-5"><code id="mixin-grid-init" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-init()">@grid-init()</code></h5>
+
+                <h6 id="mixin-silent-grid-silent-classes-important-false-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$silent:</code> <code id="variable--grid-silent-classes" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-silent-classes">$grid-silent-classes</code>, <code class="sg-code sg-codespan">$important:false</code>)</h6>
+<p>Creates responsive grid classes by running through all the grid-setup mixins. Uses the media-queries defined in the <code class="sg-code sg-codespan">$breakpoint-has-</code> variables to create media-query-scoped classes.</p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-grid-classes" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-classes()">@grid-classes()</code>, <code id="mixin-width-classes" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width-classes()">@width-classes()</code>, <code id="mixin-push-classes" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@push-classes()">@push-classes()</code>, <code id="mixin-pull-classes" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@pull-classes()">@pull-classes()</code></code> </p><h5 id="-grid-classes-" class="sg-heading sg-heading-5"><code id="mixin-grid-classes" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-classes()">@grid-classes()</code></h5>
+
+                <h6 id="mixin-silent-grid-silent-classes-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$silent:</code> <code id="variable--grid-silent-classes" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-silent-classes">$grid-silent-classes</code>)</h6>
+<p>Runs <code id="mixin-grid-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-setup()">@grid-setup()</code>.</p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-grid-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-setup()">@grid-setup()</code></code> </p>
+                <h5 id="-width-classes-" class="sg-heading sg-heading-5"><code id="mixin-width-classes" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width-classes()">@width-classes()</code></h5>
+
+                <h6 id="mixin-silent-grid-silent-classes-important-false-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$silent:</code> <code id="variable--grid-silent-classes" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-silent-classes">$grid-silent-classes</code>, <code class="sg-code sg-codespan">$important: false</code>)</h6>
+<p>Runs <code id="mixin-width-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width-setup()">@width-setup()</code>, looping across all breakpoints in <code id="variable--breakpoint-has-widths" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoint-has-widths">$breakpoint-has-widths</code>. Creates classes with <code class="sg-code sg-codespan">width</code> property values (<code class="sg-code sg-codespan">flex-basis</code> and <code class="sg-code sg-codespan">max-width</code> for flex-based grids) based on the grid.</p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-media-query" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@media-query()">@media-query()</code>, <code id="mixin-width-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width-setup()">@width-setup()</code></code> </p>
+                <h5 id="-push-classes-" class="sg-heading sg-heading-5"><code id="mixin-push-classes" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@push-classes()">@push-classes()</code></h5>
+
+                <h6 id="mixin-silent-grid-silent-classes-important-false-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$silent:</code> <code id="variable--grid-silent-classes" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-silent-classes">$grid-silent-classes</code>, <code class="sg-code sg-codespan">$important: false</code>)</h6>
+<p>Runs <code id="mixin-width-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width-setup()">@width-setup()</code>, looping across all breakpoints in <code id="variable--breakpoint-has-push" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoint-has-push">$breakpoint-has-push</code>. Creates classes with <code class="sg-code sg-codespan">push_</code> and <code class="sg-code sg-codespan">left</code> property values based on the grid.</p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-media-query" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@media-query()">@media-query()</code>, <code id="mixin-width-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width-setup()">@width-setup()</code></code> </p>
+                <h5 id="-pull-classes-" class="sg-heading sg-heading-5"><code id="mixin-pull-classes" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@pull-classes()">@pull-classes()</code></h5>
+
+                <h6 id="mixin-silent-grid-silent-classes-important-false-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$silent:</code> <code id="variable--grid-silent-classes" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-silent-classes">$grid-silent-classes</code>, <code class="sg-code sg-codespan">$important: false</code>)</h6>
+<p>Runs <code id="mixin-pull-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@pull-setup()">@pull-setup()</code>, looping across all breakpoints in <code id="variable--breakpoint-has-pull" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoint-has-pull">$breakpoint-has-pull</code>. Creates classes with <code class="sg-code sg-codespan">pull_</code> and <code class="sg-code sg-codespan">right</code> property values based on the grid.</p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-media-query" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@media-query()">@media-query()</code>, <code id="mixin-width-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width-setup()">@width-setup()</code></code> </p><h5 id="-grid-width-" class="sg-heading sg-heading-5"><code id="mixin-grid-width" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@grid-width()">@grid-width()</code></h5>
 
                 <h6 id="mixin-columns-total-grid-columns-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$columns, $total:</code> <code id="variable--grid-columns" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-columns">$grid-columns</code>)</h6>
 <p>Creates a width property with a percentage based on the <code class="sg-code sg-codespan">$columns / $total</code>.</p>
 
 <p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-grid-size" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="grid-size()">grid-size()</code>, <code id="variable--grid-columns" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-columns">$grid-columns</code></code> </p>
 
-<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-width" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width()">@width()</code></code> </p>
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-width" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width()">@width()</code></code> </p><h5 id="-width-setup-" class="sg-heading sg-heading-5"><code id="mixin-width-setup" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@width-setup()">@width-setup()</code></h5>
+
+                <h6 id="mixin-namespace-quot-quot-silent-grid-silent-classes-property-width-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$namespace:&quot;&quot;, $silent:</code> <code id="variable--grid-silent-classes" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-silent-classes">$grid-silent-classes</code>, $property:&#x201D;width&#x201D;)</h6>
+<p> Uses <code id="variable--human-readable-numerators" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$human-readable-numerators">$human-readable-numerators</code> and <code id="variable--human-readable-denominators" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$human-readable-denominators">$human-readable-denominators</code> to create percentages based on <code id="variable--grid-columns" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$grid-columns">$grid-columns</code>. <code class="sg-code sg-codespan">$property</code> accepts any property, as well as lists of properties.</p><p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-grid-size" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="grid-size()">grid-size()</code>, <code id="variable--human-readable-numerators" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$human-readable-numerators">$human-readable-numerators</code>, <code id="variable--human-readable-denominators" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$human-readable-denominators">$human-readable-denominators</code></code> </p>
                     </div>
                 </article>                <article class="sg-article" id="development-grid-system-variables" data-sg-section="Grid System" data-sg-heading="Variables">
                     <header class="sg-article_head ">
@@ -1692,7 +1775,29 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
 }
 </code></pre>
 </div>
-<p><a href="http://www.sitepoint.com/selector-specificity-css-preprocessors/">Reference</a></p>
+<p><a href="http://www.sitepoint.com/selector-specificity-css-preprocessors/">Reference</a></p><h5 id="-opacity-" class="sg-heading sg-heading-5"><code id="mixin-opacity" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@opacity()">@opacity()</code></h5>
+
+                <h6 id="mixin-opacity-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$opacity</code>)</h6>
+<p>Cross-browser (including IE8-) opacity.
+<br>
+<a href="https://gist.github.com/jgv/745754">Reference</a></p><h5 id="-border-" class="sg-heading sg-heading-5"><code id="mixin-border" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@border()">@border()</code></h5>
+
+                <h6 id="mixin-border-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$border</code>)</h6>
+<p>Allows creating many border properties at once. Works like the standard border shorthand style but allows varied styles on different border directions.</p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code  ">    <span class="hljs-comment">//scss</span>
+    <span class="hljs-selector-class">.foo</span> {
+        @<span class="hljs-keyword">include</span> border(<span class="hljs-number">2px</span> 3px solid dashed dotted blue currentColor yellow);
+    }
+
+    <span class="hljs-comment">//css</span>
+    <span class="hljs-selector-class">.foo</span> {
+        <span class="hljs-attribute">border-width</span>: <span class="hljs-number">2px</span> <span class="hljs-number">3px</span>;
+        <span class="hljs-attribute">border-style</span>: solid dashed dotted;
+        <span class="hljs-attribute">border-color</span>: blue currentColor yellow;
+    }
+</code></pre>
+</div>
                     </div>
                 </article>                <article class="sg-article" id="development-mixins-media-queries" data-sg-section="Mixins" data-sg-heading="Media Queries">
                     <header class="sg-article_head ">
@@ -1712,19 +1817,56 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
 
 <p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code id="mixin-bp" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@bp()">@bp()</code> </p>
                     </div>
-                </article>                <article class="sg-article" id="development-mixins-typography" data-sg-section="Mixins" data-sg-heading="Typography">
+                </article>                <article class="sg-article" id="development-mixins-overrides" data-sg-section="Mixins" data-sg-heading="Overrides">
                     <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Typography</h3>
-                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-type.scss</code></p><hr></header>
+                        <h3 class="sg-heading sg-heading-article">Overrides</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-overrides.scss</code></p><hr></header>
                     <div class="sg-article_comment">
-                        <h5 id="-px-to-rems-" class="sg-heading sg-heading-5"><code id="mixin-px-to-rems" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@px-to-rems()">@px-to-rems()</code></h5>
+                        <h5 id="-create-overrides-" class="sg-heading sg-heading-5"><code id="mixin-create-overrides" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@create-overrides()">@create-overrides()</code></h5>
 
-                <h6 id="mixin-property-sizes-important-false-base-font-base-font-size-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$property</code>, <code class="sg-code sg-codespan">$sizes</code>, <code class="sg-code sg-codespan">$important</code>: <code class="sg-code sg-codespan">false</code>, <code class="sg-code sg-codespan">$base-font</code>: <code id="variable--base-font-size" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$base-font-size">$base-font-size</code>)</h6>
-<p>Takes a pixel value and creates a property with a <code class="sg-code sg-codespan">rem</code> value. If <code id="variable--rem-px-fallback" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$rem-px-fallback">$rem-px-fallback</code> is <code class="sg-code sg-codespan">true</code>, a pixel fallback is also included. <code class="sg-code sg-codespan">$sizes</code> also accepts &#x2018;auto&#x2019;.</p>
+                <h6 id="mixin-map-breakpoints-namespace-quot-quot-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$map, $breakpoints, $namespace: &quot;&quot;</code>)</h6>
+<p>Takes a map of class names and style properties and outputs utility (override) classes over a specified number of breakpoints. Useful for creating a number of single-use classes over multiple breakpoints. Always makes property declarations <code class="sg-code sg-codespan">!important</code>.</p><p>Example:</p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code  "><span class="hljs-comment">//Input</span>
+@<span class="hljs-keyword">include</span> creat-overrides(
+    (
+        <span class="hljs-string">&quot;class-name&quot;</span>: (
+            <span class="hljs-string">&quot;property&quot;</span>: <span class="hljs-string">&quot;value&quot;</span>,
+        ),
+        <span class="hljs-string">&quot;float-right, align_right&quot;</span>: (
+            <span class="hljs-string">&quot;float&quot;</span>: <span class="hljs-string">&quot;right&quot;</span>
+        )
+    ),
+    (<span class="hljs-string">&apos;smalls&apos;</span>, <span class="hljs-string">&apos;bigs&apos;</span>)
+);
 
-<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-rems" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@rems()">@rems()</code></code> </p>
+<span class="hljs-comment">//CSS-output</span>
+<span class="hljs-selector-class">.float-left</span> {
+    <span class="hljs-attribute">float</span>: left <span class="hljs-meta">!important</span>;
+}
+<span class="hljs-selector-class">.float-right</span>,
+<span class="hljs-selector-class">.align_right</span> {
+    <span class="hljs-attribute">float</span>: right <span class="hljs-meta">!important</span>;
+}
+@<span class="hljs-keyword">media</span> (max-width: 600px) {
+    <span class="hljs-selector-class">.float-left</span> {
+        <span class="hljs-attribute">float</span>: left <span class="hljs-meta">!important</span>;
+    }
+    <span class="hljs-selector-class">.float-right</span>,
+    <span class="hljs-selector-class">.align_right</span> {
+        <span class="hljs-attribute">float</span>: right <span class="hljs-meta">!important</span>;
+    }
+}
+@<span class="hljs-keyword">media</span> (min-width: 601px) {
+    ...
+}
+</code></pre>
+</div>
 
-<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-px-to-rems" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="px-to-rems()">px-to-rems()</code></code> </p>
+                <h5 id="-_override-output-" class="sg-heading sg-heading-5"><code id="mixin-_override-output" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@_override-output()">@_override-output()</code></h5>
+
+                <h6 id="mixin-map-namespace-quot-quot-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$map, $namespace: &quot;&quot;</code>)</h6>
+<p>Used exclusively by <code id="mixin-create-overrides" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@create-overrides()">@create-overrides()</code> to iterate through a map of classes, properties, and values to create responsive classes.</p>
                     </div>
                 </article>            </div>
         </div> 
@@ -1746,30 +1888,6 @@ A <code class="sg-code sg-codespan">false</code> value will output no classes of
 
                 <h6 id="mixin-breakpoints-all-breakpoints-namespace-39-39-silent-true-important-false-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$breakpoints: $all-breakpoints, $namespace: &apos;&apos;, $silent: true, $important: false</code>)</h6>
 <p>The responsive component to <code id="mixin-display-utilities" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@display-utilities()">@display-utilities()</code>. Invoke <code id="mixin-display-utilites" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@display-utilites()">@display-utilites()</code> with that loops through a set of media-queries defined in <code id="variable--breakpoints" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$breakpoints">$breakpoints</code>. This is most useful for creating responsive display classes.</p>
-                    </div>
-                </article>                <article class="sg-article" id="development-tools-font-face-generator" data-sg-section="Tools" data-sg-heading="Font Face Generator">
-                    <header class="sg-article_head ">
-                        <h3 class="sg-heading sg-heading-article">Font Face Generator</h3>
-                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-fontface.scss</code></p><hr></header>
-                    <div class="sg-article_comment">
-                        <h5 id="-fonts-" class="sg-heading sg-heading-5"><code id="mixin-fonts" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@fonts()">@fonts()</code></h5>
-
-                <h6 id="mixin-name-font-file-name-font-file-location-weights-font-weights-italics-font-italics-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$name</code>: <code id="variable--font-file-name" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-file-name">$font-file-name</code>, <code id="variable--font-file-location" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-file-location">$font-file-location</code>, <code class="sg-code sg-codespan">$weights</code>: <code id="variable--font-weights" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-weights">$font-weights</code>, <code class="sg-code sg-codespan">$italics</code>: <code id="variable--font-italics" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-italics">$font-italics</code>)</h6>
-<p>A wrapper function for <code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code>. Takes global configuration variables and passes them to <code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code>. Loops through each <code class="sg-code sg-codespan">$name</code> based on <code class="sg-code sg-codespan">$weights</code> and <code class="sg-code sg-codespan">$italics</code>. Uses <code class="sg-code sg-codespan">$path</code> and <code class="sg-code sg-codespan">$name</code> to point to font files. Formats these variables so they can be passed to <code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code>.</p><p>Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: &#x2018;arial&#x2019;; font-weight: 400.</p><p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code></code> </p>
-                <h5 id="-font-face-" class="sg-heading sg-heading-5"><code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code></h5>
-
-                <h6 id="mixin-name-font-files-weight-false-style-false-eot-false-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$name</code>, <code class="sg-code sg-codespan">$font-files</code>, <code class="sg-code sg-codespan">$weight:false</code>,<code class="sg-code sg-codespan">$style:false</code>, <code class="sg-code sg-codespan">$eot:false</code>)</h6>
-<p>Generates cross-browser font-face declarations when called.
-<br>
-$name is required, arbitrary, and what you will use in font stacks.
-<br>
-<strong>Arguments:</strong></p><ul>
-<li>$font-files is required using font-files(&#x2018;relative/location&#x2019;, &#x2018;format&#x2019;). For best results use this order: woff, opentype/truetype, svg</li>
-<li>$eot is required by IE, and is a relative location of the eot file.</li>
-<li>$weight shows if the font is bold, defaults to normal</li>
-<li>$style defaults to normal, might be also italic</li>
-</ul>
-<p>Based on <a href="http://compass-style.org/reference/compass/css3/font_face/">Compass&#x2019; font-face mixin</a>.</p>
                     </div>
                 </article>                <article class="sg-article" id="development-tools-spacing-utilities" data-sg-section="Tools" data-sg-heading="Spacing Utilities">
                     <header class="sg-article_head ">
@@ -1802,6 +1920,133 @@ $name is required, arbitrary, and what you will use in font stacks.
 
                 <h6 id="function-layer-modifier-false-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$layer</code>, <code class="sg-code sg-codespan">$modifier: false</code>)</h6>
 <p>Returns a numeric value (used for z-index) from a named layer, stored in <code id="variable--z-index" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$z-index">$z-index</code>. Changing the modifier to anything other than <code class="sg-code sg-codespan">false</code> will add 1 plus however many times the value has been called. So, if you&#x2019;ve called <code class="sg-code sg-codespan">z(head, true)</code> 5 times, and <code class="sg-code sg-codespan">head</code>&#x2018;s default value is 100, you would get a value of 105.</p><p>The <code class="sg-code sg-codespan">$modifier</code> is useful if you&#x2019;d like to closely layer z-indexes within the same module. It is rarely necessary, though since z-indexes stack.</p>
+                    </div>
+                </article>            </div>
+        </div> 
+        <div class="sg-category">
+            <div class="sg-category_wrap">
+            
+                <header class="sg-category_head" data-sg-section="Typography" >
+                    <h2 class="sg-heading-category">Typography</h2>
+                </header>                <article class="sg-article" id="development-typography-conversion" data-sg-section="Typography" data-sg-heading="Conversion">
+                    <header class="sg-article_head ">
+                        <h3 class="sg-heading sg-heading-article">Conversion</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-type.scss</code></p><hr></header>
+                    <div class="sg-article_comment">
+                        <h5 id="-px-to-rems-" class="sg-heading sg-heading-5"><code id="mixin-px-to-rems" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@px-to-rems()">@px-to-rems()</code></h5>
+
+                <h6 id="mixin-property-sizes-important-false-base-font-base-font-size-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$property</code>, <code class="sg-code sg-codespan">$sizes</code>, <code class="sg-code sg-codespan">$important</code>: <code class="sg-code sg-codespan">false</code>, <code class="sg-code sg-codespan">$base-font</code>: <code id="variable--base-font-size" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$base-font-size">$base-font-size</code>)</h6>
+<p>Takes a pixel value and creates a property with a <code class="sg-code sg-codespan">rem</code> value. If <code id="variable--rem-px-fallback" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$rem-px-fallback">$rem-px-fallback</code> is <code class="sg-code sg-codespan">true</code>, a pixel fallback is also included. <code class="sg-code sg-codespan">$sizes</code> also accepts &#x2018;auto&#x2019;.</p>
+
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-rems" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@rems()">@rems()</code></code> </p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-px-to-rems" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="px-to-rems()">px-to-rems()</code></code> </p>
+                    </div>
+                </article>                <article class="sg-article" id="development-typography-font-face" data-sg-section="Typography" data-sg-heading="Font Face">
+                    <header class="sg-article_head ">
+                        <h3 class="sg-heading sg-heading-article">Font Face</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-fontface.scss</code></p><hr></header>
+                    <div class="sg-article_comment">
+                        <h5 id="-fonts-" class="sg-heading sg-heading-5"><code id="mixin-fonts" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@fonts()">@fonts()</code></h5>
+
+                <h6 id="mixin-name-font-file-name-font-file-location-weights-font-weights-italics-font-italics-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$name</code>: <code id="variable--font-file-name" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-file-name">$font-file-name</code>, <code id="variable--font-file-location" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-file-location">$font-file-location</code>, <code class="sg-code sg-codespan">$weights</code>: <code id="variable--font-weights" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-weights">$font-weights</code>, <code class="sg-code sg-codespan">$italics</code>: <code id="variable--font-italics" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-italics">$font-italics</code>)</h6>
+<p>A wrapper function for <code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code>. Takes global configuration variables and passes them to <code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code>. Loops through each <code class="sg-code sg-codespan">$name</code> based on <code class="sg-code sg-codespan">$weights</code> and <code class="sg-code sg-codespan">$italics</code>. Uses <code class="sg-code sg-codespan">$path</code> and <code class="sg-code sg-codespan">$name</code> to point to font files. Formats these variables so they can be passed to <code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code>.</p><p>Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: &#x2018;arial&#x2019;; font-weight: 400.</p><p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code></code> </p>
+                <h5 id="-font-face-" class="sg-heading sg-heading-5"><code id="mixin-font-face" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-face()">@font-face()</code></h5>
+
+                <h6 id="mixin-name-font-files-weight-false-style-false-eot-false-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$name</code>, <code class="sg-code sg-codespan">$font-files</code>, <code class="sg-code sg-codespan">$weight:false</code>,<code class="sg-code sg-codespan">$style:false</code>, <code class="sg-code sg-codespan">$eot:false</code>)</h6>
+<p>Generates cross-browser font-face declarations when called.
+<br>
+$name is required, arbitrary, and what you will use in font stacks.
+<br>
+<strong>Arguments:</strong></p><ul>
+<li>$font-files is required using font-files(&#x2018;relative/location&#x2019;, &#x2018;format&#x2019;). For best results use this order: woff, opentype/truetype, svg</li>
+<li>$eot is required by IE, and is a relative location of the eot file.</li>
+<li>$weight shows if the font is bold, defaults to normal</li>
+<li>$style defaults to normal, might be also italic</li>
+</ul>
+<p>Based on <a href="http://compass-style.org/reference/compass/css3/font_face/">Compass&#x2019; font-face mixin</a>.</p>
+                    </div>
+                </article>                <article class="sg-article" id="development-typography-line-height" data-sg-section="Typography" data-sg-heading="Line-height">
+                    <header class="sg-article_head ">
+                        <h3 class="sg-heading sg-heading-article">Line-height</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
+                    <div class="sg-article_comment">
+                        <h5 id="baseline-" class="sg-heading sg-heading-5"><code id="function-baseline" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline()">baseline()</code></h5>
+
+                <h6 id="function-font-size-baseline-multiple-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$font-size</code>, <code class="sg-code sg-codespan">$baseline</code>, <code class="sg-code sg-codespan">$multiple:1</code>)</h6>
+<p>Aligns a font-size to a baseline (<code class="sg-code sg-codespan">$baseline</code>). Returns a unitless value relative to the font-size (equivilent to ems). An optional multiple can be used to make a variation on the given baseline (using decimals will divide the the baseline).</p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number (unitless) </p><h5 id="baseline-curve-" class="sg-heading sg-heading-5"><code id="function-baseline-curve" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-curve()">baseline-curve()</code></h5>
+
+                <h6 id="function-x-accel-1-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$x</code> , <code class="sg-code sg-codespan">$accel</code>: <code class="sg-code sg-codespan">1</code>)</h6>
+<p>Calculates a where a number(<code class="sg-code sg-codespan">$x</code>) sits along a parabolic arc (curve). Change the curve&#x2019;s severity by changing its <code class="sg-code sg-codespan">$accel</code>.
+<br>
+An <code class="sg-code sg-codespan">$accel</code> of 1 is a smooth arc.
+<br>
+<code class="sg-code sg-codespan">$accel</code> accepts any number between -2 and 2.35. A negative will invert the curve.</p><p>The formula: <code class="sg-code sg-codespan">y = (sqrt((x^1)+x) - sqrt(x^1)) / .4142135623730951</code>
+<br>
+( <a href="https://www.desmos.com/calculator/qswvc6q9kt">Visual</a> )</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number </p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-sqrt" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="sqrt()">sqrt()</code>, <code id="function-pow" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pow()">pow()</code></code> </p><h5 id="baseline-calc-" class="sg-heading sg-heading-5"><code id="function-baseline-calc" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-calc()">baseline-calc()</code></h5>
+
+                <h6 id="function-font-size-base-font-size-font-base-base-font-size-basline-slack-font-looseness-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$font-size: $base-font-size, $font-base: $base-font-size, $basline-slack: $font-looseness</code>)</h6>
+<p>Creates unitless line-heights that align to the baseline grid with consideration to the aesthetics of a given font size. Essentially makes sure larger font-sizes have smaller line-heights, while smaller font-sizes have larger ones.
+<br>
+Uses constraints based on upper and lower limits of pleasing line-heights, and finds where a given font-size should sit within those constraints. <code id="variable--font-looseness" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$font-looseness">$font-looseness</code> increases the upper constraints, allowing for taller line heights on larger font sizes.
+<br>
+Depends on <code id="function-baseline" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline()">baseline()</code> for calculation and <code id="function-baseline-curve" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-curve()">baseline-curve()</code> to determine the deviance from the upper and lower constraints.</p><p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number (unitless) </p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-baseline" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline()">baseline()</code>, <code id="function-baseline-curve" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-curve()">baseline-curve()</code></code> </p>
+                    </div>
+                </article>                <article class="sg-article" id="development-typography-sizing" data-sg-section="Typography" data-sg-heading="Sizing">
+                    <header class="sg-article_head ">
+                        <h3 class="sg-heading sg-heading-article">Sizing</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-functions.scss</code></p><hr></header>
+                    <div class="sg-article_comment">
+                        <h5 id="modular-scale-" class="sg-heading sg-heading-5"><code id="function-modular-scale" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="modular-scale()">modular-scale()</code></h5>
+
+                <h6 id="function-scale-scale-ratio-" class="sg-heading sg-heading-6">function(<code class="sg-code sg-codespan">$scale</code>, <code id="variable--scale-ratio" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$scale-ratio">$scale-ratio</code>)</h6>
+<p>Generates a pixel value that is an exponent of a ratio (<code class="sg-code sg-codespan">$ratio</code> defaults to <code id="variable--scale-ratio" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$scale-ratio">$scale-ratio</code> value).</p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="function-pow" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="pow()">pow()</code>, <code id="function-cache" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="cache()">cache()</code>, <code id="function-strip-units" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="strip-units()">strip-units()</code></code> </p>
+
+<p data-code-meta="returns" class="sg-code-meta sg-code-meta-value">  number (pixels) </p><h5 id="-type-font-size-" class="sg-heading sg-heading-5"><code id="mixin-type-font-size" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@type-font-size()">@type-font-size()</code></h5>
+
+                <h6 id="mixin-base-font-size-" class="sg-heading sg-heading-6">mixin(<code id="variable--base-font-size" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$base-font-size">$base-font-size</code>)</h6>
+<p>Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using <code id="variable--base-line-height" class="sg-global-variable sg-code sg-codespan sg-global" data-code-id="$base-line-height">$base-line-height</code>.</p><p><em><code class="sg-code sg-codespan">$line-height</code> also accepts a pixel value and will be converted to a unitless one.</em></p><p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-font-size" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@font-size()">@font-size()</code></code> </p>
+
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-px-to-rems" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@px-to-rems()">@px-to-rems()</code>, <code id="function-cache" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="cache()">cache()</code>, <code id="function-baseline-calc" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="baseline-calc()">baseline-calc()</code></code> </p>
+                    </div>
+                </article>                <article class="sg-article" id="development-typography-spacing" data-sg-section="Typography" data-sg-heading="Spacing">
+                    <header class="sg-article_head ">
+                        <h3 class="sg-heading sg-heading-article">Spacing</h3>
+                        <p><code class="sg-codespan sg-file">_partials/sass/tools/_t-type.scss</code></p><hr></header>
+                    <div class="sg-article_comment">
+                        <h5 id="-type-space-" class="sg-heading sg-heading-5"><code id="mixin-type-space" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@type-space()">@type-space()</code></h5>
+
+                <h6 id="mixin-properties-multipliers-important-false-" class="sg-heading sg-heading-6">mixin(<code class="sg-code sg-codespan">$properties, $multipliers, $important: false</code>)</h6>
+<p>Output REM values using the typographic grid. This is the prefered method of adding padding and margins because it enforces consistent spacing around all elements.</p><p><strong>Arguments:</strong></p><ul>
+<li><code class="sg-code sg-codespan">$properties</code>: Can be any <code class="sg-code sg-codespan">CSS</code> property that accepts a length value (e.g. <code class="sg-code sg-codespan">rem</code>). Also accepts multiple properties as a nested list (e.g. <code class="sg-code sg-codespan">(padding-left, padding-right)</code>).</li>
+<li><code class="sg-code sg-codespan">$multipliers</code>: Accepts unitless values that get converted to <code class="sg-code sg-codespan">rem</code> units which are a multiple of the typographic grid. Can be multiple values, <strong>separated by spaces</strong>, in the case of <code class="sg-code sg-codespan">margin</code> or <code class="sg-code sg-codespan">padding</code>.</li>
+<li><code class="sg-code sg-codespan">$important</code>: Accepts <code class="sg-code sg-codespan">true</code> or <code class="sg-code sg-codespan">!important</code>.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="sg-markup sg-codeblock">
+<pre class="sg-markup_wrap"><code class="hljs sg-code  "><span class="hljs-comment">// SCSS input</span>
+<span class="hljs-selector-class">.foo</span> {
+    @<span class="hljs-keyword">include</span> type-space(padding, 1 .25 .5 auto, <span class="hljs-string">&apos;!important&apos;</span>);
+}
+
+<span class="hljs-comment">// CSS output</span>
+<span class="hljs-selector-class">.foo</span> {
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">24px</span> <span class="hljs-number">8px</span> <span class="hljs-number">12px</span> auto <span class="hljs-meta">!important</span>;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">1.5rem</span> .<span class="hljs-number">375rem</span> .<span class="hljs-number">75rem</span> auto <span class="hljs-meta">!important</span>;
+}
+</code></pre>
+</div>
+<p data-code-meta="requires" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-px-to-rems" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@px-to-rems()">@px-to-rems()</code>, <code id="function-str-contains" class="sg-global-function sg-code sg-codespan sg-global" data-code-id="str-contains()">str-contains()</code></code> </p>
+
+<p data-code-meta="alias" class="sg-code-meta sg-code-meta-value"> <code class="sg-code sg-codespan"> <code id="mixin-space" class="sg-global-mixin sg-code sg-codespan sg-global" data-code-id="@space()">@space()</code></code> </p>
                     </div>
                 </article>            </div>
         </div> 

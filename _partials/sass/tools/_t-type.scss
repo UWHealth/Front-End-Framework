@@ -1,5 +1,5 @@
 /* SG
-# Mixins/Typography [[dev]]
+# Typography/Conversion [[dev]]
 
 ##### `@px-to-rems()`
 ###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
@@ -57,6 +57,8 @@ Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fall
 
 /* SG
 
+# Typography/Sizing [[dev]]
+
 ##### `@type-font-size()`
 ###### mixin(`$font-size, $line-height: auto, $font-base:``$$base-font-size`)
 Quickly generate a font-size in rems, with a pixel fallback, based on the value we pass into the mixin. Optionally calculates line-height using `$$base-line-height`.
@@ -108,6 +110,7 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless o
 
 
 /* SG
+# Typography/Spacing [[dev]]
 
 ##### `@type-space()`
 ###### mixin(`$properties, $multipliers, $important: false`)

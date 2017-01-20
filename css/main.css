@@ -40,8 +40,6 @@ _NOTE: This can actually **increase** processing time if used too often or on si
 /* SG
 # Functions/Conversion [[dev]]
 
-@file globals/_gl-functions.scss
-
 ##### `strip-units()`
 ###### function(`$value`)
 Remove lengths (`px`, `em`, `rem`, etc.) from a value. Usually a variable. This is sometimes required because Sass cannot calculate incompatible units (`px * rem` for instance).
@@ -82,8 +80,6 @@ Converts a number-like string to a number. Since Sass accepts quoted and non-quo
 */
 /* SG
 # Functions/Strings & Lists [[dev]]
-
-@file globals/_gl-functions.scss
 
 [Reference](https://github.com/devatrox/Sunglass)
 
@@ -176,9 +172,7 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
 
 */
 /* SG
-# Functions/Typography [[dev]]
-
-@file globals/_gl-functions.scss
+# Typography/Sizing [[dev]]
 
 ##### `modular-scale()`
 ###### function(`$scale`, `$ratio:``$$scale-ratio`)
@@ -188,7 +182,7 @@ Generates a pixel value that is an exponent of a ratio (`$ratio` defaults to `$$
 
 */
 /* SG
-# Functions/Typography [[dev]]
+# Typography/Line-height [[dev]]
 
 ##### `baseline()`
 ###### function(`$font-size`, `$baseline`, `$multiple:1`)
@@ -224,20 +218,6 @@ Depends on `baseline()` for calculation and `baseline-curve()` to determine the 
 
 @returns number (unitless)
 @requires `baseline()`, `baseline-curve()`
-
-*/
-/* SG
-# Functions/Typography [[dev]]
-
-##### `get-type()`, `type()`
-###### `[font-size],[font-size-value]`
-function for finding the value of an indexed type-size. H1-H6, p, and small are all indexed values. px, rem, and line-height are available.
-
-*/
-/* SG
-##### `define-type()`
-###### `[font-size], [property], [new value]`
-Registers new values to type map. [Property] accepts px, rem, and line-height.
 
 */
 /* SG
@@ -899,9 +879,7 @@ Grabs the last `$$breakpoints` name.
 
 */
 /* SG
-# Tools/Font Face Generator [[dev]]
-
-@file globals/tools/_t-fontface.scss
+# Typography/Font Face [[dev]]
 
 ##### `@fonts()`
 ###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`)
@@ -1028,7 +1006,7 @@ Enclose a block of code with a media query as named in `$breakpoints`. To create
 
 */
 /* SG
-# Mixins/Overrides
+# Mixins/Overrides [[dev]]
 
 ##### `@create-overrides()`
 ###### mixin(`$map, $breakpoints, $namespace: ""`)
@@ -1319,7 +1297,7 @@ The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()`
 
 */
 /* SG
-# Mixins/Typography [[dev]]
+# Typography/Conversion [[dev]]
 
 ##### `@px-to-rems()`
 ###### mixin(`$property`, `$sizes`, `$important`: `false`, `$base-font`: `$$base-font-size`)
@@ -1329,6 +1307,8 @@ Takes a pixel value and creates a property with a `rem` value. If `$$rem-px-fall
 
 */
 /* SG
+
+# Typography/Sizing [[dev]]
 
 ##### `@type-font-size()`
 ###### mixin(`$font-size, $line-height: auto, $font-base:``$$base-font-size`)
@@ -1341,6 +1321,7 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless o
 
 */
 /* SG
+# Typography/Spacing [[dev]]
 
 ##### `@type-space()`
 ###### mixin(`$properties, $multipliers, $important: false`)
