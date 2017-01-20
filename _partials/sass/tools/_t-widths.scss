@@ -60,6 +60,7 @@ Creates a width property with a percentage based on the `$columns / $total`.
 
 /* SG
 
+
 ##### `@width-setup()`
 ###### mixin(`$namespace:"", $silent:` `$$grid-silent-classes`, $property:"width")
  Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentages based on `$$grid-columns`. `$property` accepts any property, as well as lists of properties.

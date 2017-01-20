@@ -104,7 +104,36 @@ _Note: Flexbox handles this a little differently than inline-block, so check old
     <div class="grid_item">Auto Column</div>
 </div>
 ```
+*/
 
+/* SG
+# Grid/Gutter Control
+
+@priority 3
+
+Gutters (spaces between grid items) default to 1.5rem. However, there are three grid gutter classes to alter this behavior.
+
+* `grid_full` will set gutters to 0.
+* `grid_wide` will double the width of gutters.
+* `grid_narrow` will halve the width of gutters.
+
+```html_example
+<div class="grid grid_full">
+    <div class="grid_item one_third">No gutter</div>
+    <div class="grid_item one_third">No gutter</div>
+    <div class="grid_item one_third">No gutter</div>
+</div>
+<div class="grid grid_wide">
+    <div class="grid_item one_third">Wide gutter</div>
+    <div class="grid_item one_third">Wide gutter</div>
+    <div class="grid_item one_third">Wide gutter</div>
+</div>
+<div class="grid grid_narrow">
+    <div class="grid_item one_third">Narrow gutter</div>
+    <div class="grid_item one_third">Narrow gutter</div>
+    <div class="grid_item one_third">Narrow gutter</div>
+</div>
+```
 */
 
 @include grid-init($silent:false, $important: true);
@@ -133,6 +162,20 @@ $grid-gutter-rems: rems($grid-gutter); //Required so
     }
 }
 
+.grid_full .grid_item:before {
+    width: 100%;
+    left: 0;
+}
+
+.grid_wide .grid_item:before {
+    width: calc(100% - #{$grid-gutter-rems*2});
+    left: #{$grid-gutter-rems*2};
+}
+
+.grid_narrow .grid_item:before {
+    width: calc(100% - #{$grid-gutter-rems/2});
+    left: #{$grid-gutter-rems/2};
+}
 
 /******Base Layout******/
 
@@ -289,7 +332,7 @@ $grid-gutter-rems: rems($grid-gutter); //Required so
 .sg-logo {
     font-weight: normal;
     background-color: color(styleguide, highlight);
-    background-image: url('../images/logo.svg');
+    background-image: url('images/logo.svg');
     background-attachment: fixed;
     background-size: 100vw;
     color: #fff;
@@ -460,7 +503,7 @@ $grid-gutter-rems: rems($grid-gutter); //Required so
 }
 
 .sg-codeblock {
-    margin-bottom: 2em;
+    margin-bottom: 1.5rem;
 }
 
 .sg-code-meta + .sg-code-meta {
@@ -496,4 +539,8 @@ $grid-gutter-rems: rems($grid-gutter); //Required so
 }
 #styleguide .hljs-comment {
     color: #8aaeb7;
+}
+
+code {
+    font-family: 'Roboto Mono', monospace;
 }

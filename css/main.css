@@ -1028,6 +1028,8 @@ Enclose a block of code with a media query as named in `$breakpoints`. To create
 
 */
 /* SG
+# Mixins/Overrides
+
 ##### `@create-overrides()`
 ###### mixin(`$map, $breakpoints, $namespace: ""`)
 Takes a map of class names and style properties and outputs utility (override) classes over a specified number of breakpoints. Useful for creating a number of single-use classes over multiple breakpoints. Always makes property declarations `!important`.
@@ -1037,10 +1039,8 @@ Example:
 //Input
 @include creat-overrides(
     (
-        //class name
-        "float-left": (
-            //property declaration
-            "float": "left",
+        "class-name": (
+            "property": "value",
         ),
         "float-right, align_right": (
             "float": "right"
@@ -1204,6 +1204,7 @@ Creates a width property with a percentage based on the `$columns / $total`.
 */
 /* SG
 
+
 ##### `@width-setup()`
 ###### mixin(`$namespace:"", $silent:` `$$grid-silent-classes`, $property:"width")
  Uses `$$human-readable-numerators` and `$$human-readable-denominators` to create percentages based on `$$grid-columns`. `$property` accepts any property, as well as lists of properties.
@@ -1257,14 +1258,21 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 /* SG
 # Grid System/Mixins [[dev]]
 
+##### `@grid-row()`
+###### mixin()
+Creates a grid container (row) based on your grid configuration.
+@requires `@type-space()`
+
+##### `@grid-item()`
+###### mixin(`$columns: $grid-columns`)
+Creates a grid item (column) based on your grid configuration set to a width based on the `$columns` passed in.
+@requires `@type-space()`, `@grid-width()`
+*/
+/* SG
 ##### `@grid-init()`
 ###### mixin(`$silent:` `$$grid-silent-classes`, `$important:false`)
 Creates responsive grid classes by running through all the grid-setup mixins. Uses the media-queries defined in the `$breakpoint-has-` variables to create media-query-scoped classes.
 @requires `@grid-classes()`, `@width-classes()`, `@push-classes()`, `@pull-classes()`
-
-##### `@grid-item()`
-###### mixin(`$silent:` `$$grid-silent-classes`, `$important:false`)
-Creates responsive grid classes by running through all the grid-setup mixins. Uses the media-queries defined in the `$breakpoint-has-` variables to create media-query-scoped classes.
 
 */
 /* SG
@@ -2916,6 +2924,13 @@ $(function() {
   position: absolute !important;
 }
 
+.absolute-fill {
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+}
+
 @media only screen and (max-width: 56.875em) {
   .smalls-float-left {
     float: left !important;
@@ -2931,6 +2946,12 @@ $(function() {
   }
   .smalls-absolute {
     position: absolute !important;
+  }
+  .smalls-absolute-fill {
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
   }
 }
 
@@ -2950,6 +2971,12 @@ $(function() {
   .bigs-absolute {
     position: absolute !important;
   }
+  .bigs-absolute-fill {
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+  }
 }
 
 @media only screen and (min-width: 85em) {
@@ -2967,6 +2994,12 @@ $(function() {
   }
   .desk-absolute {
     position: absolute !important;
+  }
+  .desk-absolute-fill {
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
   }
 }
 
@@ -3037,6 +3070,10 @@ $(function() {
 
 [hidden] {
   display: none !important;
+}
+
+.invisible {
+  visibility: hidden !important;
 }
 
 .pad {
@@ -4233,10 +4270,6 @@ Moving from `h6` up to `h1`, the heading font sizes get larger on a scale. For i
   list-style-image: none;
   list-style-type: none;
   margin-left: 0;
-}
-
-.invisible {
-  visibility: hidden !important;
 }
 
 .visually_hidden.focusable:active,

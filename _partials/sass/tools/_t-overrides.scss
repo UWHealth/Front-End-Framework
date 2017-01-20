@@ -1,4 +1,6 @@
 /* SG
+# Mixins/Overrides
+
 ##### `@create-overrides()`
 ###### mixin(`$map, $breakpoints, $namespace: ""`)
 Takes a map of class names and style properties and outputs utility (override) classes over a specified number of breakpoints. Useful for creating a number of single-use classes over multiple breakpoints. Always makes property declarations `!important`.
@@ -8,10 +10,8 @@ Example:
 //Input
 @include creat-overrides(
     (
-        //class name
-        "float-left": (
-            //property declaration
-            "float": "left",
+        "class-name": (
+            "property": "value",
         ),
         "float-right, align_right": (
             "float": "right"
