@@ -1,0 +1,300 @@
+files:
+    include: '_src/sass/**/*.scss'
+options:
+    formatter: stylish
+    merge-default-rules: true
+rules:
+    brace-style:
+        - style: allman
+        - allow-single-line: true
+    class-name-format:
+        - 1
+        - convention: hyphenatedbem
+    placeholder-name-format:
+        - 1
+        - convention: hyphenatedbem
+    force-element-nesting: 0
+    force-pseudo-nesting: 0
+    indentation:
+        - 1
+        - size: 4
+    mixins-before-declarations:
+        - 1
+        - exclude: ['mq', 'fs', 'type-space']
+    no-color-literals: 0
+    no-color-keywords: 0
+    no-css-comments: 0
+    no-qualifying-elements: 0
+    no-vendor-prefixes: 0
+    no-warn: 0
+    pseudo-element: 0
+
+    no-misspelled-properties:
+        - 1
+        -
+            extra-properties:
+                - '-ms-preferred-size'
+                - 'overscroll-behavior'
+    property-sort-order:
+        - 1
+        -
+            ignore-custom-properties: true
+            order:
+
+                # box-sizing
+                - 'box-sizing'
+
+                # content
+                - 'content'
+                - 'quotes'
+
+                # position
+                - 'display'
+                - 'position'
+                - 'top'
+                - 'right'
+                - 'bottom'
+                - 'left'
+
+                - 'float'
+                - 'clear'
+
+                # flex
+                - 'flex'
+                - 'flex-basis'
+                - '-ms-preferred-size'
+                - 'flex-direction'
+                - 'flex-flow'
+                - 'flex-grow'
+                - 'flex-shrink'
+                - 'flex-wrap'
+                - 'justify-content'
+
+                # grid
+                - 'grid'
+                - 'grid-area'
+                - 'grid-template'
+                - 'grid-template-areas'
+                - 'grid-template-rows'
+                - 'grid-template-columns'
+                - 'grid-column'
+                - 'grid-column-start'
+                - 'grid-column-end'
+                - 'grid-row'
+                - 'grid-row-start'
+                - 'grid-row-end'
+                - 'grid-auto-rows'
+                - 'grid-auto-columns'
+                - 'grid-auto-flow'
+                - 'grid-gap'
+                - 'grid-row-gap'
+                - 'grid-column-gap'
+
+                # order
+                - 'order'
+
+                # align-content
+                - 'align-content'
+                - 'align-items'
+                - 'align-self'
+
+                # columns
+                - 'columns'
+                - 'column-gap'
+                - 'column-fill'
+                - 'column-rule'
+                - 'column-rule-width'
+                - 'column-rule-style'
+                - 'column-rule-color'
+                - 'column-span'
+                - 'column-count'
+                - 'column-width'
+
+                # transform
+                - 'backface-visibility'
+                - 'perspective'
+                - 'perspective-origin'
+                - 'transform'
+                - 'transform-origin'
+                - 'transform-style'
+
+                # visibility
+                - 'visibility'
+                - 'opacity'
+                - 'z-index'
+
+                # margin
+                - 'margin'
+                - 'margin-top'
+                - 'margin-right'
+                - 'margin-bottom'
+                - 'margin-left'
+
+                # outline
+                - 'outline'
+                - 'outline-offset'
+                - 'outline-width'
+                - 'outline-style'
+                - 'outline-color'
+
+                # border
+                - 'border'
+                - 'border-top'
+                - 'border-right'
+                - 'border-bottom'
+                - 'border-left'
+                - 'border-width'
+                - 'border-top-width'
+                - 'border-right-width'
+                - 'border-bottom-width'
+                - 'border-left-width'
+
+                # border-style
+                - 'border-style'
+                - 'border-top-style'
+                - 'border-right-style'
+                - 'border-bottom-style'
+                - 'border-left-style'
+
+                # border-radius
+                - 'border-radius'
+                - 'border-top-left-radius'
+                - 'border-top-right-radius'
+                - 'border-bottom-left-radius'
+                - 'border-bottom-right-radius'
+
+                # border-color
+                - 'border-color'
+                - 'border-top-color'
+                - 'border-right-color'
+                - 'border-bottom-color'
+                - 'border-left-color'
+
+                # border-image
+                - 'border-image'
+                - 'border-image-source'
+                - 'border-image-width'
+                - 'border-image-outset'
+                - 'border-image-repeat'
+                - 'border-image-slice'
+
+                # box-shadow
+                - 'box-shadow'
+
+                # background
+                - 'background'
+                - 'background-attachment'
+                - 'background-clip'
+                - 'background-color'
+                - 'background-image'
+                - 'background-repeat'
+                - 'background-position'
+                - 'background-size'
+
+                # cursor
+                - 'cursor'
+
+                # padding
+                - 'padding'
+                - 'padding-top'
+                - 'padding-right'
+                - 'padding-bottom'
+                - 'padding-left'
+
+                # width
+                - 'width'
+                - 'min-width'
+                - 'max-width'
+
+                # height
+                - 'height'
+                - 'min-height'
+                - 'max-height'
+
+                # overflow
+                - 'overflow'
+                - 'overflow-x'
+                - 'overflow-y'
+                - 'overscroll-behavior'
+                - 'resize'
+
+                # list-style
+                - 'list-style'
+                - 'list-style-type'
+                - 'list-style-position'
+                - 'list-style-image'
+                - 'caption-side'
+
+                # tables
+                - 'table-layout'
+                - 'border-collapse'
+                - 'border-spacing'
+                - 'empty-cells'
+
+                # vertical-alignment
+                - 'vertical-align'
+
+                # text-alignment and decoration
+                - 'direction'
+                - 'tab-size'
+                - 'text-align'
+                - 'text-align-last'
+                - 'text-justify'
+                - 'text-indent'
+                - 'text-transform'
+                - 'text-decoration'
+                - 'text-decoration-color'
+                - 'text-decoration-line'
+                - 'text-decoration-style'
+                - 'text-rendering'
+                - 'text-shadow'
+                - 'text-overflow'
+
+                # text-spacing
+                - 'line-height'
+                - 'word-spacing'
+                - 'letter-spacing'
+                - 'white-space'
+                - 'word-break'
+                - 'word-wrap'
+                - 'color'
+
+                # font
+                - 'font'
+                - '@include fs'
+                - 'font-family'
+                - 'font-size'
+                - 'font-size-adjust'
+                - 'font-stretch'
+                - 'font-weight'
+                - 'font-smoothing'
+                - 'osx-font-smoothing'
+                - 'font-variant'
+                - 'font-style'
+
+                # counters
+                - 'counter-reset'
+                - 'counter-increment'
+
+                # breaks
+                - 'page-break-before'
+                - 'page-break-after'
+                - 'page-break-inside'
+
+                # transition
+                - 'transition'
+                - 'transition-delay'
+                - 'transition-duration'
+                - 'transition-property'
+                - 'transition-timing-function'
+
+                # animation
+                - 'animation'
+                - 'animation-name'
+                - 'animation-duration'
+                - 'animation-timing-function'
+                - 'animation-delay'
+                - 'animation-iteration-count'
+                - 'animation-direction'
+                - 'animation-fill-mode'
+                - 'animation-play-state'
