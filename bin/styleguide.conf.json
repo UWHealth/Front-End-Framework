@@ -1,0 +1,41 @@
+{
+    "sgComment": "SG",
+    "exampleIdentifier": "html_example",
+    "sortCategories": true,
+    "excludeDirs": [
+        "target",
+        "node_modules",
+        ".git",
+        "dist"
+    ],
+    "fileExtensions": {
+        "scss": true,
+        "sass": false,
+        "css": false,
+        "less": true,
+        "md": true
+    },
+    "templateFile": "./styleguide/imports/template.hbs",
+    "themeFile": "./dist/css/styleguide.min.css",
+    "htmlOutput": "./_src/kits/_styleguide.kit",
+    "jsonOutput": "./styleguide/index.json",
+    "handlebarsPartials": {
+        "jquery": "./styleguide/imports/jquery.js",
+        "toc": "./styleguide/imports/toc.js"
+    },
+    "sections": {
+        "getting started": "Setup:",
+        "patterns": "",
+        "development": "[[dev]]"
+    },
+    "highlightStyle": "rainbow",
+    "highlightFolder": "./node_modules/highlight.js/styles/",
+    "customVariables": {
+        "tocMenu": true,
+        "pageTitle": "FEF - Documentation"
+    },
+    "markedOptions": {
+        "gfm": true,
+        "breaks": true
+    }
+}

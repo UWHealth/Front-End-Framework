@@ -1,0 +1,45 @@
+{
+    "scss": {
+        "watch": ["_src/sass/**/*.scss"],
+        "main":	[
+            "./_src/sass/main.scss",
+            "./_src/sass/styleguide.scss"
+        ],
+        "dest": "./dist/css"
+    },
+    "js": {
+        "watch": ["_src/js/**/*.js"],
+        "main": [
+            "./_src/js/main.js",
+            "./_src/js/plugins.js",
+            "!./**/_*.js"
+        ],
+        "dest": "./dist/js"
+    },
+    "kits": {
+        "watch": ["_src/kits/**/*.kit"],
+        "main": [
+            "./_src/kits/*.kit",
+            "!./_src/kits/_*.kit"
+        ],
+        "dest": "./dist/"
+    },
+    "styleGuide": {
+        "main": "./bin/styleguide.conf.json",
+        "watch": [
+            "dist/css/styleguide.min.css",
+            "dist/styleguide/imports/*",
+            "bin/styleguide.conf.json"
+        ]
+    },
+    "browserSync": {
+        "watch": [
+            "dist/css/*.css",
+            "dist/js/**/*.js",
+            "*.html",
+            "!**.map",
+            "!./gulpfile.babel.js",
+            "!./**/*.min.*"
+        ]
+    }
+}
