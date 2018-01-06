@@ -1336,13 +1336,13 @@ Output REM values using the typographic grid. This is the prefered method of add
 ```scss
 // SCSS input
 .foo {
-	@include type-space(padding, 1 .25 .5 auto, '!important');
+    @include type-space(padding, 1 .25 .5 auto, '!important');
 }
 
 // CSS output
 .foo {
-	padding: 24px 8px 12px auto !important;
-	padding: 1.5rem .375rem .75rem auto !important;
+    padding: 24px 8px 12px auto !important;
+    padding: 1.5rem .375rem .75rem auto !important;
 }
 ```
 
@@ -1653,19 +1653,6 @@ table, p, address, pre {
   margin: 0 0 1.5rem;
 }
 
-.visually_hidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  clip: rect(0px, 0px, 0px, 0px);
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  transition: all 300ms ease-in-out;
-}
-
 legend {
   display: table;
   white-space: normal;
@@ -1947,53 +1934,6 @@ q:first-child {
   text-indent: -0.22em;
 }
 
-.box {
-  padding: 24px;
-  padding: 1.5rem;
-  margin-bottom: 24px;
-  margin-bottom: 1.5rem;
-}
-
-.box > :last-child {
-  margin-bottom: 0;
-}
-
-.box_closed {
-  border: 1px solid #e4eaf3;
-}
-
-.box_ratio {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  word-break: break-word;
-}
-
-@media only screen and (max-width: 56.875em) {
-  .box_ratio {
-    max-height: 7.5rem;
-  }
-}
-
-.box_ratio .box_body {
-  padding: 12px 12px 0;
-  padding: 0.75rem 0.75rem 0;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  text-align: left;
-}
-
-.box_pano:before {
-  margin-top: 75%;
-}
-
-.box_wide:before {
-  margin-top: 50%;
-}
-
 .wrap {
   margin: 0 auto;
   max-width: 1360px;
@@ -2029,8 +1969,6 @@ q:first-child {
 .clearfix,
 .wrap,
 .isolate,
-.tabbed,
-.tab_content,
 .clearfix {
   *zoom: 1;
 }
@@ -2038,13 +1976,9 @@ q:first-child {
 .clearfix:before, .clearfix:after,
 .wrap:before,
 .isolate:before,
-.tabbed:before,
-.tab_content:before,
 .clearfix:before,
 .wrap:after,
 .isolate:after,
-.tabbed:after,
-.tab_content:after,
 .clearfix:after {
   display: table;
   content: " ";
@@ -2053,8 +1987,6 @@ q:first-child {
 .clearfix:after,
 .wrap:after,
 .isolate:after,
-.tabbed:after,
-.tab_content:after,
 .clearfix:after {
   clear: both;
   height: 0;
@@ -2082,7 +2014,7 @@ q:first-child {
   max-width: 99%;
 }
 
-.box, .row > * {
+.row > * {
   letter-spacing: normal;
   word-spacing: normal;
 }
@@ -2216,7 +2148,7 @@ Creates a list with borders above and below each list item. Appending `list_bord
 </ul>
 ```
 */
-[class*="list_bordered"] {
+[class*='list_bordered'] {
   list-style: none;
   margin-left: 0;
   padding-top: 24px;
@@ -2225,22 +2157,22 @@ Creates a list with borders above and below each list item. Appending `list_bord
   padding-bottom: 1.5rem;
 }
 
-[class*="list_bordered"] > li {
+[class*='list_bordered'] > li {
   list-style-image: none;
   list-style-type: none;
   margin-left: 0;
 }
 
-[class*="list_bordered"] > li {
+[class*='list_bordered'] > li {
+  margin-bottom: -1px;
   border-top: 1px solid #e4eaf3;
   padding-top: 24px;
   padding-top: 1.5rem;
   padding-bottom: 24px;
   padding-bottom: 1.5rem;
-  margin-bottom: -1px;
 }
 
-[class*="list_bordered"] > li:first-child {
+[class*='list_bordered'] > li:first-child {
   border-top-color: transparent;
 }
 
@@ -2508,97 +2440,6 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
   width: 1%;
 }
 
-.table_fixed {
-  table-layout: fixed;
-}
-
-.table_responsive thead + tbody td:before {
-  content: attr(data-th) " ";
-  font-weight: 700;
-  padding-right: .25em;
-  display: none;
-}
-
-.table_striped th,
-.table_striped td {
-  padding-right: 12px;
-  padding-right: 0.75rem;
-  padding-left: 12px;
-  padding-left: 0.75rem;
-  border-color: #ced2d5;
-  border-style: solid;
-}
-
-.table_striped tr:nth-child(odd) td {
-  background-color: #e4eaf3;
-  background-color: rgba(228, 234, 243, 0.75);
-}
-
-@media only screen and (max-width: 56.875em) {
-  .table_wrapper, .table_responsive td,
-  .table_responsive th {
-    overflow: hidden;
-  }
-  .table_wrapper, .table_responsive td,
-  .table_responsive th {
-    position: relative;
-  }
-  .table_responsive td,
-  .table_responsive th, .table_pin th,
-  .table_pin td {
-    white-space: nowrap;
-  }
-  .table_wrapper {
-    margin-bottom: 1.5rem;
-    border: 1px solid #ced2d5;
-    border-radius: 2px;
-  }
-  .table_responsive {
-    margin-bottom: 0;
-  }
-  .table_responsive td,
-  .table_responsive th {
-    padding-left: 0.375rem;
-  }
-  .table_responsive th:first-child,
-  .table_responsive td:first-child,
-  .table_responsive td:first-child,
-  .table_responsive.table_pin td {
-    display: none;
-  }
-  .table_pin {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 25%;
-    background: #f6f8fb;
-    box-shadow: 3px 0 2px rgba(85, 103, 118, 0.2);
-  }
-  .table_pin table {
-    table-layout: auto;
-    border-right: none;
-    border-left: none;
-    width: 100%;
-  }
-  .table_pin th,
-  .table_pin td {
-    padding-left: 0.225rem;
-  }
-  .table_pin td:last-child {
-    border-bottom: 0;
-  }
-  .table_scroll,
-  .table_pin {
-    overflow: scroll;
-    overflow-y: hidden;
-    font-size: 0.75rem;
-    line-height: 2;
-  }
-  .table_scroll table {
-    margin-left: 25%;
-  }
-}
-
 /* SG
 # Buttons
 Applying the `btn` class to anything will make it look like a button. Always declare `type="button"` on `<button>` elements for proper accessibility.
@@ -2649,162 +2490,6 @@ Applying the `btn` class to anything will make it look like a button. Always dec
   border-color: #0d497b;
   box-shadow: 0 0 4px 1px rgba(88, 148, 189, 0.3);
   outline: none;
-}
-
-/* SG
-# Tabs/
-
-A way to show groups of content, with buttons to toggle between them (like tabs in a folder or browser window).
-
-###### Set Up
-
-Tabs start out as simple anchor + element pairings (with the anchor's href referring to an element's ID).
-
-Using `.tab_button` on the anchor, and `.tab_content` on the element, javascript will group the tabs together until an element breaks the pattern. It will then attach the navigation and event handlers.
-
-```html_example
-<div id="tabs">
-<!--Wrapper is optional-->
-
-    <a href="#tab1" class="tab_button">Tab 1</a>
-    <div id="tab1" class="tab_content">
-    	Content Here
-    </div>
-
-    <a href="#tab2" class="tab_button">Tab 2</a>
-    <div id="tab2" class="tab_content">
-    	Secondary Content Here
-    </div>
-
-</div>
-
-<!--Initialize tabs javascript-->
-<script>
-$(function() {
-    //JQuery selector scopes tabs to wrapper, otherwise it can be scoped to "body"
-    $("#tabs").tabbed();
-});
-</script>
-```
-*/
-.tab_button, .tab, .tab:hover {
-  color: #fff;
-}
-
-.tab_button, .tab {
-  background-color: #5894bd;
-}
-
-.tab_button.active, .tab_content, .tab {
-  border-color: #0d497b;
-}
-
-.tab_button.active, .tab_content {
-  background-color: #fff;
-}
-
-.tabbed {
-  margin-bottom: 24px;
-  margin-bottom: 1.5rem;
-  min-height: 72px;
-  min-height: 4.5rem;
-}
-
-.tab_button {
-  border-style: solid;
-  width: 100%;
-  cursor: pointer;
-  display: none;
-  line-height: 3;
-  text-decoration: none;
-  margin-bottom: 0;
-  padding-left: 12px;
-  padding-left: 0.75rem;
-  padding-right: 12px;
-  padding-right: 0.75rem;
-  border-width: 1px;
-  border-color: #1e568c;
-  position: relative;
-  z-index: 1;
-  border-bottom-width: 0;
-}
-
-.tab_button.active {
-  margin-bottom: -24px;
-  margin-bottom: -1.5rem;
-}
-
-.tab_button.active {
-  color: #0d497b;
-  border-bottom-color: transparent;
-  z-index: 2;
-}
-
-.tab_button.active:hover {
-  cursor: default;
-}
-
-.tab_content {
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 0 2px 2px 2px;
-  position: relative;
-  z-index: 1;
-  padding: 24px;
-  padding: 1.5rem;
-}
-
-.tab_content > :last-child {
-  margin-bottom: 0;
-}
-
-.tab_hidden {
-  display: none;
-}
-
-.tabs + .tab_button {
-  border-radius: 2px 2px 0 0;
-}
-
-.tab_accordion > .tabs {
-  display: none;
-}
-
-.tabs {
-  position: relative;
-}
-
-.tab {
-  position: relative;
-  display: inline-block;
-  vertical-align: bottom;
-  padding: 12px;
-  padding: 0.75rem;
-  margin-bottom: 0;
-  margin-right: 2px;
-  top: 2px;
-  text-align: center;
-  text-decoration: none;
-  border-bottom-color: transparent;
-  border-radius: 2px 2px 0 0;
-  cursor: pointer;
-  transition: background-color 100ms ease-out, border-color 200ms ease-in-out;
-  border-style: solid;
-  z-index: 0;
-  border-width: 1px;
-}
-
-.tab:hover {
-  background-color: #235495;
-}
-
-.tab.active {
-  outline: none;
-  background-color: #fff;
-  z-index: 2;
-  top: 1px;
-  color: #0d497b;
-  border-bottom-width: 0;
 }
 
 .editor_content ul {
@@ -4214,25 +3899,27 @@ Moving from `h6` up to `h1`, the heading font sizes get larger on a scale. For i
   }
 }
 
-.list_naked {
-  list-style: none;
-  margin: 0;
+.visually-hidden {
+  position: absolute;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0px, 0px, 0px, 0px);
+  clip: rect(0 0 0 0);
+  transition: all 300ms ease-in-out;
 }
 
-.list_naked > li {
-  list-style-image: none;
-  list-style-type: none;
-  margin-left: 0;
-}
-
-.visually_hidden.focusable:active,
-.visually_hidden.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus {
   position: static;
+  margin: 0;
   width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
 }
 
 .contain {
@@ -4318,4 +4005,8 @@ Moving from `h6` up to `h1`, the heading font sizes get larger on a scale. For i
     padding: 10px;
     z-index: 999999;
   }
+}
+
+#testing {
+  padding: auto 15rem auto auto;
 }

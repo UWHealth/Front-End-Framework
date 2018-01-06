@@ -1261,13 +1261,13 @@ Output REM values using the typographic grid. This is the prefered method of add
 ```scss
 // SCSS input
 .foo {
-	@include type-space(padding, 1 .25 .5 auto, '!important');
+    @include type-space(padding, 1 .25 .5 auto, '!important');
 }
 
 // CSS output
 .foo {
-	padding: 24px 8px 12px auto !important;
-	padding: 1.5rem .375rem .75rem auto !important;
+    padding: 24px 8px 12px auto !important;
+    padding: 1.5rem .375rem .75rem auto !important;
 }
 ```
 

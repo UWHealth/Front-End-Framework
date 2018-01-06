@@ -1,4 +1,3 @@
-/*jshint node: true*/
 const gulp        = require('gulp');
 
 const _if         = require('gulp-if');
@@ -8,7 +7,6 @@ const chalk       = require('gulp-util').colors;
 const cssnano     = require('gulp-cssnano');
 const include     = require('gulp-include');
 const fs          = require('fs');
-const jshint      = require('gulp-jshint');
 const kit         = require('gulp-kit-textio');
 const notify      = require('gulp-notify');
 const plumber     = require('gulp-plumber');
@@ -22,9 +20,9 @@ const yarg        = require('yargs').argv;
 
 const pkg        = require('./package.json');
 const BROWSERS   = pkg.browserslist;
-const PATHS      = require('./bin/paths.conf.json');
+const PATHS      = require('./bin/paths.conf.js').PATHS;
 
-/*---------------------------------
+/* ---------------------------------
  * Base Tasks
  * --------------------------------*/
 
@@ -46,12 +44,12 @@ gulp.task('help', _help);
 
 //Watch file paths for changes (as defined in the paths variable)
 gulp.task('watch', function() {
-    gulp.watch(PATHS.scss.watch, ['sass']);
-    gulp.watch(PATHS.js.watch, ['js']);
-    gulp.watch(PATHS.kits.watch, ['kits']);
+    gulp.watch(PATHS.get('sass.watch'), ['sass']);
+    gulp.watch(PATHS.get('js.watch'), ['js']);
+    gulp.watch(PATHS.get('kits.watch'), ['kits']);
 
     if (_styleGuideOutput){
-        gulp.watch(PATHS.styleGuide.watch, ['styleGuide']);
+        gulp.watch(PATHS.get('styleGuide.watch'), ['styleGuide']);
     }
 
 });
@@ -59,38 +57,37 @@ gulp.task('watch', function() {
 //Browser-sync
 //Spins up local http server
 // and syncs actions across browsers
-gulp.task('browserSync', function() {
+gulp.task('browserSync', function() { // eslint-disable-line
+    var bsFiles = PATHS.get('browserSync.watch');
 
-    var bsFiles = PATHS.browserSync.watch;
-
-    //Allow for --bsserver argument. Otherwise, use default
+    // Allow for --bsserver argument. Otherwise, use default
     var bsServer = yarg.bsserver || {
         baseDir: ['./'],
         directory: _BSdirView
     };
 
-    //Default port is 80 for Windows, 3000 for everything else
+    // Default port is 80 for Windows, 3000 for everything else
     var bsPort = 8080;
 
     browserSync
-    .init({
-        files: bsFiles,
-        port: yarg.bsport || bsPort,            // Allow for --bsport= argument
-        proxy: yarg.bsproxy || undefined,       // Allow for --bsproxy= argument
-        serveStatic: yarg.bsservestatic || [],  // Allow for --bsservestatic= argument
-        tunnel: yarg.bstunnel || null,          // Allow for --bstunnel= argument
-        server: yarg.bsproxy ? false : bsServer,// If proxy, ignore server setting
-        ui:{
-            port: 3030
-        },
-        ghostMode: {
-            clicks: false,
-            location: false,
-            forms: true,
-            scroll: false
-        },
-        logPrefix: 'Browser',
-        open: _openNewTab
+        .init({
+            files: bsFiles,
+            port: yarg.bsport || bsPort,            // Allow for --bsport= argument
+            proxy: yarg.bsproxy || undefined,       // Allow for --bsproxy= argument
+            serveStatic: yarg.bsservestatic || [],  // Allow for --bsservestatic= argument
+            tunnel: yarg.bstunnel || null,          // Allow for --bstunnel= argument
+            server: yarg.bsproxy ? false : bsServer,// If proxy, ignore server setting
+            ui:{
+                port: 3030
+            },
+            ghostMode: {
+                clicks: false,
+                location: false,
+                forms: true,
+                scroll: false
+            },
+            logPrefix: 'Browser',
+            open: _openNewTab
     });
 });
 
@@ -103,7 +100,7 @@ gulp.task('browserSync', function() {
 gulp.task('sass', function() {
 
     return gulp
-    .src(PATHS.scss.main)
+    .src(PATHS.sass.main)
     .pipe(plumber({errorHandler: _error}))
     .pipe(_if(_sourceMaps, sourcemaps.init()))
     .pipe(sass({
@@ -120,7 +117,7 @@ gulp.task('sass', function() {
         title: 'CSS', gzip: true, showFiles: true
     }))
     //Output non-minified
-    .pipe(gulp.dest(PATHS.scss.dest))
+    .pipe(gulp.dest(PATHS.sass.dest))
     //Minify
     .pipe(cssnano({
         discardComments: {removeAll: false},
@@ -135,7 +132,7 @@ gulp.task('sass', function() {
         title: 'CSS (minified)', gzip: true, showFiles: true
     }))
     //Output minified CSS
-    .pipe(gulp.dest(PATHS.scss.dest));
+    .pipe(gulp.dest(PATHS.sass.dest));
 });
 
 

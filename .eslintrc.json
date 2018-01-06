@@ -4,7 +4,6 @@
     "plugins":          [],
     "rules":            {
         "indent":               ["warn", 4],
-        "no-multi-spaces":      ["warn", { "exceptions": { "VariableDeclarator": true } }],
         "semi":                 ["warn", "always"],
         "no-tabs":              "off",
         "complexity":           ["warn", 5],
@@ -17,7 +16,14 @@
         "no-trailing-spaces":   ["warn", { "skipBlankLines": true }],
         "spaced-comment":       ["warn", "always"],
         "no-multiple-empty-lines": ["warn", {"max": 2}],
-        "padded-blocks":        ["warn", "never"]
+        "padded-blocks":        ["warn", "never"],
+        "no-multi-spaces": ["warn", {
+            "exceptions": {
+                "BinaryExpression": true,
+                "VariableDeclarator": true
+            },
+            "ignoreEOLComments": true
+        }]
     },
     "parserOptions":    {
         "sourceType":       "module"

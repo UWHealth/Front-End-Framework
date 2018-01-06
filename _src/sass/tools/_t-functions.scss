@@ -489,7 +489,7 @@ Prints map into a string (in a JSON-esque format). Useful for debugging.
     @return true;
 }
 
-@function map-contains-keys($map, $keys...){
+@function map-contains-keys($map, $keys...) {
     @return map-has-keys($map, $keys);
 }
 
@@ -852,10 +852,8 @@ $__font-warn: false;
     $quit: false;
 
     //Test baselines until we find a match
-    @while(
-        ($line-height < $base-lh-lower-bound or $line-height > $base-lh-upper-bound)
-        and
-        not $quit //allows for infinite loop bailout
+    @while(($line-height < $base-lh-lower-bound or $line-height > $base-lh-upper-bound)
+        and not $quit //allows for infinite loop bailout
     ){
         $i: $i + .5;
         //Try baselines in half increments
@@ -906,11 +904,11 @@ $__font-warn: false;
 
 
 
-//Global math constants
-$pi:     3.1415926535897932384626433832795028841971693993751;
+// Global math constants
+$pi:    3.1415926535897932384626433832795028841971693993751;
 $π:     $pi;
 $PI:    $pi;
-$e:        2.71828182845904523536028747135266249775724709369995;
+$e:     2.71828182845904523536028747135266249775724709369995;
 $E:     $e;
 $LN2:   0.6931471805599453;
 $SQRT2: 1.4142135623730951;
@@ -1304,7 +1302,6 @@ Get the golden ratio from `$base`.
 */
 
 @function golden($base: 1) {
-
     @return (1/2 + sqrt(5) / 2) * $base;
 }
 

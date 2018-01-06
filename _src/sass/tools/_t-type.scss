@@ -147,7 +147,6 @@ Output REM values using the typographic grid. This is the prefered method of add
     $important: false,
     $unit: 'auto'
 ) {
-
     $multiplier: nth($multipliers, 1);
     $m-length: length($multipliers);
     $important: if($important, true, false); //Allow for strings, convert to boolean
@@ -172,9 +171,11 @@ Output REM values using the typographic grid. This is the prefered method of add
                     // or is a left, right, or width value,
                     // multiply by the $horizontal-space
                     @if ($multiple-index % 2 == 0)
-                    or (str-contains($property, 'right') or
-                    str-contains($property, 'left') or
-                    str-contains($property, 'width')) {
+                    or (
+                    str-contains($property, 'right')
+                    or str-contains($property, 'left')
+                    or str-contains($property, 'width')
+                    ) {
                         $value: $horizontal-space;
                     }
                 }
@@ -193,6 +194,20 @@ Output REM values using the typographic grid. This is the prefered method of add
 //Alias
 @mixin space($properties, $multipliers, $important: false, $unit: $vertical-space) {
     @include type-space($properties, $multipliers, $important, $unit);
+}
+
+
+@function type-space($multipliers) {
+    $base: $horizontal-space;
+
+    $values: ();
+    @each $multiple in $multipliers {
+        $pixel: if($multiple == 'auto', $multiple, $base * $multiple);
+        $multiple: px-to-rems($pixel);
+        $values: join($values, $multiple, space);
+    }
+
+    @return $values;
 }
 
 // Style any number of headings all at once, e.g.:
