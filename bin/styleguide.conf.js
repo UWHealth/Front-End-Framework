@@ -1,4 +1,7 @@
-{
+const PATHS = require('./paths.conf.js');
+const SG = PATHS.styleGuide.entry;
+
+module.exports = {
     "sgComment": "SG",
     "exampleIdentifier": "html_example",
     "sortCategories": true,
@@ -15,13 +18,13 @@
         "less": true,
         "md": true
     },
-    "templateFile": "./styleguide/imports/template.hbs",
-    "themeFile": "./dist/css/styleguide.min.css",
-    "htmlOutput": "./_src/kits/_styleguide.kit",
-    "jsonOutput": "./styleguide/index.json",
+    "templateFile": SG.templateFile,
+    "themeFile": SG.themeFile,
+    "htmlOutput": SG.htmlOutput,
+    "jsonOutput": SG.jsonOutput,
     "handlebarsPartials": {
-        "jquery": "./styleguide/imports/jquery.js",
-        "toc": "./styleguide/imports/toc.js"
+        "jquery": SG.jquery,
+        "toc": SG.toc
     },
     "sections": {
         "getting started": "Setup:",
