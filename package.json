@@ -5,7 +5,8 @@
     "main": "gulpfile.babel.js",
     "readme": "",
     "scripts": {
-        "start": "node node_modules/.bin/gulp"
+        "start": "node node_modules/.bin/gulp",
+        "build": "node -r babel-register node_modules/.bin/webpack --config=webpack.config.js"
     },
     "repository": {
         "type": "git",
@@ -24,7 +25,9 @@
     ],
     "devDependencies": {
         "babel-cli": "^6.26.0",
+        "babel-core": "^6.26.0",
         "babel-eslint": "^8.1.2",
+        "babel-loader": "^7.1.2",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
         "babel-plugin-transform-runtime": "^6.23.0",
         "babel-preset-env": "^1.6.1",
@@ -40,6 +43,7 @@
         "gulp": "^3.9.1",
         "gulp-autoprefixer": "^4.1.0",
         "gulp-cssnano": "^2.1.0",
+        "gulp-handlebars": "^5.0.1",
         "gulp-if": "^2.0.2",
         "gulp-include": "^2.3.1",
         "gulp-kit-textio": "^0.1.4",
@@ -51,13 +55,22 @@
         "gulp-size": "^3.0.0",
         "gulp-sourcemaps": "^2.6.3",
         "gulp-uglify": "^3.0.0",
-        "gulp-util": "^3.0.5",
+        "handlebars": "^4.0.11",
+        "handlebars-loader": "^1.6.0",
+        "happypack": "^4.0.0",
+        "html-webpack-plugin": "^2.30.1",
         "markdown-documentation-generator": "^2.4.0",
         "node-kit": "^0.9.0",
+        "parallel-webpack": "^2.2.0",
         "run-sequence": "^2.2.1",
+        "uglifyjs-webpack-plugin": "^1.1.6",
         "webpack": "^3.10.0",
         "webpack-closure-compiler": "^2.1.6",
+        "webpack-common-shake": "^1.5.3",
+        "webpack-dev-middleware": "^2.0.4",
         "yargs": "^10.0.3"
     },
-    "dependencies": {}
+    "dependencies": {
+        "lodash.clonedeep": "^4.5.0"
+    }
 }

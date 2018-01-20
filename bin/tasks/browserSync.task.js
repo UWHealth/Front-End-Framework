@@ -1,5 +1,5 @@
 const browserSync     = require('browser-sync');
-const PATHS           = require('../paths.conf.js');
+const PATHS           = require('../paths.config.js');
 
 const ARGS            = require('../helpers/args.js');
 const BS_DIR_VIEW     = ARGS.ls;
@@ -8,7 +8,7 @@ const BS_OPEN_NEW_TAB = ARGS.newtab;
 // Browser-sync
 // Spins up local http server
 // and syncs actions across browsers
-module.exports = function() { // eslint-disable-line
+export default function() { // eslint-disable-line
     const BS_FILES = PATHS.browserSync.watch.array;
 
     // Allow for --bsserver argument. Otherwise, use default

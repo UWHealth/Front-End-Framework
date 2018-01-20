@@ -1,4 +1,4 @@
-const PATHS = require('./paths.conf.js');
+const PATHS = require('./paths.config.js');
 const SG = PATHS.styleGuide.entry;
 
 module.exports = {

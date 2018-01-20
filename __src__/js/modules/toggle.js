@@ -12,13 +12,13 @@
 			this.do_toggle($this, type);
 		}),
 
-		add_aria: (function($this, $target, expanded){
+		add_aria: (function($this, $target, expanded) {
 			$this.attr('aria-expanded', expanded);
 			expanded = expanded ? false : true;
 			$target.attr('aria-hidden', expanded);
 		}),
 
-		do_toggle: (function($this, type){
+		do_toggle: (function($this, type) {
 			var toggle = $this.data('toggle');
 			var $toggle_target = $(toggle);
 			var toggle_class = $this.data('toggle-class') || 'toggle_active, toggle_target_active';

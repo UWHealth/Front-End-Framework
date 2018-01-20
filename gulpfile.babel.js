@@ -1,16 +1,18 @@
+import defaultTask from './bin/tasks/default.task.js';
+import hbs from './bin/tasks/hbs.task.js';
+
 const gulp         = require('gulp');
 
 const _if          = require('gulp-if');
 const autoprefixer = require('gulp-autoprefixer');
-const browserSync  = require('./bin/tasks/browserSync');
+const browserSync  = require('./bin/tasks/browserSync.task.js');
 const del          = require('del');
 const cssnano      = require('gulp-cssnano');
-const include      = require('gulp-include');
+const webpack      = require('./bin/tasks/webpack.task.js')
 const kit          = require('gulp-kit-textio');
 const notify       = require('gulp-notify');
 const plumber      = require('gulp-plumber');
 const rename       = require('gulp-rename');
-const sequence     = require('run-sequence').use(gulp);
 const sass         = require('gulp-sass');
 const size         = require('gulp-size');
 const sourcemaps   = require('gulp-sourcemaps');
@@ -19,17 +21,17 @@ const styleguide   = require('markdown-documentation-generator');
 const pkg          = require('./package.json');
 const BROWSERS     = pkg.browserslist;
 const ARGS         = require('./bin/helpers/args');
-const PATHS        = require('./bin/paths.conf.js');
+const PATHS        = require('./bin/paths.config.js');
 const SG_CONFIG    = require(PATHS.styleGuide.entry.config);
+
 
 /* ---------------------------------
  * Base Tasks
  * --------------------------------*/
 
 // First task called when gulp is invoked
-gulp.task('default', function(cb) {
-    sequence('clean', 'watch', ['sass', 'js'], 'styleGuide', 'browserSync', cb);
-});
+defaultTask();
+hbs();
 
 
 /* ---------------------------------
@@ -41,6 +43,7 @@ gulp.task('watch', function() {
     gulp.watch(PATHS.sass.watch.array, ['sass']);
     gulp.watch(PATHS.styleGuide.watch.array, ['styleGuide']);
     gulp.watch(PATHS.js.watch.array, ['js']);
+    gulp.watch(PATHS.hbs.watch.array, ['hbs']);
     gulp.watch(PATHS.kits.watch.array, ['kits']);
 });
 
@@ -93,27 +96,28 @@ gulp.task('sass', function() {
 
 
 // Javascript concatenating and renaming
-gulp.task('js', function() {
-    return gulp
-        .src(PATHS.js.entry.array)
-        .pipe(plumber({errorHandler: _error}))
-        // Source Maps
-        .pipe(_if(_sourceMaps, sourcemaps.init()))
-        // Concatenate JS partials
-        .pipe(include())
-        .pipe(rename(function(path) {
-            // remove underscores from the beginning of partials
-            path.basename = path.basename.replace(/^_/gi, "");
-        }))
-        .pipe(_if(_sourceMaps, sourcemaps.write('./maps')))
-        // Report size of processed files
-        .pipe(size({title: 'JS', showFiles: true, gzip: true}))
-        .pipe(gulp.dest(PATHS.js.dest))
-        // Uglify
-        // .pipe(uglify({preserveComments: 'some'}))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(size({title: 'JS (minified)', showFiles: true, gzip: true}))
-        .pipe(gulp.dest(PATHS.js.dest));
+gulp.task('js', function(cb) {
+    webpack.default(cb);
+    // return gulp
+    //     .src(PATHS.js.entry.array)
+    //     .pipe(plumber({errorHandler: _error}))
+    //     // Source Maps
+    //     .pipe(_if(_sourceMaps, sourcemaps.init()))
+    //     // Concatenate JS partials
+    //     .pipe(include())
+    //     .pipe(rename(function(path) {
+    //         // remove underscores from the beginning of partials
+    //         path.basename = path.basename.replace(/^_/gi, "");
+    //     }))
+    //     .pipe(_if(_sourceMaps, sourcemaps.write('./maps')))
+    //     // Report size of processed files
+    //     .pipe(size({title: 'JS', showFiles: true, gzip: true}))
+    //     .pipe(gulp.dest(PATHS.js.dest))
+    //     // Uglify
+    //     // .pipe(uglify({preserveComments: 'some'}))
+    //     .pipe(rename({suffix: '.min'}))
+    //     .pipe(size({title: 'JS (minified)', showFiles: true, gzip: true}))
+    //     .pipe(gulp.dest(PATHS.js.dest));
 });
 
 // Compile .kit files into html
@@ -135,7 +139,7 @@ gulp.task('styleGuide', function() {
         });
 });
 
-gulp.task('browserSync', browserSync);
+gulp.task('browserSync', browserSync.default);
 
 /* ---------------------------------
  * Private letiables
@@ -148,9 +152,6 @@ let _sourceMaps       = false;
 /* ---------------------------------
  * Arguments
  * --------------------------------*/
-
-// Run 'gulp --no-sg' if you don't want to compile the style guide
-// if (ARGS.sg === false) { _styleGuideOutput = false; }
 
 // Run 'gulp --sm' for sass sourcemaps
 if (ARGS.sm || ARGS.sourcemaps) { _sourceMaps = true; }

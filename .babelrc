@@ -1,21 +1,14 @@
 {
     "presets": [
         ["env", {
-            "browsers": [
-                "> 1%",
-                "last 2 versions",
-                "chrome >= 58",
-                "firefox >= 53",
-                "ie >= 11",
-                "safari >= 10",
-                "edge >= 14"
-            ],
+            "node": "current",
             "loose": true
         }]
     ],
+    "auxiliaryCommentBefore": "Babel",
     "plugins": [
         ["transform-runtime", {
-            "helpers": false,
+            "helpers": true,
             "polyfill": false,
             "regenerator": false,
             "loose": true

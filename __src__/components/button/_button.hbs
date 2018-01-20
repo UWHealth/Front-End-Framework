@@ -1,0 +1,10 @@
+<button class="btn{{#if btnType}} btn--{{#each type}}{{{this}}}{{/each}}{{/if}}">
+    <span class="btn__body">
+        {{~{body}~}}
+    </span>
+    {{~#if icon~}}
+        <span class="btn__icon">
+            {{~{icon}~}}
+        </span>
+    {{~/if~}}
+</button>

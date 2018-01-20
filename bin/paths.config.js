@@ -24,64 +24,76 @@ const paths = {
         }
     },
     sass: {
+        "root": `${src}/sass`,
         "watch": {
-            "main": src + "/sass/**/*.scss",
-            "styleguide": src + "/styleguide/styleguide.scss",
-            "components": src + "/components/**/*.scss",
+            "main": `${src}/sass/**/*.scss`,
+            "styleguide": `${src}/styleguide/styleguide.scss`,
+            "components": `${src}/components/**/*.scss`,
             "exclude": []
         },
         "entry": {
-            "main": src + "/sass/main.scss",
-            "styleguide": src + "/styleguide/styleguide.scss"
+            "main": `${src}/sass/main.scss`,
+            "styleguide": `${src}/styleguide/styleguide.scss`
         },
-        "dest": dist + "/css"
+        "dest": `${dist}/css`
     },
     js: {
+        "root": `${src}/js`,
         "watch": {
-            "main": src + "/**/*.js",
+            "main": `${src}/**/*.js`,
             "samples": src + '/components/__samples__/**/*.js',
             "exclude": []
         },
         "entry": {
-            "main": src + "/js/main.js",
-            "plugins": src + "/js/plugins.js"
+            "main": `${src}/js/main.js`,
+            "plugins": `${src}/js/plugins.js`
         },
-        "dest": dist + "/js"
+        "dest": `${dist}/js`
     },
     hbs: {
+        "root": `${src}/components/`,
         "watch": {
-            "main": src + "/components/**/*.hbs",
+            "main": `${src}/components/**/*.hbs`,
             "exclude": []
         },
         "entry": {
-            "main": src + "/components/**/*.hbs"
+            "main": `${src}/components/**/*.hbs`
         },
-        "dest": dist
+        "dest": `${dist}/components/`
+    },
+    samples: {
+        "root": `${src}/components/__samples__`,
+        "entry": {
+            "base": `${src}/components/__samples__/base.hbs`
+        },
+        "watch": {
+            "base": `${src}/components/__samples__/base.hbs`
+        }
     },
     kits: {
         "watch": {
-            "main": src + "/**/*.kit",
+            "main": `${src}/**/*.kit`,
             "exclude": []
         },
         "entry": {
-            "main": src + "/**/*.kit",
+            "main": `${src}/**/*.kit`,
             "exclude": [`!${src}/**/_*.kit`]
         },
         "dest": dist
     },
     styleGuide: {
         "entry": {
-            "config": `${root}/bin/styleguide.conf.js`,
+            "config": `${bin}/styleguide.config.js`,
             "templateFile": `${src}/styleguide/imports/template.hbs`,
             "themeFile": `${dist}/css/styleguide.min.css`,
             "htmlOutput": `${src}/styleguide/_styleguide.kit`,
             "jsonOutput": `${dist}/styleguide/index.json`,
-            "jquery": src + "/styleguide/imports/jquery.js",
-            "toc": src + "/styleguide/imports/toc.js"
+            "jquery": `${src}/styleguide/imports/jquery.js`,
+            "toc": `${src}/styleguide/imports/toc.js`
         },
         "watch": {
             "imports": `${src}/styleguide/imports/*.*`,
-            "style": `dist/**/*.css`,
+            "style": `dist/**/styleguide.min.css`,
             "config": `${bin}/styleguide.conf.js`,
             "exclude": []
         },
@@ -89,25 +101,27 @@ const paths = {
     },
     fonts: {
         "entry": {
-            "asap": `${src}/fonts/Asap*.*`,
-            "open": `${src}/fonts/opensans*.*`
+            "asap": `${src}/assets/fonts/Asap*.*`,
+            "open": `${src}/assets/fonts/opensans*.*`
         },
-        watch: {
-            "all": `${src}/fonts/**/*.*`
-        }
+        "watch": {
+            "all": `${src}/assets/fonts/**/*.*`
+        },
+        "dest": `${dist}/fonts`
     },
     images: {
         "entry": {
-            "main": `${src}/img/**/*.(jpg|jpeg|png|gif)`,
-            "svg": `${src}/img/svg/**/*.svg`
+            "main": `${src}/assets/img/**/*.(jpg|jpeg|png|gif)`,
+            "svg": `${src}/assets/img/svg/**/*.svg`
         },
         "watch": {
-            "main": `${src}/img/**/*.(jpg|jpeg|png|gif)`,
-            "jpeg": `${src}/img/**/*.(jpg|jpeg)`,
-            "png": `${src}/img/**/*.png`,
-            "gif": `${src}/img/**/*.gif`,
-            "svg": `${src}/img/svg/**/*.svg`
-        }
+            "main": `${src}/assets/img/**/*.(jpg|jpeg|png|gif)`,
+            "jpeg": `${src}/assets/img/**/*.(jpg|jpeg)`,
+            "png": `${src}/assets/img/**/*.png`,
+            "gif": `${src}/assets/img/**/*.gif`,
+            "svg": `${src}/assets/img/svg/**/*.svg`
+        },
+        "dest": `${dist}/img`
     },
     browserSync: {
         "entry": {
