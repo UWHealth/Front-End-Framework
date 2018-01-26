@@ -2,11 +2,11 @@
     "name": "Front-End-Framework",
     "version": "1.0.0",
     "description": "",
-    "main": "gulpfile.babel.js",
     "readme": "",
     "scripts": {
         "start": "node node_modules/.bin/gulp",
-        "build": "node -r babel-register node_modules/.bin/webpack --config=webpack.config.js"
+        "prod": "npm start -- --production",
+        "webpack": "node node_modules/.bin/webpack --config=./bin/webpack.combined.config.js --watch"
     },
     "repository": {
         "type": "git",
@@ -24,13 +24,16 @@
         "edge >= 14"
     ],
     "devDependencies": {
-        "babel-cli": "^6.26.0",
-        "babel-core": "^6.26.0",
-        "babel-eslint": "^8.1.2",
-        "babel-loader": "^7.1.2",
+        "babel-cli": "^6.24.1",
+        "babel-core": "^6.25.0",
+        "babel-eslint": "^7.2.3",
+        "babel-loader": "^7.1.1",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
+        "babel-plugin-transform-imports": "^1.4.1",
         "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-polyfill": "^6.23.0",
         "babel-preset-env": "^1.6.1",
+        "babel-runtime": "^6.23.0",
         "browser-sync": "^2.23.3",
         "chalk": "^2.3.0",
         "del": "^3.0.0",
@@ -40,7 +43,7 @@
         "eslint-plugin-node": "^5.2.1",
         "eslint-plugin-promise": "^3.6.0",
         "eslint-plugin-standard": "^3.0.1",
-        "gulp": "^3.9.1",
+        "gulp": "^4.0.0",
         "gulp-autoprefixer": "^4.1.0",
         "gulp-cssnano": "^2.1.0",
         "gulp-handlebars": "^5.0.1",
@@ -59,10 +62,12 @@
         "handlebars-loader": "^1.6.0",
         "happypack": "^4.0.0",
         "html-webpack-plugin": "^2.30.1",
+        "lodash.clonedeep": "^4.5.0",
         "markdown-documentation-generator": "^2.4.0",
         "node-kit": "^0.9.0",
         "parallel-webpack": "^2.2.0",
         "run-sequence": "^2.2.1",
+        "static-site-generator-webpack-plugin": "^3.4.1",
         "uglifyjs-webpack-plugin": "^1.1.6",
         "webpack": "^3.10.0",
         "webpack-closure-compiler": "^2.1.6",
@@ -70,7 +75,5 @@
         "webpack-dev-middleware": "^2.0.4",
         "yargs": "^10.0.3"
     },
-    "dependencies": {
-        "lodash.clonedeep": "^4.5.0"
-    }
+    "dependencies": {}
 }

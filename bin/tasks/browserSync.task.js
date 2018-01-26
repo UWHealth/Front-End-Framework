@@ -8,7 +8,7 @@ const BS_OPEN_NEW_TAB = ARGS.newtab;
 // Browser-sync
 // Spins up local http server
 // and syncs actions across browsers
-export default function() { // eslint-disable-line
+module.exports = function() { // eslint-disable-line
     const BS_FILES = PATHS.browserSync.watch.array;
 
     // Allow for --bsserver argument. Otherwise, use default

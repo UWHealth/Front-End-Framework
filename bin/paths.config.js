@@ -1,22 +1,44 @@
 const path = require('path');
 const process = require('process');
 const root = process.cwd();
-const bin = __dirname;
+const bin  = __dirname;
 const dist = path.resolve(root, "dist");
 const src  = path.resolve(root, "__src__");
 const docs = path.resolve(root, "docs");
 
 
-/* File Paths imported by gulp and webpack */
-/* Note that the "exclude" key should always be listed last */
+/* @fileoverview - File Paths imported by gulp and webpack */
 
-const paths = {
+const PATHS = {
     root: {
         "root": path.resolve(root),
+        "bin": path.resolve(__dirname),
         "dist": dist,
         "src": src,
-        "docs": docs
-    },
+        "docs": docs,
+    }
+};
+
+/*
+    CONVENTIONS:
+    Structure should follow:
+
+    topic/concern
+     ┞─"folders"
+        ┖─"name": "folder path"
+     ┞─"entry"
+        ┖─"name": "glob/file path"
+     ┖─"watch"
+        ┞─"name": "glob/file"
+        ┖─"exclude": ["!glob", "!file"]
+
+    • "folders" should not contain file paths
+    • "entry" and "watch" keys should be file paths (or globs)
+    • "exclude" key should be the only array
+    • "exclude" should always be listed last
+*/
+
+Object.assign(PATHS, {
     clean: {
         "entry": {
             "dist": `${dist}/*`,
@@ -24,34 +46,43 @@ const paths = {
         }
     },
     sass: {
-        "root": `${src}/sass`,
+        "folders": {
+            "components": `${src}/components`,
+            "root": `${src}/sass`
+        },
+        "entry": {
+            "main": `${src}/sass/main.scss`,
+            "print": `${src}/sass/print.scss`,
+            "styleguide": `${src}/styleguide/styleguide.scss`
+        },
         "watch": {
             "main": `${src}/sass/**/*.scss`,
             "styleguide": `${src}/styleguide/styleguide.scss`,
             "components": `${src}/components/**/*.scss`,
             "exclude": []
         },
-        "entry": {
-            "main": `${src}/sass/main.scss`,
-            "styleguide": `${src}/styleguide/styleguide.scss`
-        },
         "dest": `${dist}/css`
     },
     js: {
-        "root": `${src}/js`,
-        "watch": {
-            "main": `${src}/**/*.js`,
-            "samples": src + '/components/__samples__/**/*.js',
-            "exclude": []
+        "folders": {
+            "root": `${src}/js`,
+            "components": `${src}/components`
         },
         "entry": {
             "main": `${src}/js/main.js`,
             "plugins": `${src}/js/plugins.js`
         },
+        "watch": {
+            "main": `${src}/**/*.js`,
+            "samples": `${src}/__samples__/**/*.js`,
+            "exclude": []
+        },
         "dest": `${dist}/js`
     },
     hbs: {
-        "root": `${src}/components/`,
+        "folders": {
+            "root": `${src}/components/`,
+        },
         "watch": {
             "main": `${src}/components/**/*.hbs`,
             "exclude": []
@@ -62,13 +93,17 @@ const paths = {
         "dest": `${dist}/components/`
     },
     samples: {
-        "root": `${src}/components/__samples__`,
+        "folders": {
+            "root": `${src}/__samples__/`
+        },
         "entry": {
-            "base": `${src}/components/__samples__/base.hbs`
+            "base": `${src}/__samples__/base.hbs`,
+            "render": `${src}/js/dev/render-samples.js`
         },
         "watch": {
-            "base": `${src}/components/__samples__/base.hbs`
-        }
+            "base": `${src}/__samples__/**/*.js`
+        },
+        "dest": `${dist}/samples`
     },
     kits: {
         "watch": {
@@ -131,34 +166,35 @@ const paths = {
         "watch": {
             "css": `${dist}/css/*.css`,
             "js": `${dist}/js/**/*.js`,
+            "samples": `${dist}/demo/**/*.*`,
             "html": `*.html`,
-            "exclude": [`!**.map`, `!./gulpfile.babel.js`, `!./**/*.min.*`]
+            "exclude": [`!**.map`]
         }
     }
-};
+});
 
 const getPaths = function() {
-    Object.keys(paths).forEach((target) => {
-        Object.keys(paths[target]).forEach((group) => {
-            if (typeof paths[target][group] === "object") {
+    Object.keys(PATHS).forEach((target) => {
+        Object.keys(PATHS[target]).forEach((group) => {
+            if (typeof PATHS[target][group] === "object") {
                 let all = [];
 
-                Object.keys(paths[target][group]).forEach((file) => {
-                    if (Array.isArray(paths[target][group][file])) {
-                        all = all.concat(paths[target][group][file]);
+                Object.keys(PATHS[target][group]).forEach((file) => {
+                    if (Array.isArray(PATHS[target][group][file])) {
+                        all = all.concat(PATHS[target][group][file]);
                     }
                     else {
-                        all.push(paths[target][group][file]);
+                        all.push(PATHS[target][group][file]);
                     }
                 });
 
-                paths[target][group]["array"] = all;
+                PATHS[target][group]["array"] = all;
             }
         });
     });
 
 
-    return paths;
+    return PATHS;
 };
 
 module.exports = getPaths();

@@ -5,7 +5,6 @@
             "loose": true
         }]
     ],
-    "auxiliaryCommentBefore": "Babel",
     "plugins": [
         ["transform-runtime", {
             "helpers": true,

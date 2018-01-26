@@ -7,27 +7,29 @@ module.exports = {
     // Meta/Styling
     env: true,
     colors: true,
-    publicPath: true,
-    timings: false,
+    timings: true,
+    version: true,
     performance: false,
+    publicPath: false,
 
     // Files
     assets: true,
         cachedAssets: true,
         hash: false,
     cached: true,
-    entrypoints: false,
+    // entrypoints: false,
 
     // Imports/Dependencies
     chunks: true,
-        chunkModules: true,
-    modules: false,
-        source: true,
-        moduleTrace: true,
-        maxModules: 10,
+    //     chunkModules: false,
+    // modules: true,
+    //     source: true,
+    //     moduleTrace: true,
+    //     maxModules: 10,
 
-    excludeAssets: /(\.html$|\.hbs|\.map$)/,
-    excludeModules: /(\.html$|\.hbs|\.map$)/,
-    exclude: /(\.html$|\.hbs|\.map$)/,
-    children: false,
+    excludeAssets: /(\.hbs|\.map$)/,
+    excludeModules: /(\.hbs|\.map$)/,
+    exclude: /(\.hbs|\.map$)/,
+
+    // children: true,
 };

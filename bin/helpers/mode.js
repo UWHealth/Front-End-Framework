@@ -6,12 +6,12 @@ const mode = {
     localProduction: args.local,
     mode: (args.production || args.local) ? (args.local ? 'Local Production' : 'Production') : 'Development',
     color: (args.production || args.local) ? (args.local ? 'yellow' : 'green') : 'blue',
-    icon: (args.production || args.local) ? (args.local ? '👁' : '📦') : '🏗',
+    icon: (args.production || args.local) ? (args.local ? '👁' : '📦') : '🚧',
     show: function() {
-        console.info(' -------------------------------------\n');
+        console.info(' ════════════════════════════════════\n');
         console.info(' ' + this.icon + '  ' + chalk[this.color](this.mode + ' Mode'));
         console.info('     Launched\n');
-        console.info(' -------------------------------------');
+        console.info(' ════════════════════════════════════');
     }
 };
 

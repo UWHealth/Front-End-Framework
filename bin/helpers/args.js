@@ -44,7 +44,6 @@ yargs.options({
         describe: "BrowserSync proxy URL",
         type: 'string',
         default: undefined,
-        requiresArg: true,
         group: 'Server:'
     },
     'bsservestatic': {

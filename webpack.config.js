@@ -1,21 +1,20 @@
 /**
  * @fileoverview - Webpack configuration.
+ * Written in CommonJS (require/module).
  */
 
-// Webpack & Plugins
+// Webpack Plugins
 const webpack = require('webpack');
 const ClosureCompilerPlugin = require('webpack-closure-compiler');
 const ShakePlugin = require('webpack-common-shake').Plugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const path = require('path');
 
-const PATHS = require('./bin/paths.config.js');
-const MODE  = require('./bin/helpers/mode.js');
-const STATS = require('./bin/webpack.stats.config.js');
-
-const pkg          = require('./package.json');
-const BROWSERS     = pkg.browserslist;
+const PATHS    = require('./bin/paths.config.js');
+const MODE     = require('./bin/helpers/mode.js');
+const STATS    = require('./bin/webpack.stats.config.js');
+const BROWSERS = require('./package.json').browserslist;
 
 
 const config = {
@@ -24,76 +23,119 @@ const config = {
         main: PATHS.js.entry.main,
         plugins: PATHS.js.entry.plugins
     },
+    target: "web",
     devtool: 'cheap-source-map',
     output: {
         path: PATHS.js.dest,
-        publicPath: path.relative(PATHS.root.dist, PATHS.js.dest),
+        publicPath: '/' + path.relative(PATHS.root.dist, PATHS.js.dest) + '/',
 
         filename: '[name].bundle.js',
         chunkFilename: '[name].chunk.js',
 
         libraryTarget: 'umd',
-        library: 'fef',
+        library: 'uwhealth',
+    },
+    resolve: {
+        symlinks: false,
+        modules: ['node_modules']
     },
     stats: STATS,
+    module: {},
     plugins: []
 };
 
-config.module = {
-    rules: [
-        {
-            test: /\.(js|jsx)$/,
-            exclude: /(node_modules)/,
-            use: [{
-                loader: 'babel-loader',
-                options: {
-                    cacheDirectory: true,
-                    auxiliaryCommentBefore: "Babel",
-                    presets: [
-                        ["env", {
-                            "browsers": BROWSERS,
-                            "loose": true,
-                            "modules": false
-                        }]
-                    ],
-                    plugins: [
-                        ["syntax-dynamic-import"],
-                        ["transform-runtime", {
-                            "helpers": true,
-                            "polyfill": true,
-                            "regenerator": false,
-                            "loose": true,
-                            "modules": false
-                        }]
-                    ]
-                }
-            }]
-        },
+/*
+ * Loaders
+ * 1. Babel
+ * 2. Handlebars
+ */
+config.module.rules = [
+    {
+        test: /\.(js|jsx)$/,
+        exclude: /(node_modules)/,
+        use: [{
+            loader: 'babel-loader',
+            options: {
+                cacheDirectory: true,
+                auxiliaryCommentBefore: "Babel",
+                presets: [
+                    ["env", {
+                        "browsers": BROWSERS,
+                        "loose": true,
+                        "modules": false
+                    }]
+                ],
+                plugins: [
+                    ["syntax-dynamic-import"],
+                    ["transform-imports"],
+                    ["transform-runtime", {
+                        "helpers": true,
+                        "polyfill": true,
+                        "regenerator": false,
+                        "loose": true,
+                        "modules": false
+                    }]
+                ]
+            }
+        }]
+    },
 
-        {
-            test: /\.(handlebars|hbs|svg)$/,
-            include: PATHS.root.src,
-            use: [{
-                loader: 'handlebars-loader',
-                query: {
-                    runtime: 'handlebars/runtime',
-                    helperDirs: [],
-                    partialsDirs: [
-                        PATHS.hbs.root
-                    ],
-                    precompileOptions: {
-                        preventIndent: true
-                    }
+    {
+        test: /\.(handlebars|hbs|hbs\.svg)$/,
+        include: PATHS.root.src,
+        use: [{
+            loader: 'handlebars-loader',
+            query: {
+                runtime: 'handlebars/runtime',
+                helperDirs: [],
+                partialsDirs: [
+                    PATHS.hbs.root
+                ],
+                precompileOptions: {
+                    preventIndent: true
                 }
-            }]
-        }
-    ]
-};
+            }
+        }]
+    }
+];
+
+if (MODE.development) {
+    config.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        }),
+        // Make output easier to read
+        new webpack.NamedModulesPlugin(),
+
+        // Improve re-compilation speeds by caching the manifest
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "manifest",
+            minChunks: Infinity,
+            async: true
+        }),
+
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'development',
+            DEBUG: false
+        })
+    );
+}
 
 if (MODE.production) {
     config.devtool = "none";
 
     config.plugins.push(
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'production',
+            DEBUG: false
+        }),
+
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new webpack.HashedModuleIdsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+
+        new ShakePlugin(),
+
         new ClosureCompilerPlugin({
             compiler: {
                 language_in: 'ECMASCRIPT6',
@@ -112,11 +154,9 @@ if (MODE.production) {
                 mangle: true,
                 compress: true,
                 comments: false,
-                // exclude: /\/(t4|hbs)./ // Exclude handlebars and t4 files
+                // exclude: /\/(t4|hbs)./
             }
-        }),
-
-        new ShakePlugin()
+        })
     );
 }
 

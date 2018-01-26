@@ -1,9 +1,10 @@
-import path from 'path';
-import fs from 'fs';
-import Handlebars from 'handlebars';
+const path = require('path');
+const fs = require('fs');
+const Handlebars = require('handlebars');
 
-import PATHS from '../paths.config.js';
-import MODE from './mode.js';
+const BUILD_NUMBER = require('./build-number.js');
+const PATHS = require('../paths.config.js');
+const MODE = require('./mode.js');
 
 /**
  * Loops through Handlebars AST statements, transforming specified statement types. Relies on embedPartials for most of its work.
@@ -76,8 +77,15 @@ function embedPartial(statement) {
         // default to hbs extension
         parts[pLast] = parts[pLast] + '.hbs';
     }
-    let partialPath = path.resolve(PATHS.hbs.root, ...parts);
-    return Handlebars.parse('{{!-- --}}' + fs.readFileSync(partialPath));
+
+    try {
+        let partialPath = path.resolve(PATHS.hbs.folders.root, ...parts);
+        return Handlebars.parse('{{!-- --}}' + fs.readFileSync(partialPath));
+    }
+    catch (err) {
+        console.log("Can't find partial:", ...parts);
+        console.log(err);
+    }
 }
 
 
@@ -93,7 +101,7 @@ function replaceBuildNumber(statement) {
         let cacheBust = '';
 
         if (!MODE.local) {
-            cacheBust = generateBuildNumber(cacheBust);
+            cacheBust = BUILD_NUMBER(cacheBust);
         };
 
         return {
@@ -109,13 +117,4 @@ function replaceBuildNumber(statement) {
     return statement;
 };
 
-function generateBuildNumber(str) {
-    let today = new Date();
-    let d = today.getDate();
-    let m = today.getMonth();
-    let y = today.getYear();
-    let t = today.getHours() + '' + today.getMinutes();
-    return 'build.' + m + d + y + t + '.';
-}
-
-export default loopAST;
+module.exports = loopAST;
