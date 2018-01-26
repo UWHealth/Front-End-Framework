@@ -1,4 +1,6 @@
-const velocity = require("./vendor/velocity.js");
+import velocity from "./vendor/velocity.js";
+import * as keyboardSC from './dev/keyboard-shortcuts.js';
 
-
-console.log(velocity);
+if (process.env.NODE_ENV !== 'production') {
+    keyboardSC.init();
+}

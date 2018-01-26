@@ -41,15 +41,7 @@ Applying the `btn` class to anything will make it look like a button. Always dec
     }
 
 }
-%button_big {
-    @include type-font-size(modular-scale(2), false);
-    line-height: 1;
-    @include type-space((padding-top, padding-bottom), 1);
-}
-%button_small {
-    @include type-font-size(modular-scale(0), false);
-    line-height: 1;
-}
+
 %button_wide {
     @extend %one_whole;
 }
