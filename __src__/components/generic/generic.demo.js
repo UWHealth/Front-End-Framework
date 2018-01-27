@@ -1,10 +1,10 @@
-import button from '../components/button/_button.hbs';
-import html from '../components/html/_html.hbs';
-import Demo from '../components/demo/demo.js';
+import generic from './_generic.hbs';
+import html from '../html/_html.hbs';
+import Demo from '../demo/demo.js';
 
 
 const demo = new Demo(
-    'Button', button,
+    'Button', generic,
     {
         "components": [
             html({
@@ -13,12 +13,13 @@ const demo = new Demo(
                         <h1>Buttons!!</h1>
                     </div>`
             }),
-            button({
+            generic({
+                componentName: "generic",
                 body: "Normal Button"
             }),
-            button({
-                body: "Wide Button",
-                type: ['wide']
+            generic({
+                componentName: "generic",
+                body: "Wide Button"
             })
         ]
     }

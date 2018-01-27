@@ -1,6 +1,6 @@
-import button from '../components/button/_button.hbs';
-import html from '../components/html/_html.hbs';
-import Demo from '../components/demo/demo.js';
+import button from './_button.hbs';
+import html from '../html/_html.hbs';
+import Demo from '../demo/demo.js';
 
 
 const demo = new Demo(
