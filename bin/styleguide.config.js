@@ -9,7 +9,8 @@ module.exports = {
         "target",
         "node_modules",
         ".git",
-        "dist"
+        "dist",
+        "bin"
     ],
     "fileExtensions": {
         "scss": true,
@@ -24,7 +25,9 @@ module.exports = {
     "jsonOutput": SG.jsonOutput,
     "handlebarsPartials": {
         "jquery": SG.jquery,
-        "toc": SG.toc
+        "toc": SG.toc,
+        "head": PATHS.hbs.entry.head,
+        "footer": PATHS.hbs.entry.footer
     },
     "sections": {
         "getting started": "Setup:",
@@ -35,10 +38,10 @@ module.exports = {
     "highlightFolder": "./node_modules/highlight.js/styles/",
     "customVariables": {
         "tocMenu": true,
-        "pageTitle": "FEF - Documentation"
+        "pageTitle": "UW Health Styleguide"
     },
     "markedOptions": {
         "gfm": true,
         "breaks": true
     }
-}
+};

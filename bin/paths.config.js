@@ -2,18 +2,20 @@ const path = require('path');
 const process = require('process');
 const root = process.cwd();
 const bin  = __dirname;
-const dist = path.resolve(root, "dist");
-const src  = path.resolve(root, "__src__");
-const docs = path.resolve(root, "docs");
-
 
 /* @fileoverview - File Paths imported by gulp and webpack */
+
+const dist = path.resolve(root, "dist/");
+const pub = path.join(dist, "public");
+const src  = path.resolve(root, "__src__");
+const docs = path.resolve(root, "docs");
 
 const PATHS = {
     root: {
         "root": path.resolve(root),
         "bin": path.resolve(__dirname),
         "dist": dist,
+        "pub": pub,
         "src": src,
         "docs": docs,
     }
@@ -61,7 +63,7 @@ Object.assign(PATHS, {
             "components": `${src}/components/**/*.scss`,
             "exclude": []
         },
-        "dest": `${dist}/css`
+        "dest": `${pub}/css`
     },
     js: {
         "folders": {
@@ -77,20 +79,22 @@ Object.assign(PATHS, {
             "samples": `${src}/__samples__/**/*.js`,
             "exclude": []
         },
-        "dest": `${dist}/js`
+        "dest": `${pub}/js`
     },
     hbs: {
         "folders": {
-            "root": `${src}/components/`,
+            "root": `${src}/components/`
         },
         "watch": {
             "main": `${src}/components/**/*.hbs`,
             "exclude": []
         },
         "entry": {
-            "main": `${src}/components/**/*.hbs`
+            "main": `${src}/components/**/*.hbs`,
+            "head": `${src}/components/head/_head.hbs`,
+            "footer": `${src}/components/footer/_footer.hbs`
         },
-        "dest": `${dist}/components/`
+        "dest": `${pub}/components/`
     },
     samples: {
         "folders": {
@@ -119,20 +123,20 @@ Object.assign(PATHS, {
     styleGuide: {
         "entry": {
             "config": `${bin}/styleguide.config.js`,
-            "templateFile": `${src}/styleguide/imports/template.hbs`,
-            "themeFile": `${dist}/css/styleguide.min.css`,
-            "htmlOutput": `${src}/styleguide/_styleguide.kit`,
-            "jsonOutput": `${dist}/styleguide/index.json`,
+            "templateFile": `${src}/styleguide/template.hbs`,
+            "themeFile": `${pub}/css/styleguide.min.css`,
             "jquery": `${src}/styleguide/imports/jquery.js`,
-            "toc": `${src}/styleguide/imports/toc.js`
+            "toc": `${src}/styleguide/imports/toc.js`,
+            "jsonOutput": false,
+            "htmlOutput": `${path.relative(root, pub)}/styleguide/index.html`,
         },
         "watch": {
-            "imports": `${src}/styleguide/imports/*.*`,
-            "style": `dist/**/styleguide.min.css`,
+            "imports": `${src}/styleguide/**/*.*`,
+            "style": `${pub}/**/styleguide.min.css`,
             "config": `${bin}/styleguide.conf.js`,
             "exclude": []
         },
-        "dest": path.resolve(root, 'docs/styleguide')
+        "dest": `${pub}/styleguide/index.html`
     },
     fonts: {
         "entry": {
@@ -142,7 +146,7 @@ Object.assign(PATHS, {
         "watch": {
             "all": `${src}/assets/fonts/**/*.*`
         },
-        "dest": `${dist}/fonts`
+        "dest": `${pub}/fonts`
     },
     images: {
         "entry": {
@@ -156,7 +160,7 @@ Object.assign(PATHS, {
             "gif": `${src}/assets/img/**/*.gif`,
             "svg": `${src}/assets/img/svg/**/*.svg`
         },
-        "dest": `${dist}/img`
+        "dest": `${pub}/img`
     },
     browserSync: {
         "entry": {
@@ -164,31 +168,38 @@ Object.assign(PATHS, {
         },
         "port": 8080,
         "watch": {
-            "css": `${dist}/css/*.css`,
-            "js": `${dist}/js/**/*.js`,
-            "samples": `${dist}/demo/**/*.*`,
+            "css": `${pub}/css/*.css`,
+            "js": `${pub}/js/**/*.js`,
+            "samples": `${pub}/samples/**/*.html`,
             "html": `*.html`,
             "exclude": [`!**.map`]
         }
     }
 });
 
+
+/**
+ * Adds "array" entry to path objects, allowing for a selection like `browsersync.watch.array`
+ * @return {Object} PATHS object with "array" keys added
+ */
 const getPaths = function() {
     Object.keys(PATHS).forEach((target) => {
         Object.keys(PATHS[target]).forEach((group) => {
-            if (typeof PATHS[target][group] === "object") {
-                let all = [];
+            const currentGroup = PATHS[target][group];
 
-                Object.keys(PATHS[target][group]).forEach((file) => {
-                    if (Array.isArray(PATHS[target][group][file])) {
-                        all = all.concat(PATHS[target][group][file]);
+            if (typeof currentGroup === "object") {
+                let array = [];
+
+                Object.keys(currentGroup).forEach((file) => {
+                    if (Array.isArray(currentGroup[file])) {
+                        array = array.concat(currentGroup[file]);
                     }
                     else {
-                        all.push(PATHS[target][group][file]);
+                        array.push(currentGroup[file]);
                     }
                 });
 
-                PATHS[target][group]["array"] = all;
+                currentGroup["array"] = array;
             }
         });
     });

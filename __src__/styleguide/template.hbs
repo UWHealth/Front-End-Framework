@@ -1,83 +1,118 @@
-<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,400i,700" rel="stylesheet">
-<style>{{> theme}}{{> highlight}}</style>
+{{> head}}
 
-<script>{{> jquery}}</script>
-<script src="js/plugins.min.js"></script>
-
-<div class="sg-body" id="styleguide">{{!-- Required ID --}}
-
-{{!--Menu--}}
-<nav id="sg-menu" class="sg-menu">
-    <h1 class="sg-logo">
-        <a href="#styleguide" class="sg-menu_link js-menu_showall">Frontend Framework</a>
-    </h1>
-    <div id="sg-menu_wrap"></div>
-</nav>
-
-<main id="sg-main" class="sg-main">
-{{~#each sections}}
-    <section id="{{sanitize @key}}" class="sg-section sg-section-{{sanitize @key}}" data-sg-section="{{@key}}">
-        <div class="sg-section_head sg-category">
-            <div class="sg-category_wrap">
-                <h1 class="sg-heading sg-heading-section">{{titleize @key}}</h1>
+<header class="hero" role="banner">
+        <div class="hero_body">
+            <div class="wrap">
+                <h1>e-Health<br>Frontend Framework</h1>
+                <p class="h5 txt_secondary space_t_0">
+                    A number of frontend technologies to get any e&#8209;Health website or application off the ground
+                </p>
+                <a class="btn space-r-half" href="#docs">Documentation</a>
+                <a class="btn" href="https://www.github.com/uwhealth/Front-End-Framework/">Github Repository</a>
             </div>
         </div>
+    </div>
+</header>
 
-        {{#each this}} {{!--Looping through Categories --}}
-        <div class="sg-category">
-            <div class="sg-category_wrap">
-            {{#unless articles.[0].section.gettingStarted}}{{#if category}}
-                <header class="sg-category_head" data-sg-section="{{sanitize category}}" {{#unless articles.[1]}}id="{{sanitize articles.[0].id}}"{{/unless}}>
-                    <h2 class="sg-heading-category{{#unless articles.[1]}} sg-heading sg-heading-category-article{{/unless}}">
-                        {{~category~}}
-                    </h2>
-                </header>
-            {{~/if}}{{/unless}}
 
-            {{~#each articles}}
-                <article class="sg-article" {{#if ../articles.[1]}}id="{{sanitize id}}"{{/if}} data-sg-section="{{category}}" data-sg-heading="{{heading}}">
-                {{#if heading}}
-                    <header class="sg-article_head {{#unless heading}}sg-category_head{{/unless}}">
-                        <h3 class="sg-heading sg-heading-article">
-                            {{~heading~}}
-                        </h3>
-                        {{~#if section.development}}{{#if filelocation}}
-                        <p><code class="sg-codespan sg-file">
-                            {{~filelocation~}}
-                        </code></p><hr>
-                        {{~/if}}{{/if~}}
-                    </header>
-                {{/if}}
-                    <div class="sg-article_comment">
-                        {{{comment}}}
+<!-- <nav class="pad-v-half" role="navigation" style="background-color: #fff" >
+    <div class="arrange pad-h space-b-0">
+        <div class="arrange_fit">
+            <img role="presentation" src="images/logo.png">
+        </div>
+        <div class="arrange_fill">
+            <ul class="list_inline list_nav h6 space-b-0 pad-l-half">
+                <li><a href="//github.com/UWHealth/Front-End-Framework">GitHub Repository</a></li>
+                <li><a href="#docs">Documentation</a></li>
+                <li class="bigs-float-right"><a class="btn" id="js_baseline_toggle" href="#">Toggle Baseline</a></li>
+            </ul>
+        </div>
+    </div>
+</nav> -->
+
+<div id="docs" style="position:relative">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,400i,700" rel="stylesheet">
+    <style>{{> theme}}{{> highlight}}</style>
+
+    <script>{{> jquery}}</script>
+    <script src="js/plugins.min.js"></script>
+
+    <div class="sg-body" id="styleguide">{{!-- Required ID --}}
+
+        {{!--Menu--}}
+        <nav id="sg-menu" class="sg-menu">
+            <h1 class="sg-logo">
+                <a href="#styleguide" class="sg-menu_link js-menu_showall">Frontend Framework</a>
+            </h1>
+            <div id="sg-menu_wrap"></div>
+        </nav>
+
+        <main id="sg-main" class="sg-main">
+        {{~#each sections}}
+            <section id="{{sanitize @key}}" class="sg-section sg-section-{{sanitize @key}}" data-sg-section="{{@key}}">
+                <div class="sg-section_head sg-category">
+                    <div class="sg-category_wrap">
+                        <h1 class="sg-heading sg-heading-section">{{titleize @key}}</h1>
                     </div>
-                {{#if code}}
-                    <div class="sg-example">
-                        <div class="sg-example_wrap">
-                            {{#each code}}{{{this}}}{{/each}}
-                        </div>
-                        <div class="sg-example_markup">
-                        {{#each markup}}
-                            <div class="sg-markup sg-markup-block">
-                                <pre class="sg-markup_wrap"><code class="hljs">
-                                    {{~{this}~}}
-                                </code></pre>
+                </div>
+
+                {{#each this}} {{!--Looping through Categories --}}
+                <div class="sg-category">
+                    <div class="sg-category_wrap">
+                    {{#unless articles.[0].section.gettingStarted}}{{#if category}}
+                        <header class="sg-category_head" data-sg-section="{{sanitize category}}" {{#unless articles.[1]}}id="{{sanitize articles.[0].id}}"{{/unless}}>
+                            <h2 class="sg-heading-category{{#unless articles.[1]}} sg-heading sg-heading-category-article{{/unless}}">
+                                {{~category~}}
+                            </h2>
+                        </header>
+                    {{~/if}}{{/unless}}
+
+                    {{~#each articles}}
+                        <article class="sg-article" {{#if ../articles.[1]}}id="{{sanitize id}}"{{/if}} data-sg-section="{{category}}" data-sg-heading="{{heading}}">
+                        {{#if heading}}
+                            <header class="sg-article_head {{#unless heading}}sg-category_head{{/unless}}">
+                                <h3 class="sg-heading sg-heading-article">
+                                    {{~heading~}}
+                                </h3>
+                                {{~#if section.development}}{{#if filelocation}}
+                                <p><code class="sg-codespan sg-file">
+                                    {{~filelocation~}}
+                                </code></p><hr>
+                                {{~/if}}{{/if~}}
+                            </header>
+                        {{/if}}
+                            <div class="sg-article_comment">
+                                {{{comment}}}
                             </div>
-                        {{/each}}
-                        </div>
+                        {{#if code}}
+                            <div class="sg-example">
+                                <div class="sg-example_wrap">
+                                    {{#each code}}{{{this}}}{{/each}}
+                                </div>
+                                <div class="sg-example_markup">
+                                {{#each markup}}
+                                    <div class="sg-markup sg-markup-block">
+                                        <pre class="sg-markup_wrap"><code class="hljs">
+                                            {{~{this}~}}
+                                        </code></pre>
+                                    </div>
+                                {{/each}}
+                                </div>
+                            </div>
+                        {{/if}}
+                        </article>
+                    {{~/each}}
                     </div>
-                {{/if}}
-                </article>
-            {{~/each}}
-            </div>
-        </div>
+                </div>
+                {{~/each}}
+            </section>
         {{~/each}}
-    </section>
-{{~/each}}
-</main>
+        </main>
+    </div>
+</div>
 
 <script>
-{{> toc}};
+    {{> toc}};
 
 
     $('#sg-menu_wrap').toc({
@@ -250,4 +285,4 @@
 
 </script>
 
-</div>
+{{> footer}}
