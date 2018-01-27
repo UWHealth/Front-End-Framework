@@ -11,8 +11,9 @@ const config = cloneDeep(WP_CONFIG);
 
 config.context = path.resolve(__dirname);
 config.output.path = PATHS.samples.dest;
-config.output.publicPath = '/' + PATHS.samples.dest + '/';
+config.output.publicPath = '/' + path.relative(PATHS.root.dist, PATHS.samples.dest) + '/';
 config.entry = {};
+config.stats.chunks = false;
 config.output.filename = '[name].sample.js';
 config.output.library = 'sample';
 

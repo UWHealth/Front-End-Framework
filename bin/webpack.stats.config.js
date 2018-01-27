@@ -1,4 +1,5 @@
 /* eslint indent: "off" */
+const MODE = require('./helpers/mode.js');
 
 module.exports = {
     // Fallback
@@ -9,20 +10,20 @@ module.exports = {
     colors: true,
     timings: true,
     version: true,
-    performance: false,
-    publicPath: false,
+    performance: MODE.production,
+    publicPath: MODE.production,
 
     // Files
     assets: true,
         cachedAssets: true,
-        hash: false,
+        // hash: MODE.production,
     cached: true,
     // entrypoints: false,
 
     // Imports/Dependencies
     chunks: true,
-    //     chunkModules: false,
-    // modules: true,
+
+    modules: MODE.production,
     //     source: true,
     //     moduleTrace: true,
     //     maxModules: 10,
