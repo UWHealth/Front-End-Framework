@@ -3,11 +3,11 @@
  **/
 
 const gulp = require('gulp');
-const notify = require('gulp-notify');
 const handlebars = require('gulp-handlebars');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 
+const LOG   = require('../helpers/logger.js');
 const PATHS = require('../paths.config');
 const loopAST = require('../helpers/embed-partials.js');
 
@@ -16,12 +16,7 @@ const Handlebars = require('handlebars');
 module.exports = () =>
     gulp
         .src(PATHS.hbs.entry.main)
-        .pipe(plumber({
-            errorHandler: function(error) {
-                notify.onError('Error: <%= error.message %>');
-                console.error(error.stack);
-            }
-        }))
+        .pipe(plumber(new LOG('HBS task').error))
         .pipe(handlebars({
             handlebars: Handlebars,
             processAST: function(ast) {

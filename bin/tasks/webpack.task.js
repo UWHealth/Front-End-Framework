@@ -1,36 +1,33 @@
 const webpack = require('webpack');
 const parallelWebpack = require('parallel-webpack');
 
-const base_config = require('../../webpack.config.js');
-const sample_config = require('../webpack.samples.config.js');
+const baseConfig = require('../../webpack.config.js');
+const sampleConfig = require('../webpack.samples.config.js');
 
 const MODE = require('../helpers/mode.js');
 const STATS = require('../webpack.stats.config.js');
+const LOG = require('../helpers/logger.js');
 
 const webpackLogger = function(err, stats, done) { //eslint-disable-line
     if (err) {
-        console.log(err.stack || err);
+        new LOG('Webpack', err.stack || err).error();
         if (err.details) {
-            console.log(err.details);
+            new LOG('Webpack', err.details).error();
         }
-        return;
     }
+    else if (stats) {
+        const info = stats.toJson("minimal");
 
-    if (stats) {
-        const info = stats.toJson();
+        if (stats.hasWarnings()) {
+            new LOG('Webpack warning', info.warnings).info();
+        }
 
         if (stats.hasErrors()) {
-            if (Array.isArray(info.errors)) {
-                info.errors.forEach((error) => {
-                    console.error(error);
-                });
-            }
-            else {
-                console.error(info.error);
-            }
+            new LOG('Webpack', new Error(info.errors)).error();
+            return done();
         }
 
-        console.log(stats.toString(STATS));
+        new LOG('Webpack', stats.toString(STATS)).info();
     }
 
     done();
@@ -39,18 +36,18 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
 module.exports = (done) => {
     if (MODE.production && !MODE.local) {
         webpack(
-            base_config,
+            baseConfig,
             (err, stats) => webpackLogger(err, stats, done)
         );
     }
     else {
-        base_config.watch = true;
-        sample_config.watch = true;
+        baseConfig.watch = true;
+        sampleConfig.watch = true;
 
         webpack(
             [
-                base_config,
-                sample_config
+                baseConfig,
+                sampleConfig
 
             ],
             (err, stats) => webpackLogger(err, stats, done)
@@ -59,11 +56,12 @@ module.exports = (done) => {
         // parallelWebpack.run(require.resolve('../webpack.combined.config.js'),
         //     {
         //         watch: true,
+        //         silent: true,
         //         maxRetries: 1,
         //         stats: true, // defaults to false
         //         maxConcurrentWorkers: 2 // use 2 workers
         //     },
-        //     (err) => webpackLogger(err, undefined, done)
+        //     done
         // );
     }
 };

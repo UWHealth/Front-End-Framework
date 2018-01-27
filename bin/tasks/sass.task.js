@@ -8,6 +8,7 @@ const size         = require('gulp-size');
 const sourcemaps   = require('gulp-sourcemaps');
 const notify       = require('gulp-notify');
 
+const LOG          = require('../helpers/logger.js');
 const BROWSERS     = require('../../package.json').browserslist;
 const MODE         = require('../helpers/mode');
 const PATHS        = require('../paths.config.js');
@@ -16,9 +17,7 @@ module.exports = () => {
     if (MODE.production) {
         return gulp
             .src(PATHS.sass.entry.array)
-            .pipe(plumber({
-                errorHandler: _error
-            }))
+            .pipe(plumber(new LOG('Sass task').error))
             .pipe(sass({
                 outputStyle: 'compressed',
                 errLogToConsole: true
