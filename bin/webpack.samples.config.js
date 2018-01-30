@@ -1,3 +1,7 @@
+/**
+ * @fileoverview - Webpack configuration for generating sample/demo pages. Uses ./webpack.config.js as a base. Saves all files to dist/samples/
+**/
+
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 
 const fs = require('fs');
@@ -9,10 +13,11 @@ const WP_CONFIG = require('../webpack.config.js');
 
 const config = cloneDeep(WP_CONFIG);
 
-config.context = path.resolve(__dirname);
+config.context = __dirname;
 config.output.path = PATHS.samples.dest;
 config.output.publicPath = '/' + path.relative(PATHS.root.dist, PATHS.samples.dest) + '/';
 config.entry = {};
+config.devtool = 'none';
 config.stats.chunks = false;
 config.output.filename = '[name].sample.js';
 config.output.library = 'sample';
@@ -35,6 +40,6 @@ config.plugins.push(
             'variable': 'thing'
         }
     })
-)
+);
 
 module.exports = config;

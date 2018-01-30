@@ -1,13 +1,15 @@
+/**
+ * @fileoverview Spins up local http server and syncs actions across browsers
+**/
+
 const browserSync     = require('browser-sync');
 const PATHS           = require('../paths.config.js');
 
 const ARGS            = require('../helpers/args.js');
-const BS_DIR_VIEW     = ARGS.ls;
-const BS_OPEN_NEW_TAB = ARGS.newtab;
+const BS_DIR_VIEW     = ARGS.dir;
+const BS_OPEN_NEW_TAB = ARGS.open;
 
-// Browser-sync
-// Spins up local http server
-// and syncs actions across browsers
+
 module.exports = function() { // eslint-disable-line
     const BS_FILES = PATHS.browserSync.watch.array;
 
@@ -17,7 +19,6 @@ module.exports = function() { // eslint-disable-line
         directory: BS_DIR_VIEW
     };
 
-    // Allow for --bsport= argument
     const BS_PORT = ARGS.bsport || PATHS.browserSync.port;
 
     browserSync
@@ -39,7 +40,7 @@ module.exports = function() { // eslint-disable-line
             },
             logPrefix: 'Browser',
             snippetOptions: {
-                // Browsersync script tag
+                // Browsersync script tag placement
                 rule: {
                     match: /<\/body>/i,
                     fn: function (snippet, match) {

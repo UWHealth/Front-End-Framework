@@ -25,11 +25,11 @@ yargs.options({
         default: false,
         group: 'Server:'
     },
-    'bsfiles': {
-        alias: 'files',
+    'bsdir': {
+        alias: ['dir'],
         describe: 'Show directories instead of index.html',
         type: 'boolean',
-        default: false,
+        default: true,
         group: 'Server:'
     },
     'bsport': {

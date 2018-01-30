@@ -1,8 +1,12 @@
-const webpack = require('webpack');
-const parallelWebpack = require('parallel-webpack');
+/**
+ * @fileoverview Starts webpack file watching and compilation. Compiles client-side JS and sample files.
+ * Also handles webpack logging.
+**/
 
-const baseConfig = require('../../webpack.config.js');
-const sampleConfig = require('../webpack.samples.config.js');
+const webpack = require('webpack');
+
+const webpackConfigs = require('../webpack.combined.config.js');
+const baseConfig = webpackConfigs[0];
 
 const MODE = require('../helpers/mode.js');
 const STATS = require('../webpack.stats.config.js');
@@ -41,19 +45,19 @@ module.exports = (done) => {
         );
     }
     else {
-        baseConfig.watch = true;
-        sampleConfig.watch = true;
+        webpackConfigs.forEach((config) => { config.watch = true; });
 
         webpack(
-            [
-                baseConfig,
-                sampleConfig
-
-            ],
+            webpackConfigs,
             (err, stats) => webpackLogger(err, stats, done)
         );
 
-        // parallelWebpack.run(require.resolve('../webpack.combined.config.js'),
+        // NOTE: Parallel webpack is great for performance,
+        //  but has an issu with killing its own processes, causing massive cpu overhead.
+        // If a project is large enough, this tradeoff might be worth it.
+        // See https://github.com/trivago/parallel-webpack/issues/57
+
+        // require('parallel-webpack').run(require.resolve('../webpack.combined.config.js'),
         //     {
         //         watch: true,
         //         silent: true,

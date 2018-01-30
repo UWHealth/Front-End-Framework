@@ -17,6 +17,8 @@ const TASKS = {
     'hbs': require('./bin/tasks/hbs.task.js'),
     'webpack': require('./bin/tasks/webpack.task.js'),
     'sass': require('./bin/tasks/sass.task.js'),
+    'images': require('./bin/tasks/images.task.js'),
+    'static': ['images']
 };
 
 function taskOrder(done) {
@@ -24,14 +26,14 @@ function taskOrder(done) {
 
     return !MODE.production ?
         // DEV
-        ['clean', parallel('sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
+        ['clean', parallel(...TASKS.static, 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
         :
         MODE.localProduction ?
             // LOCAL-PROD
-            ['clean', parallel('sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
+            ['clean', parallel(...TASKS.static, 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
             :
             // PROD
-            ['clean', parallel('sass', 'webpack', 'hbs'), 'styleGuide'];
+            ['clean', parallel(...TASKS.static), parallel('sass', 'webpack', 'hbs'), 'styleGuide'];
 }
 
 /* ---------------------------------
@@ -40,9 +42,10 @@ function taskOrder(done) {
 
 // Watch file paths for changes (as defined in the paths letiable)
 gulp.task('watch', function() {
-    gulp.watch(PATHS.sass.watch.array, gulp.series('sass'));
+    gulp.watch(PATHS.sass.watch.all, gulp.series('sass'));
     gulp.watch(PATHS.styleGuide.watch.array, gulp.series('styleGuide'));
     gulp.watch(PATHS.hbs.watch.array, gulp.series('hbs'));
+    gulp.watch(PATHS.images.watch.array, gulp.series('images'));
 });
 
 // Delete contents of compilation folders
@@ -58,33 +61,23 @@ gulp.task('browserSync', TASKS.browserSync);
  * Compilation Tasks
  * --------------------------------*/
 
-// Sass processing
-gulp.task('sass', TASKS.sass);
-
-// Javascript concatenating, bundling, and webpack-ifying
-gulp.task('webpack', TASKS.webpack);
-
 // Handlebars compilation
 gulp.task('hbs', TASKS.hbs);
 
-// // Compile .kit files into html
-// gulp.task('kits', function() {
-//     return gulp
-//         .src(PATHS.kits.entry.array)
-//         .pipe(plumber({errorHandler: new LOG('kits task').notify}))
-//         .pipe(kit())
-//         .pipe(size({title: 'HTML', showFiles: true, gzip: true}))
-//         .pipe(gulp.dest(PATHS.kits.dest));
-// });
+// Image copying and compilation
+gulp.task('images', TASKS.images);
+
+// Sass processing
+gulp.task('sass', TASKS.sass);
 
 // Compile style guide
-// use --no-sg argument to disable this
 gulp.task('styleGuide', function() {
     return styleguide.create(SG_CONFIG)
-        .catch(function(err) {
-            return new LOG('Style Guide', err).error();
-        });
+        .catch(new LOG('Style Guide').error);
 });
+
+// Javascript concatenating, bundling, and webpack-ifying
+gulp.task('webpack', TASKS.webpack);
 
 
 /* ---------------------------------

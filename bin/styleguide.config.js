@@ -22,11 +22,13 @@ module.exports = {
     "templateFile": SG.templateFile,
     "themeFile": SG.themeFile,
     "htmlOutput": SG.htmlOutput,
-    "jsonOutput": SG.jsonOutput,
+    "jsonOutput": false,
     "handlebarsPartials": {
         "jquery": SG.jquery,
+        "./_header.seo.hbs": PATHS.hbs.folders.root + '/header/_header.seo.hbs',
+        "./_header.app.hbs": PATHS.hbs.folders.root + '/header/_header.app.hbs',
         "toc": SG.toc,
-        "head": PATHS.hbs.entry.head,
+        "head": PATHS.hbs.entry.header,
         "footer": PATHS.hbs.entry.footer
     },
     "sections": {

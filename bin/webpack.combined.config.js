@@ -1,4 +1,8 @@
-const base_config = require('../webpack.config.js');
-const sample_config = require('./webpack.samples.config.js');
+/**
+ * @fileoverview - provides all webpack configs at once.
+**/
 
-module.exports = [base_config, sample_config];
+const baseConfig = require('../webpack.config.js');
+const sampleConfig = require('./webpack.samples.config.js');
+
+module.exports = [baseConfig, sampleConfig];

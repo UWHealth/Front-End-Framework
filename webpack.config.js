@@ -9,8 +9,6 @@ const ClosureCompilerPlugin = require('webpack-closure-compiler');
 const ShakePlugin = require('webpack-common-shake').Plugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const path = require('path');
-
 const PATHS    = require('./bin/paths.config.js');
 const MODE     = require('./bin/helpers/mode.js');
 const STATS    = require('./bin/webpack.stats.config.js');
@@ -18,7 +16,7 @@ const BROWSERS = require('./package.json').browserslist;
 
 
 const config = {
-    context: path.resolve(__dirname),
+    context: __dirname,
     entry: {
         main: PATHS.js.entry.main,
         plugins: PATHS.js.entry.plugins
@@ -27,7 +25,7 @@ const config = {
     devtool: 'cheap-source-map',
     output: {
         path: PATHS.js.dest,
-        publicPath: '/' + path.relative(PATHS.root.dist, PATHS.js.dest) + '/',
+        publicPath: '/public/js/',
 
         filename: '[name].bundle.js',
         chunkFilename: '[name].chunk.js',
@@ -81,7 +79,7 @@ config.module.rules = [
     },
 
     {
-        test: /\.(handlebars|hbs|hbs\.svg)$/,
+        test: /\.(hbs|hbs\.svg)$/,
         include: PATHS.root.src,
         use: [{
             loader: 'handlebars-loader',
@@ -89,7 +87,7 @@ config.module.rules = [
                 runtime: 'handlebars/runtime',
                 helperDirs: [],
                 partialsDirs: [
-                    PATHS.hbs.root
+                    PATHS.hbs.folders.root
                 ],
                 precompileOptions: {
                     preventIndent: true

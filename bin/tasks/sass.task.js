@@ -6,7 +6,6 @@ const rename       = require('gulp-rename');
 const sass         = require('gulp-sass');
 const size         = require('gulp-size');
 const sourcemaps   = require('gulp-sourcemaps');
-const notify       = require('gulp-notify');
 
 const LOG          = require('../helpers/logger.js');
 const BROWSERS     = require('../../package.json').browserslist;
@@ -40,9 +39,7 @@ module.exports = () => {
 
     return gulp
         .src(PATHS.sass.entry.array)
-        .pipe(plumber({
-            errorHandler: _error
-        }))
+        .pipe(plumber(new LOG('Sass task').error))
         .pipe(sourcemaps.init())
         .pipe(sass({
             outputStyle: 'expanded',
@@ -74,16 +71,4 @@ module.exports = () => {
         }))
         // Output minified CSS
         .pipe(gulp.dest(PATHS.sass.dest));
-}
-
-
-// Error handler
-function _error(err) {
-    notify.onError({
-        title: "Error",
-        subtitle: "<%= error.plugin %>",
-        message: "<%= error.message %>"
-    })(err);
-
-    this.emit('end');
-}
+};

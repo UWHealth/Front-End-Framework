@@ -3,7 +3,7 @@
 **/
 
 const gulp = require('gulp');
-const browserSync = require('browserSync');
+const browserSync = require('browser-sync');
 const imagemin = require('gulp-imagemin');
 
 const plumber = require('gulp-plumber');
@@ -16,9 +16,9 @@ const reload = browserSync.reload;
 
 module.exports = function() {
     return gulp
-        .src(PATHS.img.entry.array)
-        .pipe(plumber(new LOG('IMG task').error))
-        .pipe(changed(PATHS.img.dest))
+        .src(PATHS.images.entry.all)
+        .pipe(plumber(new LOG('Images task').error))
+        .pipe(changed(PATHS.images.dest))
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [
@@ -31,7 +31,7 @@ module.exports = function() {
             ],
             use: [pngquant()]
         }))
-        .pipe(gulp.dest(PATHS.img.dest))
+        .pipe(gulp.dest(PATHS.images.dest))
         .pipe(reload({
             stream: true
         }));
