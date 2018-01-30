@@ -6,5 +6,7 @@
         <span class="btn__icon">
             {{~{icon}~}}
         </span>
+    {{~else if iconUrl~}}
+        <img class="btn__icon btn__icon--image" src="{{~{iconUrl}~}}">
     {{/if}}
 </button>

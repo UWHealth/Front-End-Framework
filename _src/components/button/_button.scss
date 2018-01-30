@@ -1,0 +1,55 @@
+/* SG
+# Buttons
+Applying the `btn` class to anything will make it look like a button. Always declare `type="button"` on `<button>` elements for proper accessibility.
+
+```html_example
+<button type="button" class="btn">Button</button>
+
+<a href="" class="btn">Faux Button</a>
+```
+
+*/
+
+//Useful placeholder selector for simple button creation.
+
+%button {
+    background-color: color('links');
+    color: white;
+    font-weight: 700;
+    padding: type-space(.25 0);
+    transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out;
+
+    &:focus,
+    &:hover {
+        outline: none;
+        background-color: color('links', 'light')
+    }
+
+    &:active {
+        background-color: color('links', 'lighter');
+        box-shadow: 0 0 4px 1px rgba(color('links','light'), .3);
+        outline: none;
+    }
+
+}
+
+.btn--wide {
+    @extend %one_whole;
+}
+
+.btn {
+    @extend %button;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn__icon {
+    padding: type-space(0 .5);
+    display: inline-block;
+}
+
+.btn__body {
+    padding: type-space(0 .5);
+    display: inline-block;
+}

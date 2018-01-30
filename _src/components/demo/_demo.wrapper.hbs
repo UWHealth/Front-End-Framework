@@ -1,0 +1,18 @@
+{{> ../header/_header.hbs}}
+
+<header class="demo-header">
+    <div class="wrap">
+        <h1 class="demo-header__title">
+            {{pageTitle}}
+        </h1>
+    </div>
+</header>
+<main class="demo-body">
+    <div class="wrap">
+        {{#each components}}
+            {{{this}}}
+        {{/each}}
+    </div>
+</main>
+
+{{> ../footer/_footer.hbs}}

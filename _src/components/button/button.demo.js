@@ -1,10 +1,10 @@
 import button from './_button.hbs';
-import html from '../html/_html.hbs';
-import Demo from '../demo/demo.js';
+import html from '../utilities/_html.hbs';
+import Demo from '../demo/demo.demo.js';
 
 
 const demo = new Demo(
-    'Button', button,
+    'Button',
     {
         "components": [
             html({
