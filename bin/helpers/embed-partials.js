@@ -12,7 +12,8 @@ const MODE = require('./mode.js');
  * @param  {Number} loops Keeps track of the number of times this function has been called.
  * @return {object}       Transformed Handlebars AST
  */
-function loopAST(ast, loops) {
+function loopAST(ast, loops, currentFile) {
+    currentFile = currentFile || PATHS.hbs.folders.root;
     loops = loops || 0;
 
     // Prevent infinite loops
@@ -24,7 +25,7 @@ function loopAST(ast, loops) {
         statement = addBuildNumber(statement);
 
         if (typeof statement !== 'undefined') {
-            return findPartials(statement, loops);
+            return findPartials(statement, loops, currentFile);
         }
 
         return statement;
@@ -40,7 +41,7 @@ function loopAST(ast, loops) {
  * @param  {number} loops     How many times this function has been called in this particular loop
  * @return {Object}           Statement with (or without if none exists) an embedded partial
  */
-function findPartials(statement, loops) {
+function findPartials(statement, loops, currentFile) {
     // BlockStatements can contain partials, so we'll have to recurse this
     if (statement.type === "BlockStatement") {
         // Check again
@@ -49,7 +50,7 @@ function findPartials(statement, loops) {
     }
     // We found a partial -- let's embed it
     else if (statement.type === "PartialStatement") {
-        return embedPartial(statement);
+        return embedPartial(statement, currentFile);
     }
     else {
         // If we haven't found anything, then lets just return it
@@ -62,29 +63,22 @@ function findPartials(statement, loops) {
  * @param  {Object} statement Handlebars "PartialStatement"
  * @return {Object}           Handlebars "BlockStatement" with the original partial's content
  */
-function embedPartial(statement) {
-    let parts = statement.name.parts;
-    let pLast = parts.length - 1;
-    let combined = statement.name.original;
-    // Check for file extension and add it to the end
-    if (combined.indexOf('.' + parts[pLast]) > -1) {
-        let extension = '.' + parts[pLast];
-        parts.pop();
-        pLast -= 1;
-        parts[pLast] = parts[pLast] + extension;
-    }
-    else {
-        // default to hbs extension
-        parts[pLast] = parts[pLast] + '.hbs';
+function embedPartial(statement, currentFile) {
+    let partial = statement.name.original;
+    let extension = path.extname(partial);
+    let context = path.dirname(currentFile);
+
+    if (extension === '') {
+        partial += '.hbs';
     }
 
     try {
-        let partialPath = path.resolve(PATHS.hbs.folders.root, ...parts);
+        let partialPath = path.resolve(context, partial);
         return Handlebars.parse('{{!-- --}}' + fs.readFileSync(partialPath));
     }
     catch (err) {
-        console.log("Can't find partial:", ...parts);
-        console.log(err);
+        console.error(`Can't find partial: ${partial} in ${currentFile}`);
+        throw Error(err);
     }
 }
 
