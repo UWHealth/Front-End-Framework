@@ -1,8 +1,6 @@
 /* SG
 # Config/Typography Settings [[dev]]
 
-@file _config.scss
-
 ##### `$$base-font-size`
 ###### Pixel value
 Font size all other values will use for calculation. Will be converted to `rems`.
@@ -42,7 +40,7 @@ $scale-ratio:               1.35;
 $vertical-space:			$base-line-height; //Maintains best vertical rhythm
 $horizontal-space: 			$base-line-height;
 
-$rem-px-fallback: 			true;
+$rem-px-fallback: 			false;
 
 $indented-paragraphs:       false;
 
@@ -50,8 +48,6 @@ $indented-paragraphs:       false;
 
 /* SG
 # Config/Typography Settings [[dev]]
-
-@file _config.scss
 
 ##### `$$type-[h#]-size`
 ###### List (pixel value [, pixel or unitless value])
@@ -72,8 +68,6 @@ $type-small-size: 		 (ceil(modular-scale(-1)));
 
 /* SG
 # Config/Typography Settings [[dev]]
-
-@file _config.scss
 
 ##### `$$primary-font-stack`, `$$secondary-font-stack`, `$$monospace-font-stack`, `$$icon-font-stack`
 ###### String
@@ -117,13 +111,13 @@ $icon-font-stack: 			null;
 //Custom web fonts
 $use-web-fonts: 		true;
 //Relative path to fonts from CSS file
-$font-file-location: 	"fonts";
-$font-file-name:        ("Asap"     ,  "opensans"       );
+$font-file-location: 	"/public/fonts";
+$font-file-name:        ("Asap", "opensans");
 $font-weights:          (400 , 700 ),  (200,  400,  700 );
 $font-italics:          (true, true),  (true, true, true);
 
-$font-include-woff2:    (false      ,  false            );
-$font-include-eot: 		true;
+$font-include-woff2:    (true, true);
+$font-include-eot: 		false;
 
 
 /* SG
