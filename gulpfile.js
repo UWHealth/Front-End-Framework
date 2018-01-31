@@ -18,7 +18,8 @@ const TASKS = {
     'webpack': require('./bin/tasks/webpack.task.js'),
     'sass': require('./bin/tasks/sass.task.js'),
     'images': require('./bin/tasks/images.task.js'),
-    'static': ['images']
+    'copy': require('./bin/tasks/copy.task.js'),
+    'static': ['images', 'copy:static']
 };
 
 function taskOrder(done) {
@@ -46,6 +47,7 @@ gulp.task('watch', function() {
     gulp.watch(PATHS.styleGuide.watch.array, gulp.series('styleGuide'));
     gulp.watch(PATHS.hbs.watch.array, gulp.series('hbs'));
     gulp.watch(PATHS.images.watch.array, gulp.series('images'));
+    gulp.watch(PATHS.fonts.watch.array, gulp.series('copy:static'));
 });
 
 // Delete contents of compilation folders
@@ -53,6 +55,7 @@ gulp.task('clean', function () {
     return del(PATHS.clean.entry.array);
 });
 
+gulp.task('copy:static', TASKS.copy);
 
 // Local Server
 gulp.task('browserSync', TASKS.browserSync);
