@@ -1,5 +1,5 @@
 files:
-    include: '_src/sass/**/*.scss'
+    include: '_src/**/*.scss'
 options:
     formatter: stylish
     merge-default-rules: true
