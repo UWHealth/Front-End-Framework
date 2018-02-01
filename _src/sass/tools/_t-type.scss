@@ -109,6 +109,10 @@ _`$line-height` also accepts a pixel value and will be converted to a unitless o
     @include type-font-size($font-size, $line-height, $font-base, $important);
 }
 
+@mixin fs($font-size, $line-height: true, $font-base: $base-font-size, $important: false) {
+    @include type-font-size($font-size, $line-height, $font-base, $important);
+}
+
 
 /* SG
 # Typography/Spacing [[dev]]

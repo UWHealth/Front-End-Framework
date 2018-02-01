@@ -13,43 +13,50 @@ Applying the `btn` class to anything will make it look like a button. Always dec
 //Useful placeholder selector for simple button creation.
 
 %button {
+    border-radius: type-space(.75)/type-space(.95);
+    box-shadow: 0 3px 4px -2px rgba(black, 0);
     background-color: color('links');
+    padding: type-space(.5 .375);
     color: white;
-    font-weight: 700;
-    padding: type-space(.25 0);
-    transition: background .1s ease-in-out, border-color .07s ease-out, color .1s ease-in-out;
+    font-weight: bold;
+    transition: background .1s ease-in-out, box-shadow .2s ease-out, color .1s ease-in-out;
 
     &:focus,
     &:hover {
         outline: none;
-        background-color: color('links', 'light')
+        box-shadow: 0 3px 8px -2px rgba(color('links', 'light'), .65);
+        background-color: color('links', 'light');
     }
 
     &:active {
-        background-color: color('links', 'lighter');
-        box-shadow: 0 0 4px 1px rgba(color('links','light'), .3);
         outline: none;
+        box-shadow: 0 0 4px 1px rgba(color('links', 'lighter'), .5);
+        background-color: color('links', 'lighter');
+        color: color('links', 'light');
     }
 
-}
-
-.btn--wide {
-    @extend %one_whole;
 }
 
 .btn {
     @extend %button;
     display: inline-flex;
     justify-content: space-between;
+    align-content: flex-start;
     align-items: center;
 }
 
+.btn--wide {
+    @extend %one_whole;
+}
+
 .btn__icon {
-    padding: type-space(0 .5);
     display: inline-block;
+    flex: 0 1 auto;
+    padding: type-space(0 .5);
 }
 
 .btn__body {
-    padding: type-space(0 .5);
     display: inline-block;
+    flex: 1 1 auto;
+    padding: type-space(0 .5);
 }

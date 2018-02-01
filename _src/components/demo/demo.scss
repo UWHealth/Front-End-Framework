@@ -3,13 +3,10 @@
 @import '../../sass/tools/t-color-functions';
 @import '../../sass/tools/t-blendmodes';
 @import '../../sass/tools/t-easings';
-
 //Settings
 @import '../../sass/config';
-
 //Framework variables
 @import '../../sass/tools/t-variables';
-
 //Utility mixins
 @import '../../sass/tools/t-fontface';
 @import '../../sass/tools/t-media-queries';
@@ -23,5 +20,34 @@
 @import '../../sass/tools/t-type';
 
 .demo-header {
+    display: flex;
+    align-items: center;
     background-color: color('bg', 'dark');
+    background-image: linear-gradient(transparent 0%, color('links', 'lightest') 100%);
+    width: 100%;
+    height: 70vh;
+    max-height: type-space(25);
+}
+
+.demo-header__title {
+    padding-bottom: type-space(1);
+    letter-spacing: .01em;
+    color: color('bg', 'darkest');
+    font-weight: normal;
+}
+
+.demo-body {
+    padding-top: type-space(1);
+}
+
+.demo-body__head {
+    @include font-size($type-h4-size, $type-h4-lh);
+    padding-bottom: type-space(1);
+    color: color('type', 'light');
+    font-weight: normal;
+}
+
+.demo-component {
+    display: static;
+    margin-bottom: type-space(1);
 }

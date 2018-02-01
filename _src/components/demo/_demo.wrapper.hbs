@@ -1,17 +1,22 @@
 {{> ../header/_header.hbs}}
-
+<link rel="stylesheet" href="/public/css/demo/demo.css">
 <header class="demo-header">
     <div class="wrap">
         <h1 class="demo-header__title">
             {{pageTitle}}
         </h1>
+        <div class="demo-header__component">
+            {{{components.[0]}}}
+        </div>
     </div>
 </header>
+{{@log locals.file}}
 <main class="demo-body">
     <div class="wrap">
-        {{#each components}}
-            {{{this}}}
-        {{/each}}
+        <h2 class="demo-body__head">
+            {{pageTitle}} Demos
+        </h2>
+        {{> _demo.hbs}}
     </div>
 </main>
 

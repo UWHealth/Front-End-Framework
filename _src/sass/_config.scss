@@ -111,12 +111,12 @@ $icon-font-stack: 			null;
 //Custom web fonts
 $use-web-fonts: 		true;
 //Relative path to fonts from CSS file
-$font-file-location: 	"/public/fonts";
-$font-file-name:        ("Asap", "opensans");
+$font-file-location: 	'/public/fonts';
+$font-file-name:        ("Asap", 'opensans');
 $font-weights:          (400 , 700 ),  (200,  400,  700 );
 $font-italics:          (true, true),  (true, true, true);
 
-$font-include-woff2:    (true, true);
+$font-include-woff2:    (false, false);
 $font-include-eot: 		false;
 
 
@@ -165,17 +165,17 @@ $breakpoints: (
 */
 
 $breakpoints: (
-	//Mostly phones
-    'smalls':'(max-width:#{ems($max-wide-content-width)})',
+    //Mostly phones
+    'smalls': '(max-width:#{ems($max-wide-content-width)})',
 
     //Small Phones
-    'small':'(max-width: #{ems($max-content-width)})',
+    'small': '(max-width: #{ems($max-content-width)})',
 
     //Large (Modern) phones/phablets
     'smallish': '(min-width: #{ems($max-content-width+1px)}) and (max-width: #{ems($max-wide-content-width)})',
 
     //Tablets, Desktops and larger
-	'bigs': '(min-width: #{ems($max-wide-content-width+1px)})',
+    'bigs': '(min-width: #{ems($max-wide-content-width+1px)})',
 
     //Mostly Tablets and small laptops. Overrides Bigs
     'lap': '(min-width: #{ems($max-wide-content-width + 1px)}) and (max-width: #{ems($max-site-width)})',
@@ -292,16 +292,16 @@ Variable used to generate utility (override) spacing classes. Classes are create
 ```scss
 //SCSS Input
     $display-classes: (
-    	'directions': (
+        'directions': (
             '-t': 'top',
             '-r': 'right',
             '-v': 'top' 'bottom'
         ),
-    	'units': (
+        'units': (
             '-2': 2,
             '-neg': -1
         ),
-    	'properties': (
+        'properties': (
             'pad': 'padding',
             'margin': 'space'
         )
@@ -325,10 +325,10 @@ Variable used to generate utility (override) spacing classes. Classes are create
 */
 
 $display-classes: (
-	'show': block,
-	'il': inline,
-	'i-block': inline-block,
-	'hide': none,
+    'show': block,
+    'il': inline,
+    'i-block': inline-block,
+    'hide': none,
     'flex': flex
 );
 
@@ -406,14 +406,14 @@ $base-colors: (
 */
 
 $base-colors: (
-	'type': #0a1c2b, //Required
+    'type': #0a1c2b, //Required
 
-	'links': #0d497b, //Required
+    'links': #0d497b, //Required
 
-	'bg': #f6f8fb, //Required
+    'bg': #f6f8fb, //Required
 
-	//Change the following names and colors project-specific
-	'styleguide': (
+    //Change the following names and colors project-specific
+    'styleguide': (
         'base': #5E839E,
         'light': #CADDE2,
         'lighter': #F5D1DD,
@@ -422,32 +422,32 @@ $base-colors: (
         'dark': #175CA2,
         'darker': #114a84,
         'darkest': #081D33
-	),
+    ),
 
-	'accent': mix(#d40026, #AD0909, 45%),
+    'accent': mix(#d40026, #AD0909, 45%),
 
-	'success': #bada55
+    'success': #bada55
 
 );
 
 //Create color variations based on the map above, using the settings below
 $base-colors: generate-color-variations(
-	$variations: ( //Color variation names
-		'light', 'lighter', 'lightest',
-		'dark', 'darker', 'darkest'
-	),
-	$functions: ( //functions to use when creating variations
-		'linearlight', 'lineardodge', 'tint',
-		'darken', 'linearburn', 'linearburn'
-	),
-	$blending-colors: ( //Allows for more uniform colors
-		#cbcbcb, #efefef, null,
-		null, #4c5a66, #323d42
-	),
+    $variations: ( //Color variation names
+        'light', 'lighter', 'lightest',
+        'dark', 'darker', 'darkest'
+    ),
+    $functions: ( //functions to use when creating variations
+        'linearlight', 'lineardodge', 'tint',
+        'darken', 'linearburn', 'linearburn'
+    ),
+    $blending-colors: ( //Allows for more uniform colors
+        #bfccd6, #dee9ec, null,
+        null, #4c5a66, #323d42
+    ),
     $increments: ( //How strongly each color should be blended
-		50%,   60%,   80%,
-		5%,   40%,   70%
-	)
+        50%,   60%,   80%,
+        5%,   40%,   70%
+    )
 )  !global;
 
 

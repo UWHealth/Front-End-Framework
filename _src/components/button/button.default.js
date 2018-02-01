@@ -3,7 +3,7 @@ import template from './_button.hbs';
 const defaultData = {
     body: "Button Body",
     type: [],
-    iconUrl: "/public/img/dev/github.png"
+    iconUrl: ""
 };
 
 export default function(data) {
