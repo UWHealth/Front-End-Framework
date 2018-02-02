@@ -1,26 +1,11 @@
+import template from '../components/base/_base.hbs';
 import button from '../components/button/button.default.js';
-import html from '../components/utilities/_html.hbs';
-import Demo from '../components/demo/demo.demo.js';
 
-
-export default new Demo(
-    'Button',
-    {
+export default function() {
+    return template({
+        "pageTitle": "Sample Page",
         "components": [
-            button({
-                body: "Button"
-            }),
-            button({
-                body: "Normal Button"
-            }),
-            button({
-                body: "Wide Button",
-                type: ['wide']
-            }),
-            button({
-                body: "Button w/ image",
-                iconUrl: '/public/img/dev/github.png'
-            })
+            button()
         ]
-    }
-);
+    });
+};

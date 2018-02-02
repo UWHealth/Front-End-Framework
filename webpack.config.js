@@ -11,7 +11,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const PATHS    = require('./bin/paths.config.js');
 const MODE     = require('./bin/helpers/mode.js');
-const STATS    = require('./bin/webpack.stats.config.js');
+const STATS    = require('./bin/webpack/stats.webpack.config.js');
 const BROWSERS = require('./package.json').browserslist;
 
 

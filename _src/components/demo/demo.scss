@@ -40,14 +40,22 @@
     padding-top: type-space(1);
 }
 
-.demo-body__head {
-    @include font-size($type-h4-size, $type-h4-lh);
-    padding-bottom: type-space(1);
-    color: color('type', 'light');
+.demo-body__head,
+.demo-category {
     font-weight: normal;
 }
 
-.demo-component {
-    display: static;
-    margin-bottom: type-space(1);
+.demo-body__head {
+    @include font-size($type-h4-size, $type-h4-lh);
+    margin-bottom: type-space(1.25);
+    border-bottom: 2px solid rgba(color('type', 'light'), .75);
+    padding-bottom: calc(#{type-space(.5)} - 1px);
+    color: color('type', 'light');
 }
+
+.demo-category {
+    @include font-size($type-h6-size, $type-h6-lh);
+    padding-top: type-space(1.5);
+}
+
+

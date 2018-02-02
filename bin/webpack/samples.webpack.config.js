@@ -8,8 +8,8 @@ const fs = require('fs');
 const path = require('path');
 const cloneDeep = require('lodash.clonedeep');
 
-const PATHS = require('./paths.config.js');
-const WP_CONFIG = require('../webpack.config.js');
+const PATHS = require('../paths.config.js');
+const WP_CONFIG = require('../../webpack.config.js');
 
 const config = cloneDeep(WP_CONFIG);
 
@@ -18,7 +18,6 @@ config.output.path = PATHS.samples.dest;
 config.output.publicPath = '/' + path.relative(PATHS.root.dist, PATHS.samples.dest) + '/';
 config.entry = {};
 config.devtool = 'none';
-config.stats.chunks = false;
 config.output.filename = '[name].sample.js';
 config.output.library = 'sample';
 
@@ -41,5 +40,10 @@ config.plugins.push(
         }
     })
 );
+
+config.module.rules.push({
+    test: /\.demo\.css$/,
+    use: 'raw-loader'
+});
 
 module.exports = config;

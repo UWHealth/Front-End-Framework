@@ -1,7 +1,7 @@
 import template from './_button.hbs';
 
 const defaultData = {
-    body: "Button Body",
+    body: "Button",
     type: [],
     iconUrl: ""
 };

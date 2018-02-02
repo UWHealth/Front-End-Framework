@@ -401,7 +401,7 @@ async-settle@^1.0.0:
   dependencies:
     async-done "^1.2.2"
 
-async@1.5.2, async@^1.4.0, async@^1.5.2:
+async@1.5.2, async@^1.3.0, async@^1.4.0, async@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
@@ -1350,6 +1350,12 @@ builtin-modules@^1.0.0, builtin-modules@^1.1.1:
 builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
+
+bundle-loader@^0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/bundle-loader/-/bundle-loader-0.5.5.tgz#11fd7b08edf86a1d708efcb1eca62ca51f6c368a"
+  dependencies:
+    loader-utils "^1.0.2"
 
 cacache@^10.0.1:
   version "10.0.2"
@@ -3489,6 +3495,10 @@ glob-stream@^6.1.0:
     to-absolute-glob "^2.0.0"
     unique-stream "^2.0.2"
 
+glob-to-regexp@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/glob-to-regexp/-/glob-to-regexp-0.1.0.tgz#e0369d426578fd456d47dc23b09de05c1da9ea5d"
+
 glob-watcher@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/glob-watcher/-/glob-watcher-5.0.0.tgz#5e147887f8733134c212bc19697dda19a029eb2e"
@@ -5101,7 +5111,7 @@ loader-utils@1.0.x:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
-loader-utils@^1.0.2, loader-utils@^1.1.0:
+loader-utils@^1.0.0, loader-utils@^1.0.2, loader-utils@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.1.0.tgz#c98aef488bcceda2ffb5e2de646d6a754429f5cd"
   dependencies:
@@ -5833,6 +5843,13 @@ negotiator@0.6.1:
 next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
+
+node-glob@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/node-glob/-/node-glob-1.2.0.tgz#5240ffedefc6d663ce8515e5796a4d47a750c0d5"
+  dependencies:
+    async "^1.3.0"
+    glob-to-regexp "^0.1.0"
 
 node-gyp@^3.3.1:
   version "3.6.2"
@@ -6959,6 +6976,10 @@ randomfill@^1.0.3:
 range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
+
+raw-loader@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
 
 rc@^1.1.2, rc@^1.1.7:
   version "1.2.4"
@@ -8781,6 +8802,12 @@ v8flags@^3.0.1:
   resolved "https://registry.yarnpkg.com/v8flags/-/v8flags-3.0.1.tgz#dce8fc379c17d9f2c9e9ed78d89ce00052b1b76b"
   dependencies:
     homedir-polyfill "^1.0.1"
+
+val-loader@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/val-loader/-/val-loader-1.1.0.tgz#ed91537424d62a4ded98e846ccf07367756bf506"
+  dependencies:
+    loader-utils "^1.0.0"
 
 vali-date@^1.0.0:
   version "1.0.0"

@@ -83,6 +83,12 @@ Object.assign(PATHS, {
         },
         "dest": `${pub}/js`
     },
+    demos: {
+        "folders": {
+            "root": `${src}/components/`
+        },
+        "dest": `${dist}/components`
+    },
     hbs: {
         "folders": {
             "root": `${src}/components`
@@ -101,12 +107,6 @@ Object.assign(PATHS, {
     samples: {
         "folders": {
             "root": `${src}/_samples/`
-        },
-        "entry": {
-            "base": `${src}/_samples/base.hbs`
-        },
-        "watch": {
-            "base": `${src}/_samples/**/*.js`
         },
         "dest": `${dist}/samples`
     },

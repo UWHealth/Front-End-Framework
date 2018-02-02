@@ -32,7 +32,7 @@ Applying the `btn` class to anything will make it look like a button. Always dec
         outline: none;
         box-shadow: 0 0 4px 1px rgba(color('links', 'lighter'), .5);
         background-color: color('links', 'lighter');
-        color: color('links', 'light');
+        color: color('links', 'lightest');
     }
 
 }
@@ -52,7 +52,20 @@ Applying the `btn` class to anything will make it look like a button. Always dec
 .btn__icon {
     display: inline-block;
     flex: 0 1 auto;
-    padding: type-space(0 .5);
+    margin: type-space(0 .25 0 .25);
+
+    .btn--reversed & {
+        order: -1;
+    }
+}
+
+.btn__svg,
+.btn__icon--image {
+    display: block;
+    width: type-space(1);
+    height: auto;
+    min-height: 1px;
+    fill: currentColor;
 }
 
 .btn__body {

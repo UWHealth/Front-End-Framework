@@ -5,14 +5,14 @@
 
 const webpack = require('webpack');
 
-const webpackConfigs = require('../webpack.combined.config.js');
+const webpackConfigs = require('../webpack/combined.webpack.config.js');
 const baseConfig = webpackConfigs[0];
 
 const MODE = require('../helpers/mode.js');
-const STATS = require('../webpack.stats.config.js');
+const STATS = require('../webpack/stats.webpack.config.js');
 const LOG = require('../helpers/logger.js');
 
-const webpackLogger = function(err, stats, done) { //eslint-disable-line
+const webpackLogger = function(err, stats, done, compiler) { //eslint-disable-line
     if (err) {
         new LOG('Webpack', err.stack || err).error();
         if (err.details) {
@@ -20,14 +20,16 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
         }
     }
     else if (stats) {
-        const info = stats.toJson("minimal");
+        //stats = compiler.getStats();
+        const info = stats.toJson("verbose");
 
         if (stats.hasWarnings()) {
-            new LOG('Webpack warning', info.warnings).info();
+            new LOG('Webpack warning', new Error(info.warnings)).info();
         }
 
         if (stats.hasErrors()) {
-            new LOG('Webpack', new Error(info.errors)).error();
+            //new LOG('Webpack', new Error(info.errors)).error();
+            console.error(new Error(info.errors));
             return done();
         }
 
@@ -41,7 +43,7 @@ module.exports = (done) => {
     if (MODE.production && !MODE.local) {
         webpack(
             baseConfig,
-            (err, stats) => webpackLogger(err, stats, done)
+            (err, stats) => webpackLogger(err, stats, done, webpack)
         );
     }
     else {
@@ -49,7 +51,7 @@ module.exports = (done) => {
 
         webpack(
             webpackConfigs,
-            (err, stats) => webpackLogger(err, stats, done)
+            (err, stats) => webpackLogger(err, stats, done, webpack)
         );
 
         // NOTE: Parallel webpack is great for performance,
