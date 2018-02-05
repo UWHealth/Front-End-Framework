@@ -8,9 +8,9 @@ const webpack = require('webpack');
 const webpackConfigs = require('../webpack/combined.webpack.config.js');
 const baseConfig = webpackConfigs[0];
 
-const MODE = require('../helpers/mode.js');
+const MODE = require('../tools/mode.js');
 const STATS = require('../webpack/stats.webpack.config.js');
-const LOG = require('../helpers/logger.js');
+const LOG = require('../tools/logger.js');
 
 const webpackLogger = function(err, stats, done, compiler) { //eslint-disable-line
     if (err) {

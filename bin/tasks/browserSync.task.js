@@ -5,7 +5,7 @@
 const browserSync     = require('browser-sync');
 const PATHS           = require('../paths.config.js');
 
-const ARGS            = require('../helpers/args.js');
+const ARGS            = require('../tools/args.js');
 const BS_DIR_VIEW     = ARGS.dir;
 const BS_OPEN_NEW_TAB = ARGS.open;
 

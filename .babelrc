@@ -12,7 +12,8 @@
             "regenerator": false,
             "loose": true
         }],
-        ["syntax-dynamic-import"]
+        ["syntax-dynamic-import"],
+        ["dynamic-import-node"]
     ]
 
 }

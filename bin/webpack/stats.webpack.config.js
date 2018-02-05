@@ -1,5 +1,5 @@
 /* eslint indent: "off" */
-const MODE = require('../helpers/mode.js');
+const MODE = require('../tools/mode.js');
 
 module.exports = {
     // Fallback

@@ -6,8 +6,8 @@ const parallel     = gulp.parallel;
 const styleguide   = require('markdown-documentation-generator');
 const del          = require('del');
 
-const LOG          = require('./bin/helpers/logger.js');
-const MODE         = require('./bin/helpers/mode');
+const LOG          = require('./bin/tools/logger.js');
+const MODE         = require('./bin/tools/mode');
 const PATHS        = require('./bin/paths.config.js');
 const SG_CONFIG    = require(PATHS.styleGuide.entry.config);
 
@@ -26,7 +26,7 @@ function taskOrder(done) {
 
     return !MODE.production ?
         // DEV
-        ['clean', parallel(...TASKS.static, 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
+        [parallel(...TASKS.static, 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
         :
         MODE.localProduction ?
             // LOCAL-PROD

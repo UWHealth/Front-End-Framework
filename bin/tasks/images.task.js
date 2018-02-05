@@ -10,7 +10,7 @@ const plumber = require('gulp-plumber');
 const pngquant = require('imagemin-pngquant');
 const changed = require('gulp-changed');
 
-const LOG   = require('../helpers/logger.js');
+const LOG   = require('../tools/logger.js');
 const PATHS = require('../paths.config.js');
 const reload = browserSync.reload;
 

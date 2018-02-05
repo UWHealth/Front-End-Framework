@@ -7,9 +7,9 @@ const sass         = require('gulp-sass');
 const size         = require('gulp-size');
 const sourcemaps   = require('gulp-sourcemaps');
 
-const LOG          = require('../helpers/logger.js');
+const LOG          = require('../tools/logger.js');
 const BROWSERS     = require('../../package.json').browserslist;
-const MODE         = require('../helpers/mode');
+const MODE         = require('../tools/mode');
 const PATHS        = require('../paths.config.js');
 
 module.exports = () => {

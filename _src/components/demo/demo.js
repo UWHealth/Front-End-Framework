@@ -17,7 +17,7 @@ const Demo = function(pageTitle, variants) {
         return template(context);
     };
 
-    return this;
+    return this.render();
 };
 
 Demo.heading = function(heading) {

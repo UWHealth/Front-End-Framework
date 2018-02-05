@@ -3,8 +3,10 @@
 **/
 
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
+const webpack = require('webpack');
 
 const fs = require('fs');
+const glob = require('glob');
 const path = require('path');
 const cloneDeep = require('lodash.clonedeep');
 
@@ -21,36 +23,64 @@ config.devtool = false;
 config.output.filename = '[name].demo.js';
 config.output.library = 'render';
 config.output.libraryTarget = "umd";
-config.resolve.modules = ["node_modules", PATHS.demos.dest]
+config.resolve.modules = ["node_modules", PATHS.demos.dest];
 config.entry = {
-    index: path.resolve(__dirname, 'demo.router.js')
+    handlebars: 'handlebars/runtime',
+    index: path.resolve(__dirname, '../tools/demo-router.js'),
 };
 
 const staticPaths = [];
 
-fs.readdirSync(PATHS.demos.folders.root)
-    .forEach((folder) => {
-        const folderPath = path.resolve(PATHS.demos.folders.root, folder);
-        fs.readdirSync(folderPath).forEach((file) => {
-            if (file.indexOf('.demo.js') > -1) {
-                const name = path.basename(file, '.demo.js');
-                staticPaths.push(name + '/index.html');
-            }
-        });
-    });
+const demos = glob.sync(PATHS.demos.entry.all);
+
+// fs.readdirSync(PATHS.demos.folders.root)
+//     .forEach((folder) => {
+//         const folderPath = path.resolve(PATHS.demos.folders.root, folder);
+//         fs.readdirSync(folderPath).forEach((file) => {
+//             if (file.indexOf('.demo.js') > -1) {
+//                 const name = path.basename(file, '.demo.js');
+//                 staticPaths.push(name + '/index.html');
+//             }
+//         });
+//     });
 
 config.plugins.push(
     new StaticSiteGeneratorPlugin({
-        paths: staticPaths,
+        //paths: staticPaths,
+        entry: 'index',
         locals: {
             'variable': 'thing'
         }
-    })
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: "handlebars",
+        minChunks: Infinity,
+        async: 'handlebars.js'
+    }),
+
 );
 
-config.module.rules.push({
-    test: /\.demo\.css$/,
-    use: 'raw-loader'
-});
+config.module.rules.push(
+    {
+        test: /\.demo\.css$/,
+        use: 'raw-loader'
+    },
+    {
+        test: /\.demo\.js$/,
+        use: [
+        // {
+        //     loader: 'bundle-loader',
+        //     options: {
+        //         lazy: true
+        //     }
+        // },
+        {
+            loader: 'babel-loader',
+            options: {
+                plugins: ["dynamic-import-node"]
+            }
+        }]
+    }
+);
 
 module.exports = config;

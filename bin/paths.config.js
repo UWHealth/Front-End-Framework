@@ -3,7 +3,7 @@
 **/
 
 const path = require('path');
-const normalize = require('./helpers/normalize-paths.js');
+const normalize = require('./tools/normalize-paths.js');
 
 const root = process.cwd();
 const bin  = path.resolve(__dirname);
@@ -86,6 +86,9 @@ Object.assign(PATHS, {
     demos: {
         "folders": {
             "root": `${src}/components/`
+        },
+        "entry": {
+            "all": `${src}/components/**/*.demo.js`
         },
         "dest": `${dist}/components`
     },

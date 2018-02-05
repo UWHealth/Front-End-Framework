@@ -8,9 +8,9 @@ const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const tap = require('gulp-tap');
 
-const LOG   = require('../helpers/logger.js');
+const LOG   = require('../tools/logger.js');
 const PATHS = require('../paths.config');
-const loopAST = require('../helpers/embed-partials.js');
+const loopAST = require('../tools/embed-partials.js');
 
 const Handlebars = require('handlebars');
 let currentFile;

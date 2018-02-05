@@ -10,7 +10,7 @@ const ShakePlugin = require('webpack-common-shake').Plugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const PATHS    = require('./bin/paths.config.js');
-const MODE     = require('./bin/helpers/mode.js');
+const MODE     = require('./bin/tools/mode.js');
 const STATS    = require('./bin/webpack/stats.webpack.config.js');
 const BROWSERS = require('./package.json').browserslist;
 
@@ -55,7 +55,7 @@ config.module.rules = [
             loader: 'babel-loader',
             options: {
                 cacheDirectory: true,
-                auxiliaryCommentBefore: "Babel",
+                auxiliaryCommentBefore: "Babel»",
                 presets: [
                     ["env", {
                         "browsers": BROWSERS,
