@@ -13,6 +13,7 @@ rules:
     placeholder-name-format:
         - 1
         - convention: hyphenatedbem
+    empty-args: 0
     force-element-nesting: 0
     force-pseudo-nesting: 0
     indentation:

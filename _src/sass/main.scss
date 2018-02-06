@@ -9,20 +9,20 @@
 Sass files are imported in order from lowest specificity to highest.
 1. `/tools`
   * Functions
-  * Settings
   * System variables and defaults
   * General-use mixins and sass utilities
-2. `base/generic`
+  * `/config` - Settings and initialization
+3. `base/generic`
   * Normalize/reset styles (unclassed)
-3. `/base`
+4. `/base`
   * Element styles (unclassed)
-4. `/layout`
+5. `/layout`
   * Basic layout and object styles (single-class)
-5. `/components`
+6. `/components`
   * Module and component styles (single- and child-classes)
-6. `/sections`
+7. `/sections`
   * View- and page-specific and scoped styles (typically `parent > child` classes).
-7. `/overrides`
+8. `/overrides`
   * Utility styles, usually end in `!important`.
 
 */
@@ -33,28 +33,10 @@ Sass files are imported in order from lowest specificity to highest.
 //-----------------------------
 
 //Global functions and variables
-@import 'tools/t-functions';
-@import 'tools/t-color-functions';
-@import 'tools/t-blendmodes';
-@import 'tools/t-easings';
+@import 'tools/_t-import';
 
 //Settings
 @import 'config';
-
-//Framework variables
-@import 'tools/t-variables';
-
-//Utility mixins
-@import 'tools/t-fontface';
-@import 'tools/t-media-queries';
-@import 'tools/t-overrides';
-@import 'tools/t-mixins';
-@import 'tools/t-zindex';
-@import 'tools/t-display';
-@import 'tools/t-widths';
-@import 'tools/t-grid-system';
-@import 'tools/t-spacing';
-@import 'tools/t-type';
 
 
 //----------------------------

@@ -47,80 +47,80 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 
     $class-type: if($silent, "%", ".");
 
-	%grid_reset {
-		letter-spacing: normal;
-		word-spacing: normal;
-	}
+    %grid_reset {
+        letter-spacing: normal;
+        word-spacing: normal;
+    }
 
-	//*------------------------------------
-	//    $GRID SETUP
-	//*------------------------------------
+    //*------------------------------------
+    //    $GRID SETUP
+    //*------------------------------------
 
-	#{$class-type}grid {
-	    @include grid-row();
-	}
+    #{$class-type}grid {
+        @include grid-row();
+    }
 
-	#{$class-type}grid_item {
+    #{$class-type}grid_item {
         @include grid-item($grid-columns);
-	}
+    }
 
-	// Special class for grid items that need to behave like both grids and grid__items.
-	#{$class-type}grid_reset_item {
+    // Special class for grid items that need to behave like both grids and grid__items.
+    #{$class-type}grid_reset_item {
         @include grid-item($grid-columns);
-	    @extend #{$class-type}grid;
-	}
+        @extend #{$class-type}grid;
+    }
 
-	//
-	// Reversed grids allow you to structure your source in the opposite order to
-	// how your rendered layout will appear. Extends `.grid`.
-	//
-	#{$class-type}grid_rev,
+    //
+    // Reversed grids allow you to structure your source in the opposite order to
+    // how your rendered layout will appear. Extends `.grid`.
+    //
+    #{$class-type}grid_rev,
     #{$class-type}grid_reverse{
-	    @if $grid-floats {
-	        @extend %clearfix;
+        @if $grid-floats {
+            @extend %clearfix;
 
             > #{$class-type}grid_item{
-	            float: right;
-	        }
-	    }
-	    @if $grid-inline-block or
+                float: right;
+            }
+        }
+        @if $grid-inline-block or
             $grid-flex
         {
-	        direction: rtl;
-	        text-align: left;
+            direction: rtl;
+            text-align: left;
 
-	        > #{$class-type}grid_item{
-	            direction: ltr;
-	            text-align: left;
-	        }
-	    }
-	}
+            > #{$class-type}grid_item{
+                direction: ltr;
+                text-align: left;
+            }
+        }
+    }
 
 
-	//
-	// Align the entire grid to the right. Extends `.grid`.
-	//
-	#{$class-type}grid_right {
-	    @if $grid-inline-block {
-	        text-align: right;
-
-	        > #{$class-type}grid_item {
-	            text-align: left;
-	        }
-	    }
-        @if $grid-flex {
-	        justify-content: flex-end;
-	    }
-	}
     //
-	// Centered grids align grid items centrally without needing to use push or pull
-	// classes. Extends `.grid`.
+    // Align the entire grid to the right. Extends `.grid`.
     //
-	#{$class-type}grid_center{
+    #{$class-type}grid_right {
+        @if $grid-inline-block {
+            text-align: right;
+
+            > #{$class-type}grid_item {
+                text-align: left;
+            }
+        }
+        @if $grid-flex {
+            justify-content: flex-end;
+        }
+    }
+    //
+    // Centered grids align grid items centrally without needing to use push or pull
+    // classes. Extends `.grid`.
+    //
+    #{$class-type}grid_center{
 
         @if $grid-flex {
-	        justify-content: center;
-	    }
+            justify-content: center;
+        }
 
         @if $grid-inline-block {
             text-align: center;
@@ -129,68 +129,67 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
                 text-align: left;
             }
         }
-	}
+    }
     //
     //
-	// Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
-	// `.grid`.
-	//
-	#{$class-type}grid_middle {
+    // Align grid cells vertically (`.grid--middle` or `.grid--bottom`). Extends
+    // `.grid`.
+    //
+    #{$class-type}grid_middle {
 
-	    > #{$class-type}grid_item {
+        > #{$class-type}grid_item {
             @if $grid-flex {
                 align-self: center;
             }
-	        vertical-align: middle;
-	    }
-	}
+            vertical-align: middle;
+        }
+    }
 
-	#{$class-type}grid_bottom{
+    #{$class-type}grid_bottom{
 
-	    > #{$class-type}grid_item {
+        > #{$class-type}grid_item {
             @if $grid-flex {
                 align-self: flex-end;
             }
-	        vertical-align: bottom;
-	    }
-	}
+            vertical-align: bottom;
+        }
+    }
 
 
-	//
-	// Gutterless grids have all the properties of regular grids, minus any spacing.
-	// Extends `.grid`.
-	//
-	#{$class-type}grid_full{
-	    margin-left: 0;
+    // Gutterless grids have all the properties of regular grids, minus any spacing.
+    // Extends `.grid`.
 
-	    > #{$class-type}grid_item {
-	        padding-left: 0;
-	    }
-	}
+    #{$class-type}grid_full{
+        margin-left: 0;
 
-
-	//
-	// Create grids with narrower gutters. Extends `.grid`.
-	//
-	#{$class-type}grid_narrow {
-	    @include type-space(margin-left, -.5, $unit: $grid-gutter);
-
-		> #{$class-type}grid_item {
-	        @include type-space(padding-left, .5, $unit: $grid-gutter);
-	    }
-	}
+        > #{$class-type}grid_item {
+            padding-left: 0;
+        }
+    }
 
 
-	//
-	// Create grids with wider gutters. Extends `.grid`.
-	//
-	#{$class-type}grid_wide {
-	    @include type-space(margin-left, -2, $unit: $grid-gutter);
+    //
+    // Create grids with narrower gutters. Extends `.grid`.
+    //
+    #{$class-type}grid_narrow {
+        @include type-space(margin-left, -.5, $unit: $grid-gutter);
 
-		> #{$class-type}grid_item {
-	        @include type-space(padding-left, 2, $unit: $grid-gutter);
-	    }
-	}
+        > #{$class-type}grid_item {
+            @include type-space(padding-left, .5, $unit: $grid-gutter);
+        }
+    }
+
+
+    //
+    // Create grids with wider gutters. Extends `.grid`.
+    //
+    #{$class-type}grid_wide {
+        @include type-space(margin-left, -2, $unit: $grid-gutter);
+
+        > #{$class-type}grid_item {
+            @include type-space(padding-left, 2, $unit: $grid-gutter);
+        }
+    }
 
     //
     // Cause layout items to take up a non-explicit amount of width.
@@ -202,9 +201,9 @@ _Note: `[% || .]` denotes a class that is either silent(`%`) or standard CSS(`.`
 
             &:after {
                 content: " ";
-            	display: inline-block;
-            	width: 100%;
-            	height: 1px;
+                display: inline-block;
+                width: 100%;
+                height: 1px;
             }
         }
 
@@ -250,9 +249,9 @@ $grid-inline-block:      true    !default;
 $grid-markup-fix:        false   !default;
 $grid-letter-space-fix:  -0.45em !default;
 
-$breakpoint-has-widths: map-keys($breakpoints) !default;
-$breakpoint-has-push:   map-keys($breakpoints) !default;
-$breakpoint-has-pull:   map-keys($breakpoints) !default;
+$breakpoint-has-widths: ('smalls', 'small', 'lap', 'bigs') !default;
+$breakpoint-has-push:   ('smalls', 'small', 'lap', 'bigs') !default;
+$breakpoint-has-pull:   ('smalls', 'small', 'lap', 'bigs') !default;
 
 @mixin grid-row() {
     // 1. Allow the grid system to be used on lists.
@@ -340,13 +339,13 @@ Creates responsive grid classes by running through all the grid-setup mixins. Us
 
     @include width-classes($silent, $important);
 
-	@if $grid-push {
+    @if $grid-push {
         @include push-classes($silent, $important);
-	}
+    }
 
-	@if $grid-pull {
+    @if $grid-pull {
         @include pull-classes($silent, $important);
-	}
+    }
 }
 
 
@@ -384,7 +383,7 @@ Runs `@pull-setup()`, looping across all breakpoints in `$$breakpoint-has-pull`.
 
     @include width-setup("", $silent, $column-props, $important);
 
-	// Our responsive classes, if we have enabled them.
+    // Our responsive classes, if we have enabled them.
     @each $name in $breakpoint-has-widths {
         @include media-query($name) {
            @include width-setup("#{$name}#{$breakpoint-namespace-character}", $silent, $column-props, $important);

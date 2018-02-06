@@ -1,27 +1,8 @@
-//Global functions and variables
-@import '../sass/tools/t-functions';
-@import '../sass/tools/t-color-functions';
-@import '../sass/tools/t-blendmodes';
-@import '../sass/tools/t-easings';
+// Framework core
+@import '../sass/tools/t-import';
 
 //Settings
 @import '../sass/config';
-
-//Framework variables
-@import '../sass/tools/t-variables';
-
-//Utility mixins
-@import '../sass/tools/t-fontface';
-@import '../sass/tools/t-media-queries';
-@import '../sass/tools/t-mixins';
-@import '../sass/tools/t-zindex';
-
-//Utility placeholder classes
-@import '../sass/tools/t-display';
-@import '../sass/tools/t-widths';
-@import '../sass/tools/t-grid-system';
-@import '../sass/tools/t-spacing';
-@import '../sass/tools/t-type';
 
 /* SG
 # Color Palette

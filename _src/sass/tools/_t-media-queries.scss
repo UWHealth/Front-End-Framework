@@ -71,10 +71,11 @@ $media-query-intervals: (
 	'vw'		:	.01
 );
 
-//Stored for switching on and off
-$rem-px-default: $rem-px-fallback;
 
 @mixin media-query($mq...) {
+
+    //Stored for switching on and off
+    $rem-px-default: $rem-px-fallback;
 
 	//format arglist into maps with key-value pairs
 	//Should return (1:(operator:...,value:...,'device':...), 2:(...));

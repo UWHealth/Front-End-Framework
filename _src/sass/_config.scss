@@ -405,33 +405,31 @@ $base-colors: (
 ```
 */
 
-$base-colors: (
-    'type': #0a1c2b, //Required
-
-    'links': #0d497b, //Required
-
-    'bg': #f6f8fb, //Required
-
-    //Change the following names and colors project-specific
-    'styleguide': (
-        'base': #5E839E,
-        'light': #CADDE2,
-        'lighter': #F5D1DD,
-        'lightest': #E0ECF0,
-        'highlight':#f60255,
-        'dark': #175CA2,
-        'darker': #114a84,
-        'darkest': #081D33
-    ),
-
-    'accent': mix(#d40026, #AD0909, 45%),
-
-    'success': #bada55
-
-);
-
-//Create color variations based on the map above, using the settings below
+//Create color variations based on the map, using the settings below
 $base-colors: generate-color-variations(
+    $map: (
+        'type': #0a1c2b, //Required
+
+        'links': #0d497b, //Required
+
+        'bg': #f6f8fb, //Required
+
+        //Change the following names and colors project-specific
+        'styleguide': (
+            'base': #5E839E,
+            'light': #CADDE2,
+            'lighter': #F5D1DD,
+            'lightest': #E0ECF0,
+            'highlight':#f60255,
+            'dark': #175CA2,
+            'darker': #114a84,
+            'darkest': #081D33
+        ),
+
+        'accent': mix(#d40026, #AD0909, 45%),
+
+        'success': #bada55
+    ),
     $variations: ( //Color variation names
         'light', 'lighter', 'lightest',
         'dark', 'darker', 'darkest'
@@ -448,7 +446,7 @@ $base-colors: generate-color-variations(
         50%,   60%,   80%,
         5%,   40%,   70%
     )
-)  !global;
+);
 
 
 /* SG
@@ -523,3 +521,7 @@ $tab-content-bg:                    #fff;
 $tab-button-text:                   #fff;
 $tab-border-radius:                 2px;
 $tab-spacing:                       2px;
+
+
+// Initialize and propogate framework variables
+@include globalize-config();
