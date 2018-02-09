@@ -26,7 +26,7 @@ function taskOrder(done) {
 
     return !MODE.production ?
         // DEV
-        [parallel(...TASKS.static, 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
+        ['clean', parallel(...TASKS.static, 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
         :
         MODE.localProduction ?
             // LOCAL-PROD

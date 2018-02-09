@@ -6,12 +6,17 @@ const pe = new PrettyError();
 
 
 module.exports = function(task, message) {
-    this.notify = function() {
+    const self = this;
+
+    this.notify = function(err) {
+        const error = message || err;
         notify.onError({
             title: "Error",
             subtitle: "<%= error.plugin %>",
             message: "<%= error.message %>"
-        })(message);
+        })(error);
+
+        self.error(error);
 
         if (this && this.emit) { this.emit('end'); }
     };
@@ -21,6 +26,8 @@ module.exports = function(task, message) {
         console.log('  ' + chalk.bold.red(task + " error \n"), pe.render(error));
 
         if (this && this.emit) { this.emit('end'); }
+
+        return this;
     };
 
     this.info = function() {

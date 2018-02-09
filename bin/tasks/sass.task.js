@@ -16,7 +16,7 @@ module.exports = () => {
     if (MODE.production) {
         return gulp
             .src(PATHS.sass.entry.array)
-            .pipe(plumber(new LOG('Sass task').error))
+            .pipe(plumber(new LOG('Sass task').notify))
             .pipe(sass({
                 outputStyle: 'compressed',
                 errLogToConsole: true
@@ -39,7 +39,7 @@ module.exports = () => {
 
     return gulp
         .src(PATHS.sass.entry.array)
-        .pipe(plumber(new LOG('Sass task').error))
+        .pipe(plumber(new LOG('Sass task').notify))
         .pipe(sourcemaps.init())
         .pipe(sass({
             outputStyle: 'expanded',
