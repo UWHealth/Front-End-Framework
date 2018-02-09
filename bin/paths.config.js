@@ -3,7 +3,7 @@
 **/
 
 const path = require('path');
-const normalize = require('./tools/normalize-paths.js');
+const normalizePaths = require('./tools/normalize-paths.js');
 
 const root = process.cwd();
 const bin  = path.resolve(__dirname);
@@ -116,18 +116,17 @@ Object.assign(PATHS, {
     styleGuide: {
         "entry": {
             "config": `${bin}/styleguide.config.js`,
-            "templateFile": `${src}/styleguide/template.hbs`,
+            "templateFile": `${src}/styleguide/styleguide.hbs`,
             "themeFile": `${pub}/css/styleguide.css`,
             "jquery": `${src}/styleguide/imports/jquery.js`,
             "toc": `${src}/styleguide/imports/toc.js`,
-            "htmlOutput": `${path.relative(root, pub)}/styleguide/index.html`,
         },
         "watch": {
             "imports": `${src}/styleguide/**/*.*`,
             "style": `${pub}/css/styleguide.css`,
             "config": `${bin}/styleguide.conf.js`
         },
-        "dest": `${pub}/styleguide/index.html`
+        "dest": `${path.relative(root, pub)}/styleguide/index.html`
     },
     copy: {
         "folders": {
@@ -177,9 +176,10 @@ Object.assign(PATHS, {
             "css": `${pub}/css/*.css`,
             "js": `${pub}/js/**/*.js`,
             "samples": `${dist}/samples/**/*.html`,
-            "exclude": [`!${dist}/**/*.map`]
+            "html": `${dist}/**/*.html`,
+            "exclude": [`!${dist}/**/*.map`, `!${pub}/styleguide/*.html`]
         }
     }
 });
 
-module.exports = normalize(PATHS);
+module.exports = normalizePaths(PATHS);

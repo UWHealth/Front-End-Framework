@@ -21,7 +21,7 @@ module.exports = {
     },
     "templateFile": SG.templateFile,
     "themeFile": SG.themeFile,
-    "htmlOutput": SG.htmlOutput,
+    "htmlOutput": PATHS.styleGuide.dest,
     "jsonOutput": false,
     "handlebarsPartials": {
         "jquery": SG.jquery,
