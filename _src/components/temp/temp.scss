@@ -1,0 +1,199 @@
+.color_list {
+    font-size: 13/16 * 1rem;
+    width: 100%;
+    max-height: 20rem;
+    max-width: 20rem;
+    border-radius: 4px;
+    overflow: hidden;
+    transform-origin: left top;
+    transition: border-radius 200ms ease-out;
+    display: flex;
+    align-items: stretch;
+}
+
+.color_list.color_list_collapsed {
+    border-radius: .5rem;
+    height: .75rem;
+
+    .color_list_wrapper {
+        transform: rotateZ(90deg) translateY(50%) translateX(0px);
+        width: 100%;
+    }
+}
+
+.color_list_text {
+    opacity: .98;
+    z-index: 0;
+    transition: opacity 400ms ease-in;
+
+    .color_list_collapsed & {
+        opacity: 0;
+        transition: opacity 10ms ease-in;
+    }
+}
+
+.color_list_wrapper {
+    transform-origin: 0% 50%;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    min-height: 10rem;
+}
+
+.color_list_item {
+    transform-origin: left top;
+    padding: .5rem;
+    position: relative;
+    flex: 1 1 auto;
+    max-height: 3rem;
+    transition: max-height 200ms ease-out;
+
+    .color_list_collapsed & {
+        max-height: 10rem;
+    }
+}
+
+.color_list_item:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: .45;
+    z-index: 1;
+
+    .color_list_collapsed & {
+        opacity: .65;
+    }
+}
+
+.color_list_green:before {
+    background: #39BB7C;
+}
+
+.color_list_yellow:before {
+    background: #E1BB4F;
+}
+
+.color_list_red:before {
+    background: #b53e3e;
+}
+
+// @calc-bezier-x($x1, $y1, $x2, $y2) {
+//     @return (1-t)^3 * x0 + 3*(1-t)^2 * t * x1 + 3*(1-t) * t^2 * x2 + t^3 * x3;
+// }
+
+// @function A ($aA1, $aA2) { @return 1.0 - 3.0 * $aA2 + 3.0 * $aA1; }
+// @function B ($aA1, $aA2) { @return 3.0 * $aA2 - 6.0 * $aA1; }
+// @function C ($aA1)      { @return 3.0 * $aA1; }
+// @function calcBezier ($aT, $aA1, $aA2) {
+//     @return ((A($aA1, $aA2)*$aT + B($aA1, $aA2))*$aT + C($aA1))*$aT;
+// }
+// @function getSlope ($aT, $aA1, $aA2) {
+//     @return 3.0 * A($aA1, $aA2)*$aT*$aT + 2.0 * B($aA1, $aA2) * $aT + C($aA1);
+// }
+
+// @function bezier($mX1, $mY1, $mX2, $mY2) {
+//         $NEWTON_ITERATIONS: 4;
+//         $NEWTON_MIN_SLOPE: 0.001;
+//         $SUBDIVISION_PRECISION: 0.0000001;
+//         $SUBDIVISION_MAX_ITERATIONS: 10;
+//         $kSplineTableSize: 11;
+//         $kSampleStepSize: 1.0 / ($kSplineTableSize - 1.0);
+//         $float32ArraySupported: false;
+
+//         /* X values must be in the [0, 1] range. */
+//         $mX1: min(mX1, 1);
+//         $mX2: min(mX2, 1);
+//         $mX1: max(mX1, 0);
+//         $mX2: max(mX2, 0);
+
+//         $mSampleValues: (0,0,0,0,0,0,0,0,0,0,0);
+
+
+
+
+
+
+//         @function newtonRaphsonIterate (aX, aGuessT) {
+//             for ($i: 0; i < $NEWTON_ITERATIONS; ++i) {
+//                 $currentSlope: getSlope($aGuessT, $mX1, $mX2);
+
+//                 if ($currentSlope === 0.0) @return $aGuessT;
+
+//                 $currentX: calcBezier(aGuessT, mX1, mX2) - $aX;
+//                 $aGuessT: $aGuessT - (currentX / currentSlope);
+//             }
+
+//             return $aGuessT;
+//         }
+
+//         @function calcSampleValues () {
+//             for ($i: 0; i < kSplineTableSize; ++i) {
+//                 mSampleValues[i]: calcBezier(i * kSampleStepSize, mX1, mX2);
+//             }
+//         }
+
+//         @function binarySubdivide ($aX, $aA, $aB) {
+//             $currentX:null; $currentT:null; $i: 0;
+
+//             @while (abs($currentX) > $SUBDIVISION_PRECISION && $i+1 < $SUBDIVISION_MAX_ITERATIONS) {
+//                 $currentT: $aA + ($aB - $aA) / 2.0;
+//                 $currentX: calcBezier($currentT, $mX1, $mX2) - $aX;
+//                 @if ($currentX > 0.0) {
+//                   $aB: $currentT;
+//                 } @else {
+//                   $aA: $currentT;
+//                 }
+//             }
+
+//             @return $currentT;
+//         }
+
+//         @function getTForX ($aX) {
+//             $intervalStart: 0.0,
+//                 $currentSample: 1,
+//                 $lastSample: $kSplineTableSize - 1;
+
+//             for (; currentSample != lastSample && mSampleValues[currentSample] <= aX; ++currentSample) {
+//                 intervalStart += kSampleStepSize;
+//             }
+
+//             --currentSample;
+
+//             $dist: (aX - mSampleValues[currentSample]) / (mSampleValues[currentSample+1] - mSampleValues[currentSample]),
+//                 guessForT: intervalStart + dist * kSampleStepSize,
+//                 initialSlope: getSlope(guessForT, mX1, mX2);
+
+//             if (initialSlope >= NEWTON_MIN_SLOPE) {
+//                 return newtonRaphsonIterate(aX, guessForT);
+//             } else if (initialSlope == 0.0) {
+//                 return guessForT;
+//             } else {
+//                 return binarySubdivide(aX, intervalStart, intervalStart + kSampleStepSize);
+//             }
+//         }
+
+//         $_precomputed: false;
+
+//         function precompute() {
+//             _precomputed: true;
+//             if (mX1 != mY1 || mX2 != mY2) calcSampleValues();
+//         }
+
+//         $f: function (aX) {
+//             if (!_precomputed) precompute();
+//             if (mX1 === mY1 && mX2 === mY2) return aX;
+//             if (aX === 0) return 0;
+//             if (aX === 1) return 1;
+
+//             return calcBezier(getTForX(aX), mY1, mY2);
+//         };
+
+//         return f;
+//     }
