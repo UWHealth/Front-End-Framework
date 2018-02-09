@@ -2,6 +2,7 @@ const chalk        = require('chalk');
 const notify       = require('gulp-notify');
 const log          = require('fancy-log');
 const PrettyError  = require('pretty-error');
+const browserSync  = require('../tasks/browserSync.task.js').browserSync;
 const pe = new PrettyError();
 
 
@@ -17,13 +18,19 @@ module.exports = function(task, message) {
         })(error);
 
         self.error(error);
-
-        if (this && this.emit) { this.emit('end'); }
     };
 
     this.error = function(err) {
         const error = message || err;
         console.log('  ' + chalk.bold.red(task + " error \n"), pe.render(error));
+
+        if (browserSync.sockets) {
+            browserSync.sockets.emit('fullscreen:message', {
+                title: task + ' Error:',
+                body: error,
+                timeout: 100000
+            });
+        }
 
         if (this && this.emit) { this.emit('end'); }
 

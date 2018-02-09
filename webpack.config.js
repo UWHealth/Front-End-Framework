@@ -39,7 +39,10 @@ const config = {
     },
     stats: STATS,
     module: {},
-    plugins: []
+    plugins: [],
+    watchOptions: {
+        ignored: /node_modules/
+    }
 };
 
 /*

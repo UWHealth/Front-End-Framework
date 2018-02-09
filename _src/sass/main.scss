@@ -33,7 +33,7 @@ Sass files are imported in order from lowest specificity to highest.
 //-----------------------------
 
 //Global functions and variables
-@import 'tools/_t-import';
+@import 'tools/t-import';
 
 //Settings
 @import 'config';
@@ -54,6 +54,7 @@ Sass files are imported in order from lowest specificity to highest.
 
 //Elements and un-classed selectors
 // (lowest specificity)
+@import 'base/b-fonts';
 @import 'base/b-silent';
 @import 'base/b-form';
 @import 'base/b-list';

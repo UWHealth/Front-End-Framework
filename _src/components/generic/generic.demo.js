@@ -1,9 +1,9 @@
-import generic from './_generic.hbs';
-import html from '../tools/_html.hbs';
-import Demo from '../demo/demo.js';
+const generic = require('./_generic.hbs');
+const html = require('../tools/_html.hbs');
+const Demo = require('../demo/demo.js');
 
 
-const demo = new Demo(
+module.exports = new Demo(
     'Generic', generic,
     {
         "components": [
@@ -18,5 +18,3 @@ const demo = new Demo(
         ]
     }
 );
-
-export default demo;

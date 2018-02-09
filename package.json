@@ -37,6 +37,7 @@
         "babel-runtime": "^6.23.0",
         "browser-sync": "^2.23.3",
         "bundle-loader": "^0.5.5",
+        "bs-fullscreen-message": "^1.1.0",
         "chalk": "^2.3.0",
         "del": "^3.0.0",
         "eslint": "^4.14.0",
@@ -84,5 +85,6 @@
         "webpack-common-shake": "^1.5.3",
         "yargs": "^10.0.3"
     },
-    "dependencies": {}
+    "dependencies": {
+    }
 }

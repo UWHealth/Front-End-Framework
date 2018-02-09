@@ -176,7 +176,7 @@ Object.assign(PATHS, {
             "css": `${pub}/css/*.css`,
             "js": `${pub}/js/**/*.js`,
             "samples": `${dist}/samples/**/*.html`,
-            "html": `${dist}/**/*.html`,
+            "components": `${dist}/components/**/*.html`,
             "exclude": [`!${dist}/**/*.map`, `!${pub}/styleguide/*.html`]
         }
     }

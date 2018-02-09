@@ -1,4 +1,4 @@
-import template from '../demo/_demo.wrapper.hbs';
+const template = require('../demo/_demo.wrapper.hbs');
 
 const Demo = function(pageTitle, variants) {
     /* Check for variants as first argument */
@@ -24,4 +24,4 @@ Demo.heading = function(heading) {
     return '<h3 class="demo-category">' + heading + '</h3>';
 };
 
-export default Demo;
+module.exports = Demo;

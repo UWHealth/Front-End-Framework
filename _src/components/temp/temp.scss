@@ -24,11 +24,13 @@
 .color_list_text {
     opacity: .98;
     z-index: 0;
-    transition: opacity 400ms ease-in;
+    transition: opacity 300ms ease-in;
+    transition-delay: 75ms;
 
     .color_list_collapsed & {
         opacity: 0;
-        transition: opacity 10ms ease-in;
+        transition-duration: 25ms;
+        transition-delay: 0s;
     }
 }
 
@@ -44,15 +46,21 @@
 }
 
 .color_list_item {
-    transform-origin: left top;
     padding: .5rem;
     position: relative;
     flex: 1 1 auto;
-    max-height: 3rem;
-    transition: max-height 200ms ease-out;
+    max-height: 2.5rem;
+    transition: max-height 250ms ease-out;
+
+    @for $i from 10 through 1 {
+        &:nth-child(#{$i}) {
+            transition-duration: #{(($i + 100) * 2.5) * 1ms};
+        }
+    }
 
     .color_list_collapsed & {
         max-height: 10rem;
+        transition-delay: 0;
     }
 }
 
@@ -66,6 +74,7 @@
     bottom: 0;
     opacity: .45;
     z-index: 1;
+    transition: opacity 300ms ease-out;
 
     .color_list_collapsed & {
         opacity: .65;

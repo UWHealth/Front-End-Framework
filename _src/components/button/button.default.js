@@ -1,4 +1,4 @@
-import template from './_button.hbs';
+const template = require('./_button.hbs');
 
 const defaultData = {
     body: "Button",
@@ -6,6 +6,6 @@ const defaultData = {
     iconUrl: ""
 };
 
-export default function(data) {
+module.exports = function(data) {
     return template(Object.assign({}, defaultData, data || {}));
-}
+};

@@ -53,8 +53,7 @@ config.plugins.push(
         name: "handlebars",
         minChunks: Infinity,
         async: "handlebars.js"
-    }),
-
+    })
 );
 
 config.module.rules.push(

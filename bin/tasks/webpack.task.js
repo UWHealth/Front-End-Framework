@@ -12,7 +12,7 @@ const MODE = require('../tools/mode.js');
 const STATS = require('../webpack/stats.webpack.config.js');
 const LOG = require('../tools/logger.js');
 
-const webpackLogger = function(err, stats, done, compiler) { //eslint-disable-line
+const webpackLogger = function(err, stats, done) { //eslint-disable-line
     if (err) {
         new LOG('Webpack', err.stack || err).error();
         if (err.details) {
@@ -20,7 +20,6 @@ const webpackLogger = function(err, stats, done, compiler) { //eslint-disable-li
         }
     }
     else if (stats) {
-        //stats = compiler.getStats();
         const info = stats.toJson("verbose");
 
         if (stats.hasWarnings()) {
@@ -28,8 +27,7 @@ const webpackLogger = function(err, stats, done, compiler) { //eslint-disable-li
         }
 
         if (stats.hasErrors()) {
-            //new LOG('Webpack', new Error(info.errors)).error();
-            console.error(new Error(info.errors));
+            new LOG('Webpack', new Error(info.errors)).error();
             return done();
         }
 
@@ -55,7 +53,7 @@ module.exports = (done) => {
         );
 
         // NOTE: Parallel webpack is great for performance,
-        //  but has an issu with killing its own processes, causing massive cpu overhead.
+        //  but has an issue with killing its own processes, causing very expensive memory leaks.
         // If a project is large enough, this tradeoff might be worth it.
         // See https://github.com/trivago/parallel-webpack/issues/57
 

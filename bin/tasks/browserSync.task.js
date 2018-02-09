@@ -2,7 +2,7 @@
  * @fileoverview Spins up local http server and syncs actions across browsers
 **/
 
-const browserSync     = require('browser-sync');
+const browserSync     = require('browser-sync').create();
 const PATHS           = require('../paths.config.js');
 
 const ARGS            = require('../tools/args.js');
@@ -29,6 +29,7 @@ module.exports = function() { // eslint-disable-line
             serveStatic: ARGS.bsservestatic || [],    // Allow for --bsservestatic= argument
             tunnel: ARGS.bstunnel || null,            // Allow for --bstunnel= argument
             server: ARGS.bsproxy ? false : BS_SERVER, // If proxy, ignore server setting
+            open: BS_OPEN_NEW_TAB,
             ui: {
                 port: 3030
             },
@@ -48,6 +49,9 @@ module.exports = function() { // eslint-disable-line
                     }
                 }
             },
-            open: BS_OPEN_NEW_TAB
+            plugins: ['bs-fullscreen-message'],
+            reloadOnRestart: true
         });
 };
+
+module.exports.browserSync = browserSync;
