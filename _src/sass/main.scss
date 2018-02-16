@@ -1,0 +1,93 @@
+@charset 'UTF-8';
+
+/* SG
+# Imports [[dev]]
+
+@priority 0
+@file main.scss
+
+Sass files are imported in order from lowest specificity to highest.
+1. `/tools`
+  * Functions
+  * System variables and defaults
+  * General-use mixins and sass utilities
+  * `/config` - Settings and initialization
+3. `base/generic`
+  * Normalize/reset styles (unclassed)
+4. `/base`
+  * Element styles (unclassed)
+5. `/layout`
+  * Basic layout and object styles (single-class)
+6. `/components`
+  * Module and component styles (single- and child-classes)
+7. `/sections`
+  * View- and page-specific and scoped styles (typically `parent > child` classes).
+8. `/overrides`
+  * Utility styles, usually end in `!important`.
+
+*/
+
+//----------------------------
+// NON-CSS-producing files
+// (functionality and setup used by project)
+//-----------------------------
+
+//Global functions and variables
+@import 'tools/t-import';
+
+//Settings
+@import 'config';
+
+
+//----------------------------
+// CSS-producing files
+// (after import, CSS will be written out)
+//-----------------------------
+
+
+//Ground-zero styles
+//(normalize and resets, * selectors)
+// !!Do not use extends here!!
+@import 'base/generic/gn-resets';
+@import 'base/generic/gn-sanitize';
+
+
+//Elements and un-classed selectors
+// (lowest specificity)
+@import 'base/b-fonts';
+@import 'base/b-silent';
+@import 'base/b-form';
+@import 'base/b-list';
+@import 'base/b-table';
+@import 'base/b-type';
+
+
+//Grids, alignment and higher-level classes
+// (+1 specificity)
+@import 'layout/l-wrapper';
+@import 'layout/l-grid';
+@import 'layout/l-media-object';
+
+
+//OOCSS styles and base-level classes
+// (+1 specificity)
+@import '../components/button/button';
+
+//Section-specific and theme-/skin-based styles
+//(+2-4 specificity)
+@import 'sections/s-editor.example';
+@import 'sections/s-page.example';
+
+
+//High-specificity css and overrides classes (usually have !important).
+// Typically single-use classes
+@import 'overrides/ov-alignment';
+@import 'overrides/ov-display';
+@import 'overrides/ov-spacing';
+@import 'overrides/ov-type';
+
+//Example Overrides (can be removed)
+@import 'overrides/ov-polyfills.example';
+@import 'overrides/ov-overrides.example';
+
+@import 'overrides/ov-debug';

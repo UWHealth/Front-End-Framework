@@ -1,0 +1,99 @@
+/* SG
+# Typography/Heading sizes
+
+Moving from `h6` up to `h1`, the heading font sizes get larger on a scale. For instance, `h6` is 1.35 times larger than the base font size of 16px. Headings have a default bottom margin of 24px.
+
+**Heading tags should be used in a hierarchical manner**, appropriate for the page, and not used for their size. To override a heading size, use a class with the corresponding heading name. See the example below.
+
+```html_example
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+
+<h1 class="h4">Heading 1 with an h4 class</h1>
+
+```
+*/
+
+.h1 {
+    @include type-font-size($type-h1-size, $h1-lh, $important:true);
+}
+.h2 {
+    @include type-font-size($type-h2-size, $h2-lh, $important:true);
+}
+.h3 {
+    @include type-font-size($type-h3-size, $h3-lh, $important:true);
+}
+.h4 {
+    @include type-font-size($type-h4-size, $h4-lh, $important:true);
+}
+.h5 {
+    @include type-font-size($type-h5-size, $h5-lh, $important:true);
+}
+.h6 {
+    @include type-font-size($type-h6-size, $h6-lh, $important:true);
+}
+
+.link--naked,
+%link_naked {
+	color: inherit !important;
+	text-decoration: none !important;
+
+	&:hover,
+    &:focus {
+		color: inherit !important;
+		text-decoration: none !important;
+	}
+}
+
+
+@include create-overrides(
+    (
+        'txt-small': (
+            font-size: rems(modular-scale(-1)),
+            line-height: $type-small-lh
+        ),
+        'txt-smaller': (
+            font-size: ems(modular-scale(-1))
+        ),
+        'txt-center': (
+            text-align: center
+        ),
+        'txt-normal': (
+            font-weight: 400
+        ),
+        'txt-italic': (
+            font-style: italic
+        ),
+        'txt-bold': (
+            font-weight: 700,
+            -webkit-font-smoothing: antialiased
+        ),
+        'txt-upper': (
+            text-transform: uppercase,
+            letter-spacing: .1em
+        ),
+        'txt-capital': (
+            text-transform: capitalize
+        ),
+        'txt-lower': (
+            text-transform: none,
+            letter-spacing: normal
+        ),
+        'txt-space-reset': (
+            letter-spacing: normal,
+            word-spacing: normal
+        ),
+        'txt-primary': (
+            font-family: $primary-font-stack,
+        ),
+        'txt-secondary': (
+            font-family: $secondary-font-stack
+        )
+
+    ),
+    $breakpoint-has-type-classes
+);

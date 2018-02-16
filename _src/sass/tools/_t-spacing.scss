@@ -1,0 +1,147 @@
+//------------------------------------
+//      $SPACING TOOLS
+//------------------------------------
+
+/* SG
+# Tools/Spacing Utilities [[dev]]
+
+##### `@spacing-utilities()`
+###### mixin(`$namespace:''`, `$config`)
+Generates responsive spacing and padding classes. The `$namespace` argument is the media query's name, which will be appended to all generated classes. The `$config` argument is a map that allows JS-style arguments. Outputs class name as: `breakpoint_prefix_direction_amount`.
+
+**`$config` Keys:**
+* `silent:` boolean for outputting silent/non-silent classes.
+* `important:` whether to output !important after each declaration.
+* `directions:` names that get appended to class names.
+* `amounts:` how much to multiply spacing unit by `$$base-line-height`.
+* `names:` corresponding names for each `amounts` that gets appended to class names.
+* `prefixes:` first word in the class name. Must contain the words 'pad' and 'space'. Used by `layout-type()` to determine padding or margin.
+
+
+##### `@spacing-utilities-init()`
+###### mixin(`$breakpoints:` `$$all-breakpoints`, `$namespace:''`, `$config:(silent:true)`)
+The responsive component to `@spacing-utilities()`. Invoke `@spacing-utilites()` with that loops through a set of media-queries defined in `$$breakpoints`. This is most useful for creating responsive spacing classes.
+
+*/
+
+//Spacing utility classes
+//Generates responsive spacing and padding classes
+// The first argument is the media query's name, which will be appended to all generated classes.
+// The second argument is a map. This allows JS-style arguments.
+
+@mixin spacing-utilities ($namespace:"", $config: ()){
+
+	//Merge the passed map with some default values
+	$config: map-extend((
+		silent: true,
+		important: false,
+		directions: (
+			null: null,
+            '-t':'top',
+            '-b':'bottom',
+            '-l':'left',
+            '-r':'right',
+            '-v':'top' 'bottom',
+            '-h': 'right' 'left'
+		),
+		units: (
+			null: 1,
+            '-quarter':.25,
+            '-half':.5,
+            '-2': 2,
+            '-neg-quarter': -.25,
+            '-neg-half': -.5,
+            '-neg': -1,
+            '-neg-2': -2,
+            '-0': 0
+		),
+		properties: (
+			'pad': 'padding',
+            'space': 'margin'
+		),
+		unit: $vertical-space
+
+	), $config, true);
+
+
+	//Convert map values to variables for simpler parsing
+	$classtype: if(map-get($config, silent), unquote('%'),unquote("."));
+    $properties: map-get($config, properties);
+    $directions: map-get($config, directions);
+    $units: map-get($config, units);
+	$important: map-get($config, important);
+    $unit: map-get($config, unit);
+
+    $class-name-list: ();
+    $class-cache: ();
+
+	//Loop through base names, then amounts, then directions.
+	@each $given_name, $base_property in $properties {
+
+        @each $amount_name, $amount in $units {
+
+			@each $direction_name, $property_directions in $directions {
+
+                $class_name: #{$classtype}#{$namespace}#{$given_name}#{$direction_name}#{$amount_name};
+
+                //Don't do anything if the padding is a negative value.
+				@if not (($base_property == 'padding') and ($amount < 0)) {
+
+					#{$class_name} {
+
+                        @each $direction in $property_directions { //multi-direction
+
+                            $property: $base_property;
+
+                            @if ($direction) and ($direction != '') {
+                                $property: $property + '-' + $direction;
+                            }
+
+                            $property-amount: '#{$property+$amount}';
+
+                            @if map-get($class-cache, $property-amount) {
+                                @extend #{map-get($class-cache, $property-amount)};
+                            }
+                            @else {
+                                //Using type-space mixin, output the REM-based value
+    							@include type-space($property, $amount, $important, $unit);
+
+                                $class-cache: map-merge($class-cache, ($property-amount: $class_name));
+                            }
+
+    					}
+                    }
+
+					$class-name-list: map-merge($class-name-list, ($class_name: $amount));
+
+                }
+
+            }
+		}
+	}
+
+	//Register silent classes for debugging.
+	@if map-get($config, silent) {
+		$silent-class-registry: silents-register($class-name-list, 'spacing') !global;
+	}
+}
+
+@mixin spacing-utilities-init(
+	$breakpoints: $all-breakpoints,
+	$namespace: '',
+	$config: (silent: true)
+){
+
+	@include spacing-utilities($namespace, $config);
+
+    @each $name in $breakpoints {
+
+        @include media-query($name) {
+
+			$name: $namespace+$name;
+        	@include spacing-utilities('#{$name}_', $config);
+
+		}
+    }
+
+}

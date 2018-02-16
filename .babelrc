@@ -1,0 +1,19 @@
+{
+    "presets": [
+        ["env", {
+            "node": "current",
+            "loose": true
+        }]
+    ],
+    "plugins": [
+        ["transform-runtime", {
+            "helpers": true,
+            "polyfill": false,
+            "regenerator": false,
+            "loose": true
+        }],
+        ["syntax-dynamic-import"],
+        ["dynamic-import-node"]
+    ]
+
+}

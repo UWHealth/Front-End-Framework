@@ -1,0 +1,242 @@
+<link rel="stylesheet" href="https://uconnect.wisc.edu/cosmos/uconnect/css/build.114.main.css">
+<link rel="stylesheet" href="/public/css/temp/temp.css">
+<div class="wrap">
+    <div class="row">
+        <div class="column sidebar">
+            <article class="box box_panel box_color_list">
+                <div class="color_list_container">
+                    <div class="color_list_item color_circle color_list_yellow">
+                        <a class="color_list_text color_list_circle_icon icon color_list_toggle" href="#">
+                            <span class="txt_small">University Hospital</span>
+                        </a>
+                    </div>
+
+                    <ul id="list" class="list_naked color_list is_not_initialized" tabindex="0">
+                        <div class="color_list_wrapper">
+                            <li class="color_list_item color_list_yellow">
+                                <span class="color_list_text icon">General Medicine</span>
+                            </li>
+                            <li class="color_list_item color_list_yellow">
+                            <span class="color_list_text icon">Surgical</span>
+                            </li>
+                            <li class="color_list_item color_list_yellow">
+                                <span class="color_list_text icon">IMC</span>
+                            </li>
+                            <li class="color_list_item color_list_red">
+                                <span class="color_list_text icon">ICU</span>
+                            </li>
+                            <li class="color_list_item color_list_green">
+                                <span class="color_list_text icon_before icon">Psych</span>
+                            </li>
+                            <li class="color_list_item color_list_yellow">
+                                <span class="color_list_text icon">Cardiology</span>
+                            </li>
+                            <li class="color_list_item color_list_yellow">
+                            <span class="color_list_text icon">ED</span>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+                <div class="color_list_container">
+                    <div class="color_list_item color_circle color_list_green">
+                        <a class="color_list_text color_list_circle_icon icon color_list_toggle" href="#">
+                            <span class="txt_small">American Family Children's Hospital</span>
+                        </a>
+                    </div>
+                    <ul id="list" class="list_naked color_list is_not_initialized" tabindex="0">
+                        <div class="color_list_wrapper">
+                            <li class="color_list_item color_list_green">
+                                <span class="color_list_text icon">Med/Surg</span>
+                            </li>
+                            <li class="color_list_item color_list_yellow">
+                                <span class="color_list_text icon">ICU</span>
+                            </li>
+                            <li class="color_list_item color_list_green">
+                                <span class="color_list_text icon">NICU</span>
+                            </li>
+                            <li class="color_list_item color_list_green">
+                                <span class="color_list_text icon">ED</span>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+                <div class="color_list_footer">
+                    <a class="whole txt_upper icon icon_after icon_right" data-icon="" href="">View All Statuses</a>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+<div class="modal">
+    <div class="modal_wrapper">
+        <img src="/public/img/modal.png">
+    </div>
+</div>
+
+<script>
+    var main = document.querySelector('script[src="/public/js/main.bundle.js"]');
+
+    var lists = document.getElementsByClassName("color_list");
+    var toggles = document.getElementsByClassName("color_list_toggle");
+    var initialized = false;
+
+    main.onload = function() {
+        if (window.uwhealth !== undefined && !initialized) { init(window.uwhealth); }
+    }
+
+    main.addEventListener('load', function(e) {
+        if(!initialized) {
+            init(window.uwhealth);
+        }
+    });
+
+    var init = function(velocity) {
+        initialized = true;
+        //velocity.mock = 5;
+
+        var toggleList = function(list, durationMultiple) {
+            if (list.__collapsed) {
+                return openList(list, durationMultiple);
+            }
+            return closeList(list, durationMultiple);
+        }
+
+        var closeList = function(list, durationMultiple) {
+            velocity(list, "finish");
+            velocity(list.wrapper, "finish");
+            list.__collapsed = true;
+
+            list.classList.add('color_list_collapsed');
+
+            velocity(list,
+                {
+                    height: '.5rem',
+                    translateY: '100%'
+                }, {
+                    easing: "easeOut",
+                    queue: false,
+                    duration: durationMultiple * 3
+                });
+
+            velocity(list.wrapper,
+                {
+                    height: list.offsetWidth
+                },{
+                    duration: durationMultiple * .5,
+                    easing: "easeOut"
+                });
+
+            velocity(list.wrapper,
+                {
+                    rotateZ: -90,
+                    translateX: "0",
+                    translateY: "50%",
+                    scaleX: [2, [100, 20], 1]
+                }, {
+                    duration: durationMultiple * 1.2,
+                    easing: "easeOutQuart"
+                });
+        };
+
+        var openList = function(list, durationMultiple) {
+            velocity(list, "finish");
+            velocity(list.wrapper, "finish");
+            list.__collapsed = false;
+            var curH = list.offsetHeight + 'px';
+            list.style.height = 'auto';
+            var autoH = list.offsetHeight;
+            list.style.height = curH;
+
+
+            velocity(list,
+                {
+                    translateY: '100%'
+                }, {
+                    queue: false,
+                    easing: "easeOut",
+                    duration: durationMultiple * 1.25,
+                    complete: function() {
+                        list.classList.remove('color_list_collapsed');
+                    }
+                }
+            );
+            velocity(list,
+                {
+                    translateY: "0%"
+                }, {
+                    queue: false,
+                    easing: "easeIn",
+                    delay: durationMultiple * 1.25,
+                    duration: durationMultiple * 1.25
+                }
+            );
+
+            velocity(list,
+                {
+                    height: [autoH, curH]
+                },
+                {
+                    queue: false,
+                    easing: "easeInOutSine",
+                    delay: durationMultiple * 1.25,
+                    duration: durationMultiple * 2
+                }
+            );
+
+            velocity(list.wrapper,
+                {
+                    height: [autoH, autoH * 2],
+                    width: ["100%", "190%"]
+                },{
+                    easing: "easeInOut",
+                    delay: durationMultiple * 2,
+                    duration: durationMultiple * 1.75,
+                    queue: false
+                }
+            )
+
+            velocity(list.wrapper,
+                {
+                    rotateZ: 0,
+                    translateY: ["0%", (autoH/1.5)]
+                }, {
+                    queue: false,
+                    easing: "easeInOut",
+                    delay: durationMultiple * 2.25,
+                    duration: durationMultiple * .75
+                }
+            );
+
+            velocity(list.wrapper, {
+                // translateX: ["0", "-50%"],
+
+                scaleX: [1, [100, 15], 4],
+                //scaleY: [1, [100, 15], 4],
+            },{
+                easing: "easeIn",
+                queue: false,
+                //delay: durationMultiple * 1,
+                duration: durationMultiple * 2
+            })
+        };
+
+        for (let i = 0, len = lists.length; i < len; i++) {
+            let list = lists[i];
+            let toggle = toggles[i];
+            list.__collapsed = list.classList.contains('color_list_collapsed');
+            list.__container = list.parentElement;
+            list.wrapper = list.querySelector(".color_list_wrapper");
+            list.wrapper.style.height = list.offsetWidth + 'px';
+            list.classList.remove('is_not_initialized');
+
+            toggle.addEventListener('click', function(e) {
+                toggleList(list, 75);
+            });
+
+            closeList(list, 0);
+        }
+    }
+
+    if (window.uwhealth !== undefined && !initialized) { init(window.uwhealth); }
+
+</script>

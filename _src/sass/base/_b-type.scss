@@ -1,0 +1,195 @@
+//------------------------------------
+//    $HEADINGS
+//------------------------------------
+
+%base_heading_space {
+	@include type-space(margin-bottom, 1);
+}
+
+h1 {
+    @include font-size($type-h1-size, $h1-lh);
+}
+h2 {
+    @include font-size($type-h2-size, $h2-lh);
+}
+h3 {
+    @include font-size($type-h3-size, $h3-lh);
+}
+h4 {
+    @include font-size($type-h4-size, $h4-lh);
+}
+h5 {
+    @include font-size($type-h5-size, $h5-lh);
+}
+h6 {
+    @include font-size($type-h6-size, $h6-lh);
+}
+
+
+@include headings(1, 6) {
+    @extend %base_heading_space;
+	@extend %secondary_font_family;
+
+    & + p {
+        @include type-space(margin-top, -1);
+    }
+}
+
+/* SG
+# Typography/Body copy
+
+The default font-size for all typography is **16px** with line-height of **24px** (1.5). This is applied to the `<body>` and inherited by paragraphs and lists. `<p>` tags all receive a bottom margin of 1rem.
+
+When a `<p>` follows a heading tag (`<h1>` for instance), the paragraph receives a negative top margin so it sits directly beneath the heading.
+
+The default font-family is set in **Asap**.
+
+```html_example
+<p>Aenean lacinia bibendum nulla sed consectetur. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. </p>
+<p>Nullam quis risus eget urna mollis ornare vel eu leo. Nulla vitae elit libero, a pharetra augue.</p>
+
+<h5>A Heading...</h5>
+<p>...Followed by a paragraph. Notice how there's no margin between these two items.</p>
+```
+
+*/
+
+p {
+	@extend %type_vertical_rhythm;
+
+    @if $indented-paragraphs {
+
+        & + & {
+            @include type-space(text-indent, .5);
+            @include type-space(margin-top, -1);
+        }
+
+    }
+}
+
+small {
+	display: inline-block; //allows for own line-height
+	@include font-size($type-small-size, $small-lh);
+}
+
+//
+// Not strictly a paragraph, but probably doesn’t need its own section.
+//
+address {
+    @extend %type_vertical_rhythm;
+}
+
+b,
+strong {
+	font-weight: 700;
+}
+
+pre {
+    @extend %type_vertical_rhythm;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+}
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	top: -0.5ex;
+}
+
+sub {
+	bottom: -0.25ex;
+}
+
+
+// 1. Fix an odd quirk whereby, without this, code blocks are rendered at a
+//    font-size smaller than 1em.
+
+code,
+kbd,
+pre,
+samp {
+    font-family: $monospace-font-stack;
+    _font-family: 'courier new', monospace;
+    font-size: 1em; // [1]
+}
+
+//Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+
+
+//-------------------------------
+//    $QUOTES
+//-------------------------------
+//
+// 1. Hang the opening quote of the blockquote.
+//	Uses ex length for font-relative spacing
+//
+blockquote {
+    text-indent: -.5ex; // [1]
+}
+
+blockquote {
+    @include type-space(margin, 0 0 1 1);
+    quotes: '“' '”';
+
+    p {
+        &:before {
+            content: "“";
+            content: open-quote;
+        }
+
+        &:after {
+            content: "";
+            content: no-close-quote;
+        }
+
+        &:last-of-type:after {
+            content: "”";
+            content: close-quote;
+        }
+
+    }
+
+}
+
+q {
+    *quotes: none;
+    quotes: "‘" "’" "“" "”";
+    overflow: visible;
+
+    &:before {
+        content: "‘";
+        content: open-quote;
+    }
+
+    &:after {
+        content: "’";
+        content: close-quote;
+    }
+
+    q:before {
+        content: "“";
+        content: open-quote;
+    }
+
+    q:after {
+        content: "”";
+        content: close-quote;
+    }
+
+    //
+    // If an element opens with an inline quote, let’s hang that.
+    //
+    &:first-child {
+        display: inline-block;
+        text-indent: -0.22em;
+    }
+
+}

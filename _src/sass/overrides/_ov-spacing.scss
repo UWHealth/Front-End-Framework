@@ -1,0 +1,12 @@
+// sass-lint:disable no-important
+
+@if $breakpoint-has-spacing-classes != false {
+
+    //Assume important and non-silent
+    $spacing-config: ( important: true, silent: false );
+    $spacing-config: map-extend($spacing-classes, $spacing-config, true);
+
+    @include spacing-utilities-init(
+        $breakpoints: $breakpoint-has-spacing-classes, $config: $spacing-config
+    );
+}

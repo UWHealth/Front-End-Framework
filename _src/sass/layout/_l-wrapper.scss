@@ -1,0 +1,60 @@
+.wrap {
+	margin: 0 auto;
+	max-width: $max-site-width;
+	display: block !important;
+    float: none;
+	@extend %clearfix;
+	@include type-space(padding, 1 0);
+    width: 95%;
+
+    @include mq(smallish) {
+        width: 93%;
+    }
+    @include mq(bigs) {
+        width: 90%;
+    }
+}
+
+.wrap--content {
+    @include rems(max-width, $max-content-width);
+}
+
+.wrap--wide-content {
+    @include rems(max-width, $max-wide-content-width);
+}
+
+.clearfix,
+%clearfix {
+	*zoom: 1;
+
+	&:before,
+    &:after{
+		display: table;
+		content: " ";
+	}
+	&:after{
+		clear: both;
+		height: 0;
+		width: 0;
+	}
+}
+
+
+.hero {
+	display: table;
+	width: 100%;
+	height: 96vh;
+	@include type-space(max-height, 67);
+	background-size: cover;
+	color: #fff;
+	position: relative;
+	background-image: url('../images/logo.svg');
+	@include type-space(padding, 1 0 1);
+    background-attachment: fixed;
+}
+
+.hero_body {
+	display: table-cell;
+	vertical-align: middle;
+	max-width: 99%;
+}

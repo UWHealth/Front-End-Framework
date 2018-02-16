@@ -1,0 +1,19 @@
+// sass-lint:disable no-important
+
+@if $breakpoint-has-display-classes != false {
+
+    @include display-utilities-init(
+        $breakpoints: $breakpoint-has-display-classes,
+        $namespace: '',
+        $silent: false,
+        $important: true
+    );
+
+    [hidden] {
+        display: none !important;
+    }
+
+    .invisible {
+        visibility: hidden !important;
+    }
+}

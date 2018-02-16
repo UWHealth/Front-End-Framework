@@ -1,0 +1,81 @@
+/* SG
+# Mixins/Overrides [[dev]]
+
+##### `@create-overrides()`
+###### mixin(`$map, $breakpoints, $namespace: ""`)
+Takes a map of class names and style properties and outputs utility (override) classes over a specified number of breakpoints. Useful for creating a number of single-use classes over multiple breakpoints. Always makes property declarations `!important`.
+
+Example:
+```scss
+//Input
+@include creat-overrides(
+    (
+        "class-name": (
+            "property": "value",
+        ),
+        "float-right, align_right": (
+            "float": "right"
+        )
+    ),
+    ('smalls', 'bigs')
+);
+
+//CSS-output
+.float-left {
+    float: left !important;
+}
+.float-right,
+.align_right {
+    float: right !important;
+}
+@media (max-width: 600px) {
+    .float-left {
+        float: left !important;
+    }
+    .float-right,
+    .align_right {
+        float: right !important;
+    }
+}
+@media (min-width: 601px) {
+    ...
+}
+```
+##### `@_override-output()`
+###### mixin(`$map, $namespace: ""`)
+Used exclusively by `@create-overrides()` to iterate through a map of classes, properties, and values to create responsive classes.
+
+*/
+
+@mixin create-overrides($map, $breakpoints, $namespace: "", $separator: $breakpoint-namespace-character) {
+
+    //create non-responsive classes first
+    @include _override-output($map, $namespace);
+
+    //create responsive classes
+    @each $breakpoint-name in $breakpoints {
+
+        @include media-query($breakpoint-name) {
+
+			$name: $namespace + $breakpoint-name + $separator;
+        	@include _override-output($map, $name);
+
+		}
+    }
+}
+
+@mixin _override-output($map, $namespace) {
+
+    @each $class-name in map-keys($map) {
+        $properties: map-keys(map-get($map, $class-name));
+        $values: map-values(map-get($map, $class-name));
+        $class-name: str-replace($class-name, ',', ', .#{$namespace}');
+        $class-name: str-replace($class-name, ' ', '');
+
+        .#{$namespace}#{$class-name} {
+            @for $i from 1 through length($properties) {
+                #{nth($properties, $i)}: #{nth($values, $i)} !important;
+            }
+        }
+    }
+}

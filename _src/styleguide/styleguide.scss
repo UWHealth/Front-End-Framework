@@ -1,0 +1,527 @@
+// Framework core
+@import '../sass/tools/t-import';
+
+//Settings
+@import '../sass/config';
+
+/* SG
+# Color Palette
+
+```html_example
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+<div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div>
+```
+*/
+@include color-palette-output('.color-block');
+
+.color-block:before {
+	text-transform: capitalize;
+}
+
+.color-block:after {
+	letter-spacing: 0.1em;
+}
+
+
+/* SG
+# Grid/Basics
+
+@priority 1
+
+This is an example of a flex-box-based grid system with an inline-block fallback.
+
+All grids start with a `grid` or `row` element, with nested `grid_item` or `column` element(s). All columns start at 100% width, so adding width classes to columns is required to make them to sit next to each other.
+
+_NOTE: The following width classes are out of the box. If you'd like to use your own classes for widths and grid items, then set `$grid-silent-classes` is set to true and use extends for style inheritence._
+
+```html_example
+<div class="grid">
+    <div class="grid_item">Column (100% width)</div>
+
+    <div class="grid_item one_half">1/2 Column</div>
+    <div class="grid_item one_half">1/2 Column</div>
+
+    <div class="grid_item one_third">1/3 Column</div>
+    <div class="grid_item one_third">1/3 Column</div>
+    <div class="grid_item one_third">1/3 Column</div>
+
+    <div class="grid_item one_fourth"> 1/4 Column</div>
+    <div class="grid_item one_quarter">1/4 Column</div>
+    <div class="grid_item one_fourth"> 1/4 Column</div>
+    <div class="grid_item one_fourth"> 1/4 Column</div>
+</div>
+```
+*/
+
+/* SG
+# Grid/Automatic columns
+
+@priority 2
+
+Grids/rows set with a `grid_auto` class will create columns that have automatic widths based on their content.
+
+You can also combine automatic columns with width-based one. The automatic columns with fill the space around the set-width column.
+
+_Note: Flexbox handles this a little differently than inline-block, so check older browsers before using this style of grid to be sure you're getting a similar result._
+
+```html_example
+<div class="grid grid_auto">
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item one_third">Set Width (1/3)</div>
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item one_half">Set Width (1/2)</div>
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item">Auto Column</div>
+    <div class="grid_item">Auto Column</div>
+</div>
+```
+*/
+
+/* SG
+# Grid/Gutter Control
+
+@priority 3
+
+Gutters (spaces between grid items) default to 1.5rem. However, there are three grid gutter classes to alter this behavior.
+
+* `grid_full` will set gutters to 0.
+* `grid_wide` will double the width of gutters.
+* `grid_narrow` will halve the width of gutters.
+
+```html_example
+<div class="grid grid_full">
+    <div class="grid_item one_third">No gutter</div>
+    <div class="grid_item one_third">No gutter</div>
+    <div class="grid_item one_third">No gutter</div>
+</div>
+<div class="grid grid_wide">
+    <div class="grid_item one_third">Wide gutter</div>
+    <div class="grid_item one_third">Wide gutter</div>
+    <div class="grid_item one_third">Wide gutter</div>
+</div>
+<div class="grid grid_narrow">
+    <div class="grid_item one_third">Narrow gutter</div>
+    <div class="grid_item one_third">Narrow gutter</div>
+    <div class="grid_item one_third">Narrow gutter</div>
+</div>
+```
+*/
+
+@include grid-init($silent:false, $important: true);
+
+$grid-gutter-rems: rems($grid-gutter); //Required so
+
+/* Style-guide-specific grid styling */
+
+.sg-body .column,
+.sg-body .grid_item {
+    @include type-space((padding-top, padding-bottom), 1);
+    @include type-space(margin-top margin-bottom, .5);
+    position: relative;
+    text-align: center;
+    @include font-size($type-small-size, false);
+
+    &:before { //Adds gray background to grid items
+        content: "";
+        position: absolute;
+        display: block;
+        width: calc(100% - #{$grid-gutter-rems});
+        left: $grid-gutter-rems;
+        top: 0;
+        bottom: 0;
+        background-color: rgba(color(links),.1);
+    }
+}
+
+.grid_full .grid_item:before {
+    width: 100%;
+    left: 0;
+}
+
+.grid_wide .grid_item:before {
+    width: calc(100% - #{$grid-gutter-rems*2});
+    left: #{$grid-gutter-rems*2};
+}
+
+.grid_narrow .grid_item:before {
+    width: calc(100% - #{$grid-gutter-rems/2});
+    left: #{$grid-gutter-rems/2};
+}
+
+/******Base Layout******/
+
+.sg-body {
+    margin: 0;
+}
+
+.sg-wrap {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    overflow: auto;
+}
+
+.sg-menu {
+    position: absolute;
+    vertical-align: top;
+    background-color: color(styleguide, darkest);
+    width: 18rem;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    font-size: .9em;
+}
+
+.sg-main {
+    padding-left: 18rem;
+    transition: padding .15s ease-out;
+}
+
+.sg-category {
+    padding-left: 5%;
+    padding-right: 5%;
+    overflow: auto;
+}
+
+.sg-category_wrap {
+    max-width: 58em; /* Should be wider for universal box-sizing: border-box */
+    margin: auto;
+}
+
+.sg-example {
+    width: 110%;
+    margin-left: -5%;
+}
+
+@media only screen and (max-width: 1100px) {
+
+    .sg-menu {
+        width: 10rem;
+    }
+
+    .sg-main {
+        padding-left: 10rem;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .sg-menu {
+        width: 0;
+    }
+
+    .sg-main {
+        padding-left: 0;
+    }
+}
+
+
+/******Menu******/
+.sg-menu {
+    transition: all .2s ease-out;
+    overflow: auto;
+}
+
+.sg_menu_list,
+.sg-menu_item {
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+.sg-menu_list {
+    list-style: none;
+    padding: 0;
+    color: rgba(color(styleguide, lighter), 0.1); /* Used for border colors */
+}
+
+.sg-menu_section {
+    border-top: 1px solid;
+}
+
+.sg-menu_article > .sg-menu_link {
+    color: rgba(color(styleguide, light), .65);
+}
+
+.sg-category-active {
+    background: rgba(color(styleguide), .04);
+}
+
+/* Menu links */
+.sg-menu_link {
+    display: block;
+    padding: .75rem 1.65rem .65rem;
+    text-decoration: none;
+    color: color(styleguide, light);
+}
+
+.sg-menu_link:hover,
+.sg-menu_link:focus {
+    background-color: rgba(color(styleguide, light), .05);
+    color: color(styleguide, light);
+}
+
+.sg-toc-active > .sg-menu_link {
+    background-color: rgba(color(styleguide, lighter), .1);
+}
+
+.sg-menu_section > .sg-menu_link {
+    color: color(styleguide, highlight);
+}
+
+.sg-menu_article .sg-menu_link {
+    padding-left: 2.5rem;
+    padding-right: 2rem;
+}
+
+@media only screen and (max-width: 1100px) {
+    .sg-menu_link {
+        padding-left: .5rem;
+    }
+
+    .sg-menu_article .sg-menu_link {
+        padding-left: .75rem;
+    }
+}
+
+.sg-menu_article {
+    display: none;
+}
+
+.sg-category-active .sg-menu_article,
+.sg-menu_article.sg-toc-active {
+    display: block;
+}
+
+.sg-category-active > .sg-menu_link {
+    border-left: 2px solid color(styleguide, highlight);
+    text-indent: -2px;
+}
+
+/******Project Logo******/
+
+.sg-logo {
+    font-weight: normal;
+    background-color: color(styleguide, highlight);
+    background-image: url('images/logo.svg');
+    background-attachment: fixed;
+    background-size: 100vw;
+    color: #fff;
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.sg-logo:hover,
+.sg-logo:focus {
+    background-color: lighten(color(styleguide, highlight), 8%);
+}
+
+.sg-logo .sg-menu_link {
+    color: inherit;
+    padding-top: 1em;
+    padding-bottom: .75em;
+    opacity: 0;
+    transition: opacity .3s ease-out;
+}
+
+.sg-menu[style*="fixed"] .sg-logo .sg-menu_link {
+    opacity: 1;
+}
+
+/******Headings******/
+
+.sg-heading-section {
+    color: color(styleguide);
+    font-size: 2.8587rem;
+    line-height: 1.57414;
+    font-weight: normal;
+}
+
+.sg-heading-category {
+    color: color(styleguide, dark);
+    font-weight: normal;
+    font-size: 1.6em;
+}
+
+.sg-heading-category-article,
+.sg-heading-article {
+    @include font-size($type-h3-size, $type-h3-lh);
+}
+
+.sg-heading-article {
+    color: color(styleguide, dark);
+    font-weight: normal;
+}
+
+.sg-heading .sg-code {
+	color: #435270;
+}
+
+.sg-heading-6 {
+    font-weight: normal;
+}
+
+.sg-heading-5 + .sg-heading-6 {
+    margin-top: -1rem;
+    padding-bottom: .25rem;
+}
+
+
+/******Section, Category & Article Layout******/
+
+.sg-section:nth-child(even) {
+    padding-bottom: 1.5em;
+}
+
+.sg-section:first-child {
+    padding-top: 10rem;
+}
+
+.sg-section:first-child .sg-category {
+    border-top: 0;
+}
+
+/* Article spacing */
+
+.sg-article_comment,
+.sg-example {
+    margin-bottom: 1.5rem;
+}
+
+.sg-section {
+    padding-bottom: 3rem;
+}
+
+.sg-section:nth-child(odd) {
+	background-color: rgba(224,229,235,.3);
+}
+
+.sg-category:nth-child(odd):last-child {
+	@include type-space(margin-bottom, -2);
+    @include type-space(padding-bottom, 3);
+}
+
+.sg-category + .sg-category {
+	background-color: transparent;
+	border-top: 1px solid rgb(224,229,235);
+}
+
+.sg-article {
+    margin-bottom: 3em;
+}
+
+.sg-category,
+.sg-article {
+    padding-top: 3em;
+}
+
+.sg-article_comment {
+    margin-top: -1.5rem;
+}
+
+.sg-article_head {
+    padding-bottom: 1.5em;
+}
+
+.sg-example {
+    background-color: rgba(#fff,.8);
+    border-top: 1px solid #fff;
+}
+
+.sg-example:before {
+    content: 'Example';
+    background-color: #EDF0F2;
+    color: #647582;
+    display: inline-block;
+    font-size: .9em;
+    padding: .45em .5em;
+    margin-bottom: .5em;
+    margin-left: 1px;
+    clear: both;
+}
+
+.sg-example_wrap {
+    padding: .75em 1.25em;
+    position: relative;
+}
+
+/* Clearfix */
+.sg-example_wrap:after {
+    content: " ";
+    display: table;
+    height: 0;
+    width: 100%;
+}
+
+.sg-example_wrap:after {
+    clear: both;
+}
+
+.sg-markup_wrap {
+    margin: 0;
+}
+
+.sg-markup-block {
+    border-top: 1px solid color(styleguide, lightest);
+}
+
+.sg-codespan {
+    color: color(styleguide);
+}
+
+.sg-file {
+    color: color(styleguide);
+}
+
+.sg-codeblock {
+    margin-bottom: 1.5rem;
+}
+
+.sg-code-meta + .sg-code-meta {
+    margin-top: -1.5rem;
+}
+
+.sg-code-meta:before {
+	content: attr(data-code-meta)": ";
+	text-transform: capitalize;
+}
+
+
+/* Highlight.js Code Blocks */
+#styleguide .sg-markup_wrap,
+#styleguide .sg-markup code {
+    overflow: auto;
+}
+#styleguide .sg-markup_wrap {
+    max-height: 30em;
+}
+
+#styleguide .sg-markup code {
+    display: block;
+    word-wrap: normal;
+    white-space: pre;
+    padding: 1em;
+}
+
+/* Custom background color to match nav. Overwrites highlight.js default */
+#styleguide .hljs {
+    background-color: #40476B;
+    font-size: .9em;
+}
+#styleguide .hljs-comment {
+    color: #8aaeb7;
+}
+
+code {
+    font-family: 'Roboto Mono', monospace;
+}
