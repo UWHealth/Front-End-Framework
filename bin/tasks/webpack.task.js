@@ -20,18 +20,19 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
         }
     }
     else if (stats) {
-        const info = stats.toJson("verbose");
-
-        if (stats.hasWarnings()) {
-            new LOG('Webpack warning', new Error(info.warnings)).info();
-        }
-
-        if (stats.hasErrors()) {
-            new LOG('Webpack', new Error(info.errors)).error();
-            return done();
-        }
-
         new LOG('Webpack', stats.toString(STATS)).info();
+        // const statLogs = stats.stats !== undefined ? stats.stats : [stats];
+        //
+        // statLogs.forEach((stats, i) => {
+        //     const info = stats.toJson(webpackConfigs[i].stats);
+        //
+        //     if (stats.hasErrors()) {
+        //         new LOG('Webpack', new Error(info.errors)).error();
+        //         return;
+        //     }
+        //
+        //     new LOG('Webpack', stats.toString(webpackConfigs[i].stats)).info();
+        // });
     }
 
     done();
@@ -41,7 +42,7 @@ module.exports = (done) => {
     if (MODE.production && !MODE.local) {
         webpack(
             baseConfig,
-            (err, stats) => webpackLogger(err, stats, done, webpack)
+            (err, stats) => webpackLogger(err, stats, done)
         );
     }
     else {
@@ -49,7 +50,7 @@ module.exports = (done) => {
 
         webpack(
             webpackConfigs,
-            (err, stats) => webpackLogger(err, stats, done, webpack)
+            (err, stats) => webpackLogger(err, stats, done)
         );
 
         // NOTE: Parallel webpack is great for performance,

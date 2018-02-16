@@ -30,7 +30,5 @@ module.exports = {
 
     excludeAssets: /(\.hbs|\.map$)/,
     excludeModules: /(\.hbs|\.map$)/,
-    exclude: /(\.hbs|\.map$)/,
-
-    // children: true,
+    exclude: /(\.hbs|\.map$)/
 };

@@ -2,18 +2,33 @@
     font-size: 13/16 * 1rem;
     width: 100%;
     max-height: 20rem;
-    max-width: 20rem;
+    width: 20rem;
     border-radius: 4px;
     overflow: hidden;
     transform-origin: left top;
     transition: border-radius 200ms ease-out;
     display: flex;
     align-items: stretch;
+    outline: none;
+    margin-top: .75rem;
+    margin-left: 0;
+    max-width: 100%;
+
+    transition: margin 200ms ease-out, width 200ms ease-out;
+
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .color_list.color_list_collapsed {
     border-radius: .5rem;
     height: .75rem;
+    margin-left: 2.5rem;
+    margin-top: .1rem;
+    width: 17.5rem;
+    max-width: calc(100% - 2.5rem);
 
     .color_list_wrapper {
         transform: rotateZ(90deg) translateY(50%) translateX(0px);
@@ -26,6 +41,8 @@
     z-index: 0;
     transition: opacity 300ms ease-in;
     transition-delay: 75ms;
+    display: inline-flex;
+    white-space: nowrap;
 
     .color_list_collapsed & {
         opacity: 0;
@@ -49,7 +66,7 @@
     padding: .5rem;
     position: relative;
     flex: 1 1 auto;
-    max-height: 2.5rem;
+    max-height: 2rem;
     transition: max-height 250ms ease-out;
 
     @for $i from 10 through 1 {
@@ -81,6 +98,37 @@
     }
 }
 
+.color_list_item .icon {
+    margin-top: 0;
+}
+
+.color_list_item .icon:before {
+    margin-right: .75rem;
+    margin-left: -.1em;
+    width: 1.5em;
+}
+
+.color_list_green {
+    .icon:before {
+        content: "\e626";
+        color: #39BB7C;
+    }
+}
+
+.color_list_yellow {
+    .icon:before {
+        content: "\e65e";
+        color: #E1BB4F;
+    }
+}
+
+.color_list_red {
+    .icon:before {
+        content: "\e63f";
+        color: #b53e3e;
+    }
+}
+
 .color_list_green:before {
     background: #39BB7C;
 }
@@ -91,6 +139,67 @@
 
 .color_list_red:before {
     background: #b53e3e;
+}
+
+.color_circle:before {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 100%;
+    right: auto;
+    top: .15rem;
+    left: -.2rem;
+    opacity: .35;
+}
+
+.color_circle {
+    margin-left: -.1rem;
+}
+
+.color_circle .icon:before {
+    margin-right: 1.25rem;
+}
+
+.box_color_list.box {
+    padding-bottom: 0;
+}
+
+.color_list_footer {
+    width: calc(100% + 3rem);
+    margin-left: -1.5rem;
+    padding: .75rem 1.5rem .75rem;
+    border-top: 1px solid #ddd;
+}
+
+.color_list .color_list_text.icon {
+    padding-top: .25em;
+}
+
+.modal.open {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    z-index: 1000;
+    background-color: rgba(#031523, .2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 100ms ease-out;
+}
+
+.modal {
+    opacity: 0;
+}
+
+.modal_wrapper {
+    max-width: 100%;
+
+    img {
+        max-width: 100%;
+    }
 }
 
 // @calc-bezier-x($x1, $y1, $x2, $y2) {

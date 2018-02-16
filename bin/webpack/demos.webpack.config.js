@@ -16,8 +16,8 @@ const DEMOS = glob.sync(PATHS.demos.entry.all);
 const config = cloneDeep(WP_CONFIG);
 
 config.output.publicPath = "./dist/components/";
-config.output.filename = "[name].demo.js";
-config.output.chunkFilename = "[name].[id].demo.js";
+config.output.filename = "demo.[name].js";
+config.output.chunkFilename = "demo.[name].[id].js";
 config.output.path = PATHS.demos.dest;
 config.resolve.modules = ["node_modules"];
 config.entry = {
