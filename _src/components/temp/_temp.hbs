@@ -2,78 +2,57 @@
 <link rel="stylesheet" href="/public/css/temp/temp.css">
 <div class="wrap">
     <div class="row">
-        <div class="column sidebar">
+        <div class="column third">
             <article class="box box_panel box_color_list">
-                <div class="color_list_container">
-                    <div class="color_list_item color_circle color_list_yellow">
-                        <a class="color_list_text color_list_circle_icon icon color_list_toggle" href="#">
-                            <span class="txt_small">University Hospital</span>
-                        </a>
-                    </div>
+                <header class="color_list_header">
+                    <span class="txt_small">Updated {{update.date}} at {{update.time}}</span>
+                </header>
+                {{#each colorLists}}
+                    <a class="color_list_container color_list_toggle">
+                        <div class="color_list_title color_list_item color_circle color_list_{{color}}">
+                            <div class="color_list_text color_list_circle_color_list_icon icon color_list_icon icon">
+                                <span class="txt_small">{{{title}}}</span><span class="icon color_list_toggle_icon"></span>
+                            </div>
+                        </div>
 
-                    <ul id="list" class="list_naked color_list is_not_initialized" tabindex="0">
-                        <div class="color_list_wrapper">
-                            <li class="color_list_item color_list_yellow">
-                                <span class="color_list_text icon">General Medicine</span>
-                            </li>
-                            <li class="color_list_item color_list_yellow">
-                            <span class="color_list_text icon">Surgical</span>
-                            </li>
-                            <li class="color_list_item color_list_yellow">
-                                <span class="color_list_text icon">IMC</span>
-                            </li>
-                            <li class="color_list_item color_list_red">
-                                <span class="color_list_text icon">ICU</span>
-                            </li>
-                            <li class="color_list_item color_list_green">
-                                <span class="color_list_text icon_before icon">Psych</span>
-                            </li>
-                            <li class="color_list_item color_list_yellow">
-                                <span class="color_list_text icon">Cardiology</span>
-                            </li>
-                            <li class="color_list_item color_list_yellow">
-                            <span class="color_list_text icon">ED</span>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
-                <div class="color_list_container">
-                    <div class="color_list_item color_circle color_list_green">
-                        <a class="color_list_text color_list_circle_icon icon color_list_toggle" href="#">
-                            <span class="txt_small">American Family Children's Hospital</span>
-                        </a>
-                    </div>
-                    <ul id="list" class="list_naked color_list is_not_initialized" tabindex="0">
-                        <div class="color_list_wrapper">
-                            <li class="color_list_item color_list_green">
-                                <span class="color_list_text icon">Med/Surg</span>
-                            </li>
-                            <li class="color_list_item color_list_yellow">
-                                <span class="color_list_text icon">ICU</span>
-                            </li>
-                            <li class="color_list_item color_list_green">
-                                <span class="color_list_text icon">NICU</span>
-                            </li>
-                            <li class="color_list_item color_list_green">
-                                <span class="color_list_text icon">ED</span>
-                            </li>
-                        </div>
-                    </ul>
-                </div>
+                        <ul class="list_naked color_list is_not_initialized">
+                            <div class="color_list_wrapper">
+                                {{#each subtitles}}
+                                <li class="color_list_item color_list_{{color}}">
+                                    <span class="color_list_text color_list_icon icon">{{{subtitle}}}</span>
+                                </li>
+                                {{/each}}
+                            </div>
+                        </ul>
+                    </a>
+                {{/each}}
+
                 <div class="color_list_footer">
-                    <a class="whole txt_upper icon icon_after icon_right" data-icon="" href="">View All Statuses</a>
+                    <a class="whole txt_upper txt_small color_list_icon icon color_list_icon icon_after color_list_icon icon_right" data-color_list_icon icon="" href="" onclick="showModal()">View All Statuses</a>
                 </div>
             </article>
         </div>
     </div>
 </div>
-<div class="modal">
+<div id="modal" class="modal">
     <div class="modal_wrapper">
         <img src="/public/img/modal.png">
     </div>
 </div>
 
 <script>
+    // forEach shim
+    function forEach(array, callback, scope) {
+        if (array !== 'undefined' && array.length >= 0) {
+            for (let i = 0, arrLen = array.length; i < arrLen; i++) {
+                callback.call(scope, array[i], i, array); // passes back stuff we need
+            }
+        }
+    };
+
+    // var showModal = function() {
+    //     document.getElementsByID("modal");
+    // }
     var main = document.querySelector('script[src="/public/js/main.bundle.js"]');
 
     var lists = document.getElementsByClassName("color_list");
@@ -85,14 +64,14 @@
     }
 
     main.addEventListener('load', function(e) {
-        if(!initialized) {
+        if (!initialized) {
             init(window.uwhealth);
         }
     });
 
     var init = function(velocity) {
         initialized = true;
-        //velocity.mock = 5;
+        // velocity.mock = 5; // Slow animations down for debugging
 
         var toggleList = function(list, durationMultiple) {
             if (list.__collapsed) {
@@ -107,11 +86,22 @@
             list.__collapsed = true;
 
             list.classList.add('color_list_collapsed');
+            list.__container.classList.add('color_list_collapsed');
+
+            forEach(lists, function(list) {
+                velocity(list.__container, {
+                    opacity: [1, "easeOutSine"],
+                    maxHeight: [500, "easeOutQuint"],
+                    paddingTop: [".125rem", "0rem"]
+                }, {
+                    duration: durationMultiple * 3
+                })
+            });
 
             velocity(list,
                 {
-                    height: '.5rem',
-                    translateY: '100%'
+                    height: '.375rem',
+                    translateY: '80%'
                 }, {
                     easing: "easeOut",
                     queue: false,
@@ -141,12 +131,24 @@
         var openList = function(list, durationMultiple) {
             velocity(list, "finish");
             velocity(list.wrapper, "finish");
+
             list.__collapsed = false;
             var curH = list.offsetHeight + 'px';
             list.style.height = 'auto';
             var autoH = list.offsetHeight;
             list.style.height = curH;
 
+            forEach(lists, function(thisList) {
+                if (thisList !== list) {
+                    velocity(thisList.__container, {
+                        opacity: [0, "easeOutSine"],
+                        maxHeight: [0, "easeOutQuart"],
+                        paddingTop: 0
+                    }, {
+                        duration: durationMultiple * 2.375
+                    })
+                }
+            });
 
             velocity(list,
                 {
@@ -157,6 +159,7 @@
                     duration: durationMultiple * 1.25,
                     complete: function() {
                         list.classList.remove('color_list_collapsed');
+                        list.__container.classList.remove('color_list_collapsed');
                     }
                 }
             );
@@ -202,7 +205,7 @@
                 }, {
                     queue: false,
                     easing: "easeInOut",
-                    delay: durationMultiple * 2.25,
+                    delay: durationMultiple * 1.75,
                     duration: durationMultiple * .75
                 }
             );
@@ -220,11 +223,10 @@
             })
         };
 
-        for (let i = 0, len = lists.length; i < len; i++) {
+        forEach(toggles, function(toggle, i) {
             let list = lists[i];
-            let toggle = toggles[i];
             list.__collapsed = list.classList.contains('color_list_collapsed');
-            list.__container = list.parentElement;
+            list.__container = toggle;
             list.wrapper = list.querySelector(".color_list_wrapper");
             list.wrapper.style.height = list.offsetWidth + 'px';
             list.classList.remove('is_not_initialized');
@@ -234,7 +236,7 @@
             });
 
             closeList(list, 0);
-        }
+        })
     }
 
     if (window.uwhealth !== undefined && !initialized) { init(window.uwhealth); }
