@@ -9,10 +9,10 @@ const webpackConfigs = require('../webpack/combined.webpack.config.js');
 const baseConfig = webpackConfigs[0];
 
 const MODE = require('../tools/mode.js');
-const STATS = require('../webpack/stats.webpack.config.js');
 const LOG = require('../tools/logger.js');
 
 const webpackLogger = function(err, stats, done) { //eslint-disable-line
+
     if (err) {
         new LOG('Webpack', err.stack || err).error();
         if (err.details) {
@@ -20,19 +20,20 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
         }
     }
     else if (stats) {
-        new LOG('Webpack', stats.toString(STATS)).info();
-        // const statLogs = stats.stats !== undefined ? stats.stats : [stats];
-        //
-        // statLogs.forEach((stats, i) => {
-        //     const info = stats.toJson(webpackConfigs[i].stats);
-        //
-        //     if (stats.hasErrors()) {
-        //         new LOG('Webpack', new Error(info.errors)).error();
-        //         return;
-        //     }
-        //
-        //     new LOG('Webpack', stats.toString(webpackConfigs[i].stats)).info();
-        // });
+        const statLogs = stats.stats !== undefined ? stats.stats : [stats];
+
+        statLogs.forEach((stats, i) => {
+            // Find the correct stat config
+            const statsConfig = stats.compilation.compiler.options.stats;
+            const info = stats.toJson(statsConfig);
+
+            if (stats.hasErrors()) {
+                new LOG('Webpack', new Error(info.errors)).error();
+                return;
+            }
+
+            new LOG('Webpack', stats.toString(statsConfig)).info();
+        });
     }
 
     done();
@@ -42,7 +43,7 @@ module.exports = (done) => {
     if (MODE.production && !MODE.local) {
         webpack(
             baseConfig,
-            (err, stats) => webpackLogger(err, stats, done)
+            (err, stats) => webpackLogger(err, stats, done).bind(this)
         );
     }
     else {
@@ -50,7 +51,7 @@ module.exports = (done) => {
 
         webpack(
             webpackConfigs,
-            (err, stats) => webpackLogger(err, stats, done)
+            function(err, stats) { webpackLogger(err, stats, done) }
         );
 
         // NOTE: Parallel webpack is great for performance,

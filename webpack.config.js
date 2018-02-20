@@ -37,7 +37,7 @@ const config = {
         symlinks: false,
         modules: ['node_modules']
     },
-    stats: STATS,
+    stats: STATS(),
     module: {},
     plugins: [],
     watchOptions: {

@@ -2,7 +2,6 @@ const gulp         = require('gulp');
 const series       = gulp.series;
 const parallel     = gulp.parallel;
 
-
 const styleguide   = require('markdown-documentation-generator');
 const del          = require('del');
 
@@ -50,7 +49,15 @@ gulp.task('watch', function() {
 
 // Delete contents of compilation folders
 gulp.task('clean', function () {
-    return del(PATHS.clean.entry.array);
+    try {
+        return del(PATHS.clean.entry.array);
+    }
+    catch (err) {
+        if (err.code === 'EPERM' || err.code === 'EACCES') {
+            new LOG('Clean', 'Cannot clean "dist" folder due to permissions. Make sure the folder or its contents is not open by another program or process.').info();
+        }
+        return new LOG('Clean', err).error();
+    }
 });
 
 gulp.task('copy:static', TASKS.copy);

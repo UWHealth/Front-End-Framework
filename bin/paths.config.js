@@ -49,6 +49,85 @@ Object.assign(PATHS, {
             "docs": `${docs}/*`
         }
     },
+    copy: {
+        "folders": {
+            "root": `${src}/static`
+        },
+        "entry": {
+            "all": `${src}/static/**/*.*`,
+            "exclude": `!${src}/static/images/**.*`
+        },
+        "watch": {
+            "fonts": `${src}/static/fonts/*.*`,
+            "meta": `${src}/static/meta/*.*`
+        },
+        "dest": `${dist}/public/`
+    },
+    demos: {
+        "folders": {
+            "root": `${src}/components/`
+        },
+        "entry": {
+            "all": `${src}/components/**/*.demo.js`,
+            "template": `${src}/components/demo/_demo.base.hbs`
+        },
+        "dest": `${dist}/components`
+    },
+    fonts: {
+        "entry": {
+            "asap": `${src}/static/fonts/Asap*.*`,
+            "open": `${src}/static/fonts/opensans*.*`
+        },
+        "watch": {
+            "all": `${src}/static/fonts/**/*.*`
+        },
+        "dest": `${pub}/fonts`
+    },
+    hbs: {
+        "folders": {
+            "root": `${src}/components`
+        },
+        "watch": {
+            "main": `${src}/components/**/*.hbs`,
+            "exclude": []
+        },
+        "entry": {
+            "main": `${src}/components/**/*.hbs`,
+            "header": `${src}/components/header/_header.hbs`,
+            "footer": `${src}/components/footer/_footer.hbs`
+        },
+        "dest": `${pub}/components/`
+    },
+    images: {
+        "entry": {
+            "all": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico|svg)`,
+            "main": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico)`,
+            "svg": `${src}/static/img/svg/**/*.svg`
+        },
+        "watch": {
+            "all": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico|svg)`,
+            "jpeg": `${src}/static/img/**/*.+(jpg|jpeg)`,
+            "png": `${src}/static/img/**/*.png`,
+            "gif": `${src}/static/img/**/*.gif`,
+            "svg": `${src}/static/img/svg/**/*.svg`
+        },
+        "dest": `${pub}/img`
+    },
+    js: {
+        "folders": {
+            "root": `${src}/js`,
+            "components": `${src}/components`
+        },
+        "entry": {
+            "main": `${src}/js/main.js`,
+            "plugins": `${src}/js/plugins.js`
+        },
+        "watch": {
+            "main": `${src}/**/*.js`,
+            "samples": `${src}/_samples/**/*.js`
+        },
+        "dest": `${pub}/js`
+    },
     sass: {
         "folders": {
             "components": `${src}/components`,
@@ -68,48 +147,13 @@ Object.assign(PATHS, {
         },
         "dest": `${pub}/css`
     },
-    js: {
-        "folders": {
-            "root": `${src}/js`,
-            "components": `${src}/components`
-        },
-        "entry": {
-            "main": `${src}/js/main.js`,
-            "plugins": `${src}/js/plugins.js`
-        },
-        "watch": {
-            "main": `${src}/**/*.js`,
-            "samples": `${src}/_samples/**/*.js`
-        },
-        "dest": `${pub}/js`
-    },
-    demos: {
-        "folders": {
-            "root": `${src}/components/`
-        },
-        "entry": {
-            "all": `${src}/components/**/*.demo.js`
-        },
-        "dest": `${dist}/components`
-    },
-    hbs: {
-        "folders": {
-            "root": `${src}/components`
-        },
-        "watch": {
-            "main": `${src}/components/**/*.hbs`,
-            "exclude": []
-        },
-        "entry": {
-            "main": `${src}/components/**/*.hbs`,
-            "header": `${src}/components/header/_header.hbs`,
-            "footer": `${src}/components/footer/_footer.hbs`
-        },
-        "dest": `${pub}/components/`
-    },
     samples: {
         "folders": {
             "root": `${src}/_samples/`
+        },
+        "entry": {
+            "all": `${src}/_samples/**/*.js`,
+            "template": `${src}/_samples/_samples.base.hbs`
         },
         "dest": `${dist}/samples`
     },
@@ -127,45 +171,6 @@ Object.assign(PATHS, {
             "config": `${bin}/styleguide.conf.js`
         },
         "dest": `${path.relative(root, pub)}/styleguide/index.html`
-    },
-    copy: {
-        "folders": {
-            "root": `${src}/static`
-        },
-        "entry": {
-            "all": `${src}/static/**/*.*`,
-            "exclude": `!${src}/static/images/**.*`
-        },
-        "watch": {
-            "fonts": `${src}/static/fonts/*.*`,
-            "meta": `${src}/static/meta/*.*`
-        },
-        "dest": `${dist}/public/`
-    },
-    fonts: {
-        "entry": {
-            "asap": `${src}/static/fonts/Asap*.*`,
-            "open": `${src}/static/fonts/opensans*.*`
-        },
-        "watch": {
-            "all": `${src}/static/fonts/**/*.*`
-        },
-        "dest": `${pub}/fonts`
-    },
-    images: {
-        "entry": {
-            "all": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico|svg)`,
-            "main": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico)`,
-            "svg": `${src}/static/img/svg/**/*.svg`
-        },
-        "watch": {
-            "all": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico|svg)`,
-            "jpeg": `${src}/static/img/**/*.+(jpg|jpeg)`,
-            "png": `${src}/static/img/**/*.png`,
-            "gif": `${src}/static/img/**/*.gif`,
-            "svg": `${src}/static/img/svg/**/*.svg`
-        },
-        "dest": `${pub}/img`
     },
     browserSync: {
         "entry": {

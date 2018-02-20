@@ -50,10 +50,6 @@ module.exports = () => {
         .pipe(autoprefixer({
             browsers: BROWSERS
         }))
-        // Report size of uncompressed CSS
-        .pipe(size({
-            title: 'CSS', gzip: true, showFiles: true
-        }))
         // Output non-minified
         .pipe(gulp.dest(PATHS.sass.dest))
         // Minify
@@ -64,11 +60,12 @@ module.exports = () => {
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(sourcemaps.write('./maps'))
         // Report size of compressed files
         .pipe(size({
             title: 'CSS (minified)', gzip: true, showFiles: true
         }))
+        // Write out sourcemaps
+        .pipe(sourcemaps.write('./maps'))
         // Output minified CSS
         .pipe(gulp.dest(PATHS.sass.dest));
 };

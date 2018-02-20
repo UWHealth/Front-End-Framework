@@ -19,7 +19,9 @@
             <h2 class="demo-body__head">
                 {{demoTitle}} Variants
             </h2>
-            {{> _demo.hbs}}
+            {{#each components}}
+                {{{this}}}
+            {{/each}}
         </div>
     </main>
 </div>

@@ -1,34 +1,41 @@
 /* eslint indent: "off" */
 const MODE = require('../tools/mode.js');
 
-module.exports = {
-    // Fallback
-    all: false,
+module.exports = function(minimalist = false) {
+    // Exclude js assets from minimalist logs
+    const excludes = minimalist ? /(\.js$|\.map$)/ : /(\.map$)/;
+    const maximum = !minimalist;
 
-    // Meta/Styling
-    env: true,
-    colors: true,
-    timings: true,
-    version: true,
-    performance: MODE.production,
-    publicPath: MODE.production,
+    return {
+        // Fallback
+        all: false,
 
-    // Files
-    assets: true,
-        cachedAssets: true,
-        // hash: MODE.production,
-    cached: true,
-    // entrypoints: false,
+        // Meta/Styling
+        env: maximum,
+        colors: true,
+        timings: true,
+        version: maximum,
+        performance: MODE.production,
+        publicPath: MODE.production,
 
-    // Imports/Dependencies
-    chunks: true,
+        // Files
+        assets: true,
+            cachedAssets: true,
+            // hash: MODE.production,
+        cached: true,
+        children: false,
 
-    modules: MODE.production,
-    //     source: true,
-    //     moduleTrace: true,
-    //     maxModules: 10,
+        // Imports/Dependencies
+        chunks: maximum,
+        //     entrypoints: true,
 
-    excludeAssets: /(\.hbs|\.map$)/,
-    excludeModules: /(\.hbs|\.map$)/,
-    exclude: /(\.hbs|\.map$)/
+        modules: maximum ? MODE.production : false,
+        //     source: true,
+        //     moduleTrace: true,
+        //     maxModules: 10,
+
+        excludeAssets: excludes,
+        excludeModules: excludes,
+        exclude: excludes
+    };
 };
