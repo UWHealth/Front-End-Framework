@@ -29,7 +29,7 @@ module.exports = function(minimalist = false) {
         chunks: maximum,
         //     entrypoints: true,
 
-        modules: maximum ? MODE.production : false,
+        // modules: maximum ? MODE.production : false,
         //     source: true,
         //     moduleTrace: true,
         //     maxModules: 10,

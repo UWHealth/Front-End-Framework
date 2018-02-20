@@ -43,7 +43,7 @@ module.exports = (done) => {
     if (MODE.production && !MODE.local) {
         webpack(
             baseConfig,
-            (err, stats) => webpackLogger(err, stats, done).bind(this)
+            (err, stats) => webpackLogger(err, stats, done)
         );
     }
     else {
@@ -51,7 +51,7 @@ module.exports = (done) => {
 
         webpack(
             webpackConfigs,
-            function(err, stats) { webpackLogger(err, stats, done) }
+            (err, stats) => webpackLogger(err, stats, done)
         );
 
         // NOTE: Parallel webpack is great for performance,
