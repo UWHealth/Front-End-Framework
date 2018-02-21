@@ -6,7 +6,7 @@
 const webpack = require('webpack');
 
 const webpackConfigs = require('../webpack/combined.webpack.config.js');
-const baseConfig = webpackConfigs[0];
+const jsConfig = webpackConfigs[0];
 
 const MODE = require('../tools/mode.js');
 const LOG = require('../tools/logger.js');
@@ -42,7 +42,7 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
 module.exports = (done) => {
     if (MODE.production && !MODE.local) {
         webpack(
-            baseConfig,
+            jsConfig,
             (err, stats) => webpackLogger(err, stats, done)
         );
     }
@@ -59,7 +59,7 @@ module.exports = (done) => {
         // If a project is large enough, this tradeoff might be worth it.
         // See https://github.com/trivago/parallel-webpack/issues/57
 
-        // require('parallel-webpack').run(require.resolve('../webpack.combined.config.js'),
+        // require('parallel-webpack').run(require.resolve('../webpack/webpack.combined.config.js'),
         //     {
         //         watch: true,
         //         silent: true,

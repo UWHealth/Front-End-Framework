@@ -3,7 +3,7 @@
 **/
 
 module.exports = [
-    require('../../webpack.config.js'),
+    require('./js.webpack.config.js'),
     require('./samples.webpack.config.js'),
     require('./demos.webpack.config.js')
 ];

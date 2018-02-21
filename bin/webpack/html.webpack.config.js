@@ -14,6 +14,17 @@ const STATS = require("./stats.webpack.config.js");
 const PATHS = require("../paths.config.js");
 
 
+/**
+ * Generates a webpack configuration specifically tailored for making html pages from JS files using html-webpack-plugin and our evaluate-template-webpack-plugin. Creates folders and sub-folders (with index.html) for each page.
+ * @param  {object} options
+ * @param  {String} options.src - file glob to use as html page sources.
+ * @param  {String} options.template - path to the base template for html-webpack-plugin.
+ * @param  {String} options.nameSpace - What string should be added to js files outputs.
+ * @param  {String} options.sourceExtension - Passed directly to path.basename to determine the folder name of each page.
+ * @param  {String} options.dest - Base output path.
+ * @param  {Object} baseConfig - Webpack config that should serve as a basis for the new config.
+ * @return {Object}         Webpack configuration object with correct plugins/settings.
+ */
 function generateHtmlConfig(options) {
     options = Object.assign({}, {
         src: '',
@@ -45,6 +56,13 @@ function generateHtmlConfig(options) {
     return config;
 };
 
+
+/**
+ * Clones base config and sets standard options for any html-generating webpack config.
+ * @param  {Object} options    generateHtmlConfig watchOptions
+ * @param  {String} folderName the name of the destination folder
+ * @return {Object}            Cloned and modified config object
+ */
 function boostrapConfig(options, folderName) {
     // Clone base webpack config
     const config = cloneDeep(options.baseConfig);
@@ -69,6 +87,7 @@ function boostrapConfig(options, folderName) {
     return config;
 }
 
+
 /**
  * Loops through files and creates an entry point for each. All entry points are named with a relative path from dist for a clearer log.
  * @param {Object} options generateHtmlConfig options
@@ -85,6 +104,7 @@ function addEntryPoints(options) {
 
     return entryPoints;
 }
+
 
 /**
  * Loops through files and adds a new HTML plugin for each. Ultimately, this generates a new html file for each file input. Each file is output to something like dist/[options.dest]/[filename]/index.html
