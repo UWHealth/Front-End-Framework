@@ -1,13 +1,8 @@
 //Global functions and variables
-@import '../../sass/tools/t-functions';
-@import '../../sass/tools/t-color-functions';
-@import '../../sass/tools/t-blendmodes';
-@import '../../sass/tools/t-easings';
-// Framework core
 @import '../../sass/tools/t-import';
 
 //Settings
-@import '../../sass/config';
+@import '../../../bin/sass.config.scss';
 
 .demo-header {
     display: flex;
@@ -47,5 +42,3 @@
     @include font-size($type-h6-size, $type-h6-lh);
     padding-top: type-space(1.5);
 }
-
-
