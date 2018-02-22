@@ -33,6 +33,7 @@
     },
     "env": {
         "browser": true,
-        "node": true
+        "node": true,
+        "nashorn": true
     }
 }
