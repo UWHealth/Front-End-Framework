@@ -43,7 +43,8 @@ if (MODE.development) {
 }
 
 if (MODE.production) {
-    config.devtool = "none";
+    config.devtool = false;
+    config.node = false;
 
     config.plugins.push(
 
@@ -51,7 +52,16 @@ if (MODE.production) {
         new webpack.HashedModuleIdsPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
 
-        new ShakePlugin(),
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                ie8: false,
+                beautify: false,
+                mangle: true,
+                compress: true,
+                comments: false,
+                // exclude: /\/(t4|hbs)./
+            }
+        }),
 
         new ClosureCompilerPlugin({
             compiler: {
@@ -64,16 +74,7 @@ if (MODE.production) {
             concurrency: 3
         }),
 
-        new UglifyJsPlugin({
-            uglifyOptions: {
-                ie8: false,
-                beautify: false,
-                mangle: true,
-                compress: true,
-                comments: false,
-                // exclude: /\/(t4|hbs)./
-            }
-        })
+        new ShakePlugin(),
     );
 }
 

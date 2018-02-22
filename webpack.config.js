@@ -11,10 +11,10 @@ const config = {
         symlinks: false,
         modules: ['node_modules']
     },
-    plugins: [],
     watchOptions: {
         ignored: /node_modules/
     },
+    plugins: [],
     module: {}
 };
 

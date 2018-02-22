@@ -35,4 +35,5 @@ module.exports = () =>
             opt.basename = opt.basename.replace(/_/g, '');
             return opt;
         }))
+        .pipe(plumber.stop())
         .pipe(gulp.dest(PATHS.hbs.dest));

@@ -20,7 +20,7 @@ const TASKS = {
     'static': ['images', 'copy:static']
 };
 
-function taskOrder(done) {
+function taskOrder() {
     MODE.show();
 
     return !MODE.production ?
@@ -48,16 +48,16 @@ gulp.task('watch', function() {
 });
 
 // Delete contents of compilation folders
-gulp.task('clean', function () {
-    try {
-        return del(PATHS.clean.entry.array);
-    }
-    catch (err) {
-        if (err.code === 'EPERM' || err.code === 'EACCES') {
-            new LOG('Clean', 'Cannot clean "dist" folder due to permissions. Make sure the folder or its contents is not open by another program or process.').info();
-        }
-        return new LOG('Clean', err).error();
-    }
+gulp.task('clean', function (done) {
+    del(PATHS.clean.entry.array)
+        .then(() => done())
+        .catch((err) => {
+            if (err.code === 'EPERM' || err.code === 'EACCES') {
+                new LOG('Clean', 'Cannot clean "dist" folder due to permissions. Make sure the folder or its contents is not open by another program or process.').info();
+            }
+            new LOG('Clean', err).error();
+            done();
+        });
 });
 
 gulp.task('copy:static', TASKS.copy);
