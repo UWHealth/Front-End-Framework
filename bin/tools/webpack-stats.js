@@ -1,5 +1,5 @@
 /* eslint indent: "off" */
-const MODE = require('../tools/mode.js');
+const MODE = require('./mode.js');
 
 module.exports = function(minimalist = false) {
     // Exclude js assets from minimalist logs
@@ -12,16 +12,16 @@ module.exports = function(minimalist = false) {
 
         // Meta/Styling
         env: maximum,
+        version: maximum,
         colors: true,
         timings: true,
-        version: maximum,
-        performance: MODE.production,
-        publicPath: MODE.production,
+        performance: maximum ? MODE.production : false,
+        publicPath: maximum ? MODE.production : false,
 
         // Files
         assets: true,
             cachedAssets: true,
-            // hash: MODE.production,
+            hash: maximum ? MODE.production : false,
         cached: true,
         children: false,
 
@@ -29,11 +29,12 @@ module.exports = function(minimalist = false) {
         chunks: maximum,
         //     entrypoints: true,
 
-        modules: maximum ? MODE.production : false,
+        // modules: maximum ? MODE.production : false,
         //     source: true,
         //     moduleTrace: true,
         //     maxModules: 10,
         //optimizationBailout: MODE.production,
+        warnings: true,
 
         excludeAssets: excludes,
         excludeModules: excludes,

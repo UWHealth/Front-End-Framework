@@ -3,7 +3,7 @@
 **/
 
 
-const htmlConfig = require('./html.webpack.config.js');
+const htmlConfig = require('../tools/webpack-html-configurator.js');
 const PATHS = require("../paths.config.js");
 
 const config = htmlConfig({

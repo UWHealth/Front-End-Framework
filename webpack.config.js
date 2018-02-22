@@ -1,4 +1,10 @@
-// Webpack Plugins
+/**
+ * @fileoverview - Base webpack configuration, used for template generation and JS bundling.
+ * Includes some configuration for development and production.
+ * Most configuration lives in bin/webpack/
+ *
+ */
+
 const webpack = require('webpack');
 
 const PATHS    = require('./bin/paths.config.js');
@@ -14,6 +20,7 @@ const config = {
     watchOptions: {
         ignored: /node_modules/
     },
+    output: {},
     plugins: [],
     module: {}
 };

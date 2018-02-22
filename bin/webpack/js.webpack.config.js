@@ -8,10 +8,11 @@ const webpack = require('webpack');
 const ClosureCompilerPlugin = require('webpack-closure-compiler');
 const ShakePlugin = require('webpack-common-shake').Plugin;
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const cloneDeep = require('lodash.clonedeep');
 
-const config   = require('../../webpack.config.js');
+const config   = cloneDeep(require('../../webpack.config.js'));
 
-const STATS    = require('./stats.webpack.config.js')();
+const STATS    = require('../tools/webpack-stats.js')();
 const MODE     = require('../tools/mode.js');
 const PATHS    = require('../paths.config.js');
 

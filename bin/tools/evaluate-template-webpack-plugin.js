@@ -1,3 +1,9 @@
+/**
+ * @fileoverview - Evaluates JS files before passing them on to the html-wepback-plugin,
+ * allowing templates to be pre-rendered and added to the base html-webpack-plugin template.
+ *
+ */
+
 const _eval = require('eval');
 
 function evaluateTemplatePlugin(options) {
@@ -11,7 +17,7 @@ evaluateTemplatePlugin.prototype.apply = function(compiler) {
     compiler.plugin('compilation', function (compilation) {
         compilation.plugin('html-webpack-plugin-before-html-generation', function(htmlPluginData, callback) {
             if (!htmlPluginData.plugin.options.evalPlugin || !htmlPluginData.plugin.options.evalPlugin.assetName) {
-                compilation.errors.push(new Error(''));
+                compilation.errors.push(new Error('No options found for evaluate-template-plugin in html-webpack-plugin options.'));
                 return callback(null, htmlPluginData);
             }
             const assetName = htmlPluginData.plugin.options.evalPlugin.assetName;

@@ -4,13 +4,13 @@
 
 const webpack = require('webpack');
 const HtmlPlugin = require('html-webpack-plugin');
-const evalTemplatePlugin = require('./plugins/evaluate-template-webpack-plugin');
+const evalTemplatePlugin = require('./evaluate-template-webpack-plugin');
 
 const glob = require('fast-glob');
 const path = require('path');
 const cloneDeep = require('lodash.clonedeep');
 
-const STATS = require("./stats.webpack.config.js");
+const STATS = require("./webpack-stats.js");
 const PATHS = require("../paths.config.js");
 
 
@@ -68,7 +68,7 @@ function boostrapConfig(options, folderName) {
     const config = cloneDeep(options.baseConfig);
 
     // Unify paths
-    config.context = __dirname;
+    config.context = path.resolve(__dirname, '..');
     config.output.publicPath = PATHS.root.dist;
     config.output.path = PATHS.root.dist;
     config.resolve.modules = ["node_modules"];

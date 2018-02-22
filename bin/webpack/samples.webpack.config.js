@@ -2,7 +2,7 @@
  * @fileoverview - Webpack configuration for generating sample/demo pages. Uses ./webpack.config.js as a base. Saves all files to dist/samples/
 **/
 
-const htmlConfig = require('./html.webpack.config.js');
+const htmlConfig = require('../tools/webpack-html-configurator.js');
 const PATHS = require("../paths.config.js");
 
 const config = htmlConfig({
@@ -10,7 +10,7 @@ const config = htmlConfig({
     template: PATHS.samples.entry.template,
     dest: PATHS.samples.dest,
     nameSpace: "sample",
-    sourceExtension: ".js",
+    sourceExtension: ".sample.js",
     baseConfig: require('../../webpack.config.js')
 });
 
