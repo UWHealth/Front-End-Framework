@@ -1,5 +1,24 @@
 /**
- * @fileoverview - File paths imported by gulp and webpack
+ * @fileoverview - File paths imported by gulp and webpack (or other build scripts)
+ *
+ * CONVENTIONS:
+ * Structure should follow:
+
+    topic/concern
+      ┞─"folders"
+         ┖─"name": `folder path`
+      ┞─"entry"
+         ┖─"name": `glob/file path`
+      ┖─"watch"
+         ┞─"name": `glob/file`
+         ┖─"exclude": ["!glob", "!file"]
+
+    Notes:
+    • Use template literals (``) instead of strings where possible.
+    • "folders" should not contain file paths.
+    • "entry" and "watch" keys should be file paths (or globs).
+    • "exclude" key should be the only array.
+    • "exclude" must be listed last.
 **/
 
 const path = require('path');
@@ -14,7 +33,7 @@ const docs = path.resolve(root, "docs");
 
 const PATHS = {
     root: {
-        "root": path.resolve(root),
+        "root": root,
         "bin": bin,
         "dist": dist,
         "pub": pub,
@@ -23,24 +42,6 @@ const PATHS = {
     }
 };
 
-/*
-    CONVENTIONS:
-    Structure should follow:
-
-    topic/concern
-     ┞─"folders"
-        ┖─"name": "folder path"
-     ┞─"entry"
-        ┖─"name": "glob/file path"
-     ┖─"watch"
-        ┞─"name": "glob/file"
-        ┖─"exclude": ["!glob", "!file"]
-
-    • "folders" should not contain file paths
-    • "entry" and "watch" keys should be file paths (or globs)
-    • "exclude" key should be the only array
-    • "exclude" should always be listed last
-*/
 
 Object.assign(PATHS, {
     clean: {
@@ -141,6 +142,7 @@ Object.assign(PATHS, {
         },
         "watch": {
             "all": `${src}/**/*.scss`,
+            "config": `${bin}/sass.config.scss`,
             "main": `${src}/sass/**/*.scss`,
             "styleguide": `${src}/styleguide/styleguide.scss`,
             "components": `${src}/components/**/*.scss`
