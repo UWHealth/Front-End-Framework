@@ -17,6 +17,7 @@ const TASKS = {
     'sass': require('./bin/tasks/sass.task.js'),
     'images': require('./bin/tasks/images.task.js'),
     'copy': require('./bin/tasks/copy.task.js'),
+    'size': require('./bin/tasks/size.task.js'),
     'static': ['images', 'copy:static']
 };
 
@@ -29,10 +30,10 @@ function taskOrder() {
         :
         MODE.localProduction ?
             // LOCAL-PROD
-            ['clean', parallel(...TASKS.static, 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync')]
+            ['clean', parallel(...TASKS.static, 'sass', 'webpack', 'hbs'), 'styleGuide', parallel('watch', 'browserSync')]
             :
             // PROD
-            ['clean', parallel(...TASKS.static), parallel('sass', 'webpack', 'hbs'), 'styleGuide'];
+            ['clean', parallel(...TASKS.static), parallel('sass', 'webpack', 'hbs'), 'styleGuide', 'size'];
 }
 
 /* ---------------------------------
@@ -45,6 +46,10 @@ gulp.task('watch', function() {
     gulp.watch(PATHS.styleGuide.watch.array, gulp.series('styleGuide'));
     gulp.watch(PATHS.images.watch.array, gulp.series('images'));
     gulp.watch(PATHS.fonts.watch.array, gulp.series('copy:static'));
+
+    if (MODE.localProduction) {
+        gulp.watch(PATHS.hbs.watch.array, gulp.series('hbs'));
+    }
 });
 
 // Delete contents of compilation folders
@@ -61,6 +66,9 @@ gulp.task('clean', function (done) {
 });
 
 gulp.task('copy:static', TASKS.copy);
+
+// Report file sizes
+gulp.task('size', TASKS.size);
 
 // Local Server
 gulp.task('browserSync', TASKS.browserSync);
@@ -79,10 +87,10 @@ gulp.task('images', TASKS.images);
 gulp.task('sass', TASKS.sass);
 
 // Compile style guide
-gulp.task('styleGuide', function() {
-    return styleguide.create(SG_CONFIG)
-        .catch(new LOG('Style Guide').error);
-});
+gulp.task('styleGuide', () =>
+    styleguide.create(SG_CONFIG)
+        .catch(new LOG('Style Guide').error)
+);
 
 // Javascript concatenating, bundling, and webpack-ifying
 gulp.task('webpack', TASKS.webpack);
@@ -93,9 +101,6 @@ gulp.task('webpack', TASKS.webpack);
  * --------------------------------*/
 
 // First task called when gulp is invoked
-gulp.task('default', series(...taskOrder(), finish));
-
-// Simple function to tell gulp the default task is done
-function finish(cb) {
-    cb();
-}
+gulp.task('default', series(...taskOrder(), function(done) {
+    done();
+}));
