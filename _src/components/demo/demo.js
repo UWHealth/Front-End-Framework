@@ -1,10 +1,10 @@
-const template = require('../demo/_demo.wrapper.hbs');
+import template from '../demo/_demo.wrapper.hbs';
 
 const Demo = function(pageTitle, variants) {
     /* Check for variants as first argument */
     if (typeof pageTitle === 'object' && variants === undefined) {
         variants = pageTitle;
-        pageTitle = "DEMO";
+        pageTitle = "";
     }
 
     let context = Object.assign(variants, {
