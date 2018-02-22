@@ -1,5 +1,5 @@
 /**
- * @fileoverview Build image assets
+ * @fileoverview Processes images through imagemin and saves the processed images to the destination.
 **/
 
 const gulp = require('gulp');

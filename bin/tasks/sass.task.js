@@ -1,10 +1,13 @@
+/**
+ * @fileoverview Processes scss, adds browser prefixes, and minifies before saving to the destination folder.
+**/
+
 const gulp         = require('gulp');
 const autoprefixer = require('gulp-autoprefixer');
 const cssnano      = require('gulp-cssnano');
 const plumber      = require('gulp-plumber');
 const rename       = require('gulp-rename');
 const sass         = require('gulp-sass');
-const size         = require('gulp-size');
 const sourcemaps   = require('gulp-sourcemaps');
 
 const LOG          = require('../tools/logger.js');
@@ -33,9 +36,6 @@ module.exports = (done) => {
                     zindex: false
                 }))
 
-                .pipe(size({
-                    title: 'CSS (minified)', gzip: true, showFiles: true
-                }))
                 // Output minified CSS
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
@@ -65,10 +65,6 @@ module.exports = (done) => {
                 }))
                 .pipe(rename({
                     suffix: '.min'
-                }))
-                // Report size of compressed files
-                .pipe(size({
-                    title: 'CSS (minified)', gzip: true, showFiles: true
                 }))
                 // Write out sourcemaps
                 .pipe(sourcemaps.write('./maps'))

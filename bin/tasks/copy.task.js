@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Copies files from one location to another without any processing. Mostly used for static or binary files.
+**/
+
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
 const changed = require('gulp-changed');

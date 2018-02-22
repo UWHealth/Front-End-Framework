@@ -1,5 +1,5 @@
 /**
- * @fileoverview Spins up local http server and syncs actions across browsers
+ * @fileoverview Spins up local http server, pointing to the dist folder.  Uses BrowserSync, so automatic reloading and action-syncing is also handled.
 **/
 
 const browserSync     = require('browser-sync').create();

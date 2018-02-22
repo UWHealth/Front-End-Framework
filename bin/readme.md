@@ -1,0 +1,23 @@
+# ./bin
+
+**Configuration files and build scripts**
+
+## Files
+
+The files in the root of this folder are meant to be edited, based on the needs of the project.  
+
+* **paths.config.js**: Overview of paths within the project. Specifically used by build files, but serves as a decent overview of the project structure. This file should be used when referencing paths within the project since all paths are normalized and resolved to reduce errors.
+  → See file's comments for editing conventions.
+
+* **sass.config.scss**: Style/Sass configuration. Imported by other sass files.
+  → See file comments for more specific configuration options and their effects.
+
+* **styleguide.config.js**: [markdown-documentation-generator](https://github.com/UWHealth/markdown-documentation-generator) configuration. Imported by the gulp task `styleGuide`.
+
+## Folders
+
+* **tasks**: Gulp task functions. Imported and run by gulpfile.js. Functions are exported without the `gulp.task` method wrapper. File names should represent their intended task's name, followed by ".task.js" (e.g. "sass.task.js" for the "sass" task).
+
+* **tools**: Build helper scripts. These generalized scripts are imported by tasks and webpack configurations to make certain tasks simpler. For instance, all build messaging is handled by "logger.js".
+
+* **webpack**: Webpack configurations. These are imported by the `webpack` task. While in production mode, Webpack only handles javascript bundling, but in development (default) mode, Webpack also generates html files for development. "combined.webpack.config.js" acts as the entry point for these configurations.

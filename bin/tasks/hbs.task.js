@@ -1,5 +1,5 @@
 /**
- * Build Handlebars Files
+ * @fileoverview - Pre-compiles handlebars files, while also embedding partials. Essentially creates handlebars "bundles" for external consumption (by something like T4) without the need to register partials.
  **/
 
 const gulp = require('gulp');
@@ -10,7 +10,7 @@ const tap = require('gulp-tap');
 
 const LOG   = require('../tools/logger.js');
 const PATHS = require('../paths.config');
-const loopAST = require('../tools/embed-partials.js');
+const loopAST = require('../tools/embed-hbs-partials.js');
 
 const Handlebars = require('handlebars');
 let currentFile;
@@ -30,10 +30,9 @@ module.exports = () =>
                 loopAST(ast, 0, currentFile);
             }
         }))
-        .pipe(rename(function(opt) {
-            // Strip the extension and the underscore (for individual partials to be output in ./dist/hbs/)
-            opt.basename = opt.basename.replace(/_/g, '');
-            return opt;
+        .pipe(rename(function(file) {
+            // Strip the extension and the underscore
+            file.basename = file.basename.replace(/_/g, '');
+            return file;
         }))
-        .pipe(plumber.stop())
         .pipe(gulp.dest(PATHS.hbs.dest));
