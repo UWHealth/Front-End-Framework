@@ -101,6 +101,6 @@ gulp.task('webpack', TASKS.webpack);
  * --------------------------------*/
 
 // First task called when gulp is invoked
-gulp.task('default', series(...taskOrder(), function(done) {
+gulp.task('default', series(...taskOrder(), function finish(done) {
     done();
 }));

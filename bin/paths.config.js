@@ -86,7 +86,8 @@ Object.assign(PATHS, {
     },
     hbs: {
         "folders": {
-            "root": `${src}/components`
+            "root": `${src}/components`,
+            "components": `${src}/components`
         },
         "watch": {
             "main": `${src}/components/**/*.hbs`,

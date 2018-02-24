@@ -1,5 +1,5 @@
-import template from '../components/base/_base.hbs';
-import button from '../components/button/button.default.js';
+import template from '@/components/base/_base.hbs';
+import button from '@/components/button/button.default.js';
 
 export default template({
     "pageTitle": "Sample Page",

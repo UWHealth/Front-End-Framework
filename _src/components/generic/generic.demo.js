@@ -1,5 +1,5 @@
 import generic from './_generic.hbs';
-import Demo from '../demo/demo.js';
+import Demo from '@/components/demo/demo.js';
 
 
 module.exports = new Demo(

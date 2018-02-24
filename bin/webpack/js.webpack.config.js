@@ -5,9 +5,6 @@
 
 // Webpack Plugins
 const webpack = require('webpack');
-const ClosureCompilerPlugin = require('webpack-closure-compiler');
-const ShakePlugin = require('webpack-common-shake').Plugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const cloneDeep = require('lodash.clonedeep');
 
 const config   = cloneDeep(require('../../webpack.config.js'));
@@ -44,13 +41,20 @@ if (MODE.development) {
 }
 
 if (MODE.production) {
+    const ClosureCompilerPlugin = require('webpack-closure-compiler');
+    const ShakePlugin = require('webpack-common-shake').Plugin;
+    const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
     config.devtool = false;
     config.node = false;
 
     config.plugins.push(
 
-        new webpack.optimize.ModuleConcatenationPlugin(),
+        // keep module.id stable when vendor modules does not change
         new webpack.HashedModuleIdsPlugin(),
+        // enable scope hoisting
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        // don't create files with errors
         new webpack.NoEmitOnErrorsPlugin(),
 
         new UglifyJsPlugin({
@@ -61,7 +65,8 @@ if (MODE.production) {
                 compress: true,
                 comments: false,
                 // exclude: /\/(t4|hbs)./
-            }
+            },
+            parallel: true
         }),
 
         new ClosureCompilerPlugin({

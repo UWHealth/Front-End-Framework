@@ -2,7 +2,7 @@
 @import '../../sass/tools/t-import';
 
 //Settings
-@import '../../../bin/sass.config.scss';
+@import '../../../bin/sass.config';
 
 .demo-header {
     display: flex;
@@ -17,7 +17,7 @@
 .demo-header__title {
     padding-bottom: type-space(1);
     letter-spacing: .01em;
-    color: color('bg', 'darkest');
+    color: rgba(color('links', 'darker'), .6);
     font-weight: normal;
 }
 

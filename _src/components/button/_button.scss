@@ -10,16 +10,16 @@ Applying the `btn` class to anything will make it look like a button. Always dec
 
 */
 
-//Useful placeholder selector for simple button creation.
+//Useful placeholder selector for button creation
 
 %button {
-    border-radius: type-space(.75)/type-space(.95);
+    border-radius: type-space(.85)/type-space(1);
     box-shadow: 0 3px 4px -2px rgba(black, 0);
     background-color: color('links');
     padding: type-space(.5 .375);
     color: white;
     font-weight: bold;
-    transition: background .1s ease-in-out, box-shadow .2s ease-out, color .1s ease-in-out;
+    transition: background-color .1s ease-in-out, box-shadow .2s ease-out, color .1s ease-in-out;
 
     &:focus,
     &:hover {

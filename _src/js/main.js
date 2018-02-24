@@ -1,7 +1,10 @@
-import velocity from "./vendor/velocity.js";
+import velocity from "@/js/vendor/jquery-plugins/velocity";
+import domReady from "@/js/modules/dom-ready";
 
-if (process.env.NODE_ENV !== 'production') {
-    import('./dev/keyboard-shortcuts.js').then((keyboardSC) => keyboardSC.init());
-}
+domReady(() => {
+    if (process.env.NODE_ENV !== 'production') {
+        import('./dev/keyboard-shortcuts.js').then((keyboardSC) => keyboardSC.init());
+    }
+});
 
-module.exports = velocity;
+export default velocity;

@@ -15,7 +15,11 @@ const config = {
     context: __dirname,
     resolve: {
         symlinks: false,
-        modules: ['node_modules']
+        modules: ['node_modules'],
+        alias: {
+            // Allow for local imports without relative paths
+            '@': PATHS.root.src
+        }
     },
     watchOptions: {
         ignored: /node_modules/
@@ -82,6 +86,12 @@ config.module.rules = [
 
 if (MODE.development) {
     config.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"development"'
+            }
+        }),
+
         new webpack.EnvironmentPlugin({
             NODE_ENV: 'development',
             DEBUG: false
@@ -100,6 +110,11 @@ if (MODE.production) {
     config.devtool = "none";
 
     config.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: '"production"'
+            }
+        }),
         new webpack.EnvironmentPlugin({
             NODE_ENV: 'production',
             DEBUG: false
