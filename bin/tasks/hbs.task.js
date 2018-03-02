@@ -6,6 +6,7 @@ const gulp = require('gulp');
 const handlebars = require('gulp-handlebars');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
+const htmlmin = require('gulp-htmlmin');
 const tap = require('gulp-tap');
 
 const LOG   = require('../tools/logger.js');
@@ -19,6 +20,9 @@ module.exports = () =>
     gulp
         .src(PATHS.hbs.entry.main)
         .pipe(plumber(new LOG('HBS task').error))
+        .pipe(htmlmin({
+
+        }))
         .pipe(tap(function(file, t) {
             currentFile = file.path;
         }))

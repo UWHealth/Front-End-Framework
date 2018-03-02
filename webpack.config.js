@@ -7,9 +7,11 @@
 
 const webpack = require('webpack');
 
+
 const PATHS    = require('./bin/paths.config.js');
 const MODE     = require('./bin/tools/mode.js');
 const BROWSERS = require('./package.json').browserslist;
+
 
 const config = {
     context: __dirname,

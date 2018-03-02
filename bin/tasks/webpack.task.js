@@ -4,6 +4,7 @@
 **/
 
 const webpack = require('webpack');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 const webpackConfigs = require('../webpack/combined.webpack.config.js');
 
@@ -47,10 +48,28 @@ module.exports = (done) => {
         webpackConfigs.forEach((config) => { config.watch = true; });
     }
 
-    webpack(
-        webpackConfigs,
-        (err, stats) => webpackLogger(err, stats, done)
-    );
+    webpack(webpackConfigs, (err, stats) => webpackLogger(err, stats, done));
+
+    //const compiler = webpack(webpackConfigs);
+    // compiler.apply(new FriendlyErrorsWebpackPlugin({
+    //     compilationSuccessInfo: {
+    //         messages: ['You application is running here http://localhost:3000'],
+    //         notes: ['Some additionnal notes to be displayed unpon successful compilation']
+    //     },
+    //     onErrors: function (severity, errors) {
+    //
+    //     },
+    //     // should the console be cleared between each compilation?
+    //     // default is true
+    //     clearConsole: false,
+    //
+    //     // add formatters and transformers (see below)
+    //     additionalFormatters: [],
+    //     additionalTransformers: []
+    //
+    // }));
+    //
+    // compiler.run(() => done());
 
     // NOTE: Parallel webpack is great for performance,
     //  but has an issue with killing its own processes, causing very expensive memory leaks.

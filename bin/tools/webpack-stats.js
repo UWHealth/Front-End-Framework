@@ -1,10 +1,15 @@
 /* eslint indent: "off" */
 const MODE = require('./mode.js');
 
-module.exports = function(minimalist = false) {
+module.exports = function(minimalist = false) { // eslint-disable-line
     // Exclude js assets from minimalist logs
     const excludes = minimalist ? /(\.js$|\.map$)/ : /(\.map$)/;
     const maximum = !minimalist;
+    const prod = (MODE.production === true);
+
+    if (!prod && minimalist) {
+        return 'minimal';
+    }
 
     return {
         // Fallback
@@ -15,14 +20,14 @@ module.exports = function(minimalist = false) {
         version: maximum,
         colors: true,
         timings: true,
-        performance: maximum ? MODE.production : false,
-        publicPath: maximum ? MODE.production : false,
+        performance: maximum ? prod : false,
+        publicPath: maximum ? prod : false,
 
         // Files
         assets: true,
-            cachedAssets: true,
-            hash: maximum ? MODE.production : false,
-        cached: true,
+            cachedAssets: prod,
+            hash: maximum ? prod : false,
+        cached: prod,
         children: false,
 
         // Imports/Dependencies
