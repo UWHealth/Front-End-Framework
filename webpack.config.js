@@ -5,9 +5,6 @@
  *
  */
 
-const webpack = require('webpack');
-
-
 const PATHS    = require('./config/paths.config.js');
 const MODE     = require('./build/tools/mode.js');
 const BROWSERS = require('./package.json').browserslist;
@@ -15,6 +12,7 @@ const BROWSERS = require('./package.json').browserslist;
 
 const config = {
     context: __dirname,
+    mode: (MODE.production || MODE.localProduction) ? 'production' : 'development',
     resolve: {
         symlinks: false,
         modules: ['node_modules'],
@@ -86,42 +84,8 @@ config.module.rules = [
     }
 ];
 
-if (MODE.development) {
-    config.plugins.push(
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"development"'
-            }
-        }),
-
-        new webpack.EnvironmentPlugin({
-            NODE_ENV: 'development',
-            DEBUG: false
-        }),
-
-        // Improve re-compilation speeds by caching the manifest
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "manifest",
-            minChunks: Infinity,
-            async: true
-        })
-    );
-}
-
 if (MODE.production) {
     config.devtool = "none";
-
-    config.plugins.push(
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }),
-        new webpack.EnvironmentPlugin({
-            NODE_ENV: 'production',
-            DEBUG: false
-        })
-    );
 }
 
 module.exports = config;

@@ -1,9 +1,10 @@
 /**
  * @fileoverview - Webpack configuration for generating sample/demo pages. Uses ./webpack.config.js as a base. Saves all files to dist/samples/
 **/
+const cwd = process.cwd();
 
-const htmlConfig = require('../tools/webpack-html-configurator.js');
-const PATHS = require("../../config/paths.config.js");
+const htmlConfig = require('./helpers/webpack-html-configurator.js');
+const PATHS = require(`${cwd}/config/paths.config.js`);
 
 const config = htmlConfig({
     src: PATHS.samples.entry.all,

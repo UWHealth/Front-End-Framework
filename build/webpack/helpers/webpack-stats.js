@@ -1,5 +1,5 @@
 /* eslint indent: "off" */
-const MODE = require('./mode.js');
+const MODE = require('../../tools/mode.js');
 
 module.exports = function(minimalist = false) { // eslint-disable-line
     // Exclude js assets from minimalist logs

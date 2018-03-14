@@ -1,9 +1,10 @@
-const path = require('path');
 const fs = require('fs');
 const Handlebars = require('handlebars');
+const path = require('path');
 
+const cwd = process.cwd();
 const BUILD_NUMBER = require('./build-number.js');
-const PATHS = require('../../config/paths.config.js');
+const PATHS = require(`${cwd}/config/paths.config.js`);
 const MODE = require('./mode.js');
 
 /**

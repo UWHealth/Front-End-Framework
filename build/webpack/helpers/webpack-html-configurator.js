@@ -2,16 +2,16 @@
  * @fileoverview - Generic webpack setup for html page generation. Centralizes the redundant parts of sample/demo page configurations.
 **/
 
-const webpack = require('webpack');
 const HtmlPlugin = require('html-webpack-plugin');
-const evalTemplatePlugin = require('./evaluate-template-webpack-plugin');
+const EvalTemplatePlugin = require('./evaluate-template-webpack-plugin');
 
 const glob = require('fast-glob');
 const path = require('path');
 const cloneDeep = require('lodash.clonedeep');
 
+const cwd = process.cwd();
 const STATS = require("./webpack-stats.js");
-const PATHS = require("../../config/paths.config.js");
+const PATHS = require(`${cwd}/config/paths.config.js`);
 
 
 /**
@@ -41,17 +41,6 @@ function generateHtmlConfig(options) {
     const config = boostrapConfig(options);
     config.entry = addEntryPoints(options);
     config.plugins = addHtmlPlugins(options);
-
-    config.entry[path.join(options.folderName, 'handlebars')] = 'handlebars/runtime';
-
-    // Make handlebars its own chunk for quicker compilation
-    config.plugins.push(
-        new webpack.optimize.CommonsChunkPlugin({
-            name: path.join(options.folderName, 'handlebars'),
-            minChunks: Infinity,
-            async: "handlebars.js"
-        })
-    );
 
     return config;
 };
@@ -135,7 +124,7 @@ function addHtmlPlugins(options) {
 
     plugins.push(
         // Add evaluated demo to html data
-        new evalTemplatePlugin({
+        new EvalTemplatePlugin({
             templating: function(source) {
                 const render = typeof source.render !== 'undefined' ? source.render : source;
                 return typeof render === 'function' ? render() : render;

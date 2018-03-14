@@ -4,14 +4,15 @@
  */
 
 // Webpack Plugins
-const webpack = require('webpack');
+const webpack   = require('webpack');
 const cloneDeep = require('lodash.clonedeep');
 
-const config   = cloneDeep(require('../../webpack.config.js'));
+const cwd      = process.cwd();
+const config   = cloneDeep(require(`${cwd}/webpack.config.js`));
 
-const STATS    = require('../tools/webpack-stats.js')();
+const PATHS    = require(`${cwd}/config/paths.config.js`);
+const STATS    = require('./helpers/webpack-stats.js')();
 const MODE     = require('../tools/mode.js');
-const PATHS    = require('../../config/paths.config.js');
 
 config.stats = STATS;
 config.target = "web";
@@ -21,6 +22,7 @@ config.entry = {
     main: PATHS.js.entry.main,
     plugins: PATHS.js.entry.plugins
 };
+
 config.output = {
     path: PATHS.js.dest,
     publicPath: '/public/js/',
@@ -32,17 +34,8 @@ config.output = {
     library: 'uwhealth',
 };
 
-
-if (MODE.development) {
-    config.plugins.push(
-        // Make output easier to read
-        new webpack.NamedModulesPlugin(),
-    );
-}
-
 if (MODE.production) {
     const ClosureCompilerPlugin = require('webpack-closure-compiler');
-    const ShakePlugin = require('webpack-common-shake').Plugin;
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
     config.devtool = false;
@@ -79,8 +72,6 @@ if (MODE.production) {
             },
             concurrency: 3
         }),
-
-        new ShakePlugin(),
     );
 }
 

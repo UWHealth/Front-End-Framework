@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node node_modules/.bin/gulp",
         "prod": "npm start -- --production",
-        "webpack": "node node_modules/.bin/webpack --config=./bin/webpack.combined.config.js --watch"
+        "webpack": "node node_modules/.bin/webpack-cli --config=./config/webpack.build.js --watch"
     },
     "repository": {
         "type": "git",
@@ -40,7 +40,7 @@
         "bundle-loader": "^0.5.5",
         "chalk": "^2.3.0",
         "del": "^3.0.0",
-        "eslint": "^4.14.0",
+        "eslint": "^4.18.2",
         "eslint-config-standard": "^11.0.0-beta.0",
         "eslint-plugin-import": "^2.8.0",
         "eslint-plugin-node": "^5.2.1",
@@ -64,12 +64,13 @@
         "gulp-rename": "^1.2.2",
         "gulp-replace": "^0.6.1",
         "gulp-sass": "^3.0.0",
+        "gulp-sizereport": "^1.2.0",
         "gulp-sourcemaps": "^2.6.3",
         "gulp-tap": "^1.0.1",
         "gulp-uglify": "^3.0.0",
         "handlebars": "^4.0.11",
-        "handlebars-loader": "^1.6.0",
-        "html-webpack-plugin": "^2.30.1",
+        "handlebars-loader": "github:Waavi/handlebars-loader",
+        "html-webpack-plugin": "^3.0.6",
         "imagemin-pngquant": "^5.0.1",
         "lodash.clonedeep": "^4.5.0",
         "markdown-documentation-generator": "^2.4.0",
@@ -79,13 +80,11 @@
         "raw-loader": "^0.5.1",
         "sass-lint": "^1.12.1",
         "uglifyjs-webpack-plugin": "^1.1.6",
-        "val-loader": "^1.1.0",
-        "webpack": "^3.10.0",
+        "webpack": "^4.1.1",
+        "webpack-cli": "^2.0.12",
         "webpack-closure-compiler": "^2.1.6",
         "webpack-common-shake": "^1.5.3",
         "yargs": "^10.0.3"
     },
-    "dependencies": {
-        "gulp-sizereport": "^1.2.0"
-    }
+    "dependencies": {}
 }
