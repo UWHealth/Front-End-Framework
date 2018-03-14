@@ -10,7 +10,7 @@ const htmlmin = require('gulp-htmlmin');
 const tap = require('gulp-tap');
 
 const LOG   = require('../tools/logger.js');
-const PATHS = require('../paths.config');
+const PATHS = require('../../config/paths.config.js');
 const loopAST = require('../tools/embed-hbs-partials.js');
 
 const Handlebars = require('handlebars');
@@ -21,7 +21,9 @@ module.exports = () =>
         .src(PATHS.hbs.entry.main)
         .pipe(plumber(new LOG('HBS task').error))
         .pipe(htmlmin({
-
+            collapseWhitespace: true,
+            conservativeCollapse: true,
+            ignoreCustomFragments: [/{{{?.+}?}}/],
         }))
         .pipe(tap(function(file, t) {
             currentFile = file.path;

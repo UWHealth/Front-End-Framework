@@ -4,7 +4,7 @@
 
 
 const htmlConfig = require('../tools/webpack-html-configurator.js');
-const PATHS = require("../paths.config.js");
+const PATHS = require("../../config/paths.config.js");
 
 const config = htmlConfig({
     baseConfig: require('../../webpack.config.js'),

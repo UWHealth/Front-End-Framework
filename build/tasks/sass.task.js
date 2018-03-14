@@ -13,7 +13,7 @@ const sourcemaps   = require('gulp-sourcemaps');
 const LOG          = require('../tools/logger.js');
 const BROWSERS     = require('../../package.json').browserslist;
 const MODE         = require('../tools/mode');
-const PATHS        = require('../paths.config.js');
+const PATHS        = require('../../config/paths.config.js');
 
 module.exports = (done) => {
     return new Promise((resolve, reject) => {

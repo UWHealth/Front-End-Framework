@@ -11,7 +11,7 @@ const path = require('path');
 const cloneDeep = require('lodash.clonedeep');
 
 const STATS = require("./webpack-stats.js");
-const PATHS = require("../paths.config.js");
+const PATHS = require("../../config/paths.config.js");
 
 
 /**

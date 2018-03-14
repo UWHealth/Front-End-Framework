@@ -26,6 +26,8 @@ const normalizePaths = require('./tools/normalize-paths.js');
 
 const root = process.cwd();
 const bin  = path.resolve(__dirname);
+const config = bin;
+const build = path.resolve(root, "build");
 const dist = path.resolve(root, "dist");
 const pub  = path.join(dist, "public");
 const src  = path.resolve(root, "_src");
@@ -35,6 +37,8 @@ const PATHS = {
     root: {
         "root": root,
         "bin": bin,
+        "config": bin,
+        "build": build,
         "dist": dist,
         "pub": pub,
         "src": src,
@@ -143,7 +147,7 @@ Object.assign(PATHS, {
         },
         "watch": {
             "all": `${src}/**/*.scss`,
-            "config": `${bin}/sass.config.scss`,
+            "config": `${config}/sass.config.scss`,
             "main": `${src}/sass/**/*.scss`,
             "styleguide": `${src}/styleguide/styleguide.scss`,
             "components": `${src}/components/**/*.scss`
@@ -162,7 +166,7 @@ Object.assign(PATHS, {
     },
     styleGuide: {
         "entry": {
-            "config": `${bin}/styleguide.config.js`,
+            "config": `${config}/styleguide.config.js`,
             "templateFile": `${src}/styleguide/styleguide.hbs`,
             "themeFile": `${pub}/css/styleguide.css`,
             "jquery": `${src}/styleguide/imports/jquery.js`,
@@ -171,7 +175,7 @@ Object.assign(PATHS, {
         "watch": {
             "imports": `${src}/styleguide/**/*.*`,
             "style": `${pub}/css/styleguide.css`,
-            "config": `${bin}/styleguide.conf.js`
+            "config": `${config}/styleguide.conf.js`
         },
         "dest": `${path.relative(root, pub)}/styleguide/index.html`
     },

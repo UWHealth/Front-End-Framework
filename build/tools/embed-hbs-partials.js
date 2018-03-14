@@ -3,7 +3,7 @@ const fs = require('fs');
 const Handlebars = require('handlebars');
 
 const BUILD_NUMBER = require('./build-number.js');
-const PATHS = require('../paths.config.js');
+const PATHS = require('../../config/paths.config.js');
 const MODE = require('./mode.js');
 
 /**
@@ -74,7 +74,14 @@ function embedPartial(statement, currentFile) {
 
     try {
         let partialPath = path.resolve(context, partial);
-        return Handlebars.parse('{{!-- --}}' + fs.readFileSync(partialPath));
+        let file = String(fs.readFileSync(partialPath));
+
+        if (statement.hash) {
+            statement.hash.pairs.forEach((hash) => {
+                file.replace(hash.key, hash.value.original);
+            });
+        }
+        return Handlebars.parse('{{!-- --}}' + file);
     }
     catch (err) {
         console.error(`Can't find partial: ${partial} in ${currentFile}`);

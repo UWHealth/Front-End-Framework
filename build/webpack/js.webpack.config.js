@@ -11,7 +11,7 @@ const config   = cloneDeep(require('../../webpack.config.js'));
 
 const STATS    = require('../tools/webpack-stats.js')();
 const MODE     = require('../tools/mode.js');
-const PATHS    = require('../paths.config.js');
+const PATHS    = require('../../config/paths.config.js');
 
 config.stats = STATS;
 config.target = "web";

@@ -4,9 +4,8 @@
 **/
 
 const webpack = require('webpack');
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
-const webpackConfigs = require('../webpack/combined.webpack.config.js');
+const webpackConfigs = require('../webpack.build.js');
 
 const MODE = require('../tools/mode.js');
 const LOG = require('../tools/logger.js');
@@ -50,7 +49,8 @@ module.exports = (done) => {
 
     webpack(webpackConfigs, (err, stats) => webpackLogger(err, stats, done));
 
-    //const compiler = webpack(webpackConfigs);
+    // const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+    // const compiler = webpack(webpackConfigs);
     // compiler.apply(new FriendlyErrorsWebpackPlugin({
     //     compilationSuccessInfo: {
     //         messages: ['You application is running here http://localhost:3000'],

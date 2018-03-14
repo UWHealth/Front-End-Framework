@@ -1,15 +1,15 @@
 /**
  * @fileoverview - Base webpack configuration, used for template generation and JS bundling.
  * Includes some configuration for development and production.
- * Most configuration lives in bin/webpack/
+ * Most configuration lives in build/webpack/
  *
  */
 
 const webpack = require('webpack');
 
 
-const PATHS    = require('./bin/paths.config.js');
-const MODE     = require('./bin/tools/mode.js');
+const PATHS    = require('./config/paths.config.js');
+const MODE     = require('./build/tools/mode.js');
 const BROWSERS = require('./package.json').browserslist;
 
 

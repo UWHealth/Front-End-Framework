@@ -3,7 +3,7 @@
 **/
 
 const browserSync     = require('browser-sync').create();
-const PATHS           = require('../paths.config.js');
+const PATHS           = require('../../config/paths.config.js');
 
 const ARGS            = require('../tools/args.js');
 const BS_DIR_VIEW     = ARGS.dir;

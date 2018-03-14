@@ -36,7 +36,7 @@ Sass files are imported in order from lowest specificity to highest.
 @import 'tools/t-import';
 
 //Settings
-@import '../../bin/sass.config';
+@import '../../config/sass.config';
 
 
 //----------------------------

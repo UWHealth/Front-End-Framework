@@ -7,7 +7,7 @@ const plumber = require('gulp-plumber');
 const changed = require('gulp-changed');
 
 const LOG = require('../tools/logger.js');
-const PATHS = require('../paths.config.js');
+const PATHS = require('../../config/paths.config.js');
 
 module.exports = () =>
     gulp.src(PATHS.copy.entry.array)
