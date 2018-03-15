@@ -4,7 +4,7 @@
 
 const cwd       = process.cwd();
 
-const htmlConfig = require('./helpers/webpack-html-configurator.js');
+const htmlConfig = require('./helpers/create-html-config.js');
 const PATHS = require(`${cwd}/config/paths.config.js`);
 
 const config = htmlConfig({

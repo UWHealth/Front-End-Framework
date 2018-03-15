@@ -12,7 +12,7 @@ const BROWSERS = require('./package.json').browserslist;
 
 const config = {
     context: __dirname,
-    mode: (MODE.production || MODE.localProduction) ? 'production' : 'development',
+    mode: process.env.NODE_ENV,
     resolve: {
         symlinks: false,
         modules: ['node_modules'],
@@ -66,7 +66,7 @@ config.module.rules = [
     },
 
     {
-        test: /\.(hbs|hbs\.svg)$/,
+        test: /\.(hbs|handlebars|hbs\.svg)$/,
         include: PATHS.root.src,
         use: [{
             loader: 'handlebars-loader',

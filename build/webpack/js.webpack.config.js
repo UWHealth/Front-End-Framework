@@ -3,16 +3,16 @@
  * Written in CommonJS (require/module).
  */
 
-// Webpack Plugins
 const webpack   = require('webpack');
 const cloneDeep = require('lodash.clonedeep');
 
-const cwd      = process.cwd();
-const config   = cloneDeep(require(`${cwd}/webpack.config.js`));
+const cwd    = process.cwd();
 
-const PATHS    = require(`${cwd}/config/paths.config.js`);
-const STATS    = require('./helpers/webpack-stats.js')();
-const MODE     = require('../tools/mode.js');
+const PATHS = require(`${cwd}/config/paths.config.js`);
+const STATS = require('./helpers/webpack-stats.js')();
+const MODE  = require('../tools/mode.js');
+
+const config = cloneDeep(require(`${cwd}/webpack.config.js`));
 
 config.stats = STATS;
 config.target = "web";
@@ -43,12 +43,11 @@ if (MODE.production) {
 
     config.plugins.push(
 
-        // keep module.id stable when vendor modules does not change
+        // Keep module.id stable when vendor modules do not change
         new webpack.HashedModuleIdsPlugin(),
-        // enable scope hoisting
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        // don't create files with errors
-        new webpack.NoEmitOnErrorsPlugin(),
+
+        // Remove module.hot code from modules
+        new webpack.NoHotModuleReplacementPlugin(),
 
         new UglifyJsPlugin({
             uglifyOptions: {

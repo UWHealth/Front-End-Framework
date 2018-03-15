@@ -9,7 +9,7 @@ const LOG          = require('./tools/logger.js');
 const MODE         = require('./tools/mode');
 const PATHS        = require('../config/paths.config.js');
 const SG_CONFIG    = require(PATHS.styleGuide.entry.config);
-const TASKS        = require('./tools/tasks.js');
+const TASKS        = require('./tools/require-tasks.js');
 
 function taskOrder() {
     MODE.show();
