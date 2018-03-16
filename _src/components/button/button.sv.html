@@ -1,0 +1,45 @@
+<button class="btn {{modifiers(type, 'btn--')}}" on:click="set({type: type ? false : ['wide']})">
+    <span class="btn__body {{modifiers(type, 'btn__body--')}}">
+        {{body}}
+    </span>
+    {{#if icon}}
+        <span class="btn__icon {{modifiers(type, 'btn__body--')}}">
+            {{icon}}
+        </span>
+    {{elseif iconUrl}}
+        <img class="btn__icon btn__icon--image" src="{{iconUrl}}" alt="">
+    {{/if}}
+</button>
+
+<script>
+    import modifiers from '../tools/modifiers.js';
+
+    export default {
+        data() {
+            return {
+                body: "button",
+                icon: false,
+                iconUrl: false,
+                type: ["wide"]
+            }
+        },
+
+        helpers: {
+            modifiers
+        },
+
+        setup(MyComponent) {
+            MyComponent.ANSWER = 42;
+        },
+
+        oncreate() {
+
+        },
+
+        methods: {
+            say(message){
+                console.log(message);
+            }
+        }
+    }
+</script>

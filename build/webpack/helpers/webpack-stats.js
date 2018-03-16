@@ -7,9 +7,9 @@ module.exports = function(minimalist = false) { // eslint-disable-line
     const maximum = !minimalist;
     const prod = (MODE.production === true);
 
-    if (!prod && minimalist) {
-        return 'minimal';
-    }
+    // if (!prod && minimalist) {
+    //     return 'minimal';
+    // }
 
     return {
         // Fallback

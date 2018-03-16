@@ -11,7 +11,7 @@ const config = htmlConfig({
     template: PATHS.samples.entry.template,
     dest: PATHS.samples.dest,
     nameSpace: "sample",
-    sourceExtension: ".sample.js",
+    sourceExtension: ".sample.html",
     baseConfig: require('../../webpack.config.js')
 });
 

@@ -34,6 +34,22 @@ config.output = {
     library: 'uwhealth',
 };
 
+config.module.rules.push(
+    {
+        test: /\.(html|sv\.html|svelte)$/,
+        exclude: /node_modules/,
+        use: {
+            loader: 'svelte-loader',
+            options: {
+                generate: 'dom',
+                hydratable: true,
+                dev: true,
+                store: true
+            }
+        }
+    }
+);
+
 if (MODE.production) {
     const ClosureCompilerPlugin = require('webpack-closure-compiler');
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');

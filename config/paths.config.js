@@ -159,7 +159,7 @@ Object.assign(PATHS, {
             "root": `${src}/_samples/`
         },
         "entry": {
-            "all": `${src}/_samples/**/*.js`,
+            "all": `${src}/_samples/**/*.html`,
             "template": `${src}/_samples/_samples.base.hbs`
         },
         "dest": `${dist}/samples`

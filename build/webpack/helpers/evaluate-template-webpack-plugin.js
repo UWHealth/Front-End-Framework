@@ -42,26 +42,25 @@ evaluateTemplatePlugin.prototype.init = function(htmlPluginData, callback, compi
     const assetName = htmlPluginData.plugin.options.evalPlugin.assetName;
     const context = this.getSource(assetName, compilation, callback);
 
-    htmlPluginData.plugin.options.evaledTemplate = this.templateHtml(htmlPluginData, context);
+    htmlPluginData.plugin.options.evaledTemplate = this.templateHtml(htmlPluginData, context, callback);
 
     callback(null, htmlPluginData);
 };
 
-evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context, compilation) {
+evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context, callback) {
     const templateFn = htmlPluginData.plugin.options.evalPlugin.templating || this.templating;
 
     if (typeof templateFn !== 'function') {
-        compilation.errors.push(new Error('Templating option must be a function.'));
+        callback(new Error('EvalTemplatePlugin: Templating option must be a function.'));
     }
 
     try {
         return templateFn(context, htmlPluginData);
     }
     catch (err) {
-        compilation.errors.push(new Error(err));
+        callback(err);
     }
 
-    return htmlPluginData.html;
 };
 
 evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, callback) {
@@ -77,10 +76,8 @@ evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, ca
         return context;
     }
     catch (err) {
-        compilation.errors.push(new Error(err));
+        return callback(err);
     }
-
-    return '';
 };
 
 module.exports = evaluateTemplatePlugin;

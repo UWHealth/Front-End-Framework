@@ -31,8 +31,10 @@ function generateHtmlConfig(options) {
         template: PATHS.demos.entry.main,
         nameSpace: "html",
         sourceExtension: ".html.js",
+        assetExtension: '.js',
         dest: PATHS.root.dist,
-        baseConfig: {}
+        baseConfig: {},
+        debug: false
     }, options);
 
     options.folderName = path.relative(PATHS.root.dist, options.dest).replace(/\\/g, '/');
@@ -73,6 +75,24 @@ function boostrapConfig(options, folderName) {
     // Give js files a namespace
     config.output.filename = `[name].${options.nameSpace}.js`;
 
+    // Give html imports Svelte powers
+    config.module.rules.push(
+        {
+            test: /\.(html|sv\.html|svelte)$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'svelte-loader',
+                options: {
+                    generate: 'ssr',
+                    dev: true,
+
+                    hydratable: true,
+                    store: true
+                }
+            }
+        }
+    );
+
     return config;
 }
 
@@ -105,6 +125,7 @@ function addHtmlPlugins(options) {
 
     // Loop through files, adding html pages for each
     options.files.forEach((file) => {
+        console.log(file);
         const baseName = path.basename(file, options.sourceExtension);
         const entryName = path.join(options.folderName, baseName, baseName);
 
@@ -126,8 +147,11 @@ function addHtmlPlugins(options) {
         // Add evaluated demo to html data
         new EvalTemplatePlugin({
             templating: function(source) {
-                const render = typeof source.render !== 'undefined' ? source.render : source;
-                return typeof render === 'function' ? render() : render;
+                if (options.debug) {
+                    console.log(source);
+                }
+                const render = (typeof source.render !== 'undefined') ? source.render || source.toString() : source;
+                return (typeof render === 'function') ? render() : render;
             }
         })
     );

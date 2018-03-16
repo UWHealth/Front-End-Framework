@@ -2,7 +2,7 @@
  * @fileoverview - Webpack configuration for generating demo pages. Uses ./webpack.config.js as a base. Saves all files to dist/samples/
 **/
 
-const cwd       = process.cwd();
+const cwd = process.cwd();
 
 const htmlConfig = require('./helpers/create-html-config.js');
 const PATHS = require(`${cwd}/config/paths.config.js`);

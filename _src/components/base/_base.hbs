@@ -1,7 +1,12 @@
-{{> ../header/_header.hbs}}
+<!DOCTYPE html>
+<html class="no-js">
+    {{> ../header/_header.hbs}}
+    <body>
 
-{{#each components}}
-    {{{this}}}
-{{/each}}
+    {{#each components}}
+        {{{this}}}
+    {{/each}}
 
-{{> ../footer/_footer.hbs}}
+    {{> ../footer/_footer.hbs}}
+    </body>
+</html>
