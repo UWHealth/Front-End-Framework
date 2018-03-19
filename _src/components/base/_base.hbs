@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="no-js">
-    {{> ../header/_header.hbs}}
-    <body>
-
-    {{#each components}}
-        {{{this}}}
-    {{/each}}
-
-    {{> ../footer/_footer.hbs}}
-    </body>
+<html lang="en">
+{{> ../header/_header.hbs}}
+<body>
+    {{#if pageContent}}
+        {{{pageContent}}}
+    {{else if htmlWebpackPlugin.options.evaledTemplate}}
+    <div id="app">
+        {{{htmlWebpackPlugin.options.evaledTemplate}}}
+    </div>
+    {{/if}}
+{{> ../footer/_footer.hbs}}
+</body>
 </html>

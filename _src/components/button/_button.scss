@@ -49,6 +49,10 @@ Applying the `btn` class to anything will make it look like a button. Always dec
     @extend %one_whole;
 }
 
+.btn--compact {
+    padding: type-space(.375 .25);
+}
+
 .btn__icon {
     display: inline-block;
     flex: 0 1 auto;

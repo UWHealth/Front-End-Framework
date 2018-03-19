@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +19,13 @@
     <!--<link rel="alternate" href="https://feeds2.feedburner.com/uwsmph/news" type="application/rss+xml" title="RSS 2.0">-->
     <!--<link rel="alternate" href="http://example.com/feed.atom" type="application/atom+xml" title="Atom 0.3">-->
 
-    <title>{{{pageTitle}}}</title>
+    <title>
+    {{~#if pageTitle}}
+        {{~{pageTitle}~}}
+    {{~else if htmlWebpackPlugin.options.pageTitle~}}
+        {{~{htmlWebpackPlugin.options.pageTitle}~}}
+    {{~/if~}}
+    </title>
 
     <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="screen" href="/public/css/main.css">
     <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="print" href="/public/css/print.css">

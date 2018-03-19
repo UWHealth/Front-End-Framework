@@ -1,0 +1,31 @@
+<Route path="/components/button"><Button /></Route>
+<Route path="/components/generic"><Generic /></Route>
+<!-- <Route path="/components/:demo" bind:match></Route>-->
+
+<script>
+    import Route from 'svelte-routing/Route.html';
+
+    import Button from '@/components/button/button.demo.html';
+    import Generic from '@/components/generic/generic.demo.html';
+    import capitalize from '@/components/tools/title-case.js';
+
+    export default {
+        data(){
+            return {
+                Button,
+                Generic
+            }
+        },
+        components: {
+            Route,
+            Button,
+            Generic
+        },
+        methods: {
+            capitalize,
+            getComponent(componentName) {
+                return this.data[capitalize(componentName)]
+            }
+        }
+    }
+</script>

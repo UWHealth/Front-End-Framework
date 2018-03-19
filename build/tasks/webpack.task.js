@@ -32,7 +32,8 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
             }
 
             if (stats.hasWarnings()) {
-                new LOG('Webpack', info.warnings).info();
+                console.log('warning');
+                //new LOG('Webpack', info.warnings).info();
             }
 
             new LOG('Webpack', stats.toString(statsConfig)).info();

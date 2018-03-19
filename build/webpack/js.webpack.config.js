@@ -11,6 +11,7 @@ const cwd    = process.cwd();
 const PATHS = require(`${cwd}/config/paths.config.js`);
 const STATS = require('./helpers/webpack-stats.js')();
 const MODE  = require('../tools/mode.js');
+const BROWSERS = require(`${cwd}/package.json`).browserslist;
 
 const config = cloneDeep(require(`${cwd}/webpack.config.js`));
 
@@ -37,16 +38,17 @@ config.output = {
 config.module.rules.push(
     {
         test: /\.(html|sv\.html|svelte)$/,
-        exclude: /node_modules/,
-        use: {
-            loader: 'svelte-loader',
-            options: {
-                generate: 'dom',
-                hydratable: true,
-                dev: true,
-                store: true
+        use: [
+            {
+                loader: 'svelte-loader',
+                options: {
+                    generate: 'dom',
+                    hydratable: true,
+                    dev: true,
+                    store: true
+                }
             }
-        }
+        ]
     }
 );
 

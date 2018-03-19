@@ -3,6 +3,9 @@ import domReady from "@/js/modules/dom-ready";
 import Page from '@/_samples/svelte.sample.html';
 import {Store} from 'svelte/store.js';
 
+import { createHistory } from 'svelte-routing';
+import App from '@/components/demo/demo.routes.html';
+
 let main;
 let store;
 
@@ -13,16 +16,23 @@ domReady(() => {
 
     store = new Store();
 
-    main = new Page({
-        target: document.querySelector('main'),
-        hydrate: true,
-        data: {},
-        store
-    });
+    if (document.getElementById('app')) {
+        createHistory('browser');
+        new App({
+            target: document.getElementById('app'),
+            hydrate: true,
+            store
+        });
+    }
 
-    store.set({'Buttons': main.refs});
-    store.set({'Page': main});
-
+    // main = new Page({
+    //     target: document.querySelector('body'),
+    //     hydrate: true,
+    //     store
+    // });
+    //
+    // store.set({'Buttons': main.refs});
+    // store.set({'Page': main});
 });
 
 export default store;

@@ -79,7 +79,6 @@ function boostrapConfig(options, folderName) {
     config.module.rules.push(
         {
             test: /\.(html|sv\.html|svelte)$/,
-            exclude: /node_modules/,
             use: {
                 loader: 'svelte-loader',
                 options: {
@@ -125,7 +124,6 @@ function addHtmlPlugins(options) {
 
     // Loop through files, adding html pages for each
     options.files.forEach((file) => {
-        console.log(file);
         const baseName = path.basename(file, options.sourceExtension);
         const entryName = path.join(options.folderName, baseName, baseName);
 
@@ -136,6 +134,7 @@ function addHtmlPlugins(options) {
                 inject: false,
                 cache: true,
                 showErrors: true,
+                pageTitle: baseName,
                 evalPlugin: {
                     assetName: `${entryName}.${options.nameSpace}.js`
                 }
@@ -146,11 +145,11 @@ function addHtmlPlugins(options) {
     plugins.push(
         // Add evaluated demo to html data
         new EvalTemplatePlugin({
-            templating: function(source) {
+            templating: function(source) { // eslint-disable-line
                 if (options.debug) {
                     console.log(source);
                 }
-                const render = (typeof source.render !== 'undefined') ? source.render || source.toString() : source;
+                const render = (source && typeof source.render !== 'undefined') ? source.render || source.toString() : source;
                 return (typeof render === 'function') ? render() : render;
             }
         })

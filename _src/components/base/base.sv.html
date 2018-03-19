@@ -1,19 +1,13 @@
-{{{pageHead}}}
-{{{pageStart}}}
-<main>
+
+<main class="{{mainClass}}">
     <slot></slot>
 </main>
-{{{pageEnd}}}
 
 <script>
     export default {
         data(){
             return {
-                pageHead: require('../header/_header.hbs')({
-                    pageTitle: "Svelte Test"
-                }),
-                pageStart: '<body>',
-                pageEnd: '</body></html>'
+                mainClass: "main"
             }
         }
     };

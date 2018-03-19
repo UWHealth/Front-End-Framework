@@ -13,7 +13,6 @@ const Demo = function(pageTitle, variants) {
     });
 
     this.render = function(locals) {
-        context.locals = locals;
         return template(context);
     };
 

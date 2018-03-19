@@ -73,8 +73,9 @@ Object.assign(PATHS, {
             "root": `${src}/components/`
         },
         "entry": {
-            "all": `${src}/components/**/*.demo.js`,
-            "template": `${src}/components/demo/_demo.base.hbs`
+            "handlebars": `${src}/components/**/*.demo.js`,
+            "svelte": `${src}/components/**/*.demo.html`,
+            "template": `${src}/components/base/_base.hbs`
         },
         "dest": `${dist}/components`
     },

@@ -1,0 +1,31 @@
+<Demo demoTitle="Generic">
+    <div slot="header">
+        <Generic/>
+    </div>
+    <div slot="variants">
+        {{#each widths as componentType}}
+            <Generic type={{componentType}} body="{{capitalize(componentType)}}" header='Generic {{capitalize(componentType)}} "Card"'/>
+        {{/each}}
+    </div>
+</Demo>
+
+<script>
+    import Generic from './generic.html';
+    import Demo from '../demo/demo.wrapper.html';
+    import capitalize from '../tools/title-case.js'
+
+    export default {
+        components: {
+            Demo,
+            Generic
+        },
+        data() {
+            return {
+                widths: ['normal', 'wide', 'compact']
+            }
+        },
+        helpers: {
+            capitalize
+        }
+    }
+</script>
