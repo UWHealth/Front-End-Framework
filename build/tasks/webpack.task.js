@@ -6,6 +6,7 @@
 const webpack = require('webpack');
 
 const webpackConfigs = require('../webpack.build.js');
+const browserSync = require('./browserSync.task.js');
 
 const MODE = require('../tools/mode.js');
 const LOG = require('../tools/logger.js');
@@ -52,19 +53,15 @@ module.exports = (done) => {
 
     // const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
     // const compiler = webpack(webpackConfigs);
+    //
     // compiler.apply(new FriendlyErrorsWebpackPlugin({
     //     compilationSuccessInfo: {
-    //         messages: ['You application is running here http://localhost:3000'],
-    //         notes: ['Some additionnal notes to be displayed unpon successful compilation']
+    //         // messages: ['You application is running here http://localhost:3000'],
+    //         // notes: ['Some additional notes to be displayed unpon successful compilation']
     //     },
-    //     onErrors: function (severity, errors) {
-    //
-    //     },
-    //     // should the console be cleared between each compilation?
+    //     onErrors: function (severity, errors) {},
     //     // default is true
     //     clearConsole: false,
-    //
-    //     // add formatters and transformers (see below)
     //     additionalFormatters: [],
     //     additionalTransformers: []
     //

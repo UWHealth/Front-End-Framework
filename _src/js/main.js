@@ -1,12 +1,7 @@
 import domReady from "@/js/modules/dom-ready";
-
-import Page from '@/_samples/svelte.sample.html';
 import {Store} from 'svelte/store.js';
-
 import { createHistory } from 'svelte-routing';
-import App from '@/components/demo/demo.routes.html';
 
-let main;
 let store;
 
 domReady(() => {
@@ -15,14 +10,21 @@ domReady(() => {
     }
 
     store = new Store();
+    const appElement = document.getElementById('app');
 
-    if (document.getElementById('app')) {
-        createHistory('browser');
-        new App({
-            target: document.getElementById('app'),
-            hydrate: true,
-            store
-        });
+    if (appElement) {
+        import(
+            /* webpackChunkName: "routes" */
+            '@/components/demo/demo.routes.html'
+        ).then((App) => {
+            createHistory('browser');
+            /* eslint-disable no-new */
+            new App.default({
+                target: appElement,
+                hydrate: true,
+                store
+            });
+        }).catch((err) => console.log(err));
     }
 
     // main = new Page({

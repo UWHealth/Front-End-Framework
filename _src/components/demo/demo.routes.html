@@ -1,31 +1,39 @@
-<Route path="/components/button"><Button /></Route>
-<Route path="/components/generic"><Generic /></Route>
-<!-- <Route path="/components/:demo" bind:match></Route>-->
+<nav>
+    <NavLink to="/components/button/">Buttons</NavLink>
+    <NavLink to="/components/generic/">Generic</NavLink>
+    <NavLink to="/components/feed/">Feed</NavLink>
+</nav>
+
+<Route path="/components/:demo" bind:match>
+    {{#if match && match.params.demo}}
+        {{#await Dynamic(match.params.demo)}}
+            loading...
+        {{then response}}
+            <:Component {response.default}/>
+        {{catch error}}
+            {{error}}
+        {{/await}}
+    {{/if}}
+</Route>
 
 <script>
     import Route from 'svelte-routing/Route.html';
-
-    import Button from '@/components/button/button.demo.html';
-    import Generic from '@/components/generic/generic.demo.html';
+    import NavLink from 'svelte-routing/NavLink.html';
     import capitalize from '@/components/tools/title-case.js';
 
     export default {
-        data(){
+        data() {
             return {
-                Button,
-                Generic
+                buttonUrl: 'button/button',
+                routeUrl: ''
             }
         },
         components: {
             Route,
-            Button,
-            Generic
+            NavLink
         },
-        methods: {
-            capitalize,
-            getComponent(componentName) {
-                return this.data[capitalize(componentName)]
-            }
+        helpers: {
+            Dynamic: (routeUrl) => import(/* webpackChunkName: component[hash].js */ '@/components/' + routeUrl + '/' + routeUrl + '.demo.html')
         }
-    }
+    };
 </script>

@@ -1,7 +1,7 @@
 {
     "parser":           "babel-eslint",
     "extends":          "standard",
-    "plugins":          [],
+    "plugins":          ["eslint-plugin-html"],
     "rules": {
         "indent":               ["warn", 4],
         "semi":                 ["warn", "always"],

@@ -44,7 +44,7 @@ config.module.rules.push(
                 options: {
                     generate: 'dom',
                     hydratable: true,
-                    dev: true,
+                    dev: !MODE.production,
                     store: true
                 }
             }
@@ -54,9 +54,10 @@ config.module.rules.push(
 
 if (MODE.production) {
     const ClosureCompilerPlugin = require('webpack-closure-compiler');
+    const ClosurePlugin = require('closure-webpack-plugin');
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-    config.devtool = false;
+    config.devtool = 'source-map';
     config.node = false;
 
     config.plugins.push(
@@ -65,7 +66,27 @@ if (MODE.production) {
         new webpack.HashedModuleIdsPlugin(),
 
         // Remove module.hot code from modules
-        new webpack.NoHotModuleReplacementPlugin(),
+        // new webpack.NoHotModuleReplacementPlugin(),
+
+        // new ClosureCompilerPlugin({
+        //     compiler: {
+        //         language_in: 'ECMASCRIPT6',
+        //         language_out: 'ECMASCRIPT5',
+        //         compilation_level: 'SIMPLE',
+        //         dependency_mode: 'LOOSE',
+        //         rewrite_polyfills: false
+        //     },
+        //     concurrency: 3
+        // }),
+
+        // new ClosurePlugin({
+        //     mode: 'STANDARD'
+        // }, {
+        //     language_in: 'ECMASCRIPT6',
+        //     language_out: 'ECMASCRIPT5',
+        //     compilation_level: 'SIMPLE',
+        //     //rewrite_polyfills: false,
+        // })
 
         new UglifyJsPlugin({
             uglifyOptions: {
@@ -76,18 +97,8 @@ if (MODE.production) {
                 comments: false,
                 // exclude: /\/(t4|hbs)./
             },
-            parallel: true
-        }),
-
-        new ClosureCompilerPlugin({
-            compiler: {
-                language_in: 'ECMASCRIPT6',
-                language_out: 'ECMASCRIPT5',
-                compilation_level: 'SIMPLE',
-                dependency_mode: 'LOOSE',
-                rewrite_polyfills: false
-            },
-            concurrency: 3
+            parallel: true,
+            sourceMap: true
         }),
     );
 }

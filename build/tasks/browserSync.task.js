@@ -54,4 +54,4 @@ module.exports = function() { // eslint-disable-line
         });
 };
 
-module.exports.browserSync = browserSync;
+module.exports.browserSync = browserSync.instance;

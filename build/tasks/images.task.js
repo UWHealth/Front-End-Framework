@@ -3,7 +3,7 @@
 **/
 
 const gulp = require('gulp');
-const browserSync = require('browser-sync');
+const browserSync = require('./browserSync.task.js').browserSync;
 const imagemin = require('gulp-imagemin');
 
 const plumber = require('gulp-plumber');
@@ -11,8 +11,8 @@ const pngquant = require('imagemin-pngquant');
 const changed = require('gulp-changed');
 
 const LOG   = require('../tools/logger.js');
-const PATHS = require('../../config/paths.config.js');
-const reload = browserSync.reload;
+const PATHS = require(`${process.cwd()}/config/paths.config.js`);
+const reload = (browserSync.reload) ? browserSync.reload : browserSync;
 
 module.exports = function() {
     return gulp
@@ -32,7 +32,4 @@ module.exports = function() {
             use: [pngquant()]
         }))
         .pipe(gulp.dest(PATHS.images.dest))
-        .pipe(reload({
-            stream: true
-        }));
 };

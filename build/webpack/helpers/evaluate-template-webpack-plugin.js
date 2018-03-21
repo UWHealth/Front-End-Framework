@@ -66,7 +66,7 @@ evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context
 evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, callback) {
     try {
         const source = compilation.assets[assetName].source();
-        const context = _eval(source);
+        const context = _eval(source, assetName, {fetch: false, window: false, document: false}, true);
 
         // Allow for es6 modules
         if (context.default) {

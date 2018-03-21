@@ -10,6 +10,7 @@
         </div>
         {{/each}}
     </div>
+
     <style>
         .button-holder {
             display: inline-block;
@@ -21,7 +22,7 @@
 <script>
     import Button from './button.sv.html';
     import Demo from '../demo/demo.wrapper.html';
-    import capitalize from '../tools/title-case.js'
+    import capitalize from '../tools/title-case.js';
 
     export default {
         components: {
@@ -31,10 +32,10 @@
         data() {
             return {
                 widths: ['normal', 'wide', 'compact']
-            }
+            };
         },
         helpers: {
             capitalize
         }
-    }
+    };
 </script>
