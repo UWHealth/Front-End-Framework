@@ -1,0 +1,12 @@
+<button class="btn{{#if type}} btn--{{#each type}}{{{this}}}{{/each}}{{/if}}">
+    <span class="btn__body">
+        {{~{body}~}}
+    </span>
+    {{~#if icon~}}
+        <span class="btn__icon">
+            {{~{icon}~}}
+        </span>
+    {{~else if iconUrl~}}
+        <img class="btn__icon btn__icon--image" src="{{~{iconUrl}~}}">
+    {{/if}}
+</button>

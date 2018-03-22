@@ -1,0 +1,31 @@
+//Create grid classes
+
+@include grid-init();
+
+.row {
+    @extend %grid;
+}
+
+.row--narrow {
+    @extend %grid_narrow;
+}
+
+.row--full {
+	@extend %grid_full;
+}
+
+.row > * {
+	@extend %grid_reset;
+}
+
+.column {
+    @extend %grid_item;
+}
+
+.w-half {
+	@extend %one_half;
+}
+
+.w-quarter {
+	@extend %one_quarter;
+}

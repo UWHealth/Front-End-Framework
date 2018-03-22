@@ -1,0 +1,39 @@
+{
+    "parser":           "babel-eslint",
+    "extends":          "standard",
+    "plugins":          ["eslint-plugin-html"],
+    "rules": {
+        "indent":               ["warn", 4],
+        "semi":                 ["warn", "always"],
+        "no-tabs":              "off",
+        "complexity":           ["warn", 5],
+        "comma-dangle":         ["warn", "only-multiline"],
+        "quotes":               "off",
+        "new-cap":              "off",
+        "operator-linebreak":   "off",
+        "brace-style":          ["warn", "stroustrup", { "allowSingleLine": true }],
+        "no-trailing-spaces":   ["warn", { "skipBlankLines": true }],
+        "space-before-function-paren": "off",
+        "space-before-blocks":  ["warn", "always"],
+        "spaced-comment":       ["warn", "always", { "exceptions": ["-", "+"] }],
+        "no-multiple-empty-lines": ["warn", { "max": 2 }],
+        "padded-blocks":        ["warn", "never"],
+        "no-multi-spaces":      ["warn", {
+            "exceptions": {
+                "BinaryExpression": true,
+                "VariableDeclarator": true,
+                "Property": true,
+                "ImportDeclaration": true
+            },
+            "ignoreEOLComments": true
+        }]
+    },
+    "parserOptions":    {
+        "sourceType":       "module"
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "nashorn": true
+    }
+}

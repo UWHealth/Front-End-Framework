@@ -1,0 +1,59 @@
+<:Head>
+    <title>{{$pageTitle}}</title>
+    <link rel="stylesheet" href="/public/css/demo/demo.css">
+</:Head>
+
+<nav ref:navigation>
+    <NavLink to="/components/button/">Buttons</NavLink>
+    <NavLink to="/components/generic/">Generic</NavLink>
+    <NavLink to="/components/feed/">Feed</NavLink>
+</nav>
+
+<Route ref:router path="/components/:demo" bind:match>
+    {{#if match && match.params.demo}}
+
+        {{#await Dynamic(match.params.demo)}}
+            loading...
+        {{then response}}
+            <div transition:fade='{duration: 1000}'>
+                <:Component {response.default}/>
+            </div>
+        {{catch error}}
+            {{error}}
+        {{/await}}
+    {{/if}}
+</Route>
+
+<script>
+    import Route from 'svelte-routing/Route.html';
+    import NavLink from 'svelte-routing/NavLink.html';
+    import store from './demo.store.js';
+    import { fade } from 'svelte-transitions';
+    import capitalize from '../tools/title-case.js';
+
+    export default {
+        data() {
+            return {};
+        },
+        transitions: { fade },
+        components: {
+            Route,
+            NavLink
+        },
+        helpers: {
+            Dynamic: (routeUrl) => import('@/components/' + routeUrl + '/' + routeUrl + '.demo.html')
+        },
+        oncreate() {
+            console.log('Demo Router Creation:', this);
+            this.refs.router.observe('pathname', (pathname) => {
+                store.set({'url': pathname, 'pageTitle': this.refs.router});
+            });
+
+            this.refs.router.observe('match', (match) => {
+                store.set({'pageTitle': capitalize(match.params.demo)});
+            });
+        },
+        setup(DemoRouter) {},
+        store: () => store
+    };
+</script>

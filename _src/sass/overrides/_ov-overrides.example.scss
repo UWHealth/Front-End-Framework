@@ -1,0 +1,41 @@
+//------------------------------------
+//      $Overrides
+//------------------------------------
+// Final import. Include any overrides
+// or high-specificity selectors.
+//-----------------------------------
+// sass-lint:disable no-important
+
+
+.visually-hidden {
+    position: absolute;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    // sass-lint:disable-all
+    clip: rect(0px, 0px, 0px, 0px);
+    clip: rect(0 0 0 0);
+    transition: all 300ms ease-in-out;
+    // sass-lint:enable-all
+}
+
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus {
+    position: static;
+    margin: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+}
+
+.contain {
+    position: relative !important;
+}
+
+.clearfix {
+    @extend %clearfix;
+}

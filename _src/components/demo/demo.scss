@@ -1,0 +1,44 @@
+//Global functions and variables
+@import '../../sass/tools/t-import';
+
+//Settings
+@import '../../../config/sass.config';
+
+.demo-header {
+    display: flex;
+    align-items: center;
+    background-color: color('bg', 'dark');
+    background-image: linear-gradient(transparent 0%, color('links', 'lightest') 100%);
+    width: 100%;
+    height: 70vh;
+    max-height: type-space(25);
+}
+
+.demo-header__title {
+    padding-bottom: type-space(1);
+    letter-spacing: .01em;
+    color: rgba(color('links', 'darker'), .6);
+    font-weight: normal;
+}
+
+.demo-body {
+    padding-top: type-space(1);
+}
+
+.demo-body__head,
+.demo-category {
+    font-weight: normal;
+}
+
+.demo-body__head {
+    @include font-size($type-h4-size, $type-h4-lh);
+    margin-bottom: type-space(1.25);
+    border-bottom: 2px solid rgba(color('type', 'light'), .75);
+    padding-bottom: calc(#{type-space(.5)} - 1px);
+    color: color('type', 'light');
+}
+
+.demo-category {
+    @include font-size($type-h6-size, $type-h6-lh);
+    padding-top: type-space(1.5);
+}
