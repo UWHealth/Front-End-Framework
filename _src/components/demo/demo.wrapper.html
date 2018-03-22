@@ -16,29 +16,33 @@
 
     <Base mainClass="demo-body">
         <div class="wrap">
+            {{#if variants || variantTitle}}
             <h2 class="demo-body__head">
                 {{variantTitle || demoTitle}} Variants
             </h2>
             <slot name="variants"></slot>
+            {{/if}}
         </div>
     </Base>
 </div>
 
 <script>
     import Base from '../base/base.sv.html';
+    import store from './demo.store.js';
 
     export default {
+        store: () => store,
         components: {
             Base
         },
         data() {
             return {
                 demoTitle: 'Demo',
-                variantTitle: false
+                variantTitle: false,
+                variants: false
             };
         },
         oncreate () {
-            console.log(this);
             if (this.slots.variants) {
                 this.set({'variants': true});
             }

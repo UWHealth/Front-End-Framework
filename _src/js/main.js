@@ -1,28 +1,25 @@
 import domReady from "@/js/modules/dom-ready";
-import {Store} from 'svelte/store.js';
 import { createHistory } from 'svelte-routing';
 
-let store;
+let app;
 
 domReady(() => {
     if (process.env.NODE_ENV !== 'production') {
         import('./dev/keyboard-shortcuts.js').then((keyboardSC) => keyboardSC.init());
     }
 
-    store = new Store();
     const appElement = document.getElementById('app');
 
     if (appElement) {
-        import(
+        app = import(
             /* webpackChunkName: "routes" */
             '@/components/demo/demo.routes.html'
         ).then((App) => {
             createHistory('browser');
             /* eslint-disable no-new */
-            new App.default({
+            return new App.default({
                 target: appElement,
-                hydrate: true,
-                store
+                hydrate: true
             });
         }).catch((err) => console.log(err));
     }
@@ -37,4 +34,4 @@ domReady(() => {
     // store.set({'Page': main});
 });
 
-export default store;
+export default app;

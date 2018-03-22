@@ -85,7 +85,7 @@ config.module.rules = [
 ];
 
 if (MODE.production) {
-    config.devtool = "none";
+    config.devtool = "source-map";
 }
 
 module.exports = config;

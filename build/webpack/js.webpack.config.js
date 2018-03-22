@@ -68,16 +68,18 @@ if (MODE.production) {
         // Remove module.hot code from modules
         // new webpack.NoHotModuleReplacementPlugin(),
 
-        // new ClosureCompilerPlugin({
-        //     compiler: {
-        //         language_in: 'ECMASCRIPT6',
-        //         language_out: 'ECMASCRIPT5',
-        //         compilation_level: 'SIMPLE',
-        //         dependency_mode: 'LOOSE',
-        //         rewrite_polyfills: false
-        //     },
-        //     concurrency: 3
-        // }),
+        new ClosureCompilerPlugin({
+            compiler: {
+                language_in: 'ECMASCRIPT6',
+                language_out: 'ECMASCRIPT5',
+                compilation_level: 'SIMPLE',
+                dependency_mode: 'LOOSE',
+                rewrite_polyfills: false,
+                create_source_map: true
+            },
+
+            concurrency: 3
+        }),
 
         // new ClosurePlugin({
         //     mode: 'STANDARD'

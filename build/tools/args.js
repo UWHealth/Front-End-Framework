@@ -29,7 +29,7 @@ yargs.options({
         alias: ['dir'],
         describe: 'Show directories instead of index.html',
         type: 'boolean',
-        default: true,
+        default: false,
         group: 'Server:'
     },
     'bsport': {

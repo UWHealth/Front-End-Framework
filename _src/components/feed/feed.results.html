@@ -1,0 +1,55 @@
+{{#if results}}
+    {{#each results.result as result, i}}
+    <div transition:slide='{duration: 300, delay: Math.min(900, ((i + 1.5) * 100)), easing: cubicOut }' class="item">
+        <div class="media-object">
+            <div class="media-object__media">
+                {{{description(result.description).image}}}
+            </div>
+            <div class="media-object__body">
+                <strong>{{result.title}}</strong>
+                <p>{{{description(result.description).text}}}</p>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+{{/if}}
+
+<script>
+    import {slide} from 'svelte-transitions';
+    import { cubicOut } from 'eases-jsnext';
+
+    export default {
+        transitions: { slide },
+        helpers: {
+            cubicOut,
+            description: (description) => {
+                let text = Array.isArray(description) ? description[2] : description;
+                let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);
+                image = image ? image[0] : '';
+                text = text.replace(image, '');
+
+                return {text: decodeEntities(text), image: decodeEntities(image)};
+            }
+        }
+    };
+
+    var decodeEntities = (function() {
+        // this prevents any overhead from creating the object each time
+        var element = document ? document.createElement('div') : '';
+
+        function decodeHTMLEntities (str) {
+            if (str && typeof str === 'string') {
+                // strip script/html tags
+                str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+                str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+                element.innerHTML = str;
+                str = element.textContent;
+                element.textContent = '';
+            }
+
+            return str;
+        }
+
+        return decodeHTMLEntities;
+    })();
+</script>

@@ -1,4 +1,4 @@
-<Demo demoTitle="Buttons">
+<Demo demoTitle="Buttons" variants="{{true}}">
     <div slot="header">
         <Button />
         <Button type="wide" body="Wide" />
@@ -36,6 +36,9 @@
         },
         helpers: {
             capitalize
+        },
+        oncreate() {
+            this.root.store.set({'pageTitle': 'Buttons'})
         }
     };
 </script>

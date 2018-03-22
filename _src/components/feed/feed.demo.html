@@ -1,39 +1,28 @@
-<Demo demoTitle="Feed Example">
+<Demo demoTitle="Feed Example" variants="{{true}}">
     <div slot="header"></div>
     <div slot="variants">
-    {{#await feed}}
-        <p>Getting Feed...</p>
-    {{then response}}
-        {{#if response.results}}
-            {{#each response.results.result as result, i}}
-            <div transition:slide='{duration: 300, delay: Math.min(900, ((i + 1.5) * 100)), easing: cubicOut }' class="item">
-                <div class="media-object">
-                    <div class="media-object__media">
-                        {{{description(result.description).image}}}
-                    </div>
-                    <div class="media-object__body">
-                        <strong>{{result.title}}</strong>
-                        <p>{{{description(result.description).text}}}</p>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
-        {{/if}}
-    {{catch error}}
-        <p>{{error}}</p>
-    {{/await}}
+    {{#if feedResults}}
+        <Results results="{{feedResults}}"/>
+    {{else}}
+        {{#await feed}}
+            <p>Loading Feed...</p>
+        {{then response}}
+            <Results results="{{response.results}}"/>
+        {{catch error}}
+            <p>{{error}}</p>
+        {{/await}}
+    {{/if}}
     </div>
 </Demo>
 
 <script>
+    import store from '@/components/demo/demo.store.js';
     import Demo from '../demo/demo.wrapper.html';
-    import {slide} from 'svelte-transitions';
-    import {Store} from 'svelte/store';
-    import { cubicOut } from 'eases-jsnext';
+    import Results from './feed.results.html';
 
     export default {
-        components: { Demo },
-        transitions: { slide },
+        store: () => store,
+        components: { Demo, Results },
 
         data() {
             return {
@@ -44,46 +33,18 @@
 
         oncreate() {
             console.log(this);
+            this.observe('feed', (feed) => {
+                feed.then((feedResults) => {
+                    this.set({"feedResults": feedResults.results})
+                });
+            });
         },
 
         computed: {
             feed: (feedUrl) => !window.fetch ? '{}' : fetch(feedUrl).then(r => r.json()),
         },
 
-        helpers: {
-            cubicOut,
-            description: (description) => {
-                let text = Array.isArray(description) ? description[2] : description;
-                let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);
-                image = image ? image[0] : '';
-                text = text.replace(image, '');
-
-
-                return {text: decodeEntities(text), image: decodeEntities(image)};
-            }
-        },
-
         methods: {}
 
     };
-
-    var decodeEntities = (function() {
-        // this prevents any overhead from creating the object each time
-        var element = document ? document.createElement('div') : '';
-
-        function decodeHTMLEntities (str) {
-            if (str && typeof str === 'string') {
-                // strip script/html tags
-                str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
-                str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-                element.innerHTML = str;
-                str = element.textContent;
-                element.textContent = '';
-            }
-
-            return str;
-        }
-
-        return decodeHTMLEntities;
-    })();
 </script>

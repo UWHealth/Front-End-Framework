@@ -12,6 +12,7 @@ const cloneDeep = require('lodash.clonedeep');
 const cwd = process.cwd();
 const STATS = require("./webpack-stats.js");
 const PATHS = require(`${cwd}/config/paths.config.js`);
+const MODE = require(`${cwd}/build/tools/mode.js`);
 
 
 /**
@@ -25,7 +26,7 @@ const PATHS = require(`${cwd}/config/paths.config.js`);
  * @param  {Object} baseConfig   Webpack config that should serve as a basis for the new config.
  * @return {Object}              Webpack configuration object with correct plugins/settings.
  */
-function generateHtmlConfig(options) {
+function createHtmlConfig(options) {
     options = Object.assign({}, {
         src: '',
         template: PATHS.demos.entry.main,
@@ -68,7 +69,7 @@ function boostrapConfig(options, folderName) {
     config.stats = STATS(true);
 
     // Make node compatible so we can evaluate templates in memory
-    config.devtool = false;
+    //config.devtool = false;
     config.target = "node";
     config.output.libraryTarget = "umd";
 
@@ -83,8 +84,7 @@ function boostrapConfig(options, folderName) {
                 loader: 'svelte-loader',
                 options: {
                     generate: 'ssr',
-                    dev: true,
-
+                    dev: !MODE.production,
                     hydratable: true,
                     store: true
                 }
@@ -158,4 +158,4 @@ function addHtmlPlugins(options) {
     return plugins;
 }
 
-module.exports = generateHtmlConfig;
+module.exports = createHtmlConfig;

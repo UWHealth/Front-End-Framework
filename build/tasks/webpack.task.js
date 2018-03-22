@@ -6,7 +6,6 @@
 const webpack = require('webpack');
 
 const webpackConfigs = require('../webpack.build.js');
-const browserSync = require('./browserSync.task.js');
 
 const MODE = require('../tools/mode.js');
 const LOG = require('../tools/logger.js');
@@ -45,8 +44,14 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
 };
 
 module.exports = (done) => {
-    if (!MODE.production || MODE.local) {
-        webpackConfigs.forEach((config) => { config.watch = true; });
+    if (MODE.local || !MODE.production) {
+        webpackConfigs.forEach((config) => {
+            config.watch = true;
+            config.watchOptions = {
+                poll: 1000,
+                ignored: /node_modules/
+            };
+        });
     }
 
     webpack(webpackConfigs, (err, stats) => webpackLogger(err, stats, done));
