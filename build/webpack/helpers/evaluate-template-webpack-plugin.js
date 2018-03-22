@@ -60,14 +60,13 @@ evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context
     catch (err) {
         callback(err);
     }
-
 };
 
-evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, callback) {
+evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, callback) { //eslint-disable-line
     try {
-        const source = compilation.assets[assetName].source();
+        const asset = compilation.assets[assetName];
+        const source = asset ? asset.source() : 'function(){return {"context": ""}}';
         const context = _eval(source, assetName, {fetch: false, window: false, document: false}, true);
-
         // Allow for es6 modules
         if (context.default) {
             return typeof context.default === 'function' ? context.default() : context.default;

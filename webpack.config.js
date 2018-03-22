@@ -26,7 +26,12 @@ const config = {
     },
     output: {},
     plugins: [],
-    module: {}
+    module: {},
+    optimization: {
+        splitChunks: {
+            chunks: "async"
+        }
+    }
 };
 
 /*

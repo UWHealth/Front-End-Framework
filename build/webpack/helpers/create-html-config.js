@@ -69,7 +69,7 @@ function boostrapConfig(options, folderName) {
     config.stats = STATS(true);
 
     // Make node compatible so we can evaluate templates in memory
-    //config.devtool = false;
+    config.devtool = MODE.production ? 'source-map' : false;
     config.target = "node";
     config.output.libraryTarget = "umd";
 

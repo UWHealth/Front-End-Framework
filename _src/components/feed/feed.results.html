@@ -1,16 +1,17 @@
 {{#if results}}
-    {{#each results.result as result, i}}
-    <div transition:slide='{duration: 300, delay: Math.min(900, ((i + 1.5) * 100)), easing: cubicOut }' class="item">
-        <div class="media-object">
-            <div class="media-object__media">
+    {{#each results.result.slice(pageStart, pageEnd) as result, i}}
+        <div transition:slide class="media-object">
+            {{#if description(result.description).image}}
+                <div class="media-object__media">
                 {{{description(result.description).image}}}
-            </div>
+                </div>
+            {{/if}}
             <div class="media-object__body">
-                <strong>{{result.title}}</strong>
+                <strong>{{i}}:{{result.title}}</strong>
                 <p>{{{description(result.description).text}}}</p>
             </div>
         </div>
-    </div>
+        <hr>
     {{/each}}
 {{/if}}
 
@@ -19,17 +20,39 @@
     import { cubicOut } from 'eases-jsnext';
 
     export default {
+        data() {
+            return {
+                MAX_PER_PAGE: 25,
+                page: 1
+            };
+        },
+        computed: {
+            pageStart: (page, MAX_PER_PAGE) => {
+                return page === 1 ? 0 : Math.max(0, page * (MAX_PER_PAGE + 1));
+            },
+            pageEnd: (pageStart, MAX_PER_PAGE) => {
+                return pageStart + MAX_PER_PAGE + 1;
+            }
+        },
         transitions: { slide },
         helpers: {
             cubicOut,
             description: (description) => {
                 let text = Array.isArray(description) ? description[2] : description;
                 let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);
-                image = image ? image[0] : '';
+                image = image ? image[0] :
+                    description[1] ?
+                        '&lt;img src="https://uconnect.wisc.edu' + description[1] + '"/&gt;'
+                        : '';
                 text = text.replace(image, '');
 
                 return {text: decodeEntities(text), image: decodeEntities(image)};
             }
+        },
+        oncreate() {
+            this.observe('page', (page) => {
+                window.scroll(0, 0);
+            });
         }
     };
 
