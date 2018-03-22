@@ -36,7 +36,7 @@ Sass files are imported in order from lowest specificity to highest.
 @import 'tools/t-import';
 
 //Settings
-@import 'config';
+@import '../../config/sass.config';
 
 
 //----------------------------
@@ -72,6 +72,7 @@ Sass files are imported in order from lowest specificity to highest.
 //OOCSS styles and base-level classes
 // (+1 specificity)
 @import '../components/button/button';
+@import '../components/hero/hero';
 
 //Section-specific and theme-/skin-based styles
 //(+2-4 specificity)

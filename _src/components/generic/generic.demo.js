@@ -1,6 +1,5 @@
-const generic = require('./_generic.hbs');
-const html = require('../tools/_html.hbs');
-const Demo = require('../demo/demo.js');
+import generic from './_generic.hbs';
+import Demo from '@/components/demo/demo.js';
 
 
 module.exports = new Demo(
@@ -9,11 +8,13 @@ module.exports = new Demo(
         "components": [
             generic({
                 componentName: "generic",
-                body: "Baseline Generic"
+                body: "Baseline Generic",
+                componentClass: "generic"
             }),
             generic({
                 componentName: "generic",
-                body: "Even more Generic"
+                body: "Even more Generic",
+                componentClass: "generic"
             })
         ]
     }

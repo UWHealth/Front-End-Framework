@@ -1,4 +1,4 @@
-const template = require('./_button.hbs');
+import template from './_button.hbs';
 
 const defaultData = {
     body: "Button",

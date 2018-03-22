@@ -1,6 +1,4 @@
-{{> ../header/_header.hbs}}
 <div class="demo">
-    <link rel="stylesheet" href="/public/css/demo/demo.css">
     <header class="demo-header">
         <div class="wrap">
             <h1 class="demo-header__title">
@@ -19,9 +17,9 @@
             <h2 class="demo-body__head">
                 {{demoTitle}} Variants
             </h2>
-            {{> _demo.hbs}}
+            {{#each components}}
+                {{{this}}}
+            {{/each}}
         </div>
     </main>
 </div>
-
-{{> ../footer/_footer.hbs}}

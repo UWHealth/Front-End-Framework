@@ -6,11 +6,11 @@
     @extend %grid;
 }
 
-.row_narrow {
+.row--narrow {
     @extend %grid_narrow;
 }
 
-.row_full {
+.row--full {
 	@extend %grid_full;
 }
 
@@ -22,28 +22,10 @@
     @extend %grid_item;
 }
 
-.half {
+.w-half {
 	@extend %one_half;
 }
 
-.quarter {
+.w-quarter {
 	@extend %one_quarter;
-}
-
-.sidebar {
-    @extend %bigs_one_quarter;
-}
-
-.content {
-    @extend %bigs_three_quarters;
-}
-
-.add_on {
-    @extend %smallish_one_fifth;
-    @extend %bigs_one_sixth;
-}
-
-.wide_content {
-    @extend %smallish_four_fifths;
-    @extend %bigs_five_sixths;
 }

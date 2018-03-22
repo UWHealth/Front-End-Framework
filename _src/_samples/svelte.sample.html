@@ -1,0 +1,31 @@
+<:Head>
+    <title>SAMPLE: Svelte</title>
+</:Head>
+
+<Base>
+    <Button ref:Button1 type="{{buttonType}}" body="Other Stuff" on:click='say("whatup")' />
+    <Button ref:Button2 type={{false}} />
+</Base>
+
+<script>
+    import Base from '../components/base/base.sv.html';
+    import Button from '../components/button/button.sv.html';
+    import { Store } from 'svelte/store.js';
+
+    export default {
+        components: {
+            Button,
+            Base
+        },
+        data() {
+            return {
+                buttonType: ["wide"]
+            }
+        },
+        methods: {
+            say(message) {
+                console.log(message);
+            }
+        }
+    }
+</script>

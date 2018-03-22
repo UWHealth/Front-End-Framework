@@ -7,24 +7,24 @@ Isolates an image from text wrapping underneath. Useful for creating an associat
 ```html_example
 <img class="media-object__media" src="http://placehold.it/300x48" alt="placeholder image">
 <p class="media-object__body">
-	Content that sits to the right of the image but will never wrap underneath the image to the left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+    Content that sits to the right of the image but will never wrap underneath the image to the left. Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
 </p>
 
 ```
 */
 
 %media_overflow {
-	overflow: hidden;
-	_overflow:visible;
-	zoom: 1;
+    overflow: hidden;
+    _overflow:visible;
+    zoom: 1;
 }
 
 %media_left {
-	float: left;
+    float: left;
 }
 
 %media_right {
-	float: right;
+    float: right;
 }
 
 %media_block {
@@ -32,26 +32,26 @@ Isolates an image from text wrapping underneath. Useful for creating an associat
 }
 
 .media-object {
-	width: 100%;
-	@extend %media_block;
-	@extend %clearfix;
-	@include type-space(margin-bottom, 1);
+    width: 100%;
+    @extend %media_block;
+    @extend %clearfix;
+    @include type-space(margin-bottom, 1);
 
-	&__media {
-		@extend %media_left;
-		@extend %media_block;
-		@extend %media_overflow;
+    &__media {
+        @extend %media_left;
+        @extend %media_block;
+        @extend %media_overflow;
 
-		img {
-			@extend %media_block;
-		}
-	}
+        img {
+            @extend %media_block;
+        }
+    }
 
-	&__body {
-		@extend %media_block;
-		@extend %media_overflow;
-		@include type-space(padding-left, .5);
-	}
+    &__body {
+        @extend %media_block;
+        @extend %media_overflow;
+        @include type-space(padding-left, .5);
+    }
 }
 
 
@@ -71,35 +71,35 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 
 ```html_example
 <div class="arrange">
-	<div class="arrange__media">
-		<img src="http://placehold.it/60x48" alt="placeholder image">
-	</div>
-	<div class="arrange__body">
-		Content that is vertically (middle) aligned with the image.
-	</div>
+    <div class="arrange__media">
+        <img src="http://placehold.it/60x48" alt="placeholder image">
+    </div>
+    <div class="arrange__body">
+        Content that is vertically (middle) aligned with the image.
+    </div>
 </div>
 
 <!-- Bottom Arrangement -->
 <div class="arrange arrange--bottom">
-	<div class="arrange__media">
-		<img src="http://placehold.it/60x48" alt="placeholder image">
-	</div>
-	<div class="arrange__body">
-		Content that is bottom aligned to the image.
-	</div>
+    <div class="arrange__media">
+        <img src="http://placehold.it/60x48" alt="placeholder image">
+    </div>
+    <div class="arrange__body">
+        Content that is bottom aligned to the image.
+    </div>
 </div>
 
 <!-- Equal width arrangement-->
 <div class="arrange arrange--equal">
-	<div class="arrange__item arrange__item--fill">
-		Equal width columns.
-	</div>
-	<div class="arrange__item arrange__item--fill">
-		<img class="show" src="http://placehold.it/120x72" alt="placeholder image" style="margin: auto;">
-	</div>
-	<div class="arrange__item arrange__item--fill">
-		Can be as many columns as you want.
-	</div>
+    <div class="arrange__item arrange__item--fill">
+        Equal width columns.
+    </div>
+    <div class="arrange__item arrange__item--fill">
+        <img class="show" src="http://placehold.it/120x72" alt="placeholder image" style="margin: auto;">
+    </div>
+    <div class="arrange__item arrange__item--fill">
+        Can be as many columns as you want.
+    </div>
 </div>
 
 ```
@@ -107,59 +107,59 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 
 
 .arrange {
-	table-layout: auto;
-	min-width: 100%;
-	display: table;
-	width: 100%;
-	@include type-space(margin-bottom, 1);
+    table-layout: auto;
+    min-width: 100%;
+    display: table;
+    width: 100%;
+    @include type-space(margin-bottom, 1);
 
-	&__item,
+    &__item,
     &__media,
     &__body {
-		display: table-cell;
-	}
+        display: table-cell;
+    }
 
-	&__item--fill,
+    &__item--fill,
     &__body {
-		width: 100%;
-	}
+        width: 100%;
+    }
 
-	&__item--fit,
+    &__item--fit,
     &__media {
-		img {
-			display: block;
-			max-width: none;
-		}
-	}
+        img {
+            display: block;
+            max-width: none;
+        }
+    }
 
-	&__item--pad,
+    &__item--pad,
     &__body {
-		@include type-space(padding-left, .5);
-	}
+        @include type-space(padding-left, .5);
+    }
 
-	&__item--fill,
-	&__item--fit,
+    &__item--fill,
+    &__item--fit,
     &__media,
     &__body {
-		vertical-align: middle;
+        vertical-align: middle;
 
-		.arrange--top > & {
-			vertical-align: top;
-		}
+        .arrange--top > & {
+            vertical-align: top;
+        }
 
-		.arrange--bottom > & {
-			vertical-align: bottom;
-		}
+        .arrange--bottom > & {
+            vertical-align: bottom;
+        }
 
-	}
+    }
 }
 
 //Forces equal-width columns
 .arrange--equal {
-	table-layout: fixed;
+    table-layout: fixed;
 
-	& > .arrange__item--fill,
-	& > .arrange__item--fit {
-		width: 1%;
-	}
+    & > .arrange__item--fill,
+    & > .arrange__item--fit {
+        width: 1%;
+    }
 }

@@ -4,13 +4,13 @@
 Creates a list with borders above and below each list item. Appending `list_bordered` with `_short` will make reduce the padding between each item.
 
 ```html_example
-<ul class="list_bordered">
+<ul class="bordered-list">
     <li>List Item</li>
     <li>List Item</li>
     <li>List Item</li>
 </ul>
 
-<ul class="list_bordered_short">
+<ul class="bordered-list--short">
     <li>List Item</li>
     <li>List Item</li>
     <li>List Item</li>
@@ -18,7 +18,7 @@ Creates a list with borders above and below each list item. Appending `list_bord
 ```
 */
 
-[class*='list_bordered'] {
+.bordered-list {
     @include no-bullets;
     margin-left: 0;
     @include type-space((padding-top, padding-bottom), 1);
@@ -34,7 +34,7 @@ Creates a list with borders above and below each list item. Appending `list_bord
     }
 }
 
-.list_bordered_short {
+.bordered-list--short {
 
     > li {
         @include type-space((padding-top, padding-bottom), .5);
@@ -48,7 +48,7 @@ Creates a list with borders above and below each list item. Appending `list_bord
 A list where each item is in a row, with spacing to the right of each item
 
 ```html_example
-<ul class="list_inline">
+<ul class="inline-list">
     <li>List Item</li>
     <li>List Item</li>
     <li>List Item</li>
@@ -56,7 +56,7 @@ A list where each item is in a row, with spacing to the right of each item
 ```
 */
 
-.list_inline {
+.inline-list {
     @include no-bullets;
     margin-left: 0;
 
@@ -67,10 +67,10 @@ A list where each item is in a row, with spacing to the right of each item
         vertical-align: middle;
         @include type-space(padding-right, .5);
 
-		&:last-child{
-			padding-right: 0;
-		}
-	}
+        &:last-child {
+            padding-right: 0;
+        }
+    }
 
 }
 
@@ -89,13 +89,13 @@ A list where each item is in a row, with a &#x25B8; between each item.
 ```
 */
 
-.breadcrumbs {
+.breadcrumb-list {
     @include no-bullets;
     margin-left: 0;
     @include type-space(padding-right, 1);
 }
 
-.breadcrumbs > li,
+.breadcrumb-list > li,
 .breadcrumb {
     display: inline-block;
     white-space: nowrap;
@@ -121,7 +121,7 @@ A list of anchor tags that fill the space of their containers. Used when you nee
 Also useful as a modifier class since it can be used on any container with anchors (doesn't have to be an `ol` or `ul`).
 
 ```html_example
-<ul class="list_nav">
+<ul class="nav-list">
     <li>
         <a href="#">List Item</a>
     </li>
@@ -135,12 +135,12 @@ Also useful as a modifier class since it can be used on any container with ancho
 ```
 */
 
-.list_nav {
+.nav-list {
     @include no-bullets;
     margin-left: 0;
 
-	& a {
-		display: block;
+    & a {
+        display: block;
         @include type-space((padding-top, padding-bottom), .5);
-	}
+    }
 }

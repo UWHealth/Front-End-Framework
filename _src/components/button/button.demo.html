@@ -1,0 +1,44 @@
+<Demo demoTitle="Buttons" variants="{{true}}">
+    <div slot="header">
+        <Button />
+        <Button type="wide" body="Wide" />
+    </div>
+    <div slot="variants">
+        {{#each widths as buttonType}}
+        <div class="button-holder">
+            <Button type={{buttonType}} body="{{capitalize(buttonType)}}"/>
+        </div>
+        {{/each}}
+    </div>
+
+    <style>
+        .button-holder {
+            display: inline-block;
+            padding: 1rem 1rem 1rem 0;
+        }
+    </style>
+</Demo>
+
+<script>
+    import Button from './button.sv.html';
+    import Demo from '../demo/demo.wrapper.html';
+    import capitalize from '../tools/title-case.js';
+
+    export default {
+        components: {
+            Button,
+            Demo
+        },
+        data() {
+            return {
+                widths: ['normal', 'wide', 'compact']
+            };
+        },
+        helpers: {
+            capitalize
+        },
+        oncreate() {
+            this.root.store.set({'pageTitle': 'Buttons'})
+        }
+    };
+</script>

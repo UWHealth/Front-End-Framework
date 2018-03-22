@@ -1,0 +1,50 @@
+<Demo demoTitle="Feed Example" variants="{{true}}">
+    <div slot="header"></div>
+    <div slot="variants">
+    {{#if feedResults}}
+        <Results results="{{feedResults}}"/>
+    {{else}}
+        {{#await feed}}
+            <p>Loading Feed...</p>
+        {{then response}}
+            <Results results="{{response.results}}"/>
+        {{catch error}}
+            <p>{{error}}</p>
+        {{/await}}
+    {{/if}}
+    </div>
+</Demo>
+
+<script>
+    import store from '@/components/demo/demo.store.js';
+    import Demo from '../demo/demo.wrapper.html';
+    import Results from './feed.results.html';
+
+    export default {
+        store: () => store,
+        components: { Demo, Results },
+
+        data() {
+            return {
+                feedUrl: "https://uconnect.wisc.edu/feeds/30m/json/homepage/index.json",
+                page: 1
+            };
+        },
+
+        oncreate() {
+            console.log(this);
+            this.observe('feed', (feed) => {
+                feed.then((feedResults) => {
+                    this.set({"feedResults": feedResults.results})
+                });
+            });
+        },
+
+        computed: {
+            feed: (feedUrl) => !window.fetch ? '{}' : fetch(feedUrl).then(r => r.json()),
+        },
+
+        methods: {}
+
+    };
+</script>

@@ -1,48 +1,32 @@
 /**
- * @fileoverview - Webpack configuration.
- * Written in CommonJS (require/module).
+ * @fileoverview - Base webpack configuration, used for template generation and JS bundling.
+ * Includes some configuration for development and production.
+ * Most configuration lives in build/webpack/
+ *
  */
 
-// Webpack Plugins
-const webpack = require('webpack');
-const ClosureCompilerPlugin = require('webpack-closure-compiler');
-const ShakePlugin = require('webpack-common-shake').Plugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
-const PATHS    = require('./bin/paths.config.js');
-const MODE     = require('./bin/tools/mode.js');
-const STATS    = require('./bin/webpack/stats.webpack.config.js');
+const PATHS    = require('./config/paths.config.js');
+const MODE     = require('./build/tools/mode.js');
 const BROWSERS = require('./package.json').browserslist;
 
 
 const config = {
     context: __dirname,
-    entry: {
-        main: PATHS.js.entry.main,
-        plugins: PATHS.js.entry.plugins
-    },
-    target: "web",
-    devtool: 'cheap-source-map',
-    output: {
-        path: PATHS.js.dest,
-        publicPath: '/public/js/',
-
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].chunk.js',
-
-        libraryTarget: 'umd',
-        library: 'uwhealth',
-    },
+    mode: process.env.NODE_ENV,
     resolve: {
         symlinks: false,
-        modules: ['node_modules']
+        modules: ['node_modules'],
+        alias: {
+            // Allow for local imports without relative paths
+            '@': PATHS.root.src
+        }
     },
-    stats: STATS,
-    module: {},
-    plugins: [],
     watchOptions: {
         ignored: /node_modules/
-    }
+    },
+    output: {},
+    plugins: [],
+    module: {}
 };
 
 /*
@@ -82,7 +66,7 @@ config.module.rules = [
     },
 
     {
-        test: /\.(hbs|hbs\.svg)$/,
+        test: /\.(hbs|handlebars|hbs\.svg)$/,
         include: PATHS.root.src,
         use: [{
             loader: 'handlebars-loader',
@@ -100,65 +84,8 @@ config.module.rules = [
     }
 ];
 
-if (MODE.development) {
-    config.plugins.push(
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-        }),
-        // Make output easier to read
-        new webpack.NamedModulesPlugin(),
-
-        // Improve re-compilation speeds by caching the manifest
-        new webpack.optimize.CommonsChunkPlugin({
-            name: "manifest",
-            minChunks: Infinity,
-            async: true
-        }),
-
-        new webpack.EnvironmentPlugin({
-            NODE_ENV: 'development',
-            DEBUG: false
-        })
-    );
-}
-
 if (MODE.production) {
-    config.devtool = "none";
-
-    config.plugins.push(
-        new webpack.EnvironmentPlugin({
-            NODE_ENV: 'production',
-            DEBUG: false
-        }),
-
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new webpack.HashedModuleIdsPlugin(),
-        new webpack.NoEmitOnErrorsPlugin(),
-
-        new ShakePlugin(),
-
-        new ClosureCompilerPlugin({
-            compiler: {
-                language_in: 'ECMASCRIPT6',
-                language_out: 'ECMASCRIPT5',
-                compilation_level: 'SIMPLE',
-                dependency_mode: 'LOOSE',
-                rewrite_polyfills: false
-            },
-            concurrency: 3
-        }),
-
-        new UglifyJsPlugin({
-            uglifyOptions: {
-                ie8: false,
-                beautify: false,
-                mangle: true,
-                compress: true,
-                comments: false,
-                // exclude: /\/(t4|hbs)./
-            }
-        })
-    );
+    config.devtool = "source-map";
 }
 
 module.exports = config;

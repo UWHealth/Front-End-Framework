@@ -1,0 +1,3 @@
+{"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return " <meta name=\"apple-mobile-web-app-title\" content=\"UW Health\"> <meta name=\"application-name\" content=\"UW Health\"> <meta name=\"theme-color\" content=\"#d40943\"> <meta name=\"msapplication-config\" content=\"/public/meta/browserconfig.xml\"> <link rel=\"manifest\" href=\"/public/meta/manifest.json\"> ";
+},"useData":true}

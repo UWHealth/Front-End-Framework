@@ -6,7 +6,7 @@ class Component {
             componentName: name
         }, defaultData);
 
-        this.group = grouping || {};
+        this.group = grouping || defaultData.group || {};
     }
 }
 

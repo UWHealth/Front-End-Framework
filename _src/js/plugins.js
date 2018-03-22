@@ -23,16 +23,3 @@
         }
     }
 }());
-
-// Place any jQuery/helper plugins in here.
-
-$(function() {
-
-//Helper for hiding/showing baseline-grid
-    $('#js_baseline_toggle').click(function(e){
-        e.preventDefault();
-        var toggles = $(this).attr("id");
-        $('body').toggleClass('baseline-on');
-        e.preventDefault();
-    });
-});

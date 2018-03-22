@@ -25,7 +25,7 @@
 @if $debug-breakpoints {
     @each $breakpoint in $all-breakpoints {
         @include mq($breakpoint) {
-            body:after {
+            .breakpoint-on:after {
                 content: "#{$breakpoint}";
                 position: fixed;
                 top: 0;
