@@ -13,7 +13,7 @@ const STATS = require('./helpers/webpack-stats.js')();
 const MODE  = require('../tools/mode.js');
 const BROWSERS = require(`${cwd}/package.json`).browserslist;
 
-const config = cloneDeep(require(`${cwd}/webpack.config.js`));
+const config = cloneDeep(require(`./base.webpack.config.js`));
 
 config.stats = STATS;
 config.target = "web";

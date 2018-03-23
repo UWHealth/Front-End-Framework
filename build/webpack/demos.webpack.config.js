@@ -8,7 +8,7 @@ const htmlConfig = require('./helpers/create-html-config.js');
 const PATHS = require(`${cwd}/config/paths.config.js`);
 
 const config = htmlConfig({
-    baseConfig: require(`${cwd}/webpack.config.js`),
+    baseConfig: require(`./base.webpack.config.js`),
     src: PATHS.demos.entry.svelte,
     template: PATHS.demos.entry.template,
     dest: PATHS.demos.dest,

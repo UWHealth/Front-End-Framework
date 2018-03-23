@@ -12,7 +12,7 @@ const config = htmlConfig({
     dest: PATHS.samples.dest,
     nameSpace: "sample",
     sourceExtension: ".sample.html",
-    baseConfig: require('../../webpack.config.js')
+    baseConfig: require('./base.webpack.config.js')
 });
 
 config.output.chunkFilename = "sample.[name][id].js";

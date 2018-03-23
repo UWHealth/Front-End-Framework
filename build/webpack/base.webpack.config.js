@@ -5,9 +5,10 @@
  *
  */
 
-const PATHS    = require('./config/paths.config.js');
-const MODE     = require('./build/tools/mode.js');
-const BROWSERS = require('./package.json').browserslist;
+const cwd      = process.cwd();
+const PATHS    = require(cwd + '/config/paths.config.js');
+const MODE     = require(cwd + '/build/tools/mode.js');
+const BROWSERS = require(cwd + '/package.json').browserslist;
 
 
 const config = {
