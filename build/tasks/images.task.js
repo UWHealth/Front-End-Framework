@@ -10,14 +10,17 @@ const plumber = require('gulp-plumber');
 const pngquant = require('imagemin-pngquant');
 const changed = require('gulp-changed');
 
-const LOG   = require('../tools/logger.js');
-const PATHS = require(`${process.cwd()}/config/paths.config.js`);
-const reload = (browserSync.reload) ? browserSync.reload : browserSync;
+const logger   = require('../tools/logger.js');
+const PATHS    = require(`${process.cwd()}/config/paths.config.js`);
 
-module.exports = function() {
+const LOG = new logger('Images');
+
+module.exports = function(done) {
+    LOG.spinner('Compressing\n');
+
     return gulp
         .src(PATHS.images.entry.all)
-        .pipe(plumber(new LOG('Images task').error))
+        .pipe(plumber(LOG.error))
         .pipe(changed(PATHS.images.dest))
         .pipe(imagemin({
             progressive: true,
@@ -31,5 +34,6 @@ module.exports = function() {
             ],
             use: [pngquant()]
         }))
+        .on('end', () => { LOG.ora.clear(); LOG.success(); })
         .pipe(gulp.dest(PATHS.images.dest))
 };

@@ -8,14 +8,21 @@ const webpack = require('webpack');
 const webpackConfigs = require('../webpack.build.js');
 
 const MODE = require('../tools/mode.js');
-const LOG = require('../tools/logger.js');
+const PATHS = require(`${process.cwd()}/config/paths.config.js`);
+const logger = require('../tools/logger.js');
+
+const compiler = webpack(webpackConfigs);
+const LOG = new logger('Webpack');
+
+const watchOptions = (MODE.local || !MODE.production) ? { poll: 1000, ignored: /node_modules/ } : null;
+let watching = false;
 
 const webpackLogger = function(err, stats, done) { //eslint-disable-line
 
     if (err) {
-        new LOG('Webpack', err.stack || err).error();
+        LOG.error(err.stack || err);
         if (err.details) {
-            new LOG('Webpack', err.details).error();
+            LOG.error(err.details);
         }
     }
     else if (stats) {
@@ -24,10 +31,11 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
         statLogs.forEach((stats) => {
             // Find the correct stat config
             const statsConfig = stats.compilation.compiler.options.stats;
+
             const info = stats.toJson();
 
             if (stats.hasErrors()) {
-                new LOG('Webpack', new Error(info.errors)).error();
+                LOG.error(new Error(info.errors));
                 return;
             }
 
@@ -36,25 +44,38 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
                 //new LOG('Webpack', info.warnings).info();
             }
 
-            new LOG('Webpack', stats.toString(statsConfig)).info();
+            LOG.success('Compiled ' + stats.toString('minimal'));
+            //LOG.info(stats.toString(statsConfig));
         });
     }
 
     done();
 };
 
-module.exports = (done) => {
-    if (MODE.local || !MODE.production) {
-        webpackConfigs.forEach((config) => {
-            config.watch = true;
-            config.watchOptions = {
-                poll: 1000,
-                ignored: /node_modules/
-            };
+function startWebpack(done) {
+    if (watching) {
+        LOG.info('restarting', true);
+        watching.close(() => {
+            watching = false;
+            startWebpack(done);
         });
     }
+    else {
+        LOG.spinner('Compiling\n');
+        if (watchOptions) {
+            watching = compiler.watch(watchOptions, (err, stats) => webpackLogger(err, stats, done));
+        }
+        else {
+            compiler.run((err, stats) => webpackLogger(err, stats, done));
+        }
+    }
+}
 
-    webpack(webpackConfigs, (err, stats) => webpackLogger(err, stats, done));
+module.exports = startWebpack;
+
+// module.exports = (done) => {
+//     startWebpack(compiler, watchOptions, done);
+
 
     // const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
     // const compiler = webpack(webpackConfigs);
@@ -89,4 +110,4 @@ module.exports = (done) => {
     //     },
     //     done
     // );
-};
+// };

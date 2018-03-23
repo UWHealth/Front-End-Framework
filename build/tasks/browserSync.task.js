@@ -39,7 +39,7 @@ module.exports = function() { // eslint-disable-line
                 forms: true,
                 scroll: false
             },
-            logPrefix: 'Browser',
+            logPrefix: false,
             snippetOptions: {
                 // Browsersync script tag placement
                 rule: {

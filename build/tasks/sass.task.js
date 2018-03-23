@@ -10,17 +10,21 @@ const rename       = require('gulp-rename');
 const sass         = require('gulp-sass');
 const sourcemaps   = require('gulp-sourcemaps');
 
-const LOG          = require('../tools/logger.js');
+const logger       = require('../tools/logger.js');
 const BROWSERS     = require('../../package.json').browserslist;
 const MODE         = require('../tools/mode');
 const PATHS        = require('../../config/paths.config.js');
 
+const LOG = new logger('Sass');
+
 module.exports = (done) => {
+    LOG.spinner('Compiling');
+
     return new Promise((resolve, reject) => {
         if (MODE.production) {
             gulp
                 .src(PATHS.sass.entry.array)
-                .pipe(plumber(new LOG('Sass task').notify))
+                .pipe(plumber(LOG.notify))
                 .pipe(sass({
                     outputStyle: 'compressed',
                     errLogToConsole: true
@@ -40,12 +44,12 @@ module.exports = (done) => {
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
                 .on('error', reject)
-                .on('end', resolve);
+                .on('end', () => { LOG.success('Compiled'); return resolve; });
         }
         else {
             gulp
                 .src(PATHS.sass.entry.array)
-                .pipe(plumber(new LOG('Sass task').notify))
+                .pipe(plumber(LOG.notify))
                 .pipe(sourcemaps.init())
                 .pipe(sass({
                     outputStyle: 'expanded',
@@ -72,7 +76,7 @@ module.exports = (done) => {
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
                 .on('error', reject)
-                .on('end', resolve);
+                .on('end', () => { LOG.success('Compiled'); return resolve; });
         }
 
         done();
