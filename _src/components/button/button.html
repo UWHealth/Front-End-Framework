@@ -27,15 +27,11 @@
         helpers: {
             modifiers
         },
-
         setup(thisComponent) {
             thisComponent.TYPES = ['wide', 'compact', ''];
         },
 
         methods: {
-            say(message){
-                console.log(message);
-            },
             cycleTypes() {
                 const buttonTypes = this.constructor.TYPES;
                 const currentType = this.get('type')[0] || '';

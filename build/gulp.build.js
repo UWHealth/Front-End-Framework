@@ -3,7 +3,6 @@ const series       = gulp.series;
 const parallel     = gulp.parallel;
 
 const styleguide   = require('markdown-documentation-generator');
-const del          = require('del');
 
 const LOG          = require('./tools/logger.js');
 const MODE         = require('./tools/mode');
@@ -16,7 +15,7 @@ function taskOrder() {
 
     return !MODE.production ?
         // DEV
-        series('clean', parallel('images', 'copy', 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync'))
+        series('clean', parallel('copy', 'images', 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync'))
         :
         MODE.localProduction ?
             // LOCAL-PROD
@@ -34,18 +33,9 @@ function taskOrder() {
 gulp.task('watch', TASKS.watch);
 
 // Delete contents of compilation folders
-gulp.task('clean', function (done) {
-    del(PATHS.clean.entry.array)
-        .then(() => done())
-        .catch((err) => {
-            if (err.code === 'EPERM' || err.code === 'EACCES') {
-                new LOG('Clean', 'Cannot clean "dist" folder due to permissions. Make sure the folder or its contents is not open by another program or process.').info();
-            }
-            new LOG('Clean', err).error();
-            done();
-        });
-});
+gulp.task('clean', TASKS.clean);
 
+// Copy static files to dist/public
 gulp.task('copy', TASKS.copy);
 
 // Report file sizes
@@ -85,3 +75,9 @@ gulp.task('webpack', TASKS.webpack);
 gulp.task('default', series(taskOrder(), function finish(done) {
     done();
 }));
+
+gulp.on('error', function(err) {
+    const log = new LOG('Gulp');
+    log.error(err.error);
+    log.notify(err.error);
+});

@@ -6,14 +6,16 @@ const browserSync  = require('../tasks/browserSync.task.js').browserSync;
 const pe = new PrettyError().appendStyle(require('./logger-style.js'));
 const ora = require('ora');
 
+const draftLog = require('draftlog');
+draftLog(console);
 
 module.exports = function(task, message) {
     this.ora = new ora(task);
 
-    // const self = this;
+    const self = this;
     this.spinner = function(msg) {
         msg = msg || message;
-        this.ora = this.ora.start(chalk.cyan(task) + ' ' + msg);
+        self.ora.start(chalk.cyan(task) + ' ' + msg);
     };
 
     this.notify = function(err) {
@@ -37,7 +39,7 @@ module.exports = function(task, message) {
             });
         }
 
-        this.ora = this.ora.clear().fail(chalk.bold.red(task + " error \n"));
+        self.ora = self.ora.clear().fail(chalk.bold.red(task + " error \n"));
 
         console.log(pe.render(error));
 
@@ -49,7 +51,7 @@ module.exports = function(task, message) {
     this.info = function(msg, showOra) {
         msg = msg || message;
         if (showOra) {
-            this.ora = this.ora.clear().info(chalk.blue(task) + ' ' + msg);
+            self.ora.clear().info(chalk.blue(task) + ' ' + msg);
         }
         else {
             log.info(chalk.cyan(task), msg);
@@ -58,6 +60,7 @@ module.exports = function(task, message) {
 
     this.success = function(msg) {
         msg = msg || message || '';
-        this.ora = this.ora.clear().succeed(chalk.green(task) + ' ' + msg);
+        console.log('');
+        self.ora.clear().succeed(chalk.green(task) + ' ' + msg);
     };
 };

@@ -3,7 +3,6 @@
 **/
 
 const gulp = require('gulp');
-const browserSync = require('./browserSync.task.js').browserSync;
 const imagemin = require('gulp-imagemin');
 
 const plumber = require('gulp-plumber');
@@ -15,7 +14,7 @@ const PATHS    = require(`${process.cwd()}/config/paths.config.js`);
 
 const LOG = new logger('Images');
 
-module.exports = function(done) {
+module.exports = () => {
     LOG.spinner('Compressing\n');
 
     return gulp
@@ -34,6 +33,6 @@ module.exports = function(done) {
             ],
             use: [pngquant()]
         }))
-        .on('end', () => { LOG.ora.clear(); LOG.success(); })
-        .pipe(gulp.dest(PATHS.images.dest))
+        .on('end', () => { LOG.success('compressed'); })
+        .pipe(gulp.dest(PATHS.images.dest));
 };

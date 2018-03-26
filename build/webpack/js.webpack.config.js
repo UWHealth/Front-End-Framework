@@ -19,6 +19,8 @@ config.stats = STATS;
 config.target = "web";
 config.devtool = 'cheap-source-map';
 
+config.name = "Javascript";
+
 config.entry = {
     main: PATHS.js.entry.main,
     plugins: PATHS.js.entry.plugins

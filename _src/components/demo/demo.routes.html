@@ -1,5 +1,5 @@
 <:Head>
-    <title>{{$pageTitle}}</title>
+    <title>{{$pageTitle || pageTitle}}</title>
     <link rel="stylesheet" href="/public/css/demo/demo.css">
 </:Head>
 
@@ -21,6 +21,7 @@
         {{catch error}}
             {{error}}
         {{/await}}
+
     {{/if}}
 </Route>
 
@@ -33,7 +34,9 @@
 
     export default {
         data() {
-            return {};
+            return {
+                pageTitle: ''
+            };
         },
         transitions: { fade },
         components: {

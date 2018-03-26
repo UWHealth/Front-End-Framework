@@ -15,6 +15,8 @@ const config = htmlConfig({
     baseConfig: require('./base.webpack.config.js')
 });
 
+config.name = "Samples";
+
 config.output.chunkFilename = "sample.[name][id].js";
 
 module.exports = config;

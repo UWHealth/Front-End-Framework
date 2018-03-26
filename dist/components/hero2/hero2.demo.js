@@ -82,7 +82,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "../../_src/components/feed/feed.demo.html");
+/******/ 	return __webpack_require__(__webpack_require__.s = "../../_src/components/hero/hero2.demo.html");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -339,49 +339,44 @@ function __escape(html) {
 
 /***/ }),
 
-/***/ "../../_src/components/feed/feed.demo.html":
-/*!*************************************************************************************!*\
-  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/feed/feed.demo.html ***!
-  \*************************************************************************************/
+/***/ "../../_src/components/hero/hero.html":
+/*!********************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/hero/hero.html ***!
+  \********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_demo_demo_store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/demo/demo.store.js */ "../../_src/components/demo/demo.store.js");
-/* harmony import */ var _components_demo_demo_store_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_components_demo_demo_store_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _demo_demo_wrapper_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../demo/demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
-/* harmony import */ var _feed_results_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./feed.results.html */ "../../_src/components/feed/feed.results.html");
+/* harmony import */ var _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../tools/modifiers.js */ "../../_src/components/tools/modifiers.js");
+/* harmony import */ var _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tools_modifiers_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_tools_title_case_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/tools/title-case.js */ "../../_src/components/tools/title-case.js");
+/* harmony import */ var _components_tools_title_case_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_tools_title_case_js__WEBPACK_IMPORTED_MODULE_1__);
 
 
-
-
-function feed(feedUrl) {
-	return !window.fetch ? '{}' : fetch(feedUrl).then(r => r.json());
-}
 
 function data() {
     return {
-        feedUrl: "https://uconnect.wisc.edu/feeds/30m/json/homepage/index.json",
-        MAX_PER_PAGE: 10,
-        page: 1,
-        feedResults: false
-    };
+        header: "Button",
+        body: "",
+        imageUrl: "",
+        type: []
+    }
 };
 
-function store_1() {
-	return _components_demo_demo_store_js__WEBPACK_IMPORTED_MODULE_0___default.a;
-}
+function setup(thisComponent) {
+    thisComponent.TYPES = ['large', 'compact', ''];
+};
 
-var Feed_demo = {};
+var Hero = {};
 
-Feed_demo.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\feed\\feed.demo.html";
+Hero.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\hero\\hero.html";
 
-Feed_demo.data = function() {
+Hero.data = function() {
 	return data();
 };
 
-Feed_demo.render = function(state, options = {}) {
+Hero.render = function(state, options = {}) {
 	var components = new Set();
 
 	function addComponent(component) {
@@ -389,7 +384,7 @@ Feed_demo.render = function(state, options = {}) {
 	}
 
 	var result = { head: '', addComponent };
-	var html = Feed_demo._render(result, state, options);
+	var html = Hero._render(result, state, options);
 
 	var cssCode = Array.from(components).map(c => c.css && c.css.code).filter(Boolean).join('\n');
 
@@ -403,38 +398,143 @@ Feed_demo.render = function(state, options = {}) {
 	};
 }
 
-Feed_demo._render = function(__result, state, options) {
-	options.store = store_1();
-	__result.addComponent(Feed_demo);
+Hero._render = function(__result, state, options) {
+	__result.addComponent(Hero);
 
 	state = Object.assign(data(), state);
 
-	state.feed = feed(state.feedUrl);
-
-	return `${_demo_demo_wrapper_html__WEBPACK_IMPORTED_MODULE_1__["default"]._render(__result, {demoTitle: "Feed Example", variants: true}, { store: options.store, slotted: { default: () => `
-    `, header: () => `<div slot="header"></div>
-    `, variants: () => `<div slot="variants">
-        <h5>Feed Page ${__escape(state.page)}</h5>
-    ${ state.feedResults ? `${_feed_results_html__WEBPACK_IMPORTED_MODULE_2__["default"]._render(__result, {results: state.feedResults, page: state.page, MAX_PER_PAGE: state.MAX_PER_PAGE}, { store: options.store })}` : `${(function(__value) { if(__isPromise(__value)) return `
-            <p>Loading Feed...</p>
-        `; return `
-            ${_feed_results_html__WEBPACK_IMPORTED_MODULE_2__["default"]._render(__result, {results: __value.results, page: state.page, MAX_PER_PAGE: state.MAX_PER_PAGE}, { store: options.store })}
-        `;}(state.feed)) }` }
-
-    ${ state.feedResults ? `${ state.page !== 1 ? `<button>Page ${__escape(state.page - 1)}</button>` : `` }
-        ${ (state.page * (state.MAX_PER_PAGE + 1)) <= state.feedResults.result.length ? `<button>Page ${__escape(state.page + 1)}</button>` : `` }` : `` }
-
+	return `<div class="hero ${__escape(_tools_modifiers_js__WEBPACK_IMPORTED_MODULE_0___default()(state.type, 'btn--'))}" style="background-image: url('${__escape({imageUrl: state.imageUrl})}');">
+    <div class="hero__body">
+        <h1 class="hero__header">${state.header}</h1>
     </div>
-` } })}`;
+</div>`;
 };
 
-Feed_demo.css = {
+Hero.css = {
 	code: '',
 	map: null
 };
 
 var warned = false;
-Feed_demo.renderCss = function() {
+Hero.renderCss = function() {
+	if (!warned) {
+		console.error('Component.renderCss(...) is deprecated and will be removed in v2 — use Component.render(...).css instead');
+		warned = true;
+	}
+
+	var components = [];
+
+	return {
+		css: components.map(x => x.css).join('\n'),
+		map: null,
+		components
+	};
+};
+
+var escaped = {
+	'"': '&quot;',
+	"'": '&#39;',
+	'&': '&amp;',
+	'<': '&lt;',
+	'>': '&gt;'
+};
+
+function __escape(html) {
+	return String(html).replace(/["'&<>]/g, match => escaped[match]);
+}
+/* harmony default export */ __webpack_exports__["default"] = (Hero);
+
+/***/ }),
+
+/***/ "../../_src/components/hero/hero2.demo.html":
+/*!**************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/hero/hero2.demo.html ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _hero_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hero.html */ "../../_src/components/hero/hero.html");
+/* harmony import */ var _demo_demo_wrapper_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../demo/demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
+/* harmony import */ var _tools_title_case_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../tools/title-case.js */ "../../_src/components/tools/title-case.js");
+/* harmony import */ var _tools_title_case_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_tools_title_case_js__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+function data() {
+    return {
+        widths: ['normal', 'wide', 'compact']
+    };
+};
+
+var Hero2_demo = {};
+
+Hero2_demo.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\hero\\hero2.demo.html";
+
+Hero2_demo.data = function() {
+	return data();
+};
+
+Hero2_demo.render = function(state, options = {}) {
+	var components = new Set();
+
+	function addComponent(component) {
+		components.add(component);
+	}
+
+	var result = { head: '', addComponent };
+	var html = Hero2_demo._render(result, state, options);
+
+	var cssCode = Array.from(components).map(c => c.css && c.css.code).filter(Boolean).join('\n');
+
+	return {
+		html,
+		head: result.head,
+		css: { code: cssCode, map: null },
+		toString() {
+			return html;
+		}
+	};
+}
+
+Hero2_demo._render = function(__result, state, options) {
+	__result.addComponent(Hero2_demo);
+
+	state = Object.assign(data(), state);
+
+	return `${_demo_demo_wrapper_html__WEBPACK_IMPORTED_MODULE_1__["default"]._render(__result, {demoTitle: "Buttons", variants: true}, { store: options.store, slotted: { default: () => `
+    `, header: () => `<div slot="header">
+        <div class="hero-holder">
+            ${_hero_html__WEBPACK_IMPORTED_MODULE_0__["default"]._render(__result, {}, { store: options.store })}
+        </div>
+    </div>
+    `, variants: () => `<div slot="variants">
+        ${ state.widths.map((buttonType) => `<div class="button-holder">
+            ${_hero_html__WEBPACK_IMPORTED_MODULE_0__["default"]._render(__result, {type: buttonType, header: _tools_title_case_js__WEBPACK_IMPORTED_MODULE_2___default()(buttonType)}, { store: options.store })}
+        </div>`).join("")}
+    </div>
+
+    <style>
+        .hero-holder {
+            display: block;
+            width: 100vw;
+            position: absolute;
+            left: 0;
+            padding: 1rem 1rem 1rem 0;
+        }
+    </style>
+` } })}`;
+};
+
+Hero2_demo.css = {
+	code: '',
+	map: null
+};
+
+var warned = false;
+Hero2_demo.renderCss = function() {
 	if (!warned) {
 		console.error('Component.renderCss(...) is deprecated and will be removed in v2 — use Component.render(...).css instead');
 		warned = true;
@@ -454,7 +554,7 @@ Feed_demo.renderCss = function() {
 	}
 
 	addComponent(_demo_demo_wrapper_html__WEBPACK_IMPORTED_MODULE_1__["default"]);
-	addComponent(_feed_results_html__WEBPACK_IMPORTED_MODULE_2__["default"]);
+	addComponent(_hero_html__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 	return {
 		css: components.map(x => x.css).join('\n'),
@@ -462,519 +562,63 @@ Feed_demo.renderCss = function() {
 		components
 	};
 };
-
-var escaped = {
-	'"': '&quot;',
-	"'": '&#39;',
-	'&': '&amp;',
-	'<': '&lt;',
-	'>': '&gt;'
-};
-
-function __escape(html) {
-	return String(html).replace(/["'&<>]/g, match => escaped[match]);
-}
-
-function __isPromise(value) {
-	return value && typeof value.then === 'function';
-}
-/* harmony default export */ __webpack_exports__["default"] = (Feed_demo);
+/* harmony default export */ __webpack_exports__["default"] = (Hero2_demo);
 
 /***/ }),
 
-/***/ "../../_src/components/feed/feed.results.html":
-/*!****************************************************************************************!*\
-  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/feed/feed.results.html ***!
-  \****************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../../_src/components/tools/modifiers.js":
+/*!************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/tools/modifiers.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var svelte_transitions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte-transitions */ "../../node_modules/svelte-transitions/module.js");
-/* harmony import */ var eases_jsnext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! eases-jsnext */ "../../node_modules/eases-jsnext/dist/eases.es.js");
+/*Babel»*/
 
+exports.__esModule = true;
 
+exports.default = function (modifier, classPrefix, classSuffix) {
+    //eslint-disable-line
+    classSuffix = classSuffix || '';
 
-function pageStart(page, MAX_PER_PAGE) {
-    return page === 1 ? 0 : Math.max(0, page * (MAX_PER_PAGE + 1));
-}
-
-function pageEnd(pageStart, MAX_PER_PAGE) {
-    return pageStart + MAX_PER_PAGE + 1;
-}
-
-function data() {
-    return {
-        MAX_PER_PAGE: 25,
-        page: 1
-    };
-};
-
-function description(description) {
-    let text = Array.isArray(description) ? description[2] : description;
-    let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);
-    image = image ? image[0] :
-        description[1] ?
-            '&lt;img src="https://uconnect.wisc.edu' + description[1] + '"/&gt;'
-            : '';
-    text = text.replace(image, '');
-
-    return {text: decodeEntities(text), image: decodeEntities(image)};
-}
-
-var decodeEntities = (function() {
-    // this prevents any overhead from creating the object each time
-    var element = document ? document.createElement('div') : '';
-
-    function decodeHTMLEntities (str) {
-        if (str && typeof str === 'string') {
-            // strip script/html tags
-            str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
-            str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-            element.innerHTML = str;
-            str = element.textContent;
-            element.textContent = '';
-        }
-
-        return str;
+    if (!modifier) {
+        return '';
     }
 
-    return decodeHTMLEntities;
-})();
+    if (modifier.length > 1 && typeof modifier === 'string') {
+        modifier = [modifier];
+    }
 
-var Feed_results = {};
+    if (modifier.length > 0 && Array.isArray(modifier)) {
+        return modifier.reduce(function (prev, name) {
+            return prev + ' ' + classPrefix + name + classSuffix;
+        }, '');
+    }
 
-Feed_results.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\feed\\feed.results.html";
-
-Feed_results.data = function() {
-	return data();
+    return '';
 };
-
-Feed_results.render = function(state, options = {}) {
-	var components = new Set();
-
-	function addComponent(component) {
-		components.add(component);
-	}
-
-	var result = { head: '', addComponent };
-	var html = Feed_results._render(result, state, options);
-
-	var cssCode = Array.from(components).map(c => c.css && c.css.code).filter(Boolean).join('\n');
-
-	return {
-		html,
-		head: result.head,
-		css: { code: cssCode, map: null },
-		toString() {
-			return html;
-		}
-	};
-}
-
-Feed_results._render = function(__result, state, options) {
-	__result.addComponent(Feed_results);
-
-	state = Object.assign(data(), state);
-
-	state.pageStart = pageStart(state.page, state.MAX_PER_PAGE);
-	state.pageEnd = pageEnd(state.pageStart, state.MAX_PER_PAGE);
-
-	return `${ state.results ? `${ state.results.result.slice(state.pageStart, state.pageEnd).map((result, i) => `<div class="media-object">
-            ${ description(result.description).image ? `<div class="media-object__media">
-                ${description(result.description).image}
-                </div>` : `` }
-            <div class="media-object__body">
-                <strong>${__escape(i)}:${__escape(result.title)}</strong>
-                <p>${description(result.description).text}</p>
-            </div>
-        </div>
-        <hr>`).join("")}` : `` }`;
-};
-
-Feed_results.css = {
-	code: '',
-	map: null
-};
-
-var warned = false;
-Feed_results.renderCss = function() {
-	if (!warned) {
-		console.error('Component.renderCss(...) is deprecated and will be removed in v2 — use Component.render(...).css instead');
-		warned = true;
-	}
-
-	var components = [];
-
-	return {
-		css: components.map(x => x.css).join('\n'),
-		map: null,
-		components
-	};
-};
-
-var escaped = {
-	'"': '&quot;',
-	"'": '&#39;',
-	'&': '&amp;',
-	'<': '&lt;',
-	'>': '&gt;'
-};
-
-function __escape(html) {
-	return String(html).replace(/["'&<>]/g, match => escaped[match]);
-}
-/* harmony default export */ __webpack_exports__["default"] = (Feed_results);
 
 /***/ }),
 
-/***/ "../../node_modules/eases-jsnext/dist/eases.es.js":
-/*!********************************************************************************************!*\
-  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/eases-jsnext/dist/eases.es.js ***!
-  \********************************************************************************************/
-/*! exports provided: backInOut, backIn, backOut, bounceInOut, bounceIn, bounceOut, circInOut, circIn, circOut, cubicInOut, cubicIn, cubicOut, elasticInOut, elasticIn, elasticOut, expoInOut, expoIn, expoOut, linear, quadInOut, quadIn, quadOut, quartInOut, quartIn, quartOut, quintInOut, quintIn, quintOut, sineInOut, sineIn, sineOut */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../../_src/components/tools/title-case.js":
+/*!*************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/tools/title-case.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backInOut", function() { return backInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backIn", function() { return backIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "backOut", function() { return backOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bounceInOut", function() { return bounceInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bounceIn", function() { return bounceIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bounceOut", function() { return bounceOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "circInOut", function() { return circInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "circIn", function() { return circIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "circOut", function() { return circOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cubicInOut", function() { return cubicInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cubicIn", function() { return cubicIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cubicOut", function() { return cubicOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elasticInOut", function() { return elasticInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elasticIn", function() { return elasticIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "elasticOut", function() { return elasticOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expoInOut", function() { return expoInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expoIn", function() { return expoIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "expoOut", function() { return expoOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "linear", function() { return linear; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quadInOut", function() { return quadInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quadIn", function() { return quadIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quadOut", function() { return quadOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quartInOut", function() { return quarticInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quartIn", function() { return quarticIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quartOut", function() { return quarticOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quintInOut", function() { return qinticInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quintIn", function() { return qinticIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "quintOut", function() { return qinticOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sineInOut", function() { return sineInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sineIn", function() { return sineIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sineOut", function() { return sineOut; });
-function backInOut(t) {
-  var s = 1.70158 * 1.525;
-  if ((t *= 2) < 1)
-    return 0.5 * (t * t * ((s + 1) * t - s))
-  return 0.5 * ((t -= 2) * t * ((s + 1) * t + s) + 2)
-}
-
-function backIn(t) {
-  var s = 1.70158;
-  return t * t * ((s + 1) * t - s)
-}
-
-function backOut(t) {
-  var s = 1.70158;
-  return --t * t * ((s + 1) * t + s) + 1
-}
-
-function bounceOut(t) {
-  var a = 4.0 / 11.0;
-  var b = 8.0 / 11.0;
-  var c = 9.0 / 10.0;
-
-  var ca = 4356.0 / 361.0;
-  var cb = 35442.0 / 1805.0;
-  var cc = 16061.0 / 1805.0;
-
-  var t2 = t * t;
-
-  return t < a
-    ? 7.5625 * t2
-    : t < b
-      ? 9.075 * t2 - 9.9 * t + 3.4
-      : t < c
-        ? ca * t2 - cb * t + cc
-        : 10.8 * t * t - 20.52 * t + 10.72
-}
-
-function bounceInOut(t) {
-  return t < 0.5
-    ? 0.5 * (1.0 - bounceOut(1.0 - t * 2.0))
-    : 0.5 * bounceOut(t * 2.0 - 1.0) + 0.5
-}
-
-function bounceIn(t) {
-  return 1.0 - bounceOut(1.0 - t)
-}
-
-function circInOut(t) {
-  if ((t *= 2) < 1) return -0.5 * (Math.sqrt(1 - t * t) - 1)
-  return 0.5 * (Math.sqrt(1 - (t -= 2) * t) + 1)
-}
-
-function circIn(t) {
-  return 1.0 - Math.sqrt(1.0 - t * t)
-}
-
-function circOut(t) {
-  return Math.sqrt(1 - ( --t * t ))
-}
-
-function cubicInOut(t) {
-  return t < 0.5
-    ? 4.0 * t * t * t
-    : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0
-}
-
-function cubicIn(t) {
-  return t * t * t
-}
-
-function cubicOut(t) {
-  var f = t - 1.0;
-  return f * f * f + 1.0
-}
-
-function elasticInOut(t) {
-  return t < 0.5
-    ? 0.5 * Math.sin(+13.0 * Math.PI/2 * 2.0 * t) * Math.pow(2.0, 10.0 * (2.0 * t - 1.0))
-    : 0.5 * Math.sin(-13.0 * Math.PI/2 * ((2.0 * t - 1.0) + 1.0)) * Math.pow(2.0, -10.0 * (2.0 * t - 1.0)) + 1.0
-}
-
-function elasticIn(t) {
-  return Math.sin(13.0 * t * Math.PI/2) * Math.pow(2.0, 10.0 * (t - 1.0))
-}
-
-function elasticOut(t) {
-  return Math.sin(-13.0 * (t + 1.0) * Math.PI/2) * Math.pow(2.0, -10.0 * t) + 1.0
-}
-
-function expoInOut(t) {
-  return (t === 0.0 || t === 1.0)
-    ? t
-    : t < 0.5
-      ? +0.5 * Math.pow(2.0, (20.0 * t) - 10.0)
-      : -0.5 * Math.pow(2.0, 10.0 - (t * 20.0)) + 1.0
-}
-
-function expoIn(t) {
-  return t === 0.0 ? t : Math.pow(2.0, 10.0 * (t - 1.0))
-}
-
-function expoOut(t) {
-  return t === 1.0 ? t : 1.0 - Math.pow(2.0, -10.0 * t)
-}
-
-function linear(t) {
-  return t
-}
-
-function quadInOut(t) {
-    t /= 0.5;
-    if (t < 1) return 0.5*t*t
-    t--;
-    return -0.5 * (t*(t-2) - 1)
-}
-
-function quadIn(t) {
-  return t * t
-}
-
-function quadOut(t) {
-  return -t * (t - 2.0)
-}
-
-function quarticInOut(t) {
-  return t < 0.5
-    ? +8.0 * Math.pow(t, 4.0)
-    : -8.0 * Math.pow(t - 1.0, 4.0) + 1.0
-}
-
-function quarticIn(t) {
-  return Math.pow(t, 4.0)
-}
-
-function quarticOut(t) {
-  return Math.pow(t - 1.0, 3.0) * (1.0 - t) + 1.0
-}
-
-function qinticInOut(t) {
-    if ( ( t *= 2 ) < 1 ) return 0.5 * t * t * t * t * t
-    return 0.5 * ( ( t -= 2 ) * t * t * t * t + 2 )
-}
-
-function qinticIn(t) {
-  return t * t * t * t * t
-}
-
-function qinticOut(t) {
-  return --t * t * t * t * t + 1
-}
-
-function sineInOut(t) {
-  return -0.5 * (Math.cos(Math.PI*t) - 1)
-}
-
-function sineIn (t) {
-  var v = Math.cos(t * Math.PI * 0.5);
-  if (Math.abs(v) < 1e-14) return 1
-  else return 1 - v
-}
-
-function sineOut(t) {
-  return Math.sin(t * Math.PI/2)
-}
-
-
-
-
-/***/ }),
-
-/***/ "../../node_modules/svelte-transitions-fade/module.js":
-/*!************************************************************************************************!*\
-  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte-transitions-fade/module.js ***!
-  \************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-function fade ( node, ref ) {
-	var delay = ref.delay; if ( delay === void 0 ) delay = 0;
-	var duration = ref.duration; if ( duration === void 0 ) duration = 400;
-
-	var o = +getComputedStyle( node ).opacity;
-
-	return {
-		delay: delay,
-		duration: duration,
-		css: function (t) { return ("opacity: " + (t * o)); }
-	};
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (fade);
-
-
-/***/ }),
-
-/***/ "../../node_modules/svelte-transitions-fly/module.js":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte-transitions-fly/module.js ***!
-  \***********************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var eases_jsnext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! eases-jsnext */ "../../node_modules/eases-jsnext/dist/eases.es.js");
-
-
-function fly(
-	node,
-	ref
-) {
-	var delay = ref.delay; if ( delay === void 0 ) delay = 0;
-	var duration = ref.duration; if ( duration === void 0 ) duration = 400;
-	var easing = ref.easing; if ( easing === void 0 ) easing = eases_jsnext__WEBPACK_IMPORTED_MODULE_0__["cubicOut"];
-	var x = ref.x; if ( x === void 0 ) x = 0;
-	var y = ref.y; if ( y === void 0 ) y = 0;
-
-	var o = +getComputedStyle(node).opacity;
-
-	return {
-		delay: delay,
-		duration: duration,
-		easing: easing,
-		css: function (t) { return ("transform: translate(" + ((1 - t) * x) + "px, " + ((1 - t) * y) + "px); opacity: " + (t * o)); }
-	};
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (fly);
-
-
-/***/ }),
-
-/***/ "../../node_modules/svelte-transitions-slide/module.js":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte-transitions-slide/module.js ***!
-  \*************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var eases_jsnext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! eases-jsnext */ "../../node_modules/eases-jsnext/dist/eases.es.js");
-
-
-function slide(
-	node,
-	ref
-) {
-	var delay = ref.delay; if ( delay === void 0 ) delay = 0;
-	var duration = ref.duration; if ( duration === void 0 ) duration = 400;
-	var easing = ref.easing; if ( easing === void 0 ) easing = eases_jsnext__WEBPACK_IMPORTED_MODULE_0__["cubicOut"];
-
-	var style = getComputedStyle(node);
-	var opacity = +style.opacity;
-	var height = parseFloat(style.height);
-	var paddingTop = parseFloat(style.paddingTop);
-	var paddingBottom = parseFloat(style.paddingBottom);
-	var marginTop = parseFloat(style.marginTop);
-	var marginBottom = parseFloat(style.marginBottom);
-	var borderTopWidth = parseFloat(style.borderTopWidth);
-	var borderBottomWidth = parseFloat(style.borderBottomWidth);
-
-	return {
-		delay: delay,
-		duration: duration,
-		easing: easing,
-		css: function (t) { return "overflow: hidden;" +
-			"opacity: " + (Math.min(t * 20, 1) * opacity) + ";" +
-			"height: " + (t * height) + "px;" +
-			"padding-top: " + (t * paddingTop) + "px;" +
-			"padding-bottom: " + (t * paddingBottom) + "px;" +
-			"margin-top: " + (t * marginTop) + "px;" +
-			"margin-bottom: " + (t * marginBottom) + "px;" +
-			"border-top-width: " + (t * borderTopWidth) + "px;" +
-			"border-bottom-width: " + (t * borderBottomWidth) + "px;"; }
-	};
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (slide);
-
-
-/***/ }),
-
-/***/ "../../node_modules/svelte-transitions/module.js":
-/*!*******************************************************************************************!*\
-  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte-transitions/module.js ***!
-  \*******************************************************************************************/
-/*! exports provided: fade, fly, slide */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var svelte_transitions_fade__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte-transitions-fade */ "../../node_modules/svelte-transitions-fade/module.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fade", function() { return svelte_transitions_fade__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var svelte_transitions_fly__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! svelte-transitions-fly */ "../../node_modules/svelte-transitions-fly/module.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "fly", function() { return svelte_transitions_fly__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony import */ var svelte_transitions_slide__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svelte-transitions-slide */ "../../node_modules/svelte-transitions-slide/module.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "slide", function() { return svelte_transitions_slide__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
-
-
-
+/*Babel»*/
+
+exports.__esModule = true;
+function titleCase(str) {
+    return str.toLowerCase().split(' ').map(function (word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+};
+
+/*Babel»*/exports.default = titleCase;
 
 /***/ }),
 

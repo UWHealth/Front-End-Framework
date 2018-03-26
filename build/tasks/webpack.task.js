@@ -8,16 +8,19 @@ const webpack = require('webpack');
 const webpackConfigs = require('../webpack.build.js');
 
 const MODE = require('../tools/mode.js');
-const PATHS = require(`${process.cwd()}/config/paths.config.js`);
+const STATS = require('../webpack/helpers/webpack-stats.js');
 const logger = require('../tools/logger.js');
 
 const compiler = webpack(webpackConfigs);
 const LOG = new logger('Webpack');
 
-const watchOptions = (MODE.local || !MODE.production) ? { poll: 1000, ignored: /node_modules/ } : null;
+const watchOptions = (MODE.local || !MODE.production) ?
+    { poll: 1000, ignored: /node_modules/ }
+    : null;
+
 let watching = false;
 
-const webpackLogger = function(err, stats, done) { //eslint-disable-line
+const webpackLogger = function(err, stats, done) { // eslint-disable-line
 
     if (err) {
         LOG.error(err.stack || err);
@@ -29,27 +32,30 @@ const webpackLogger = function(err, stats, done) { //eslint-disable-line
         const statLogs = stats.stats !== undefined ? stats.stats : [stats];
 
         statLogs.forEach((stats) => {
-            // Find the correct stat config
-            const statsConfig = stats.compilation.compiler.options.stats;
+            // Find the correct stat config, and get its name
+            const name = stats.compilation.compiler.options.name;
 
             const info = stats.toJson();
 
             if (stats.hasErrors()) {
-                LOG.error(new Error(info.errors));
-                return;
+                LOG.error(name + ': ' + new Error(info.errors));
             }
 
             if (stats.hasWarnings()) {
-                console.log('warning');
-                //new LOG('Webpack', info.warnings).info();
+                LOG.info(name + ' Warning');
+                LOG.info(info.warnings);
             }
 
-            LOG.success('Compiled ' + stats.toString('minimal'));
-            //LOG.info(stats.toString(statsConfig));
+            const statsString = (!MODE.production) ?
+                stats.toString('minimal').replace(/\s+(\d)/g, ' $1')
+                :
+                stats.toString(STATS());
+
+            return LOG.success(name + ' compiled ' + statsString);
         });
     }
 
-    done();
+    if (typeof done === 'function') done();
 };
 
 function startWebpack(done) {
@@ -61,11 +67,16 @@ function startWebpack(done) {
         });
     }
     else {
-        LOG.spinner('Compiling\n');
         if (watchOptions) {
+            compiler.hooks.watchRun.tap('Log Compilation', () => {
+                LOG.spinner('Compiling');
+                return true;
+            });
+
             watching = compiler.watch(watchOptions, (err, stats) => webpackLogger(err, stats, done));
         }
         else {
+            LOG.spinner('Compiling');
             compiler.run((err, stats) => webpackLogger(err, stats, done));
         }
     }

@@ -1,2 +1,995 @@
-(window.webpackJsonpuwhealth=window.webpackJsonpuwhealth||[]).push([[0],{"1O+K":function(t,e,c){e.__esModule=!0,e.default=function(t,e,c){return c=c||"",t?(1<t.length&&"string"==typeof t&&(t=[t]),0<t.length&&Array.isArray(t)?t.reduce(function(t,n){return t+" "+e+n+c},""):""):""}},BlZF:function(t,e,c){function n(t){if(Object(s.s)(this,t),this._state=Object(s.e)({componentClass:"generic",header:"Generic Header",body:"Body",footer:"Footer",type:[]},t.data),!document.getElementById("svelte-1foufe2-style")){var e=Object(s.l)("style");e.id="svelte-1foufe2-style",e.textContent=".svelte-1foufe2.generic,.svelte-1foufe2 .generic{display:inline-flex;flex-direction:column;max-width:50rem;width:50%;background-color:white;border-radius:3px;margin-bottom:1.5rem;margin-right:1.5rem}.svelte-1foufe2.generic--wide,.svelte-1foufe2 .generic--wide{max-width:none;width:calc(75% - 1.5rem)}.svelte-1foufe2.generic--compact,.svelte-1foufe2 .generic--compact{width:calc(25% - 1.5rem)}.svelte-1foufe2.generic p:last-child,.svelte-1foufe2 .generic p:last-child{margin-bottom:0}.svelte-1foufe2.generic__header,.svelte-1foufe2 .generic__header,.svelte-1foufe2.generic__body,.svelte-1foufe2 .generic__body,.svelte-1foufe2.generic__footer,.svelte-1foufe2 .generic__footer{flex:1 0 auto;padding:1.5rem}.svelte-1foufe2.generic__body,.svelte-1foufe2 .generic__body{border-top:1px solid #ddd;border-bottom:1px solid #ddd}.svelte-1foufe2.generic__title,.svelte-1foufe2 .generic__title{font-size:1.5rem;margin:0}",Object(s.d)(e,document.head)}this._fragment=function(t,e){var c,n,o,a,i,l,h,b,d,f,j,O,m,u,_,p;return{c:function(){c=Object(s.l)("div"),n=Object(s.l)("header"),o=Object(s.l)("h2"),l=Object(s.n)("\n    "),h=Object(s.l)("div"),b=Object(s.l)("p"),j=Object(s.n)("\n    "),O=Object(s.l)("footer"),m=Object(s.l)("p"),this.h()},l:function(t){c=Object(s.i)(t,"DIV",{class:!0},!1),t=Object(s.h)(c),n=Object(s.i)(t,"HEADER",{class:!0},!1);var e=Object(s.h)(n);o=Object(s.i)(e,"H2",{class:!0},!1),Object(s.h)(o).forEach(s.p),e.forEach(s.p),l=Object(s.j)(t,"\n    "),h=Object(s.i)(t,"DIV",{class:!0},!1),e=Object(s.h)(h),b=Object(s.i)(e,"P",{class:!0},!1),Object(s.h)(b).forEach(s.p),e.forEach(s.p),j=Object(s.j)(t,"\n    "),O=Object(s.i)(t,"FOOTER",{class:!0},!1),e=Object(s.h)(O),m=Object(s.i)(e,"P",{class:!0},!1),Object(s.h)(m).forEach(s.p),e.forEach(s.p),t.forEach(s.p),this.h()},h:function(){o.className=a=e.componentClass+"__title",n.className=i=e.componentClass+"__header\n        "+r()(e.type,e.componentClass+"__header--"),b.className=d=e.componentClass+"__text",h.className=f=e.componentClass+"__body\n    "+r()(e.type,e.componentClass+"__body--"),m.className=u=e.componentClass+"__text",O.className=_=e.componentClass+"__footer\n    "+r()(e.type,e.componentClass+"__footer--"),c.className=p="component "+e.componentClass+"\n    "+r()(e.type,e.componentClass+"--")+" svelte-1foufe2"},m:function(t,a){Object(s.t)(c,t,a),Object(s.d)(n,c),Object(s.d)(o,n),o.innerHTML=e.header,Object(s.d)(l,c),Object(s.d)(h,c),Object(s.d)(b,h),b.innerHTML=e.body,Object(s.d)(j,c),Object(s.d)(O,c),Object(s.d)(m,O),m.innerHTML=e.footer},p:function(t,e){t.header&&(o.innerHTML=e.header),t.componentClass&&a!==(a=e.componentClass+"__title")&&(o.className=a),(t.componentClass||t.type)&&i!==(i=e.componentClass+"__header\n        "+r()(e.type,e.componentClass+"__header--"))&&(n.className=i),t.body&&(b.innerHTML=e.body),t.componentClass&&d!==(d=e.componentClass+"__text")&&(b.className=d),(t.componentClass||t.type)&&f!==(f=e.componentClass+"__body\n    "+r()(e.type,e.componentClass+"__body--"))&&(h.className=f),t.footer&&(m.innerHTML=e.footer),t.componentClass&&u!==(u=e.componentClass+"__text")&&(m.className=u),(t.componentClass||t.type)&&_!==(_=e.componentClass+"__footer\n    "+r()(e.type,e.componentClass+"__footer--"))&&(O.className=_),(t.componentClass||t.type)&&p!==(p="component "+e.componentClass+"\n    "+r()(e.type,e.componentClass+"--")+" svelte-1foufe2")&&(c.className=p)},u:function(){o.innerHTML="",b.innerHTML="",m.innerHTML="",Object(s.p)(c)},d:s.v}}(0,this._state),t.target&&(e=Object(s.h)(t.target),t.hydrate?this._fragment.l(e):this._fragment.c(),e.forEach(s.p),this._mount(t.target,t.anchor))}function o(t,e){var c=e.componentType,n=new i({root:t.root,data:{type:c,body:h()(c),header:"Generic "+h()(c)+' "Card"'}});return{c:function(){n._fragment.c()},l:function(t){n._fragment.l(t)},m:function(t,e){n._mount(t,e)},p:function(t,e){c=e.componentType,e={},t.widths&&(e.type=c),t.widths&&(e.body=h()(c)),t.widths&&(e.header="Generic "+h()(c)+' "Card"'),n._set(e)},u:function(){n._unmount()},d:function(){n.destroy(!1)}}}function a(t){if(Object(s.s)(this,t),this._state=Object(s.e)({widths:["normal","wide","compact"]},t.data),t.root||(this._oncreate=[],this._beforecreate=[],this._aftercreate=[]),this._fragment=function(t,e){for(var c,n,a,r,h,b=new i({root:t.root}),d=e.widths,f=[],j=0;j<d.length;j+=1)f[j]=o(t,Object(s.e)({},e,{each_value:d,componentType:d[j],componentType_index:j}));var O=new l.a({root:t.root,slots:{default:Object(s.m)(),header:Object(s.m)(),variants:Object(s.m)()},data:{demoTitle:"Generic",variants:!0}});return{c:function(){c=Object(s.n)("\n    "),n=Object(s.l)("div"),b._fragment.c(),a=Object(s.n)("\n    "),r=Object(s.l)("div");for(var t=0;t<f.length;t+=1)f[t].c();h=Object(s.n)("\n"),O._fragment.c(),this.h()},l:function(t){c=Object(s.j)(t,"\n    "),n=Object(s.i)(t,"DIV",{slot:!0},!1);var e=Object(s.h)(n);b._fragment.l(e),e.forEach(s.p),a=Object(s.j)(t,"\n    "),r=Object(s.i)(t,"DIV",{slot:!0},!1),e=Object(s.h)(r);for(var o=0;o<f.length;o+=1)f[o].l(e);e.forEach(s.p),h=Object(s.j)(t,"\n"),O._fragment.l(t),this.h()},h:function(){Object(s.C)(n,"slot","header"),Object(s.C)(r,"slot","variants")},m:function(t,e){Object(s.d)(c,O._slotted.default),Object(s.d)(n,O._slotted.header),b._mount(n,null),Object(s.d)(a,O._slotted.default),Object(s.d)(r,O._slotted.variants);for(var o=0;o<f.length;o+=1)f[o].m(r,null);Object(s.d)(h,O._slotted.default),O._mount(t,e)},p:function(e,c){var n=c.widths;if(e.widths){for(var a=0;a<n.length;a+=1){var i=Object(s.e)({},c,{each_value:n,componentType:n[a],componentType_index:a});f[a]?f[a].p(e,i):(f[a]=o(t,i),f[a].c(),f[a].m(r,null))}for(;a<f.length;a+=1)f[a].u(),f[a].d();f.length=n.length}O._set({variants:!0})},u:function(){for(var t=0;t<f.length;t+=1)f[t].u();O._unmount()},d:function(){b.destroy(!1),Object(s.o)(f),O.destroy(!1)}}}(this,this._state),t.target){var e=Object(s.h)(t.target);t.hydrate?this._fragment.l(e):this._fragment.c(),e.forEach(s.p),this._mount(t.target,t.anchor),this._lock=!0,Object(s.g)(this._beforecreate),Object(s.g)(this._oncreate),Object(s.g)(this._aftercreate),this._lock=!1}}c.r(e);var s=c("j6kw");t=c("1O+K");var r=c.n(t);Object(s.e)(n.prototype,{cycleTypes:function(){var t=this.constructor.TYPES,e=this.get("type")[0]||"";return e=t.indexOf(e),t=t.length-1>e?t[e+1]:t[0],this.set({body:titleCase(t||"normal")}),this.set({type:[t]})}},s.x),n.TYPES=["wide","compact",""];var i=n,l=c("PlRO");t=c("Ci51");var h=c.n(t);Object(s.e)(a.prototype,s.x),e.default=a},PlRO:function(t,e,c){function n(t){if(Object(r.s)(this,t),this._state=Object(r.e)({mainClass:"main"},t.data),this._slotted=t.slots||{},this.slots={},this._fragment=function(t,e){var c,n=t._slotted.default;return{c:function(){c=Object(r.l)("main"),this.h()},l:function(t){c=Object(r.i)(t,"MAIN",{class:!0},!1),Object(r.h)(c).forEach(r.p),this.h()},h:function(){c.className=e.mainClass},m:function(t,e){Object(r.t)(c,t,e),n&&Object(r.d)(n,c)},p:function(t,e){t.mainClass&&(c.className=e.mainClass)},u:function(){Object(r.p)(c),n&&Object(r.z)(c,n)},d:r.v}}(this,this._state),t.target){var e=Object(r.h)(t.target);t.hydrate?this._fragment.l(e):this._fragment.c(),e.forEach(r.p),this._mount(t.target,t.anchor)}}function o(){}function a(t,e){var c,n,o,a,s,i,l=e.variantTitle||e.demoTitle,h=t._slotted.variants;return{c:function(){c=Object(r.l)("h2"),n=Object(r.n)(l),o=Object(r.n)(" Variants"),a=Object(r.n)("\n            "),this.h()},l:function(t){c=Object(r.i)(t,"H2",{class:!0},!1);var e=Object(r.h)(c);n=Object(r.j)(e,l),o=Object(r.j)(e," Variants"),e.forEach(r.p),a=Object(r.j)(t,"\n            "),this.h()},h:function(){c.className="demo-body__head"},m:function(t,e){Object(r.t)(c,t,e),Object(r.d)(n,c),Object(r.d)(o,c),Object(r.t)(a,t,e),h&&(Object(r.t)(s||(s=Object(r.k)()),t,e),Object(r.t)(h,t,e),Object(r.t)(i||(i=Object(r.k)()),t,e))},p:function(t,e){(t.variantTitle||t.demoTitle)&&l!==(l=e.variantTitle||e.demoTitle)&&(n.data=l)},u:function(){Object(r.p)(c),Object(r.p)(a),h&&(Object(r.y)(s,i,h),Object(r.p)(s),Object(r.p)(i))},d:r.v}}function s(t){Object(r.s)(this,t),this.store=l.a,this._state=Object(r.e)({demoTitle:"Demo",variantTitle:!1,variants:!1},t.data),this._handlers.destroy=[o],this._slotted=t.slots||{};var e=function(){this.slots.variants&&this.set({variants:!0})}.bind(this);t.root||(this._oncreate=[],this._beforecreate=[],this._aftercreate=[]),this.slots={},this._fragment=function(t,e){var c,n,o,s,l,h,b,d,f,j,O,m,u,_,p,v=t._slotted.header,g=(e.variants||e.variantTitle)&&a(t,e),y=new i({root:t.root,slots:{default:Object(r.m)()},data:{mainClass:"demo-body"}});return{c:function(){c=Object(r.l)("div"),n=Object(r.l)("link"),o=Object(r.n)("\n\n    "),s=Object(r.l)("header"),l=Object(r.l)("div"),h=Object(r.l)("h1"),b=Object(r.n)(e.demoTitle),d=Object(r.n)("\n            "),f=Object(r.l)("div"),v||(j=Object(r.l)("p"),O=Object(r.n)("No Examples")),m=Object(r.n)("\n\n    "),u=Object(r.n)("\n        "),_=Object(r.l)("div"),g&&g.c(),p=Object(r.n)("\n    "),y._fragment.c(),this.h()},l:function(t){c=Object(r.i)(t,"DIV",{class:!0},!1);var a=Object(r.h)(c);n=Object(r.i)(a,"LINK",{rel:!0,href:!0},!1),Object(r.h)(n).forEach(r.p),o=Object(r.j)(a,"\n\n    "),s=Object(r.i)(a,"HEADER",{class:!0},!1);var i=Object(r.h)(s);l=Object(r.i)(i,"DIV",{class:!0},!1);var v=Object(r.h)(l);h=Object(r.i)(v,"H1",{class:!0},!1);var C=Object(r.h)(h);b=Object(r.j)(C,e.demoTitle),C.forEach(r.p),d=Object(r.j)(v,"\n            "),f=Object(r.i)(v,"DIV",{class:!0},!1),C=Object(r.h)(f),j=Object(r.i)(C,"P",{},!1);var T=Object(r.h)(j);O=Object(r.j)(T,"No Examples"),T.forEach(r.p),C.forEach(r.p),v.forEach(r.p),i.forEach(r.p),m=Object(r.j)(a,"\n\n    "),u=Object(r.j)(t,"\n        "),_=Object(r.i)(t,"DIV",{class:!0},!1),i=Object(r.h)(_),g&&g.l(i),i.forEach(r.p),p=Object(r.j)(t,"\n    "),y._fragment.l(a),a.forEach(r.p),this.h()},h:function(){n.rel="stylesheet",n.href="/public/css/demo/demo.css",h.className="demo-header__title",f.className="demo-header__component",l.className="wrap",s.className="demo-header",_.className="wrap",c.className="demo"},m:function(t,e){Object(r.t)(c,t,e),Object(r.d)(n,c),Object(r.d)(o,c),Object(r.d)(s,c),Object(r.d)(l,s),Object(r.d)(h,l),Object(r.d)(b,h),Object(r.d)(d,l),Object(r.d)(f,l),v?Object(r.d)(v,f):(Object(r.d)(j,f),Object(r.d)(O,j)),Object(r.d)(m,c),Object(r.d)(u,y._slotted.default),Object(r.d)(_,y._slotted.default),g&&g.m(_,null),Object(r.d)(p,y._slotted.default),y._mount(c,null)},p:function(e,c){e.demoTitle&&(b.data=c.demoTitle),c.variants||c.variantTitle?g?g.p(e,c):((g=a(t,c)).c(),g.m(_,null)):g&&(g.u(),g.d(),g=null)},u:function(){Object(r.p)(c),v&&Object(r.z)(f,v),g&&g.u()},d:function(){g&&g.d(),y.destroy(!1)}}}(this,this._state),this.root._oncreate.push(e),t.target&&(e=Object(r.h)(t.target),t.hydrate?this._fragment.l(e):this._fragment.c(),e.forEach(r.p),this._mount(t.target,t.anchor),this._lock=!0,Object(r.g)(this._beforecreate),Object(r.g)(this._oncreate),Object(r.g)(this._aftercreate),this._lock=!1)}var r=c("j6kw");Object(r.e)(n.prototype,r.x);var i=n;t=c("9gOg");var l=c.n(t);Object(r.e)(s.prototype,r.x),e.a=s}}]);
+(window["webpackJsonpuwhealth"] = window["webpackJsonpuwhealth"] || []).push([[0],{
+
+/***/ "../../_src/components/base/base.sv.html":
+/*!***********************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/base/base.sv.html ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/shared.js */ "../../node_modules/svelte/shared.js");
+/* _src\components\base\base.sv.html generated by Svelte v1.58.0 */
+
+
+function data(){
+    return {
+        mainClass: "main"
+    }
+};
+
+function create_main_fragment(component, state) {
+	var main, slot_content_default = component._slotted.default;
+
+	return {
+		c: function create() {
+			main = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("main");
+			this.h();
+		},
+
+		l: function claim(nodes) {
+			main = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "MAIN", { class: true }, false);
+			var main_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(main);
+
+			main_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			this.h();
+		},
+
+		h: function hydrate() {
+			main.className = state.mainClass;
+		},
+
+		m: function mount(target, anchor) {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(main, target, anchor);
+
+			if (slot_content_default) {
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(slot_content_default, main);
+			}
+		},
+
+		p: function update(changed, state) {
+			if (changed.mainClass) {
+				main.className = state.mainClass;
+			}
+		},
+
+		u: function unmount() {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(main);
+
+			if (slot_content_default) {
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["reinsertChildren"])(main, slot_content_default);
+			}
+		},
+
+		d: svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["noop"]
+	};
+}
+
+function Base_sv(options) {
+	this._debugName = '<Base_sv>';
+	if (!options || (!options.target && !options.root)) throw new Error("'target' is a required option");
+	Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["init"])(this, options);
+	this._state = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(data(), options.data);
+	if (!('mainClass' in this._state)) console.warn("<Base_sv> was created without expected data property 'mainClass'");
+
+	this._slotted = options.slots || {};
+
+	this.slots = {};
+
+	this._fragment = create_main_fragment(this, this._state);
+
+	if (options.target) {
+		var nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(options.target);
+		options.hydrate ? this._fragment.l(nodes) : this._fragment.c();
+		nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+		this._mount(options.target, options.anchor);
+	}
+}
+
+Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(Base_sv.prototype, svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["protoDev"]);
+
+Base_sv.prototype._checkReadOnly = function _checkReadOnly(newState) {
+};
+/* harmony default export */ __webpack_exports__["default"] = (Base_sv);
+
+/***/ }),
+
+/***/ "../../_src/components/button/button.demo.html":
+/*!*****************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/button/button.demo.html ***!
+  \*****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/shared.js */ "../../node_modules/svelte/shared.js");
+/* harmony import */ var _button_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./button.html */ "../../_src/components/button/button.html");
+/* harmony import */ var _demo_demo_wrapper_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../demo/demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
+/* harmony import */ var _tools_title_case_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tools/title-case.js */ "../../_src/components/tools/title-case.js");
+/* harmony import */ var _tools_title_case_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_tools_title_case_js__WEBPACK_IMPORTED_MODULE_3__);
+/* _src\components\button\button.demo.html generated by Svelte v1.58.0 */
+
+
+
+
+
+function data() {
+    return {
+        widths: ['normal', 'wide', 'compact']
+    };
+};
+
+function oncreate() {
+    this.root.store.set({'pageTitle': 'Buttons'})
+};
+
+function create_main_fragment(component, state) {
+	var text, div, text_1, text_3, div_1, text_5, style, text_6, text_7;
+
+	var button = new _button_html__WEBPACK_IMPORTED_MODULE_1__["default"]({
+		root: component.root
+	});
+
+	var button_1 = new _button_html__WEBPACK_IMPORTED_MODULE_1__["default"]({
+		root: component.root,
+		data: { type: ['wide'], body: "Wide" }
+	});
+
+	var each_value = state.widths;
+
+	var each_blocks = [];
+
+	for (var i = 0; i < each_value.length; i += 1) {
+		each_blocks[i] = create_each_block(component, Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])({}, state, {
+			each_value: each_value,
+			buttonType: each_value[i],
+			buttonType_index: i
+		}));
+	}
+
+	var demo = new _demo_demo_wrapper_html__WEBPACK_IMPORTED_MODULE_2__["default"]({
+		root: component.root,
+		slots: { default: Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createFragment"])(), header: Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createFragment"])(), variants: Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createFragment"])() },
+		data: {
+			demoTitle: "Buttons",
+			variants: true
+		}
+	});
+
+	return {
+		c: function create() {
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n    ");
+			div = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div");
+			button._fragment.c();
+			text_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n        ");
+			button_1._fragment.c();
+			text_3 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n    ");
+			div_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div");
+
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].c();
+			}
+
+			text_5 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n\r\n    ");
+			style = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("style");
+			text_6 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])(".button-holder {\r\n            display: inline-block;\r\n            padding: 1rem 1rem 1rem 0;\r\n        }");
+			text_7 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n");
+			demo._fragment.c();
+			this.h();
+		},
+
+		l: function claim(nodes) {
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(nodes, "\r\n    ");
+
+			div = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "DIV", { slot: true }, false);
+			var div_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(div);
+
+			button._fragment.l(div_nodes);
+			text_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(div_nodes, "\r\n        ");
+			button_1._fragment.l(div_nodes);
+			div_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text_3 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(nodes, "\r\n    ");
+
+			div_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "DIV", { slot: true }, false);
+			var div_1_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(div_1);
+
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].l(div_1_nodes);
+			}
+
+			div_1_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text_5 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(nodes, "\r\n\r\n    ");
+
+			style = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "STYLE", {}, false);
+			var style_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(style);
+
+			text_6 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(style_nodes, ".button-holder {\r\n            display: inline-block;\r\n            padding: 1rem 1rem 1rem 0;\r\n        }");
+			style_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text_7 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(nodes, "\r\n");
+			demo._fragment.l(nodes);
+			this.h();
+		},
+
+		h: function hydrate() {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["setAttribute"])(div, "slot", "header");
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["setAttribute"])(div_1, "slot", "variants");
+		},
+
+		m: function mount(target, anchor) {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text, demo._slotted.default);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(div, demo._slotted.header);
+			button._mount(div, null);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_1, div);
+			button_1._mount(div, null);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_3, demo._slotted.default);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(div_1, demo._slotted.variants);
+
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].m(div_1, null);
+			}
+
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_5, demo._slotted.default);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(style, demo._slotted.default);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_6, style);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_7, demo._slotted.default);
+			demo._mount(target, anchor);
+		},
+
+		p: function update(changed, state) {
+			var button_1_changes = {};
+			button_1_changes.type = ['wide'];
+			button_1._set(button_1_changes);
+
+			var each_value = state.widths;
+
+			if (changed.widths) {
+				for (var i = 0; i < each_value.length; i += 1) {
+					var each_context = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])({}, state, {
+						each_value: each_value,
+						buttonType: each_value[i],
+						buttonType_index: i
+					});
+
+					if (each_blocks[i]) {
+						each_blocks[i].p(changed, each_context);
+					} else {
+						each_blocks[i] = create_each_block(component, each_context);
+						each_blocks[i].c();
+						each_blocks[i].m(div_1, null);
+					}
+				}
+
+				for (; i < each_blocks.length; i += 1) {
+					each_blocks[i].u();
+					each_blocks[i].d();
+				}
+				each_blocks.length = each_value.length;
+			}
+
+			var demo_changes = {};
+			demo_changes.variants = true;
+			demo._set(demo_changes);
+		},
+
+		u: function unmount() {
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].u();
+			}
+
+			demo._unmount();
+		},
+
+		d: function destroy() {
+			button.destroy(false);
+			button_1.destroy(false);
+
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["destroyEach"])(each_blocks);
+
+			demo.destroy(false);
+		}
+	};
+}
+
+// (7:8) {{#each widths as buttonType}}
+function create_each_block(component, state) {
+	var buttonType = state.buttonType, each_value = state.each_value, buttonType_index = state.buttonType_index;
+	var div;
+
+	var button = new _button_html__WEBPACK_IMPORTED_MODULE_1__["default"]({
+		root: component.root,
+		data: { type: buttonType, body: _tools_title_case_js__WEBPACK_IMPORTED_MODULE_3___default()(buttonType) }
+	});
+
+	return {
+		c: function create() {
+			div = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div");
+			button._fragment.c();
+			this.h();
+		},
+
+		l: function claim(nodes) {
+			div = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "DIV", { class: true }, false);
+			var div_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(div);
+
+			button._fragment.l(div_nodes);
+			div_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			this.h();
+		},
+
+		h: function hydrate() {
+			div.className = "button-holder";
+		},
+
+		m: function mount(target, anchor) {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(div, target, anchor);
+			button._mount(div, null);
+		},
+
+		p: function update(changed, state) {
+			buttonType = state.buttonType;
+			each_value = state.each_value;
+			buttonType_index = state.buttonType_index;
+			var button_changes = {};
+			if (changed.widths) button_changes.type = buttonType;
+			if (changed.widths) button_changes.body = _tools_title_case_js__WEBPACK_IMPORTED_MODULE_3___default()(buttonType);
+			button._set(button_changes);
+		},
+
+		u: function unmount() {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(div);
+		},
+
+		d: function destroy() {
+			button.destroy(false);
+		}
+	};
+}
+
+function Button_demo(options) {
+	this._debugName = '<Button_demo>';
+	if (!options || (!options.target && !options.root)) throw new Error("'target' is a required option");
+	Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["init"])(this, options);
+	this._state = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(data(), options.data);
+	if (!('widths' in this._state)) console.warn("<Button_demo> was created without expected data property 'widths'");
+
+	var _oncreate = oncreate.bind(this);
+
+	if (!options.root) {
+		this._oncreate = [];
+		this._beforecreate = [];
+		this._aftercreate = [];
+	}
+
+	this._fragment = create_main_fragment(this, this._state);
+
+	this.root._oncreate.push(_oncreate);
+
+	if (options.target) {
+		var nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(options.target);
+		options.hydrate ? this._fragment.l(nodes) : this._fragment.c();
+		nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+		this._mount(options.target, options.anchor);
+
+		this._lock = true;
+		Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["callAll"])(this._beforecreate);
+		Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["callAll"])(this._oncreate);
+		Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["callAll"])(this._aftercreate);
+		this._lock = false;
+	}
+}
+
+Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(Button_demo.prototype, svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["protoDev"]);
+
+Button_demo.prototype._checkReadOnly = function _checkReadOnly(newState) {
+};
+/* harmony default export */ __webpack_exports__["default"] = (Button_demo);
+
+/***/ }),
+
+/***/ "../../_src/components/button/button.html":
+/*!************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/button/button.html ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/shared.js */ "../../node_modules/svelte/shared.js");
+/* harmony import */ var _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tools/modifiers.js */ "../../_src/components/tools/modifiers.js");
+/* harmony import */ var _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_tools_title_case_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/tools/title-case.js */ "../../_src/components/tools/title-case.js");
+/* harmony import */ var _components_tools_title_case_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_tools_title_case_js__WEBPACK_IMPORTED_MODULE_2__);
+/* _src\components\button\button.html generated by Svelte v1.58.0 */
+
+
+
+
+function data() {
+    return {
+        body: "Button",
+        icon: false,
+        iconUrl: false,
+        type: []
+    }
+};
+
+var methods = {
+    cycleTypes() {
+        const buttonTypes = this.constructor.TYPES;
+        const currentType = this.get('type')[0] || '';
+        const i = buttonTypes.indexOf(currentType);
+        const nextItem = (buttonTypes.length - 1) > i ? buttonTypes[i + 1] : buttonTypes[0];
+
+        this.set({body: _components_tools_title_case_js__WEBPACK_IMPORTED_MODULE_2___default()(nextItem || 'normal')})
+        return this.set({type: [nextItem]});
+    }
+};
+
+function setup(thisComponent) {
+    thisComponent.TYPES = ['wide', 'compact', ''];
+};
+
+function create_main_fragment(component, state) {
+	var button, span, text, span_class_value, text_2, button_class_value;
+
+	function select_block_type(state) {
+		if (state.icon) return create_if_block;
+		if (state.iconUrl) return create_if_block_1;
+		return null;
+	}
+
+	var current_block_type = select_block_type(state);
+	var if_block = current_block_type && current_block_type(component, state);
+
+	function click_handler(event) {
+		component.cycleTypes();
+	}
+
+	return {
+		c: function create() {
+			button = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("button");
+			span = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span");
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])(state.body);
+			text_2 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n    ");
+			if (if_block) if_block.c();
+			this.h();
+		},
+
+		l: function claim(nodes) {
+			button = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "BUTTON", { class: true }, false);
+			var button_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(button);
+
+			span = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(button_nodes, "SPAN", { class: true }, false);
+			var span_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(span);
+
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(span_nodes, state.body);
+			span_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text_2 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(button_nodes, "\r\n    ");
+			if (if_block) if_block.l(button_nodes);
+			button_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			this.h();
+		},
+
+		h: function hydrate() {
+			span.className = span_class_value = "btn__body " + _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default()(state.type, 'btn__body--');
+			button.className = button_class_value = "btn " + _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default()(state.type, 'btn--');
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["addListener"])(button, "click", click_handler);
+		},
+
+		m: function mount(target, anchor) {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(button, target, anchor);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(span, button);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text, span);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_2, button);
+			if (if_block) if_block.m(button, null);
+		},
+
+		p: function update(changed, state) {
+			if (changed.body) {
+				text.data = state.body;
+			}
+
+			if ((changed.type) && span_class_value !== (span_class_value = "btn__body " + _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default()(state.type, 'btn__body--'))) {
+				span.className = span_class_value;
+			}
+
+			if (current_block_type === (current_block_type = select_block_type(state)) && if_block) {
+				if_block.p(changed, state);
+			} else {
+				if (if_block) {
+					if_block.u();
+					if_block.d();
+				}
+				if_block = current_block_type && current_block_type(component, state);
+				if (if_block) if_block.c();
+				if (if_block) if_block.m(button, null);
+			}
+
+			if ((changed.type) && button_class_value !== (button_class_value = "btn " + _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default()(state.type, 'btn--'))) {
+				button.className = button_class_value;
+			}
+		},
+
+		u: function unmount() {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(button);
+			if (if_block) if_block.u();
+		},
+
+		d: function destroy() {
+			if (if_block) if_block.d();
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["removeListener"])(button, "click", click_handler);
+		}
+	};
+}
+
+// (5:4) {{#if icon}}
+function create_if_block(component, state) {
+	var span, text, span_class_value;
+
+	return {
+		c: function create() {
+			span = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span");
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])(state.icon);
+			this.h();
+		},
+
+		l: function claim(nodes) {
+			span = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "SPAN", { class: true }, false);
+			var span_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(span);
+
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(span_nodes, state.icon);
+			span_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			this.h();
+		},
+
+		h: function hydrate() {
+			span.className = span_class_value = "btn__icon " + _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default()(state.type, 'btn__icon--');
+		},
+
+		m: function mount(target, anchor) {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(span, target, anchor);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text, span);
+		},
+
+		p: function update(changed, state) {
+			if (changed.icon) {
+				text.data = state.icon;
+			}
+
+			if ((changed.type) && span_class_value !== (span_class_value = "btn__icon " + _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default()(state.type, 'btn__icon--'))) {
+				span.className = span_class_value;
+			}
+		},
+
+		u: function unmount() {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(span);
+		},
+
+		d: svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["noop"]
+	};
+}
+
+// (9:22) 
+function create_if_block_1(component, state) {
+	var img, img_class_value, img_src_value;
+
+	return {
+		c: function create() {
+			img = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img");
+			this.h();
+		},
+
+		l: function claim(nodes) {
+			img = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "IMG", { class: true, src: true, alt: true }, false);
+			var img_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(img);
+
+			img_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			this.h();
+		},
+
+		h: function hydrate() {
+			img.className = img_class_value = "btn__icon btn__icon--image " + _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default()(state.type, 'btn__icon--');
+			img.src = img_src_value = {iconUrl: state.iconUrl};
+			img.alt = '';
+		},
+
+		m: function mount(target, anchor) {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(img, target, anchor);
+		},
+
+		p: function update(changed, state) {
+			if ((changed.type) && img_class_value !== (img_class_value = "btn__icon btn__icon--image " + _tools_modifiers_js__WEBPACK_IMPORTED_MODULE_1___default()(state.type, 'btn__icon--'))) {
+				img.className = img_class_value;
+			}
+
+			if ((changed.iconUrl) && img_src_value !== (img_src_value = {iconUrl: state.iconUrl})) {
+				img.src = img_src_value;
+			}
+		},
+
+		u: function unmount() {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(img);
+		},
+
+		d: svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["noop"]
+	};
+}
+
+function Button(options) {
+	this._debugName = '<Button>';
+	if (!options || (!options.target && !options.root)) throw new Error("'target' is a required option");
+	Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["init"])(this, options);
+	this._state = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(data(), options.data);
+	if (!('type' in this._state)) console.warn("<Button> was created without expected data property 'type'");
+	if (!('body' in this._state)) console.warn("<Button> was created without expected data property 'body'");
+	if (!('icon' in this._state)) console.warn("<Button> was created without expected data property 'icon'");
+	if (!('iconUrl' in this._state)) console.warn("<Button> was created without expected data property 'iconUrl'");
+
+	this._fragment = create_main_fragment(this, this._state);
+
+	if (options.target) {
+		var nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(options.target);
+		options.hydrate ? this._fragment.l(nodes) : this._fragment.c();
+		nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+		this._mount(options.target, options.anchor);
+	}
+}
+
+Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(Button.prototype, methods, svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["protoDev"]);
+
+Button.prototype._checkReadOnly = function _checkReadOnly(newState) {
+};
+
+setup(Button);
+/* harmony default export */ __webpack_exports__["default"] = (Button);
+
+/***/ }),
+
+/***/ "../../_src/components/demo/demo.wrapper.html":
+/*!****************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/demo/demo.wrapper.html ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/shared.js */ "../../node_modules/svelte/shared.js");
+/* harmony import */ var _base_base_sv_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../base/base.sv.html */ "../../_src/components/base/base.sv.html");
+/* harmony import */ var _demo_store_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./demo.store.js */ "../../_src/components/demo/demo.store.js");
+/* harmony import */ var _demo_store_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_demo_store_js__WEBPACK_IMPORTED_MODULE_2__);
+/* _src\components\demo\demo.wrapper.html generated by Svelte v1.58.0 */
+
+
+
+
+function data() {
+    return {
+        demoTitle: 'Demo',
+        variantTitle: false,
+        variants: false
+    };
+};
+
+function oncreate() {
+    if (this.slots.variants) {
+        this.set({'variants': true});
+    }
+};
+
+function ondestroy() {};
+
+function store_1() {
+	return _demo_store_js__WEBPACK_IMPORTED_MODULE_2___default.a;
+}
+
+function create_main_fragment(component, state) {
+	var div, link, text, header, div_1, h1, text_1, text_3, div_2, slot_content_header = component._slotted.header, p, text_4, text_9, text_10, div_3, text_12;
+
+	var if_block = (state.variants || state.variantTitle) && create_if_block(component, state);
+
+	var base = new _base_base_sv_html__WEBPACK_IMPORTED_MODULE_1__["default"]({
+		root: component.root,
+		slots: { default: Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createFragment"])() },
+		data: { mainClass: "demo-body" }
+	});
+
+	return {
+		c: function create() {
+			div = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div");
+			link = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("link");
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n\r\n    ");
+			header = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("header");
+			div_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div");
+			h1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1");
+			text_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])(state.demoTitle);
+			text_3 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n            ");
+			div_2 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div");
+			if (!slot_content_header) {
+				p = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p");
+				text_4 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("No Examples");
+			}
+			text_9 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n\r\n    ");
+			text_10 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n        ");
+			div_3 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div");
+			if (if_block) if_block.c();
+			text_12 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n    ");
+			base._fragment.c();
+			this.h();
+		},
+
+		l: function claim(nodes) {
+			div = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "DIV", { class: true }, false);
+			var div_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(div);
+
+			link = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(div_nodes, "LINK", { rel: true, href: true }, false);
+			var link_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(link);
+
+			link_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(div_nodes, "\r\n\r\n    ");
+
+			header = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(div_nodes, "HEADER", { class: true }, false);
+			var header_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(header);
+
+			div_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(header_nodes, "DIV", { class: true }, false);
+			var div_1_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(div_1);
+
+			h1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(div_1_nodes, "H1", { class: true }, false);
+			var h1_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(h1);
+
+			text_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(h1_nodes, state.demoTitle);
+			h1_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text_3 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(div_1_nodes, "\r\n            ");
+
+			div_2 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(div_1_nodes, "DIV", { class: true }, false);
+			var div_2_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(div_2);
+
+			p = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(div_2_nodes, "P", {}, false);
+			var p_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(p);
+
+			text_4 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(p_nodes, "No Examples");
+			p_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			div_2_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			div_1_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			header_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text_9 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(div_nodes, "\r\n\r\n    ");
+			text_10 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(nodes, "\r\n        ");
+
+			div_3 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "DIV", { class: true }, false);
+			var div_3_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(div_3);
+
+			if (if_block) if_block.l(div_3_nodes);
+			div_3_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text_12 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(nodes, "\r\n    ");
+			base._fragment.l(div_nodes);
+			div_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			this.h();
+		},
+
+		h: function hydrate() {
+			link.rel = "stylesheet";
+			link.href = "/public/css/demo/demo.css";
+			h1.className = "demo-header__title";
+			div_2.className = "demo-header__component";
+			div_1.className = "wrap";
+			header.className = "demo-header";
+			div_3.className = "wrap";
+			div.className = "demo";
+		},
+
+		m: function mount(target, anchor) {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(div, target, anchor);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(link, div);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text, div);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(header, div);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(div_1, header);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(h1, div_1);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_1, h1);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_3, div_1);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(div_2, div_1);
+			if (!slot_content_header) {
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(p, div_2);
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_4, p);
+			}
+
+			else {
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(slot_content_header, div_2);
+			}
+
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_9, div);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_10, base._slotted.default);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(div_3, base._slotted.default);
+			if (if_block) if_block.m(div_3, null);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_12, base._slotted.default);
+			base._mount(div, null);
+		},
+
+		p: function update(changed, state) {
+			if (changed.demoTitle) {
+				text_1.data = state.demoTitle;
+			}
+
+			if (state.variants || state.variantTitle) {
+				if (if_block) {
+					if_block.p(changed, state);
+				} else {
+					if_block = create_if_block(component, state);
+					if_block.c();
+					if_block.m(div_3, null);
+				}
+			} else if (if_block) {
+				if_block.u();
+				if_block.d();
+				if_block = null;
+			}
+		},
+
+		u: function unmount() {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(div);
+
+			if (slot_content_header) {
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["reinsertChildren"])(div_2, slot_content_header);
+			}
+
+			if (if_block) if_block.u();
+		},
+
+		d: function destroy() {
+			if (if_block) if_block.d();
+			base.destroy(false);
+		}
+	};
+}
+
+// (19:12) {{#if variants || variantTitle}}
+function create_if_block(component, state) {
+	var h2, text_value = state.variantTitle || state.demoTitle, text, text_1, text_2, slot_content_variants = component._slotted.variants, slot_content_variants_before, slot_content_variants_after;
+
+	return {
+		c: function create() {
+			h2 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2");
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])(text_value);
+			text_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])(" Variants");
+			text_2 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createText"])("\r\n            ");
+			this.h();
+		},
+
+		l: function claim(nodes) {
+			h2 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimElement"])(nodes, "H2", { class: true }, false);
+			var h2_nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(h2);
+
+			text = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(h2_nodes, text_value);
+			text_1 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(h2_nodes, " Variants");
+			h2_nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+			text_2 = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["claimText"])(nodes, "\r\n            ");
+			this.h();
+		},
+
+		h: function hydrate() {
+			h2.className = "demo-body__head";
+		},
+
+		m: function mount(target, anchor) {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(h2, target, anchor);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text, h2);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["appendNode"])(text_1, h2);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(text_2, target, anchor);
+
+			if (slot_content_variants) {
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(slot_content_variants_before || (slot_content_variants_before = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createComment"])()), target, anchor);
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(slot_content_variants, target, anchor);
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["insertNode"])(slot_content_variants_after || (slot_content_variants_after = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["createComment"])()), target, anchor);
+			}
+		},
+
+		p: function update(changed, state) {
+			if ((changed.variantTitle || changed.demoTitle) && text_value !== (text_value = state.variantTitle || state.demoTitle)) {
+				text.data = text_value;
+			}
+		},
+
+		u: function unmount() {
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(h2);
+			Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(text_2);
+
+			if (slot_content_variants) {
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["reinsertBetween"])(slot_content_variants_before, slot_content_variants_after, slot_content_variants);
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(slot_content_variants_before);
+				Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"])(slot_content_variants_after);
+			}
+		},
+
+		d: svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["noop"]
+	};
+}
+
+function Demo_wrapper(options) {
+	this._debugName = '<Demo_wrapper>';
+	if (!options || (!options.target && !options.root)) throw new Error("'target' is a required option");
+	Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["init"])(this, options);
+	this.store = store_1();
+	this._state = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(data(), options.data);
+	if (!('demoTitle' in this._state)) console.warn("<Demo_wrapper> was created without expected data property 'demoTitle'");
+	if (!('variants' in this._state)) console.warn("<Demo_wrapper> was created without expected data property 'variants'");
+	if (!('variantTitle' in this._state)) console.warn("<Demo_wrapper> was created without expected data property 'variantTitle'");
+
+	this._handlers.destroy = [ondestroy];
+
+	this._slotted = options.slots || {};
+
+	var _oncreate = oncreate.bind(this);
+
+	if (!options.root) {
+		this._oncreate = [];
+		this._beforecreate = [];
+		this._aftercreate = [];
+	}
+
+	this.slots = {};
+
+	this._fragment = create_main_fragment(this, this._state);
+
+	this.root._oncreate.push(_oncreate);
+
+	if (options.target) {
+		var nodes = Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["children"])(options.target);
+		options.hydrate ? this._fragment.l(nodes) : this._fragment.c();
+		nodes.forEach(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["detachNode"]);
+		this._mount(options.target, options.anchor);
+
+		this._lock = true;
+		Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["callAll"])(this._beforecreate);
+		Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["callAll"])(this._oncreate);
+		Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["callAll"])(this._aftercreate);
+		this._lock = false;
+	}
+}
+
+Object(svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(Demo_wrapper.prototype, svelte_shared_js__WEBPACK_IMPORTED_MODULE_0__["protoDev"]);
+
+Demo_wrapper.prototype._checkReadOnly = function _checkReadOnly(newState) {
+};
+/* harmony default export */ __webpack_exports__["default"] = (Demo_wrapper);
+
+/***/ }),
+
+/***/ "../../_src/components/tools/modifiers.js":
+/*!************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/tools/modifiers.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*Babel»*/
+
+exports.__esModule = true;
+
+exports.default = function (modifier, classPrefix, classSuffix) {
+    //eslint-disable-line
+    classSuffix = classSuffix || '';
+
+    if (!modifier) {
+        return '';
+    }
+
+    if (modifier.length > 1 && typeof modifier === 'string') {
+        modifier = [modifier];
+    }
+
+    if (modifier.length > 0 && Array.isArray(modifier)) {
+        return modifier.reduce(function (prev, name) {
+            return prev + ' ' + classPrefix + name + classSuffix;
+        }, '');
+    }
+
+    return '';
+};
+
+/***/ })
+
+}]);
 //# sourceMappingURL=0.chunk.js.map
