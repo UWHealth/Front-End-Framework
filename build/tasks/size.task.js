@@ -5,7 +5,8 @@
 const gulp = require('gulp');
 const size = require('gulp-sizereport');
 
-const PATHS = require('../../config/paths.config.js');
+const cwd = process.cwd();
+const PATHS = require(`${cwd}/config/paths.config.js`);
 
 module.exports = (done) => {
     gulp.src(PATHS.sass.dest + '/**/*.css')

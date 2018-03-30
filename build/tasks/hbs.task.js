@@ -9,8 +9,9 @@ const rename = require('gulp-rename');
 const htmlmin = require('gulp-htmlmin');
 const tap = require('gulp-tap');
 
-const LOG   = require('../tools/logger.js');
-const PATHS = require('../../config/paths.config.js');
+const cwd = process.cwd();
+const LOG   = require(`../tools/logger.js`);
+const PATHS = require(`${cwd}/config/paths.config.js`);
 const loopAST = require('../tools/embed-hbs-partials.js');
 
 const Handlebars = require('handlebars');

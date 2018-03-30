@@ -1,0 +1,58 @@
+{{#if component}}
+    <:Component {component} :attrs />
+{{elseif fallback}}
+    <:Component {fallback} :attrs />
+{{elseif SSRComponent}}
+    <:Component {SSRComponent} :attrs />
+{{elseif error}}
+    <div> {{error}} </div>
+{{/if}}
+
+<script>
+    export default {
+        data() {
+            return {
+                loader: null,
+                component: null,
+                fallback: null,
+                load: null
+            };
+        },
+        computed: {
+            loader: (load) => {
+                return load.loader;
+            },
+            attrs: (load) => {
+                return load.attrs;
+            },
+            SSRComponent: (load) => {
+                if (document || window) { return false; }
+                const mod = __webpack_modules__[load.webpack()];
+                const component = __webpack_require__(mod.name || mod);
+                return getExport(component);
+            }
+        },
+        methods: {
+            async getComponent() {
+                let loader = this.get('loader');
+                try {
+                    if (loader) {
+                        return loader().then((Component) => Component);
+                    }
+                }
+                catch (err) {
+                    this.set({ 'error': err });
+                    return err;
+                }
+            }
+        },
+        async oncreate() {
+            const {default: component} = await this.getComponent();
+            this.set({component: component});
+        }
+    };
+
+    function getExport(mod) {
+        return mod && typeof mod === 'object' && mod.__esModule ? mod.default : mod;
+    }
+</script>

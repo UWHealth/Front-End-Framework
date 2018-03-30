@@ -3,9 +3,10 @@
 **/
 
 const browserSync     = require('browser-sync').create();
-const PATHS           = require('../../config/paths.config.js');
 
+const PATHS           = require(`${process.cwd()}/config/paths.config.js`);
 const ARGS            = require('../tools/args.js');
+
 const BS_DIR_VIEW     = ARGS.dir;
 const BS_OPEN_NEW_TAB = ARGS.open;
 
@@ -49,7 +50,6 @@ module.exports = function() { // eslint-disable-line
                     }
                 }
             },
-            plugins: ['bs-fullscreen-message'],
             reloadOnRestart: true
         });
 };

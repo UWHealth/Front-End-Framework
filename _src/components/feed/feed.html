@@ -1,0 +1,58 @@
+<header>
+{{#if feedResults && page !== 1}}
+    <button class="btn" on:click="set({'page': page - 1})">« Page {{page - 1}}</button>
+{{/if}}
+    {{#if page}} Page {{page}} {{/if}}
+{{#if feedResults && ((page * (MAX_PER_PAGE + 1)) <= feedResults.result.length)}}
+    <button class="btn" on:click="set({'page': page + 1})">Page {{page + 1}} »</button>
+{{/if}}
+    <hr>
+</header>
+
+{{#if feedResults}}
+    <Results results="{{feedResults}}" :page :MAX_PER_PAGE/>
+{{else}}
+
+    {{#await feed}}
+        <p>Loading Feed...</p>
+    {{then response}}
+        <Results results="{{response.results}}" :page :MAX_PER_PAGE/>
+    {{catch error}}
+        <p>{{error}}</p>
+    {{/await}}
+
+{{/if}}
+
+{{#if feedResults && page !== 1}}
+    <button class="btn" on:click="set({'page': page - 1})">« Page {{page - 1}}</button>
+{{/if}}
+    {{#if page}} Page {{page}} {{/if}}
+{{#if feedResults && ((page * (MAX_PER_PAGE + 1)) <= feedResults.result.length)}}
+    <button class="btn" on:click="set({'page': page + 1})">Page {{page + 1}} »</button>
+{{/if}}
+
+<style>
+    header {
+        margin-bottom: 1.6rem;
+    }
+</style>
+
+<script>
+    import Results from './feed.results.html';
+
+    import store from '@/components/demo/demo.store.js';
+
+    export default {
+        store: () => store,
+        components: { Results },
+
+        data() {
+            return {
+                feedUrl: "https://uconnect.wisc.edu/feeds/30m/json/homepage/index.json",
+                MAX_PER_PAGE: 10,
+                page: 0,
+                feedResults: ''
+            };
+        }
+    }
+</script>

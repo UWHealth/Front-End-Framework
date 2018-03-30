@@ -1,39 +1,19 @@
 <Demo demoTitle="Feed Example" variants="{{true}}">
     <div slot="header"></div>
     <div slot="variants">
-        <h5>Feed Page {{page}}</h5>
-    {{#if feedResults}}
-        <Results results="{{feedResults}}" :page :MAX_PER_PAGE/>
-    {{else}}
-        {{#await feed}}
-            <p>Loading Feed...</p>
-        {{then response}}
-            <Results results="{{response.results}}" :page :MAX_PER_PAGE/>
-        {{catch error}}
-            <p>{{error}}</p>
-        {{/await}}
-    {{/if}}
-
-    {{#if feedResults}}
-        {{#if page !== 1}}
-            <button on:click="set({'page': page - 1})">Page {{page - 1}}</button>
-        {{/if}}
-        {{#if (page * (MAX_PER_PAGE + 1)) <= feedResults.result.length}}
-            <button on:click="set({'page': page + 1})">Page {{page + 1}}</button>
-        {{/if}}
-    {{/if}}
-
+        <List :MAX_PER_PAGE :page :feedResults :feed />
     </div>
 </Demo>
 
 <script>
-    import store from '@/components/demo/demo.store.js';
     import Demo from '../demo/demo.wrapper.html';
-    import Results from './feed.results.html';
+    import List from './feed.html';
+
+    import store from '@/components/demo/demo.store.js';
 
     export default {
         store: () => store,
-        components: { Demo, Results },
+        components: { Demo, List },
 
         data() {
             return {

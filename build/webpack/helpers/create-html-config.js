@@ -72,6 +72,7 @@ function boostrapConfig(options, folderName) {
     config.devtool = MODE.production ? 'source-map' : false;
     config.target = "node";
     config.output.libraryTarget = "umd";
+    config.output.globalObject = "this";
 
     // Give js files a namespace
     config.output.filename = `[name].${options.nameSpace}.js`;

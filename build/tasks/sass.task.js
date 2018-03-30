@@ -18,6 +18,8 @@ const PATHS        = require('../../config/paths.config.js');
 const LOG = new logger('Sass');
 
 module.exports = (done) => {
+    LOG.spinner('Compiling');
+
     return new Promise((resolve, reject) => {
         if (MODE.production) {
             gulp

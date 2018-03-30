@@ -15,11 +15,11 @@ function taskOrder() {
 
     return !MODE.production ?
         // DEV
-        series('clean', parallel('copy', 'images', 'sass', 'webpack'), 'styleGuide', parallel('watch', 'browserSync'))
+        series('clean', 'images', parallel('webpack', 'copy', 'sass'), 'styleGuide', parallel('watch', 'browserSync'))
         :
         MODE.localProduction ?
             // LOCAL-PROD
-            series('clean', parallel('images', 'copy', 'sass', 'webpack', 'hbs'), 'styleGuide', parallel('watch', 'browserSync'))
+            series('clean', parallel('images', 'copy'), parallel('sass', 'webpack', 'hbs'), 'styleGuide', parallel('watch', 'browserSync'))
             :
             // PROD
             series('clean', parallel('images', 'copy'), parallel('sass', 'webpack', 'hbs'), 'styleGuide', 'size');

@@ -1,5 +1,5 @@
 {{#if results}}
-    {{#each results.result.slice(pageStart, pageEnd) as result, i}}
+    {{#each results.result.slice(pageStart, pageEnd) as result}}
         <div transition:slide class="media-object">
             {{#if description(result.description).image}}
                 <div class="media-object__media">
@@ -7,7 +7,7 @@
                 </div>
             {{/if}}
             <div class="media-object__body">
-                <strong>{{i}}:{{result.title}}</strong>
+                <strong>{{results.result.indexOf(result)}}: {{result.title}}</strong>
                 <p>{{{description(result.description).text}}}</p>
             </div>
         </div>
@@ -15,20 +15,28 @@
     {{/each}}
 {{/if}}
 
+<style>
+    .media-object__media img {
+        max-width: 15rem !important;
+        height: auto !important;
+    }
+</style>
+
 <script>
-    import {slide} from 'svelte-transitions';
+    import { slide } from 'svelte-transitions';
     import { cubicOut } from 'eases-jsnext';
 
     export default {
         data() {
             return {
-                MAX_PER_PAGE: 25,
-                page: 1
+                results: false,
+                page: 1,
+                MAX_PER_PAGE: 10
             };
         },
         computed: {
             pageStart: (page, MAX_PER_PAGE) => {
-                return page === 1 ? 0 : Math.max(0, page * (MAX_PER_PAGE + 1));
+                return page === 1 ? 0 : Math.max(0, (page - 1) * (MAX_PER_PAGE + 1));
             },
             pageEnd: (pageStart, MAX_PER_PAGE) => {
                 return pageStart + MAX_PER_PAGE + 1;

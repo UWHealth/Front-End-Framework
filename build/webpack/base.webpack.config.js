@@ -57,8 +57,8 @@ config.module.rules = [
                     }]
                 ],
                 plugins: [
-                    ["syntax-dynamic-import"],
-                    ["transform-imports"],
+                    // ["syntax-dynamic-import"],
+                    // ["transform-imports"],
                     ["transform-runtime", {
                         "helpers": true,
                         "polyfill": true,

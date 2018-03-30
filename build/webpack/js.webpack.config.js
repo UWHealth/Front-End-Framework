@@ -31,10 +31,14 @@ config.output = {
     publicPath: '/public/js/',
 
     filename: '[name].bundle.js',
-    chunkFilename: '[name].chunk.js',
+    chunkFilename: '[name].[chunkHash:3].js',
 
     libraryTarget: 'umd',
     library: 'uwhealth',
+};
+
+config.optimization.runtimeChunk = {
+    name: "main",
 };
 
 config.module.rules.push(
@@ -62,6 +66,44 @@ if (MODE.production) {
     config.devtool = 'source-map';
     config.node = false;
 
+    config.optimization = {
+        splitChunks: {
+            chunks: "async"
+        },
+        runtimeChunk: {
+            name: "manifest",
+        },
+        mergeDuplicateChunks: true,
+        portableRecords: true,
+        minimizer: [
+            new ClosureCompilerPlugin({
+                compiler: {
+                    language_in: 'ECMASCRIPT6',
+                    language_out: 'ECMASCRIPT5',
+                    compilation_level: 'SIMPLE',
+                    dependency_mode: 'LOOSE',
+                    rewrite_polyfills: false,
+                    create_source_map: true
+                },
+                rewrite_polyfills: false,
+                concurrency: 3
+            }),
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    ecma: 5,
+                    ie8: false,
+                    beautify: false,
+                    mangle: true,
+                    compress: true,
+                    comments: false,
+                    // exclude: /\/(t4|hbs)./
+                },
+                parallel: true,
+                sourceMap: true
+            })
+        ]
+    }
+
     config.plugins.push(
 
         // Keep module.id stable when vendor modules do not change
@@ -69,19 +111,6 @@ if (MODE.production) {
 
         // Remove module.hot code from modules
         // new webpack.NoHotModuleReplacementPlugin(),
-
-        new ClosureCompilerPlugin({
-            compiler: {
-                language_in: 'ECMASCRIPT6',
-                language_out: 'ECMASCRIPT5',
-                compilation_level: 'SIMPLE',
-                dependency_mode: 'LOOSE',
-                rewrite_polyfills: false,
-                create_source_map: true
-            },
-
-            concurrency: 3
-        }),
 
         // new ClosurePlugin({
         //     mode: 'STANDARD'
@@ -91,19 +120,6 @@ if (MODE.production) {
         //     compilation_level: 'SIMPLE',
         //     //rewrite_polyfills: false,
         // })
-
-        new UglifyJsPlugin({
-            uglifyOptions: {
-                ie8: false,
-                beautify: false,
-                mangle: true,
-                compress: true,
-                comments: false,
-                // exclude: /\/(t4|hbs)./
-            },
-            parallel: true,
-            sourceMap: true
-        }),
     );
 }
 

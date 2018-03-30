@@ -1,6 +1,6 @@
 <button class="btn {{modifiers(type, 'btn--')}}" on:click="cycleTypes()">
     <span class="btn__body {{modifiers(type, 'btn__body--')}}">
-        {{body}}
+        {{attrs && attrs.body ? attrs.body : body}}
     </span>
     {{#if icon}}
         <span class="btn__icon {{modifiers(type, 'btn__icon--')}}">
@@ -14,6 +14,7 @@
 <script>
     import modifiers from '../tools/modifiers.js';
     import titleCase from '@/components/tools/title-case.js';
+    import populateAttrs from '@/components/tools/populate-attributes.js';
 
     export default {
         data() {
@@ -21,26 +22,28 @@
                 body: "Button",
                 icon: false,
                 iconUrl: false,
+                attrs: false,
                 type: []
-            }
-        },
-        helpers: {
-            modifiers
+            };
         },
         setup(thisComponent) {
             thisComponent.TYPES = ['wide', 'compact', ''];
         },
-
+        helpers: { modifiers },
         methods: {
+            populateAttrs,
             cycleTypes() {
                 const buttonTypes = this.constructor.TYPES;
                 const currentType = this.get('type')[0] || '';
                 const i = buttonTypes.indexOf(currentType);
                 const nextItem = (buttonTypes.length - 1) > i ? buttonTypes[i + 1] : buttonTypes[0];
 
-                this.set({body: titleCase(nextItem || 'normal')})
+                this.set({body: titleCase(nextItem || 'normal')});
                 return this.set({type: [nextItem]});
             }
+        },
+        oncreate() {
+            this.populateAttrs();
         }
     }
 </script>

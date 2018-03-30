@@ -5,13 +5,10 @@
 
 const webpack = require('webpack');
 
-const webpackConfigs = require('../webpack.build.js');
-
 const MODE = require('../tools/mode.js');
 const STATS = require('../webpack/helpers/webpack-stats.js');
 const logger = require('../tools/logger.js');
 
-const compiler = webpack(webpackConfigs);
 const LOG = new logger('Webpack');
 
 const watchOptions = (MODE.local || !MODE.production) ?
@@ -33,17 +30,17 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
 
         statLogs.forEach((stats) => {
             // Find the correct stat config, and get its name
-            const name = stats.compilation.compiler.options.name;
+            const name = '(' + stats.compilation.compiler.options.name + ')';
 
             const info = stats.toJson();
 
             if (stats.hasErrors()) {
-                LOG.error(name + ': ' + new Error(info.errors));
+                LOG.error(name + ' ' + new Error(info.errors));
             }
 
             if (stats.hasWarnings()) {
                 LOG.info(name + ' Warning');
-                LOG.info(info.warnings);
+                LOG.info(new Error(info.warnings));
             }
 
             const statsString = (!MODE.production) ?
@@ -51,7 +48,7 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
                 :
                 stats.toString(STATS());
 
-            return LOG.success(name + ' compiled ' + statsString);
+            return LOG.success(name + ' Compiled ' + statsString);
         });
     }
 
@@ -59,6 +56,9 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
 };
 
 function startWebpack(done) {
+    const webpackConfigs = require('../webpack.build.js');
+    const compiler = webpack(webpackConfigs);
+
     if (watching) {
         LOG.info('restarting', true);
         watching.close(() => {
