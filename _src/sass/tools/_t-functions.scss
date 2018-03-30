@@ -24,7 +24,7 @@ $cached-values: ();
         //@debug "(#{$c-i}):#{$cache-map}";
         @return $cached-value;
     } @else {
-        $result: call(#{$function-name}, $args...);
+        $result: call(safe-get-function($function-name), $args...);
         $cached-values: map-merge($cached-values, ($cache-map: $result)) !global;
         @return $result;
     }
@@ -72,6 +72,13 @@ Converts a number-like string to a number. Since Sass accepts quoted and non-quo
 @returns number
 */
 
+@function safe-get-function($name) {
+    @if function-exists('get-function') {
+        @return get-function($name);
+    } @else {
+        @return $name;
+    }
+}
 
 @function strip-units($value) {
     @return $value / ($value * 0 + 1);

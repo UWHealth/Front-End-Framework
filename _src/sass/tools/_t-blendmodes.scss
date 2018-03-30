@@ -601,7 +601,7 @@
 		$mode: unquote($mode);
 		$blended-color: null;
 
-		$blended-color: call(blend-#{$mode}, $foreground, $background, $amount);
+		$blended-color: call(get-function(blend-#{$mode}), $foreground, $background, $amount);
 
 		//@if $mode == normal {
 		//    $blended-color: blend-normal($foreground, $background);
