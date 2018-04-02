@@ -10,12 +10,12 @@ const rename       = require('gulp-rename');
 const sass         = require('gulp-sass');
 const sourcemaps   = require('gulp-sourcemaps');
 
-const logger       = require('../tools/logger.js');
+const Logger       = require('../tools/logger.js');
 const BROWSERS     = require('../../package.json').browserslist;
 const MODE         = require('../tools/mode');
 const PATHS        = require('../../config/paths.config.js');
 
-const LOG = new logger('Sass');
+const LOG = new Logger('Sass');
 
 module.exports = (done) => {
     LOG.spinner('Compiling');
@@ -30,21 +30,17 @@ module.exports = (done) => {
                     errLogToConsole: true
                 }))
                 // Autoprefix
-                .pipe(autoprefixer({
-                    browsers: BROWSERS
-                }))
+                .pipe(autoprefixer({ browsers: BROWSERS }))
 
                 // Minify
-                .pipe(cssnano({
-                    discardComments: {removeAll: true},
-                    zindex: false
-                }))
+                .pipe(cssnano({ discardComments: {removeAll: true}, zindex: false }))
 
                 // Output minified CSS
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
-                .on('error', reject)
-                .on('end', () => { LOG.success('Compiled'); return resolve; });
+
+                .on('error', (err) => reject(LOG.error(err)))
+                .on('end', () => resolve(LOG.success('Compiled')));
         }
         else {
             gulp
@@ -57,26 +53,20 @@ module.exports = (done) => {
                     errLogToConsole: true
                 }))
                 // Autoprefix
-                .pipe(autoprefixer({
-                    browsers: BROWSERS
-                }))
+                .pipe(autoprefixer({ browsers: BROWSERS }))
                 // Output non-minified
                 .pipe(gulp.dest(PATHS.sass.dest))
                 // Minify
-                .pipe(cssnano({
-                    discardComments: {removeAll: true},
-                    zindex: false
-                }))
-                .pipe(rename({
-                    suffix: '.min'
-                }))
+                .pipe(cssnano({ discardComments: {removeAll: true}, zindex: false }))
+                .pipe(rename({ suffix: '.min' }))
                 // Write out sourcemaps
                 .pipe(sourcemaps.write('./maps'))
                 // Output minified CSS
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
-                .on('error', reject)
-                .on('end', () => { LOG.success('Compiled'); return resolve; });
+
+                .on('error', (err) => reject(LOG.error(err)))
+                .on('end', () => resolve(LOG.success('Compiled')));
         }
 
         done();

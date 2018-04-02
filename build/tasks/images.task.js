@@ -9,10 +9,10 @@ const plumber = require('gulp-plumber');
 const pngquant = require('imagemin-pngquant');
 const changed = require('gulp-changed');
 
-const logger   = require('../tools/logger.js');
+const Logger   = require('../tools/logger.js');
 const PATHS    = require(`${process.cwd()}/config/paths.config.js`);
 
-const LOG = new logger('Images');
+const LOG = new Logger('Images');
 
 module.exports = () => {
     LOG.spinner('Compressing\n');
@@ -24,15 +24,11 @@ module.exports = () => {
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [
-                {
-                    removeViewBox: false
-                },
-                {
-                    cleanupIDs: false
-                }
+                { removeViewBox: false },
+                { cleanupIDs: false }
             ],
             use: [pngquant()]
         }))
-        .on('end', () => { LOG.ora.clear(); LOG.success('compressed'); })
+        .on('end', () => { LOG.ora.clear(); LOG.ora.clear(); LOG.success('compressed'); })
         .pipe(gulp.dest(PATHS.images.dest));
 };

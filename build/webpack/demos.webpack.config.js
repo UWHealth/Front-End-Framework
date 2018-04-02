@@ -16,8 +16,9 @@ const config = htmlConfig({
     sourceExtension: ".demo.html",
 });
 
-config.name = "Demos";
+config.name = "Demo";
 config.output.chunkFilename = "demo.[name][id].js";
+
 
 config.module.rules.push(
     // Allow for css to be inlined

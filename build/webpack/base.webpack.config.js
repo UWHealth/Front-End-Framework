@@ -14,12 +14,13 @@ const BROWSERS = require(cwd + '/package.json').browserslist;
 const config = {
     context: __dirname,
     mode: process.env.NODE_ENV,
+    devtool: 'cheap-source-map',
     resolve: {
         symlinks: false,
         modules: ['node_modules'],
         alias: {
             // Allow for local imports without relative paths
-            '@': PATHS.root.src
+            '@': PATHS.folders.src
         }
     },
     watchOptions: {
@@ -57,15 +58,15 @@ config.module.rules = [
                     }]
                 ],
                 plugins: [
-                    // ["syntax-dynamic-import"],
-                    // ["transform-imports"],
                     ["transform-runtime", {
                         "helpers": true,
                         "polyfill": true,
                         "regenerator": false,
                         "loose": true,
                         "modules": false
-                    }]
+                    }],
+                    // MODE.production ? ["transform-imports"] : null,
+                    // MODE.production ? ["syntax-dynamic-import"] : null
                 ]
             }
         }]
@@ -73,7 +74,7 @@ config.module.rules = [
 
     {
         test: /\.(hbs|handlebars|hbs\.svg)$/,
-        include: PATHS.root.src,
+        include: PATHS.folders.src,
         use: [{
             loader: 'handlebars-loader',
             query: {

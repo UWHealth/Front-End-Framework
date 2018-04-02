@@ -7,15 +7,9 @@ const webpack = require('webpack');
 
 const MODE = require('../tools/mode.js');
 const STATS = require('../webpack/helpers/webpack-stats.js');
-const logger = require('../tools/logger.js');
+const Logger = require('../tools/logger.js');
 
-const LOG = new logger('Webpack');
-
-const watchOptions = (MODE.local || !MODE.production) ?
-    { poll: 1000, ignored: /node_modules/ }
-    : null;
-
-let watching = false;
+const LOG = new Logger('Webpack');
 
 const webpackLogger = function(err, stats, done) { // eslint-disable-line
 
@@ -35,25 +29,33 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
             const info = stats.toJson();
 
             if (stats.hasErrors()) {
-                LOG.error(name + ' ' + new Error(info.errors));
+                return LOG.error(name + ' ' + new Error(info.errors));
             }
 
-            if (stats.hasWarnings()) {
-                LOG.info(name + ' Warning');
-                LOG.info(new Error(info.warnings));
-            }
+            // if (stats.hasWarnings()) {
+            //     LOG.info(name + ' Warning');
+            //     return LOG.info(stats.toString('minimal'));
+            // }
 
             const statsString = (!MODE.production) ?
-                stats.toString('minimal').replace(/\s+(\d)/g, ' $1')
+                `${stats.toString('minimal').replace(/\s+(\d*)(.*)/, ` $1 ${name}$2 `)}`
                 :
                 stats.toString(STATS());
 
-            return LOG.success(name + ' Compiled ' + statsString);
+
+            return LOG.success('Compiled' + statsString);
         });
     }
 
     if (typeof done === 'function') done();
 };
+
+
+const watchOptions = (MODE.localProduction || !MODE.production) ?
+    { poll: 1000, ignored: /node_modules/ }
+    : null;
+
+let watching = false;
 
 function startWebpack(done) {
     const webpackConfigs = require('../webpack.build.js');

@@ -43,6 +43,5 @@ module.exports = function(PATHS) {
  * @return {String}      normalize path string, if a glob, normalized to a POSIX path
  */
 const globNormalize = function(item) {
-    return (item.indexOf("*") > -1) ? item.replace(/\\/g, '/') : path.normalize(item);
+    return item.replace(/\\/g, '/');
 };
-

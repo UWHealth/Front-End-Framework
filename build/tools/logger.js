@@ -40,7 +40,7 @@ module.exports = function(task, message) {
 
         if (this && this.emit) { this.emit('end'); }
 
-        return this;
+        return self;
     };
 
     this.info = function(msg, showOra) {

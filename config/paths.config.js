@@ -25,8 +25,7 @@ const path = require('path');
 const normalizePaths = require('./tools/normalize-paths.js');
 
 const root = process.cwd();
-const bin  = path.resolve(__dirname);
-const config = bin;
+const config  = path.resolve(__dirname);
 const build = path.resolve(root, "build");
 const dist = path.resolve(root, "dist");
 const pub  = path.join(dist, "public");
@@ -36,8 +35,7 @@ const docs = path.resolve(root, "docs");
 const PATHS = {
     root: {
         "root": root,
-        "bin": bin,
-        "config": bin,
+        "config": config,
         "build": build,
         "dist": dist,
         "pub": pub,
@@ -48,6 +46,7 @@ const PATHS = {
 
 
 Object.assign(PATHS, {
+    folders: PATHS.root,
     clean: {
         "entry": {
             "dist": `${dist}/*`,

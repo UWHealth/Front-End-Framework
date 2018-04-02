@@ -1,11 +1,11 @@
 const del          = require('del');
-const logger       = require('../tools/logger.js');
+const Logger       = require('../tools/logger.js');
 const PATHS        = require(`${process.cwd()}/config/paths.config.js`);
 
-const LOG = new logger('Clean');
+const LOG = new Logger('Clean');
 
 module.exports = function(done) {
-    //LOG.spinner('deleting ./dist contents');
+    LOG.spinner('deleting ./dist contents');
 
     return del(PATHS.clean.entry.array)
         .then(() => {

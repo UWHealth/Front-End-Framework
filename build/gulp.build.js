@@ -2,16 +2,18 @@ const gulp         = require('gulp');
 const series       = gulp.series;
 const parallel     = gulp.parallel;
 
-const styleguide   = require('markdown-documentation-generator');
+const Logger       = require('./tools/logger.js');
+const LOG          = new Logger('Gulp');
+LOG.spinner('Starting');
 
-const LOG          = require('./tools/logger.js');
 const MODE         = require('./tools/mode');
-const PATHS        = require('../config/paths.config.js');
-const SG_CONFIG    = require(PATHS.styleGuide.entry.config);
 const TASKS        = require('./tools/require-tasks.js');
 
+
 function taskOrder() {
-    MODE.show();
+    LOG.ora.stopAndPersist({text: MODE.message()});
+    // LOG.info(...MODE.message());
+    // // MODE.show();
 
     return !MODE.production ?
         // DEV
@@ -30,41 +32,38 @@ function taskOrder() {
  * --------------------------------*/
 
 // Watch file paths for changes (as defined in the paths letiable)
-gulp.task('watch', TASKS.watch);
+gulp.task('watch', require(TASKS.watch));
 
 // Delete contents of compilation folders
-gulp.task('clean', TASKS.clean);
+gulp.task('clean', require(TASKS.clean));
 
 // Copy static files to dist/public
-gulp.task('copy', TASKS.copy);
+gulp.task('copy', require(TASKS.copy));
 
 // Report file sizes
-gulp.task('size', TASKS.size);
+gulp.task('size', require(TASKS.size));
 
 // Local Server
-gulp.task('browserSync', TASKS.browserSync);
+gulp.task('browserSync', require(TASKS.browserSync));
 
 /* ---------------------------------
  * Compilation Tasks
  * --------------------------------*/
 
 // Handlebars compilation
-gulp.task('hbs', TASKS.hbs);
+gulp.task('hbs', require(TASKS.hbs));
 
 // Image copying and compilation
-gulp.task('images', TASKS.images);
+gulp.task('images', require(TASKS.images));
 
 // Sass processing
-gulp.task('sass', TASKS.sass);
+gulp.task('sass', require(TASKS.sass));
 
 // Compile style guide
-gulp.task('styleGuide', () =>
-    styleguide.create(SG_CONFIG)
-        .catch(new LOG('Style Guide').error)
-);
+gulp.task('styleGuide', require(TASKS.styleguide));
 
 // Javascript concatenating, bundling, and webpack-ifying
-gulp.task('webpack', TASKS.webpack);
+gulp.task('webpack', require(TASKS.webpack));
 
 
 /* ---------------------------------
@@ -77,7 +76,5 @@ gulp.task('default', series(taskOrder(), function finish(done) {
 }));
 
 gulp.on('error', function(err) {
-    const log = new LOG('Gulp');
-    log.error(err.error);
-    log.notify(err.error);
+    new Logger('General').error(err.error);
 });

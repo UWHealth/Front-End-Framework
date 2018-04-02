@@ -10,17 +10,20 @@ const htmlmin = require('gulp-htmlmin');
 const tap = require('gulp-tap');
 
 const cwd = process.cwd();
-const LOG   = require(`../tools/logger.js`);
+const Logger = require(`../tools/logger.js`);
 const PATHS = require(`${cwd}/config/paths.config.js`);
 const loopAST = require('../tools/embed-hbs-partials.js');
 
+const LOG = new Logger('Handlebars');
 const Handlebars = require('handlebars');
 let currentFile;
 
-module.exports = () =>
-    gulp
+module.exports = () => {
+    LOG.spinner('Compiling');
+
+    return gulp
         .src(PATHS.hbs.entry.main)
-        .pipe(plumber(new LOG('HBS task').error))
+        .pipe(plumber(LOG.error))
         .pipe(htmlmin({
             collapseWhitespace: true,
             conservativeCollapse: true,
@@ -42,4 +45,6 @@ module.exports = () =>
             file.basename = file.basename.replace(/_/g, '');
             return file;
         }))
-        .pipe(gulp.dest(PATHS.hbs.dest));
+        .pipe(gulp.dest(PATHS.hbs.dest))
+        .on('end', () => LOG.success('Compiled'));
+};

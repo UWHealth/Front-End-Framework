@@ -3,11 +3,12 @@ const gulp = require('gulp');
 const cwd = process.cwd();
 const PATHS = require(cwd + '/config/paths.config.js');
 const MODE = require('../tools/mode.js');
-const LOG = require('../tools/logger.js');
+const Logger = require('../tools/logger.js');
 
 const opts = {ignoreInitial: true};
 
 module.exports = function() {
+    const LOG = new Logger('Watching');
     // Watch sass, styleguide, images, and fonts for changes
     gulp.watch(PATHS.sass.watch.all, opts, gulp.parallel('sass'));
     gulp.watch(PATHS.styleGuide.watch.array, opts, gulp.series('styleGuide'));
@@ -23,8 +24,8 @@ module.exports = function() {
     // Restarts webpack using the new changes
     gulp.watch(
         [
-            `${PATHS.root.build}/webpack.build.js`,
-            `${PATHS.root.build.replace(/\\/g, '/')}/webpack/**/*.js`,
+            `${PATHS.folders.build}/webpack.build.js`,
+            `${PATHS.folders.build.replace(/\\/g, '/')}/webpack/**/*.js`,
         ],
         opts,
         gulp.series((done) => {
@@ -42,7 +43,7 @@ module.exports = function() {
     gulp.watch([PATHS.demos.entry.svelte, PATHS.samples.entry.all], opts)
         .on('add', gulp.series('webpack'));
 
-    new LOG('Watching').info(' Sass, Style Guide, Images, and Fonts for changes...', true);
+    LOG.info(' Sass, Style Guide, Images, and Fonts for changes...', true);
 };
 
 // function newWebpackFiles(path, stats) {

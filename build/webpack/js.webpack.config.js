@@ -17,7 +17,6 @@ const config = cloneDeep(require(`./base.webpack.config.js`));
 
 config.stats = STATS;
 config.target = "web";
-config.devtool = 'cheap-source-map';
 
 config.name = "Javascript";
 
@@ -63,7 +62,6 @@ if (MODE.production) {
     const ClosurePlugin = require('closure-webpack-plugin');
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-    config.devtool = 'source-map';
     config.node = false;
 
     config.optimization = {
@@ -71,21 +69,21 @@ if (MODE.production) {
             chunks: "async"
         },
         runtimeChunk: {
-            name: "manifest",
+            name: "main",
         },
         mergeDuplicateChunks: true,
         portableRecords: true,
         minimizer: [
+
             new ClosureCompilerPlugin({
                 compiler: {
-                    language_in: 'ECMASCRIPT6',
-                    language_out: 'ECMASCRIPT5',
+                    language_in: 'ECMASCRIPT_2017',
+                    language_out: 'ECMASCRIPT5_STRICT',
                     compilation_level: 'SIMPLE',
                     dependency_mode: 'LOOSE',
-                    rewrite_polyfills: false,
-                    create_source_map: true
+                    rewrite_polyfills: true,
+                    create_source_map: true,
                 },
-                rewrite_polyfills: false,
                 concurrency: 3
             }),
             new UglifyJsPlugin({
@@ -102,7 +100,7 @@ if (MODE.production) {
                 sourceMap: true
             })
         ]
-    }
+    };
 
     config.plugins.push(
 

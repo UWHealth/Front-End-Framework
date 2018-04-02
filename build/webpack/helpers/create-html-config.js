@@ -33,12 +33,12 @@ function createHtmlConfig(options) {
         nameSpace: "html",
         sourceExtension: ".html.js",
         assetExtension: '.js',
-        dest: PATHS.root.dist,
+        dest: PATHS.folders.dist,
         baseConfig: {},
         debug: false
     }, options);
 
-    options.folderName = path.relative(PATHS.root.dist, options.dest).replace(/\\/g, '/');
+    options.folderName = path.relative(PATHS.folders.dist, options.dest).replace(/\\/g, '/');
     options.files = glob.sync(options.src);
 
     const config = boostrapConfig(options);
@@ -61,8 +61,8 @@ function boostrapConfig(options, folderName) {
 
     // Unify paths
     config.context = path.resolve(__dirname, '..');
-    config.output.publicPath = PATHS.root.dist;
-    config.output.path = PATHS.root.dist;
+    config.output.publicPath = PATHS.folders.dist;
+    config.output.path = PATHS.folders.dist;
     config.resolve.modules = ["node_modules"];
 
     // Make logging simpler (excluding chunks and js from logging)
@@ -72,7 +72,7 @@ function boostrapConfig(options, folderName) {
     config.devtool = MODE.production ? 'source-map' : false;
     config.target = "node";
     config.output.libraryTarget = "umd";
-    config.output.globalObject = "this";
+    // config.output.globalObject = "this";
 
     // Give js files a namespace
     config.output.filename = `[name].${options.nameSpace}.js`;
@@ -84,6 +84,7 @@ function boostrapConfig(options, folderName) {
             use: {
                 loader: 'svelte-loader',
                 options: {
+                    format: 'cjs',
                     generate: 'ssr',
                     dev: !MODE.production,
                     hydratable: true,

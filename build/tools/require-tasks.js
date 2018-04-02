@@ -6,7 +6,7 @@ const TASKS = {};
 
 glob.sync(`${cwd}/build/tasks/*`)
     .forEach((task) => {
-        TASKS[path.basename(task, '.task.js')] = require(path.resolve(task));
+        TASKS[path.basename(task, '.task.js')] = require.resolve(path.resolve(task));
     });
 
 module.exports = TASKS;
