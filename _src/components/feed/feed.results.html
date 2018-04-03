@@ -49,7 +49,7 @@
                 let text = Array.isArray(description) ? description[2] : description;
                 let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);
                 image = image ? image[0] :
-                    description[1] ?
+                    Array.isArray(description) && description[1] ?
                         '&lt;img src="https://uconnect.wisc.edu' + description[1] + '"/&gt;'
                         : '';
                 text = text.replace(image, '');

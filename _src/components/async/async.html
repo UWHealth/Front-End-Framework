@@ -1,9 +1,9 @@
 {{#if component}}
-    <:Component {component} :attrs />
+    <:Component {component} {{...attrs}} />
 {{elseif fallback}}
-    <:Component {fallback} :attrs />
+    <:Component {fallback} {{...attrs}} />
 {{elseif SSRComponent}}
-    <:Component {SSRComponent} :attrs />
+    <:Component {SSRComponent} {{...attrs}} />
 {{elseif error}}
     <div> {{error}} </div>
 {{/if}}
@@ -12,24 +12,26 @@
     export default {
         data() {
             return {
-                loader: null,
                 component: null,
                 fallback: null,
-                load: null
+                loader: null,
+                webpack: null,
+                attrs: null,
+                error: null
             };
         },
         computed: {
-            loader: (load) => {
-                return load.loader;
-            },
-            attrs: (load) => {
-                return load.attrs;
-            },
-            SSRComponent: (load) => {
+            SSRComponent: (webpack) => {
                 if (document || window) { return false; }
-                const mod = __webpack_modules__[load.webpack()];
-                const component = __webpack_require__(mod.name || mod);
-                return getExport(component);
+                // Find module in webpack cache
+                const mod = __webpack_modules__[webpack()];
+
+                // If module has a name or id, load it by that (and get its exports)
+                // Otherwise, load it as is
+                const component = mod.name || mod.id ?
+                    getExport(__webpack_require__(mod.name || mod.id))
+                    : mod && __webpack_require__(webpack());
+                return component ? component : false;
             }
         },
         methods: {
@@ -47,12 +49,12 @@
             }
         },
         async oncreate() {
-            const {default: component} = await this.getComponent();
+            const { default: component } = await this.getComponent();
             this.set({component: component});
         }
     };
 
     function getExport(mod) {
-        return mod && typeof mod === 'object' && mod.__esModule ? mod.default : mod;
+        return mod && typeof mod === 'object' && mod.__esModule ? mod["default"] : mod;
     }
 </script>

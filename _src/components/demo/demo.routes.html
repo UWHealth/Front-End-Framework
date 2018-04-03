@@ -18,7 +18,7 @@
         </Demo>
     {{then response}}
         <div transition:fade='{duration: 1000}'>
-            <:Component {response.default} ref:response.default />
+            <:Component {response.default} ref:response />
         </div>
     {{catch error}}
         {{error}}
