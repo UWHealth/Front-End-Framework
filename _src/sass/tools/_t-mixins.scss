@@ -186,7 +186,7 @@ Generates common button styles, allowing for simple creation of more complex gra
 		//Blend background color with shades of gray, using overlay for a more natural look
 		$top-color: blend-overlay($bg-color, hsl(0, 0%, $top-blend));
         $bottom-color: blend-overlay($bg-color, hsl(0, 0%, $bottom-blend));
-		$box-shadow: inset 0 .185em .175em call(get-function($shadow-blend), $top-color, 30%);
+		$box-shadow: inset 0 .185em .175em call(safe-get-function($shadow-blend), $top-color, 30%);
 
 
         background-image: linear-gradient(to bottom,

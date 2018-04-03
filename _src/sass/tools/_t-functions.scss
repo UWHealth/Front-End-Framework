@@ -1,6 +1,13 @@
 /* SG
 # Functions/General [[dev]]
 
+##### `safe-get-function()`
+###### function(`$function-name`)
+Wrapper for Sass' internal `get-function` that allows for compatibility across Sass versions. If version is higher than 3.5, then the function is returned, otherwise, just the name.
+
+@returns function
+
+
 ##### `cache()`
 ###### function(`$function-name, $args...`)
 Memoize (cache) a function's return values and arguments. Speeds up processing on intensive functions that get called many times (with the same arguments).
@@ -11,17 +18,23 @@ _NOTE: This can actually **increase** processing time if used too often or on si
 
 */
 
-//Caching(memoization) function
+@function safe-get-function($name) {
+    @if function-exists('get-function') {
+        @return get-function($name);
+    } @else {
+        @return $name;
+    }
+}
+
+
 $c-i: 0;
 $cached-values: ();
 
 @function cache($function-name, $args...) {
-    $cache-map: "#{$function-name}, #{$args}";
+    $cache-map: '#{$function-name}, #{$args}';
     $cached-value: map-get($cached-values, $cache-map);
 
     @if $cached-value != null and $cached-value != '' {
-        //$c-i: 1 + $c-i !global;
-        //@debug "(#{$c-i}):#{$cache-map}";
         @return $cached-value;
     } @else {
         $result: call(safe-get-function($function-name), $args...);
@@ -71,14 +84,6 @@ Converts a list to a string with an optional separator.
 Converts a number-like string to a number. Since Sass accepts quoted and non-quoted values like `"10px"` and `10px`, but can only do math on the unquoted (number) value, it is sometimes necessary to convert/cast a string to a number.
 @returns number
 */
-
-@function safe-get-function($name) {
-    @if function-exists('get-function') {
-        @return get-function($name);
-    } @else {
-        @return $name;
-    }
-}
 
 @function strip-units($value) {
     @return $value / ($value * 0 + 1);

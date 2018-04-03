@@ -175,7 +175,7 @@ Takes base color values and generates a full color palette. Used by the `$$base-
                         $curr_fn: unquote('blend-') + $curr_fn;
                     }
 
-                    $new-color: call(get-function($curr_fn), $curr_color, $amount); 	//[7a]
+                    $new-color: call(safe-get-function($curr_fn), $curr_color, $amount); 	//[7a]
                     $value: ($variant: $new-color); 					//[7b]
 
                     $values-list: map-merge($value, $values-list);		//[7c]
@@ -459,7 +459,7 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 
         @each $color, $name in $color-list {
             @each $key, $value in $name {
-                $value: call(get-function($blending-mode), $blending-color, $value, $amount);
+                $value: call(safe-get-function($blending-mode), $blending-color, $value, $amount);
                 $temp-key: ($key: $value);
                 $temp-color: ($color: ($temp-key));
                 $temp-name-map: map-merge($temp-name-map, $temp-color);
@@ -472,7 +472,7 @@ Debugging tool that creates a pretty color palette (in columns) using psuedo sel
 
     }@else {
         @each $value in $color-list {
-            $value: call(get-function($blending-mode), $blending-color, $value, $amount);
+            $value: call(safe-get-function($blending-mode), $blending-color, $value, $amount);
             $temp-list: append($temp-list, $value);
         }
         $return: $temp-list;
