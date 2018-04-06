@@ -24,29 +24,31 @@
 const path = require('path');
 const normalizePaths = require('./tools/normalize-paths.js');
 
-const root = process.cwd();
-const config  = path.resolve(__dirname);
-const build = path.resolve(root, "build");
-const dist = path.resolve(root, "dist");
-const pub  = path.join(dist, "public");
-const src  = path.resolve(root, "_src");
-const docs = path.resolve(root, "docs");
+const root     = process.cwd();
+const config   = path.resolve(root, "config");
+const build    = path.resolve(root, "build");
+const dist     = path.resolve(root, "dist");
+const pub      = path.join(dist, "public");
+const src      = path.resolve(root, "_src");
+const docs     = path.resolve(root, "docs");
+const dirArray = `${root}`.split(path.delimiter);
 
 const PATHS = {
-    root: {
-        "root": root,
-        "config": config,
-        "build": build,
-        "dist": dist,
-        "pub": pub,
-        "src": src,
-        "docs": docs
+    folders: {
+        "project": dirArray[dirArray.length - 1], // Project Name or root folder name
+        // All paths from here on are absolute
+        "root": root,     // Root folder
+        "config": config, // Config folder
+        "build": build,   // Build folder
+        "dist": dist,     // Built files
+        "pub": pub,       // Published (public) folder
+        "src": src,       // Files to be built
+        "docs": docs,     // Documentation folder
     }
 };
 
 
 Object.assign(PATHS, {
-    folders: PATHS.root,
     clean: {
         "entry": {
             "dist": `${dist}/*`,

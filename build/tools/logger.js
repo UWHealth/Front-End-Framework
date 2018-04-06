@@ -9,6 +9,7 @@ const pe = new PrettyError().appendStyle(require('./logger-style.js'));
 // draftLog(console);
 
 module.exports = function(task, message) {
+    task = task || '';
     this.ora = new ora(task);
 
     const self = this;
@@ -34,7 +35,7 @@ module.exports = function(task, message) {
     this.error = function(err) {
         const error = message || err;
 
-        self.ora.clear().fail(chalk.bold.red(task + " error \n"));
+        self.ora.stop().fail(chalk.bold.red(task + " error \n"));
 
         console.error(pe.render(error));
 
@@ -43,10 +44,13 @@ module.exports = function(task, message) {
         return self;
     };
 
-    this.info = function(msg, showOra) {
-        msg = msg || message;
+    this.info = function(msg, showOra) { // eslint-disable-line
+        msg = msg || (showOra && showOra.text) || message;
+
         if (showOra) {
-            self.ora.clear().info(chalk.blue(task) + ' ' + msg);
+            msg = chalk.blue(task) + ' ' + msg;
+            const opts = showOra.symbol ? { text: msg, symbol: showOra.symbol } : msg;
+            self.ora.clear().info(opts);
         }
         else {
             log.info(chalk.cyan(task), msg);
@@ -55,6 +59,6 @@ module.exports = function(task, message) {
 
     this.success = function(msg) {
         msg = msg || message || '';
-        self.ora.succeed(chalk.green(task) + ' ' + msg);
+        self.ora.stop().succeed(chalk.green(task) + ' ' + msg);
     };
 };

@@ -2,16 +2,16 @@
  * @fileoverview - Pre-compiles handlebars files, while also embedding partials. Essentially creates handlebars "bundles" for external consumption (by something like T4) without the need to register partials.
  **/
 
-const gulp = require('gulp');
-const handlebars = require('gulp-handlebars');
-const plumber = require('gulp-plumber');
-const rename = require('gulp-rename');
+const gulp    = require('gulp');
+const gulpHbs = require('gulp-handlebars');
 const htmlmin = require('gulp-htmlmin');
-const tap = require('gulp-tap');
+const rename  = require('gulp-rename');
+const plumber = require('gulp-plumber');
+const tap     = require('gulp-tap');
 
-const cwd = process.cwd();
-const Logger = require(`../tools/logger.js`);
-const PATHS = require(`${cwd}/config/paths.config.js`);
+const CWD     = process.cwd();
+const Logger  = require(`../tools/logger.js`);
+const PATHS   = require(`${CWD}/config/paths.config.js`);
 const loopAST = require('../tools/embed-hbs-partials.js');
 
 const LOG = new Logger('Handlebars');
@@ -19,7 +19,7 @@ const Handlebars = require('handlebars');
 let currentFile;
 
 module.exports = () => {
-    LOG.spinner('Compiling');
+    LOG.spinner('Compiling ');
 
     return gulp
         .src(PATHS.hbs.entry.main)
@@ -29,10 +29,10 @@ module.exports = () => {
             conservativeCollapse: true,
             ignoreCustomFragments: [/{{{?.+}?}}/],
         }))
-        .pipe(tap(function(file, t) {
+        .pipe(tap(function(file) {
             currentFile = file.path;
         }))
-        .pipe(handlebars({
+        .pipe(gulpHbs({
             handlebars: Handlebars,
             processAST: function(ast) {
                 // Find partial statements and embed them
@@ -46,5 +46,5 @@ module.exports = () => {
             return file;
         }))
         .pipe(gulp.dest(PATHS.hbs.dest))
-        .on('end', () => LOG.success('Compiled'));
+        .on('end', () => LOG.success('Compiled '));
 };

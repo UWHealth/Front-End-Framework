@@ -8,6 +8,7 @@ const webpack = require('webpack');
 const MODE = require('../tools/mode.js');
 const STATS = require('../webpack/helpers/webpack-stats.js');
 const Logger = require('../tools/logger.js');
+const ARGS = require('../tools/args.js');
 
 const LOG = new Logger('Webpack');
 
@@ -37,7 +38,7 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
             //     return LOG.info(stats.toString('minimal'));
             // }
 
-            const statsString = (!MODE.production) ?
+            const statsString = (!MODE.production && !ARGS.stats) ?
                 `${stats.toString('minimal').replace(/\s+(\d*)(.*)/, ` $1 ${name}$2 `)}`
                 :
                 stats.toString(STATS());
@@ -61,14 +62,16 @@ function startWebpack(done) {
     const webpackConfigs = require('../webpack.build.js');
     const compiler = webpack(webpackConfigs);
 
+    // Restart if already watching
     if (watching) {
-        LOG.info('restarting', true);
+        LOG.info('Restarted', true);
         watching.close(() => {
             watching = false;
             startWebpack(done);
         });
     }
     else {
+
         if (watchOptions) {
             compiler.hooks.watchRun.tap('Log Compilation', () => {
                 LOG.spinner('Compiling');

@@ -16,7 +16,9 @@ const MODE = require(`${cwd}/build/tools/mode.js`);
 
 
 /**
- * Generates a webpack configuration specifically tailored for making html pages from JS files using html-webpack-plugin and our evaluate-template-webpack-plugin. Creates folders and sub-folders (with index.html) for each page.
+ * Generates a webpack configuration specifically tailored for making html pages from
+ * JS files using html-webpack-plugin and our evaluate-template-webpack-plugin.
+ * Creates folders and sub-folders (with index.html) for each page.
  * @param  {object} options
  * @param  {String} options.src             File glob pattern to collect templates.
  * @param  {String} options.template        path to the base template for html-webpack-plugin.
@@ -34,11 +36,13 @@ function createHtmlConfig(options) {
         sourceExtension: ".html.js",
         assetExtension: '.js',
         dest: PATHS.folders.dist,
+        baseDist: PATHS.folders.dist,
         baseConfig: {},
         debug: false
     }, options);
 
-    options.folderName = path.relative(PATHS.folders.dist, options.dest).replace(/\\/g, '/');
+    options.folderName = path.relative(options.baseDist, options.dest).replace(/\\/g, '/');
+    options.outputPath = options.dest.replace(`${options.folderName}`, '');
     options.files = glob.sync(options.src);
 
     const config = boostrapConfig(options);
@@ -61,8 +65,8 @@ function boostrapConfig(options, folderName) {
 
     // Unify paths
     config.context = path.resolve(__dirname, '..');
-    config.output.publicPath = PATHS.folders.dist;
-    config.output.path = PATHS.folders.dist;
+    config.output.publicPath = path.relative(options.baseDist, options.outputPath) + '/';
+    config.output.path = options.outputPath;
     config.resolve.modules = ["node_modules"];
 
     // Make logging simpler (excluding chunks and js from logging)
@@ -99,7 +103,8 @@ function boostrapConfig(options, folderName) {
 
 
 /**
- * Loops through files and creates an entry point for each. All entry points are named with a relative path from dist for a clearer log.
+ * Loops through files and creates an entry point for each.
+ * All entry points are named with a relative path from dist for a clearer log.
  * @param {Object} options generateHtmlConfig options
  * @return {Object} Entry points for each file, namespaced by their folder
  */
@@ -109,6 +114,7 @@ function addEntryPoints(options) {
     options.files.forEach((file) => {
         const baseName = path.basename(file, options.sourceExtension);
         const entryName = path.join(options.folderName, baseName, baseName);
+
         entryPoints[entryName] = file;
     });
 
@@ -117,13 +123,20 @@ function addEntryPoints(options) {
 
 
 /**
- * Loops through files and adds a new HTML plugin for each. Ultimately, this generates a new html file for each file input. Each file is output to something like dist/[options.dest]/[filename]/index.html
+ * Loops through files and adds a new HTML plugin for each.
+ * Ultimately, this generates a new html file for each file input.
+ * Each file is output to something like dist/[options.dest]/[filename]/index.html
  * @param {Object} options generateHtmlConfig options
  * @return {Array} A series of calls to the html-webpack-plugin for each file and a single call to the evaluate-template-plugin to create the inner Html of each page.
  */
 function addHtmlPlugins(options) {
     const plugins = [];
 
+    const ManifestPlugin = require('webpack-manifest-plugin');
+
+    plugins.push(
+        new ManifestPlugin({seed: {name: 'My Manifest'}})
+    );
     // Loop through files, adding html pages for each
     options.files.forEach((file) => {
         const baseName = path.basename(file, options.sourceExtension);
@@ -147,6 +160,7 @@ function addHtmlPlugins(options) {
     plugins.push(
         // Add evaluated demo to html data
         new EvalTemplatePlugin({
+
             templating: function(source) { // eslint-disable-line
                 if (options.debug) {
                     console.log(source);

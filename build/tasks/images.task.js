@@ -29,6 +29,6 @@ module.exports = () => {
             ],
             use: [pngquant()]
         }))
-        .on('end', () => { LOG.ora.clear(); LOG.ora.clear(); LOG.success('compressed'); })
+        .on('end', () => { LOG.ora.clear(); LOG.ora.clear(); LOG.success('Compressed '); })
         .pipe(gulp.dest(PATHS.images.dest));
 };

@@ -10,15 +10,20 @@ const rename       = require('gulp-rename');
 const sass         = require('gulp-sass');
 const sourcemaps   = require('gulp-sourcemaps');
 
+const CWD          = process.cwd();
+const BROWSERS     = require(`${CWD}/package.json`).browserslist;
 const Logger       = require('../tools/logger.js');
-const BROWSERS     = require('../../package.json').browserslist;
 const MODE         = require('../tools/mode');
-const PATHS        = require('../../config/paths.config.js');
+const PATHS        = require(`${CWD}/config/paths.config.js`);
+
+const browserSync  = require('browser-sync');
+const bs           = browserSync.has(PATHS.folders.project) && browserSync.get(PATHS.folders.project);
+const bsStream     = bs.stream;
 
 const LOG = new Logger('Sass');
 
 module.exports = (done) => {
-    LOG.spinner('Compiling');
+    LOG.spinner('Compiling ');
 
     return new Promise((resolve, reject) => {
         if (MODE.production) {
@@ -38,9 +43,10 @@ module.exports = (done) => {
                 // Output minified CSS
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
+                .pipe(bsStream())
 
                 .on('error', (err) => reject(LOG.error(err)))
-                .on('end', () => resolve(LOG.success('Compiled')));
+                .on('end', () => resolve(LOG.success('Compiled ')));
         }
         else {
             gulp

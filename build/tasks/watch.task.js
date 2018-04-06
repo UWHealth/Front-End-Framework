@@ -3,12 +3,12 @@ const gulp = require('gulp');
 const cwd = process.cwd();
 const PATHS = require(cwd + '/config/paths.config.js');
 const MODE = require('../tools/mode.js');
-const Logger = require('../tools/logger.js');
+const glob = require('fast-glob');
+const path = require('path');
 
 const opts = {ignoreInitial: true};
 
 module.exports = function() {
-    const LOG = new Logger('Watching');
     // Watch sass, styleguide, images, and fonts for changes
     gulp.watch(PATHS.sass.watch.all, opts, gulp.parallel('sass'));
     gulp.watch(PATHS.styleGuide.watch.array, opts, gulp.series('styleGuide'));
@@ -29,10 +29,7 @@ module.exports = function() {
         ],
         opts,
         gulp.series((done) => {
-            delete require.cache[require.resolve('../webpack.build.js')];
-            delete require.cache[require.resolve('../webpack/js.webpack.config.js')];
-            delete require.cache[require.resolve('../webpack/samples.webpack.config.js')];
-            delete require.cache[require.resolve('../webpack/demos.webpack.config.js')];
+            flushWebpackFromCache(['./build/webpack/**/*', './build/webpack.build.js']);
             done();
         }, 'webpack')
     );
@@ -40,12 +37,16 @@ module.exports = function() {
     // Watch for new samples or components are added,
     // where webpack needs to create new html pages.
     // Restarts webpack to add new files
-    gulp.watch([PATHS.demos.entry.svelte, PATHS.samples.entry.all], opts)
+    gulp.watch(
+        [PATHS.demos.entry.svelte, PATHS.samples.entry.all], opts)
         .on('add', gulp.series('webpack'));
-
-    LOG.info(' Sass, Style Guide, Images, and Fonts for changes...', true);
 };
 
-// function newWebpackFiles(path, stats) {
-//     console.log(path);
-// }
+function flushWebpackFromCache(configPaths) {
+    const webpackConfigs = glob.sync(configPaths);
+
+    webpackConfigs.forEach((config) => {
+        const fullPath = path.resolve(process.cwd(), config);
+        return fullPath ? delete require.cache[require.resolve(fullPath)] : null;
+    });
+}

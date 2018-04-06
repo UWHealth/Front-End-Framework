@@ -17,7 +17,7 @@ const config = htmlConfig({
 });
 
 config.name = "Demo";
-config.output.chunkFilename = "demo.[name][id].js";
+// config.output.chunkFilename = "demo.[name][id].js";
 
 
 config.module.rules.push(

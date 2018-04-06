@@ -17,6 +17,12 @@ yargs.options({
         type: 'boolean',
         group: 'Environment:'
     },
+    'stats': {
+        describe: 'Show full Webpack stats',
+        type: 'boolean',
+        default: false,
+        group: 'Logging: '
+    },
     'open': {
         alias: 'newtab',
         describe: 'Open a new tab immediately',

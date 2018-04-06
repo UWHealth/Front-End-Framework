@@ -1,19 +1,17 @@
-const gulp         = require('gulp');
-const series       = gulp.series;
-const parallel     = gulp.parallel;
+const gulp       = require('gulp');
+const series     = gulp.series;
+const parallel   = gulp.parallel;
 
-const Logger       = require('./tools/logger.js');
-const LOG          = new Logger('Gulp');
+const TASKS      = require('./tools/require-tasks.js');
+const Logger     = require('./tools/logger.js');
+const LOG        = new Logger('Gulp');
+
 LOG.spinner('Starting');
 
-const MODE         = require('./tools/mode');
-const TASKS        = require('./tools/require-tasks.js');
-
-
 function taskOrder() {
+    const MODE  = require('./tools/mode');
+
     LOG.ora.stopAndPersist({text: MODE.message()});
-    // LOG.info(...MODE.message());
-    // // MODE.show();
 
     return !MODE.production ?
         // DEV

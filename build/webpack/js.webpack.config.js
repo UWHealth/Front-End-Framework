@@ -11,33 +11,56 @@ const cwd    = process.cwd();
 const PATHS = require(`${cwd}/config/paths.config.js`);
 const STATS = require('./helpers/webpack-stats.js')();
 const MODE  = require('../tools/mode.js');
-const BROWSERS = require(`${cwd}/package.json`).browserslist;
+const baseConfig = require(`./base.webpack.config.js`);
 
-const config = cloneDeep(require(`./base.webpack.config.js`));
+const config = cloneDeep(baseConfig);
 
 config.stats = STATS;
 config.target = "web";
 
 config.name = "Javascript";
 
+config.recordsPath = cwd + '/dist/public/js/js-records.json';
+
 config.entry = {
     main: PATHS.js.entry.main,
     plugins: PATHS.js.entry.plugins
 };
+
+const ManifestPlugin = require('webpack-manifest-plugin');
+
+config.plugins.push(new ManifestPlugin({seed: {name: 'My Manifest'}}));
 
 config.output = {
     path: PATHS.js.dest,
     publicPath: '/public/js/',
 
     filename: '[name].bundle.js',
-    chunkFilename: '[name].[chunkHash:3].js',
+    chunkFilename: MODE.production ? '[name].[hash:3].js' : '[name].js',
 
     libraryTarget: 'umd',
     library: 'uwhealth',
 };
 
 config.optimization.runtimeChunk = {
-    name: "main",
+    name: "main"
+};
+
+config.optimization.portableRecords = true;
+
+config.resolve.mainFields.unshift("browser");
+
+config.optimization.splitChunks = {
+    chunks: "async",
+    cacheGroups: {
+        svelteShared: {
+            test: /svelte[\\/](shared|store)/,
+            priority: 1,
+            minChunks: 1,
+            filename: "svelteShared.js",
+            chunks: "async"
+        },
+    }
 };
 
 config.module.rules.push(
@@ -59,7 +82,7 @@ config.module.rules.push(
 
 if (MODE.production) {
     const ClosureCompilerPlugin = require('webpack-closure-compiler');
-    const ClosurePlugin = require('closure-webpack-plugin');
+    // const ClosurePlugin = require('closure-webpack-plugin');
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
     config.node = false;
@@ -86,6 +109,7 @@ if (MODE.production) {
                 },
                 concurrency: 3
             }),
+
             new UglifyJsPlugin({
                 uglifyOptions: {
                     ecma: 5,

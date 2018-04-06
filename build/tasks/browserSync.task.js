@@ -2,17 +2,17 @@
  * @fileoverview Spins up local http server, pointing to the dist folder.  Uses BrowserSync, so automatic reloading and action-syncing is also handled.
 **/
 
-const browserSync     = require('browser-sync').create();
+module.exports = () => { // eslint-disable-line
+    const browserSync = require('browser-sync');
 
-const PATHS           = require(`${process.cwd()}/config/paths.config.js`);
-const ARGS            = require('../tools/args.js');
+    const ARGS        = require('../tools/args.js');
+    const PATHS       = require(`${process.cwd()}/config/paths.config.js`);
+    const INSTANCE    = browserSync.create(PATHS.folders.project);
 
-const BS_DIR_VIEW     = ARGS.dir;
-const BS_OPEN_NEW_TAB = ARGS.open;
+    attachEvents(INSTANCE);
 
-
-module.exports = function() { // eslint-disable-line
-    const BS_FILES = PATHS.browserSync.watch.array;
+    const BS_DIR_VIEW     = ARGS.dir;
+    const BS_OPEN_NEW_TAB = ARGS.open;
 
     // Allow for --bsserver argument. Otherwise, use default
     const BS_SERVER = ARGS.bsserver || {
@@ -22,9 +22,9 @@ module.exports = function() { // eslint-disable-line
 
     const BS_PORT = ARGS.bsport || PATHS.browserSync.port;
 
-    browserSync
+    INSTANCE
         .init({
-            files: BS_FILES,
+            files: PATHS.browserSync.watch.array,
             port: BS_PORT,                            // Allow for --bsport= argument
             proxy: ARGS.bsproxy || undefined,         // Allow for --bsproxy= argument
             serveStatic: ARGS.bsservestatic || [],    // Allow for --bsservestatic= argument
@@ -40,7 +40,7 @@ module.exports = function() { // eslint-disable-line
                 forms: true,
                 scroll: false
             },
-            logPrefix: false,
+            logPrefix: 'ℹ︎',
             snippetOptions: {
                 // Browsersync script tag placement
                 rule: {
@@ -50,8 +50,71 @@ module.exports = function() { // eslint-disable-line
                     }
                 }
             },
-            reloadOnRestart: true
+            reloadOnRestart: true,
+            // Use our own logging
+            logLevel: "silent",
+            logFileChanges: true
+        },
+        function() {
+            module.exports.instance = INSTANCE;
         });
 };
 
-module.exports.browserSync = browserSync.instance;
+
+function attachEvents (INSTANCE) {
+    const EVENT  = INSTANCE.emitter;
+    const chalk  = require('chalk');
+    const Logger = require('../tools/logger.js');
+    const LOG    = new Logger('Server');
+    const symbol = chalk`{blue.bold →}`;
+
+    EVENT.on("service:running", (bs, data) => {
+        let baseDir = bs.options.getIn(["server", "baseDir"]);
+        for (const [, value] of baseDir.entries()) {
+            baseDir = value;
+        }
+        const URLS  = bs.options.get("urls");
+
+        return console.info(chalk`\n${symbol} {blue Server started at {bold ${URLS.get('local')}}} (${URLS.get('external')})\n`);
+    });
+
+    // EVENT.on("browser:reload", function(bs, data = {}) {
+    //     if (data.files && data.files.length > 1) {
+    //         return LOG.ora.stopAndPersist({
+    //             symbol: symbol,
+    //             text: chalk`{blue Reloading browsers} (buffered ${data.files.length} events)`
+    //         });
+    //     }
+    //     return LOG.ora.stopAndPersist({
+    //         symbol: symbol,
+    //         text: chalk`{blue Reloading browsers}`
+    //     });
+    // });
+
+    EVENT.on("stream:changed", (bs, data) => {
+        const changed = data && data.changed;
+        const plural = changed.length > 1 ? "files" : "file";
+        const files = changed.join(", ");
+        console.info('\n');
+        LOG.ora.stopAndPersist({
+            symbol: symbol,
+            text: chalk`{blue ${changed.length} ${plural} changed} (${files})`
+        });
+    });
+
+    EVENT.on("file:reload", (bs, data) => {
+        if (data && data.path[0] === "*") {
+            return LOG.ora.stopAndPersist({
+                symbol: symbol,
+                text: chalk`{blue Reloading files that match: {magenta ${data.path}}}`,
+            });
+        }
+
+        if (data) {
+            LOG.ora.stopAndPersist({
+                symbol: symbol,
+                text: chalk`{blue File event [${data.event}] : {magenta ${data.path}}}`
+            });
+        }
+    });
+};
