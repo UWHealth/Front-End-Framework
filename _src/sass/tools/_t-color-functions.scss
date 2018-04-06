@@ -31,9 +31,11 @@ Passing only a color name will default to the 'base' color.
 @function colors($color-name, $tone: 'base', $opacity: 1) {
 
     @if not map-has-key($base-colors, $color-name) {
-        @warn "Key '#{$color-name}' not found in $base-colors map. Cannot compile Sass.";
+        @warn "Color '#{$color-name}' not found in $base-colors map. Returning #f00 instead";
+        @return red;
     }@else if not map-has-key(map-get($base-colors, $color-name), $tone) {
-        @warn "Tone '#{$tone}' not found in #{$color-name}. Cannot compile Sass.";
+        @warn "Tone '#{$tone}' not found in #{$color-name}. Returning #f00 instead.";
+        @return red;
     }
 
     @if $opacity < 1 {
