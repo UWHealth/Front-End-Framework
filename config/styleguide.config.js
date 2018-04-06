@@ -15,7 +15,7 @@ module.exports = {
         "scss": true,
         "sass": false,
         "css": false,
-        "less": true,
+        "less": false,
         "md": true
     },
     "templateFile": SG.templateFile,
@@ -24,9 +24,6 @@ module.exports = {
     "jsonOutput": false,
     "handlebarsPartials": {
         "jquery": SG.jquery,
-        "./_header.seo.hbs": PATHS.hbs.folders.root + '/header/_header.seo.hbs',
-        "./_header.app.hbs": PATHS.hbs.folders.root + '/header/_header.app.hbs',
-        "./_header.social.hbs": PATHS.hbs.folders.root + '/header/_header.social.hbs',
         "toc": SG.toc,
         "head": PATHS.hbs.entry.header,
         "footer": PATHS.hbs.entry.footer
@@ -45,5 +42,9 @@ module.exports = {
     "markedOptions": {
         "gfm": true,
         "breaks": true
+    },
+    "logging": {
+        "prefix": "Style Guide",
+        "level": "minimal"
     }
 };
