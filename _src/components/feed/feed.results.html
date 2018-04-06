@@ -1,5 +1,5 @@
 {{#if results}}
-    {{#each results.result.slice(pageStart, pageEnd) as result}}
+    {{#each results.result.slice(pageStart, pageEnd) as result @title}}
         <div transition:slide class="media-object">
             {{#if description(result.description).image}}
                 <div class="media-object__media">
@@ -25,6 +25,7 @@
 <script>
     import { slide } from 'svelte-transitions';
     import { cubicOut } from 'eases-jsnext';
+    import decodeEntities from '../tools/decode-html.js';
 
     export default {
         data() {
@@ -63,24 +64,4 @@
             });
         }
     };
-
-    var decodeEntities = (function() {
-        // this prevents any overhead from creating the object each time
-        var element = document ? document.createElement('div') : '';
-
-        function decodeHTMLEntities (str) {
-            if (str && typeof str === 'string') {
-                // strip script/html tags
-                str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
-                str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-                element.innerHTML = str;
-                str = element.textContent;
-                element.textContent = '';
-            }
-
-            return str;
-        }
-
-        return decodeHTMLEntities;
-    })();
 </script>

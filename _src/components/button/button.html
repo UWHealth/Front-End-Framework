@@ -1,6 +1,6 @@
-<button class="btn {{modifiers(type, 'btn--')}}" on:click="cycleTypes()">
+<button class="btn {{modifiers(type, 'btn--')}}">
     <span class="btn__body {{modifiers(type, 'btn__body--')}}">
-        {{attrs && attrs.body ? attrs.body : body}}
+        {{body}}
     </span>
     {{#if icon}}
         <span class="btn__icon {{modifiers(type, 'btn__icon--')}}">
@@ -14,7 +14,6 @@
 <script>
     import modifiers from '../tools/modifiers.js';
     import titleCase from '@/components/tools/title-case.js';
-    import populateAttrs from '@/components/tools/populate-attributes.js';
 
     export default {
         data() {
@@ -31,7 +30,6 @@
         },
         helpers: { modifiers },
         methods: {
-            populateAttrs,
             cycleTypes() {
                 const buttonTypes = this.constructor.TYPES;
                 const currentType = this.get('type')[0] || '';
@@ -41,9 +39,6 @@
                 this.set({body: titleCase(nextItem || 'normal')});
                 return this.set({type: [nextItem]});
             }
-        },
-        oncreate() {
-            this.populateAttrs();
         }
     }
 </script>

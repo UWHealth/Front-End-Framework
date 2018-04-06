@@ -8,6 +8,7 @@ const _eval = require('eval');
 
 function evaluateTemplatePlugin(options) {
     options = options || {};
+    this.manifest = options.manifest || false;
     this.templating = options.templating || function(source) { return source; };
 }
 
@@ -40,7 +41,9 @@ evaluateTemplatePlugin.prototype.init = function(htmlPluginData, callback, compi
         return callback(null, htmlPluginData);
     }
     const assetName = htmlPluginData.plugin.options.evalPlugin.assetName;
-    const context = this.getSource(assetName, compilation, callback);
+
+    const manifest = this.manifest ? this.getSource(this.manifest, compilation, callback) : false;
+    const context = manifest ? manifest + this.getSource(assetName, compilation, callback) : this.getSource(assetName, compilation, callback);
 
     htmlPluginData.plugin.options.evaledTemplate = this.templateHtml(htmlPluginData, context, callback);
 

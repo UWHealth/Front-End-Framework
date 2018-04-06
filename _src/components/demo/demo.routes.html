@@ -1,17 +1,18 @@
 <:Head>
-    <title>→ {{$pageTitle || pageTitle}} DEMO</title>
-    <link rel="stylesheet" href="/public/css/demo/demo.css">
+    <title>→ {{$pageTitle || pageTitle}} demo</title>
 </:Head>
 
 <!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
-<nav ref:navigation>
-    <NavLink to="/components/button/">Buttons</NavLink>
-    <NavLink to="/components/generic/">Generic</NavLink>
-    <NavLink to="/components/feed/">Feed</NavLink>
+
+<nav ref:navigation class="demo-navigation">
+    <img src="/public/img/favicons/icon.svg" style="height: {{60/16}}rem;" alt="">
+    {{#each links as [name, url]}}
+    <NavLink to="{{url}}" className="demo-navigation__link">{{name}}</NavLink>
+    {{/each}}
 </nav>
 
 <Route ref:router path="/components/:demo" bind:match>
-    {{#await match ? Async(match.params.demo) : '{}'}}
+    {{#await match ? AsyncRoute(match.params.demo) : '{}'}}
         <Demo demoTitle="Loading" variants="{{true}}">
             <div slot="header"></div>
             <div slot="variants">Loading...</div>
@@ -35,7 +36,14 @@
 
     export default {
         data() {
-            return { pageTitle: 'DEMO' };
+            return {
+                pageTitle: 'Routing',
+                links: [
+                    ['Button', '/components/button/'],
+                    ['Generic', '/components/generic/'],
+                    ['Feed', '/components/feed/']
+                ]
+            };
         },
         transitions: { fade },
         components: {
@@ -44,13 +52,14 @@
             Demo
         },
         helpers: {
-            Async: (routeUrl) => {
+            AsyncRoute: (routeUrl) => {
                 return import(
-                    /* webpackChunkName: "demo", "webpackMode: "lazy-once" */
+                    /* "webpackChunkName": "demo-route-[index]", "webpackMode": "lazy-once" */
                     '@/components/' + routeUrl + '/' + routeUrl + '.demo.html'
                 );
             }
         },
+
         oncreate() {
             console.log('Demo Router Creation:', this);
 
@@ -62,7 +71,8 @@
                 store.set({'pageTitle': capitalize(match.params.demo)});
             });
         },
-        setup(DemoRouter) {},
+        setup(DemoRouter) {
+        },
         store: () => store
     };
 </script>

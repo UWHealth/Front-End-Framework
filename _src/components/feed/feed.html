@@ -39,20 +39,10 @@
 
 <script>
     import Results from './feed.results.html';
-
     import store from '@/components/demo/demo.store.js';
 
     export default {
-        store: () => store,
         components: { Results },
-
-        data() {
-            return {
-                feedUrl: "https://uconnect.wisc.edu/feeds/30m/json/homepage/index.json",
-                MAX_PER_PAGE: 10,
-                page: 0,
-                feedResults: ''
-            };
-        }
-    }
+        store: () => store
+    };
 </script>

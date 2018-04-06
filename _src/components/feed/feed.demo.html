@@ -1,7 +1,7 @@
 <Demo demoTitle="Feed Example" variants="{{true}}">
     <div slot="header"></div>
     <div slot="variants">
-        <List :MAX_PER_PAGE :page :feedResults :feed />
+        <List {{...attrs}} />
     </div>
 </Demo>
 
@@ -25,7 +25,6 @@
         },
 
         oncreate() {
-            console.log(this);
             this.observe('feed', (feed) => {
                 feed.then((feedResults) => {
                     this.set({"feedResults": feedResults.results});
@@ -33,12 +32,10 @@
                 });
             });
         },
-
         computed: {
             feed: (feedUrl) => !window.fetch ? '{}' : fetch(feedUrl).then(r => r.json()),
-        },
-
-        methods: {}
+            attrs: (feedUrl, feedResults, feed, page, MAX_PER_PAGE) => { return {feed, feedUrl, MAX_PER_PAGE, page, feedResults}; }
+        }
 
     };
 </script>

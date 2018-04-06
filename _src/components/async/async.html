@@ -1,7 +1,7 @@
 {{#if component}}
     <:Component {component} {{...attrs}} />
-{{elseif fallback}}
-    <:Component {fallback} {{...attrs}} />
+{{elseif loading && loadingComponent}}
+    <:Component {loadingComponent} {{...attrs}} />
 {{elseif SSRComponent}}
     <:Component {SSRComponent} {{...attrs}} />
 {{elseif error}}
@@ -12,31 +12,30 @@
     export default {
         data() {
             return {
+                attrs: {},
                 component: null,
-                fallback: null,
+                loadingComponent: null,
+                errorComponent: null,
                 loader: null,
                 webpack: null,
-                attrs: null,
-                error: null
+                error: null,
+                loading: false,
             };
         },
         computed: {
             SSRComponent: (webpack) => {
                 if (document || window) { return false; }
+                const load = webpack();
                 // Find module in webpack cache
-                const mod = __webpack_modules__[webpack()];
-
-                // If module has a name or id, load it by that (and get its exports)
-                // Otherwise, load it as is
-                const component = mod.name || mod.id ?
-                    getExport(__webpack_require__(mod.name || mod.id))
-                    : mod && __webpack_require__(webpack());
-                return component ? component : false;
+                const mod = __webpack_modules__[load];
+                const component = requireModule(mod, load);
+                return component && component;
             }
         },
         methods: {
             async getComponent() {
                 let loader = this.get('loader');
+
                 try {
                     if (loader) {
                         return loader().then((Component) => Component);
@@ -49,10 +48,20 @@
             }
         },
         async oncreate() {
+            this.set({loading: true});
             const { default: component } = await this.getComponent();
-            this.set({component: component});
+            this.set({component: component, loading: false});
         }
     };
+
+    function requireModule(mod, load) {
+        // Reject any modules not found in webpack
+        if (typeof mod === 'undefined') {
+            return false;
+        }
+        // We pass the id, name
+        return getExport(__webpack_require__(mod.name || mod.id || load))
+    }
 
     function getExport(mod) {
         return mod && typeof mod === 'object' && mod.__esModule ? mod["default"] : mod;

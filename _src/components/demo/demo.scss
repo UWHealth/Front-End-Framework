@@ -4,6 +4,28 @@
 //Settings
 @import '../../../config/sass.config';
 
+.demo-navigation {
+    display: flex;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 6px rgba(colors('type'), .2);
+    background-color: #fff;
+    width: 100%;
+}
+
+.demo-navigation__link {
+    flex: 1 1 auto;
+    margin-left: type-space(.25);
+    padding: type-space(.75 .5);
+    max-width: type-space(5);
+    text-align: center;
+
+    &:hover {
+        background-color: color('links', 'lightest');
+        color: color('links', 'light');
+    }
+}
+
 .demo-header {
     display: flex;
     align-items: center;
@@ -31,11 +53,11 @@
 }
 
 .demo-body__head {
-    @include font-size($type-h4-size, $type-h4-lh);
+    @include font-size($type-h5-size, $type-h5-lh);
     margin-bottom: type-space(1.25);
-    border-bottom: 2px solid rgba(color('type', 'light'), .75);
+    border-bottom: 2px solid rgba(color('links', 'lighter'), .7);
     padding-bottom: calc(#{type-space(.5)} - 1px);
-    color: color('type', 'light');
+    color: color('links', 'lighter');
 }
 
 .demo-category {
