@@ -76,6 +76,7 @@ function boostrapConfig(options, folderName) {
     config.devtool = MODE.production ? 'source-map' : false;
     config.target = "node";
     config.output.libraryTarget = "umd";
+    config.output.library = options.nameSpace;
     // config.output.globalObject = "this";
 
     // Give js files a namespace
@@ -92,6 +93,7 @@ function boostrapConfig(options, folderName) {
                     generate: 'ssr',
                     dev: !MODE.production,
                     hydratable: true,
+                    shared: true,
                     store: true
                 }
             }
@@ -160,18 +162,38 @@ function addHtmlPlugins(options) {
     plugins.push(
         // Add evaluated demo to html data
         new EvalTemplatePlugin({
-
-            templating: function(source) { // eslint-disable-line
-                if (options.debug) {
-                    console.log(source);
-                }
+            templating: function(source, raw, htmlPluginData, compilation) { // eslint-disable-line
+                if (options.debug) { console.log(source); }
+                console.log(compilation.chunks);
                 const render = (source && typeof source.render !== 'undefined') ? source.render || source.toString() : source;
-                return (typeof render === 'function') ? render() : render;
+
+
+                const page = (typeof render === 'function') ? render() : render;
+                htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +
+                    `${raw.replace(/<\/script>/g, '<\\/script>').replace('pathname: history.location.pathname', 'pathname: window.location.pathname')}\n return ${options.nameSpace}}</script>`;
+                htmlPluginData.plugin.options.sourceScript = `<script>var global = window;\n var serialized = JSON.stringify(${JSON.stringify(source, replacer, 2)});\n ${reviver}</script>`;
+                return page;
             }
         })
     );
 
     return plugins;
+}
+
+const reviver = "window.parsedObject = JSON.parse(serialized, function(key, value){\n\t" +
+  "if (typeof value === 'string'" +
+      "&& value.indexOf('function ') === 0) {\n\t\t"+
+    "let functionTemplate = 'return ' + value;\n\t\t" +
+    "return new Function(functionTemplate);\n\t\t" +
+  "} return value;}\n" +
+"\n );";
+
+function replacer (key, value) {
+  // if we get a function, give us the code for that function
+  if (typeof value === 'function') {
+    return value.toString().replace(/<\/script>/g, '<\\/script>');
+  }
+  return value;
 }
 
 module.exports = createHtmlConfig;

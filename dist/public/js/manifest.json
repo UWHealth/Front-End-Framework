@@ -1,0 +1,19 @@
+{
+  "name": "My Manifest",
+  "demo-route.button-button-demo-html.js": "/public/js/demo-route.button-button-demo-html.js",
+  "demo-route.button-button-demo-html.js.map": "/public/js/demo-route.button-button-demo-html.js.map",
+  "demo-route.feed-feed-demo-html.js": "/public/js/demo-route.feed-feed-demo-html.js",
+  "demo-route.feed-feed-demo-html.js.map": "/public/js/demo-route.feed-feed-demo-html.js.map",
+  "demo-route.generic-generic-demo-html.js": "/public/js/demo-route.generic-generic-demo-html.js",
+  "demo-route.generic-generic-demo-html.js.map": "/public/js/demo-route.generic-generic-demo-html.js.map",
+  "demo-route.hero-hero-demo-html.js": "/public/js/demo-route.hero-hero-demo-html.js",
+  "demo-route.hero-hero-demo-html.js.map": "/public/js/demo-route.hero-hero-demo-html.js.map",
+  "demo-route.hero-hero2-demo-html.js": "/public/js/demo-route.hero-hero2-demo-html.js",
+  "demo-route.hero-hero2-demo-html.js.map": "/public/js/demo-route.hero-hero2-demo-html.js.map",
+  "main.js": "/public/js/main.js",
+  "main.js.map": "/public/js/main.js.map",
+  "plugins.js": "/public/js/plugins.js",
+  "plugins.js.map": "/public/js/plugins.js.map",
+  "runtime.js": "/public/js/runtime.bundle.js",
+  "runtime.js.map": "/public/js/runtime.bundle.js.map"
+}

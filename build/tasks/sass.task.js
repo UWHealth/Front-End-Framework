@@ -16,10 +16,6 @@ const Logger       = require('../tools/logger.js');
 const MODE         = require('../tools/mode');
 const PATHS        = require(`${CWD}/config/paths.config.js`);
 
-const browserSync  = require('browser-sync');
-const bs           = browserSync.has(PATHS.folders.project) && browserSync.get(PATHS.folders.project);
-const bsStream     = bs.stream;
-
 const LOG = new Logger('Sass');
 
 module.exports = (done) => {
@@ -43,7 +39,6 @@ module.exports = (done) => {
                 // Output minified CSS
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
-                .pipe(bsStream())
 
                 .on('error', (err) => reject(LOG.error(err)))
                 .on('end', () => resolve(LOG.success('Compiled ')));

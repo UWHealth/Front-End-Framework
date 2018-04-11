@@ -83,6 +83,7 @@
         "pretty-error": "^2.1.1",
         "promise-loader": "^1.0.0",
         "raw-loader": "^0.5.1",
+        "sapper": "^0.10.5",
         "sass-lint": "^1.12.1",
         "style-loader": "^0.20.3",
         "svelte": "^1.60.0",
@@ -99,7 +100,7 @@
         "promise-polyfill": "^7.1.1",
         "svelte-extras": "^1.6.0",
         "svelte-router": "^1.8.1",
-        "svelte-routing": "^0.2.0",
+        "svelte-routing": "0.3.0",
         "svelte-transitions": "^1.1.1"
     }
 }

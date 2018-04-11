@@ -58,10 +58,6 @@
                 return {text: decodeEntities(text), image: decodeEntities(image)};
             }
         },
-        oncreate() {
-            this.observe('page', (page) => {
-                window.scroll(0, 0);
-            });
-        }
+        oncreate() {}
     };
 </script>

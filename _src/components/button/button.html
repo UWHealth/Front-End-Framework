@@ -16,29 +16,16 @@
     import titleCase from '@/components/tools/title-case.js';
 
     export default {
-        data() {
-            return {
-                body: "Button",
-                icon: false,
-                iconUrl: false,
-                attrs: false,
-                type: []
-            };
-        },
+        data: () => ({
+            body: "Button",
+            icon: false,
+            iconUrl: false,
+            attrs: false,
+            type: []
+        }),
         setup(thisComponent) {
             thisComponent.TYPES = ['wide', 'compact', ''];
         },
-        helpers: { modifiers },
-        methods: {
-            cycleTypes() {
-                const buttonTypes = this.constructor.TYPES;
-                const currentType = this.get('type')[0] || '';
-                const i = buttonTypes.indexOf(currentType);
-                const nextItem = (buttonTypes.length - 1) > i ? buttonTypes[i + 1] : buttonTypes[0];
-
-                this.set({body: titleCase(nextItem || 'normal')});
-                return this.set({type: [nextItem]});
-            }
-        }
+        helpers: { modifiers }
     }
 </script>

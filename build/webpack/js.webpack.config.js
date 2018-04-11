@@ -34,17 +34,18 @@ config.plugins.push(new ManifestPlugin({seed: {name: 'My Manifest'}}));
 config.output = {
     path: PATHS.js.dest,
     publicPath: '/public/js/',
+    pathinfo: MODE.production ? false : true,
 
     filename: '[name].bundle.js',
-    chunkFilename: MODE.production ? '[name].[hash:3].js' : '[name].js',
+    chunkFilename: MODE.production ? '[name].[chunkhash:3].js' : '[name].js',
 
     libraryTarget: 'umd',
     library: 'uwhealth',
 };
 
-config.optimization.runtimeChunk = {
-    name: "main"
-};
+config.optimization.runtimeChunk = "single"
+
+config.optimization.concatenateModules = MODE.production;
 
 config.optimization.portableRecords = true;
 
@@ -52,6 +53,7 @@ config.resolve.mainFields.unshift("browser");
 
 config.optimization.splitChunks = {
     chunks: "async",
+    automaticNameDelimiter: ".",
     cacheGroups: {
         svelteShared: {
             test: /svelte[\\/](shared|store)/,
@@ -73,7 +75,8 @@ config.module.rules.push(
                     generate: 'dom',
                     hydratable: true,
                     dev: !MODE.production,
-                    store: true
+                    store: true,
+                    shared: true
                 }
             }
         ]
@@ -133,15 +136,6 @@ if (MODE.production) {
 
         // Remove module.hot code from modules
         // new webpack.NoHotModuleReplacementPlugin(),
-
-        // new ClosurePlugin({
-        //     mode: 'STANDARD'
-        // }, {
-        //     language_in: 'ECMASCRIPT6',
-        //     language_out: 'ECMASCRIPT5',
-        //     compilation_level: 'SIMPLE',
-        //     //rewrite_polyfills: false,
-        // })
     );
 }
 

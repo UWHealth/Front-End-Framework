@@ -4,6 +4,8 @@
 //Settings
 @import '../../../config/sass.config';
 
+$demo-cyan: lighten(blend-overlay(rgba(#08f, .5), color('links', 'lightest'), 35%), 3%);
+
 .demo-navigation {
     display: flex;
     position: relative;
@@ -21,7 +23,7 @@
     text-align: center;
 
     &:hover {
-        background-color: color('links', 'lightest');
+        background-color: $demo-cyan;
         color: color('links', 'light');
     }
 }
@@ -30,7 +32,7 @@
     display: flex;
     align-items: center;
     background-color: color('bg', 'dark');
-    background-image: linear-gradient(transparent 0%, color('links', 'lightest') 100%);
+    background-image: linear-gradient(transparent 0%, $demo-cyan 100%);
     width: 100%;
     height: 70vh;
     max-height: type-space(25);

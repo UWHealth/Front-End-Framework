@@ -1,18 +1,24 @@
 {{#if component}}
-    <:Component {component} {{...attrs}} />
+    {{#if component && props}}
+    <:Component {component} {{...props}} />
+    {{else}}
+    <:Component {component} />
+    {{/if}}
 {{elseif loading && loadingComponent}}
-    <:Component {loadingComponent} {{...attrs}} />
+    <:Component {loadingComponent} {{...props}} />
 {{elseif SSRComponent}}
-    <:Component {SSRComponent} {{...attrs}} />
+    <:Component {SSRComponent} {{...props}} />
 {{elseif error}}
     <div> {{error}} </div>
 {{/if}}
 
 <script>
+    import findExport from '../tools/find-export.js';
+
     export default {
         data() {
             return {
-                attrs: {},
+                props: {},
                 component: null,
                 loadingComponent: null,
                 errorComponent: null,
@@ -38,7 +44,7 @@
 
                 try {
                     if (loader) {
-                        return loader().then((Component) => Component);
+                        return loader().then((Component) => findExport(Component));
                     }
                 }
                 catch (err) {
@@ -49,7 +55,7 @@
         },
         async oncreate() {
             this.set({loading: true});
-            const { default: component } = await this.getComponent();
+            const component = await this.getComponent();
             this.set({component: component, loading: false});
         }
     };
@@ -60,10 +66,6 @@
             return false;
         }
         // We pass the id, name
-        return getExport(__webpack_require__(mod.name || mod.id || load))
-    }
-
-    function getExport(mod) {
-        return mod && typeof mod === 'object' && mod.__esModule ? mod["default"] : mod;
+        return findExport(__webpack_require__(mod.name || mod.id || load));
     }
 </script>

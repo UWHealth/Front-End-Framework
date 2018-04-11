@@ -43,14 +43,15 @@ evaluateTemplatePlugin.prototype.init = function(htmlPluginData, callback, compi
     const assetName = htmlPluginData.plugin.options.evalPlugin.assetName;
 
     const manifest = this.manifest ? this.getSource(this.manifest, compilation, callback) : false;
-    const context = manifest ? manifest + this.getSource(assetName, compilation, callback) : this.getSource(assetName, compilation, callback);
+    const source = manifest ? manifest + this.getSource(assetName, compilation, callback) : this.getSource(assetName, compilation, callback);
+    const context = this.evaluateSource(assetName, source);
 
-    htmlPluginData.plugin.options.evaledTemplate = this.templateHtml(htmlPluginData, context, callback);
+    htmlPluginData.plugin.options.evaledTemplate = this.templateHtml(htmlPluginData, context, source, compilation, callback);
 
     callback(null, htmlPluginData);
 };
 
-evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context, callback) {
+evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context, source, compilation, callback) {
     const templateFn = htmlPluginData.plugin.options.evalPlugin.templating || this.templating;
 
     if (typeof templateFn !== 'function') {
@@ -58,7 +59,7 @@ evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context
     }
 
     try {
-        return templateFn(context, htmlPluginData);
+        return templateFn(context, source, htmlPluginData, compilation);
     }
     catch (err) {
         callback(err);
@@ -69,17 +70,26 @@ evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, ca
     try {
         const asset = compilation.assets[assetName];
         const source = asset ? asset.source() : 'function(){return {"context": ""}}';
-        const context = _eval(source, assetName, {fetch: false, window: false, document: false}, true);
-        // Allow for es6 modules
-        if (context.default) {
-            return typeof context.default === 'function' ? context.default() : context.default;
-        }
 
-        return context;
+        return source;
     }
     catch (err) {
         return callback(err);
     }
 };
+
+evaluateTemplatePlugin.prototype.evaluateSource = function(assetName, source) {
+    try {
+        const context = _eval(source, assetName, {fetch: false, window: false, document: false}, true);
+        // Allow for es6 modules
+        if (context.default) {
+            return typeof context.default === 'function' ? context.default() : context.default;
+        }
+        return context;
+    }
+    catch (err) {
+        return callback(err);
+    }
+}
 
 module.exports = evaluateTemplatePlugin;

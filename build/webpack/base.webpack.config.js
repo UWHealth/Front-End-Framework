@@ -30,6 +30,7 @@ const config = {
     plugins: [],
     module: {},
     optimization: {
+        nodeEnv: 'development',
         splitChunks: {
             chunks: "async"
         }
@@ -96,6 +97,7 @@ config.module.rules = [
 
 if (MODE.production) {
     config.devtool = "source-map";
+    config.optimization.nodeEvn = 'production';
 }
 
 module.exports = config;

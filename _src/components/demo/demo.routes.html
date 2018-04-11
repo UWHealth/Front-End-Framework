@@ -1,78 +1,61 @@
-<:Head>
-    <title>→ {{$pageTitle || pageTitle}} demo</title>
-</:Head>
-
-<!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
-
-<nav ref:navigation class="demo-navigation">
-    <img src="/public/img/favicons/icon.svg" style="height: {{60/16}}rem;" alt="">
-    {{#each links as [name, url]}}
-    <NavLink to="{{url}}" className="demo-navigation__link">{{name}}</NavLink>
-    {{/each}}
-</nav>
-
-<Route ref:router path="/components/:demo" bind:match>
-    {{#await match ? AsyncRoute(match.params.demo) : '{}'}}
-        <Demo demoTitle="Loading" variants="{{true}}">
-            <div slot="header"></div>
-            <div slot="variants">Loading...</div>
-        </Demo>
-    {{then response}}
-        <div transition:fade='{duration: 1000}'>
-            <:Component {response.default} ref:response />
-        </div>
-    {{catch error}}
-        {{error}}
-    {{/await}}
+<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
+{{#if hydrating}}
+    <:Component {hydratingComponent} />
+{{else}}
+<Route ref:router path="/components/:demo" bind:match >
+    {{#if match && !hydrating}}
+        {{#await AsyncRoute(match.params.demo)}}
+            <Demo>
+                <div slot="header">Loading</div>
+            </Demo>
+        {{then response}}
+            <:Component {response} />
+        {{catch error}}
+            {{error}}
+        {{/await}}
+    {{/if}}
 </Route>
+{{/if}}
 
 <script>
     import Route from 'svelte-routing/Route.html';
-    import NavLink from 'svelte-routing/NavLink.html';
     import Demo from './demo.wrapper.html';
     import store from './demo.store.js';
-    import { fade } from 'svelte-transitions';
     import capitalize from '../tools/title-case.js';
+    // import Async from '../async/async.html';
 
     export default {
-        data() {
-            return {
-                pageTitle: 'Routing',
-                links: [
-                    ['Button', '/components/button/'],
-                    ['Generic', '/components/generic/'],
-                    ['Feed', '/components/feed/']
-                ]
-            };
-        },
-        transitions: { fade },
+        data: () => ({
+            pageTitle: null,
+            routeUrl: null,
+        }),
         components: {
-            Route,
-            NavLink,
-            Demo
+            Route, Demo
         },
         helpers: {
-            AsyncRoute: (routeUrl) => {
-                return import(
-                    /* "webpackChunkName": "demo-route-[index]", "webpackMode": "lazy-once" */
+            component: (AsyncRoute) => {
+                return AsyncRoute;
+            },
+            AsyncRoute: async (routeUrl) => {
+                if (!routeUrl) { return false; }
+                const route = await import(
+                    /* "webpackChunkName": "demo-route.[request]", "webpackMode": "lazy" */
                     '@/components/' + routeUrl + '/' + routeUrl + '.demo.html'
                 );
+                return route.default;
             }
         },
-
         oncreate() {
             console.log('Demo Router Creation:', this);
 
-            this.refs.router.observe('pathname', (pathname) => {
-                store.set({'url': pathname, 'pageTitle': this.refs.router});
-            });
-
             this.refs.router.observe('match', (match) => {
-                store.set({'pageTitle': capitalize(match.params.demo)});
+                const path = match.params ? match.params.demo : match;
+                console.log(path);
+                this.set({'routeUrl': path});
+                store.set({'pageTitle': capitalize(path)});
             });
         },
-        setup(DemoRouter) {
-        },
+        setup(DemoRouter) {},
         store: () => store
     };
 </script>

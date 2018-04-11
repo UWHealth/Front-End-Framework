@@ -1,3 +1,4 @@
+<span id="feedTop" style="display:block; height:0; visibility:hidden;"></span>
 <header>
 {{#if feedResults && page !== 1}}
     <button class="btn" on:click="set({'page': page - 1})">« Page {{page - 1}}</button>
@@ -9,14 +10,15 @@
     <hr>
 </header>
 
-{{#if feedResults}}
-    <Results results="{{feedResults}}" :page :MAX_PER_PAGE/>
+{{#if $feedResults}}
+    <!-- Cached feed -->
+    <Results ref:feedList results="{{feedResults}}" :page :MAX_PER_PAGE/>
 {{else}}
 
     {{#await feed}}
         <p>Loading Feed...</p>
     {{then response}}
-        <Results results="{{response.results}}" :page :MAX_PER_PAGE/>
+        <Results ref:feedList results="{{response.results}}" :page :MAX_PER_PAGE/>
     {{catch error}}
         <p>{{error}}</p>
     {{/await}}
@@ -43,6 +45,13 @@
 
     export default {
         components: { Results },
+        oncreate() {
+            const feedTop = document.getElementById('feedTop').offsetTop;
+
+            this.observe('page', (page) => {
+                window.scroll(0, feedTop);
+            });
+        },
         store: () => store
     };
 </script>

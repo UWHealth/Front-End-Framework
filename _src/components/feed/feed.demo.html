@@ -1,7 +1,7 @@
 <Demo demoTitle="Feed Example" variants="{{true}}">
     <div slot="header"></div>
     <div slot="variants">
-        <List {{...attrs}} />
+        <List {{...props}} />
     </div>
 </Demo>
 
@@ -12,7 +12,7 @@
     import store from '@/components/demo/demo.store.js';
 
     export default {
-        store: () => store,
+        store: () => (window) ? window.store : store,
         components: { Demo, List },
 
         data() {
@@ -23,19 +23,26 @@
                 feedResults: false
             };
         },
-
-        oncreate() {
-            this.observe('feed', (feed) => {
-                feed.then((feedResults) => {
-                    this.set({"feedResults": feedResults.results});
-                    console.log(this.get('feedResults').result.length);
-                });
-            });
-        },
         computed: {
-            feed: (feedUrl) => !window.fetch ? '{}' : fetch(feedUrl).then(r => r.json()),
-            attrs: (feedUrl, feedResults, feed, page, MAX_PER_PAGE) => { return {feed, feedUrl, MAX_PER_PAGE, page, feedResults}; }
+            feed: (feedResults) => feedResults,
+            props: (feedUrl, feedResults, feed, page, MAX_PER_PAGE) => { return {feed, feedUrl, MAX_PER_PAGE, page, feedResults}; }
+        },
+        methods: {
+            fetchFeed() {
+                return fetch(this.get('feedUrl')).then(r => r.json());
+            }
+        },
+        oncreate() {
+            if (store.get('feedResults')) {
+                this.set({"feedResults": store.get('feedResults')});
+            }
+            else {
+                const feed = this.fetchFeed();
+                feed.then((feed) => {
+                    this.set({"feedResults": feed.results});
+                    store.set({'feedResults': feed.results});
+                });
+            };
         }
-
     };
 </script>

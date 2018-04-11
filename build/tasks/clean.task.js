@@ -19,3 +19,18 @@ module.exports = function(done) {
             LOG.error(err);
         });
 };
+
+module.exports.specific = function(fileArray, callback) {
+
+    return del(fileArray)
+        .then(() => {
+            callback();
+        })
+        .catch((err) => {
+            if (err.code === 'EPERM' || err.code === 'EACCES') {
+                LOG.info('Cannot clean' + fileArray + 'folder due to permissions. Make sure the folder or its contents is not open by another program or process.');
+            }
+            LOG.error(err);
+            callback();
+        });
+}

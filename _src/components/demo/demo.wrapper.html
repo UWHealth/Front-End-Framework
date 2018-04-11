@@ -1,4 +1,20 @@
-<link rel="stylesheet" href="/public/css/demo/demo.css">
+<:Head>
+    <title>→ {{$pageTitle || demoTitle}} demo</title>
+</:Head>
+
+<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
+<!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
+<nav ref:navigation class="demo-navigation">
+    <img src="/public/img/favicons/icon.svg" style="height: {{60/16}}rem;" alt="">
+    {{#each links as [name, url]}}
+    {{#if browser()}}
+        <NavLink to="{{url}}" className="demo-navigation__link {{checkCurrent(name)}}">{{name}}</NavLink>
+    {{else}}
+        <a href="{{url}}" class="demo-navigation__link {{checkCurrent(name)}}">{{name}}</a>
+    {{/if}}
+    {{/each}}
+</nav>
+
 <div class="demo">
     <header class="demo-header">
         <div class="wrap">
@@ -28,18 +44,37 @@
 <script>
     import Base from '../base/base.html';
     import store from './demo.store.js';
+    import NavLink from 'svelte-routing/NavLink.html';
+    // import { createMemoryHistory } from 'svelte-routing';
 
     export default {
         store: () => store,
         components: {
-            Base
+            Base,
+            NavLink
         },
         data() {
             return {
                 demoTitle: 'Demo',
                 variantTitle: false,
-                variants: false
+                variants: false,
+                links: [
+                    ['Button', '/components/button/'],
+                    ['Generic', '/components/generic/'],
+                    ['Feed', '/components/feed/']
+                ],
             };
+        },
+        helpers: {
+            checkCurrent: (routeName) => {
+                if (store.get('pageTitle') === routeName) {
+                    return 'is-current';
+                }
+                return '';
+            },
+            browser: (globalObj) => {
+                return (document || window);
+            }
         },
         oncreate () {
             if (this.slots.variants) {

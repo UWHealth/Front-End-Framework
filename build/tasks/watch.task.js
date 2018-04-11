@@ -45,8 +45,10 @@ module.exports = function() {
 function flushWebpackFromCache(configPaths) {
     const webpackConfigs = glob.sync(configPaths);
 
-    webpackConfigs.forEach((config) => {
-        const fullPath = path.resolve(process.cwd(), config);
-        return fullPath ? delete require.cache[require.resolve(fullPath)] : null;
+    require('./clean.task.js').specific(PATHS.js.dest, () => {
+        webpackConfigs.forEach((config) => {
+            const fullPath = path.resolve(process.cwd(), config);
+            return fullPath ? delete require.cache[require.resolve(fullPath)] : null;
+        });
     });
 }
