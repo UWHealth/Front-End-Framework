@@ -44,7 +44,7 @@ evaluateTemplatePlugin.prototype.init = function(htmlPluginData, callback, compi
 
     const manifest = this.manifest ? this.getSource(this.manifest, compilation, callback) : false;
     const source = manifest ? manifest + this.getSource(assetName, compilation, callback) : this.getSource(assetName, compilation, callback);
-    const context = this.evaluateSource(assetName, source);
+    const context = this.evaluateSource(assetName, source, callback);
 
     htmlPluginData.plugin.options.evaledTemplate = this.templateHtml(htmlPluginData, context, source, compilation, callback);
 
@@ -69,7 +69,8 @@ evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context
 evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, callback) { //eslint-disable-line
     try {
         const asset = compilation.assets[assetName];
-        const source = asset ? asset.source() : 'function(){return {"context": ""}}';
+        console.log('assetName', assetName);
+        const source = asset ? asset.source() : '(function(){return ""})()';
 
         return source;
     }
@@ -78,7 +79,7 @@ evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, ca
     }
 };
 
-evaluateTemplatePlugin.prototype.evaluateSource = function(assetName, source) {
+evaluateTemplatePlugin.prototype.evaluateSource = function(assetName, source, callback) {
     try {
         const context = _eval(source, assetName, {fetch: false, window: false, document: false}, true);
         // Allow for es6 modules

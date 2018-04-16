@@ -1,8 +1,9 @@
 import domReady from "@/js/modules/dom-ready";
 import 'promise-polyfill/src/polyfill';
-import { createBrowserHistory } from 'svelte-routing';
 import store from '@/components/demo/demo.store.js';
 import runtime from 'sapper/runtime.js';
+
+let application;
 
 domReady(() => {
     if (process.env.NODE_ENV !== 'production') {
@@ -15,19 +16,26 @@ domReady(() => {
             /* "webpackChunkName": "routes" */
             '@/components/demo/demo.routes.html'
         ).then((App) => {
-            var history = createBrowserHistory();
 
-            const application =
+            //let currentRoute = document.getElementById('currentRoute').innerHTML;
+            // currentRoute = `demo-routes/${currentRoute}.js`;
+            //console.log(__webpack_require__(currentRoute));
+
+            application =
                 new App["default"]({
                     target: appElement,
                     hydrate: true,
                     data: {
-                        hydrating: false,
-                        hydratingComponent: false
+                        // hydrating: true,
+                        // hydratingHtml: appElement,
+                        match: {
+                            params: {
+                                demo: currentRoute
+                            }
+                        }
                     }
                 });
 
-            console.log(window.parsedObject);
             window.__APP__ = application;
 
             return application;
@@ -39,4 +47,4 @@ domReady(() => {
 window.store = store;
 
 const cache = require.cache;
-export {__webpack_modules__, cache} // eslint-disable-line
+export {__webpack_modules__, __webpack_require__, cache, application} // eslint-disable-line

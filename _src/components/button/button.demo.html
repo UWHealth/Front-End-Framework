@@ -1,3 +1,4 @@
+{{#if match}}
 <style>
     .button-holder {
         display: inline-block;
@@ -8,8 +9,7 @@
     }
 </style>
 
-
-<Demo demoTitle="Buttons" variants="{{true}}">
+<Demo demoTitle="Buttons" variants="{{true}}" currentRoute='button'>
     <div slot="header">
         <Button />
         <Button type="{{['wide']}}" body="Wide" attrs={{widths}}/>
@@ -24,38 +24,35 @@
         <Async {{...asyncButton}} />
     </div>
 </Demo>
+{{else}}
+<Routes match="button" />
+{{/if}}
 
 <script>
     import Button from './button.html';
-    import Demo from '../demo/demo.wrapper.html';
-    import Async from '../async/async.html';
+    import Routes from '@/components/demo/demo.routes.html';
+    import Demo from '@/components/demo/demo.wrapper.html';
+    import Async from '@/components/async/async.html';
     import capitalize from '@/components/tools/title-case';
-    import populateAttrs from '@/components/tools/populate-attributes';
 
     export default {
         components: {
-            Button,
-            Demo,
-            Async
+            Button, Routes, Demo, Async
         },
-        data() {
-            return {
-                widths: ['normal', 'wide', 'compact'],
-                asyncButton: {
-                    loader: () => import('./button.html'),
-                    webpack: () => require.resolveWeak('./button.html'),
-                    props: {
-                        width: ['wide'],
-                        body: 'Async button'
-                    }
+        data: () => ({
+            widths: ['normal', 'wide', 'compact'],
+            match: false,
+            asyncButton: {
+                loader: () => import('./button.html'),
+                webpack: () => require.resolveWeak('./button.html'),
+                props: {
+                    width: ['wide'],
+                    body: 'Async button'
                 }
-            };
-        },
+            }
+        }),
         helpers: {
             capitalize,
-        },
-        methods: {
-            populateAttrs
         }
     };
 </script>

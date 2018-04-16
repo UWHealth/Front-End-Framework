@@ -1,33 +1,31 @@
-<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
-{{#if hydrating}}
-    <:Component {hydratingComponent} />
-{{else}}
 <Route ref:router path="/components/:demo" bind:match >
-    {{#if match && !hydrating}}
-        {{#await AsyncRoute(match.params.demo)}}
-            <Demo>
-                <div slot="header">Loading</div>
-            </Demo>
+    {{#if match.params}}
+        {{#await AsyncRoute(match.params.demo)() }}
+            {{#if !hydrating}}
+                <Demo>
+                    <div slot="header">Loading</div>
+                </Demo>
+            {{/if}}
         {{then response}}
-            <:Component {response} />
+            <:Component {response.default} currentRoute="{{match.params.demo}}" :match/>
         {{catch error}}
             {{error}}
         {{/await}}
     {{/if}}
 </Route>
-{{/if}}
 
 <script>
     import Route from 'svelte-routing/Route.html';
     import Demo from './demo.wrapper.html';
     import store from './demo.store.js';
     import capitalize from '../tools/title-case.js';
-    // import Async from '../async/async.html';
+    import findExport from '../tools/find-export.js';
 
     export default {
         data: () => ({
             pageTitle: null,
             routeUrl: null,
+            hydrating: false
         }),
         components: {
             Route, Demo
@@ -36,19 +34,36 @@
             component: (AsyncRoute) => {
                 return AsyncRoute;
             },
-            AsyncRoute: async (routeUrl) => {
+            AsyncRoute: (routeUrl) => {
                 if (!routeUrl) { return false; }
-                const route = await import(
-                    /* "webpackChunkName": "demo-route.[request]", "webpackMode": "lazy" */
-                    '@/components/' + routeUrl + '/' + routeUrl + '.demo.html'
-                );
-                return route.default;
+                if (!window) {
+                    return () => {
+                        const load = require.resolveWeak('@/components/' + routeUrl + '/' + routeUrl + '.demo.html');
+                        // Find module in webpack cache
+                        const mod = __webpack_modules__[load];
+                        const component = requireModule(mod, load);
+                        return component && component;
+                    }
+                }
+                else {
+                    const route = async () => {
+                        return import(
+                            /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
+                            '@/components/' + routeUrl + '/' + routeUrl + '.demo.html'
+                        );
+                    };
+                    return route;
+                }
             }
         },
         oncreate() {
             console.log('Demo Router Creation:', this);
 
-            this.refs.router.observe('match', (match) => {
+            if (this.options.hydrate) {
+                this.set({'hydrating': true});
+            }
+
+            this.observe('match', (match) => {
                 const path = match.params ? match.params.demo : match;
                 console.log(path);
                 this.set({'routeUrl': path});
@@ -58,4 +73,14 @@
         setup(DemoRouter) {},
         store: () => store
     };
+
+    function requireModule(mod, load) {
+        // Reject any modules not found in webpack
+        if (typeof mod === 'undefined') {
+            return false;
+        }
+        // We pass the id, name
+        return findExport(__webpack_require__(mod.name || mod.id || load));
+    }
+
 </script>

@@ -94,7 +94,8 @@ function boostrapConfig(options, folderName) {
                     dev: !MODE.production,
                     hydratable: true,
                     shared: true,
-                    store: true
+                    store: true,
+                    preserveComments: true
                 }
             }
         }
@@ -116,6 +117,7 @@ function addEntryPoints(options) {
     options.files.forEach((file) => {
         const baseName = path.basename(file, options.sourceExtension);
         const entryName = path.join(options.folderName, baseName, baseName);
+        console.log(entryName);
 
         entryPoints[entryName] = file;
     });
@@ -164,9 +166,8 @@ function addHtmlPlugins(options) {
         new EvalTemplatePlugin({
             templating: function(source, raw, htmlPluginData, compilation) { // eslint-disable-line
                 if (options.debug) { console.log(source); }
-                console.log(compilation.chunks);
+                //console.log(compilation.chunks);
                 const render = (source && typeof source.render !== 'undefined') ? source.render || source.toString() : source;
-
 
                 const page = (typeof render === 'function') ? render() : render;
                 htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +

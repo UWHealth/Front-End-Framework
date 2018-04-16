@@ -88,9 +88,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../_src/components/base/base.html":
-/*!*********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/base/base.html ***!
-  \*********************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/base/base.html ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -105,7 +105,7 @@ function data(){
 
 var Base = {};
 
-Base.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/base/base.html";
+Base.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/base/base.html";
 
 Base.data = function() {
 	return data();
@@ -181,9 +181,9 @@ module.exports = Base;
 /***/ }),
 
 /***/ "../../_src/components/demo/demo.store.js":
-/*!*************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/demo/demo.store.js ***!
-  \*************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.store.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -203,9 +203,9 @@ var store = new /*Babel»*/_store.Store({
 /***/ }),
 
 /***/ "../../_src/components/demo/demo.wrapper.html":
-/*!*****************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/demo/demo.wrapper.html ***!
-  \*****************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.wrapper.html ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -216,11 +216,16 @@ var Base = __webpack_require__(/*! ../base/base.html */ "../../_src/components/b
 var store = __webpack_require__(/*! ./demo.store.js */ "../../_src/components/demo/demo.store.js");
 
 var NavLink = __webpack_require__(/*! svelte-routing/NavLink.html */ "../../node_modules/svelte-routing/NavLink.html");
+
+var __import3 = __webpack_require__(/*! svelte-routing */ "../../node_modules/svelte-routing/index.js");
 Base = (Base && Base.__esModule) ? Base["default"] : Base;
 store = (store && store.__esModule) ? store["default"] : store;
 NavLink = (NavLink && NavLink.__esModule) ? NavLink["default"] : NavLink;
+var createMemoryHistory = __import3.createMemoryHistory;
+var createBrowserHistory = __import3.createBrowserHistory;
 
-// import { createMemoryHistory } from 'svelte-routing';
+if (!window) { createMemoryHistory(); }
+else { createBrowserHistory(); }
 
 function data() {
     return {
@@ -252,7 +257,7 @@ function store_1() {
 
 var Demo_wrapper = {};
 
-Demo_wrapper.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/demo/demo.wrapper.html";
+Demo_wrapper.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.wrapper.html";
 
 Demo_wrapper.data = function() {
 	return data();
@@ -291,13 +296,18 @@ Demo_wrapper._render = function(__result, state, options) {
 `, "")}
 
 <link rel="stylesheet" media="screen" href="/public/css/demo/demo.css">
-
+<!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
 <nav class="demo-navigation">
     <img src="/public/img/favicons/icon.svg" style="height: ${__escape(60/16)}rem;" alt="">
-    ${ state.links.map((name_url) => `${ browser() ? `${NavLink._render(__result, { to: name_url[1], className: `demo-navigation__link ${__escape( checkCurrent(name_url[0]))}` }, { store: options.store, slotted: { default: () => `${__escape(name_url[0])}` } })}` : `<a href="${__escape(name_url[1])}" class="demo-navigation__link ${__escape(checkCurrent(name_url[0]))}">${__escape(name_url[0])}</a>` }`).join("")}
+    ${ state.links.map((name_url) => `<!-- {{if browser()}} -->
+        ${NavLink._render(__result, { to: name_url[1], className: `demo-navigation__link ${__escape( checkCurrent(name_url[0]))}` }, { store: options.store, slotted: { default: () => `${__escape(name_url[0])}` } })}
+    <!-- {{else}}
+        <a href="{{url}}" class="demo-navigation__link {{checkCurrent(name)}}">{{name}}</a>
+    {{/if}} -->`).join("")}
 </nav>
 
 <div class="demo">
+    <div id="currentRoute" style="display:none;">${state.currentRoute}</div>
     <header class="demo-header">
         <div class="wrap">
             <h1 class="demo-header__title">
@@ -374,9 +384,9 @@ module.exports = Demo_wrapper;
 /***/ }),
 
 /***/ "../../_src/components/hero/hero.demo.html":
-/*!**************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/hero/hero.demo.html ***!
-  \**************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/hero/hero.demo.html ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -399,7 +409,7 @@ function data() {
 
 var Hero_demo = {};
 
-Hero_demo.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/hero/hero.demo.html";
+Hero_demo.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/hero/hero.demo.html";
 
 Hero_demo.data = function() {
 	return data();
@@ -496,9 +506,9 @@ module.exports = Hero_demo;
 /***/ }),
 
 /***/ "../../_src/components/hero/hero.html":
-/*!*********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/hero/hero.html ***!
-  \*********************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/hero/hero.html ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -525,7 +535,7 @@ function setup(thisComponent) {
 
 var Hero = {};
 
-Hero.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/hero/hero.html";
+Hero.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/hero/hero.html";
 
 Hero.data = function() {
 	return data();
@@ -603,9 +613,9 @@ module.exports = Hero;
 /***/ }),
 
 /***/ "../../_src/components/tools/modifiers.js":
-/*!*************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/tools/modifiers.js ***!
-  \*************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/modifiers.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -638,9 +648,9 @@ exports.default = function (modifier, classPrefix, classSuffix) {
 /***/ }),
 
 /***/ "../../_src/components/tools/title-case.js":
-/*!**************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/tools/title-case.js ***!
-  \**************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/title-case.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -659,9 +669,9 @@ function titleCase(str) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/DOMUtils.js":
-/*!**************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/DOMUtils.js ***!
-  \**************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/DOMUtils.js ***!
+  \**********************************************************************************/
 /*! exports provided: canUseDOM, addEventListener, removeEventListener, getConfirmation, supportsHistory, supportsPopStateOnHashChange, supportsGoWithoutReloadUsingHash, isExtraneousPopstateEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -731,9 +741,9 @@ var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/LocationUtils.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/LocationUtils.js ***!
-  \*******************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/LocationUtils.js ***!
+  \***************************************************************************************/
 /*! exports provided: createLocation, locationsAreEqual */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -813,9 +823,9 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/PathUtils.js":
-/*!***************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/PathUtils.js ***!
-  \***************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/PathUtils.js ***!
+  \***********************************************************************************/
 /*! exports provided: addLeadingSlash, stripLeadingSlash, hasBasename, stripBasename, stripTrailingSlash, parsePath, createPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -890,9 +900,9 @@ var createPath = function createPath(location) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createBrowserHistory.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/createBrowserHistory.js ***!
-  \**************************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createBrowserHistory.js ***!
+  \**********************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1200,9 +1210,9 @@ var createBrowserHistory = function createBrowserHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createHashHistory.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/createHashHistory.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createHashHistory.js ***!
+  \*******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1527,9 +1537,9 @@ var createHashHistory = function createHashHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createMemoryHistory.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/createMemoryHistory.js ***!
-  \*************************************************************************************************/
+/*!*********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createMemoryHistory.js ***!
+  \*********************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1701,9 +1711,9 @@ var createMemoryHistory = function createMemoryHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createTransitionManager.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/createTransitionManager.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createTransitionManager.js ***!
+  \*************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1792,9 +1802,9 @@ var createTransitionManager = function createTransitionManager() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/index.js":
-/*!***********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/index.js ***!
-  \***********************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/index.js ***!
+  \*******************************************************************************/
 /*! exports provided: createBrowserHistory, createHashHistory, createMemoryHistory, createLocation, locationsAreEqual, parsePath, createPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1832,9 +1842,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ "../../node_modules/invariant/invariant.js":
-/*!**************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/invariant/invariant.js ***!
-  \**************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/invariant/invariant.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1895,9 +1905,9 @@ module.exports = invariant;
 /***/ }),
 
 /***/ "../../node_modules/path-to-regexp/index.js":
-/*!***************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/path-to-regexp/index.js ***!
-  \***************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/path-to-regexp/index.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2277,9 +2287,9 @@ function pathToRegexp (path, keys, options) {
 /***/ }),
 
 /***/ "../../node_modules/resolve-pathname/index.js":
-/*!*****************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/resolve-pathname/index.js ***!
-  \*****************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/resolve-pathname/index.js ***!
+  \*************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2359,9 +2369,9 @@ function resolvePathname(to) {
 /***/ }),
 
 /***/ "../../node_modules/svelte-routing/NavLink.html":
-/*!*******************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte-routing/NavLink.html ***!
-  \*******************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/NavLink.html ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2427,7 +2437,7 @@ function data() {
 
 var NavLink = {};
 
-NavLink.filename = "/Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte-routing/NavLink.html";
+NavLink.filename = "/Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/NavLink.html";
 
 NavLink.data = function() {
 	return data();
@@ -2509,9 +2519,9 @@ module.exports = NavLink;
 /***/ }),
 
 /***/ "../../node_modules/svelte-routing/index.js":
-/*!***************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte-routing/index.js ***!
-  \***************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/index.js ***!
+  \***********************************************************************************/
 /*! exports provided: matchPath, createMemoryHistory, createHashHistory, createBrowserHistory, getHistory, isModifiedEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2553,9 +2563,9 @@ const isModifiedEvent = event => {
 /***/ }),
 
 /***/ "../../node_modules/svelte-routing/matchPath.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte-routing/matchPath.js ***!
-  \*******************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/matchPath.js ***!
+  \***************************************************************************************/
 /*! exports provided: matchPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2637,9 +2647,9 @@ const matchPath = (pathname, options = {}) => {
 /***/ }),
 
 /***/ "../../node_modules/svelte/shared.js":
-/*!********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte/shared.js ***!
-  \********************************************************************************/
+/*!****************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte/shared.js ***!
+  \****************************************************************************/
 /*! exports provided: blankObject, destroy, destroyDev, _differs, _differsImmutable, dispatchObservers, fire, get, init, observe, observeDev, on, onDev, run, set, _set, setDev, callAll, _mount, _unmount, isPromise, PENDING, SUCCESS, FAILURE, removeFromStore, proto, protoDev, appendNode, insertNode, detachNode, detachBetween, detachBefore, detachAfter, reinsertBetween, reinsertChildren, reinsertAfter, reinsertBefore, destroyEach, createFragment, createElement, createSvgElement, createText, createComment, addListener, removeListener, setAttribute, setAttributes, removeAttribute, setXlinkAttribute, getBindingGroupValue, toNumber, timeRangesToArray, children, claimElement, claimText, setInputType, setStyle, selectOption, selectOptions, selectValue, selectMultipleValue, destroyBlock, outroAndDestroyBlock, updateKeyedEach, getSpreadUpdate, linear, generateRule, hash, wrapTransition, transitionManager, noop, assign */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3502,9 +3512,9 @@ var protoDev = {
 /***/ }),
 
 /***/ "../../node_modules/svelte/store.js":
-/*!*******************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte/store.js ***!
-  \*******************************************************************************/
+/*!***************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte/store.js ***!
+  \***************************************************************************/
 /*! exports provided: Store */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3678,9 +3688,9 @@ Object(_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(Store.prototype, {
 /***/ }),
 
 /***/ "../../node_modules/value-equal/index.js":
-/*!************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/value-equal/index.js ***!
-  \************************************************************************************/
+/*!********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/value-equal/index.js ***!
+  \********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3728,9 +3738,9 @@ function valueEqual(a, b) {
 /***/ }),
 
 /***/ "../../node_modules/warning/warning.js":
-/*!**********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/warning/warning.js ***!
-  \**********************************************************************************/
+/*!******************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/warning/warning.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

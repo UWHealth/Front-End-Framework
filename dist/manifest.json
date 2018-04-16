@@ -1,0 +1,12 @@
+{
+  "name": "My Manifest",
+  "components/button/button.js": "/components/button/button.demo.js",
+  "components/feed/feed.js": "/components/feed/feed.demo.js",
+  "components/generic/generic.js": "/components/generic/generic.demo.js",
+  "components/hero/hero.js": "/components/hero/hero.demo.js",
+  "components/hero2/hero2.js": "/components/hero2/hero2.demo.js",
+  "demo-routes/feed-feed-demo-html.js": "/demo-routes/feed-feed-demo-html.demo.js",
+  "demo-routes/generic-generic-demo-html.js": "/demo-routes/generic-generic-demo-html.demo.js",
+  "demo-routes/hero-hero-demo-html.js": "/demo-routes/hero-hero-demo-html.demo.js",
+  "demo-routes/hero-hero2-demo-html.js": "/demo-routes/hero-hero2-demo-html.demo.js"
+}

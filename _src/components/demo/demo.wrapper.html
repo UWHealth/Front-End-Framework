@@ -7,15 +7,16 @@
 <nav ref:navigation class="demo-navigation">
     <img src="/public/img/favicons/icon.svg" style="height: {{60/16}}rem;" alt="">
     {{#each links as [name, url]}}
-    {{#if browser()}}
+    <!-- {{#if browser()}} -->
         <NavLink to="{{url}}" className="demo-navigation__link {{checkCurrent(name)}}">{{name}}</NavLink>
-    {{else}}
+    <!-- {{else}}
         <a href="{{url}}" class="demo-navigation__link {{checkCurrent(name)}}">{{name}}</a>
-    {{/if}}
+    {{/if}} -->
     {{/each}}
 </nav>
 
 <div class="demo">
+    <div id="currentRoute" style="display:none;">{{{currentRoute}}}</div>
     <header class="demo-header">
         <div class="wrap">
             <h1 class="demo-header__title">
@@ -45,7 +46,10 @@
     import Base from '../base/base.html';
     import store from './demo.store.js';
     import NavLink from 'svelte-routing/NavLink.html';
-    // import { createMemoryHistory } from 'svelte-routing';
+    import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
+
+    if (!window) { createMemoryHistory(); }
+    else { createBrowserHistory(); }
 
     export default {
         store: () => store,

@@ -1,4 +1,4 @@
-<Demo demoTitle="Feed Example" variants="{{true}}">
+<Demo demoTitle="Feed Example" variants="{{true}}" currentRoute="feed">
     <div slot="header"></div>
     <div slot="variants">
         <List {{...props}} />
@@ -29,7 +29,7 @@
         },
         methods: {
             fetchFeed() {
-                return fetch(this.get('feedUrl')).then(r => r.json());
+                return fetch(this.get('feedUrl')).then(r => r.json()).catch(e => { return Promise.reject(e) });
             }
         },
         oncreate() {
@@ -41,7 +41,9 @@
                 feed.then((feed) => {
                     this.set({"feedResults": feed.results});
                     store.set({'feedResults': feed.results});
-                });
+                })
+                .catch(e => console.log(e));
+
             };
         }
     };

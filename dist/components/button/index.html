@@ -62,82 +62,6 @@
 <body>
     <div id="app">
         
-
-<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css">
-
-<nav class="demo-navigation">
-    <img src="/public/img/favicons/icon.svg" style="height: 3.75rem;" alt="">
-    <a href="/components/button/" class="demo-navigation__link ">Button</a><a href="/components/generic/" class="demo-navigation__link ">Generic</a><a href="/components/feed/" class="demo-navigation__link ">Feed</a>
-</nav>
-
-<div class="demo">
-    <header class="demo-header">
-        <div class="wrap">
-            <h1 class="demo-header__title">
-                Buttons
-            </h1>
-            <div class="demo-header__component">
-                <div slot="header" class="svelte-1ngoo5c">
-        <button class="btn ">
-    <span class="btn__body ">
-        Button
-    </span>
-    
-</button>
-        <button class="btn  btn--wide">
-    <span class="btn__body  btn__body--wide">
-        Wide
-    </span>
-    
-</button>
-    </div>
-    
-            </div>
-        </div>
-    </header>
-
-    <main class="demo-body">
-    
-        <div class="wrap">
-            <h2 class="demo-body__head">
-                Buttons Variants
-            </h2>
-            <div slot="variants" class="svelte-1ngoo5c">
-        <div class="button-holder button-holder--normal">
-            <button class="btn  btn--normal">
-    <span class="btn__body  btn__body--normal">
-        Normal
-    </span>
-    
-</button>
-        </div><div class="button-holder button-holder--wide">
-            <button class="btn  btn--wide">
-    <span class="btn__body  btn__body--wide">
-        Wide
-    </span>
-    
-</button>
-        </div><div class="button-holder button-holder--compact">
-            <button class="btn  btn--compact">
-    <span class="btn__body  btn__body--compact">
-        Compact
-    </span>
-    
-</button>
-        </div>
-
-        <button class="btn ">
-    <span class="btn__body ">
-        Async button
-    </span>
-    
-</button>
-    </div>
-
-        </div>
-    
-</main>
-</div>
     </div>
     <script>
  window.parsedObject = function(global){
@@ -154,6 +78,12 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded chunks
+/******/ 	// "0" means "already loaded"
+/******/ 	var installedChunks = {
+/******/ 		"components/button/button": 0
+/******/ 	};
 /******/
 /******/ 	// object to store loaded and loading wasm modules
 /******/ 	var installedWasmModules = {};
@@ -182,6 +112,26 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		return module.exports;
 /******/ 	}
 /******/
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		var promises = [];
+/******/
+/******/
+/******/ 		// require() chunk loading for javascript
+/******/
+/******/ 		// "0" is the signal for "already loaded"
+/******/ 		if(installedChunks[chunkId] !== 0) {
+/******/ 			var chunk = require("./" + ({"demo-routes/feed-feed-demo-html":"demo-routes/feed-feed-demo-html","demo-routes/generic-generic-demo-html":"demo-routes/generic-generic-demo-html","demo-routes/hero-hero-demo-html":"demo-routes/hero-hero-demo-html","demo-routes/hero-hero2-demo-html":"demo-routes/hero-hero2-demo-html"}[chunkId]||chunkId) + ".demo.js");
+/******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
+/******/ 			for(var moduleId in moreModules) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 			for(var i = 0; i < chunkIds.length; i++)
+/******/ 				installedChunks[chunkIds[i]] = 0;
+/******/ 		}
+/******/ 		return Promise.all(promises);
+/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -220,6 +170,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/";
 /******/
+/******/ 	// uncaught error handler for webpack runtime
+/******/ 	__webpack_require__.oe = function(err) {
+/******/ 		process.nextTick(function() {
+/******/ 			throw err; // catch this error by using import().catch()
+/******/ 		});
+/******/ 	};
+/******/
 /******/ 	// object with all compiled WebAssembly.Modules
 /******/ 	__webpack_require__.w = {};
 /******/
@@ -230,10 +187,104 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "../../_src/components lazy recursive ^\\.\\/.*\\.demo\\.html$":
+/*!*********************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components lazy ^\.\/.*\.demo\.html$ namespace object ***!
+  \*********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./button/button.demo.html": [
+		"../../_src/components/button/button.demo.html"
+	],
+	"./feed/feed.demo.html": [
+		"../../_src/components/feed/feed.demo.html",
+		"demo-routes/feed-feed-demo-html"
+	],
+	"./generic/generic.demo.html": [
+		"../../_src/components/generic/generic.demo.html",
+		"demo-routes/generic-generic-demo-html"
+	],
+	"./hero/hero.demo.html": [
+		"../../_src/components/hero/hero.demo.html",
+		"demo-routes/hero-hero-demo-html"
+	],
+	"./hero/hero2.demo.html": [
+		"../../_src/components/hero/hero2.demo.html",
+		"demo-routes/hero-hero2-demo-html"
+	]
+};
+function webpackAsyncContext(req) {
+	var ids = map[req];
+	if(!ids) {
+		return Promise.resolve().then(function() {
+			var e = new Error('Cannot find module "' + req + '".');
+			e.code = 'MODULE_NOT_FOUND';
+			throw e;
+		});
+	}
+	return Promise.all(ids.slice(1).map(__webpack_require__.e)).then(function() {
+		var module = __webpack_require__(ids[0]);
+		return (typeof module === "object" && module && module.__esModule ? module : Object.assign({/* fake namespace object */}, typeof module === "object" && module, { "default": module }));
+	});
+}
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+webpackAsyncContext.id = "../../_src/components lazy recursive ^\\.\\/.*\\.demo\\.html$";
+module.exports = webpackAsyncContext;
+
+/***/ }),
+
+/***/ "../../_src/components weak recursive ^\\.\\/.*\\.demo\\.html$":
+/*!****************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components weak ^\.\/.*\.demo\.html$ ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./button/button.demo.html": "../../_src/components/button/button.demo.html",
+	"./feed/feed.demo.html": "../../_src/components/feed/feed.demo.html",
+	"./generic/generic.demo.html": "../../_src/components/generic/generic.demo.html",
+	"./hero/hero.demo.html": "../../_src/components/hero/hero.demo.html",
+	"./hero/hero2.demo.html": "../../_src/components/hero/hero2.demo.html"
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	if(!__webpack_require__.m[id]) {
+		var e = new Error("Module '" + req + "' ('" + id + "') is not available (weak dependency)");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	var module = __webpack_require__(id);
+	return module;
+}
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) { // check for number or string
+		var e = new Error('Cannot find module "' + req + '".');
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return id;
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+webpackContext.id = "../../_src/components weak recursive ^\\.\\/.*\\.demo\\.html$";
+module.exports = webpackContext;
+
+/***/ }),
+
 /***/ "../../_src/components/async/async.html":
-/*!***********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/async/async.html ***!
-  \***********************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/async/async.html ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -275,7 +326,7 @@ function requireModule(mod, load) {
 
 var Async = {};
 
-Async.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/async/async.html";
+Async.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/async/async.html";
 
 Async.data = function() {
 	return data();
@@ -355,9 +406,9 @@ module.exports = Async;
 /***/ }),
 
 /***/ "../../_src/components/base/base.html":
-/*!*********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/base/base.html ***!
-  \*********************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/base/base.html ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -372,7 +423,7 @@ function data(){
 
 var Base = {};
 
-Base.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/base/base.html";
+Base.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/base/base.html";
 
 Base.data = function() {
 	return data();
@@ -448,9 +499,9 @@ module.exports = Base;
 /***/ }),
 
 /***/ "../../_src/components/button/button.demo.html":
-/*!******************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/button/button.demo.html ***!
-  \******************************************************************************************/
+/*!**************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/button/button.demo.html ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -458,36 +509,37 @@ module.exports = Base;
 
 var Button = __webpack_require__(/*! ./button.html */ "../../_src/components/button/button.html");
 
-var Demo = __webpack_require__(/*! ../demo/demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
+var Routes = __webpack_require__(/*! @/components/demo/demo.routes.html */ "../../_src/components/demo/demo.routes.html");
 
-var Async = __webpack_require__(/*! ../async/async.html */ "../../_src/components/async/async.html");
+var Demo = __webpack_require__(/*! @/components/demo/demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
+
+var Async = __webpack_require__(/*! @/components/async/async.html */ "../../_src/components/async/async.html");
 
 var capitalize = __webpack_require__(/*! @/components/tools/title-case */ "../../_src/components/tools/title-case.js");
-
-var populateAttrs = __webpack_require__(/*! @/components/tools/populate-attributes */ "../../_src/components/tools/populate-attributes.js");
 Button = (Button && Button.__esModule) ? Button["default"] : Button;
+Routes = (Routes && Routes.__esModule) ? Routes["default"] : Routes;
 Demo = (Demo && Demo.__esModule) ? Demo["default"] : Demo;
 Async = (Async && Async.__esModule) ? Async["default"] : Async;
 capitalize = (capitalize && capitalize.__esModule) ? capitalize["default"] : capitalize;
-populateAttrs = (populateAttrs && populateAttrs.__esModule) ? populateAttrs["default"] : populateAttrs;
 
 function data() {
-    return {
-        widths: ['normal', 'wide', 'compact'],
-        asyncButton: {
-            loader: () => Promise.resolve(/*! import() */).then(function() { var module = __webpack_require__(/*! ./button.html */ "../../_src/components/button/button.html"); return typeof module === "object" && module && module.__esModule ? module : Object.assign({/* fake namespace object */}, typeof module === "object" && module, { "default": module }); }),
-            webpack: () => /*require.resolve*/(/*! ./button.html */ "../../_src/components/button/button.html"),
-            props: {
-                width: ['wide'],
-                body: 'Async button'
-            }
+	return {
+    widths: ['normal', 'wide', 'compact'],
+    match: false,
+    asyncButton: {
+        loader: () => Promise.resolve(/*! import() */).then(function() { var module = __webpack_require__(/*! ./button.html */ "../../_src/components/button/button.html"); return typeof module === "object" && module && module.__esModule ? module : Object.assign({/* fake namespace object */}, typeof module === "object" && module, { "default": module }); }),
+        webpack: () => /*require.resolve*/(/*! ./button.html */ "../../_src/components/button/button.html"),
+        props: {
+            width: ['wide'],
+            body: 'Async button'
         }
-    };
+    }
 };
+}
 
 var Button_demo = {};
 
-Button_demo.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/button/button.demo.html";
+Button_demo.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/button/button.demo.html";
 
 Button_demo.data = function() {
 	return data();
@@ -520,24 +572,34 @@ Button_demo._render = function(__result, state, options) {
 
 	state = Object.assign(data(), state);
 
-	return `${Demo._render(__result, { demoTitle: "Buttons", variants: true }, { store: options.store, slotted: { default: () => `
-    `, header: () => `<div slot="header" class="svelte-1ngoo5c">
+	return `${ state.match ? `<style>
+    .button-holder {
+        display: inline-block;
+        padding: 1rem 1rem 1rem 0;
+    }
+    .button-holder--wide {
+        min-width: 20%;
+    }
+</style>
+
+${Demo._render(__result, { demoTitle: "Buttons", variants: true, currentRoute: "button" }, { store: options.store, slotted: { default: () => `
+    `, header: () => `<div slot="header">
         ${Button._render(__result, {  }, { store: options.store })}
         ${Button._render(__result, { type: ['wide'], body: "Wide", attrs: state.widths }, { store: options.store })}
     </div>
-    `, variants: () => `<div slot="variants" class="svelte-1ngoo5c">
+    `, variants: () => `<div slot="variants">
         ${ state.widths.map((buttonType) => `<div class="button-holder button-holder--${__escape(buttonType)}">
             ${Button._render(__result, { type: buttonType, body: capitalize(buttonType) }, { store: options.store })}
         </div>`).join("")}
 
         ${Async._render(__result, Object.assign(state.asyncButton), { store: options.store })}
     </div>
-` } })}`;
+` } })}` : `${Routes._render(__result, { match: "button" }, { store: options.store })}` }`;
 };
 
 Button_demo.css = {
-	code: ".svelte-1ngoo5c.button-holder,.svelte-1ngoo5c .button-holder{display:inline-block;padding:1rem 1rem 1rem 0}.svelte-1ngoo5c.button-holder--wide,.svelte-1ngoo5c .button-holder--wide{min-width:20%}",
-	map: "{\"version\":3,\"file\":\"button.demo.html\",\"sources\":[\"button.demo.html\"],\"sourcesContent\":[\"<style>\\n    .button-holder {\\n        display: inline-block;\\n        padding: 1rem 1rem 1rem 0;\\n    }\\n    .button-holder--wide {\\n        min-width: 20%;\\n    }\\n</style>\\n\\n\\n<Demo demoTitle=\\\"Buttons\\\" variants=\\\"{{true}}\\\">\\n    <div slot=\\\"header\\\">\\n        <Button />\\n        <Button type=\\\"{{['wide']}}\\\" body=\\\"Wide\\\" attrs={{widths}}/>\\n    </div>\\n    <div slot=\\\"variants\\\">\\n        {{#each widths as buttonType}}\\n        <div class=\\\"button-holder button-holder--{{buttonType}}\\\">\\n            <Button type={{buttonType}} body=\\\"{{capitalize(buttonType)}}\\\"/>\\n        </div>\\n        {{/each}}\\n\\n        <Async {{...asyncButton}} />\\n    </div>\\n</Demo>\\n\\n<script>\\n    import Button from './button.html';\\n    import Demo from '../demo/demo.wrapper.html';\\n    import Async from '../async/async.html';\\n    import capitalize from '@/components/tools/title-case';\\n    import populateAttrs from '@/components/tools/populate-attributes';\\n\\n    export default {\\n        components: {\\n            Button,\\n            Demo,\\n            Async\\n        },\\n        data() {\\n            return {\\n                widths: ['normal', 'wide', 'compact'],\\n                asyncButton: {\\n                    loader: () => import('./button.html'),\\n                    webpack: () => require.resolveWeak('./button.html'),\\n                    props: {\\n                        width: ['wide'],\\n                        body: 'Async button'\\n                    }\\n                }\\n            };\\n        },\\n        helpers: {\\n            capitalize,\\n        },\\n        methods: {\\n            populateAttrs\\n        }\\n    };\\n<\/script>\\n\"],\"names\":[],\"mappings\":\"AACI,4DAAe,CAAC,AACZ,OAAO,CAAE,YAAY,CACrB,OAAO,CAAE,IAAI,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC,AAC7B,CAAC,AACD,wEAAqB,CAAC,AAClB,SAAS,CAAE,GAAG,AAClB,CAAC\"}"
+	code: '',
+	map: null
 };
 
 var warned = false;
@@ -548,12 +610,6 @@ Button_demo.renderCss = function() {
 	}
 
 	var components = [];
-
-	components.push({
-		filename: Button_demo.filename,
-		css: Button_demo.css && Button_demo.css.code,
-		map: Button_demo.css && Button_demo.css.map
-	});
 
 	var seen = {};
 
@@ -567,6 +623,7 @@ Button_demo.renderCss = function() {
 	}
 
 	addComponent(Button);
+	addComponent(Routes);
 	addComponent(Demo);
 	addComponent(Async);
 
@@ -594,9 +651,9 @@ module.exports = Button_demo;
 /***/ }),
 
 /***/ "../../_src/components/button/button.html":
-/*!*************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/button/button.html ***!
-  \*************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/button/button.html ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -624,7 +681,7 @@ function setup(thisComponent) {
 
 var Button = {};
 
-Button.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/button/button.html";
+Button.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/button/button.html";
 
 Button.data = function() {
 	return data();
@@ -704,10 +761,189 @@ module.exports = Button;
 
 /***/ }),
 
+/***/ "../../_src/components/demo/demo.routes.html":
+/*!************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.routes.html ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Route = __webpack_require__(/*! svelte-routing/Route.html */ "../../node_modules/svelte-routing/Route.html");
+
+var Demo = __webpack_require__(/*! ./demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
+
+var store = __webpack_require__(/*! ./demo.store.js */ "../../_src/components/demo/demo.store.js");
+
+var capitalize = __webpack_require__(/*! ../tools/title-case.js */ "../../_src/components/tools/title-case.js");
+
+var findExport = __webpack_require__(/*! ../tools/find-export.js */ "../../_src/components/tools/find-export.js");
+Route = (Route && Route.__esModule) ? Route["default"] : Route;
+Demo = (Demo && Demo.__esModule) ? Demo["default"] : Demo;
+store = (store && store.__esModule) ? store["default"] : store;
+capitalize = (capitalize && capitalize.__esModule) ? capitalize["default"] : capitalize;
+findExport = (findExport && findExport.__esModule) ? findExport["default"] : findExport;
+
+function data() {
+	return {
+    pageTitle: null,
+    routeUrl: null,
+    hydrating: false
+};
+}
+
+function component(AsyncRoute) {
+    return AsyncRoute;
+}
+
+function AsyncRoute(routeUrl) {
+    if (!routeUrl) { return false; }
+    if (!window) {
+        return () => {
+            const load = /*require.resolve*/(__webpack_require__("../../_src/components weak recursive ^\\.\\/.*\\.demo\\.html$").resolve("./" + routeUrl + '/' + routeUrl + '.demo.html'));
+            // Find module in webpack cache
+            const mod = __webpack_require__.m[load];
+            const component = requireModule(mod, load);
+            return component && component;
+        }
+    }
+    else {
+        const route = async () => {
+            return __webpack_require__("../../_src/components lazy recursive ^\\.\\/.*\\.demo\\.html$")("./" + routeUrl + '/' + routeUrl + '.demo.html');
+        };
+        return route;
+    }
+}
+
+function setup(DemoRouter) {};
+
+function store_1() {
+	return store;
+}
+
+function requireModule(mod, load) {
+    // Reject any modules not found in webpack
+    if (typeof mod === 'undefined') {
+        return false;
+    }
+    // We pass the id, name
+    return findExport(__webpack_require__(mod.name || mod.id || load));
+}
+
+var Demo_routes = {};
+
+Demo_routes.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.routes.html";
+
+Demo_routes.data = function() {
+	return data();
+};
+
+Demo_routes.render = function(state, options = {}) {
+	var components = new Set();
+
+	function addComponent(component) {
+		components.add(component);
+	}
+
+	var result = { head: '', addComponent };
+	var html = Demo_routes._render(result, state, options);
+
+	var cssCode = Array.from(components).map(c => c.css && c.css.code).filter(Boolean).join('\n');
+
+	return {
+		html,
+		head: result.head,
+		css: { code: cssCode, map: null },
+		toString() {
+			return html;
+		}
+	};
+}
+
+Demo_routes._render = function(__result, state, options) {
+	options.store = store_1();
+	__result.addComponent(Demo_routes);
+
+	state = Object.assign(data(), state);
+
+	var settled = false;
+	var tmp;
+
+	while (!settled) {
+		settled = true;
+
+		if (!('match' in state)) {
+			tmp = Route.data();
+			if ('match' in tmp) {
+				state.match = tmp.match;
+				settled = false;
+			}
+		}
+	}
+
+	return `${Route._render(__result, { path: "/components/:demo", match: state.match }, { store: options.store, slotted: { default: () => `
+    ${ state.match.params ? `${(function(__value) { if(__isPromise(__value)) return `
+            ${ !state.hydrating ? `${Demo._render(__result, {  }, { store: options.store, slotted: { default: () => `
+                    `, header: () => `<div slot="header">Loading</div>
+                ` } })}` : `` }
+        `; return `
+            ${((__value.default) || __missingComponent)._render(__result, { currentRoute: state.match.params.demo, match: state.match }, { store: options.store })}
+        `;}(AsyncRoute(state.match.params.demo)())) }` : `` }
+` } })}`;
+};
+
+Demo_routes.css = {
+	code: '',
+	map: null
+};
+
+var warned = false;
+Demo_routes.renderCss = function() {
+	if (!warned) {
+		console.error('Component.renderCss(...) is deprecated and will be removed in v2 — use Component.render(...).css instead');
+		warned = true;
+	}
+
+	var components = [];
+
+	var seen = {};
+
+	function addComponent(component) {
+		var result = component.renderCss();
+		result.components.forEach(x => {
+			if (seen[x.filename]) return;
+			seen[x.filename] = true;
+			components.push(x);
+		});
+	}
+
+	addComponent(Route);
+	addComponent(Demo);
+
+	return {
+		css: components.map(x => x.css).join('\n'),
+		map: null,
+		components
+	};
+};
+
+function __isPromise(value) {
+	return value && typeof value.then === 'function';
+}
+
+var __missingComponent = {
+	_render: () => ''
+};
+
+module.exports = Demo_routes;
+
+/***/ }),
+
 /***/ "../../_src/components/demo/demo.store.js":
-/*!*************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/demo/demo.store.js ***!
-  \*************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.store.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -727,9 +963,9 @@ var store = new /*Babel»*/_store.Store({
 /***/ }),
 
 /***/ "../../_src/components/demo/demo.wrapper.html":
-/*!*****************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/demo/demo.wrapper.html ***!
-  \*****************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.wrapper.html ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -740,11 +976,16 @@ var Base = __webpack_require__(/*! ../base/base.html */ "../../_src/components/b
 var store = __webpack_require__(/*! ./demo.store.js */ "../../_src/components/demo/demo.store.js");
 
 var NavLink = __webpack_require__(/*! svelte-routing/NavLink.html */ "../../node_modules/svelte-routing/NavLink.html");
+
+var __import3 = __webpack_require__(/*! svelte-routing */ "../../node_modules/svelte-routing/index.js");
 Base = (Base && Base.__esModule) ? Base["default"] : Base;
 store = (store && store.__esModule) ? store["default"] : store;
 NavLink = (NavLink && NavLink.__esModule) ? NavLink["default"] : NavLink;
+var createMemoryHistory = __import3.createMemoryHistory;
+var createBrowserHistory = __import3.createBrowserHistory;
 
-// import { createMemoryHistory } from 'svelte-routing';
+if (!window) { createMemoryHistory(); }
+else { createBrowserHistory(); }
 
 function data() {
     return {
@@ -776,7 +1017,7 @@ function store_1() {
 
 var Demo_wrapper = {};
 
-Demo_wrapper.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/demo/demo.wrapper.html";
+Demo_wrapper.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.wrapper.html";
 
 Demo_wrapper.data = function() {
 	return data();
@@ -815,13 +1056,18 @@ Demo_wrapper._render = function(__result, state, options) {
 `, "")}
 
 <link rel="stylesheet" media="screen" href="/public/css/demo/demo.css">
-
+<!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
 <nav class="demo-navigation">
     <img src="/public/img/favicons/icon.svg" style="height: ${__escape(60/16)}rem;" alt="">
-    ${ state.links.map((name_url) => `${ browser() ? `${NavLink._render(__result, { to: name_url[1], className: `demo-navigation__link ${__escape( checkCurrent(name_url[0]))}` }, { store: options.store, slotted: { default: () => `${__escape(name_url[0])}` } })}` : `<a href="${__escape(name_url[1])}" class="demo-navigation__link ${__escape(checkCurrent(name_url[0]))}">${__escape(name_url[0])}</a>` }`).join("")}
+    ${ state.links.map((name_url) => `<!-- {{if browser()}} -->
+        ${NavLink._render(__result, { to: name_url[1], className: `demo-navigation__link ${__escape( checkCurrent(name_url[0]))}` }, { store: options.store, slotted: { default: () => `${__escape(name_url[0])}` } })}
+    <!-- {{else}}
+        <a href="{{url}}" class="demo-navigation__link {{checkCurrent(name)}}">{{name}}</a>
+    {{/if}} -->`).join("")}
 </nav>
 
 <div class="demo">
+    <div id="currentRoute" style="display:none;">${state.currentRoute}</div>
     <header class="demo-header">
         <div class="wrap">
             <h1 class="demo-header__title">
@@ -898,9 +1144,9 @@ module.exports = Demo_wrapper;
 /***/ }),
 
 /***/ "../../_src/components/tools/find-export.js":
-/*!***************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/tools/find-export.js ***!
-  \***************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/find-export.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -924,9 +1170,9 @@ function getExport(mod) {
 /***/ }),
 
 /***/ "../../_src/components/tools/modifiers.js":
-/*!*************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/tools/modifiers.js ***!
-  \*************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/modifiers.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -958,45 +1204,10 @@ exports.default = function (modifier, classPrefix, classSuffix) {
 
 /***/ }),
 
-/***/ "../../_src/components/tools/populate-attributes.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/tools/populate-attributes.js ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*Babel»*/
-
-exports.__esModule = true;
-
-var _keys = __webpack_require__(/*! babel-runtime/core-js/object/keys */ "../../node_modules/babel-runtime/core-js/object/keys.js");
-
-var _keys2 = _interopRequireDefault(_keys);
-
-exports.default = populateAttrs;
-
-/*Babel»*/function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function populateAttrs(attrs, component) {
-    component = component || this;
-    attrs = attrs || component.get('attrs');
-    if (!attrs) {
-        return false;
-    }
-    /*Babel»*/(0, _keys2.default)(attrs).forEach(function (attr) {
-        var obj = {};
-        obj[attr] = attrs[attr];
-        component.set(obj);
-    });
-}
-
-/***/ }),
-
 /***/ "../../_src/components/tools/title-case.js":
-/*!**************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/tools/title-case.js ***!
-  \**************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/title-case.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1014,21 +1225,10 @@ function titleCase(str) {
 
 /***/ }),
 
-/***/ "../../node_modules/babel-runtime/core-js/object/keys.js":
-/*!****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/babel-runtime/core-js/object/keys.js ***!
-  \****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(/*! core-js/library/fn/object/keys */ "../../node_modules/core-js/library/fn/object/keys.js"), __esModule: true };
-
-/***/ }),
-
 /***/ "../../node_modules/babel-runtime/core-js/symbol.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/babel-runtime/core-js/symbol.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/babel-runtime/core-js/symbol.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1037,9 +1237,9 @@ module.exports = { "default": __webpack_require__(/*! core-js/library/fn/symbol 
 /***/ }),
 
 /***/ "../../node_modules/babel-runtime/core-js/symbol/iterator.js":
-/*!********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/babel-runtime/core-js/symbol/iterator.js ***!
-  \********************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/babel-runtime/core-js/symbol/iterator.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1048,9 +1248,9 @@ module.exports = { "default": __webpack_require__(/*! core-js/library/fn/symbol/
 /***/ }),
 
 /***/ "../../node_modules/babel-runtime/helpers/typeof.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/babel-runtime/helpers/typeof.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/babel-runtime/helpers/typeof.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1079,23 +1279,10 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/fn/object/keys.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/fn/object/keys.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(/*! ../../modules/es6.object.keys */ "../../node_modules/core-js/library/modules/es6.object.keys.js");
-module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modules/core-js/library/modules/_core.js").Object.keys;
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/fn/symbol/index.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/fn/symbol/index.js ***!
-  \**************************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/fn/symbol/index.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1109,9 +1296,9 @@ module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modu
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/fn/symbol/iterator.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/fn/symbol/iterator.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/fn/symbol/iterator.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1123,9 +1310,9 @@ module.exports = __webpack_require__(/*! ../../modules/_wks-ext */ "../../node_m
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_a-function.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_a-function.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_a-function.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1138,9 +1325,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_add-to-unscopables.js":
-/*!**************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_add-to-unscopables.js ***!
-  \**************************************************************************************************************/
+/*!**********************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_add-to-unscopables.js ***!
+  \**********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1150,9 +1337,9 @@ module.exports = function () { /* empty */ };
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_an-object.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_an-object.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_an-object.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1166,9 +1353,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_array-includes.js":
-/*!**********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_array-includes.js ***!
-  \**********************************************************************************************************/
+/*!******************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_array-includes.js ***!
+  \******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1200,9 +1387,9 @@ module.exports = function (IS_INCLUDES) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_cof.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_cof.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_cof.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1216,9 +1403,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_core.js":
-/*!************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_core.js ***!
-  \************************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_core.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1229,9 +1416,9 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_ctx.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_ctx.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_ctx.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1260,9 +1447,9 @@ module.exports = function (fn, that, length) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_defined.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_defined.js ***!
-  \***************************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_defined.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1276,9 +1463,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_descriptors.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_descriptors.js ***!
-  \*******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_descriptors.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1291,9 +1478,9 @@ module.exports = !__webpack_require__(/*! ./_fails */ "../../node_modules/core-j
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_dom-create.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_dom-create.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_dom-create.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1309,9 +1496,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_enum-bug-keys.js":
-/*!*********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_enum-bug-keys.js ***!
-  \*********************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_enum-bug-keys.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1324,9 +1511,9 @@ module.exports = (
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_enum-keys.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_enum-keys.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_enum-keys.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1350,9 +1537,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_export.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_export.js ***!
-  \**************************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_export.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1423,9 +1610,9 @@ module.exports = $export;
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_fails.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_fails.js ***!
-  \*************************************************************************************************/
+/*!*********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_fails.js ***!
+  \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1441,9 +1628,9 @@ module.exports = function (exec) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_global.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_global.js ***!
-  \**************************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_global.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1458,9 +1645,9 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_has.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_has.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_has.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1473,9 +1660,9 @@ module.exports = function (it, key) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_hide.js":
-/*!************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_hide.js ***!
-  \************************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_hide.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1492,9 +1679,9 @@ module.exports = __webpack_require__(/*! ./_descriptors */ "../../node_modules/c
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_html.js":
-/*!************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_html.js ***!
-  \************************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_html.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1505,9 +1692,9 @@ module.exports = document && document.documentElement;
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_ie8-dom-define.js":
-/*!**********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_ie8-dom-define.js ***!
-  \**********************************************************************************************************/
+/*!******************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_ie8-dom-define.js ***!
+  \******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1519,9 +1706,9 @@ module.exports = !__webpack_require__(/*! ./_descriptors */ "../../node_modules/
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_iobject.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_iobject.js ***!
-  \***************************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iobject.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1536,9 +1723,9 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_is-array.js":
-/*!****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_is-array.js ***!
-  \****************************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_is-array.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1552,9 +1739,9 @@ module.exports = Array.isArray || function isArray(arg) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_is-object.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_is-object.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_is-object.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1566,9 +1753,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_iter-create.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_iter-create.js ***!
-  \*******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iter-create.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1591,9 +1778,9 @@ module.exports = function (Constructor, NAME, next) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_iter-define.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_iter-define.js ***!
-  \*******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iter-define.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1672,9 +1859,9 @@ module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCE
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_iter-step.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_iter-step.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iter-step.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1686,9 +1873,9 @@ module.exports = function (done, value) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_iterators.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_iterators.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iterators.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1698,9 +1885,9 @@ module.exports = {};
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_library.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_library.js ***!
-  \***************************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_library.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1710,9 +1897,9 @@ module.exports = true;
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_meta.js":
-/*!************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_meta.js ***!
-  \************************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_meta.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1774,9 +1961,9 @@ var meta = module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-create.js":
-/*!*********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-create.js ***!
-  \*********************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-create.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1826,9 +2013,9 @@ module.exports = Object.create || function create(O, Properties) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-dp.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-dp.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-dp.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1853,9 +2040,9 @@ exports.f = __webpack_require__(/*! ./_descriptors */ "../../node_modules/core-j
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-dps.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-dps.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-dps.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1877,9 +2064,9 @@ module.exports = __webpack_require__(/*! ./_descriptors */ "../../node_modules/c
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-gopd.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-gopd.js ***!
-  \*******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gopd.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1904,9 +2091,9 @@ exports.f = __webpack_require__(/*! ./_descriptors */ "../../node_modules/core-j
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-gopn-ext.js":
-/*!***********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-gopn-ext.js ***!
-  \***********************************************************************************************************/
+/*!*******************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gopn-ext.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1934,9 +2121,9 @@ module.exports.f = function getOwnPropertyNames(it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-gopn.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-gopn.js ***!
-  \*******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gopn.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1952,9 +2139,9 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-gops.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-gops.js ***!
-  \*******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gops.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1964,9 +2151,9 @@ exports.f = Object.getOwnPropertySymbols;
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-gpo.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-gpo.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gpo.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1988,9 +2175,9 @@ module.exports = Object.getPrototypeOf || function (O) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-keys-internal.js":
-/*!****************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-keys-internal.js ***!
-  \****************************************************************************************************************/
+/*!************************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-keys-internal.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2016,9 +2203,9 @@ module.exports = function (object, names) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-keys.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-keys.js ***!
-  \*******************************************************************************************************/
+/*!***************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-keys.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2034,9 +2221,9 @@ module.exports = Object.keys || function keys(O) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-pie.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-pie.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-pie.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2045,31 +2232,10 @@ exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_object-sap.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_object-sap.js ***!
-  \******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(/*! ./_export */ "../../node_modules/core-js/library/modules/_export.js");
-var core = __webpack_require__(/*! ./_core */ "../../node_modules/core-js/library/modules/_core.js");
-var fails = __webpack_require__(/*! ./_fails */ "../../node_modules/core-js/library/modules/_fails.js");
-module.exports = function (KEY, exec) {
-  var fn = (core.Object || {})[KEY] || Object[KEY];
-  var exp = {};
-  exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
-};
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_property-desc.js":
-/*!*********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_property-desc.js ***!
-  \*********************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_property-desc.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2086,9 +2252,9 @@ module.exports = function (bitmap, value) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_redefine.js":
-/*!****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_redefine.js ***!
-  \****************************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_redefine.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2098,9 +2264,9 @@ module.exports = __webpack_require__(/*! ./_hide */ "../../node_modules/core-js/
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_set-to-string-tag.js":
-/*!*************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_set-to-string-tag.js ***!
-  \*************************************************************************************************************/
+/*!*********************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_set-to-string-tag.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2116,9 +2282,9 @@ module.exports = function (it, tag, stat) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_shared-key.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_shared-key.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_shared-key.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2132,9 +2298,9 @@ module.exports = function (key) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_shared.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_shared.js ***!
-  \**************************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_shared.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2149,9 +2315,9 @@ module.exports = function (key) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_string-at.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_string-at.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_string-at.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2177,9 +2343,9 @@ module.exports = function (TO_STRING) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-absolute-index.js":
-/*!*************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_to-absolute-index.js ***!
-  \*************************************************************************************************************/
+/*!*********************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-absolute-index.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2195,9 +2361,9 @@ module.exports = function (index, length) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-integer.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_to-integer.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-integer.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2212,9 +2378,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-iobject.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_to-iobject.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-iobject.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2229,9 +2395,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-length.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_to-length.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-length.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2246,9 +2412,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-object.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_to-object.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-object.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2262,9 +2428,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-primitive.js":
-/*!********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_to-primitive.js ***!
-  \********************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-primitive.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2285,9 +2451,9 @@ module.exports = function (it, S) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_uid.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_uid.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_uid.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2301,9 +2467,9 @@ module.exports = function (key) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_wks-define.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_wks-define.js ***!
-  \******************************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_wks-define.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2321,9 +2487,9 @@ module.exports = function (name) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_wks-ext.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_wks-ext.js ***!
-  \***************************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_wks-ext.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2333,9 +2499,9 @@ exports.f = __webpack_require__(/*! ./_wks */ "../../node_modules/core-js/librar
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_wks.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/_wks.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_wks.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2355,9 +2521,9 @@ $exports.store = store;
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/es6.array.iterator.js":
-/*!*************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/es6.array.iterator.js ***!
-  \*************************************************************************************************************/
+/*!*********************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.array.iterator.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2400,30 +2566,10 @@ addToUnscopables('entries');
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/es6.object.keys.js":
-/*!**********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/es6.object.keys.js ***!
-  \**********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 Object.keys(O)
-var toObject = __webpack_require__(/*! ./_to-object */ "../../node_modules/core-js/library/modules/_to-object.js");
-var $keys = __webpack_require__(/*! ./_object-keys */ "../../node_modules/core-js/library/modules/_object-keys.js");
-
-__webpack_require__(/*! ./_object-sap */ "../../node_modules/core-js/library/modules/_object-sap.js")('keys', function () {
-  return function keys(it) {
-    return $keys(toObject(it));
-  };
-});
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/es6.object.to-string.js":
-/*!***************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/es6.object.to-string.js ***!
-  \***************************************************************************************************************/
+/*!***********************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.object.to-string.js ***!
+  \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2432,9 +2578,9 @@ __webpack_require__(/*! ./_object-sap */ "../../node_modules/core-js/library/mod
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/es6.string.iterator.js":
-/*!**************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/es6.string.iterator.js ***!
-  \**************************************************************************************************************/
+/*!**********************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.string.iterator.js ***!
+  \**********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2461,9 +2607,9 @@ __webpack_require__(/*! ./_iter-define */ "../../node_modules/core-js/library/mo
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/es6.symbol.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/es6.symbol.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.symbol.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2707,9 +2853,9 @@ setToStringTag(global.JSON, 'JSON', true);
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/es7.symbol.async-iterator.js":
-/*!********************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/es7.symbol.async-iterator.js ***!
-  \********************************************************************************************************************/
+/*!****************************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es7.symbol.async-iterator.js ***!
+  \****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2719,9 +2865,9 @@ __webpack_require__(/*! ./_wks-define */ "../../node_modules/core-js/library/mod
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/es7.symbol.observable.js":
-/*!****************************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/es7.symbol.observable.js ***!
-  \****************************************************************************************************************/
+/*!************************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es7.symbol.observable.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2731,9 +2877,9 @@ __webpack_require__(/*! ./_wks-define */ "../../node_modules/core-js/library/mod
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/web.dom.iterable.js":
-/*!***********************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/core-js/library/modules/web.dom.iterable.js ***!
-  \***********************************************************************************************************/
+/*!*******************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/web.dom.iterable.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2761,9 +2907,9 @@ for (var i = 0; i < DOMIterables.length; i++) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/DOMUtils.js":
-/*!**************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/DOMUtils.js ***!
-  \**************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/DOMUtils.js ***!
+  \**********************************************************************************/
 /*! exports provided: canUseDOM, addEventListener, removeEventListener, getConfirmation, supportsHistory, supportsPopStateOnHashChange, supportsGoWithoutReloadUsingHash, isExtraneousPopstateEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2833,9 +2979,9 @@ var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/LocationUtils.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/LocationUtils.js ***!
-  \*******************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/LocationUtils.js ***!
+  \***************************************************************************************/
 /*! exports provided: createLocation, locationsAreEqual */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2915,9 +3061,9 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/PathUtils.js":
-/*!***************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/PathUtils.js ***!
-  \***************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/PathUtils.js ***!
+  \***********************************************************************************/
 /*! exports provided: addLeadingSlash, stripLeadingSlash, hasBasename, stripBasename, stripTrailingSlash, parsePath, createPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2992,9 +3138,9 @@ var createPath = function createPath(location) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createBrowserHistory.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/createBrowserHistory.js ***!
-  \**************************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createBrowserHistory.js ***!
+  \**********************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3302,9 +3448,9 @@ var createBrowserHistory = function createBrowserHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createHashHistory.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/createHashHistory.js ***!
-  \***********************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createHashHistory.js ***!
+  \*******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3629,9 +3775,9 @@ var createHashHistory = function createHashHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createMemoryHistory.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/createMemoryHistory.js ***!
-  \*************************************************************************************************/
+/*!*********************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createMemoryHistory.js ***!
+  \*********************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3803,9 +3949,9 @@ var createMemoryHistory = function createMemoryHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createTransitionManager.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/createTransitionManager.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createTransitionManager.js ***!
+  \*************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3894,9 +4040,9 @@ var createTransitionManager = function createTransitionManager() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/index.js":
-/*!***********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/history/es/index.js ***!
-  \***********************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/index.js ***!
+  \*******************************************************************************/
 /*! exports provided: createBrowserHistory, createHashHistory, createMemoryHistory, createLocation, locationsAreEqual, parsePath, createPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3934,9 +4080,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ "../../node_modules/invariant/invariant.js":
-/*!**************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/invariant/invariant.js ***!
-  \**************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/invariant/invariant.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3997,9 +4143,9 @@ module.exports = invariant;
 /***/ }),
 
 /***/ "../../node_modules/path-to-regexp/index.js":
-/*!***************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/path-to-regexp/index.js ***!
-  \***************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/path-to-regexp/index.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -4379,9 +4525,9 @@ function pathToRegexp (path, keys, options) {
 /***/ }),
 
 /***/ "../../node_modules/resolve-pathname/index.js":
-/*!*****************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/resolve-pathname/index.js ***!
-  \*****************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/resolve-pathname/index.js ***!
+  \*************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4461,9 +4607,9 @@ function resolvePathname(to) {
 /***/ }),
 
 /***/ "../../node_modules/svelte-routing/NavLink.html":
-/*!*******************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte-routing/NavLink.html ***!
-  \*******************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/NavLink.html ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4529,7 +4675,7 @@ function data() {
 
 var NavLink = {};
 
-NavLink.filename = "/Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte-routing/NavLink.html";
+NavLink.filename = "/Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/NavLink.html";
 
 NavLink.data = function() {
 	return data();
@@ -4610,10 +4756,109 @@ module.exports = NavLink;
 
 /***/ }),
 
+/***/ "../../node_modules/svelte-routing/Route.html":
+/*!*************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/Route.html ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __import0 = __webpack_require__(/*! ./index.js */ "../../node_modules/svelte-routing/index.js");
+var getHistory = __import0.getHistory;
+var matchPath = __import0.matchPath;
+
+function match(pathname, path, exact, strict) {
+  return matchPath(pathname, { path, exact, strict });
+}
+
+function data() {
+  const history = getHistory();
+
+  return {
+    pathname: history.location.pathname,
+    path: '',
+    exact: false,
+    strict: false,
+    component: null,
+    history
+  };
+};
+
+var Route = {};
+
+Route.filename = "/Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/Route.html";
+
+Route.data = function() {
+	return data();
+};
+
+Route.render = function(state, options = {}) {
+	var components = new Set();
+
+	function addComponent(component) {
+		components.add(component);
+	}
+
+	var result = { head: '', addComponent };
+	var html = Route._render(result, state, options);
+
+	var cssCode = Array.from(components).map(c => c.css && c.css.code).filter(Boolean).join('\n');
+
+	return {
+		html,
+		head: result.head,
+		css: { code: cssCode, map: null },
+		toString() {
+			return html;
+		}
+	};
+}
+
+Route._render = function(__result, state, options) {
+	__result.addComponent(Route);
+
+	state = Object.assign(data(), state);
+
+	state.match = match(state.pathname, state.path, state.exact, state.strict);
+
+	return `${ state.match !== null ? `${ state.component !== null ? `${((state.component) || __missingComponent)._render(__result, { match: state.match }, { store: options.store })}` : `${options && options.slotted && options.slotted.default ? options.slotted.default() : ``}` }` : `` }`;
+};
+
+Route.css = {
+	code: '',
+	map: null
+};
+
+var warned = false;
+Route.renderCss = function() {
+	if (!warned) {
+		console.error('Component.renderCss(...) is deprecated and will be removed in v2 — use Component.render(...).css instead');
+		warned = true;
+	}
+
+	var components = [];
+
+	return {
+		css: components.map(x => x.css).join('\n'),
+		map: null,
+		components
+	};
+};
+
+var __missingComponent = {
+	_render: () => ''
+};
+
+module.exports = Route;
+
+/***/ }),
+
 /***/ "../../node_modules/svelte-routing/index.js":
-/*!***************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte-routing/index.js ***!
-  \***************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/index.js ***!
+  \***********************************************************************************/
 /*! exports provided: matchPath, createMemoryHistory, createHashHistory, createBrowserHistory, getHistory, isModifiedEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4655,9 +4900,9 @@ const isModifiedEvent = event => {
 /***/ }),
 
 /***/ "../../node_modules/svelte-routing/matchPath.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte-routing/matchPath.js ***!
-  \*******************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/matchPath.js ***!
+  \***************************************************************************************/
 /*! exports provided: matchPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4739,9 +4984,9 @@ const matchPath = (pathname, options = {}) => {
 /***/ }),
 
 /***/ "../../node_modules/svelte/shared.js":
-/*!********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte/shared.js ***!
-  \********************************************************************************/
+/*!****************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte/shared.js ***!
+  \****************************************************************************/
 /*! exports provided: blankObject, destroy, destroyDev, _differs, _differsImmutable, dispatchObservers, fire, get, init, observe, observeDev, on, onDev, run, set, _set, setDev, callAll, _mount, _unmount, isPromise, PENDING, SUCCESS, FAILURE, removeFromStore, proto, protoDev, appendNode, insertNode, detachNode, detachBetween, detachBefore, detachAfter, reinsertBetween, reinsertChildren, reinsertAfter, reinsertBefore, destroyEach, createFragment, createElement, createSvgElement, createText, createComment, addListener, removeListener, setAttribute, setAttributes, removeAttribute, setXlinkAttribute, getBindingGroupValue, toNumber, timeRangesToArray, children, claimElement, claimText, setInputType, setStyle, selectOption, selectOptions, selectValue, selectMultipleValue, destroyBlock, outroAndDestroyBlock, updateKeyedEach, getSpreadUpdate, linear, generateRule, hash, wrapTransition, transitionManager, noop, assign */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5604,9 +5849,9 @@ var protoDev = {
 /***/ }),
 
 /***/ "../../node_modules/svelte/store.js":
-/*!*******************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte/store.js ***!
-  \*******************************************************************************/
+/*!***************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte/store.js ***!
+  \***************************************************************************/
 /*! exports provided: Store */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5780,9 +6025,9 @@ Object(_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(Store.prototype, {
 /***/ }),
 
 /***/ "../../node_modules/value-equal/index.js":
-/*!************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/value-equal/index.js ***!
-  \************************************************************************************/
+/*!********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/value-equal/index.js ***!
+  \********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5830,9 +6075,9 @@ function valueEqual(a, b) {
 /***/ }),
 
 /***/ "../../node_modules/warning/warning.js":
-/*!**********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/warning/warning.js ***!
-  \**********************************************************************************/
+/*!******************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/warning/warning.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

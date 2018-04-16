@@ -14,6 +14,7 @@ const config = htmlConfig({
     dest: PATHS.demos.dest,
     nameSpace: "demo",
     sourceExtension: ".demo.html",
+    debug: true
 });
 
 config.name = "Demo";

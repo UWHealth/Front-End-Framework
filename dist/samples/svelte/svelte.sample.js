@@ -88,9 +88,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ({
 
 /***/ "../../_src/_samples/svelte.sample.html":
-/*!***********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/_samples/svelte.sample.html ***!
-  \***********************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/_samples/svelte.sample.html ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -113,7 +113,7 @@ function data() {
 
 var Svelte_sample = {};
 
-Svelte_sample.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/_samples/svelte.sample.html";
+Svelte_sample.filename = "/Users/Chris/Sites/Front-End-Framework/_src/_samples/svelte.sample.html";
 
 Svelte_sample.data = function() {
 	return data();
@@ -196,9 +196,9 @@ module.exports = Svelte_sample;
 /***/ }),
 
 /***/ "../../_src/components/base/base.html":
-/*!*********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/base/base.html ***!
-  \*********************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/base/base.html ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -213,7 +213,7 @@ function data(){
 
 var Base = {};
 
-Base.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/base/base.html";
+Base.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/base/base.html";
 
 Base.data = function() {
 	return data();
@@ -289,9 +289,9 @@ module.exports = Base;
 /***/ }),
 
 /***/ "../../_src/components/button/button.html":
-/*!*************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/button/button.html ***!
-  \*************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/button/button.html ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -319,7 +319,7 @@ function setup(thisComponent) {
 
 var Button = {};
 
-Button.filename = "/Users/lee/Sites/Other/Front-End-Framework/_src/components/button/button.html";
+Button.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/button/button.html";
 
 Button.data = function() {
 	return data();
@@ -400,9 +400,9 @@ module.exports = Button;
 /***/ }),
 
 /***/ "../../_src/components/tools/modifiers.js":
-/*!*************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/tools/modifiers.js ***!
-  \*************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/modifiers.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -435,9 +435,9 @@ exports.default = function (modifier, classPrefix, classSuffix) {
 /***/ }),
 
 /***/ "../../_src/components/tools/title-case.js":
-/*!**************************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/_src/components/tools/title-case.js ***!
-  \**************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/title-case.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -456,9 +456,9 @@ function titleCase(str) {
 /***/ }),
 
 /***/ "../../node_modules/svelte/shared.js":
-/*!********************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte/shared.js ***!
-  \********************************************************************************/
+/*!****************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte/shared.js ***!
+  \****************************************************************************/
 /*! exports provided: blankObject, destroy, destroyDev, _differs, _differsImmutable, dispatchObservers, fire, get, init, observe, observeDev, on, onDev, run, set, _set, setDev, callAll, _mount, _unmount, isPromise, PENDING, SUCCESS, FAILURE, removeFromStore, proto, protoDev, appendNode, insertNode, detachNode, detachBetween, detachBefore, detachAfter, reinsertBetween, reinsertChildren, reinsertAfter, reinsertBefore, destroyEach, createFragment, createElement, createSvgElement, createText, createComment, addListener, removeListener, setAttribute, setAttributes, removeAttribute, setXlinkAttribute, getBindingGroupValue, toNumber, timeRangesToArray, children, claimElement, claimText, setInputType, setStyle, selectOption, selectOptions, selectValue, selectMultipleValue, destroyBlock, outroAndDestroyBlock, updateKeyedEach, getSpreadUpdate, linear, generateRule, hash, wrapTransition, transitionManager, noop, assign */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1321,9 +1321,9 @@ var protoDev = {
 /***/ }),
 
 /***/ "../../node_modules/svelte/store.js":
-/*!*******************************************************************************!*\
-  !*** /Users/lee/Sites/Other/Front-End-Framework/node_modules/svelte/store.js ***!
-  \*******************************************************************************/
+/*!***************************************************************************!*\
+  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte/store.js ***!
+  \***************************************************************************/
 /*! exports provided: Store */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

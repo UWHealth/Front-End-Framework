@@ -43,7 +43,7 @@ config.output = {
     library: 'uwhealth',
 };
 
-config.optimization.runtimeChunk = "single"
+// config.optimization.runtimeChunk = "single"
 
 config.optimization.concatenateModules = MODE.production;
 
