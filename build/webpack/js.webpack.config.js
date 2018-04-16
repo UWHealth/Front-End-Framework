@@ -12,6 +12,7 @@ const PATHS = require(`${cwd}/config/paths.config.js`);
 const STATS = require('./helpers/webpack-stats.js')();
 const MODE  = require('../tools/mode.js');
 const baseConfig = require(`./base.webpack.config.js`);
+const babelConfig = require(`./babel.webpack.config.js`);
 
 const config = cloneDeep(baseConfig);
 
@@ -29,7 +30,7 @@ config.entry = {
 
 const ManifestPlugin = require('webpack-manifest-plugin');
 
-config.plugins.push(new ManifestPlugin({seed: {name: 'My Manifest'}}));
+config.plugins.push(new ManifestPlugin(baseConfig.manifestSeed));
 
 config.output = {
     path: PATHS.js.dest,
@@ -66,6 +67,15 @@ config.optimization.splitChunks = {
 };
 
 config.module.rules.push(
+    {
+        test: /\.(js|jsx)$/,
+        exclude: /(node_modules)/,
+        use: {
+            loader: 'babel-loader',
+            options: babelConfig(false)
+        }
+    },
+
     {
         test: /\.(html|sv\.html|svelte)$/,
         use: [

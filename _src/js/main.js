@@ -2,6 +2,7 @@ import domReady from "@/js/modules/dom-ready";
 import 'promise-polyfill/src/polyfill';
 import store from '@/components/demo/demo.store.js';
 import runtime from 'sapper/runtime.js';
+import Router from '@/components/demo/demo.routes.html';
 
 let application;
 
@@ -12,29 +13,31 @@ domReady(() => {
     const appElement = document.getElementById('app');
 
     if (appElement) {
+        const currentRoute = document.getElementById('currentRoute').innerHTML.toLowerCase();
+
         import(
             /* "webpackChunkName": "routes" */
-            '@/components/demo/demo.routes.html'
+            '@/components/'+ currentRoute + '/' + currentRoute + '.demo.html'
         ).then((App) => {
 
-            //let currentRoute = document.getElementById('currentRoute').innerHTML;
-            // currentRoute = `demo-routes/${currentRoute}.js`;
-            //console.log(__webpack_require__(currentRoute));
+            new Router({
+                hydrate: true,
+                target: appElement,
+                data: {
+                    innerComponent: App["default"]
+                }
+            });
 
-            application =
-                new App["default"]({
-                    target: appElement,
-                    hydrate: true,
-                    data: {
-                        // hydrating: true,
-                        // hydratingHtml: appElement,
-                        match: {
-                            params: {
-                                demo: currentRoute
-                            }
-                        }
-                    }
-                });
+            // console.log(currentRoute)
+            //
+            // application =
+            //     new App["default"]({
+            //         target: appElement,
+            //         hydrate: true,
+            //         data: {
+            //             thisPath: window.location.pathname
+            //         }
+            //     });
 
             window.__APP__ = application;
 

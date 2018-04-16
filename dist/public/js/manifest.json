@@ -1,17 +1,16 @@
 {
-  "name": "My Manifest",
-  "demo-routes/button-button-demo-html.js": "/public/js/demo-routes/button-button-demo-html.js",
-  "demo-routes/button-button-demo-html.js.map": "/public/js/demo-routes/button-button-demo-html.js.map",
-  "demo-routes/feed-feed-demo-html.js": "/public/js/demo-routes/feed-feed-demo-html.js",
-  "demo-routes/feed-feed-demo-html.js.map": "/public/js/demo-routes/feed-feed-demo-html.js.map",
-  "demo-routes/generic-generic-demo-html.js": "/public/js/demo-routes/generic-generic-demo-html.js",
-  "demo-routes/generic-generic-demo-html.js.map": "/public/js/demo-routes/generic-generic-demo-html.js.map",
-  "demo-routes/hero-hero-demo-html.js": "/public/js/demo-routes/hero-hero-demo-html.js",
-  "demo-routes/hero-hero-demo-html.js.map": "/public/js/demo-routes/hero-hero-demo-html.js.map",
-  "demo-routes/hero-hero2-demo-html.js": "/public/js/demo-routes/hero-hero2-demo-html.js",
-  "demo-routes/hero-hero2-demo-html.js.map": "/public/js/demo-routes/hero-hero2-demo-html.js.map",
   "main.js": "/public/js/main.bundle.js",
   "main.js.map": "/public/js/main.bundle.js.map",
   "plugins.js": "/public/js/plugins.bundle.js",
-  "plugins.js.map": "/public/js/plugins.bundle.js.map"
+  "plugins.js.map": "/public/js/plugins.bundle.js.map",
+  "0.js": "/public/js/0.js",
+  "0.js.map": "/public/js/0.js.map",
+  "routes1.js": "/public/js/routes1.js",
+  "routes1.js.map": "/public/js/routes1.js.map",
+  "routes2.js": "/public/js/routes2.js",
+  "routes2.js.map": "/public/js/routes2.js.map",
+  "routes3.js": "/public/js/routes3.js",
+  "routes3.js.map": "/public/js/routes3.js.map",
+  "routes0.js": "/public/js/routes0.js",
+  "routes0.js.map": "/public/js/routes0.js.map"
 }

@@ -37,17 +37,25 @@ const config = {
     }
 };
 
+module.exports.manifestSeed = {seed: {name: 'Webpack Manifest'}};
+
 module.exports.babel = {
     cacheDirectory: true,
     auxiliaryCommentBefore: "Babel»",
     presets: [
         ["env", {
-            "browsers": BROWSERS,
+            "targets": {
+                "browsers": BROWSERS,
+            },
+            "useBuiltIns": true,
             "loose": true,
-            "modules": false
+            "modules": false,
+            "debug": true
         }]
     ],
     plugins: [
+        ["syntax-dynamic-import"],
+        ["transform-imports"],
         ["transform-runtime", {
             "helpers": true,
             "polyfill": true,
@@ -55,8 +63,6 @@ module.exports.babel = {
             "loose": true,
             "modules": false
         }],
-        ["transform-imports"]
-        // MODE.production ? ["syntax-dynamic-import"] : null
     ]
 };
 
@@ -66,15 +72,6 @@ module.exports.babel = {
  * 2. Handlebars
  */
 config.module.rules = [
-
-    {
-        test: /\.(js|jsx)$/,
-        exclude: /(node_modules)/,
-        use: {
-            loader: 'babel-loader',
-            options: module.exports.babel
-        }
-    },
 
     {
         test: /\.(hbs|handlebars|hbs\.svg)$/,

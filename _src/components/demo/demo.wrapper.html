@@ -7,16 +7,13 @@
 <nav ref:navigation class="demo-navigation">
     <img src="/public/img/favicons/icon.svg" style="height: {{60/16}}rem;" alt="">
     {{#each links as [name, url]}}
-    <!-- {{#if browser()}} -->
         <NavLink to="{{url}}" className="demo-navigation__link {{checkCurrent(name)}}">{{name}}</NavLink>
-    <!-- {{else}}
-        <a href="{{url}}" class="demo-navigation__link {{checkCurrent(name)}}">{{name}}</a>
-    {{/if}} -->
     {{/each}}
 </nav>
 
+<div id="currentRoute" style="display:none;">{{{currentRoute}}}</div>
+
 <div class="demo">
-    <div id="currentRoute" style="display:none;">{{{currentRoute}}}</div>
     <header class="demo-header">
         <div class="wrap">
             <h1 class="demo-header__title">
@@ -48,7 +45,9 @@
     import NavLink from 'svelte-routing/NavLink.html';
     import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
 
-    if (!window) { createMemoryHistory(); }
+    if (!window) {
+        createMemoryHistory();
+    }
     else { createBrowserHistory(); }
 
     export default {
@@ -62,12 +61,16 @@
                 demoTitle: 'Demo',
                 variantTitle: false,
                 variants: false,
+                currentRoute: '',
                 links: [
                     ['Button', '/components/button/'],
                     ['Generic', '/components/generic/'],
                     ['Feed', '/components/feed/']
                 ],
             };
+        },
+        computed: {
+            lowercaseRoute: (currentRoute) => currentRoute.toLowerCase(),
         },
         helpers: {
             checkCurrent: (routeName) => {
@@ -84,6 +87,11 @@
             if (this.slots.variants) {
                 this.set({'variants': true});
             }
+
+            // this.refs.route.observe('match', function(match) {
+            //     console.log(match);
+            // })
+
         },
         ondestroy () {}
     };

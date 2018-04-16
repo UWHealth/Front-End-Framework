@@ -12,12 +12,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
-/******/ 	// object to store loaded chunks
-/******/ 	// "0" means "already loaded"
-/******/ 	var installedChunks = {
-/******/ 		"components/button/button": 0
-/******/ 	};
-/******/
 /******/ 	// object to store loaded and loading wasm modules
 /******/ 	var installedWasmModules = {};
 /******/
@@ -45,26 +39,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		return module.exports;
 /******/ 	}
 /******/
-/******/ 	// This file contains only the entry chunk.
-/******/ 	// The chunk loading function for additional chunks
-/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
-/******/ 		var promises = [];
-/******/
-/******/
-/******/ 		// require() chunk loading for javascript
-/******/
-/******/ 		// "0" is the signal for "already loaded"
-/******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("./" + ({"demo-routes/feed-feed-demo-html":"demo-routes/feed-feed-demo-html","demo-routes/generic-generic-demo-html":"demo-routes/generic-generic-demo-html","demo-routes/hero-hero-demo-html":"demo-routes/hero-hero-demo-html","demo-routes/hero-hero2-demo-html":"demo-routes/hero-hero2-demo-html"}[chunkId]||chunkId) + ".demo.js");
-/******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
-/******/ 			for(var moduleId in moreModules) {
-/******/ 				modules[moduleId] = moreModules[moduleId];
-/******/ 			}
-/******/ 			for(var i = 0; i < chunkIds.length; i++)
-/******/ 				installedChunks[chunkIds[i]] = 0;
-/******/ 		}
-/******/ 		return Promise.all(promises);
-/******/ 	};
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -103,13 +77,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/";
 /******/
-/******/ 	// uncaught error handler for webpack runtime
-/******/ 	__webpack_require__.oe = function(err) {
-/******/ 		process.nextTick(function() {
-/******/ 			throw err; // catch this error by using import().catch()
-/******/ 		});
-/******/ 	};
-/******/
 /******/ 	// object with all compiled WebAssembly.Modules
 /******/ 	__webpack_require__.w = {};
 /******/
@@ -120,104 +87,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "../../_src/components lazy recursive ^\\.\\/.*\\.demo\\.html$":
-/*!*********************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components lazy ^\.\/.*\.demo\.html$ namespace object ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./button/button.demo.html": [
-		"../../_src/components/button/button.demo.html"
-	],
-	"./feed/feed.demo.html": [
-		"../../_src/components/feed/feed.demo.html",
-		"demo-routes/feed-feed-demo-html"
-	],
-	"./generic/generic.demo.html": [
-		"../../_src/components/generic/generic.demo.html",
-		"demo-routes/generic-generic-demo-html"
-	],
-	"./hero/hero.demo.html": [
-		"../../_src/components/hero/hero.demo.html",
-		"demo-routes/hero-hero-demo-html"
-	],
-	"./hero/hero2.demo.html": [
-		"../../_src/components/hero/hero2.demo.html",
-		"demo-routes/hero-hero2-demo-html"
-	]
-};
-function webpackAsyncContext(req) {
-	var ids = map[req];
-	if(!ids) {
-		return Promise.resolve().then(function() {
-			var e = new Error('Cannot find module "' + req + '".');
-			e.code = 'MODULE_NOT_FOUND';
-			throw e;
-		});
-	}
-	return Promise.all(ids.slice(1).map(__webpack_require__.e)).then(function() {
-		var module = __webpack_require__(ids[0]);
-		return (typeof module === "object" && module && module.__esModule ? module : Object.assign({/* fake namespace object */}, typeof module === "object" && module, { "default": module }));
-	});
-}
-webpackAsyncContext.keys = function webpackAsyncContextKeys() {
-	return Object.keys(map);
-};
-webpackAsyncContext.id = "../../_src/components lazy recursive ^\\.\\/.*\\.demo\\.html$";
-module.exports = webpackAsyncContext;
-
-/***/ }),
-
-/***/ "../../_src/components weak recursive ^\\.\\/.*\\.demo\\.html$":
-/*!****************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components weak ^\.\/.*\.demo\.html$ ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var map = {
-	"./button/button.demo.html": "../../_src/components/button/button.demo.html",
-	"./feed/feed.demo.html": "../../_src/components/feed/feed.demo.html",
-	"./generic/generic.demo.html": "../../_src/components/generic/generic.demo.html",
-	"./hero/hero.demo.html": "../../_src/components/hero/hero.demo.html",
-	"./hero/hero2.demo.html": "../../_src/components/hero/hero2.demo.html"
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	if(!__webpack_require__.m[id]) {
-		var e = new Error("Module '" + req + "' ('" + id + "') is not available (weak dependency)");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	var module = __webpack_require__(id);
-	return module;
-}
-function webpackContextResolve(req) {
-	var id = map[req];
-	if(!(id + 1)) { // check for number or string
-		var e = new Error('Cannot find module "' + req + '".');
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return id;
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-webpackContext.id = "../../_src/components weak recursive ^\\.\\/.*\\.demo\\.html$";
-module.exports = webpackContext;
-
-/***/ }),
-
 /***/ "../../_src/components/async/async.html":
-/*!*******************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/async/async.html ***!
-  \*******************************************************************************/
+/*!**********************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/async/async.html ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -259,7 +132,7 @@ function requireModule(mod, load) {
 
 var Async = {};
 
-Async.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/async/async.html";
+Async.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\async\\async.html";
 
 Async.data = function() {
 	return data();
@@ -339,9 +212,9 @@ module.exports = Async;
 /***/ }),
 
 /***/ "../../_src/components/base/base.html":
-/*!*****************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/base/base.html ***!
-  \*****************************************************************************/
+/*!********************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/base/base.html ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -356,7 +229,7 @@ function data(){
 
 var Base = {};
 
-Base.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/base/base.html";
+Base.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\base\\base.html";
 
 Base.data = function() {
 	return data();
@@ -432,9 +305,9 @@ module.exports = Base;
 /***/ }),
 
 /***/ "../../_src/components/button/button.demo.html":
-/*!**************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/button/button.demo.html ***!
-  \**************************************************************************************/
+/*!*****************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/button/button.demo.html ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -442,37 +315,37 @@ module.exports = Base;
 
 var Button = __webpack_require__(/*! ./button.html */ "../../_src/components/button/button.html");
 
-var Routes = __webpack_require__(/*! @/components/demo/demo.routes.html */ "../../_src/components/demo/demo.routes.html");
+var Demo = __webpack_require__(/*! ../demo/demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
 
-var Demo = __webpack_require__(/*! @/components/demo/demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
-
-var Async = __webpack_require__(/*! @/components/async/async.html */ "../../_src/components/async/async.html");
+var Async = __webpack_require__(/*! ../async/async.html */ "../../_src/components/async/async.html");
 
 var capitalize = __webpack_require__(/*! @/components/tools/title-case */ "../../_src/components/tools/title-case.js");
+
+var populateAttrs = __webpack_require__(/*! @/components/tools/populate-attributes */ "../../_src/components/tools/populate-attributes.js");
 Button = (Button && Button.__esModule) ? Button["default"] : Button;
-Routes = (Routes && Routes.__esModule) ? Routes["default"] : Routes;
 Demo = (Demo && Demo.__esModule) ? Demo["default"] : Demo;
 Async = (Async && Async.__esModule) ? Async["default"] : Async;
 capitalize = (capitalize && capitalize.__esModule) ? capitalize["default"] : capitalize;
+populateAttrs = (populateAttrs && populateAttrs.__esModule) ? populateAttrs["default"] : populateAttrs;
 
 function data() {
-	return {
-    widths: ['normal', 'wide', 'compact'],
-    match: false,
-    asyncButton: {
-        loader: () => Promise.resolve(/*! import() */).then(function() { var module = __webpack_require__(/*! ./button.html */ "../../_src/components/button/button.html"); return typeof module === "object" && module && module.__esModule ? module : Object.assign({/* fake namespace object */}, typeof module === "object" && module, { "default": module }); }),
-        webpack: () => /*require.resolve*/(/*! ./button.html */ "../../_src/components/button/button.html"),
-        props: {
-            width: ['wide'],
-            body: 'Async button'
+    return {
+        thisPath: !window ? '/components/button' : false,
+        widths: ['normal', 'wide', 'compact'],
+        asyncButton: {
+            loader: () => Promise.resolve(/*! import() */).then(function() { var module = __webpack_require__(/*! ./button.html */ "../../_src/components/button/button.html"); return typeof module === "object" && module && module.__esModule ? module : Object.assign({/* fake namespace object */}, typeof module === "object" && module, { "default": module }); }),
+            webpack: () => /*require.resolve*/(/*! ./button.html */ "../../_src/components/button/button.html"),
+            attrs: {
+                width: ['wide'],
+                body: 'Async button'
+            }
         }
-    }
+    };
 };
-}
 
 var Button_demo = {};
 
-Button_demo.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/button/button.demo.html";
+Button_demo.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\button\\button.demo.html";
 
 Button_demo.data = function() {
 	return data();
@@ -505,34 +378,23 @@ Button_demo._render = function(__result, state, options) {
 
 	state = Object.assign(data(), state);
 
-	return `${ state.match ? `<style>
-    .button-holder {
-        display: inline-block;
-        padding: 1rem 1rem 1rem 0;
-    }
-    .button-holder--wide {
-        min-width: 20%;
-    }
-</style>
-
-${Demo._render(__result, { demoTitle: "Buttons", variants: true, currentRoute: "button" }, { store: options.store, slotted: { default: () => `
-    `, header: () => `<div slot="header">
-        ${Button._render(__result, {  }, { store: options.store })}
-        ${Button._render(__result, { type: ['wide'], body: "Wide", attrs: state.widths }, { store: options.store })}
+	return `${Demo._render(__result, { demoTitle: "Buttons", variants: true, currentRoute: "Button" }, { store: options.store, slotted: { default: () => `
+    `, header: () => `<div slot="header" class="svelte-1ngoo5c">
+        ${Button._render(__result, { body: "whatup" }, { store: options.store })}
     </div>
-    `, variants: () => `<div slot="variants">
+    `, variants: () => `<div slot="variants" class="svelte-1ngoo5c">
         ${ state.widths.map((buttonType) => `<div class="button-holder button-holder--${__escape(buttonType)}">
             ${Button._render(__result, { type: buttonType, body: capitalize(buttonType) }, { store: options.store })}
         </div>`).join("")}
 
         ${Async._render(__result, Object.assign(state.asyncButton), { store: options.store })}
     </div>
-` } })}` : `${Routes._render(__result, { match: "button" }, { store: options.store })}` }`;
+` } })}`;
 };
 
 Button_demo.css = {
-	code: '',
-	map: null
+	code: ".svelte-1ngoo5c.button-holder,.svelte-1ngoo5c .button-holder{display:inline-block;padding:1rem 1rem 1rem 0}.svelte-1ngoo5c.button-holder--wide,.svelte-1ngoo5c .button-holder--wide{min-width:20%}",
+	map: "{\"version\":3,\"file\":\"button.demo.html\",\"sources\":[\"button.demo.html\"],\"sourcesContent\":[\"<style>\\n    .button-holder {\\n        display: inline-block;\\n        padding: 1rem 1rem 1rem 0;\\n    }\\n    .button-holder--wide {\\n        min-width: 20%;\\n    }\\n</style>\\n\\n<Demo demoTitle=\\\"Buttons\\\" variants=\\\"{{true}}\\\" currentRoute=\\\"Button\\\">\\n    <div slot=\\\"header\\\">\\n        <Button body=\\\"whatup\\\"/>\\n    </div>\\n    <div slot=\\\"variants\\\">\\n        {{#each widths as buttonType @buttonType}}\\n        <div class=\\\"button-holder button-holder--{{buttonType}}\\\">\\n            <Button type=\\\"{{buttonType}}\\\" body=\\\"{{capitalize(buttonType)}}\\\"/>\\n        </div>\\n        {{/each}}\\n\\n        <Async {{...asyncButton}} />\\n    </div>\\n</Demo>\\n\\n<script>\\n    import Button from './button.html';\\n    import Demo from '../demo/demo.wrapper.html';\\n    import Async from '../async/async.html';\\n    import capitalize from '@/components/tools/title-case';\\n    import populateAttrs from '@/components/tools/populate-attributes';\\n\\n    export default {\\n        components: {\\n            Button,\\n            Demo,\\n            Async\\n        },\\n        data() {\\n            return {\\n                thisPath: !window ? '/components/button' : false,\\n                widths: ['normal', 'wide', 'compact'],\\n                asyncButton: {\\n                    loader: () => import('./button.html'),\\n                    webpack: () => require.resolveWeak('./button.html'),\\n                    attrs: {\\n                        width: ['wide'],\\n                        body: 'Async button'\\n                    }\\n                }\\n            };\\n        },\\n        helpers: {\\n            capitalize,\\n\\n        },\\n        methods: {\\n            populateAttrs\\n        }\\n    };\\n</script>\\n\"],\"names\":[],\"mappings\":\"AACI,4DAAe,CAAC,AACZ,OAAO,CAAE,YAAY,CACrB,OAAO,CAAE,IAAI,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC,AAC7B,CAAC,AACD,wEAAqB,CAAC,AAClB,SAAS,CAAE,GAAG,AAClB,CAAC\"}"
 };
 
 var warned = false;
@@ -543,6 +405,12 @@ Button_demo.renderCss = function() {
 	}
 
 	var components = [];
+
+	components.push({
+		filename: Button_demo.filename,
+		css: Button_demo.css && Button_demo.css.code,
+		map: Button_demo.css && Button_demo.css.map
+	});
 
 	var seen = {};
 
@@ -556,7 +424,6 @@ Button_demo.renderCss = function() {
 	}
 
 	addComponent(Button);
-	addComponent(Routes);
 	addComponent(Demo);
 	addComponent(Async);
 
@@ -584,9 +451,9 @@ module.exports = Button_demo;
 /***/ }),
 
 /***/ "../../_src/components/button/button.html":
-/*!*********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/button/button.html ***!
-  \*********************************************************************************/
+/*!************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/button/button.html ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -614,7 +481,7 @@ function setup(thisComponent) {
 
 var Button = {};
 
-Button.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/button/button.html";
+Button.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\button\\button.html";
 
 Button.data = function() {
 	return data();
@@ -649,10 +516,14 @@ Button._render = function(__result, state, options) {
 
 	return `<button class="btn ${__escape(modifiers(state.type, 'btn--'))}">
     <span class="btn__body ${__escape(modifiers(state.type, 'btn__body--'))}">
-        ${__escape(state.body)}
+        ${options && options.slotted && options.slotted.default ? options.slotted.default() : `
+            ${__escape(state.body)}
+        `}
     </span>
     ${ state.icon ? `<span class="btn__icon ${__escape(modifiers(state.type, 'btn__icon--'))}">
-            ${__escape(state.icon)}
+            ${options && options.slotted && options.slotted.icon ? options.slotted.icon() : `
+                ${__escape(state.icon)}
+            `}
         </span>` : `${ state.iconUrl ? `<img class="btn__icon btn__icon--image ${__escape(modifiers(state.type, 'btn__icon--'))}" src="${__escape({iconUrl: state.iconUrl})}" alt="">` : `` }` }
 </button>`;
 };
@@ -694,211 +565,30 @@ module.exports = Button;
 
 /***/ }),
 
-/***/ "../../_src/components/demo/demo.routes.html":
-/*!************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.routes.html ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Route = __webpack_require__(/*! svelte-routing/Route.html */ "../../node_modules/svelte-routing/Route.html");
-
-var Demo = __webpack_require__(/*! ./demo.wrapper.html */ "../../_src/components/demo/demo.wrapper.html");
-
-var store = __webpack_require__(/*! ./demo.store.js */ "../../_src/components/demo/demo.store.js");
-
-var capitalize = __webpack_require__(/*! ../tools/title-case.js */ "../../_src/components/tools/title-case.js");
-
-var findExport = __webpack_require__(/*! ../tools/find-export.js */ "../../_src/components/tools/find-export.js");
-Route = (Route && Route.__esModule) ? Route["default"] : Route;
-Demo = (Demo && Demo.__esModule) ? Demo["default"] : Demo;
-store = (store && store.__esModule) ? store["default"] : store;
-capitalize = (capitalize && capitalize.__esModule) ? capitalize["default"] : capitalize;
-findExport = (findExport && findExport.__esModule) ? findExport["default"] : findExport;
-
-function data() {
-	return {
-    pageTitle: null,
-    routeUrl: null,
-    hydrating: false
-};
-}
-
-function component(AsyncRoute) {
-    return AsyncRoute;
-}
-
-function AsyncRoute(routeUrl) {
-    if (!routeUrl) { return false; }
-    if (!window) {
-        return () => {
-            const load = /*require.resolve*/(__webpack_require__("../../_src/components weak recursive ^\\.\\/.*\\.demo\\.html$").resolve("./" + routeUrl + '/' + routeUrl + '.demo.html'));
-            // Find module in webpack cache
-            const mod = __webpack_require__.m[load];
-            const component = requireModule(mod, load);
-            return component && component;
-        }
-    }
-    else {
-        const route = async () => {
-            return __webpack_require__("../../_src/components lazy recursive ^\\.\\/.*\\.demo\\.html$")("./" + routeUrl + '/' + routeUrl + '.demo.html');
-        };
-        return route;
-    }
-}
-
-function setup(DemoRouter) {};
-
-function store_1() {
-	return store;
-}
-
-function requireModule(mod, load) {
-    // Reject any modules not found in webpack
-    if (typeof mod === 'undefined') {
-        return false;
-    }
-    // We pass the id, name
-    return findExport(__webpack_require__(mod.name || mod.id || load));
-}
-
-var Demo_routes = {};
-
-Demo_routes.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.routes.html";
-
-Demo_routes.data = function() {
-	return data();
-};
-
-Demo_routes.render = function(state, options = {}) {
-	var components = new Set();
-
-	function addComponent(component) {
-		components.add(component);
-	}
-
-	var result = { head: '', addComponent };
-	var html = Demo_routes._render(result, state, options);
-
-	var cssCode = Array.from(components).map(c => c.css && c.css.code).filter(Boolean).join('\n');
-
-	return {
-		html,
-		head: result.head,
-		css: { code: cssCode, map: null },
-		toString() {
-			return html;
-		}
-	};
-}
-
-Demo_routes._render = function(__result, state, options) {
-	options.store = store_1();
-	__result.addComponent(Demo_routes);
-
-	state = Object.assign(data(), state);
-
-	var settled = false;
-	var tmp;
-
-	while (!settled) {
-		settled = true;
-
-		if (!('match' in state)) {
-			tmp = Route.data();
-			if ('match' in tmp) {
-				state.match = tmp.match;
-				settled = false;
-			}
-		}
-	}
-
-	return `${Route._render(__result, { path: "/components/:demo", match: state.match }, { store: options.store, slotted: { default: () => `
-    ${ state.match.params ? `${(function(__value) { if(__isPromise(__value)) return `
-            ${ !state.hydrating ? `${Demo._render(__result, {  }, { store: options.store, slotted: { default: () => `
-                    `, header: () => `<div slot="header">Loading</div>
-                ` } })}` : `` }
-        `; return `
-            ${((__value.default) || __missingComponent)._render(__result, { currentRoute: state.match.params.demo, match: state.match }, { store: options.store })}
-        `;}(AsyncRoute(state.match.params.demo)())) }` : `` }
-` } })}`;
-};
-
-Demo_routes.css = {
-	code: '',
-	map: null
-};
-
-var warned = false;
-Demo_routes.renderCss = function() {
-	if (!warned) {
-		console.error('Component.renderCss(...) is deprecated and will be removed in v2 — use Component.render(...).css instead');
-		warned = true;
-	}
-
-	var components = [];
-
-	var seen = {};
-
-	function addComponent(component) {
-		var result = component.renderCss();
-		result.components.forEach(x => {
-			if (seen[x.filename]) return;
-			seen[x.filename] = true;
-			components.push(x);
-		});
-	}
-
-	addComponent(Route);
-	addComponent(Demo);
-
-	return {
-		css: components.map(x => x.css).join('\n'),
-		map: null,
-		components
-	};
-};
-
-function __isPromise(value) {
-	return value && typeof value.then === 'function';
-}
-
-var __missingComponent = {
-	_render: () => ''
-};
-
-module.exports = Demo_routes;
-
-/***/ }),
-
 /***/ "../../_src/components/demo/demo.store.js":
-/*!*********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.store.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*!************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/demo/demo.store.js ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/*Babel»*/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var svelte_store_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/store.js */ "../../node_modules/svelte/store.js");
 
-exports.__esModule = true;
 
-var /*Babel»*/_store = __webpack_require__(/*! svelte/store.js */ "../../node_modules/svelte/store.js");
-
-var store = new /*Babel»*/_store.Store({
+const store = new svelte_store_js__WEBPACK_IMPORTED_MODULE_0__["Store"]({
     pageTitle: "Demo"
 });
 
-/*Babel»*/exports.default = store;
+/* harmony default export */ __webpack_exports__["default"] = (store);
 
 /***/ }),
 
 /***/ "../../_src/components/demo/demo.wrapper.html":
-/*!*************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.wrapper.html ***!
-  \*************************************************************************************/
+/*!****************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/demo/demo.wrapper.html ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -917,14 +607,21 @@ NavLink = (NavLink && NavLink.__esModule) ? NavLink["default"] : NavLink;
 var createMemoryHistory = __import3.createMemoryHistory;
 var createBrowserHistory = __import3.createBrowserHistory;
 
-if (!window) { createMemoryHistory(); }
+if (!window) {
+    createMemoryHistory();
+}
 else { createBrowserHistory(); }
+
+function lowercaseRoute(currentRoute) {
+	return currentRoute.toLowerCase();
+}
 
 function data() {
     return {
         demoTitle: 'Demo',
         variantTitle: false,
         variants: false,
+        currentRoute: '',
         links: [
             ['Button', '/components/button/'],
             ['Generic', '/components/generic/'],
@@ -950,7 +647,7 @@ function store_1() {
 
 var Demo_wrapper = {};
 
-Demo_wrapper.filename = "/Users/Chris/Sites/Front-End-Framework/_src/components/demo/demo.wrapper.html";
+Demo_wrapper.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\_src\\components\\demo\\demo.wrapper.html";
 
 Demo_wrapper.data = function() {
 	return data();
@@ -984,6 +681,8 @@ Demo_wrapper._render = function(__result, state, options) {
 
 	state = Object.assign(options.store._init(["pageTitle"]), data(), state);
 
+	state.lowercaseRoute = lowercaseRoute(state.currentRoute);
+
 	return `${(__result.head += `
     <title>→ ${__escape(state.$pageTitle || state.demoTitle)} demo</title>
 `, "")}
@@ -992,15 +691,12 @@ Demo_wrapper._render = function(__result, state, options) {
 <!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
 <nav class="demo-navigation">
     <img src="/public/img/favicons/icon.svg" style="height: ${__escape(60/16)}rem;" alt="">
-    ${ state.links.map((name_url) => `<!-- {{if browser()}} -->
-        ${NavLink._render(__result, { to: name_url[1], className: `demo-navigation__link ${__escape( checkCurrent(name_url[0]))}` }, { store: options.store, slotted: { default: () => `${__escape(name_url[0])}` } })}
-    <!-- {{else}}
-        <a href="{{url}}" class="demo-navigation__link {{checkCurrent(name)}}">{{name}}</a>
-    {{/if}} -->`).join("")}
+    ${ state.links.map((name_url) => `${NavLink._render(__result, { to: name_url[1], className: `demo-navigation__link ${__escape( checkCurrent(name_url[0]))}` }, { store: options.store, slotted: { default: () => `${__escape(name_url[0])}` } })}`).join("")}
 </nav>
 
+<div id="currentRoute" style="display:none;">${state.currentRoute}</div>
+
 <div class="demo">
-    <div id="currentRoute" style="display:none;">${state.currentRoute}</div>
     <header class="demo-header">
         <div class="wrap">
             <h1 class="demo-header__title">
@@ -1077,44 +773,31 @@ module.exports = Demo_wrapper;
 /***/ }),
 
 /***/ "../../_src/components/tools/find-export.js":
-/*!***********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/find-export.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*!**************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/tools/find-export.js ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/*Babel»*/
-
-exports.__esModule = true;
-
-var _typeof2 = __webpack_require__(/*! babel-runtime/helpers/typeof */ "../../node_modules/babel-runtime/helpers/typeof.js");
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-exports.default = getExport;
-
-/*Babel»*/function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getExport; });
 function getExport(mod) {
-    return mod && /*Babel»*/(typeof mod === "undefined" ? "undefined" : (0, _typeof3.default)(mod)) === 'object' && mod.__esModule ? mod["default"] : mod;
+    return mod && typeof mod === 'object' && mod.__esModule ? mod["default"] : mod;
 };
 
 /***/ }),
 
 /***/ "../../_src/components/tools/modifiers.js":
-/*!*********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/modifiers.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*!************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/tools/modifiers.js ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/*Babel»*/
-
-exports.__esModule = true;
-
-exports.default = function (modifier, classPrefix, classSuffix) {
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (modifier, classPrefix, classSuffix) {
     //eslint-disable-line
     classSuffix = classSuffix || '';
 
@@ -1127,125 +810,94 @@ exports.default = function (modifier, classPrefix, classSuffix) {
     }
 
     if (modifier.length > 0 && Array.isArray(modifier)) {
-        return modifier.reduce(function (prev, name) {
+        return modifier.reduce((prev, name) => {
             return prev + ' ' + classPrefix + name + classSuffix;
         }, '');
     }
 
     return '';
-};
+});
+
+/***/ }),
+
+/***/ "../../_src/components/tools/populate-attributes.js":
+/*!**********************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/tools/populate-attributes.js ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return populateAttrs; });
+/* harmony import */ var babel_runtime_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/core-js/object/keys */ "../../node_modules/babel-runtime/core-js/object/keys.js");
+/* harmony import */ var babel_runtime_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0__);
+/*Babel»*/
+function populateAttrs(attrs, component) {
+    component = component || this;
+    attrs = attrs || component.get('attrs');
+    if (!attrs) {
+        return false;
+    }
+    /*Babel»*/babel_runtime_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default()(attrs).forEach(attr => {
+        const obj = {};
+        obj[attr] = attrs[attr];
+        component.set(obj);
+    });
+}
 
 /***/ }),
 
 /***/ "../../_src/components/tools/title-case.js":
-/*!**********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/_src/components/tools/title-case.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*!*************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/_src/components/tools/title-case.js ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/*Babel»*/
-
-exports.__esModule = true;
+__webpack_require__.r(__webpack_exports__);
 function titleCase(str) {
-    return str.toLowerCase().split(' ').map(function (word) {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-    }).join(' ');
+    if (str) {
+        return str.toLowerCase().split(' ').map(function (word) {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }).join(' ');
+    }
+    return str;
 };
 
-/*Babel»*/exports.default = titleCase;
+/* harmony default export */ __webpack_exports__["default"] = (titleCase);
 
 /***/ }),
 
-/***/ "../../node_modules/babel-runtime/core-js/symbol.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/babel-runtime/core-js/symbol.js ***!
-  \*******************************************************************************************/
+/***/ "../../node_modules/babel-runtime/core-js/object/keys.js":
+/*!***************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/babel-runtime/core-js/object/keys.js ***!
+  \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(/*! core-js/library/fn/symbol */ "../../node_modules/core-js/library/fn/symbol/index.js"), __esModule: true };
+module.exports = { "default": __webpack_require__(/*! core-js/library/fn/object/keys */ "../../node_modules/core-js/library/fn/object/keys.js"), __esModule: true };
 
 /***/ }),
 
-/***/ "../../node_modules/babel-runtime/core-js/symbol/iterator.js":
-/*!****************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/babel-runtime/core-js/symbol/iterator.js ***!
-  \****************************************************************************************************/
+/***/ "../../node_modules/core-js/library/fn/object/keys.js":
+/*!************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/fn/object/keys.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(/*! core-js/library/fn/symbol/iterator */ "../../node_modules/core-js/library/fn/symbol/iterator.js"), __esModule: true };
-
-/***/ }),
-
-/***/ "../../node_modules/babel-runtime/helpers/typeof.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/babel-runtime/helpers/typeof.js ***!
-  \*******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _iterator = __webpack_require__(/*! ../core-js/symbol/iterator */ "../../node_modules/babel-runtime/core-js/symbol/iterator.js");
-
-var _iterator2 = _interopRequireDefault(_iterator);
-
-var _symbol = __webpack_require__(/*! ../core-js/symbol */ "../../node_modules/babel-runtime/core-js/symbol.js");
-
-var _symbol2 = _interopRequireDefault(_symbol);
-
-var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
-} : function (obj) {
-  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
-};
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/fn/symbol/index.js":
-/*!**********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/fn/symbol/index.js ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(/*! ../../modules/es6.symbol */ "../../node_modules/core-js/library/modules/es6.symbol.js");
-__webpack_require__(/*! ../../modules/es6.object.to-string */ "../../node_modules/core-js/library/modules/es6.object.to-string.js");
-__webpack_require__(/*! ../../modules/es7.symbol.async-iterator */ "../../node_modules/core-js/library/modules/es7.symbol.async-iterator.js");
-__webpack_require__(/*! ../../modules/es7.symbol.observable */ "../../node_modules/core-js/library/modules/es7.symbol.observable.js");
-module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modules/core-js/library/modules/_core.js").Symbol;
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/fn/symbol/iterator.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/fn/symbol/iterator.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(/*! ../../modules/es6.string.iterator */ "../../node_modules/core-js/library/modules/es6.string.iterator.js");
-__webpack_require__(/*! ../../modules/web.dom.iterable */ "../../node_modules/core-js/library/modules/web.dom.iterable.js");
-module.exports = __webpack_require__(/*! ../../modules/_wks-ext */ "../../node_modules/core-js/library/modules/_wks-ext.js").f('iterator');
+__webpack_require__(/*! ../../modules/es6.object.keys */ "../../node_modules/core-js/library/modules/es6.object.keys.js");
+module.exports = __webpack_require__(/*! ../../modules/_core */ "../../node_modules/core-js/library/modules/_core.js").Object.keys;
 
 
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_a-function.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_a-function.js ***!
-  \**************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_a-function.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1257,22 +909,10 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_add-to-unscopables.js":
-/*!**********************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_add-to-unscopables.js ***!
-  \**********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function () { /* empty */ };
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_an-object.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_an-object.js ***!
-  \*************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_an-object.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1286,9 +926,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_array-includes.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_array-includes.js ***!
-  \******************************************************************************************************/
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_array-includes.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1320,9 +960,9 @@ module.exports = function (IS_INCLUDES) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_cof.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_cof.js ***!
-  \*******************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_cof.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1336,9 +976,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_core.js":
-/*!********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_core.js ***!
-  \********************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_core.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1349,9 +989,9 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_ctx.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_ctx.js ***!
-  \*******************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_ctx.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1380,9 +1020,9 @@ module.exports = function (fn, that, length) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_defined.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_defined.js ***!
-  \***********************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_defined.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1396,9 +1036,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_descriptors.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_descriptors.js ***!
-  \***************************************************************************************************/
+/*!******************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_descriptors.js ***!
+  \******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1411,9 +1051,9 @@ module.exports = !__webpack_require__(/*! ./_fails */ "../../node_modules/core-j
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_dom-create.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_dom-create.js ***!
-  \**************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_dom-create.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1429,9 +1069,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_enum-bug-keys.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_enum-bug-keys.js ***!
-  \*****************************************************************************************************/
+/*!********************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_enum-bug-keys.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1443,36 +1083,10 @@ module.exports = (
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_enum-keys.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_enum-keys.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// all enumerable object keys, includes symbols
-var getKeys = __webpack_require__(/*! ./_object-keys */ "../../node_modules/core-js/library/modules/_object-keys.js");
-var gOPS = __webpack_require__(/*! ./_object-gops */ "../../node_modules/core-js/library/modules/_object-gops.js");
-var pIE = __webpack_require__(/*! ./_object-pie */ "../../node_modules/core-js/library/modules/_object-pie.js");
-module.exports = function (it) {
-  var result = getKeys(it);
-  var getSymbols = gOPS.f;
-  if (getSymbols) {
-    var symbols = getSymbols(it);
-    var isEnum = pIE.f;
-    var i = 0;
-    var key;
-    while (symbols.length > i) if (isEnum.call(it, key = symbols[i++])) result.push(key);
-  } return result;
-};
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_export.js":
-/*!**********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_export.js ***!
-  \**********************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_export.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1543,9 +1157,9 @@ module.exports = $export;
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_fails.js":
-/*!*********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_fails.js ***!
-  \*********************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_fails.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1561,9 +1175,9 @@ module.exports = function (exec) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_global.js":
-/*!**********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_global.js ***!
-  \**********************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_global.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1578,9 +1192,9 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_has.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_has.js ***!
-  \*******************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_has.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1593,9 +1207,9 @@ module.exports = function (it, key) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_hide.js":
-/*!********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_hide.js ***!
-  \********************************************************************************************/
+/*!***********************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_hide.js ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1611,23 +1225,10 @@ module.exports = __webpack_require__(/*! ./_descriptors */ "../../node_modules/c
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_html.js":
-/*!********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_html.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var document = __webpack_require__(/*! ./_global */ "../../node_modules/core-js/library/modules/_global.js").document;
-module.exports = document && document.documentElement;
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_ie8-dom-define.js":
-/*!******************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_ie8-dom-define.js ***!
-  \******************************************************************************************************/
+/*!*********************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_ie8-dom-define.js ***!
+  \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1639,9 +1240,9 @@ module.exports = !__webpack_require__(/*! ./_descriptors */ "../../node_modules/
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_iobject.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iobject.js ***!
-  \***********************************************************************************************/
+/*!**************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iobject.js ***!
+  \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1655,26 +1256,10 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_is-array.js":
-/*!************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_is-array.js ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.2 IsArray(argument)
-var cof = __webpack_require__(/*! ./_cof */ "../../node_modules/core-js/library/modules/_cof.js");
-module.exports = Array.isArray || function isArray(arg) {
-  return cof(arg) == 'Array';
-};
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_is-object.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_is-object.js ***!
-  \*************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_is-object.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1685,270 +1270,10 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_iter-create.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iter-create.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var create = __webpack_require__(/*! ./_object-create */ "../../node_modules/core-js/library/modules/_object-create.js");
-var descriptor = __webpack_require__(/*! ./_property-desc */ "../../node_modules/core-js/library/modules/_property-desc.js");
-var setToStringTag = __webpack_require__(/*! ./_set-to-string-tag */ "../../node_modules/core-js/library/modules/_set-to-string-tag.js");
-var IteratorPrototype = {};
-
-// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(/*! ./_hide */ "../../node_modules/core-js/library/modules/_hide.js")(IteratorPrototype, __webpack_require__(/*! ./_wks */ "../../node_modules/core-js/library/modules/_wks.js")('iterator'), function () { return this; });
-
-module.exports = function (Constructor, NAME, next) {
-  Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
-  setToStringTag(Constructor, NAME + ' Iterator');
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_iter-define.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iter-define.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var LIBRARY = __webpack_require__(/*! ./_library */ "../../node_modules/core-js/library/modules/_library.js");
-var $export = __webpack_require__(/*! ./_export */ "../../node_modules/core-js/library/modules/_export.js");
-var redefine = __webpack_require__(/*! ./_redefine */ "../../node_modules/core-js/library/modules/_redefine.js");
-var hide = __webpack_require__(/*! ./_hide */ "../../node_modules/core-js/library/modules/_hide.js");
-var Iterators = __webpack_require__(/*! ./_iterators */ "../../node_modules/core-js/library/modules/_iterators.js");
-var $iterCreate = __webpack_require__(/*! ./_iter-create */ "../../node_modules/core-js/library/modules/_iter-create.js");
-var setToStringTag = __webpack_require__(/*! ./_set-to-string-tag */ "../../node_modules/core-js/library/modules/_set-to-string-tag.js");
-var getPrototypeOf = __webpack_require__(/*! ./_object-gpo */ "../../node_modules/core-js/library/modules/_object-gpo.js");
-var ITERATOR = __webpack_require__(/*! ./_wks */ "../../node_modules/core-js/library/modules/_wks.js")('iterator');
-var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
-var FF_ITERATOR = '@@iterator';
-var KEYS = 'keys';
-var VALUES = 'values';
-
-var returnThis = function () { return this; };
-
-module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
-  $iterCreate(Constructor, NAME, next);
-  var getMethod = function (kind) {
-    if (!BUGGY && kind in proto) return proto[kind];
-    switch (kind) {
-      case KEYS: return function keys() { return new Constructor(this, kind); };
-      case VALUES: return function values() { return new Constructor(this, kind); };
-    } return function entries() { return new Constructor(this, kind); };
-  };
-  var TAG = NAME + ' Iterator';
-  var DEF_VALUES = DEFAULT == VALUES;
-  var VALUES_BUG = false;
-  var proto = Base.prototype;
-  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
-  var $default = $native || getMethod(DEFAULT);
-  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
-  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
-  var methods, key, IteratorPrototype;
-  // Fix native
-  if ($anyNative) {
-    IteratorPrototype = getPrototypeOf($anyNative.call(new Base()));
-    if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
-      // Set @@toStringTag to native iterators
-      setToStringTag(IteratorPrototype, TAG, true);
-      // fix for some old engines
-      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
-    }
-  }
-  // fix Array#{values, @@iterator}.name in V8 / FF
-  if (DEF_VALUES && $native && $native.name !== VALUES) {
-    VALUES_BUG = true;
-    $default = function values() { return $native.call(this); };
-  }
-  // Define iterator
-  if ((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
-    hide(proto, ITERATOR, $default);
-  }
-  // Plug for library
-  Iterators[NAME] = $default;
-  Iterators[TAG] = returnThis;
-  if (DEFAULT) {
-    methods = {
-      values: DEF_VALUES ? $default : getMethod(VALUES),
-      keys: IS_SET ? $default : getMethod(KEYS),
-      entries: $entries
-    };
-    if (FORCED) for (key in methods) {
-      if (!(key in proto)) redefine(proto, key, methods[key]);
-    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
-  }
-  return methods;
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_iter-step.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iter-step.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function (done, value) {
-  return { value: value, done: !!done };
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_iterators.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_iterators.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_library.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_library.js ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = true;
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_meta.js":
-/*!********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_meta.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var META = __webpack_require__(/*! ./_uid */ "../../node_modules/core-js/library/modules/_uid.js")('meta');
-var isObject = __webpack_require__(/*! ./_is-object */ "../../node_modules/core-js/library/modules/_is-object.js");
-var has = __webpack_require__(/*! ./_has */ "../../node_modules/core-js/library/modules/_has.js");
-var setDesc = __webpack_require__(/*! ./_object-dp */ "../../node_modules/core-js/library/modules/_object-dp.js").f;
-var id = 0;
-var isExtensible = Object.isExtensible || function () {
-  return true;
-};
-var FREEZE = !__webpack_require__(/*! ./_fails */ "../../node_modules/core-js/library/modules/_fails.js")(function () {
-  return isExtensible(Object.preventExtensions({}));
-});
-var setMeta = function (it) {
-  setDesc(it, META, { value: {
-    i: 'O' + ++id, // object ID
-    w: {}          // weak collections IDs
-  } });
-};
-var fastKey = function (it, create) {
-  // return primitive with prefix
-  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-  if (!has(it, META)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return 'F';
-    // not necessary to add metadata
-    if (!create) return 'E';
-    // add missing metadata
-    setMeta(it);
-  // return object ID
-  } return it[META].i;
-};
-var getWeak = function (it, create) {
-  if (!has(it, META)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return true;
-    // not necessary to add metadata
-    if (!create) return false;
-    // add missing metadata
-    setMeta(it);
-  // return hash weak collections IDs
-  } return it[META].w;
-};
-// add metadata on freeze-family methods calling
-var onFreeze = function (it) {
-  if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META)) setMeta(it);
-  return it;
-};
-var meta = module.exports = {
-  KEY: META,
-  NEED: false,
-  fastKey: fastKey,
-  getWeak: getWeak,
-  onFreeze: onFreeze
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_object-create.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-create.js ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject = __webpack_require__(/*! ./_an-object */ "../../node_modules/core-js/library/modules/_an-object.js");
-var dPs = __webpack_require__(/*! ./_object-dps */ "../../node_modules/core-js/library/modules/_object-dps.js");
-var enumBugKeys = __webpack_require__(/*! ./_enum-bug-keys */ "../../node_modules/core-js/library/modules/_enum-bug-keys.js");
-var IE_PROTO = __webpack_require__(/*! ./_shared-key */ "../../node_modules/core-js/library/modules/_shared-key.js")('IE_PROTO');
-var Empty = function () { /* empty */ };
-var PROTOTYPE = 'prototype';
-
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-var createDict = function () {
-  // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(/*! ./_dom-create */ "../../node_modules/core-js/library/modules/_dom-create.js")('iframe');
-  var i = enumBugKeys.length;
-  var lt = '<';
-  var gt = '>';
-  var iframeDocument;
-  iframe.style.display = 'none';
-  __webpack_require__(/*! ./_html */ "../../node_modules/core-js/library/modules/_html.js").appendChild(iframe);
-  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
-  // createDict = iframe.contentWindow.Object;
-  // html.removeChild(iframe);
-  iframeDocument = iframe.contentWindow.document;
-  iframeDocument.open();
-  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
-  iframeDocument.close();
-  createDict = iframeDocument.F;
-  while (i--) delete createDict[PROTOTYPE][enumBugKeys[i]];
-  return createDict();
-};
-
-module.exports = Object.create || function create(O, Properties) {
-  var result;
-  if (O !== null) {
-    Empty[PROTOTYPE] = anObject(O);
-    result = new Empty();
-    Empty[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO] = O;
-  } else result = createDict();
-  return Properties === undefined ? result : dPs(result, Properties);
-};
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_object-dp.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-dp.js ***!
-  \*************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-dp.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1972,145 +1297,10 @@ exports.f = __webpack_require__(/*! ./_descriptors */ "../../node_modules/core-j
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_object-dps.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-dps.js ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__(/*! ./_object-dp */ "../../node_modules/core-js/library/modules/_object-dp.js");
-var anObject = __webpack_require__(/*! ./_an-object */ "../../node_modules/core-js/library/modules/_an-object.js");
-var getKeys = __webpack_require__(/*! ./_object-keys */ "../../node_modules/core-js/library/modules/_object-keys.js");
-
-module.exports = __webpack_require__(/*! ./_descriptors */ "../../node_modules/core-js/library/modules/_descriptors.js") ? Object.defineProperties : function defineProperties(O, Properties) {
-  anObject(O);
-  var keys = getKeys(Properties);
-  var length = keys.length;
-  var i = 0;
-  var P;
-  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
-  return O;
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_object-gopd.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gopd.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var pIE = __webpack_require__(/*! ./_object-pie */ "../../node_modules/core-js/library/modules/_object-pie.js");
-var createDesc = __webpack_require__(/*! ./_property-desc */ "../../node_modules/core-js/library/modules/_property-desc.js");
-var toIObject = __webpack_require__(/*! ./_to-iobject */ "../../node_modules/core-js/library/modules/_to-iobject.js");
-var toPrimitive = __webpack_require__(/*! ./_to-primitive */ "../../node_modules/core-js/library/modules/_to-primitive.js");
-var has = __webpack_require__(/*! ./_has */ "../../node_modules/core-js/library/modules/_has.js");
-var IE8_DOM_DEFINE = __webpack_require__(/*! ./_ie8-dom-define */ "../../node_modules/core-js/library/modules/_ie8-dom-define.js");
-var gOPD = Object.getOwnPropertyDescriptor;
-
-exports.f = __webpack_require__(/*! ./_descriptors */ "../../node_modules/core-js/library/modules/_descriptors.js") ? gOPD : function getOwnPropertyDescriptor(O, P) {
-  O = toIObject(O);
-  P = toPrimitive(P, true);
-  if (IE8_DOM_DEFINE) try {
-    return gOPD(O, P);
-  } catch (e) { /* empty */ }
-  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_object-gopn-ext.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gopn-ext.js ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-var toIObject = __webpack_require__(/*! ./_to-iobject */ "../../node_modules/core-js/library/modules/_to-iobject.js");
-var gOPN = __webpack_require__(/*! ./_object-gopn */ "../../node_modules/core-js/library/modules/_object-gopn.js").f;
-var toString = {}.toString;
-
-var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
-  ? Object.getOwnPropertyNames(window) : [];
-
-var getWindowNames = function (it) {
-  try {
-    return gOPN(it);
-  } catch (e) {
-    return windowNames.slice();
-  }
-};
-
-module.exports.f = function getOwnPropertyNames(it) {
-  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_object-gopn.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gopn.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__(/*! ./_object-keys-internal */ "../../node_modules/core-js/library/modules/_object-keys-internal.js");
-var hiddenKeys = __webpack_require__(/*! ./_enum-bug-keys */ "../../node_modules/core-js/library/modules/_enum-bug-keys.js").concat('length', 'prototype');
-
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-  return $keys(O, hiddenKeys);
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_object-gops.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gops.js ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-exports.f = Object.getOwnPropertySymbols;
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_object-gpo.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-gpo.js ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has = __webpack_require__(/*! ./_has */ "../../node_modules/core-js/library/modules/_has.js");
-var toObject = __webpack_require__(/*! ./_to-object */ "../../node_modules/core-js/library/modules/_to-object.js");
-var IE_PROTO = __webpack_require__(/*! ./_shared-key */ "../../node_modules/core-js/library/modules/_shared-key.js")('IE_PROTO');
-var ObjectProto = Object.prototype;
-
-module.exports = Object.getPrototypeOf || function (O) {
-  O = toObject(O);
-  if (has(O, IE_PROTO)) return O[IE_PROTO];
-  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-    return O.constructor.prototype;
-  } return O instanceof Object ? ObjectProto : null;
-};
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_object-keys-internal.js":
-/*!************************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-keys-internal.js ***!
-  \************************************************************************************************************/
+/*!***************************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-keys-internal.js ***!
+  \***************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2136,9 +1326,9 @@ module.exports = function (object, names) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-keys.js":
-/*!***************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-keys.js ***!
-  \***************************************************************************************************/
+/*!******************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-keys.js ***!
+  \******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2153,22 +1343,31 @@ module.exports = Object.keys || function keys(O) {
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_object-pie.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-pie.js ***!
-  \**************************************************************************************************/
+/***/ "../../node_modules/core-js/library/modules/_object-sap.js":
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_object-sap.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-exports.f = {}.propertyIsEnumerable;
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__(/*! ./_export */ "../../node_modules/core-js/library/modules/_export.js");
+var core = __webpack_require__(/*! ./_core */ "../../node_modules/core-js/library/modules/_core.js");
+var fails = __webpack_require__(/*! ./_fails */ "../../node_modules/core-js/library/modules/_fails.js");
+module.exports = function (KEY, exec) {
+  var fn = (core.Object || {})[KEY] || Object[KEY];
+  var exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
+};
 
 
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_property-desc.js":
-/*!*****************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_property-desc.js ***!
-  \*****************************************************************************************************/
+/*!********************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_property-desc.js ***!
+  \********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2184,40 +1383,10 @@ module.exports = function (bitmap, value) {
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_redefine.js":
-/*!************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_redefine.js ***!
-  \************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! ./_hide */ "../../node_modules/core-js/library/modules/_hide.js");
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_set-to-string-tag.js":
-/*!*********************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_set-to-string-tag.js ***!
-  \*********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__(/*! ./_object-dp */ "../../node_modules/core-js/library/modules/_object-dp.js").f;
-var has = __webpack_require__(/*! ./_has */ "../../node_modules/core-js/library/modules/_has.js");
-var TAG = __webpack_require__(/*! ./_wks */ "../../node_modules/core-js/library/modules/_wks.js")('toStringTag');
-
-module.exports = function (it, tag, stat) {
-  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
-};
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_shared-key.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_shared-key.js ***!
-  \**************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_shared-key.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2231,9 +1400,9 @@ module.exports = function (key) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_shared.js":
-/*!**********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_shared.js ***!
-  \**********************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_shared.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2247,38 +1416,10 @@ module.exports = function (key) {
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_string-at.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_string-at.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__(/*! ./_to-integer */ "../../node_modules/core-js/library/modules/_to-integer.js");
-var defined = __webpack_require__(/*! ./_defined */ "../../node_modules/core-js/library/modules/_defined.js");
-// true  -> String#at
-// false -> String#codePointAt
-module.exports = function (TO_STRING) {
-  return function (that, pos) {
-    var s = String(defined(that));
-    var i = toInteger(pos);
-    var l = s.length;
-    var a, b;
-    if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
-    a = s.charCodeAt(i);
-    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
-      ? TO_STRING ? s.charAt(i) : a
-      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
-  };
-};
-
-
-/***/ }),
-
 /***/ "../../node_modules/core-js/library/modules/_to-absolute-index.js":
-/*!*********************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-absolute-index.js ***!
-  \*********************************************************************************************************/
+/*!************************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-absolute-index.js ***!
+  \************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2294,9 +1435,9 @@ module.exports = function (index, length) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-integer.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-integer.js ***!
-  \**************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-integer.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2311,9 +1452,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-iobject.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-iobject.js ***!
-  \**************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-iobject.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2328,9 +1469,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-length.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-length.js ***!
-  \*************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-length.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2345,9 +1486,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-object.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-object.js ***!
-  \*************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-object.js ***!
+  \****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2361,9 +1502,9 @@ module.exports = function (it) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-primitive.js":
-/*!****************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-primitive.js ***!
-  \****************************************************************************************************/
+/*!*******************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_to-primitive.js ***!
+  \*******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2384,9 +1525,9 @@ module.exports = function (it, S) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_uid.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_uid.js ***!
-  \*******************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/_uid.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2399,450 +1540,30 @@ module.exports = function (key) {
 
 /***/ }),
 
-/***/ "../../node_modules/core-js/library/modules/_wks-define.js":
-/*!**************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_wks-define.js ***!
-  \**************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(/*! ./_global */ "../../node_modules/core-js/library/modules/_global.js");
-var core = __webpack_require__(/*! ./_core */ "../../node_modules/core-js/library/modules/_core.js");
-var LIBRARY = __webpack_require__(/*! ./_library */ "../../node_modules/core-js/library/modules/_library.js");
-var wksExt = __webpack_require__(/*! ./_wks-ext */ "../../node_modules/core-js/library/modules/_wks-ext.js");
-var defineProperty = __webpack_require__(/*! ./_object-dp */ "../../node_modules/core-js/library/modules/_object-dp.js").f;
-module.exports = function (name) {
-  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
-  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
-};
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_wks-ext.js":
-/*!***********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_wks-ext.js ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.f = __webpack_require__(/*! ./_wks */ "../../node_modules/core-js/library/modules/_wks.js");
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/_wks.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/_wks.js ***!
-  \*******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var store = __webpack_require__(/*! ./_shared */ "../../node_modules/core-js/library/modules/_shared.js")('wks');
-var uid = __webpack_require__(/*! ./_uid */ "../../node_modules/core-js/library/modules/_uid.js");
-var Symbol = __webpack_require__(/*! ./_global */ "../../node_modules/core-js/library/modules/_global.js").Symbol;
-var USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function (name) {
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/es6.array.iterator.js":
+/***/ "../../node_modules/core-js/library/modules/es6.object.keys.js":
 /*!*********************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.array.iterator.js ***!
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.object.keys.js ***!
   \*********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-var addToUnscopables = __webpack_require__(/*! ./_add-to-unscopables */ "../../node_modules/core-js/library/modules/_add-to-unscopables.js");
-var step = __webpack_require__(/*! ./_iter-step */ "../../node_modules/core-js/library/modules/_iter-step.js");
-var Iterators = __webpack_require__(/*! ./_iterators */ "../../node_modules/core-js/library/modules/_iterators.js");
-var toIObject = __webpack_require__(/*! ./_to-iobject */ "../../node_modules/core-js/library/modules/_to-iobject.js");
-
-// 22.1.3.4 Array.prototype.entries()
-// 22.1.3.13 Array.prototype.keys()
-// 22.1.3.29 Array.prototype.values()
-// 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(/*! ./_iter-define */ "../../node_modules/core-js/library/modules/_iter-define.js")(Array, 'Array', function (iterated, kind) {
-  this._t = toIObject(iterated); // target
-  this._i = 0;                   // next index
-  this._k = kind;                // kind
-// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
-}, function () {
-  var O = this._t;
-  var kind = this._k;
-  var index = this._i++;
-  if (!O || index >= O.length) {
-    this._t = undefined;
-    return step(1);
-  }
-  if (kind == 'keys') return step(0, index);
-  if (kind == 'values') return step(0, O[index]);
-  return step(0, [index, O[index]]);
-}, 'values');
-
-// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
-Iterators.Arguments = Iterators.Array;
-
-addToUnscopables('keys');
-addToUnscopables('values');
-addToUnscopables('entries');
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/es6.object.to-string.js":
-/*!***********************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.object.to-string.js ***!
-  \***********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/es6.string.iterator.js":
-/*!**********************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.string.iterator.js ***!
-  \**********************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $at = __webpack_require__(/*! ./_string-at */ "../../node_modules/core-js/library/modules/_string-at.js")(true);
-
-// 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(/*! ./_iter-define */ "../../node_modules/core-js/library/modules/_iter-define.js")(String, 'String', function (iterated) {
-  this._t = String(iterated); // target
-  this._i = 0;                // next index
-// 21.1.5.2.1 %StringIteratorPrototype%.next()
-}, function () {
-  var O = this._t;
-  var index = this._i;
-  var point;
-  if (index >= O.length) return { value: undefined, done: true };
-  point = $at(O, index);
-  this._i += point.length;
-  return { value: point, done: false };
-});
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/es6.symbol.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es6.symbol.js ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// ECMAScript 6 symbols shim
-var global = __webpack_require__(/*! ./_global */ "../../node_modules/core-js/library/modules/_global.js");
-var has = __webpack_require__(/*! ./_has */ "../../node_modules/core-js/library/modules/_has.js");
-var DESCRIPTORS = __webpack_require__(/*! ./_descriptors */ "../../node_modules/core-js/library/modules/_descriptors.js");
-var $export = __webpack_require__(/*! ./_export */ "../../node_modules/core-js/library/modules/_export.js");
-var redefine = __webpack_require__(/*! ./_redefine */ "../../node_modules/core-js/library/modules/_redefine.js");
-var META = __webpack_require__(/*! ./_meta */ "../../node_modules/core-js/library/modules/_meta.js").KEY;
-var $fails = __webpack_require__(/*! ./_fails */ "../../node_modules/core-js/library/modules/_fails.js");
-var shared = __webpack_require__(/*! ./_shared */ "../../node_modules/core-js/library/modules/_shared.js");
-var setToStringTag = __webpack_require__(/*! ./_set-to-string-tag */ "../../node_modules/core-js/library/modules/_set-to-string-tag.js");
-var uid = __webpack_require__(/*! ./_uid */ "../../node_modules/core-js/library/modules/_uid.js");
-var wks = __webpack_require__(/*! ./_wks */ "../../node_modules/core-js/library/modules/_wks.js");
-var wksExt = __webpack_require__(/*! ./_wks-ext */ "../../node_modules/core-js/library/modules/_wks-ext.js");
-var wksDefine = __webpack_require__(/*! ./_wks-define */ "../../node_modules/core-js/library/modules/_wks-define.js");
-var enumKeys = __webpack_require__(/*! ./_enum-keys */ "../../node_modules/core-js/library/modules/_enum-keys.js");
-var isArray = __webpack_require__(/*! ./_is-array */ "../../node_modules/core-js/library/modules/_is-array.js");
-var anObject = __webpack_require__(/*! ./_an-object */ "../../node_modules/core-js/library/modules/_an-object.js");
-var isObject = __webpack_require__(/*! ./_is-object */ "../../node_modules/core-js/library/modules/_is-object.js");
-var toIObject = __webpack_require__(/*! ./_to-iobject */ "../../node_modules/core-js/library/modules/_to-iobject.js");
-var toPrimitive = __webpack_require__(/*! ./_to-primitive */ "../../node_modules/core-js/library/modules/_to-primitive.js");
-var createDesc = __webpack_require__(/*! ./_property-desc */ "../../node_modules/core-js/library/modules/_property-desc.js");
-var _create = __webpack_require__(/*! ./_object-create */ "../../node_modules/core-js/library/modules/_object-create.js");
-var gOPNExt = __webpack_require__(/*! ./_object-gopn-ext */ "../../node_modules/core-js/library/modules/_object-gopn-ext.js");
-var $GOPD = __webpack_require__(/*! ./_object-gopd */ "../../node_modules/core-js/library/modules/_object-gopd.js");
-var $DP = __webpack_require__(/*! ./_object-dp */ "../../node_modules/core-js/library/modules/_object-dp.js");
+// 19.1.2.14 Object.keys(O)
+var toObject = __webpack_require__(/*! ./_to-object */ "../../node_modules/core-js/library/modules/_to-object.js");
 var $keys = __webpack_require__(/*! ./_object-keys */ "../../node_modules/core-js/library/modules/_object-keys.js");
-var gOPD = $GOPD.f;
-var dP = $DP.f;
-var gOPN = gOPNExt.f;
-var $Symbol = global.Symbol;
-var $JSON = global.JSON;
-var _stringify = $JSON && $JSON.stringify;
-var PROTOTYPE = 'prototype';
-var HIDDEN = wks('_hidden');
-var TO_PRIMITIVE = wks('toPrimitive');
-var isEnum = {}.propertyIsEnumerable;
-var SymbolRegistry = shared('symbol-registry');
-var AllSymbols = shared('symbols');
-var OPSymbols = shared('op-symbols');
-var ObjectProto = Object[PROTOTYPE];
-var USE_NATIVE = typeof $Symbol == 'function';
-var QObject = global.QObject;
-// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
-var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
 
-// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-var setSymbolDesc = DESCRIPTORS && $fails(function () {
-  return _create(dP({}, 'a', {
-    get: function () { return dP(this, 'a', { value: 7 }).a; }
-  })).a != 7;
-}) ? function (it, key, D) {
-  var protoDesc = gOPD(ObjectProto, key);
-  if (protoDesc) delete ObjectProto[key];
-  dP(it, key, D);
-  if (protoDesc && it !== ObjectProto) dP(ObjectProto, key, protoDesc);
-} : dP;
-
-var wrap = function (tag) {
-  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
-  sym._k = tag;
-  return sym;
-};
-
-var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function (it) {
-  return typeof it == 'symbol';
-} : function (it) {
-  return it instanceof $Symbol;
-};
-
-var $defineProperty = function defineProperty(it, key, D) {
-  if (it === ObjectProto) $defineProperty(OPSymbols, key, D);
-  anObject(it);
-  key = toPrimitive(key, true);
-  anObject(D);
-  if (has(AllSymbols, key)) {
-    if (!D.enumerable) {
-      if (!has(it, HIDDEN)) dP(it, HIDDEN, createDesc(1, {}));
-      it[HIDDEN][key] = true;
-    } else {
-      if (has(it, HIDDEN) && it[HIDDEN][key]) it[HIDDEN][key] = false;
-      D = _create(D, { enumerable: createDesc(0, false) });
-    } return setSymbolDesc(it, key, D);
-  } return dP(it, key, D);
-};
-var $defineProperties = function defineProperties(it, P) {
-  anObject(it);
-  var keys = enumKeys(P = toIObject(P));
-  var i = 0;
-  var l = keys.length;
-  var key;
-  while (l > i) $defineProperty(it, key = keys[i++], P[key]);
-  return it;
-};
-var $create = function create(it, P) {
-  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
-};
-var $propertyIsEnumerable = function propertyIsEnumerable(key) {
-  var E = isEnum.call(this, key = toPrimitive(key, true));
-  if (this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return false;
-  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
-};
-var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key) {
-  it = toIObject(it);
-  key = toPrimitive(key, true);
-  if (it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return;
-  var D = gOPD(it, key);
-  if (D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key])) D.enumerable = true;
-  return D;
-};
-var $getOwnPropertyNames = function getOwnPropertyNames(it) {
-  var names = gOPN(toIObject(it));
-  var result = [];
-  var i = 0;
-  var key;
-  while (names.length > i) {
-    if (!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META) result.push(key);
-  } return result;
-};
-var $getOwnPropertySymbols = function getOwnPropertySymbols(it) {
-  var IS_OP = it === ObjectProto;
-  var names = gOPN(IS_OP ? OPSymbols : toIObject(it));
-  var result = [];
-  var i = 0;
-  var key;
-  while (names.length > i) {
-    if (has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true)) result.push(AllSymbols[key]);
-  } return result;
-};
-
-// 19.4.1.1 Symbol([description])
-if (!USE_NATIVE) {
-  $Symbol = function Symbol() {
-    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor!');
-    var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
-    var $set = function (value) {
-      if (this === ObjectProto) $set.call(OPSymbols, value);
-      if (has(this, HIDDEN) && has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
-      setSymbolDesc(this, tag, createDesc(1, value));
-    };
-    if (DESCRIPTORS && setter) setSymbolDesc(ObjectProto, tag, { configurable: true, set: $set });
-    return wrap(tag);
+__webpack_require__(/*! ./_object-sap */ "../../node_modules/core-js/library/modules/_object-sap.js")('keys', function () {
+  return function keys(it) {
+    return $keys(toObject(it));
   };
-  redefine($Symbol[PROTOTYPE], 'toString', function toString() {
-    return this._k;
-  });
-
-  $GOPD.f = $getOwnPropertyDescriptor;
-  $DP.f = $defineProperty;
-  __webpack_require__(/*! ./_object-gopn */ "../../node_modules/core-js/library/modules/_object-gopn.js").f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(/*! ./_object-pie */ "../../node_modules/core-js/library/modules/_object-pie.js").f = $propertyIsEnumerable;
-  __webpack_require__(/*! ./_object-gops */ "../../node_modules/core-js/library/modules/_object-gops.js").f = $getOwnPropertySymbols;
-
-  if (DESCRIPTORS && !__webpack_require__(/*! ./_library */ "../../node_modules/core-js/library/modules/_library.js")) {
-    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
-  }
-
-  wksExt.f = function (name) {
-    return wrap(wks(name));
-  };
-}
-
-$export($export.G + $export.W + $export.F * !USE_NATIVE, { Symbol: $Symbol });
-
-for (var es6Symbols = (
-  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
-  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
-).split(','), j = 0; es6Symbols.length > j;)wks(es6Symbols[j++]);
-
-for (var wellKnownSymbols = $keys(wks.store), k = 0; wellKnownSymbols.length > k;) wksDefine(wellKnownSymbols[k++]);
-
-$export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
-  // 19.4.2.1 Symbol.for(key)
-  'for': function (key) {
-    return has(SymbolRegistry, key += '')
-      ? SymbolRegistry[key]
-      : SymbolRegistry[key] = $Symbol(key);
-  },
-  // 19.4.2.5 Symbol.keyFor(sym)
-  keyFor: function keyFor(sym) {
-    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
-    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
-  },
-  useSetter: function () { setter = true; },
-  useSimple: function () { setter = false; }
 });
-
-$export($export.S + $export.F * !USE_NATIVE, 'Object', {
-  // 19.1.2.2 Object.create(O [, Properties])
-  create: $create,
-  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
-  defineProperty: $defineProperty,
-  // 19.1.2.3 Object.defineProperties(O, Properties)
-  defineProperties: $defineProperties,
-  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
-  // 19.1.2.7 Object.getOwnPropertyNames(O)
-  getOwnPropertyNames: $getOwnPropertyNames,
-  // 19.1.2.8 Object.getOwnPropertySymbols(O)
-  getOwnPropertySymbols: $getOwnPropertySymbols
-});
-
-// 24.3.2 JSON.stringify(value [, replacer [, space]])
-$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
-  var S = $Symbol();
-  // MS Edge converts symbol values to JSON as {}
-  // WebKit converts symbol values to JSON as null
-  // V8 throws on boxed symbols
-  return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
-})), 'JSON', {
-  stringify: function stringify(it) {
-    var args = [it];
-    var i = 1;
-    var replacer, $replacer;
-    while (arguments.length > i) args.push(arguments[i++]);
-    $replacer = replacer = args[1];
-    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
-    if (!isArray(replacer)) replacer = function (key, value) {
-      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
-      if (!isSymbol(value)) return value;
-    };
-    args[1] = replacer;
-    return _stringify.apply($JSON, args);
-  }
-});
-
-// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(/*! ./_hide */ "../../node_modules/core-js/library/modules/_hide.js")($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
-// 19.4.3.5 Symbol.prototype[@@toStringTag]
-setToStringTag($Symbol, 'Symbol');
-// 20.2.1.9 Math[@@toStringTag]
-setToStringTag(Math, 'Math', true);
-// 24.3.3 JSON[@@toStringTag]
-setToStringTag(global.JSON, 'JSON', true);
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/es7.symbol.async-iterator.js":
-/*!****************************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es7.symbol.async-iterator.js ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(/*! ./_wks-define */ "../../node_modules/core-js/library/modules/_wks-define.js")('asyncIterator');
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/es7.symbol.observable.js":
-/*!************************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/es7.symbol.observable.js ***!
-  \************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(/*! ./_wks-define */ "../../node_modules/core-js/library/modules/_wks-define.js")('observable');
-
-
-/***/ }),
-
-/***/ "../../node_modules/core-js/library/modules/web.dom.iterable.js":
-/*!*******************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/core-js/library/modules/web.dom.iterable.js ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(/*! ./es6.array.iterator */ "../../node_modules/core-js/library/modules/es6.array.iterator.js");
-var global = __webpack_require__(/*! ./_global */ "../../node_modules/core-js/library/modules/_global.js");
-var hide = __webpack_require__(/*! ./_hide */ "../../node_modules/core-js/library/modules/_hide.js");
-var Iterators = __webpack_require__(/*! ./_iterators */ "../../node_modules/core-js/library/modules/_iterators.js");
-var TO_STRING_TAG = __webpack_require__(/*! ./_wks */ "../../node_modules/core-js/library/modules/_wks.js")('toStringTag');
-
-var DOMIterables = ('CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,' +
-  'DOMTokenList,DataTransferItemList,FileList,HTMLAllCollection,HTMLCollection,HTMLFormElement,HTMLSelectElement,' +
-  'MediaList,MimeTypeArray,NamedNodeMap,NodeList,PaintRequestList,Plugin,PluginArray,SVGLengthList,SVGNumberList,' +
-  'SVGPathSegList,SVGPointList,SVGStringList,SVGTransformList,SourceBufferList,StyleSheetList,TextTrackCueList,' +
-  'TextTrackList,TouchList').split(',');
-
-for (var i = 0; i < DOMIterables.length; i++) {
-  var NAME = DOMIterables[i];
-  var Collection = global[NAME];
-  var proto = Collection && Collection.prototype;
-  if (proto && !proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
-  Iterators[NAME] = Iterators.Array;
-}
 
 
 /***/ }),
 
 /***/ "../../node_modules/history/es/DOMUtils.js":
-/*!**********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/DOMUtils.js ***!
-  \**********************************************************************************/
+/*!*************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/history/es/DOMUtils.js ***!
+  \*************************************************************************************/
 /*! exports provided: canUseDOM, addEventListener, removeEventListener, getConfirmation, supportsHistory, supportsPopStateOnHashChange, supportsGoWithoutReloadUsingHash, isExtraneousPopstateEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2912,9 +1633,9 @@ var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/LocationUtils.js":
-/*!***************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/LocationUtils.js ***!
-  \***************************************************************************************/
+/*!******************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/history/es/LocationUtils.js ***!
+  \******************************************************************************************/
 /*! exports provided: createLocation, locationsAreEqual */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2994,9 +1715,9 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/PathUtils.js":
-/*!***********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/PathUtils.js ***!
-  \***********************************************************************************/
+/*!**************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/history/es/PathUtils.js ***!
+  \**************************************************************************************/
 /*! exports provided: addLeadingSlash, stripLeadingSlash, hasBasename, stripBasename, stripTrailingSlash, parsePath, createPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3071,9 +1792,9 @@ var createPath = function createPath(location) {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createBrowserHistory.js":
-/*!**********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createBrowserHistory.js ***!
-  \**********************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/history/es/createBrowserHistory.js ***!
+  \*************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3381,9 +2102,9 @@ var createBrowserHistory = function createBrowserHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createHashHistory.js":
-/*!*******************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createHashHistory.js ***!
-  \*******************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/history/es/createHashHistory.js ***!
+  \**********************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3708,9 +2429,9 @@ var createHashHistory = function createHashHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createMemoryHistory.js":
-/*!*********************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createMemoryHistory.js ***!
-  \*********************************************************************************************/
+/*!************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/history/es/createMemoryHistory.js ***!
+  \************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3882,9 +2603,9 @@ var createMemoryHistory = function createMemoryHistory() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/createTransitionManager.js":
-/*!*************************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/createTransitionManager.js ***!
-  \*************************************************************************************************/
+/*!****************************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/history/es/createTransitionManager.js ***!
+  \****************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3973,9 +2694,9 @@ var createTransitionManager = function createTransitionManager() {
 /***/ }),
 
 /***/ "../../node_modules/history/es/index.js":
-/*!*******************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/history/es/index.js ***!
-  \*******************************************************************************/
+/*!**********************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/history/es/index.js ***!
+  \**********************************************************************************/
 /*! exports provided: createBrowserHistory, createHashHistory, createMemoryHistory, createLocation, locationsAreEqual, parsePath, createPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4013,9 +2734,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ "../../node_modules/invariant/invariant.js":
-/*!**********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/invariant/invariant.js ***!
-  \**********************************************************************************/
+/*!*************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/invariant/invariant.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4076,9 +2797,9 @@ module.exports = invariant;
 /***/ }),
 
 /***/ "../../node_modules/path-to-regexp/index.js":
-/*!***********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/path-to-regexp/index.js ***!
-  \***********************************************************************************/
+/*!**************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/path-to-regexp/index.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -4458,9 +3179,9 @@ function pathToRegexp (path, keys, options) {
 /***/ }),
 
 /***/ "../../node_modules/resolve-pathname/index.js":
-/*!*************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/resolve-pathname/index.js ***!
-  \*************************************************************************************/
+/*!****************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/resolve-pathname/index.js ***!
+  \****************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4540,9 +3261,9 @@ function resolvePathname(to) {
 /***/ }),
 
 /***/ "../../node_modules/svelte-routing/NavLink.html":
-/*!***************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/NavLink.html ***!
-  \***************************************************************************************/
+/*!******************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte-routing/NavLink.html ***!
+  \******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4608,7 +3329,7 @@ function data() {
 
 var NavLink = {};
 
-NavLink.filename = "/Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/NavLink.html";
+NavLink.filename = "C:\\Users\\cdl193\\Sites\\Front-End-Framework\\node_modules\\svelte-routing\\NavLink.html";
 
 NavLink.data = function() {
 	return data();
@@ -4689,109 +3410,10 @@ module.exports = NavLink;
 
 /***/ }),
 
-/***/ "../../node_modules/svelte-routing/Route.html":
-/*!*************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/Route.html ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __import0 = __webpack_require__(/*! ./index.js */ "../../node_modules/svelte-routing/index.js");
-var getHistory = __import0.getHistory;
-var matchPath = __import0.matchPath;
-
-function match(pathname, path, exact, strict) {
-  return matchPath(pathname, { path, exact, strict });
-}
-
-function data() {
-  const history = getHistory();
-
-  return {
-    pathname: history.location.pathname,
-    path: '',
-    exact: false,
-    strict: false,
-    component: null,
-    history
-  };
-};
-
-var Route = {};
-
-Route.filename = "/Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/Route.html";
-
-Route.data = function() {
-	return data();
-};
-
-Route.render = function(state, options = {}) {
-	var components = new Set();
-
-	function addComponent(component) {
-		components.add(component);
-	}
-
-	var result = { head: '', addComponent };
-	var html = Route._render(result, state, options);
-
-	var cssCode = Array.from(components).map(c => c.css && c.css.code).filter(Boolean).join('\n');
-
-	return {
-		html,
-		head: result.head,
-		css: { code: cssCode, map: null },
-		toString() {
-			return html;
-		}
-	};
-}
-
-Route._render = function(__result, state, options) {
-	__result.addComponent(Route);
-
-	state = Object.assign(data(), state);
-
-	state.match = match(state.pathname, state.path, state.exact, state.strict);
-
-	return `${ state.match !== null ? `${ state.component !== null ? `${((state.component) || __missingComponent)._render(__result, { match: state.match }, { store: options.store })}` : `${options && options.slotted && options.slotted.default ? options.slotted.default() : ``}` }` : `` }`;
-};
-
-Route.css = {
-	code: '',
-	map: null
-};
-
-var warned = false;
-Route.renderCss = function() {
-	if (!warned) {
-		console.error('Component.renderCss(...) is deprecated and will be removed in v2 — use Component.render(...).css instead');
-		warned = true;
-	}
-
-	var components = [];
-
-	return {
-		css: components.map(x => x.css).join('\n'),
-		map: null,
-		components
-	};
-};
-
-var __missingComponent = {
-	_render: () => ''
-};
-
-module.exports = Route;
-
-/***/ }),
-
 /***/ "../../node_modules/svelte-routing/index.js":
-/*!***********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/index.js ***!
-  \***********************************************************************************/
+/*!**************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte-routing/index.js ***!
+  \**************************************************************************************/
 /*! exports provided: matchPath, createMemoryHistory, createHashHistory, createBrowserHistory, getHistory, isModifiedEvent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4833,9 +3455,9 @@ const isModifiedEvent = event => {
 /***/ }),
 
 /***/ "../../node_modules/svelte-routing/matchPath.js":
-/*!***************************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte-routing/matchPath.js ***!
-  \***************************************************************************************/
+/*!******************************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte-routing/matchPath.js ***!
+  \******************************************************************************************/
 /*! exports provided: matchPath */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4917,9 +3539,9 @@ const matchPath = (pathname, options = {}) => {
 /***/ }),
 
 /***/ "../../node_modules/svelte/shared.js":
-/*!****************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte/shared.js ***!
-  \****************************************************************************/
+/*!*******************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte/shared.js ***!
+  \*******************************************************************************/
 /*! exports provided: blankObject, destroy, destroyDev, _differs, _differsImmutable, dispatchObservers, fire, get, init, observe, observeDev, on, onDev, run, set, _set, setDev, callAll, _mount, _unmount, isPromise, PENDING, SUCCESS, FAILURE, removeFromStore, proto, protoDev, appendNode, insertNode, detachNode, detachBetween, detachBefore, detachAfter, reinsertBetween, reinsertChildren, reinsertAfter, reinsertBefore, destroyEach, createFragment, createElement, createSvgElement, createText, createComment, addListener, removeListener, setAttribute, setAttributes, removeAttribute, setXlinkAttribute, getBindingGroupValue, toNumber, timeRangesToArray, children, claimElement, claimText, setInputType, setStyle, selectOption, selectOptions, selectValue, selectMultipleValue, destroyBlock, outroAndDestroyBlock, updateKeyedEach, getSpreadUpdate, linear, generateRule, hash, wrapTransition, transitionManager, noop, assign */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5782,9 +4404,9 @@ var protoDev = {
 /***/ }),
 
 /***/ "../../node_modules/svelte/store.js":
-/*!***************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/svelte/store.js ***!
-  \***************************************************************************/
+/*!******************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/svelte/store.js ***!
+  \******************************************************************************/
 /*! exports provided: Store */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5958,9 +4580,9 @@ Object(_shared_js__WEBPACK_IMPORTED_MODULE_0__["assign"])(Store.prototype, {
 /***/ }),
 
 /***/ "../../node_modules/value-equal/index.js":
-/*!********************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/value-equal/index.js ***!
-  \********************************************************************************/
+/*!***********************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/value-equal/index.js ***!
+  \***********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -6008,9 +4630,9 @@ function valueEqual(a, b) {
 /***/ }),
 
 /***/ "../../node_modules/warning/warning.js":
-/*!******************************************************************************!*\
-  !*** /Users/Chris/Sites/Front-End-Framework/node_modules/warning/warning.js ***!
-  \******************************************************************************/
+/*!*********************************************************************************!*\
+  !*** C:/Users/cdl193/Sites/Front-End-Framework/node_modules/warning/warning.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

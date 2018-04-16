@@ -6,9 +6,11 @@ const cwd = process.cwd();
 
 const htmlConfig = require('./helpers/create-html-config.js');
 const PATHS = require(`${cwd}/config/paths.config.js`);
+const baseConfig = require(`./base.webpack.config.js`);
+const babelConfig = require(`./babel.webpack.config.js`);
 
 const config = htmlConfig({
-    baseConfig: require(`./base.webpack.config.js`),
+    baseConfig: baseConfig,
     src: PATHS.demos.entry.svelte,
     template: PATHS.demos.entry.template,
     dest: PATHS.demos.dest,
@@ -20,8 +22,18 @@ const config = htmlConfig({
 config.name = "Demo";
 // config.output.chunkFilename = "demo.[name][id].js";
 
+console.log('babel Config \n', baseConfig);
 
 config.module.rules.push(
+    {
+        test: /\.(js|jsx)$/,
+        exclude: /(node_modules)/,
+        use: {
+            loader: 'babel-loader',
+            options: babelConfig(true)
+        }
+    },
+
     // Allow for css to be inlined
     {
         test: /\.demo\.css$/,

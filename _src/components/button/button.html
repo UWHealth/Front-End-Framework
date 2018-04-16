@@ -1,10 +1,14 @@
 <button class="btn {{modifiers(type, 'btn--')}}">
     <span class="btn__body {{modifiers(type, 'btn__body--')}}">
-        {{body}}
+        <slot>
+            {{body}}
+        </slot>
     </span>
     {{#if icon}}
         <span class="btn__icon {{modifiers(type, 'btn__icon--')}}">
-            {{icon}}
+            <slot name="icon">
+                {{icon}}
+            </slot>
         </span>
     {{elseif iconUrl}}
         <img class="btn__icon btn__icon--image {{modifiers(type, 'btn__icon--')}}" src="{{{iconUrl}}}" alt="">

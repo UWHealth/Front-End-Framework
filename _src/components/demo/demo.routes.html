@@ -1,73 +1,58 @@
-<Route ref:router path="/components/:demo" bind:match >
-    {{#if match.params}}
-        {{#await AsyncRoute(match.params.demo)() }}
-            {{#if !hydrating}}
-                <Demo>
-                    <div slot="header">Loading</div>
-                </Demo>
-            {{/if}}
-        {{then response}}
-            <:Component {response.default} currentRoute="{{match.params.demo}}" :match/>
-        {{catch error}}
-            {{error}}
-        {{/await}}
-    {{/if}}
+<Route ref:router bind:pathname bind:path>
+    <:Component {innerComponent} thisPath="{{pathname}}"/>
 </Route>
 
 <script>
     import Route from 'svelte-routing/Route.html';
-    import Demo from './demo.wrapper.html';
     import store from './demo.store.js';
-    import capitalize from '../tools/title-case.js';
+    import capitalize from '@/components/tools/title-case';
     import findExport from '../tools/find-export.js';
 
     export default {
+        components: {Route},
         data: () => ({
             pageTitle: null,
             routeUrl: null,
-            hydrating: false
+            currentRoute: '',
+            path: '/components/:demo',
+            ssr: false
         }),
-        components: {
-            Route, Demo
-        },
-        helpers: {
-            component: (AsyncRoute) => {
-                return AsyncRoute;
-            },
-            AsyncRoute: (routeUrl) => {
-                if (!routeUrl) { return false; }
+        methods: {
+            AsyncRoute: async (pathname) => {
+                if (!pathname) { return false; }
                 if (!window) {
-                    return () => {
-                        const load = require.resolveWeak('@/components/' + routeUrl + '/' + routeUrl + '.demo.html');
-                        // Find module in webpack cache
-                        const mod = __webpack_modules__[load];
-                        const component = requireModule(mod, load);
-                        return component && component;
-                    }
+                    const load = require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
+                    // Find module in webpack cache
+                    const mod = __webpack_modules__[load];
+                    const component = requireModule(mod, load);
+                    return () => component && component;
                 }
                 else {
-                    const route = async () => {
-                        return import(
-                            /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
-                            '@/components/' + routeUrl + '/' + routeUrl + '.demo.html'
-                        );
-                    };
+                    const route = import(
+                        /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
+                        '@/components/' + pathname + '/' + pathname + '.demo.html'
+                    );
                     return route;
                 }
             }
         },
         oncreate() {
-            console.log('Demo Router Creation:', this);
+            // console.log('Demo Router Creation:', this);
+            this.set({'initialRoute': this.get('pathname')});
 
-            if (this.options.hydrate) {
-                this.set({'hydrating': true});
-            }
+            this.refs.router.observe('match', (match) => {
+                console.log('changed', this);
+                const initial = this.get('initialRoute');
+                const current = match && match.pathname;
 
-            this.observe('match', (match) => {
-                const path = match.params ? match.params.demo : match;
-                console.log(path);
-                this.set({'routeUrl': path});
-                store.set({'pageTitle': capitalize(path)});
+                if (current !== initial && initial && match) {
+                    this.AsyncRoute(
+                        match.params.demo
+                    ).then((component) => {
+                        this.set({'innerComponent': component["default"]});
+                        store.set({'pageTitle': capitalize(match.params.demo)});
+                    });
+                }
             });
         },
         setup(DemoRouter) {},
