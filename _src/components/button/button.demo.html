@@ -13,7 +13,7 @@
         <Button body="whatup"/>
     </div>
     <div slot="variants">
-        {{#each widths as buttonType @buttonType}}
+        {{#each widths as buttonType}}
         <div class="button-holder button-holder--{{buttonType}}">
             <Button type="{{buttonType}}" body="{{capitalize(buttonType)}}"/>
         </div>
@@ -28,7 +28,6 @@
     import Demo from '../demo/demo.wrapper.html';
     import Async from '../async/async.html';
     import capitalize from '@/components/tools/title-case';
-    import populateAttrs from '@/components/tools/populate-attributes';
 
     export default {
         components: {
@@ -50,12 +49,6 @@
                 }
             };
         },
-        helpers: {
-            capitalize,
-
-        },
-        methods: {
-            populateAttrs
-        }
+        helpers: { capitalize }
     };
 </script>

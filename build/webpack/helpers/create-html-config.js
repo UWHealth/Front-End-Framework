@@ -38,7 +38,8 @@ function createHtmlConfig(options) {
         dest: PATHS.folders.dist,
         baseDist: PATHS.folders.dist,
         baseConfig: {},
-        debug: false
+        debug: false,
+        assetName: "auto"
     }, options);
 
     options.folderName = path.relative(options.baseDist, options.dest).replace(/\\/g, '/');
@@ -117,7 +118,7 @@ function addEntryPoints(options) {
     options.files.forEach((file) => {
         const baseName = path.basename(file, options.sourceExtension);
         const entryName = path.join(options.folderName, baseName, baseName);
-        console.log(entryName);
+        //console.log(entryName);
 
         entryPoints[entryName] = file;
     });
@@ -145,6 +146,9 @@ function addHtmlPlugins(options) {
     options.files.forEach((file) => {
         const baseName = path.basename(file, options.sourceExtension);
         const entryName = path.join(options.folderName, baseName, baseName);
+        const assetName = options.assetName !== "auto" ? options.assetName : `${entryName}.${options.nameSpace}.js`;
+
+        //console.log('ASSET NAME', `/${options.folderName}/${baseName}/`);
 
         plugins.push(
             new HtmlPlugin({
@@ -155,7 +159,15 @@ function addHtmlPlugins(options) {
                 showErrors: true,
                 pageTitle: baseName,
                 evalPlugin: {
-                    assetName: `${entryName}.${options.nameSpace}.js`
+                    assetName: assetName,
+                    context: {
+                        window: undefined,
+                        __APP_ROUTES__: {
+                            pathname: `/${options.folderName}/${baseName}/`,
+                            componentPath: `${baseName}`,
+                            pageTitle: baseName
+                        }
+                    }
                 }
             })
         );

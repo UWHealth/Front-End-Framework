@@ -43,12 +43,6 @@
     import Base from '../base/base.html';
     import store from './demo.store.js';
     import NavLink from 'svelte-routing/NavLink.html';
-    import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
-
-    if (!window) {
-        createMemoryHistory();
-    }
-    else { createBrowserHistory(); }
 
     export default {
         store: () => store,

@@ -2,11 +2,9 @@ const BROWSERS = require(process.cwd() + '/package.json').browserslist;
 
 module.exports = function(isNode) {
     const targets = isNode ?
-    {"node": true}
+    {"node": "current" }
     :
     {"browsers": BROWSERS };
-
-
 
     return {
         cacheDirectory: true,
@@ -21,7 +19,8 @@ module.exports = function(isNode) {
             }]
         ],
         plugins: [
-            [isNode ? "dynamic-import-node" : "syntax-dynamic-import"],
+            ["syntax-dynamic-import"],
+            ["transform-imports"],
             ["transform-runtime", {
                 "helpers": true,
                 "polyfill": true,

@@ -1,5 +1,7 @@
 <Route ref:router bind:pathname bind:path>
-    <:Component {innerComponent} thisPath="{{pathname}}"/>
+    {{#if innerComponent}}
+    <:Component {innerComponent} />
+    {{/if}}
 </Route>
 
 <script>
@@ -7,35 +9,59 @@
     import store from './demo.store.js';
     import capitalize from '@/components/tools/title-case';
     import findExport from '../tools/find-export.js';
+    import requireUniversal from 'require-universal-module';
+    import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
+    import path from 'path';
+
+    /* globals __APP_ROUTES__ */
+    const appRoutes = __APP_ROUTES__ || {};
+
+    function asyncRequire(pathname) {
+        return requireUniversal(() => import(
+            /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
+            '@/components/' + pathname + '/' + pathname + '.demo.html'
+        ), {
+            resolve: require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html'),
+            chunkName: "demo-routes/[request]",
+            path: '@/components/' + pathname + '/' + pathname + '.demo.html',
+            onLoad: module => console.log('LOADED\n', module)
+        });
+    }
+
+
+    if (!window) {
+        createMemoryHistory();
+        const tools = asyncRequire(appRoutes.componentPath);
+        const { requireSync, requireAsync, addModule, mod } = tools;
+
+        const component = require.resolveWeak('@/components/' + appRoutes.componentPath + '/' + appRoutes.componentPath + '.demo.html');
+
+        debugger;
+        console.log(component);
+
+        __dirname = path.resolve(process.cwd(), 'dist');
+        console.log(__dirname);
+        appRoutes.innerComponent = __webpack_require__(component.replace('.demo.html', ''));
+
+        //console.log('MOD?', mod);
+        // requireAsync().then((comp) => {
+        //     appRoutes.innerComponent = comp;
+        // });
+        console.log('COMPONENT', appRoutes.innerComponent);
+    }
+    else { createBrowserHistory(); }
 
     export default {
         components: {Route},
-        data: () => ({
-            pageTitle: null,
-            routeUrl: null,
-            currentRoute: '',
-            path: '/components/:demo',
-            ssr: false
-        }),
-        methods: {
-            AsyncRoute: async (pathname) => {
-                if (!pathname) { return false; }
-                if (!window) {
-                    const load = require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
-                    // Find module in webpack cache
-                    const mod = __webpack_modules__[load];
-                    const component = requireModule(mod, load);
-                    return () => component && component;
-                }
-                else {
-                    const route = import(
-                        /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
-                        '@/components/' + pathname + '/' + pathname + '.demo.html'
-                    );
-                    return route;
-                }
-            }
-        },
+        data: () => (Object.assign({},
+            {
+                pageTitle: null,
+                routeUrl: null,
+                currentRoute: '',
+                path: '/components/:demo',
+                innerComponent: appRoutes
+            }, appRoutes)
+        ),
         oncreate() {
             // console.log('Demo Router Creation:', this);
             this.set({'initialRoute': this.get('pathname')});
@@ -46,10 +72,10 @@
                 const current = match && match.pathname;
 
                 if (current !== initial && initial && match) {
-                    this.AsyncRoute(
+                    asyncRequire(
                         match.params.demo
                     ).then((component) => {
-                        this.set({'innerComponent': component["default"]});
+                        this.set({'innerComponent': findExport(component)});
                         store.set({'pageTitle': capitalize(match.params.demo)});
                     });
                 }
@@ -59,13 +85,5 @@
         store: () => store
     };
 
-    function requireModule(mod, load) {
-        // Reject any modules not found in webpack
-        if (typeof mod === 'undefined') {
-            return false;
-        }
-        // We pass the id, name
-        return findExport(__webpack_require__(mod.name || mod.id || load));
-    }
 
 </script>

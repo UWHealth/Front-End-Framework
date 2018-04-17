@@ -16,10 +16,9 @@
     import Route from '@/components/demo/demo.routes.html';
 
     export default {
-        components: { Demo, Generic, Route },
+        components: { Demo, Generic },
         data() {
             return {
-                thisPath: !window ? '/components/generic' : false,
                 widths: ['normal', 'wide', 'compact']
             };
         },

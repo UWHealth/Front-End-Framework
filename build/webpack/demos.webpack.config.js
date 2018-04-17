@@ -16,13 +16,14 @@ const config = htmlConfig({
     dest: PATHS.demos.dest,
     nameSpace: "demo",
     sourceExtension: ".demo.html",
-    debug: true
+    debug: true,
+    assetName: "demo-router.demo.js"
 });
+
+config.entry["demo-router"] = `${PATHS.demos.folders.root}/demo/demo.routes.html`;
 
 config.name = "Demo";
 // config.output.chunkFilename = "demo.[name][id].js";
-
-console.log('babel Config \n', baseConfig);
 
 config.module.rules.push(
     {

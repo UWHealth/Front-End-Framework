@@ -3,6 +3,7 @@ import 'promise-polyfill/src/polyfill';
 import store from '@/components/demo/demo.store.js';
 import runtime from 'sapper/runtime.js';
 import Router from '@/components/demo/demo.routes.html';
+import {Registry, configure, createProxy} from 'svelte-dev-helper';
 
 let application;
 

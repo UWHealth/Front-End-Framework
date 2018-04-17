@@ -50,7 +50,7 @@ config.optimization.concatenateModules = MODE.production;
 
 config.optimization.portableRecords = true;
 
-config.resolve.mainFields.unshift("browser");
+config.resolve.mainFields.unshift("svelte", "browser");
 
 config.optimization.splitChunks = {
     chunks: "async",

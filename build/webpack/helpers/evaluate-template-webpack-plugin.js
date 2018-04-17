@@ -10,6 +10,12 @@ function evaluateTemplatePlugin(options) {
     options = options || {};
     this.manifest = options.manifest || false;
     this.templating = options.templating || function(source) { return source; };
+    options.context = options.context || {};
+    this.evalContext = Object.assign(
+        {},
+        {fetch: false, window: false, document: false},
+        options.contenxt
+    );
 }
 
 evaluateTemplatePlugin.prototype.apply = function(compiler) {
@@ -41,6 +47,7 @@ evaluateTemplatePlugin.prototype.init = function(htmlPluginData, callback, compi
         return callback(null, htmlPluginData);
     }
     const assetName = htmlPluginData.plugin.options.evalPlugin.assetName;
+    this.evalContext = Object.assign({}, this.evalContext, htmlPluginData.plugin.options.evalPlugin.context || {});
 
     const manifest = this.manifest ? this.getSource(this.manifest, compilation, callback) : false;
     const source = manifest ? manifest + this.getSource(assetName, compilation, callback) : this.getSource(assetName, compilation, callback);
@@ -69,7 +76,7 @@ evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context
 evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, callback) { //eslint-disable-line
     try {
         const asset = compilation.assets[assetName];
-        console.log('assetName', assetName);
+        //console.log('assetName', assetName);
         const source = asset ? asset.source() : '(function(){return ""})()';
 
         return source;
@@ -81,7 +88,7 @@ evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, ca
 
 evaluateTemplatePlugin.prototype.evaluateSource = function(assetName, source, callback) {
     try {
-        const context = _eval(source, assetName, {fetch: false, window: false, document: false}, true);
+        const context = _eval(source, assetName, this.evalContext, true);
         // Allow for es6 modules
         if (context.default) {
             return typeof context.default === 'function' ? context.default() : context.default;
