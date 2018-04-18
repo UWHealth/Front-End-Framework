@@ -1,16 +1,3 @@
-<:Head>
-    <title>→ {{$pageTitle || demoTitle}} demo</title>
-</:Head>
-
-<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
-<!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
-<nav ref:navigation class="demo-navigation">
-    <img src="/public/img/favicons/icon.svg" style="height: {{60/16}}rem;" alt="">
-    {{#each links as [name, url]}}
-        <NavLink to="{{url}}" className="demo-navigation__link {{checkCurrent(name)}}">{{name}}</NavLink>
-    {{/each}}
-</nav>
-
 <div id="currentRoute" style="display:none;">{{{currentRoute}}}</div>
 
 <div class="demo">
@@ -42,40 +29,21 @@
 <script>
     import Base from '../base/base.html';
     import store from './demo.store.js';
-    import NavLink from 'svelte-routing/NavLink.html';
 
     export default {
         store: () => store,
         components: {
-            Base,
-            NavLink
+            Base
         },
         data() {
             return {
                 demoTitle: 'Demo',
                 variantTitle: false,
                 variants: false,
-                currentRoute: '',
-                links: [
-                    ['Button', '/components/button/'],
-                    ['Generic', '/components/generic/'],
-                    ['Feed', '/components/feed/']
-                ],
             };
         },
         computed: {
             lowercaseRoute: (currentRoute) => currentRoute.toLowerCase(),
-        },
-        helpers: {
-            checkCurrent: (routeName) => {
-                if (store.get('pageTitle') === routeName) {
-                    return 'is-current';
-                }
-                return '';
-            },
-            browser: (globalObj) => {
-                return (document || window);
-            }
         },
         oncreate () {
             if (this.slots.variants) {

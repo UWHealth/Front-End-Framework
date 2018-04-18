@@ -1,6 +1,6 @@
 const decodeEntities = (function() {
     // this prevents any overhead from creating the object each time
-    const element = document ? document.createElement('div') : '';
+    const element = typeof document !== 'undefined' ? document.createElement('div') : '';
 
     function decodeHTMLEntities (str) {
         if (str && typeof str === 'string') {

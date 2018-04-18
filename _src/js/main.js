@@ -25,7 +25,8 @@ domReady(() => {
                 hydrate: true,
                 target: appElement,
                 data: {
-                    innerComponent: App["default"]
+                    innerComponent: App['default'],
+                    pathname: window.location.pathname
                 }
             });
 

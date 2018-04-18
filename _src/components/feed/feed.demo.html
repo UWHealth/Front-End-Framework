@@ -12,7 +12,7 @@
     import store from '@/components/demo/demo.store.js';
 
     export default {
-        store: () => (window) ? window.store : store,
+        store: () => store,
         components: { Demo, List },
 
         data() {

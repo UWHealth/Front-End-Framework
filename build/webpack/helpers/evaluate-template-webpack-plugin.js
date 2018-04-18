@@ -13,7 +13,7 @@ function evaluateTemplatePlugin(options) {
     options.context = options.context || {};
     this.evalContext = Object.assign(
         {},
-        {fetch: false, window: false, document: false},
+        {fetch: false, window: undefined, document: undefined},
         options.contenxt
     );
 }
@@ -77,7 +77,7 @@ evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, ca
     try {
         const asset = compilation.assets[assetName];
         //console.log('assetName', assetName);
-        const source = asset ? asset.source() : '(function(){return ""})()';
+        const source = asset ? asset.source() : `module.exports = "No asset (${assetName}) found."`;
 
         return source;
     }
@@ -88,6 +88,7 @@ evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, ca
 
 evaluateTemplatePlugin.prototype.evaluateSource = function(assetName, source, callback) {
     try {
+        console.log(assetName, ':\n', this.evalContext);
         const context = _eval(source, assetName, this.evalContext, true);
         // Allow for es6 modules
         if (context.default) {

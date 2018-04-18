@@ -30,7 +30,7 @@
         },
         computed: {
             SSRComponent: (webpack) => {
-                if (document || window) { return false; }
+                // if (typeof window !== 'undefined') { return false; }
                 const load = webpack();
                 // Find module in webpack cache
                 const mod = __webpack_modules__[load];

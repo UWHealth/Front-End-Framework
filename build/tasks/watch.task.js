@@ -29,7 +29,11 @@ module.exports = function() {
         ],
         opts,
         gulp.series((done) => {
-            flushWebpackFromCache(['./build/webpack/**/*', './build/webpack.build.js']);
+            flushWebpackFromCache([
+                './build/webpack/*',
+                './build/webpack/**/*',
+                './build/webpack.build.js'
+            ]);
             done();
         }, 'webpack')
     );

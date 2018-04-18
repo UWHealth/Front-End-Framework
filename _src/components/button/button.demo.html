@@ -19,34 +19,30 @@
         </div>
         {{/each}}
 
-        <Async {{...asyncButton}} />
     </div>
 </Demo>
 
 <script>
     import Button from './button.html';
     import Demo from '../demo/demo.wrapper.html';
-    import Async from '../async/async.html';
     import capitalize from '@/components/tools/title-case';
 
     export default {
         components: {
             Button,
-            Demo,
-            Async
+            Demo
         },
         data() {
             return {
-                thisPath: !window ? '/components/button' : false,
                 widths: ['normal', 'wide', 'compact'],
-                asyncButton: {
-                    loader: () => import('./button.html'),
-                    webpack: () => require.resolveWeak('./button.html'),
-                    attrs: {
-                        width: ['wide'],
-                        body: 'Async button'
-                    }
-                }
+                // asyncButton: {
+                //     loader: () => import('./button.html'),
+                //     webpack: () => require.resolveWeak('./button.html'),
+                //     attrs: {
+                //         width: ['wide'],
+                //         body: 'Async button'
+                //     }
+                // }
             };
         },
         helpers: { capitalize }

@@ -49,7 +49,9 @@
             const feedTop = document.getElementById('feedTop').offsetTop;
 
             this.observe('page', (page) => {
-                window.scroll(0, feedTop);
+                if (typeof window !== 'undefined') {
+                    window.scroll(0, feedTop);
+                }
             });
         },
         store: () => store

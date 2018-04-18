@@ -66,7 +66,7 @@ function boostrapConfig(options, folderName) {
 
     // Unify paths
     config.context = path.resolve(__dirname, '..');
-    config.output.publicPath = path.relative(options.baseDist, options.outputPath) + '/';
+    config.output.publicPath = path.resolve(options.baseDist, options.outputPath) + '/';
     config.output.path = options.outputPath;
     config.resolve.modules = ["node_modules"];
 
@@ -76,7 +76,7 @@ function boostrapConfig(options, folderName) {
     // Make node compatible so we can evaluate templates in memory
     config.devtool = MODE.production ? 'source-map' : false;
     config.target = "node";
-    config.output.libraryTarget = "umd";
+    config.output.libraryTarget = "commonjs2";
     config.output.library = options.nameSpace;
     // config.output.globalObject = "this";
 
@@ -94,7 +94,6 @@ function boostrapConfig(options, folderName) {
                     generate: 'ssr',
                     dev: !MODE.production,
                     hydratable: true,
-                    shared: true,
                     store: true,
                     preserveComments: true
                 }
@@ -162,6 +161,9 @@ function addHtmlPlugins(options) {
                     assetName: assetName,
                     context: {
                         window: undefined,
+                        document: undefined,
+                        __dirname: path.resolve(process.cwd(), 'dist'),
+                        __filename: path.resolve(process.cwd(), 'dist', assetName),
                         __APP_ROUTES__: {
                             pathname: `/${options.folderName}/${baseName}/`,
                             componentPath: `${baseName}`,
@@ -177,14 +179,18 @@ function addHtmlPlugins(options) {
         // Add evaluated demo to html data
         new EvalTemplatePlugin({
             templating: function(source, raw, htmlPluginData, compilation) { // eslint-disable-line
-                if (options.debug) { console.log(source); }
+                if (options.debug) { console.log('SOURCE', source); }
                 //console.log(compilation.chunks);
                 const render = (source && typeof source.render !== 'undefined') ? source.render || source.toString() : source;
 
                 const page = (typeof render === 'function') ? render() : render;
                 htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +
                     `${raw.replace(/<\/script>/g, '<\\/script>').replace('pathname: history.location.pathname', 'pathname: window.location.pathname')}\n return ${options.nameSpace}}</script>`;
-                htmlPluginData.plugin.options.sourceScript = `<script>var global = window;\n var serialized = JSON.stringify(${JSON.stringify(source, replacer, 2)});\n ${reviver}</script>`;
+                htmlPluginData.plugin.options.sourceScript = `
+                <script>
+                var __APP_ROUTES__ = {
+                    initialRoute: '${htmlPluginData.plugin.options.evalPlugin.context.__APP_ROUTES__.pathname}',
+                    componentPath: '${htmlPluginData.plugin.options.evalPlugin.context.__APP_ROUTES__.componentPath}'}</script>`;
                 return page;
             }
         })

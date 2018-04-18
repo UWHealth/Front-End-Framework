@@ -6,7 +6,7 @@ module.exports = function(isNode) {
     :
     {"browsers": BROWSERS };
 
-    return {
+    const config = {
         cacheDirectory: true,
         auxiliaryCommentBefore: "Babel»",
         presets: [
@@ -15,19 +15,25 @@ module.exports = function(isNode) {
                 "useBuiltIns": true,
                 "loose": true,
                 "modules": false,
+                "babelrc": isNode ? false : true
                 // "debug": true
             }]
         ],
         plugins: [
-            ["syntax-dynamic-import"],
-            ["transform-imports"],
             ["transform-runtime", {
                 "helpers": true,
                 "polyfill": true,
                 "regenerator": false,
                 "loose": true,
                 "modules": false
-            }],
+            }]
         ]
     };
+
+    if (!isNode) {
+        config.plugins.unshift(["syntax-dynamic-import"])
+    }
+    //"dynamic-import-node"
+
+    return config;
 };
