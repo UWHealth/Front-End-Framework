@@ -23,7 +23,6 @@ const config = htmlConfig({
 config.entry["demo-router"] = `${PATHS.demos.folders.root}/demo/demo.routes.html`;
 
 config.name = "Demo";
-// config.output.chunkFilename = "demo.[name][id].js";
 
 config.module.rules.push(
     {

@@ -5,114 +5,125 @@
 <!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
 <nav ref:navigation class="demo-navigation">
     <img src="/public/img/favicons/icon.svg" style="height: {{60/16}}rem;" alt="">
-    {{#each links as [name, url]}}
-        <NavLink to="{{url}}" className="demo-navigation__link">{{name}}</NavLink>
+    {{#each links as [name, url] @url}}
+        <NavLink ref:url to="{{url}}" className="demo-navigation__link">{{name}}</NavLink>
     {{/each}}
 </nav>
-<div>
+<!---->
 <link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
-</div>
+
 <div>
 <Route hydrate="{{true}}" ref:router bind:pathname bind:path>
     <:Component {innerComponent}/>
 </Route>
 </div>
+
 <script>
     import Route from 'svelte-routing/Route.html';
     import NavLink from 'svelte-routing/NavLink.html';
     import store from './demo.store.js';
     import capitalize from '@/components/tools/title-case';
     import findExport from '../tools/find-export.js';
-    import requireUniversal from 'require-universal-module';
-    import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
+    import { createMemoryHistory, createBrowserHistory, getHistory, matchPath } from 'svelte-routing';
     import path from 'path';
+
+    function asyncRequire(pathname) {
+        __dirname = path.resolve(process.cwd());
+
+        const component = import(
+            /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
+            '@/components/' + pathname + '/' + pathname + '.demo.html');
+
+        const modID = require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
+
+        return {
+            Sync: function() { return __webpack_require__(modID) },
+            Async: function() { return component }
+        }
+
+        // return requireUniversal(() => import(
+        //     /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
+        //     '@/components/' + pathname + '/' + pathname + '.demo.html'
+        // ), {
+        //     resolve: require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html'),
+        //     chunkName: "demo-routes/[request]"
+        // });
+    }
 
     /* globals __APP_ROUTES__ */
     const appRoutes = typeof window !== 'undefined' ? window.__APP_ROUTES__ : __APP_ROUTES__;
 
-    function asyncRequire(pathname) {
-        __dirname = path.resolve(process.cwd());
-        return requireUniversal(() => import(
-            /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
-            '@/components/' + pathname + '/' + pathname + '.demo.html'
-        ), {
-            resolve: require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html'),
-            chunkName: "demo-routes/[request]"
-        });
-    }
+    function findGlobalRoutes() {
+        if (typeof window === 'undefined') {
+            createMemoryHistory();
+            const pathname = appRoutes.componentPath;
 
-    if (typeof window === 'undefined') {
-        createMemoryHistory();
-        const pathname = appRoutes.componentPath;
-        const tools = asyncRequire(appRoutes.componentPath);
-        const { requireSync, requireAsync, addModule, mod } = tools;
+            // const tools = asyncRequire(appRoutes.componentPath);
+            // const { requireSync, requireAsync, addModule, mod } = tools;
+            //
+            // const component = requireSync();
 
-        const component = requireSync();
+            // let innerComponent = require.resolveWeak(
+            //     /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
+            //     '@/components/' + pathname + '/' + pathname + '.demo.html'); //__webpack_require__(path.resolve(__dirname, 'components', component));
+            // innerComponent =
+            //     innerComponent
+            //         .replace('_src', 'dist')
+            //         .replace('.demo.html', '')
+            //         .replace('./..', '') + '.demo.js';
+            //
+            // console.log('PATH', path.resolve(innerComponent));
+            // console.log('-----\n', __non_webpack_require__(innerComponent));
+            //debugger;
 
-        debugger;
+            __dirname = path.resolve(process.cwd());
 
-        let innerComponent = require.resolveWeak(
-            /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
-            '@/components/' + pathname + '/' + pathname + '.demo.html'); //__webpack_require__(path.resolve(__dirname, 'components', component));
-        innerComponent =
-            innerComponent
-                .replace('_src', 'dist')
-                .replace('.demo.html', '')
-                .replace('./..', '') + '.demo.js';
+            const innerComponent = asyncRequire(pathname).Sync();
 
-        console.log('PATH', path.resolve(innerComponent));
-        console.log('-----\n', __non_webpack_require__(innerComponent));
-        //console.log('MOD?', mod);
-        // requireAsync().then((comp) => {
-        //     appRoutes.innerComponent = comp;
-        // });
-        // console.log('COMPONENT', appRoutes);
+            appRoutes.innerComponent = innerComponent;
 
-        appRoutes.innerComponent = __non_webpack_require__(innerComponent);
-    }
-    else {
-        createBrowserHistory();
-        appRoutes.innerComponent = asyncRequire(appRoutes.componentPath);
+            return appRoutes;
+        }
+        else {
+            createBrowserHistory();
+            appRoutes.innerComponent = asyncRequire(appRoutes.componentPath).Sync();
+        }
     }
 
     export default {
         components: {Route, NavLink},
-        data: () => (Object.assign({},
-            {
-                pageTitle: null,
-                routeUrl: null,
-                demoTitle: appRoutes.componentPath,
-                currentRoute: '',
-                path: '/components/:demo',
-                innerComponent: false,
-                links: [
-                    ['Button', '/components/button/'],
-                    ['Generic', '/components/generic/'],
-                    ['Feed', '/components/feed/']
-                ]
-            }, appRoutes)
-        ),
+        data() {
+            const globalRoutes = findGlobalRoutes();
+            return Object
+                .assign({}, {
+                    pageTitle: null,
+                    routeUrl: null,
+                    demoTitle: 'Demo',
+                    currentRoute: '',
+                    path: '/components/:demo',
+                    links: [
+                        ['Button', '/components/button/'],
+                        ['Generic', '/components/generic/'],
+                        ['Feed', '/components/feed/']
+                    ]
+                }, globalRoutes);
+        },
         oncreate() {
             // console.log('Demo Router Creation:', this);
-            this.set({'initialRoute': this.get('pathname')});
-
-            appRoutes.innerComponent.requireAsync().then((comp) => {
-                console.log(comp)
-                this.set({'innerComponent': comp})
-            })
+            store.set({'initialRoute': this.get('pathname')});
 
 
             this.refs.router.observe('match', (match) => { // eslint-disable-line
-                const initial = this.get('initialRoute');
+                const initial = store.get('initialRoute');
                 const current = match && match.url;
                 console.log(match);
                 console.log(current, initial);
 
                 if (current && current !== initial && match) {
                     let component = asyncRequire(match.params.demo);
-                    component.requireAsync().then((comp) => {
+                    component.Async().then((comp) => {
                         this.set({'innerComponent': findExport(comp)});
-                        this.set({'initialRoute': false});
+                        store.set({'initialRoute': false});
                         store.set({'pageTitle': capitalize(match.params.demo)});
                     })
                 }

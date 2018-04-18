@@ -5,6 +5,7 @@
  */
 
 const _eval = require('eval');
+const vm = require('vm');
 
 function evaluateTemplatePlugin(options) {
     options = options || {};
@@ -47,11 +48,12 @@ evaluateTemplatePlugin.prototype.init = function(htmlPluginData, callback, compi
         return callback(null, htmlPluginData);
     }
     const assetName = htmlPluginData.plugin.options.evalPlugin.assetName;
+    const assetPath = htmlPluginData.plugin.options.evalPlugin.assetPath;
     this.evalContext = Object.assign({}, this.evalContext, htmlPluginData.plugin.options.evalPlugin.context || {});
 
     const manifest = this.manifest ? this.getSource(this.manifest, compilation, callback) : false;
     const source = manifest ? manifest + this.getSource(assetName, compilation, callback) : this.getSource(assetName, compilation, callback);
-    const context = this.evaluateSource(assetName, source, callback);
+    const context = this.evaluateSource(assetPath, source, callback);
 
     htmlPluginData.plugin.options.evaledTemplate = this.templateHtml(htmlPluginData, context, source, compilation, callback);
 
@@ -76,7 +78,8 @@ evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context
 evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, callback) { //eslint-disable-line
     try {
         const asset = compilation.assets[assetName];
-        //console.log('assetName', assetName);
+        console.log('assetName', assetName);
+        debugger;
         const source = asset ? asset.source() : `module.exports = "No asset (${assetName}) found."`;
 
         return source;
@@ -90,6 +93,7 @@ evaluateTemplatePlugin.prototype.evaluateSource = function(assetName, source, ca
     try {
         console.log(assetName, ':\n', this.evalContext);
         const context = _eval(source, assetName, this.evalContext, true);
+        // const context = vm.
         // Allow for es6 modules
         if (context.default) {
             return typeof context.default === 'function' ? context.default() : context.default;

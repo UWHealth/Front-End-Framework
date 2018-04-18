@@ -33,7 +33,9 @@ module.exports = function(isNode) {
     if (!isNode) {
         config.plugins.unshift(["syntax-dynamic-import"])
     }
-    //"dynamic-import-node"
+    else {
+        config.plugins.unshift(["dynamic-import-node"])
+    }
 
     return config;
 };

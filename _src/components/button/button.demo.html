@@ -18,13 +18,12 @@
             <Button type="{{buttonType}}" body="{{capitalize(buttonType)}}"/>
         </div>
         {{/each}}
-
     </div>
 </Demo>
 
 <script>
     import Button from './button.html';
-    import Demo from '../demo/demo.wrapper.html';
+    import Demo from '@/components/demo/demo.wrapper.html';
     import capitalize from '@/components/tools/title-case';
 
     export default {
@@ -38,7 +37,7 @@
                 // asyncButton: {
                 //     loader: () => import('./button.html'),
                 //     webpack: () => require.resolveWeak('./button.html'),
-                //     attrs: {
+                //     props: {
                 //         width: ['wide'],
                 //         body: 'Async button'
                 //     }

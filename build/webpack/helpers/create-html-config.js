@@ -65,7 +65,7 @@ function boostrapConfig(options, folderName) {
     const config = cloneDeep(options.baseConfig);
 
     // Unify paths
-    config.context = path.resolve(__dirname, '..');
+    config.context = path.resolve(process.cwd());
     config.output.publicPath = path.resolve(options.baseDist, options.outputPath) + '/';
     config.output.path = options.outputPath;
     config.resolve.modules = ["node_modules"];
@@ -78,6 +78,13 @@ function boostrapConfig(options, folderName) {
     config.target = "node";
     config.output.libraryTarget = "commonjs2";
     config.output.library = options.nameSpace;
+    config.node = {
+        console: false,
+        __dirname: true,
+        __filename: true,
+        Buffer: false,
+        setImmediate: false
+    };
     // config.output.globalObject = "this";
 
     // Give js files a namespace
@@ -95,7 +102,8 @@ function boostrapConfig(options, folderName) {
                     dev: !MODE.production,
                     hydratable: true,
                     store: true,
-                    preserveComments: true
+                    preserveComments: true,
+                    prerender: true
                 }
             }
         }
@@ -159,6 +167,7 @@ function addHtmlPlugins(options) {
                 pageTitle: baseName,
                 evalPlugin: {
                     assetName: assetName,
+                    assetPath: path.resolve(process.cwd(), 'dist', assetName),
                     context: {
                         window: undefined,
                         document: undefined,
@@ -180,17 +189,23 @@ function addHtmlPlugins(options) {
         new EvalTemplatePlugin({
             templating: function(source, raw, htmlPluginData, compilation) { // eslint-disable-line
                 if (options.debug) { console.log('SOURCE', source); }
-                //console.log(compilation.chunks);
+
                 const render = (source && typeof source.render !== 'undefined') ? source.render || source.toString() : source;
 
                 const page = (typeof render === 'function') ? render() : render;
-                htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +
-                    `${raw.replace(/<\/script>/g, '<\\/script>').replace('pathname: history.location.pathname', 'pathname: window.location.pathname')}\n return ${options.nameSpace}}</script>`;
+                const opts = htmlPluginData.plugin.options.evalPlugin;
+
                 htmlPluginData.plugin.options.sourceScript = `
                 <script>
-                var __APP_ROUTES__ = {
-                    initialRoute: '${htmlPluginData.plugin.options.evalPlugin.context.__APP_ROUTES__.pathname}',
-                    componentPath: '${htmlPluginData.plugin.options.evalPlugin.context.__APP_ROUTES__.componentPath}'}</script>`;
+                    var __APP_ROUTES__ = {
+                        initialRoute: '${opts.context.__APP_ROUTES__.pathname}',
+                        componentPath: '${opts.context.__APP_ROUTES__.componentPath}'
+                    }
+                </script>`;
+
+                htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +
+                    `${raw.replace(/<\/script>/g, '<\\/script>').replace('pathname: history.location.pathname', 'pathname: window.location.pathname')}\n return ${options.nameSpace}}</script>`;
+
                 return page;
             }
         })
