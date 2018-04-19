@@ -40,7 +40,7 @@
         },
         methods: {
             async getComponent() {
-                let loader = this.get('loader');
+                let {loader} = this.get();
 
                 try {
                     if (loader) {

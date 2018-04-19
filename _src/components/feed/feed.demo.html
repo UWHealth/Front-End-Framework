@@ -29,20 +29,23 @@
         },
         methods: {
             fetchFeed() {
-                return fetch(this.get('feedUrl')).then(r => r.json()).catch(e => { return Promise.reject(e) });
+                const {feedUrl} = this.get();
+                return fetch(feedUrl).then(r => r.json());
             }
         },
         oncreate() {
-            if (store.get('feedResults')) {
-                this.set({"feedResults": store.get('feedResults')});
+            if (store.get()['feedResults']) {
+                this.set({"feedResults": store.get()['feedResults']});
             }
             else {
                 const feed = this.fetchFeed();
                 feed.then((feed) => {
                     this.set({"feedResults": feed.results});
                     store.set({'feedResults': feed.results});
-                })
-                .catch(e => console.log(e));
+                }).catch(e => {
+                    console.log(e);
+                    return e;
+                });
 
             };
         }

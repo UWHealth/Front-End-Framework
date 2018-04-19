@@ -23,72 +23,41 @@
     import NavLink from 'svelte-routing/NavLink.html';
     import store from './demo.store.js';
     import capitalize from '@/components/tools/title-case';
-    import findExport from '../tools/find-export.js';
-    import { createMemoryHistory, createBrowserHistory, getHistory, matchPath } from 'svelte-routing';
-    import path from 'path';
+    import findExport from '@/components/tools/find-export.js';
+    import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
 
-    function asyncRequire(pathname) {
-        __dirname = path.resolve(process.cwd());
+    const appState = typeof window !== 'undefined' ? window.__APP_STATE__ : global.__APP_STATE__;
 
+    function splitRequire(pathname) {
         const component = import(
-            /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
+            /* "webpackChunkName": "components/routes/[request]" */
             '@/components/' + pathname + '/' + pathname + '.demo.html');
 
-        const modID = require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
+        const modID = () => require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
 
         return {
-            Sync: function() { return __webpack_require__(modID) },
-            Async: function() { return component }
-        }
-
-        // return requireUniversal(() => import(
-        //     /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
-        //     '@/components/' + pathname + '/' + pathname + '.demo.html'
-        // ), {
-        //     resolve: require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html'),
-        //     chunkName: "demo-routes/[request]"
-        // });
+            Sync: () => __webpack_require__(modID()),
+            Async: () => component
+        };
     }
-
-    /* globals __APP_ROUTES__ */
-    const appRoutes = typeof window !== 'undefined' ? window.__APP_ROUTES__ : __APP_ROUTES__;
 
     function findGlobalRoutes() {
         if (typeof window === 'undefined') {
             createMemoryHistory();
-            const pathname = appRoutes.componentPath;
+            const pathname = appState.componentPath;
+            // debugger;
+            const innerComponent = splitRequire(pathname);
+            appState.innerComponent = innerComponent.Sync();
 
-            // const tools = asyncRequire(appRoutes.componentPath);
-            // const { requireSync, requireAsync, addModule, mod } = tools;
-            //
-            // const component = requireSync();
-
-            // let innerComponent = require.resolveWeak(
-            //     /* "webpackChunkName": "demo-routes/[request]", "webpackMode": "lazy" */
-            //     '@/components/' + pathname + '/' + pathname + '.demo.html'); //__webpack_require__(path.resolve(__dirname, 'components', component));
-            // innerComponent =
-            //     innerComponent
-            //         .replace('_src', 'dist')
-            //         .replace('.demo.html', '')
-            //         .replace('./..', '') + '.demo.js';
-            //
-            // console.log('PATH', path.resolve(innerComponent));
-            // console.log('-----\n', __non_webpack_require__(innerComponent));
-            //debugger;
-
-            __dirname = path.resolve(process.cwd());
-
-            const innerComponent = asyncRequire(pathname).Sync();
-
-            appRoutes.innerComponent = innerComponent;
-
-            return appRoutes;
+            return appState;
         }
         else {
             createBrowserHistory();
-            appRoutes.innerComponent = asyncRequire(appRoutes.componentPath).Sync();
+            appState.innerComponent = splitRequire(appState.componentPath).Sync();
         }
     }
+
+    store.set({'pageTitle': appState.componentPath});
 
     export default {
         components: {Route, NavLink},
@@ -109,23 +78,17 @@
                 }, globalRoutes);
         },
         oncreate() {
-            // console.log('Demo Router Creation:', this);
-            store.set({'initialRoute': this.get('pathname')});
+            this.refs.router.on('update', ({ changed, current, previous }) => {
+                if (changed.match) {
+                    const match = current.match;
+                    const component = splitRequire(match.params.demo);
+                    console.info(match);
 
-
-            this.refs.router.observe('match', (match) => { // eslint-disable-line
-                const initial = store.get('initialRoute');
-                const current = match && match.url;
-                console.log(match);
-                console.log(current, initial);
-
-                if (current && current !== initial && match) {
-                    let component = asyncRequire(match.params.demo);
                     component.Async().then((comp) => {
                         this.set({'innerComponent': findExport(comp)});
                         store.set({'initialRoute': false});
                         store.set({'pageTitle': capitalize(match.params.demo)});
-                    })
+                    });
                 }
             });
         },

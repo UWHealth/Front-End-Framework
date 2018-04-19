@@ -20,7 +20,7 @@
     {{then response}}
         <Results ref:feedList results="{{response.results}}" :page :MAX_PER_PAGE/>
     {{catch error}}
-        <p>{{error}}</p>
+        <p>Feed load error: {{{error}}}</p>
     {{/await}}
 
 {{/if}}
@@ -45,14 +45,15 @@
 
     export default {
         components: { Results },
-        oncreate() {
-            const feedTop = document.getElementById('feedTop').offsetTop;
-
-            this.observe('page', (page) => {
+        onupdate({ changed, current, previous }) {
+            if (changed.page) {
                 if (typeof window !== 'undefined') {
-                    window.scroll(0, feedTop);
+                    window.scroll(0, this.get()["feedTop"]);
                 }
-            });
+            }
+        },
+        oncreate() {
+            this.set({ 'feedTop': document.getElementById('feedTop').offsetTop });
         },
         store: () => store
     };
