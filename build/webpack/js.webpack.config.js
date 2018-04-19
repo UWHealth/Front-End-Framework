@@ -61,7 +61,7 @@ config.optimization.splitChunks = {
             priority: 1,
             minChunks: 1,
             filename: "svelteShared.js",
-            chunks: "async"
+            chunks: "all"
         },
     }
 };
@@ -69,16 +69,23 @@ config.optimization.splitChunks = {
 config.module.rules.push(
     {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules)/,
+        exclude: (mod) => {
+            !MODE.production ? /(node_modules)/.test(mod) : false
+        },
+        enforce: "post",
         use: {
             loader: 'babel-loader',
-            options: babelConfig(false)
+            options: babelConfig(false),
         }
     },
 
     {
         test: /\.(html|sv\.html|svelte)$/,
         use: [
+            // {
+            //     loader: 'babel-loader',
+            //     options: babelConfig(false)
+            // },
             {
                 loader: 'svelte-loader',
                 options: {
@@ -111,23 +118,23 @@ if (MODE.production) {
         portableRecords: true,
         minimizer: [
 
-            new ClosureCompilerPlugin({
-                compiler: {
-                    language_in: 'ECMASCRIPT_2017',
-                    language_out: 'ECMASCRIPT5_STRICT',
-                    compilation_level: 'SIMPLE',
-                    dependency_mode: 'LOOSE',
-                    rewrite_polyfills: true,
-                    create_source_map: true,
-                },
-                concurrency: 3
-            }),
+            // new ClosureCompilerPlugin({
+            //     compiler: {
+            //         language_in: 'ECMASCRIPT_2017',
+            //         language_out: 'ECMASCRIPT5_STRICT',
+            //         compilation_level: 'SIMPLE',
+            //         dependency_mode: 'LOOSE',
+            //         rewrite_polyfills: true,
+            //         create_source_map: true,
+            //     },
+            //     concurrency: 3
+            // }),
 
             new UglifyJsPlugin({
                 uglifyOptions: {
                     ecma: 5,
                     ie8: false,
-                    beautify: false,
+                    beautify: true,
                     mangle: true,
                     compress: true,
                     comments: false,

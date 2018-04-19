@@ -5,7 +5,9 @@
  *
  */
 
+const path     = require('path');
 const cwd      = process.cwd();
+
 const PATHS    = require(cwd + '/config/paths.config.js');
 const MODE     = require(cwd + '/build/tools/mode.js');
 const BROWSERS = require(cwd + '/package.json').browserslist;
@@ -16,15 +18,18 @@ const config = {
     devtool: 'cheap-source-map',
     resolve: {
         symlinks: false,
-        modules: ['node_modules'],
+        modules: [
+            path.resolve(cwd, 'node_modules'),
+            'node_modules'
+        ],
         mainFields: ["svelte", "module", "main"],
         alias: {
             // Allow for local imports without relative paths
-            '@': PATHS.folders.src
+            '@': PATHS.folders.src,
         }
     },
     watchOptions: {
-        ignored: /node_modules/
+        ignored: /(node_modules|dist)/
     },
     output: {},
     plugins: [],

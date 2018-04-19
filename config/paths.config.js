@@ -179,7 +179,7 @@ Object.assign(PATHS, {
             "style": `${pub}/css/styleguide.css`,
             "config": `${config}/styleguide.conf.js`
         },
-        "dest": `${path.relative(root, pub)}/styleguide/index.html`
+        "dest": `${pub}/styleguide/index.html`
     },
     browserSync: {
         "entry": {

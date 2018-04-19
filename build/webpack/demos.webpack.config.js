@@ -16,7 +16,7 @@ const config = htmlConfig({
     dest: PATHS.demos.dest,
     nameSpace: "demo",
     sourceExtension: ".demo.html",
-    debug: true,
+    debug: false,
     assetName: "demo-router.demo.js"
 });
 

@@ -1,7 +1,6 @@
 import domReady from "@/js/modules/dom-ready";
 import 'promise-polyfill/src/polyfill';
 import store from '@/components/demo/demo.store.js';
-import runtime from 'sapper/runtime.js';
 import Router from '@/components/demo/demo.routes.html';
 import {Registry, configure, createProxy} from 'svelte-dev-helper';
 
@@ -17,7 +16,7 @@ domReady(() => {
         const currentRoute = document.getElementById('currentRoute').innerHTML.toLowerCase();
 
         import(
-            /* "webpackChunkName": "routes" */
+            /* "webpackChunkName": "routes/[request]" */
             '@/components/'+ currentRoute + '/' + currentRoute + '.demo.html'
         ).then((App) => {
 
@@ -29,17 +28,6 @@ domReady(() => {
                     pathname: window.location.pathname
                 }
             });
-
-            // console.log(currentRoute)
-            //
-            // application =
-            //     new App["default"]({
-            //         target: appElement,
-            //         hydrate: true,
-            //         data: {
-            //             thisPath: window.location.pathname
-            //         }
-            //     });
 
             window.__APP__ = application;
 

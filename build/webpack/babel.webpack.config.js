@@ -2,39 +2,52 @@ const BROWSERS = require(process.cwd() + '/package.json').browserslist;
 
 module.exports = function(isNode) {
     const targets = isNode ?
-    {"node": "current" }
+    { "node": "current" }
     :
-    {"browsers": BROWSERS };
+    { "browsers": BROWSERS };
 
     const config = {
         cacheDirectory: true,
         auxiliaryCommentBefore: "Babel»",
         presets: [
-            ["env", {
+            ["@babel/preset-env", {
                 "targets": targets,
-                "useBuiltIns": true,
+                "useBuiltIns": false,
+                "helpers": true,
+                "polyfill": true,
                 "loose": true,
                 "modules": false,
-                "babelrc": isNode ? false : true
-                // "debug": true
+                "useESModules": true,
+                "ignoreBrowserslistConfig": true,
+                "debug": false,
             }]
         ],
         plugins: [
-            ["transform-runtime", {
+            ["@babel/plugin-transform-runtime", {
+                "useBuiltIns": false,
                 "helpers": true,
                 "polyfill": true,
-                "regenerator": false,
                 "loose": true,
-                "modules": false
+                "modules": false,
+                "useESModules": true
             }]
+            // ["transform-runtime", {
+            //     "helpers": false,
+            //     "polyfill": true,
+            //     "regenerator": false,
+            //     "loose": true,
+            //     "modules": false,
+            //     "useESModules": true,
+            //     "useBuiltIns": true
+            // }]
         ]
     };
 
     if (!isNode) {
-        config.plugins.unshift(["syntax-dynamic-import"])
+        config.plugins.push(["syntax-dynamic-import"])
     }
     else {
-        config.plugins.unshift(["dynamic-import-node"])
+        config.plugins.push(["dynamic-import-node"])
     }
 
     return config;

@@ -78,8 +78,6 @@ evaluateTemplatePlugin.prototype.templateHtml = function(htmlPluginData, context
 evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, callback) { //eslint-disable-line
     try {
         const asset = compilation.assets[assetName];
-        console.log('assetName', assetName);
-        debugger;
         const source = asset ? asset.source() : `module.exports = "No asset (${assetName}) found."`;
 
         return source;
@@ -91,18 +89,17 @@ evaluateTemplatePlugin.prototype.getSource = function(assetName, compilation, ca
 
 evaluateTemplatePlugin.prototype.evaluateSource = function(assetName, source, callback) {
     try {
-        console.log(assetName, ':\n', this.evalContext);
         const context = _eval(source, assetName, this.evalContext, true);
-        // const context = vm.
         // Allow for es6 modules
-        if (context.default) {
-            return typeof context.default === 'function' ? context.default() : context.default;
-        }
-        return context;
+        return getExport(context);
     }
     catch (err) {
         return callback(err);
     }
 }
+
+function getExport(mod) {
+    return mod && typeof mod === 'object' && mod.__esModule ? mod["default"] : mod;
+};
 
 module.exports = evaluateTemplatePlugin;

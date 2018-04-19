@@ -73,6 +73,9 @@ function boostrapConfig(options, folderName) {
     // Make logging simpler (excluding chunks and js from logging)
     config.stats = STATS(true);
 
+    config.optimization.minimize = false;
+    config.optimization.splitChunks.chunks = "initial";
+    config.optimization.splitChunks.minSize = Infinity;
     // Make node compatible so we can evaluate templates in memory
     config.devtool = MODE.production ? 'source-map' : false;
     config.target = "node";
@@ -155,7 +158,7 @@ function addHtmlPlugins(options) {
         const entryName = path.join(options.folderName, baseName, baseName);
         const assetName = options.assetName !== "auto" ? options.assetName : `${entryName}.${options.nameSpace}.js`;
 
-        //console.log('ASSET NAME', `/${options.folderName}/${baseName}/`);
+        if (options.debug) { console.log('ASSET NAME', `/${options.folderName}/${baseName}/`); }
 
         plugins.push(
             new HtmlPlugin({
@@ -173,7 +176,7 @@ function addHtmlPlugins(options) {
                         document: undefined,
                         __dirname: path.resolve(process.cwd(), 'dist'),
                         __filename: path.resolve(process.cwd(), 'dist', assetName),
-                        __APP_ROUTES__: {
+                        __APP_STATE__: {
                             pathname: `/${options.folderName}/${baseName}/`,
                             componentPath: `${baseName}`,
                             pageTitle: baseName
@@ -197,9 +200,9 @@ function addHtmlPlugins(options) {
 
                 htmlPluginData.plugin.options.sourceScript = `
                 <script>
-                    var __APP_ROUTES__ = {
-                        initialRoute: '${opts.context.__APP_ROUTES__.pathname}',
-                        componentPath: '${opts.context.__APP_ROUTES__.componentPath}'
+                    var __APP_STATE__ = {
+                        initialRoute: '${opts.context.__APP_STATE__.pathname}',
+                        componentPath: '${opts.context.__APP_STATE__.componentPath}'
                     }
                 </script>`;
 
