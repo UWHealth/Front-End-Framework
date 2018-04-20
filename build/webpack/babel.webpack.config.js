@@ -1,4 +1,5 @@
 const BROWSERS = require(process.cwd() + '/package.json').browserslist;
+const MODE = require(process.cwd() + '/build/tools/mode');
 
 module.exports = function(isNode) {
     const targets = isNode ?
@@ -12,24 +13,21 @@ module.exports = function(isNode) {
         presets: [
             ["@babel/preset-env", {
                 "targets": targets,
-                "useBuiltIns": false,
-                "helpers": true,
-                "polyfill": true,
                 "loose": true,
                 "modules": false,
-                "useESModules": true,
+                "useESModules": MODE.production ? true : false,
                 "ignoreBrowserslistConfig": true,
                 "debug": false,
             }]
         ],
         plugins: [
             ["@babel/plugin-transform-runtime", {
-                "useBuiltIns": false,
-                "helpers": true,
-                "polyfill": true,
+                "useBuiltIns": 'entry',
+                "helpers": false,
+                "polyfill": false,
                 "loose": true,
                 "modules": false,
-                "useESModules": true
+                "useESModules": MODE.production ? true : false
             }]
             // ["transform-runtime", {
             //     "helpers": false,

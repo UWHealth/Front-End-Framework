@@ -44,33 +44,6 @@ const config = {
 
 module.exports.manifestSeed = {seed: {name: 'Webpack Manifest'}};
 
-module.exports.babel = {
-    cacheDirectory: true,
-    auxiliaryCommentBefore: "Babel»",
-    presets: [
-        ["env", {
-            "targets": {
-                "browsers": BROWSERS,
-            },
-            "useBuiltIns": true,
-            "loose": true,
-            "modules": false,
-            "debug": true
-        }]
-    ],
-    plugins: [
-        ["syntax-dynamic-import"],
-        ["transform-imports"],
-        ["transform-runtime", {
-            "helpers": true,
-            "polyfill": true,
-            "regenerator": false,
-            "loose": true,
-            "modules": false
-        }],
-    ]
-};
-
 /*
  * Loaders
  * 1. Babel

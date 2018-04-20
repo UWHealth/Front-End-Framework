@@ -72,7 +72,6 @@ config.module.rules.push(
         exclude: (mod) => {
             !MODE.production ? /(node_modules)/.test(mod) : false
         },
-        enforce: "post",
         use: {
             loader: 'babel-loader',
             options: babelConfig(false),
@@ -82,10 +81,10 @@ config.module.rules.push(
     {
         test: /\.(html|sv\.html|svelte)$/,
         use: [
-            // {
-            //     loader: 'babel-loader',
-            //     options: babelConfig(false)
-            // },
+            {
+                loader: 'babel-loader',
+                options: babelConfig(false)
+            },
             {
                 loader: 'svelte-loader',
                 options: {
