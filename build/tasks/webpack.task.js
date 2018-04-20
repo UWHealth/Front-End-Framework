@@ -30,7 +30,9 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
             const info = stats.toJson();
 
             if (stats.hasErrors()) {
-                return LOG.error(name + ' ' + new Error(info.errors));
+                return info.errors.forEach(err => {
+                    LOG.error(name + err);
+                });
             }
 
             // if (stats.hasWarnings()) {
@@ -88,42 +90,3 @@ function startWebpack(done) {
 }
 
 module.exports = startWebpack;
-
-// module.exports = (done) => {
-//     startWebpack(compiler, watchOptions, done);
-
-
-    // const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-    // const compiler = webpack(webpackConfigs);
-    //
-    // compiler.apply(new FriendlyErrorsWebpackPlugin({
-    //     compilationSuccessInfo: {
-    //         // messages: ['You application is running here http://localhost:3000'],
-    //         // notes: ['Some additional notes to be displayed unpon successful compilation']
-    //     },
-    //     onErrors: function (severity, errors) {},
-    //     // default is true
-    //     clearConsole: false,
-    //     additionalFormatters: [],
-    //     additionalTransformers: []
-    //
-    // }));
-    //
-    // compiler.run(() => done());
-
-    // NOTE: Parallel webpack is great for performance,
-    //  but has an issue with killing its own processes, causing very expensive memory leaks.
-    // If a project is large enough, this tradeoff might be worth it.
-    // See https://github.com/trivago/parallel-webpack/issues/57
-
-    // require('parallel-webpack').run(require.resolve('../webpack/webpack.combined.config.js'),
-    //     {
-    //         watch: true,
-    //         silent: true,
-    //         maxRetries: 1,
-    //         stats: true, // defaults to false
-    //         maxConcurrentWorkers: 2 // use 2 workers
-    //     },
-    //     done
-    // );
-// };
