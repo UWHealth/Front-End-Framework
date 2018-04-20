@@ -82,11 +82,8 @@ function boostrapConfig(options, folderName) {
     config.output.libraryTarget = "commonjs2";
     config.output.library = options.nameSpace;
     config.node = {
-        console: false,
         __dirname: true,
-        __filename: true,
-        Buffer: false,
-        setImmediate: false
+        __filename: true
     };
     // config.output.globalObject = "this";
 
