@@ -35,6 +35,11 @@
 
         const modID = () => require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
 
+        if (typeof window === 'undefined') {
+            debugger;
+            delete require.cache[modID()];
+        }
+
         return {
             Sync: () => __webpack_require__(modID()),
             Async: () => component

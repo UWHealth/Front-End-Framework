@@ -31,6 +31,10 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
 
             if (stats.hasErrors()) {
                 return info.errors.forEach(err => {
+                    if (!MODE.production && !ARGS.stats) {
+                        console.log(err.split('\n')[0]);
+                        //err =
+                    }
                     LOG.error(name + err);
                 });
             }
