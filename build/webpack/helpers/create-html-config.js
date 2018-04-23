@@ -74,8 +74,11 @@ function boostrapConfig(options, folderName) {
     config.stats = STATS(true);
 
     config.optimization.minimize = false;
-    config.optimization.splitChunks.chunks = "initial";
-    config.optimization.splitChunks.minSize = Infinity;
+    config.optimization.splitChunks.chunks = "async";
+    config.optimization.splitChunks.minSize = 99999999;
+    config.optimization.splitChunks.minChunks = 100;
+    config.optimization.splitChunks.maxInitialRequests = 1;
+    config.optimization.splitChunks.maxAsyncRequests = 1;
     // Make node compatible so we can evaluate templates in memory
     config.devtool = MODE.production ? 'source-map' : false;
     config.target = "node";
