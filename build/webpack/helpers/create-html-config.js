@@ -79,9 +79,10 @@ function boostrapConfig(options, folderName) {
     config.optimization.splitChunks.minChunks = 100;
     config.optimization.splitChunks.maxInitialRequests = 1;
     config.optimization.splitChunks.maxAsyncRequests = 1;
+    config.optimization.splitChunks.cacheGroups = { default: false };
     // Make node compatible so we can evaluate templates in memory
     config.devtool = MODE.production ? 'source-map' : false;
-    config.target = "node";
+    config.target = "async-node";
     config.output.libraryTarget = "commonjs2";
     config.output.library = options.nameSpace;
     config.node = {
@@ -128,7 +129,7 @@ function addEntryPoints(options) {
     options.files.forEach((file) => {
         const baseName = path.basename(file, options.sourceExtension);
         const entryName = path.join(options.folderName, baseName, baseName);
-        //console.log(entryName);
+        // console.log(entryName);
 
         entryPoints[entryName] = file;
     });
@@ -217,20 +218,20 @@ function addHtmlPlugins(options) {
     return plugins;
 }
 
-const reviver = "window.parsedObject = JSON.parse(serialized, function(key, value){\n\t" +
-  "if (typeof value === 'string'" +
-      "&& value.indexOf('function ') === 0) {\n\t\t"+
-    "let functionTemplate = 'return ' + value;\n\t\t" +
-    "return new Function(functionTemplate);\n\t\t" +
-  "} return value;}\n" +
-"\n );";
+// const reviver = "window.parsedObject = JSON.parse(serialized, function(key, value){\n\t" +
+//   "if (typeof value === 'string'" +
+//       "&& value.indexOf('function ') === 0) {\n\t\t"+
+//     "let functionTemplate = 'return ' + value;\n\t\t" +
+//     "return new Function(functionTemplate);\n\t\t" +
+//   "} return value;}\n" +
+// "\n );";
 
-function replacer (key, value) {
-  // if we get a function, give us the code for that function
-  if (typeof value === 'function') {
-    return value.toString().replace(/<\/script>/g, '<\\/script>');
-  }
-  return value;
-}
+// function replacer (key, value) {
+//   // if we get a function, give us the code for that function
+//   if (typeof value === 'function') {
+//     return value.toString().replace(/<\/script>/g, '<\\/script>');
+//   }
+//   return value;
+// }
 
 module.exports = createHtmlConfig;

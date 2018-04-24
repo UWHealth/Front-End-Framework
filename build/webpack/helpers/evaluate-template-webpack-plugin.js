@@ -24,7 +24,7 @@ evaluateTemplatePlugin.prototype.apply = function(compiler) {
 
     // Webpack 4+
     if (compiler.hooks) {
-        compiler.hooks.compilation.tap('EvalTemplatePlugin', function (compilation) {
+        compiler.hooks.afterEmit.tap('EvalTemplatePlugin', function (compilation) {
             compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration.tapAsync(
                 'EvalTemplatePlugin',
                 (plugin, cb) => { self.init(plugin, cb, compilation); }
@@ -42,7 +42,7 @@ evaluateTemplatePlugin.prototype.apply = function(compiler) {
     }
 };
 
-evaluateTemplatePlugin.prototype.init = function(htmlPluginData, callback, compilation) {
+evaluateTemplatePlugin.prototype.init = function(htmlPluginData, callback, compilation) { // eslint-disable-line
     if (!htmlPluginData.plugin.options.evalPlugin || !htmlPluginData.plugin.options.evalPlugin.assetName) {
         // throw new Error('No options found for evaluate-template-plugin in html-webpack-plugin options.');
         return callback(null, htmlPluginData);

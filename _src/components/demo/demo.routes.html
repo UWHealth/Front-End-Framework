@@ -18,8 +18,8 @@
 </div>
 
 <script>
-    import Route from 'svelte-routing/Route.html';
-    import NavLink from 'svelte-routing/NavLink.html';
+    import Route from 'babel-loader!svelte-routing/Route.html';
+    import NavLink from 'babel-loader!svelte-routing/NavLink.html';
     import store from './demo.store.js';
     import capitalize from '@/components/tools/title-case';
     import findExport from '@/components/tools/find-export.js';
@@ -34,10 +34,9 @@
 
         const modID = () => require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
 
-        if (typeof window === 'undefined') {
-            debugger;
-            delete require.cache[modID()];
-        }
+        // if (typeof window === 'undefined') {
+        //     delete require.cache[modID()];
+        // }
 
         return {
             Sync: () => __webpack_require__(modID()),
@@ -49,8 +48,8 @@
         if (typeof window === 'undefined') {
             createMemoryHistory();
             const pathname = appState.componentPath;
-            // debugger;
             const innerComponent = splitRequire(pathname);
+            debugger;
             appState.innerComponent = innerComponent.Sync();
 
             return appState;
