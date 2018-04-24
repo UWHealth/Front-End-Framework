@@ -24,7 +24,7 @@ evaluateTemplatePlugin.prototype.apply = function(compiler) {
 
     // Webpack 4+
     if (compiler.hooks) {
-        compiler.hooks.afterEmit.tap('EvalTemplatePlugin', function (compilation) {
+        compiler.hooks.compilation.tap('EvalTemplatePlugin', function (compilation) {
             compilation.hooks.htmlWebpackPluginBeforeHtmlGeneration.tapAsync(
                 'EvalTemplatePlugin',
                 (plugin, cb) => { self.init(plugin, cb, compilation); }
