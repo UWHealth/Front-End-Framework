@@ -1,6 +1,6 @@
 {{#if results}}
     {{#each results.result.slice(pageStart, pageEnd) as result @title}}
-        <div class="media-object">
+        <div class="media-object" in:slide='{duration: 300, easing: cubicOut}' out:fade='{duration: 100}'>
             {{#if description(result.description).image}}
                 <div class="media-object__media">
                 {{{description(result.description).image}}}
@@ -23,11 +23,12 @@
 </style>
 
 <script>
-    // import { slide } from 'svelte-transitions';
-    // import { cubicOut } from 'eases-jsnext';
+    import { slide, fade } from 'svelte-transitions';
+    import { cubicOut } from 'eases-jsnext';
     import decodeEntities from '../tools/decode-html.js';
 
     export default {
+        transitions: { slide, fade },
         data() {
             return {
                 results: false,
@@ -43,9 +44,8 @@
                 return pageStart + MAX_PER_PAGE + 1;
             }
         },
-        // transitions: { slide },
         helpers: {
-            // cubicOut,
+            cubicOut,
             description: (description) => {
                 let text = Array.isArray(description) ? description[2] : description;
                 let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);

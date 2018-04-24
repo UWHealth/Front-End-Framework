@@ -1,5 +1,6 @@
 <:Head>
     <title>→ {{$pageTitle || demoTitle}} demo</title>
+    <link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
 </:Head>
 
 <!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
@@ -9,8 +10,6 @@
         <NavLink ref:url to="{{url}}" className="demo-navigation__link">{{name}}</NavLink>
     {{/each}}
 </nav>
-<!---->
-<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
 
 <div>
 <Route hydrate="{{true}}" ref:router bind:pathname bind:path>
@@ -58,11 +57,11 @@
         }
         else {
             createBrowserHistory();
-            appState.innerComponent = splitRequire(appState.componentPath).Sync();
+            appState.innerComponent = splitRequire(appState.componentPath).Sync()["default"];
+            console.log(appState.innerComponent);
+            return appState;
         }
     }
-
-    store.set({'pageTitle': appState.componentPath});
 
     export default {
         components: {Route, NavLink},
@@ -83,6 +82,8 @@
                 }, globalRoutes);
         },
         oncreate() {
+            store.set({'pageTitle': capitalize(appState.componentPath)});
+            console.log(this.get()["innerComponent"])
             this.refs.router.on('update', ({ changed, current, previous }) => {
                 if (changed.match) {
                     const match = current.match;

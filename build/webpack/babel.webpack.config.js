@@ -29,20 +29,11 @@ module.exports = function(isNode) {
                 "modules": false,
                 "useESModules": MODE.production ? true : false
             }]
-            // ["transform-runtime", {
-            //     "helpers": false,
-            //     "polyfill": true,
-            //     "regenerator": false,
-            //     "loose": true,
-            //     "modules": false,
-            //     "useESModules": true,
-            //     "useBuiltIns": true
-            // }]
         ]
     };
 
     if (!isNode) {
-        config.plugins.push(["syntax-dynamic-import"])
+        config.plugins.push(["syntax-dynamic-import"], ["transform-object-assign"])
     }
     else {
         config.plugins.push(["dynamic-import-node"])

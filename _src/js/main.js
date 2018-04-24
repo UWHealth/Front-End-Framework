@@ -13,7 +13,7 @@ domReady(() => {
     const appElement = document.getElementById('app');
 
     if (appElement) {
-        const currentRoute = document.getElementById('currentRoute').innerHTML.toLowerCase();
+        const currentRoute = window.__APP_STATE__.componentPath;
 
         import(
             /* "webpackChunkName": "routes/[request]" */
@@ -24,7 +24,7 @@ domReady(() => {
                 hydrate: true,
                 target: appElement,
                 data: {
-                    innerComponent: App['default'],
+                    innerComponent: App["default"],
                     pathname: window.location.pathname
                 }
             });

@@ -17,7 +17,7 @@ const config = htmlConfig({
     nameSpace: "demo",
     sourceExtension: ".demo.html",
     debug: false,
-    assetName: "demo-router.demo.js"
+    assetName: "auto"
 });
 
 config.entry["demo-router"] = `${PATHS.demos.folders.root}/demo/demo.routes.html`;
