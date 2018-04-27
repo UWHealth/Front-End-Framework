@@ -15,10 +15,9 @@
     "author": "UW Health Web Center",
     "license": "ISC",
     "browserslist": [
-        "> 1%",
-        "last 2 versions",
+        ">0.5%",
         "ie >= 10",
-        "chrome >= 58",
+        "chrome >= 60",
         "firefox >= 53",
         "safari >= 10",
         "edge >= 14"
@@ -34,13 +33,12 @@
         "babel-plugin-dynamic-import-node": "^1.2.0",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
         "babel-plugin-transform-imports": "^1.4.1",
+        "babel-plugin-transform-object-assign": "^6.22.0",
         "browser-sync": "^2.23.3",
         "bundle-loader": "^0.5.5",
         "chalk": "^2.3.0",
-        "cli-spinners": "^1.1.0",
         "css-declaration-sorter": "^3.0.1",
         "del": "^3.0.0",
-        "draftlog": "^1.0.12",
         "eslint": "^4.18.2",
         "eslint-config-standard": "^11.0.0-beta.0",
         "eslint-plugin-html": "^4.0.2",
@@ -97,7 +95,6 @@
         "eases-jsnext": "^1.0.10",
         "promise-polyfill": "^7.1.1",
         "svelte-extras": "^1.6.0",
-        "svelte-router": "^1.8.1",
         "svelte-routing": "0.3.0",
         "svelte-transitions": "^1.1.1"
     }

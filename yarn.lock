@@ -1068,7 +1068,7 @@ babel-core@^6.26.0:
     slash "^1.0.0"
     source-map "^0.5.6"
 
-babel-eslint@^8:
+babel-eslint@^8.2.3:
   version "8.2.3"
   resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-8.2.3.tgz#1a2e6681cc9bc4473c32899e59915e19cd6733cf"
   dependencies:
@@ -3390,10 +3390,6 @@ download@^6.2.2:
     make-dir "^1.0.0"
     p-event "^1.0.0"
     pify "^3.0.0"
-
-draftlog@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/draftlog/-/draftlog-1.0.12.tgz#7db6a3c5b62106bb32dd4a35d67bcccb6c7d9da0"
 
 duplexer2@0.0.2:
   version "0.0.2"
@@ -10070,12 +10066,6 @@ svelte-loader@^2.5.1:
     loader-utils "^1.1.0"
     svelte-dev-helper "^1.1.4"
     tmp "0.0.31"
-
-svelte-router@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/svelte-router/-/svelte-router-1.8.1.tgz#7bd16c6482e51312cac874be33b3c66030f2873a"
-  dependencies:
-    history "^4.7.2"
 
 svelte-routing@0.3.0:
   version "0.3.0"
