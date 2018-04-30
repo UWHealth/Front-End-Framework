@@ -74,7 +74,7 @@ function boostrapConfig(options, folderName) {
     config.stats = STATS(true);
 
     config.optimization.minimize = false;
-    config.optimization.splitChunks.chunks = "async";
+    config.optimization.splitChunks.chunks = "all";
     config.optimization.splitChunks.minSize = 99999999;
     config.optimization.splitChunks.minChunks = 100;
     config.optimization.splitChunks.maxInitialRequests = 1;
@@ -148,11 +148,6 @@ function addEntryPoints(options) {
 function addHtmlPlugins(options) {
     const plugins = [];
 
-    const ManifestPlugin = require('webpack-manifest-plugin');
-
-    plugins.push(
-        new ManifestPlugin({seed: {name: 'My Manifest'}})
-    );
     // Loop through files, adding html pages for each
     options.files.forEach((file) => {
         const baseName = path.basename(file, options.sourceExtension);

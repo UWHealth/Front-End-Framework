@@ -5,6 +5,7 @@
 
 const webpack   = require('webpack');
 const cloneDeep = require('lodash.clonedeep');
+const glob      = require('fast-glob');
 
 const cwd    = process.cwd();
 
@@ -14,7 +15,7 @@ const MODE  = require('../tools/mode.js');
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`./babel.webpack.config.js`);
 
-const config = cloneDeep(baseConfig);
+const config = cloneDeep(baseConfig.config);
 
 config.stats = STATS;
 config.target = "web";
@@ -24,13 +25,9 @@ config.name = "Javascript";
 config.recordsPath = cwd + '/dist/public/js/js-records.json';
 
 config.entry = {
-    main: PATHS.js.entry.main,
-    plugins: PATHS.js.entry.plugins
-};
-
-const ManifestPlugin = require('webpack-manifest-plugin');
-
-config.plugins.push(new ManifestPlugin(baseConfig.manifestSeed));
+    "main": PATHS.js.entry.main,
+    "components": glob.sync(PATHS.js.entry.components),
+}
 
 config.output = {
     path: PATHS.js.dest,
@@ -44,6 +41,12 @@ config.output = {
     library: 'uwhealth',
 };
 
+const ManifestPlugin = require('webpack-assets-manifest');
+
+config.plugins.push(new ManifestPlugin(
+    baseConfig.manifestConfig(config.output.publicPath, true)
+));
+
 // config.optimization.runtimeChunk = "single"
 
 config.optimization.concatenateModules = MODE.production;
@@ -54,16 +57,7 @@ config.resolve.mainFields.unshift("svelte", "browser");
 
 config.optimization.splitChunks = {
     chunks: "async",
-    automaticNameDelimiter: ".",
-    cacheGroups: {
-        svelteShared: {
-            test: /svelte[\\/](shared|store)/,
-            priority: 1,
-            minChunks: 1,
-            filename: "svelteShared.js",
-            chunks: "all"
-        },
-    }
+    automaticNameDelimiter: "."
 };
 
 config.module.rules.push(

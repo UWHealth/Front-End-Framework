@@ -42,7 +42,37 @@ const config = {
     }
 };
 
-module.exports.manifestSeed = {seed: {name: 'Webpack Manifest'}};
+const seed = Object.create(null);
+const manifestPath = path.resolve(PATHS.folders.dist, 'manifest.json')
+    .replace('C:', '')
+    .replace(/\\/g, '/')
+
+const sanitizePaths = function(entry, original, manifest, asset) {
+    // Filter out source maps
+    if ( entry.key.toLowerCase().endsWith('.map') ) {
+        return false;
+    }
+
+    // De-duplicate weird repeating names (button-button-demo-html.js)
+    const newKey = entry.key.replace(/(.*)?([a-z]*)(-)\1+(?:-?)(.*)/gi, 'components/$1.js')
+
+    return {
+        key: newKey,
+        value: entry.value
+    }
+};
+
+module.exports.manifestConfig = function(publicPath, customize) {
+
+    return {
+        assets: seed,
+        output: manifestPath,
+        entryPoints: true,
+        publicPath: publicPath,
+        writeToDisk: true,
+        customize: customize ? sanitizePaths : null
+    }
+};
 
 /*
  * Loaders
@@ -75,4 +105,4 @@ if (MODE.production) {
     config.optimization.nodeEvn = 'production';
 }
 
-module.exports = config;
+module.exports.config = config;

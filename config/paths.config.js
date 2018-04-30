@@ -102,69 +102,58 @@ Object.assign(PATHS, {
         "entry": {
             "main": `${src}/components/**/*.hbs`,
             "header": `${src}/components/header/_header.hbs`,
-            "footer": `${src}/components/footer/_footer.hbs`
+            "footer": `${src}/components/footer/_footer.hbs`,
         },
         "dest": `${pub}/components/`
     },
     images: {
         "entry": {
-            "all": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico|svg)`,
-            "main": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico)`,
-            "svg": `${src}/static/img/svg/**/*.svg`
+            "all": `${src}/static/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            "main": `${src}/static/img/**/*.+(jpe?g|png|gif|ico)`,
+            "svg": `${src}/static/img/svg/**/*.svg`,
         },
         "watch": {
-            "all": `${src}/static/img/**/*.+(jpg|jpeg|png|gif|ico|svg)`,
-            "jpeg": `${src}/static/img/**/*.+(jpg|jpeg)`,
+            "all": `${src}/static/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            "jpeg": `${src}/static/img/**/*.+(jpe?g)`,
             "png": `${src}/static/img/**/*.png`,
             "gif": `${src}/static/img/**/*.gif`,
-            "svg": `${src}/static/img/svg/**/*.svg`
+            "svg": `${src}/static/img/svg/**/*.svg`,
         },
         "dest": `${pub}/img`
     },
     js: {
         "folders": {
             "root": `${src}/js`,
-            "components": `${src}/components`
+            "components": `${src}/components`,
         },
         "entry": {
             "main": `${src}/js/main.js`,
-            "plugins": `${src}/js/plugins.js`
+            "components": `${src}/components/**/*[!demo].html`
         },
         "watch": {
             "main": `${src}/**/*.js`,
-            "samples": `${src}/_samples/**/*.js`
         },
         "dest": `${pub}/js`
     },
     sass: {
         "folders": {
             "components": `${src}/components`,
-            "root": `${src}/sass`
+            "root": `${src}/sass`,
         },
         "entry": {
             "main": `${src}/sass/main.scss`,
             "print": `${src}/sass/print.scss`,
             "components": `${src}/components/**/[!_]*.scss`,
-            "styleguide": `${src}/styleguide/styleguide.scss`
+            "styleguide": `${src}/styleguide/styleguide.scss`,
         },
         "watch": {
             "all": `${src}/**/*.scss`,
             "config": `${config}/sass.config.scss`,
             "main": `${src}/sass/**/*.scss`,
             "styleguide": `${src}/styleguide/styleguide.scss`,
-            "components": `${src}/components/**/*.scss`
+            "components": `${src}/components/**/*.scss`,
         },
         "dest": `${pub}/css`
-    },
-    samples: {
-        "folders": {
-            "root": `${src}/_samples/`
-        },
-        "entry": {
-            "all": `${src}/_samples/**/*.html`,
-            "template": `${src}/_samples/_samples.base.hbs`
-        },
-        "dest": `${dist}/samples`
     },
     styleGuide: {
         "entry": {
@@ -177,7 +166,7 @@ Object.assign(PATHS, {
         "watch": {
             "imports": `${src}/styleguide/**/*.*`,
             "style": `${pub}/css/styleguide.css`,
-            "config": `${config}/styleguide.conf.js`
+            "config": `${config}/styleguide.conf.js`,
         },
         "dest": `${pub}/styleguide/index.html`
     },
@@ -191,7 +180,7 @@ Object.assign(PATHS, {
             "js": `${pub}/js/**/*.js`,
             "samples": `${dist}/samples/**/*.html`,
             "components": `${dist}/components/**/*.html`,
-            "exclude": [`!${dist}/**/*.map`, `!${pub}/styleguide/*.html`]
+            "exclude": [`!${dist}/**/*.map`, `!${pub}/styleguide/*.html`],
         }
     }
 });

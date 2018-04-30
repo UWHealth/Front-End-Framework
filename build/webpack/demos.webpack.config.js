@@ -3,6 +3,7 @@
 **/
 
 const cwd = process.cwd();
+const path = require('path');
 
 const htmlConfig = require('./helpers/create-html-config.js');
 const PATHS = require(`${cwd}/config/paths.config.js`);
@@ -10,7 +11,7 @@ const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`./babel.webpack.config.js`);
 
 const config = htmlConfig({
-    baseConfig: baseConfig,
+    baseConfig: baseConfig.config,
     src: PATHS.demos.entry.svelte,
     template: PATHS.demos.entry.template,
     dest: PATHS.demos.dest,
@@ -23,6 +24,16 @@ const config = htmlConfig({
 config.entry["demo-router"] = `${PATHS.demos.folders.root}/demo/demo.routes.html`;
 
 config.name = "Demo";
+
+const ManifestPlugin = require('webpack-assets-manifest');
+
+config.plugins.push(new ManifestPlugin(
+    baseConfig.manifestConfig(
+        '/' + path.relative(PATHS.folders.dist, config.output.publicPath),
+        false /* disable customization */
+    )
+));
+
 
 config.module.rules.push(
     {

@@ -38,11 +38,11 @@ module.exports = function() {
         }, 'webpack')
     );
 
-    // Watch for new samples or components are added,
+    // Watch for new demos or other such entries
     // where webpack needs to create new html pages.
     // Restarts webpack to add new files
     gulp.watch(
-        [PATHS.demos.entry.svelte, PATHS.samples.entry.all], opts)
+        [PATHS.demos.entry.svelte], opts)
         .on('add', gulp.series('webpack'));
 };
 
