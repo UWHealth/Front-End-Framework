@@ -1,21 +1,21 @@
-<div class="component {{componentClass}}
-    {{modifiers(type, componentClass + '--')}}">
-    <header class="{{componentClass}}__header
-        {{modifiers(type, componentClass + '__header--')}}">
-        <h2 class="{{componentClass}}__title">
-            {{{header}}}
+<div class="component {componentClass}
+    {modifiers(type, componentClass + '--')}">
+    <header class="{componentClass}__header
+        {modifiers(type, componentClass + '__header--')}">
+        <h2 class="{componentClass}__title">
+            {@html header}
         </h2>
     </header>
-    <div class="{{componentClass}}__body
-    {{modifiers(type, componentClass + '__body--')}}">
-        <p class="{{componentClass}}__text">
-            {{{body}}}
+    <div class="{componentClass}__body
+    {modifiers(type, componentClass + '__body--')}">
+        <p class="{componentClass}__text">
+            <slot>{@html body}</slot>
         </p>
     </div>
-    <footer class="{{componentClass}}__footer
-    {{modifiers(type, componentClass + '__footer--')}}">
-        <p class="{{componentClass}}__text">
-            {{{footer}}}
+    <footer class="{componentClass}__footer
+    {modifiers(type, componentClass + '__footer--')}">
+        <p class="{componentClass}__text">
+            {@html footer}
         </p>
     </footer>
 </div>

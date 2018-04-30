@@ -1,31 +1,68 @@
-<:Head>
-    <title>→ {{$pageTitle || demoTitle}} demo</title>
+<svelte:head>
+    <title>→ {$pageTitle || demoTitle} demo</title>
     <link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
-</:Head>
+</svelte:head>
 
 <!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
 <nav ref:navigation class="demo-navigation">
-    <img src="/public/img/favicons/icon.svg" style="height: {{60/16}}rem;" alt="">
-    {{#each links as [name, url] @url}}
-        <NavLink ref:url to="{{url}}" className="demo-navigation__link">{{name}}</NavLink>
-    {{/each}}
+    <img src="/public/img/favicons/icon.svg" style="height: {60/16}rem;" alt="">
+    {#each links as [name, url] (name_url.url)}
+        <NavLink ref:url to="{url}" className="demo-navigation__link">{name}</NavLink>
+    {/each}
 </nav>
 
 <div>
-<Route hydrate="{{true}}" ref:router bind:pathname bind:path>
-    <:Component {innerComponent}/>
+<Route hydrate="{true}" ref:router bind:pathname bind:path>
+    <svelte:component this={innerComponent}/>
 </Route>
 </div>
 
 <script>
-    import Route from 'babel-loader!svelte-routing/Route.html';
-    import NavLink from 'babel-loader!svelte-routing/NavLink.html';
     import store from './demo.store.js';
     import capitalize from '@/components/tools/title-case';
     import findExport from '@/components/tools/find-export.js';
     import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
 
     const appState = typeof window !== 'undefined' ? window.__APP_STATE__ : global.__APP_STATE__;
+
+    export default {
+        components: {
+            Route: 'babel-loader!svelte-routing/Route.html',
+            NavLink: 'babel-loader!svelte-routing/NavLink.html'
+        },
+        data() {
+            const globalRoutes = findGlobalState();
+            return Object.assign({}, {
+                pageTitle: null,
+                routeUrl: null,
+                demoTitle: 'Demo',
+                currentRoute: '',
+                path: '/components/:demo',
+                links: [
+                    ['Button', '/components/button/'],
+                    ['Generic', '/components/generic/'],
+                    ['Feed', '/components/feed/']
+                ]
+            }, globalRoutes);
+        },
+        oncreate() {
+            store.set({'pageTitle': capitalize(appState.componentPath)});
+            this.refs.router.on('update', ({ changed, current, previous }) => {
+                if (changed.match) {
+                    const match = current.match;
+                    const component = splitRequire(match.params.demo);
+                    console.info(match);
+
+                    component.Async().then((comp) => {
+                        this.set({'innerComponent': findExport(comp)});
+                        store.set({'pageTitle': capitalize(match.params.demo)});
+                    });
+                }
+            });
+        },
+        setup(DemoRouter) {},
+        store: () => store
+    };
 
     function splitRequire(pathname) {
         const component = import(
@@ -34,22 +71,17 @@
 
         const modID = () => require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
 
-        // if (typeof window === 'undefined') {
-        //     delete require.cache[modID()];
-        // }
-
         return {
             Sync: () => __webpack_require__(modID()),
             Async: () => component
         };
     }
 
-    function findGlobalRoutes() {
+    function findGlobalState() {
         if (typeof window === 'undefined') {
             createMemoryHistory();
             const pathname = appState.componentPath;
             const innerComponent = splitRequire(pathname);
-            debugger;
             appState.innerComponent = innerComponent.Sync();
 
             return appState;
@@ -61,45 +93,5 @@
             return appState;
         }
     }
-
-    export default {
-        components: {Route, NavLink},
-        data() {
-            const globalRoutes = findGlobalRoutes();
-            return Object
-                .assign({}, {
-                    pageTitle: null,
-                    routeUrl: null,
-                    demoTitle: 'Demo',
-                    currentRoute: '',
-                    path: '/components/:demo',
-                    links: [
-                        ['Button', '/components/button/'],
-                        ['Generic', '/components/generic/'],
-                        ['Feed', '/components/feed/']
-                    ]
-                }, globalRoutes);
-        },
-        oncreate() {
-            store.set({'pageTitle': capitalize(appState.componentPath)});
-            console.log(this.get()["innerComponent"])
-            this.refs.router.on('update', ({ changed, current, previous }) => {
-                if (changed.match) {
-                    const match = current.match;
-                    const component = splitRequire(match.params.demo);
-                    console.info(match);
-
-                    component.Async().then((comp) => {
-                        this.set({'innerComponent': findExport(comp)});
-                        store.set({'initialRoute': false});
-                        store.set({'pageTitle': capitalize(match.params.demo)});
-                    });
-                }
-            });
-        },
-        setup(DemoRouter) {},
-        store: () => store
-    };
-
 
 </script>

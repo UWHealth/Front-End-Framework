@@ -1,18 +1,18 @@
-<button class="btn {{modifiers(type, 'btn--')}}">
-    <span class="btn__body {{modifiers(type, 'btn__body--')}}">
+<button class="btn {modifiers(type, 'btn--')}">
+    <span class="btn__body {modifiers(type, 'btn__body--')}">
         <slot>
-            {{body}}
+            {body}
         </slot>
     </span>
-    {{#if icon}}
-        <span class="btn__icon {{modifiers(type, 'btn__icon--')}}">
+    {#if icon}
+        <span class="btn__icon {modifiers(type, 'btn__icon--')}">
             <slot name="icon">
-                {{icon}}
+                {icon}
             </slot>
         </span>
-    {{elseif iconUrl}}
-        <img class="btn__icon btn__icon--image {{modifiers(type, 'btn__icon--')}}" src="{{{iconUrl}}}" alt="">
-    {{/if}}
+    {:elseif iconUrl}
+        <img class="btn__icon btn__icon--image {modifiers(type, 'btn__icon--')}" src="{{iconUrl}}" alt="">
+    {/if}
 </button>
 
 <script>

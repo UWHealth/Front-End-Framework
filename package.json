@@ -81,9 +81,9 @@
         "require-universal-module": "^1.5.0",
         "sass-lint": "^1.12.1",
         "style-loader": "^0.20.3",
-        "svelte": "^1.60.0",
+        "svelte": "2.3.0",
         "svelte-dev-helper": "^1.1.7",
-        "svelte-loader": "^2.5.1",
+        "svelte-loader": "2.8.1",
         "uglifyjs-webpack-plugin": "^1.1.6",
         "webpack": "^4.1.1",
         "webpack-cli": "^2.0.12",
@@ -95,7 +95,7 @@
         "eases-jsnext": "^1.0.10",
         "promise-polyfill": "^7.1.1",
         "svelte-extras": "^1.6.0",
-        "svelte-routing": "0.3.0",
+        "svelte-routing": "0.4.0",
         "svelte-transitions": "^1.1.1"
     }
 }

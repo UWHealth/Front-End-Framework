@@ -1,15 +1,15 @@
-<Demo demoTitle="Buttons" variants="{{true}}" currentRoute='hero'>
+<Demo demoTitle="Buttons" variants="{true}" currentRoute='hero'>
     <div slot="header">
         <div class="hero-holder">
             <Hero />
         </div>
     </div>
     <div slot="variants">
-        {{#each widths as buttonType}}
+        {#each widths as buttonType}
         <div class="button-holder">
-            <Hero type={{buttonType}} header="{{capitalize(buttonType)}}"/>
+            <Hero type={buttonType} header="{capitalize(buttonType)}"/>
         </div>
-        {{/each}}
+        {/each}
     </div>
 
     <style>
@@ -24,14 +24,12 @@
 </Demo>
 
 <script>
-    import Hero from './hero.html';
-    import Demo from '../demo/demo.wrapper.html';
     import capitalize from '../tools/title-case.js';
 
     export default {
         components: {
-            Demo,
-            Hero,
+            Demo: '@/components/demo/demo.wrapper.html',
+            Hero: './hero.html',
         },
         data() {
             return {
@@ -42,7 +40,7 @@
             capitalize
         },
         oncreate() {
-            this.root.store.set({'pageTitle': 'Hero'})
+            this.root.store.set({'pageTitle': 'Hero'});
         }
     };
 </script>

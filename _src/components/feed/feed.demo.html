@@ -1,20 +1,19 @@
-<Demo demoTitle="Feed Example" variants="{{true}}" currentRoute="feed">
+<Demo demoTitle="Feed Example" variants="{true}" currentRoute="feed">
     <div slot="header"></div>
     <div slot="variants">
-        <List {{...props}} />
+        <List {...props} />
     </div>
 </Demo>
 
 <script>
-    import Demo from '../demo/demo.wrapper.html';
-    import List from './feed.html';
-
     import store from '@/components/demo/demo.store.js';
 
     export default {
         store: () => store,
-        components: { Demo, List },
-
+        components: {
+            Demo: '../demo/demo.wrapper.html',
+            List: './feed.html'
+        },
         data() {
             return {
                 feedUrl: "https://uconnect.wisc.edu/feeds/30m/json/homepage/index.json",
@@ -24,8 +23,8 @@
             };
         },
         computed: {
-            feed: (feedResults) => feedResults,
-            props: (feedUrl, feedResults, feed, page, MAX_PER_PAGE) => { return {feed, feedUrl, MAX_PER_PAGE, page, feedResults}; }
+            feed: ({ feedResults }) => feedResults,
+            props: state => state
         },
         methods: {
             fetchFeed() {
@@ -46,7 +45,6 @@
                     console.log(e);
                     return e;
                 });
-
             };
         }
     };

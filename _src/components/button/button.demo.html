@@ -8,31 +8,28 @@
     }
 </style>
 
-<Demo demoTitle="Buttons" variants="{{true}}" currentRoute="Button">
+<Demo demoTitle="Buttons" variants="{true}" currentRoute="Button">
     <div slot="header">
         <Button body="whatup"/>
     </div>
     <div slot="variants">
-        {{#each widths as buttonType}}
-        <div class="button-holder button-holder--{{buttonType}}">
-            <Button type="{{buttonType}}" body="{{capitalize(buttonType)}}"/>
+        {#each widths as buttonType}
+        <div class="button-holder button-holder--{buttonType}">
+            <Button type="{buttonType}" body="{capitalize(buttonType)}"/>
         </div>
-        {{/each}}
-        <Async {{...asyncButton}} />
+        {/each}
+        <Async {...asyncButton} />
     </div>
 </Demo>
 
 <script>
-    import Button from './button.html';
-    import Async from '@/components/async/async.html';
-    import Demo from '@/components/demo/demo.wrapper.html';
     import capitalize from '@/components/tools/title-case';
 
     export default {
         components: {
-            Button,
-            Demo,
-            Async
+            Button: './button.html',
+            Demo: '@/components/demo/demo.wrapper.html',
+            Async: '@/components/async/async.html'
         },
         data() {
             return {

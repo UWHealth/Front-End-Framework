@@ -1,16 +1,16 @@
-{{#if component}}
-    {{#if component && props}}
-    <:Component {component} {{...props}} />
-    {{else}}
-    <:Component {component} />
-    {{/if}}
-{{elseif loading && loadingComponent}}
-    <:Component {loadingComponent} {{...props}} />
-{{elseif SSRComponent}}
-    <:Component {SSRComponent} {{...props}} />
-{{elseif error}}
-    <div> {{error}} </div>
-{{/if}}
+{#if component}
+    {#if component && props}
+    <svelte:component this={component} {...props} />
+    {:else}
+    <svelte:component this={component} />
+    {/if}
+{:elseif loading && loadingComponent}
+    <svelte:component this={loadingComponent} {...props} />
+{:elseif SSRComponent}
+    <svelte:component this={SSRComponent} {...props} />
+{:elseif error}
+    <div> {error} </div>
+{/if}
 
 <script>
     import findExport from '../tools/find-export.js';
@@ -29,8 +29,7 @@
             };
         },
         computed: {
-            SSRComponent: (webpack) => {
-                // if (typeof window !== 'undefined') { return false; }
+            SSRComponent: ({ webpack }) => {
                 const load = webpack();
                 // Find module in webpack cache
                 const mod = __webpack_modules__[load];

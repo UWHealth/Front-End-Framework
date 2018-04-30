@@ -1,9 +1,8 @@
-
 <div class="demo">
     <header class="demo-header">
         <div class="wrap">
             <h1 class="demo-header__title">
-                {{demoTitle}}
+                {demoTitle}
             </h1>
             <div class="demo-header__component">
                 <slot name="header">
@@ -15,24 +14,23 @@
 
     <Base mainClass="demo-body">
         <div class="wrap">
-            {{#if variants || variantTitle}}
+            {#if variants || variantTitle}
             <h2 class="demo-body__head">
-                {{variantTitle || demoTitle}} Variants
+                {variantTitle || demoTitle} Variants
             </h2>
             <slot name="variants"></slot>
-            {{/if}}
+            {/if}
         </div>
     </Base>
 </div>
 
 <script>
-    import Base from '../base/base.html';
     import store from './demo.store.js';
 
     export default {
         store: () => store,
         components: {
-            Base
+            Base: '@/components/base/base.html'
         },
         data() {
             return {
@@ -42,18 +40,12 @@
             };
         },
         computed: {
-            lowercaseRoute: (currentRoute) => currentRoute.toLowerCase(),
+            lowercaseRoute: ({ currentRoute }) => currentRoute.toLowerCase(),
         },
         oncreate () {
             if (this.slots.variants) {
                 this.set({'variants': true});
             }
-
-            // this.refs.route.observe('match', function(match) {
-            //     console.log(match);
-            // })
-
-        },
-        ondestroy () {}
+        }
     };
 </script>
