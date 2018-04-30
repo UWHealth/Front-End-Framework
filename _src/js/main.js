@@ -1,4 +1,4 @@
-import domReady from "@/js/modules/dom-ready";
+import domReady from '@/js/modules/dom-ready';
 import 'promise-polyfill/src/polyfill';
 import store from '@/components/demo/demo.store.js';
 import Router from '@/components/demo/demo.routes.html';
@@ -8,7 +8,10 @@ let application;
 
 domReady(() => {
     if (process.env.NODE_ENV !== 'production') {
-        import('./dev/keyboard-shortcuts.js').then((keyboardSC) => keyboardSC.init());
+        import(
+            /* "webpackChunkName": "keyboard" */
+            './dev/keyboard-shortcuts.js'
+        ).then((keyboardSC) => keyboardSC.init());
     }
     const appElement = document.getElementById('app');
 

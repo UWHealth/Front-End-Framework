@@ -31,7 +31,7 @@
             NavLink: 'babel-loader!svelte-routing/NavLink.html'
         },
         data() {
-            const globalRoutes = findGlobalState();
+            const globalState = findGlobalState();
             return Object.assign({}, {
                 pageTitle: null,
                 routeUrl: null,
@@ -43,7 +43,7 @@
                     ['Generic', '/components/generic/'],
                     ['Feed', '/components/feed/']
                 ]
-            }, globalRoutes);
+            }, globalState);
         },
         oncreate() {
             store.set({'pageTitle': capitalize(appState.componentPath)});
