@@ -1,11 +1,9 @@
 {#if results}
     {#each results.result.slice(pageStart, pageEnd) as result (result.title)}
         <div class="media-object" in:slide='{duration: 300, easing: cubicOut}' out:fade='{duration: 100}'>
-            {#if description(result.description).image}
-                <div class="media-object__media">
-                {@html description(result.description).image}
-                </div>
-            {/if}
+            <div class="media-object__media">
+                {@html description(result.description).image && description(result.description).image}
+            </div>
             <div class="media-object__body">
                 <strong>{results.result.indexOf(result)}: {result.title}</strong>
                 <p>{@html description(result.description).text}</p>
@@ -16,9 +14,19 @@
 {/if}
 
 <style>
+    .media-object__media {
+        width: 15rem;
+        background-color: #124A79;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 10rem;
+    }
+
     .media-object__media :global(img) {
-        max-width: 15rem !important;
+        max-width: 100% !important;
         height: auto !important;
+        margin: auto !important;
     }
 </style>
 

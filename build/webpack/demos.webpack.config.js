@@ -21,8 +21,6 @@ const config = htmlConfig({
     assetName: "auto"
 });
 
-config.entry["demo-router"] = `${PATHS.demos.folders.root}/demo/demo.routes.html`;
-
 config.name = "Demo";
 
 const ManifestPlugin = require('webpack-assets-manifest');
@@ -30,7 +28,7 @@ const ManifestPlugin = require('webpack-assets-manifest');
 config.plugins.push(new ManifestPlugin(
     baseConfig.manifestConfig(
         '/' + path.relative(PATHS.folders.dist, config.output.publicPath),
-        false /* disable customization */
+        false /* customization */
     )
 ));
 

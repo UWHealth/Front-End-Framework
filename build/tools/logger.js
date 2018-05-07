@@ -3,10 +3,8 @@ const notify       = require('gulp-notify');
 const log          = require('fancy-log');
 const PrettyError  = require('pretty-error');
 const ora          = require('ora');
-const pe = new PrettyError().appendStyle(require('./logger-style.js'));
 
-// const draftLog = require('draftlog');
-// draftLog(console);
+const pe = new PrettyError().appendStyle(require('./logger-style.js'));
 
 module.exports = function(task, message) {
     task = task || '';
@@ -35,7 +33,7 @@ module.exports = function(task, message) {
     this.error = function(err) {
         const error = message || err;
 
-        self.ora.stop().fail(chalk.bold.red(task + " error \n"));
+        self.ora.stop().fail(chalk.bold.red(`${task} error ${getTime()}\n`));
 
         console.error(pe.render(error));
 
@@ -48,7 +46,7 @@ module.exports = function(task, message) {
         msg = msg || (showOra && showOra.text) || message;
 
         if (showOra) {
-            msg = chalk.blue(task) + ' ' + msg;
+            msg = chalk.blue(task) + ' ' + msg + ' ' + getTime();
             const opts = showOra.symbol ? { text: msg, symbol: showOra.symbol } : msg;
             self.ora.clear().info(opts);
         }
@@ -59,6 +57,12 @@ module.exports = function(task, message) {
 
     this.success = function(msg) {
         msg = msg || message || '';
+        msg += ' ' + getTime();
         self.ora.stop().succeed(chalk.green(task) + ' ' + msg);
     };
 };
+
+
+function getTime() {
+    return chalk.gray(`[${new Date().toTimeString().match(/^[\d:]+/)[0]}]`);
+}

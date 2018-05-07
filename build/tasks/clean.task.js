@@ -9,7 +9,7 @@ module.exports = function(done) {
 
     return del(PATHS.clean.entry.array)
         .then(() => {
-            LOG.success('./dist contents deleted.');
+            LOG.success('./dist contents deleted');
             return done;
         })
         .catch((err) => {

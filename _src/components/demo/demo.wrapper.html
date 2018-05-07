@@ -1,3 +1,9 @@
+{#if stylesheet}
+<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
+{/if}
+
+<Nav/>
+
 <div class="demo">
     <header class="demo-header">
         <div class="wrap">
@@ -6,7 +12,7 @@
             </h1>
             <div class="demo-header__component">
                 <slot name="header">
-                    <p> No Examples </p>
+                    <div></div>
                 </slot>
             </div>
         </div>
@@ -30,13 +36,15 @@
     export default {
         store: () => store,
         components: {
-            Base: '@/components/base/base.html'
+            Base: '@/components/base/base.html',
+            Nav: '@/components/demo/demo.nav.html'
         },
         data() {
             return {
                 demoTitle: 'Demo',
                 variantTitle: false,
                 variants: false,
+                stylesheet: true
             };
         },
         computed: {

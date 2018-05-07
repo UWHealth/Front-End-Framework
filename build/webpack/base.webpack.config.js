@@ -26,6 +26,7 @@ const config = {
         alias: {
             // Allow for local imports without relative paths
             '@': PATHS.folders.src,
+            '@cwd': process.cwd()
         }
     },
     watchOptions: {
@@ -48,17 +49,19 @@ const manifestPath = path.resolve(PATHS.folders.dist, 'manifest.json')
     .replace(/\\/g, '/')
 
 const sanitizePaths = function(entry, original, manifest, asset) {
-    // Filter out source maps
-    if ( entry.key.toLowerCase().endsWith('.map') ) {
-        return false;
-    }
+    if(entry.key) {
+        // Filter out source maps
+        if (entry.key.toLowerCase().endsWith('.map') ) {
+            return false;
+        }
 
-    // De-duplicate weird repeating names (button-button-demo-html.js)
-    const newKey = entry.key.replace(/(.*)?([a-z]*)(-)\1+(?:-?)(.*)/gi, 'components/$1.js')
+        // De-duplicate weird repeating names (button-button-demo-html.js)
+        const newKey = entry.key.replace(/([^\/\n]*)\/?(([a-z]*)-)\2+(.*)/gi, '$1/$3')
 
-    return {
-        key: newKey,
-        value: entry.value
+        return {
+            key: newKey,
+            value: entry.value
+        }
     }
 };
 

@@ -159,6 +159,9 @@ function addHtmlPlugins(options) {
         plugins.push(
             new HtmlPlugin({
                 template: options.template,
+                // templateParameters: {
+                //     pageTitle: baseName
+                // },
                 filename: path.join(entryName, '..', 'index.html'),
                 inject: false,
                 cache: true,
@@ -187,23 +190,23 @@ function addHtmlPlugins(options) {
         // Add evaluated demo to html data
         new EvalTemplatePlugin({
             templating: function(source, raw, htmlPluginData, compilation) { // eslint-disable-line
-                if (options.debug) { console.log('SOURCE', source); }
+                if (options.debug) { console.info('SOURCE', source); }
 
                 const render = (source && typeof source.render !== 'undefined') ? source.render || source.toString() : source;
 
                 const page = (typeof render === 'function') ? render() : render;
                 const opts = htmlPluginData.plugin.options.evalPlugin;
 
-                htmlPluginData.plugin.options.sourceScript = `
-                <script>
-                    var __APP_STATE__ = {
-                        initialRoute: '${opts.context.__APP_STATE__.pathname}',
-                        componentPath: '${opts.context.__APP_STATE__.componentPath}'
-                    }
-                </script>`;
+                htmlPluginData.plugin.options.sourceScript = ''+
+                '<script>' +
+                    "window.__APP_STATE__ = {" +
+                        `initialRoute: '${opts.context.__APP_STATE__.pathname}',` +
+                        `componentPath: '${opts.context.__APP_STATE__.componentPath}'` +
+                    "}" +
+                '</script>';
 
-                htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +
-                    `${raw.replace(/<\/script>/g, '<\\/script>').replace('pathname: history.location.pathname', 'pathname: window.location.pathname')}\n return ${options.nameSpace}}</script>`;
+                // htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +
+                //     `${raw.replace(/<\/script>/g, '<\\/script>').replace('pathname: history.location.pathname', 'pathname: window.location.pathname')}\n return ${options.nameSpace}}</script>`;
 
                 return page;
             }

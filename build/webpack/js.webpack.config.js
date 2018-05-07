@@ -24,9 +24,11 @@ config.name = "Javascript";
 
 config.recordsPath = cwd + '/dist/public/js/js-records.json';
 
+const components = glob.sync(PATHS.js.entry.components);
+
 config.entry = {
     "main": PATHS.js.entry.main,
-    "components": glob.sync(PATHS.js.entry.components),
+    "components": components,
 }
 
 config.output = {
@@ -43,9 +45,18 @@ config.output = {
 
 const ManifestPlugin = require('webpack-assets-manifest');
 
-config.plugins.push(new ManifestPlugin(
-    baseConfig.manifestConfig(config.output.publicPath, true)
-));
+config.plugins.push(
+    new ManifestPlugin(
+        baseConfig.manifestConfig(config.output.publicPath, true)
+    )
+);
+
+components.forEach((mod) => {
+    config.plugins.push(
+        new webpack.PrefetchPlugin(mod)
+    )
+})
+
 
 // config.optimization.runtimeChunk = "single"
 
@@ -56,15 +67,18 @@ config.optimization.portableRecords = true;
 config.resolve.mainFields.unshift("svelte", "browser");
 
 config.optimization.splitChunks = {
-    chunks: "async",
-    automaticNameDelimiter: "."
+    chunks: "all",
+    automaticNameDelimiter: "-",
+    cacheGroups: {
+        vendors: false
+    }
 };
 
 config.module.rules.push(
     {
-        test: /\.(js|jsx)$/,
+        test: /\.(html|sv\.html|svelte|js|jsx)$/,
         exclude: (mod) => {
-            !MODE.production ? /(node_modules)/.test(mod) : false
+            return MODE.production ? false : /(node_modules)/.test(mod);
         },
         use: {
             loader: 'babel-loader',
@@ -75,10 +89,6 @@ config.module.rules.push(
     {
         test: /\.(html|sv\.html|svelte)$/,
         use: [
-            {
-                loader: 'babel-loader',
-                options: babelConfig(false)
-            },
             {
                 loader: 'svelte-loader',
                 options: {

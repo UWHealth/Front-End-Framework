@@ -3,19 +3,9 @@
     <link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
 </svelte:head>
 
-<!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
-<nav ref:navigation class="demo-navigation">
-    <img src="/public/img/favicons/icon.svg" style="height: {60/16}rem;" alt="">
-    {#each links as [name, url] (name_url.url)}
-        <NavLink ref:url to="{url}" className="demo-navigation__link">{name}</NavLink>
-    {/each}
-</nav>
-
-<div>
 <Route hydrate="{true}" ref:router bind:pathname bind:path>
-    <svelte:component this={innerComponent}/>
+    <svelte:component this={innerComponent} stylesheet={false}/>
 </Route>
-</div>
 
 <script>
     import store from './demo.store.js';
@@ -27,8 +17,7 @@
 
     export default {
         components: {
-            Route: 'babel-loader!svelte-routing/Route.html',
-            NavLink: 'babel-loader!svelte-routing/NavLink.html'
+            Route: 'babel-loader!svelte-routing/Route.html'
         },
         data() {
             const globalState = findGlobalState();
@@ -38,11 +27,6 @@
                 demoTitle: 'Demo',
                 currentRoute: '',
                 path: '/components/:demo',
-                links: [
-                    ['Button', '/components/button/'],
-                    ['Generic', '/components/generic/'],
-                    ['Feed', '/components/feed/']
-                ]
             }, globalState);
         },
         oncreate() {

@@ -40,7 +40,7 @@ module.exports = () => { // eslint-disable-line
                 forms: true,
                 scroll: false
             },
-            logPrefix: 'ℹ︎',
+            logPrefix: 'BrowserSync',
             snippetOptions: {
                 // Browsersync script tag placement
                 rule: {
