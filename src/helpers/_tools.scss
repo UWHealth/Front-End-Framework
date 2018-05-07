@@ -1,0 +1,26 @@
+//----------------------------
+// TOOLS
+// Sass-specific, independent functions/mixins/variables.
+// Should never produce CSS without their outer function/mixin being called.
+// Created to be portable to any project.
+//-----------------------------
+
+//Global functions and variables
+@import '_tools/t-functions';
+@import '_tools/t-color-functions';
+@import '_tools/t-blendmodes';
+@import '_tools/t-easings';
+//Framework variables
+@import '_tools/t-variables';
+
+//Utility mixins
+@import '_tools/t-fontface';
+@import '_tools/t-media-queries';
+@import '_tools/t-overrides';
+@import '_tools/t-mixins';
+@import '_tools/t-zindex';
+@import '_tools/t-display';
+@import '_tools/t-widths';
+@import '_tools/t-grid-system';
+@import '_tools/t-spacing';
+@import '_tools/t-type';

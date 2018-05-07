@@ -1,0 +1,53 @@
+<style>
+    .button-holder {
+        display: inline-block;
+        padding: 1rem 1rem 1rem 0;
+    }
+    .button-holder--wide {
+        min-width: 20%;
+    }
+
+    .btn {
+        margin-bottom: 1rem;
+        margin-right: 1rem;
+        vertical-align: middle;
+    }
+</style>
+
+<Demo demoTitle="Buttons" variants="{true}" currentRoute="Button">
+    <div slot="header">
+        <Button>Whatup</Button>
+    </div>
+    <div slot="variants">
+        {#each widths as buttonType}
+        <div class="button-holder button-holder--{buttonType}">
+            <Button type="{buttonType}" body="{capitalize(buttonType)}"/>
+        </div>
+        {/each}
+        <Async {...asyncButton} />
+    </div>
+</Demo>
+
+<script>
+    import capitalize from '@/helpers/title-case';
+
+    export default {
+        components: {
+            Button: './button.html',
+            Demo: '@/modules/demo/demo.wrapper.html',
+            Async: '@/components/async/async.html'
+        },
+        data: () => ({
+            widths: ['normal', 'wide', 'compact'],
+            asyncButton: {
+                loader: () => import('./button.html'),
+                webpack: () => require.resolveWeak('./button.html'),
+                props: {
+                    width: ['wide'],
+                    body: 'Async button'
+                }
+            }
+        }),
+        helpers: { capitalize }
+    };
+</script>

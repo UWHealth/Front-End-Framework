@@ -1,0 +1,83 @@
+<svelte:head>
+    <title>→ {$pageTitle || demoTitle} demo</title>
+    <link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
+</svelte:head>
+
+<Route hydrate="{true}" ref:router bind:pathname bind:path>
+    <svelte:component this={innerComponent} stylesheet={false}/>
+</Route>
+
+<script>
+    import store from './demo.store.js';
+    import capitalize from '@/helpers/title-case';
+    import findExport from '@/helpers/find-export.js';
+    import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
+
+    const appState = typeof window !== 'undefined' ? window.__APP_STATE__ : global.__APP_STATE__;
+
+    export default {
+        components: {
+            Route: 'babel-loader!svelte-routing/Route.html'
+        },
+        data() {
+            const globalState = findGlobalState();
+            return Object.assign({}, {
+                pageTitle: null,
+                routeUrl: null,
+                demoTitle: 'Demo',
+                currentRoute: '',
+                path: '/components/:demo',
+            }, globalState);
+        },
+        oncreate() {
+            store.set({'pageTitle': capitalize(appState.componentPath)});
+            this.refs.router.on('update', ({ changed, current, previous }) => {
+                if (changed.match) {
+                    const match = current.match;
+
+                    this.constructor.getComponent(match.params.demo)
+                        .then((comp) => {
+                            this.set({'innerComponent': findExport(comp)});
+                            store.set({'pageTitle': capitalize(match.params.demo)});
+                        });
+                }
+            });
+        },
+        setup(DemoRouter) {
+            DemoRouter.getComponent = async (componentPath) => {
+                const comp = await splitRequire(componentPath).Async();
+                return findExport(comp);
+            };
+        },
+        store: () => store
+    };
+
+    function splitRequire(pathname) {
+        const component = () => import(/* "webpackChunkName": "[request]" */ '@/components/' + pathname + '/' + pathname + '.demo.html');
+
+        const modID = () => require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
+
+        return {
+            Sync: () => __webpack_require__(modID()),
+            Async: async () => component()
+        };
+    }
+
+    async function findGlobalState() {
+        if (typeof window === 'undefined') {
+            createMemoryHistory();
+            const pathname = appState.componentPath;
+            const innerComponent = splitRequire(pathname);
+            appState.innerComponent = innerComponent.Sync();
+
+            return appState;
+        }
+        else {
+            createBrowserHistory();
+            appState.innerComponent = await splitRequire(appState.componentPath).Async()["default"];
+            console.log(appState.innerComponent);
+            return appState;
+        }
+    }
+
+</script>

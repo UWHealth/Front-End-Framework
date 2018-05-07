@@ -1,0 +1,75 @@
+<div id="feedTop" style="display:block; height:0; visibility:hidden;"></div>
+<header>
+{#if feedResults}
+    {#if page !== 1}
+    <button class="btn" on:click="set({'page': page - 1})">« Page {page - 1}</button>
+    {/if}
+        {pageString}
+    {#if feedMax}
+        <button class="btn" on:click="set({'page': page + 1})">Page {page + 1} »</button>
+    {/if}
+{/if}
+    <hr>
+</header>
+
+{#if $feedResults}
+    <!-- Cached feed, from store -->
+    <Results ref:feedList results="{feedResults}" {page} {MAX_PER_PAGE}/>
+{:else}
+
+    {#await feed}
+        <p>Loading Feed...</p>
+    {:then response}
+        <Results ref:feedList results="{response.results}" {page} {MAX_PER_PAGE}/>
+    {:catch error}
+        <p>Feed load error: {@html error}</p>
+    {/await}
+
+{/if}
+
+{#if feedResults}
+    {#if page !== 1}
+        <button class="btn" on:click="set({'page': page - 1})">« Page {page - 1}</button>
+    {/if}
+        {pageString}
+    {#if feedMax}
+        <button class="btn" on:click="set({'page': page + 1})">Page {page + 1} »</button>
+    {/if}
+{/if}
+
+<style>
+    header {
+        margin-bottom: 1.6rem;
+    }
+</style>
+
+<script>
+    import store from '@/modules/demo/demo.store.js';
+
+    export default {
+        components: {
+            Results: './feed.results.html'
+        },
+        computed: {
+            feedMax: ({page, MAX_PER_PAGE, feedResults}) => {
+                if (feedResults && feedResults.result) {
+                    return ((page * (MAX_PER_PAGE + 1)) <= feedResults.result.length);
+                }
+                return false;
+            },
+            pageString: ({page}) => {
+                return page && 'Page' + page;
+            }
+        },
+        oncreate() {
+            this.set({ 'feedTop': document.getElementById('feedTop').offsetTop });
+            this.on('update', ({ changed, current, previous }) => {
+                if (changed.page) {
+                    window.scroll(0, this.get()["feedTop"]);
+                }
+            });
+        },
+
+        store: () => store
+    };
+</script>

@@ -1,0 +1,17 @@
+<div class="component {{componentClass}}">
+    <header class="{{componentClass}}__header {{> @/helpers/_modifiers className="{{componentClass}}__header"}}">
+        <h2 class="{{componentClass}}__title">
+            {{{header}}}
+        </h2>
+    </header>
+    <div class="{{componentClass}}__body {{> @/helpers/_modifiers className="{{componentClass}}__body"}}">
+        <p class="{{componentClass}}__text">
+            {{~{body}~}}
+        </p>
+    </div>
+    <footer class="{{componentClass}}__footer {{> @/helpers/_modifiers className="{{componentClass}}__footer"}}">
+        <p class="{{componentClass}}__text">
+            {{~{footer}~}}
+        </p>
+    </footer>
+</div>

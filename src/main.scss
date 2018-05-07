@@ -1,0 +1,77 @@
+@charset 'UTF-8';
+
+/* SG
+# Imports [[dev]]
+
+@priority 0
+@file main.scss
+
+Sass files are imported in order from lowest specificity to highest.
+1. `/helpers/tools`
+  * Functions
+  * System variables and defaults
+  * General-use mixins and sass utilities
+2. `config`
+  * Project-specific configuration
+3. `/base`
+  * Resets and normalization (sanitize and normalize)
+  * Element styles (unclassed)
+4. `/layout`
+  * Basic layout and object styles (single-class)
+5. `/components`
+  * Module and component styles (single- and child-classes)
+6. `/modules/`
+  * View- and page-specific and scoped styles (typically `parent > child` classes).
+7. `/helpers/overrides`
+  * Utility styles, usually end in `!important`.
+
+*/
+
+//----------------------------
+// NON-CSS-producing files
+// (functionality and setup used by project)
+//-----------------------------
+
+//Global functions and variables
+@import 'helpers/tools';
+
+//Settings
+@import '../config/sass.config';
+
+
+//----------------------------
+// CSS-producing files
+// (after import, CSS will be written out)
+//-----------------------------
+
+@import 'globals/base';
+
+
+//Grids, alignment and higher-level classes
+// (+1 specificity)
+@import 'modules/wrapper';
+@import 'modules/grid/grid';
+@import 'modules/media-object';
+
+
+//OOCSS styles and base-level classes
+// (+1 specificity)
+@import 'components/button/button';
+@import 'components/hero/hero';
+
+
+//View-specific and theme-/skin-based styles
+//(+2-4 specificity)
+
+// @import 'views/'
+
+
+//High-specificity css and overrides classes (usually have !important).
+// Typically single-use classes
+@import 'helpers/overrides';
+
+//Example Overrides (can be removed)
+//@import 'overrides/ov-polyfills.example';
+//@import 'overrides/ov-overrides.example';
+
+@import 'helpers/debug';

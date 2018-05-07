@@ -1,0 +1,59 @@
+{#if stylesheet}
+<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
+{/if}
+
+<Nav/>
+
+<div class="demo">
+    <header class="demo-header">
+        <div class="wrap">
+            <h1 class="demo-header__title">
+                {demoTitle}
+            </h1>
+            <div class="demo-header__component">
+                <slot name="header">
+                    <div></div>
+                </slot>
+            </div>
+        </div>
+    </header>
+
+    <Base mainClass="demo-body">
+        <div class="wrap">
+            {#if variants || variantTitle}
+            <h2 class="demo-body__head">
+                {variantTitle || demoTitle} Variants
+            </h2>
+            <slot name="variants"></slot>
+            {/if}
+        </div>
+    </Base>
+</div>
+
+<script>
+    import store from './demo.store.js';
+
+    export default {
+        store: () => store,
+        components: {
+            Base: '@/components/base/base.html',
+            Nav: '@/modules/demo/demo.nav.html'
+        },
+        data() {
+            return {
+                demoTitle: 'Demo',
+                variantTitle: false,
+                variants: false,
+                stylesheet: true
+            };
+        },
+        computed: {
+            lowercaseRoute: ({ currentRoute }) => currentRoute.toLowerCase(),
+        },
+        oncreate () {
+            if (this.slots.variants) {
+                this.set({'variants': true});
+            }
+        }
+    };
+</script>
