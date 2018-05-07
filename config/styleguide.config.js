@@ -34,7 +34,7 @@ module.exports = {
         "development": "[[dev]]"
     },
     "highlightStyle": "rainbow",
-    "highlightFolder": "./node_modules/highlight.js/styles/",
+    "highlightFolder": process.cwd() + "/node_modules/highlight.js/styles/",
     "customVariables": {
         "tocMenu": true,
         "pageTitle": "UW Health Styleguide"

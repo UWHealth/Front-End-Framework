@@ -9,7 +9,7 @@ const plumber = require('gulp-plumber');
 const pngquant = require('imagemin-pngquant');
 const changed = require('gulp-changed');
 
-const Logger   = require('../tools/logger.js');
+const Logger   = require('../helpers/logger.js');
 const PATHS    = require(`${process.cwd()}/config/paths.config.js`);
 
 const LOG = new Logger('Images');

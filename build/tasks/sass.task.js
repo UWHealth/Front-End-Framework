@@ -12,8 +12,8 @@ const sourcemaps   = require('gulp-sourcemaps');
 
 const CWD          = process.cwd();
 const BROWSERS     = require(`${CWD}/package.json`).browserslist;
-const Logger       = require('../tools/logger.js');
-const MODE         = require('../tools/mode');
+const Logger       = require('../helpers/logger.js');
+const MODE         = require('../helpers/mode');
 const PATHS        = require(`${CWD}/config/paths.config.js`);
 
 const LOG = new Logger('Sass');

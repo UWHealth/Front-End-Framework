@@ -2,7 +2,7 @@
  * @fileoverview - Provides all webpack configs at once.
 **/
 
-const MODE = require('./tools/mode.js');
+const MODE = require('./helpers/mode.js');
 
 
 module.exports = (MODE.production && !MODE.localProduction) ?

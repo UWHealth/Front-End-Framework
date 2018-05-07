@@ -12,7 +12,7 @@ const cloneDeep = require('lodash.clonedeep');
 const cwd = process.cwd();
 const STATS = require("./webpack-stats.js");
 const PATHS = require(`${cwd}/config/paths.config.js`);
-const MODE = require(`${cwd}/build/tools/mode.js`);
+const MODE = require(`${cwd}/build/helpers/mode.js`);
 
 
 /**

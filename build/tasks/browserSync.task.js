@@ -5,7 +5,7 @@
 module.exports = () => { // eslint-disable-line
     const browserSync = require('browser-sync');
 
-    const ARGS        = require('../tools/args.js');
+    const ARGS        = require('../helpers/args.js');
     const PATHS       = require(`${process.cwd()}/config/paths.config.js`);
     const INSTANCE    = browserSync.create(PATHS.folders.project);
 
@@ -64,7 +64,7 @@ module.exports = () => { // eslint-disable-line
 function attachEvents (INSTANCE) {
     const EVENT  = INSTANCE.emitter;
     const chalk  = require('chalk');
-    const Logger = require('../tools/logger.js');
+    const Logger = require('../helpers/logger.js');
     const LOG    = new Logger('Server');
     const symbol = chalk`{blue.bold →}`;
 

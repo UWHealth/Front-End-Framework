@@ -6,7 +6,7 @@ const gulp = require('gulp');
 const plumber = require('gulp-plumber');
 const changed = require('gulp-changed');
 
-const LOG = require('../tools/logger.js');
+const LOG = require('../helpers/logger.js');
 const PATHS = require(`${process.cwd()}/config/paths.config.js`);
 
 module.exports = () =>

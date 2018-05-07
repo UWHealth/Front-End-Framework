@@ -10,9 +10,9 @@ const plumber = require('gulp-plumber');
 const tap     = require('gulp-tap');
 
 const CWD     = process.cwd();
-const Logger  = require(`../tools/logger.js`);
+const Logger  = require(`../helpers/logger.js`);
 const PATHS   = require(`${CWD}/config/paths.config.js`);
-const loopAST = require('../tools/embed-hbs-partials.js');
+const loopAST = require('../helpers/embed-hbs-partials.js');
 
 const LOG = new Logger('Handlebars');
 const Handlebars = require('handlebars');

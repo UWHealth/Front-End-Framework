@@ -5,10 +5,10 @@
 
 const webpack = require('webpack');
 
-const MODE = require('../tools/mode.js');
+const MODE = require('../helpers/mode.js');
 const STATS = require('../webpack/helpers/webpack-stats.js');
-const Logger = require('../tools/logger.js');
-const ARGS = require('../tools/args.js');
+const Logger = require('../helpers/logger.js');
+const ARGS = require('../helpers/args.js');
 
 const LOG = new Logger('Webpack');
 

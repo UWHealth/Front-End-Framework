@@ -11,7 +11,7 @@ const cwd    = process.cwd();
 
 const PATHS = require(`${cwd}/config/paths.config.js`);
 const STATS = require('./helpers/webpack-stats.js')();
-const MODE  = require('../tools/mode.js');
+const MODE  = require('../helpers/mode.js');
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`./babel.webpack.config.js`);
 

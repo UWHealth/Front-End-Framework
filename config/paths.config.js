@@ -22,16 +22,16 @@
 **/
 
 const path = require('path');
-const normalizePaths = require('./tools/normalize-paths.js');
+const normalizePaths = require('./helpers/normalize-paths.js');
 
 const root     = process.cwd();
 const config   = path.resolve(root, "config");
 const build    = path.resolve(root, "build");
 const dist     = path.resolve(root, "dist");
 const pub      = path.join(dist, "public");
-const src      = path.resolve(root, "_src");
+const src      = path.resolve(root, "src");
 const docs     = path.resolve(root, "docs");
-const dirArray = `${root}`.split(path.delimiter);
+const dirArray = root.split(path.delimiter);
 
 const PATHS = {
     folders: {
@@ -60,12 +60,14 @@ Object.assign(PATHS, {
             "root": `${src}/static`
         },
         "entry": {
-            "all": `${src}/static/**/*.*`,
-            "exclude": `!${src}/static/images/**.*`
+            "all": `${root}/static/**/*.*`,
+            "exclude": `!${root}/static/img/**.*`
         },
         "watch": {
-            "fonts": `${src}/static/fonts/*.*`,
-            "meta": `${src}/static/meta/*.*`
+            "all": `${root}/static/**/*.*`,
+            "fonts": `${root}/static/fonts/*.*`,
+            "meta": `${root}/static/meta/*.*`,
+            "exclude": [`!${root}/static/img/**.*`]
         },
         "dest": `${dist}/public/`
     },
@@ -82,11 +84,11 @@ Object.assign(PATHS, {
     },
     fonts: {
         "entry": {
-            "asap": `${src}/static/fonts/Asap*.*`,
-            "open": `${src}/static/fonts/opensans*.*`
+            "asap": `${root}/static/fonts/Asap*.*`,
+            "open": `${root}/static/fonts/opensans*.*`
         },
         "watch": {
-            "all": `${src}/static/fonts/**/*.*`
+            "all": `${root}/static/fonts/**/*.*`
         },
         "dest": `${pub}/fonts`
     },
@@ -108,30 +110,32 @@ Object.assign(PATHS, {
     },
     images: {
         "entry": {
-            "all": `${src}/static/img/**/*.+(jpe?g|png|gif|ico|svg)`,
-            "main": `${src}/static/img/**/*.+(jpe?g|png|gif|ico)`,
-            "svg": `${src}/static/img/svg/**/*.svg`,
+            "all": `${root}/static/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            "main": `${root}/static/img/**/*.+(jpe?g|png|gif|ico)`,
+            "svg": `${root}/static/img/svg/**/*.svg`,
         },
         "watch": {
-            "all": `${src}/static/img/**/*.+(jpe?g|png|gif|ico|svg)`,
-            "jpeg": `${src}/static/img/**/*.+(jpe?g)`,
-            "png": `${src}/static/img/**/*.png`,
-            "gif": `${src}/static/img/**/*.gif`,
-            "svg": `${src}/static/img/svg/**/*.svg`,
+            "all": `${root}/static/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            "jpeg": `${root}/static/img/**/*.+(jpe?g)`,
+            "png": `${root}/static/img/**/*.png`,
+            "gif": `${root}/static/img/**/*.gif`,
+            "svg": `${root}/static/img/svg/**/*.svg`,
         },
         "dest": `${pub}/img`
     },
     js: {
         "folders": {
-            "root": `${src}/js`,
+            "root": `${src}`,
             "components": `${src}/components`,
+            "modules": `${src}/modules`,
+            "globals": `${src}/globals`
         },
         "entry": {
-            "main": `${src}/js/main.js`,
+            "main": `${src}/main.js`,
             "components": `${src}/components/**/*[!demo].html`
         },
         "watch": {
-            "main": `${src}/**/*.js`,
+            "all": `${src}/**/*.js`,
         },
         "dest": `${pub}/js`
     },
@@ -141,16 +145,17 @@ Object.assign(PATHS, {
             "root": `${src}/sass`,
         },
         "entry": {
-            "main": `${src}/sass/main.scss`,
-            "print": `${src}/sass/print.scss`,
+            "main": `${src}/main.scss`,
+            "print": `${src}/print.scss`,
             "components": `${src}/components/**/[!_]*.scss`,
-            "styleguide": `${src}/styleguide/styleguide.scss`,
+            "modules": `${src}/modules/**/[!_]*.scss`,
+            "styleguide": `${src}/modules/styleguide/styleguide.scss`,
         },
         "watch": {
             "all": `${src}/**/*.scss`,
             "config": `${config}/sass.config.scss`,
-            "main": `${src}/sass/**/*.scss`,
-            "styleguide": `${src}/styleguide/styleguide.scss`,
+            "main": `${src}/*.scss`,
+            "styleguide": `${src}/modules/styleguide/styleguide.scss`,
             "components": `${src}/components/**/*.scss`,
         },
         "dest": `${pub}/css`
@@ -158,15 +163,15 @@ Object.assign(PATHS, {
     styleGuide: {
         "entry": {
             "config": `${config}/styleguide.config.js`,
-            "templateFile": `${src}/styleguide/styleguide.hbs`,
-            "themeFile": `${pub}/css/styleguide.css`,
-            "jquery": `${src}/styleguide/imports/jquery.js`,
-            "toc": `${src}/styleguide/imports/toc.js`,
+            "templateFile": `${src}/modules/styleguide/styleguide.hbs`,
+            "themeFile": `${pub}/css/styleguide/styleguide.css`,
+            "jquery": `${src}/modules/styleguide/imports/jquery.js`,
+            "toc": `${src}/modules/styleguide/imports/toc.js`,
         },
         "watch": {
-            "imports": `${src}/styleguide/**/*.*`,
-            "style": `${pub}/css/styleguide.css`,
-            "config": `${config}/styleguide.conf.js`,
+            "imports": `${src}/modules/styleguide/**/*.*`,
+            "style": `${pub}/css/styleguide/styleguide.css`,
+            "config": `${config}/styleguide.config.js`,
         },
         "dest": `${pub}/styleguide/index.html`
     },
@@ -178,7 +183,6 @@ Object.assign(PATHS, {
         "watch": {
             "css": `${pub}/css/*.css`,
             "js": `${pub}/js/**/*.js`,
-            "samples": `${dist}/samples/**/*.html`,
             "components": `${dist}/components/**/*.html`,
             "exclude": [`!${dist}/**/*.map`, `!${pub}/styleguide/*.html`],
         }

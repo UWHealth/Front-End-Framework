@@ -1,5 +1,5 @@
 const BROWSERS = require(process.cwd() + '/package.json').browserslist;
-const MODE = require(process.cwd() + '/build/tools/mode');
+const MODE = require(process.cwd() + '/build/helpers/mode');
 
 module.exports = function(isNode) {
     const targets = isNode ?

@@ -1,5 +1,5 @@
 const del          = require('del');
-const Logger       = require('../tools/logger.js');
+const Logger       = require('../helpers/logger.js');
 const PATHS        = require(`${process.cwd()}/config/paths.config.js`);
 
 const LOG = new Logger('Clean');

@@ -6,28 +6,32 @@
  */
 
 const path     = require('path');
-const cwd      = process.cwd();
+const CWD      = process.cwd();
 
-const PATHS    = require(cwd + '/config/paths.config.js');
-const MODE     = require(cwd + '/build/tools/mode.js');
-const BROWSERS = require(cwd + '/package.json').browserslist;
+const PATHS    = require(`${CWD}/config/paths.config.js`);
+const MODE     = require(`${CWD}/build/helpers/mode.js`);
+const BROWSERS = require(`${CWD}/package.json`).browserslist;
 
 const config = {
     context: __dirname,
     mode: process.env.NODE_ENV,
-    devtool: 'cheap-source-map',
+    devtool: MODE.production ? 'source-map' : 'cheap-source-map',
     resolve: {
         symlinks: false,
         modules: [
-            path.resolve(cwd, 'node_modules'),
+            path.resolve(PATHS.folders.root, 'node_modules'),
             'node_modules'
         ],
         mainFields: ["svelte", "module", "main"],
         alias: {
             // Allow for local imports without relative paths
             '@': PATHS.folders.src,
-            '@cwd': process.cwd()
-        }
+            'CWD': PATHS.folders.root
+        },
+        extensions: [
+            ".js", ".json", ".jsx",
+            ".html", ".hbs", ".handlebars"
+        ]
     },
     watchOptions: {
         ignored: /(node_modules|dist)/
@@ -36,7 +40,7 @@ const config = {
     plugins: [],
     module: {},
     optimization: {
-        nodeEnv: 'development',
+        nodeEnv: process.env.NODE_ENV,
         splitChunks: {
             chunks: "async"
         }
@@ -45,8 +49,8 @@ const config = {
 
 const seed = Object.create(null);
 const manifestPath = path.resolve(PATHS.folders.dist, 'manifest.json')
-    .replace('C:', '')
-    .replace(/\\/g, '/')
+    .replace('C:', '') // Remove drive letter
+    .replace(/\\/g, '/'); // Convert back-slashes to forward
 
 const sanitizePaths = function(entry, original, manifest, asset) {
     if(entry.key) {
@@ -54,7 +58,7 @@ const sanitizePaths = function(entry, original, manifest, asset) {
         if (entry.key.toLowerCase().endsWith('.map') ) {
             return false;
         }
-
+        console.log(original)
         // De-duplicate weird repeating names (button-button-demo-html.js)
         const newKey = entry.key.replace(/([^\/\n]*)\/?(([a-z]*)-)\2+(.*)/gi, '$1/$3')
 
@@ -102,10 +106,5 @@ config.module.rules = [
         }]
     }
 ];
-
-if (MODE.production) {
-    config.devtool = "source-map";
-    config.optimization.nodeEvn = 'production';
-}
 
 module.exports.config = config;

@@ -2,14 +2,14 @@ const gulp       = require('gulp');
 const series     = gulp.series;
 const parallel   = gulp.parallel;
 
-const TASKS      = require('./tools/require-tasks.js');
-const Logger     = require('./tools/logger.js');
+const TASKS      = require('./helpers/require-tasks.js');
+const Logger     = require('./helpers/logger.js');
 const LOG        = new Logger('Gulp');
 
 LOG.spinner('Starting');
 
 function taskOrder() {
-    const MODE  = require('./tools/mode');
+    const MODE  = require('./helpers/mode');
 
     LOG.ora.stopAndPersist({text: MODE.message()});
 
