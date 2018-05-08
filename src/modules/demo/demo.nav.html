@@ -1,7 +1,7 @@
 <!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
 <nav ref:navigation class="demo-navigation">
     <img src="/public/img/favicons/icon.svg" style="height: {60/16}rem;" alt="">
-    {#each links as [name, url] (name_url.url)}
+    {#each links as [name, url] (url)}
         <NavLink ref:url to="{url}" className="demo-navigation__link">{name}</NavLink>
     {/each}
 </nav>
@@ -9,11 +9,13 @@
 <script>
     import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
 
+    let history;
+
     if (typeof window === 'undefined') {
-        createMemoryHistory();
+        history = createMemoryHistory();
     }
     else {
-        createBrowserHistory();
+        history = createBrowserHistory();
     }
 
     export default {
@@ -25,7 +27,8 @@
                 ['Button', '/components/button/'],
                 ['Generic', '/components/generic/'],
                 ['Feed', '/components/feed/']
-            ]
+            ],
+            "history": history
         })
     };
 </script>

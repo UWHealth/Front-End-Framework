@@ -16,7 +16,7 @@
 </button>
 
 <script>
-    import modifiers from '@/helpers/class-modifiers/class-modifiers.js';
+    import modifiers from '@/helpers/class-modifiers';
     import titleCase from '@/helpers/title-case.js';
 
     export default {
@@ -30,6 +30,6 @@
         setup(thisComponent) {
             thisComponent.TYPES = ['wide', 'compact', ''];
         },
-        helpers: { modifiers }
-    }
+        helpers: { modifiers, titleCase }
+    };
 </script>
