@@ -31,6 +31,7 @@ const dist     = path.resolve(root, "dist");
 const pub      = path.join(dist, "public");
 const src      = path.resolve(root, "src");
 const docs     = path.resolve(root, "docs");
+const static   = path.resolve(root, "static");
 const dirArray = root.split(path.delimiter);
 
 const PATHS = {
@@ -42,6 +43,7 @@ const PATHS = {
         "build": build,   // Build folder
         "dist": dist,     // Built files
         "pub": pub,       // Published (public) folder
+        "static": static, // Static assets
         "src": src,       // Files to be built
         "docs": docs,     // Documentation folder
     }
@@ -52,54 +54,53 @@ Object.assign(PATHS, {
     clean: {
         "entry": {
             "dist": `${dist}/*`,
-            "docs": `${docs}/*`
+            "docs": `${docs}/*`,
         }
     },
     copy: {
         "folders": {
-            "root": `${src}/static`
+            "root": `${static}`,
         },
         "entry": {
-            "all": `${root}/static/**/*.*`,
-            "exclude": `!${root}/static/img/**.*`
+            "all": `${static}/**/*.*`,
+            "exclude": `!${static}/img/**.*`
         },
         "watch": {
-            "all": `${root}/static/**/*.*`,
-            "fonts": `${root}/static/fonts/*.*`,
-            "meta": `${root}/static/meta/*.*`,
-            "exclude": [`!${root}/static/img/**.*`]
+            "all": `${static}/**/*.*`,
+            "fonts": `${static}/fonts/*.*`,
+            "meta": `${static}/meta/*.*`,
+            "exclude": [`!${static}/img/**.*`]
         },
         "dest": `${dist}/public/`
     },
     demos: {
         "folders": {
-            "root": `${src}/components/`
+            "root": `${src}/components/`,
         },
         "entry": {
             "handlebars": `${src}/components/**/*.demo.js`,
             "svelte": `${src}/components/**/*.demo.html`,
-            "template": `${src}/components/base/_base.hbs`
+            "template": `${src}/components/base/_base.hbs`,
         },
         "dest": `${dist}/components`
     },
     fonts: {
         "entry": {
-            "asap": `${root}/static/fonts/Asap*.*`,
-            "open": `${root}/static/fonts/opensans*.*`
+            "asap": `${static}/fonts/Asap*.*`,
+            "open": `${static}/fonts/opensans*.*`,
         },
         "watch": {
-            "all": `${root}/static/fonts/**/*.*`
+            "all": `${static}/fonts/**/*.*`,
         },
         "dest": `${pub}/fonts`
     },
     hbs: {
         "folders": {
             "root": `${src}/components`,
-            "components": `${src}/components`
+            "components": `${src}/components`,
         },
         "watch": {
             "main": `${src}/components/**/*.hbs`,
-            "exclude": []
         },
         "entry": {
             "main": `${src}/components/**/*.hbs`,
@@ -110,16 +111,13 @@ Object.assign(PATHS, {
     },
     images: {
         "entry": {
-            "all": `${root}/static/img/**/*.+(jpe?g|png|gif|ico|svg)`,
-            "main": `${root}/static/img/**/*.+(jpe?g|png|gif|ico)`,
-            "svg": `${root}/static/img/svg/**/*.svg`,
+            "all": `${static}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            "main": `${static}/img/**/*.+(jpe?g|png|gif|ico)`,
+            "svg": `${static}/img/svg/**/*.svg`,
         },
         "watch": {
-            "all": `${root}/static/img/**/*.+(jpe?g|png|gif|ico|svg)`,
-            "jpeg": `${root}/static/img/**/*.+(jpe?g)`,
-            "png": `${root}/static/img/**/*.png`,
-            "gif": `${root}/static/img/**/*.gif`,
-            "svg": `${root}/static/img/svg/**/*.svg`,
+            "all": `${static}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            "svg": `${static}/img/svg/**/*.svg`,
         },
         "dest": `${pub}/img`
     },

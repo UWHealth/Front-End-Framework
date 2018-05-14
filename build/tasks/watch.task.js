@@ -1,8 +1,8 @@
 const gulp = require('gulp');
 
-const cwd = process.cwd();
-const PATHS = require(cwd + '/config/paths.config.js');
-const MODE = require('../helpers/mode.js');
+const CWD = process.cwd();
+const PATHS = require(`${CWD}/config/paths.config`);
+const MODE = require(`${CWD}/build/helpers/mode`);
 const glob = require('fast-glob');
 const path = require('path');
 
