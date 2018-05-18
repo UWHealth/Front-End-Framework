@@ -66,20 +66,13 @@ function boostrapConfig(options, folderName) {
 
     // Unify paths
     config.context = path.resolve(process.cwd());
-    config.output.publicPath = path.resolve(options.baseDist, options.outputPath) + '/';
+    config.output.publicPath = '/';
     config.output.path = options.outputPath;
     config.resolve.modules = ["node_modules"];
 
     // Make logging simpler (excluding chunks and js from logging)
     config.stats = STATS(true);
 
-    config.optimization.minimize = false;
-    config.optimization.splitChunks.chunks = "all";
-    config.optimization.splitChunks.minSize = 99999999;
-    config.optimization.splitChunks.minChunks = 100;
-    config.optimization.splitChunks.maxInitialRequests = 1;
-    config.optimization.splitChunks.maxAsyncRequests = 1;
-    config.optimization.splitChunks.cacheGroups = { default: false };
     // Make node compatible so we can evaluate templates in memory
     config.devtool = MODE.production ? 'source-map' : false;
     config.target = "async-node";
@@ -89,7 +82,6 @@ function boostrapConfig(options, folderName) {
         __dirname: true,
         __filename: true
     };
-    // config.output.globalObject = "this";
 
     // Give js files a namespace
     config.output.filename = `[name].${options.nameSpace}.js`;
@@ -106,8 +98,7 @@ function boostrapConfig(options, folderName) {
                     dev: !MODE.production,
                     hydratable: true,
                     store: true,
-                    preserveComments: true,
-                    prerender: true
+                    preserveComments: false,
                 }
             }
         }
@@ -159,59 +150,44 @@ function addHtmlPlugins(options) {
         plugins.push(
             new HtmlPlugin({
                 template: options.template,
-                // templateParameters: {
-                //     pageTitle: baseName
-                // },
                 filename: path.join(entryName, '..', 'index.html'),
                 inject: false,
                 cache: true,
                 showErrors: true,
                 pageTitle: baseName,
-                evalPlugin: {
-                    assetName: assetName,
-                    assetPath: path.resolve(process.cwd(), 'dist', assetName),
-                    context: {
-                        window: undefined,
-                        document: undefined,
-                        __dirname: path.resolve(process.cwd(), 'dist'),
-                        __filename: path.resolve(process.cwd(), 'dist', assetName),
-                        __APP_STATE__: {
-                            pathname: `/${options.folderName}/${baseName}/`,
-                            componentPath: `${baseName}`,
-                            pageTitle: baseName
-                        }
-                    }
-                }
+                internalTemplate: assetName,
+                pathname: `/${options.folderName}/${baseName}/`,
+                componentPath: `${baseName}`,
             })
         );
     });
 
-    plugins.push(
-        // Add evaluated demo to html data
-        new EvalTemplatePlugin({
-            templating: function(source, raw, htmlPluginData, compilation) { // eslint-disable-line
-                if (options.debug) { console.info('SOURCE', source); }
-
-                const render = (source && typeof source.render !== 'undefined') ? source.render || source.toString() : source;
-
-                const page = (typeof render === 'function') ? render() : render;
-                const opts = htmlPluginData.plugin.options.evalPlugin;
-
-                htmlPluginData.plugin.options.sourceScript = ''+
-                '<script>' +
-                    "window.__APP_STATE__ = {" +
-                        `initialRoute: '${opts.context.__APP_STATE__.pathname}',` +
-                        `componentPath: '${opts.context.__APP_STATE__.componentPath}'` +
-                    "}" +
-                '</script>';
-
-                // htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +
-                //     `${raw.replace(/<\/script>/g, '<\\/script>').replace('pathname: history.location.pathname', 'pathname: window.location.pathname')}\n return ${options.nameSpace}}</script>`;
-
-                return page;
-            }
-        })
-    );
+    // plugins.push(
+    //     // Add evaluated demo to html data
+    //     new EvalTemplatePlugin({
+    //         templating: function(source, raw, htmlPluginData, compilation) { // eslint-disable-line
+    //             if (options.debug) { console.info('SOURCE', source); }
+    //
+    //             const render = (source && typeof source.render !== 'undefined') ? source.render || source.toString() : source;
+    //
+    //             const page = (typeof render === 'function') ? render() : render;
+    //             const opts = htmlPluginData.plugin.options.evalPlugin;
+    //
+    //             htmlPluginData.plugin.options.sourceScript = ''+
+    //             '<script>' +
+    //                 "window.__APP_STATE__ = {" +
+    //                     `initialRoute: '${opts.context.__APP_STATE__.pathname}',` +
+    //                     `componentPath: '${opts.context.__APP_STATE__.componentPath}'` +
+    //                 "}" +
+    //             '</script>';
+    //
+    //             // htmlPluginData.plugin.options.unevaledScript = `<script>\n window.parsedObject = function(global){\n\t` +
+    //             //     `${raw.replace(/<\/script>/g, '<\\/script>').replace('pathname: history.location.pathname', 'pathname: window.location.pathname')}\n return ${options.nameSpace}}</script>`;
+    //
+    //             return page;
+    //         }
+    //     })
+    // );
 
     return plugins;
 }

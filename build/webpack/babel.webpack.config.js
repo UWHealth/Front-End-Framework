@@ -1,8 +1,8 @@
 const BROWSERS = require(process.cwd() + '/package.json').browserslist;
 const MODE = require(process.cwd() + '/build/helpers/mode');
 
-module.exports = function(isNode) {
-    const targets = isNode ?
+module.exports = function(targetIsNode) {
+    const targets = targetIsNode ?
     { "node": "current" }
     :
     { "browsers": BROWSERS };
@@ -32,11 +32,11 @@ module.exports = function(isNode) {
         ]
     };
 
-    if (!isNode) {
-        config.plugins.push(["syntax-dynamic-import"], ["transform-object-assign"])
+    if (!targetIsNode) {
+        config.plugins.push(["syntax-dynamic-import"], ["transform-object-assign"]);
     }
     else {
-        config.plugins.push(["dynamic-import-node"])
+        config.plugins.push(["dynamic-import-node"]);
     }
 
     return config;

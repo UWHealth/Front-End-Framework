@@ -47,40 +47,6 @@ const config = {
     }
 };
 
-const seed = Object.create(null);
-const manifestPath = path.resolve(PATHS.folders.dist, 'manifest.json')
-    .replace('C:', '') // Remove drive letter
-    .replace(/\\/g, '/'); // Convert back-slashes to forward
-
-const sanitizePaths = function(entry, original, manifest, asset) {
-    if(entry.key) {
-        // Filter out source maps
-        if (entry.key.toLowerCase().endsWith('.map') ) {
-            return false;
-        }
-        console.log(original)
-        // De-duplicate weird repeating names (button-button-demo-html.js)
-        const newKey = entry.key.replace(/([^\/\n]*)\/?(([a-z]*)-)\2+(.*)/gi, '$1/$3')
-
-        return {
-            key: newKey,
-            value: entry.value
-        }
-    }
-};
-
-module.exports.manifestConfig = function(publicPath, customize) {
-
-    return {
-        assets: seed,
-        output: manifestPath,
-        entryPoints: true,
-        publicPath: publicPath,
-        writeToDisk: true,
-        customize: customize ? sanitizePaths : null
-    }
-};
-
 /*
  * Loaders
  * 1. Babel

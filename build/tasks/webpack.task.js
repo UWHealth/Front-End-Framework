@@ -39,10 +39,10 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
                 });
             }
 
-            // if (stats.hasWarnings()) {
-            //     LOG.info(name + ' Warning');
-            //     return LOG.info(stats.toString('minimal'));
-            // }
+            if (stats.hasWarnings()) {
+                LOG.info(name + ' Warning');
+                return LOG.info(stats.toString('minimal'));
+            }
 
             const statsString = (!MODE.production && !ARGS.stats) ?
                 `${stats.toString('minimal').replace(/\s+(\d*)(.*)/, ` $1 ${name}$2 `)}`

@@ -6,13 +6,14 @@
 const webpack   = require('webpack');
 const cloneDeep = require('lodash.clonedeep');
 const glob      = require('fast-glob');
+const path      = require('path');
 
-const cwd    = process.cwd();
+const CWD       = process.cwd();
 
-const PATHS = require(`${cwd}/config/paths.config.js`);
+const PATHS = require(`${CWD}/config/paths.config.js`);
 const STATS = require('./helpers/webpack-stats.js')();
 const MODE  = require('../helpers/mode.js');
-const baseConfig = require(`./base.webpack.config.js`);
+const baseConfig  = require(`./base.webpack.config.js`);
 const babelConfig = require(`./babel.webpack.config.js`);
 
 const config = cloneDeep(baseConfig.config);
@@ -20,16 +21,20 @@ const config = cloneDeep(baseConfig.config);
 config.stats = STATS;
 config.target = "web";
 
-config.name = "Javascript";
+config.name = "Client";
 
-config.recordsPath = cwd + '/dist/public/js/js-records.json';
+config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
 
 const components = glob.sync(PATHS.js.entry.components);
 
 config.entry = {
-    "main": PATHS.js.entry.main,
-    "components": components,
-}
+    "main": PATHS.js.entry.main
+};
+
+components.forEach((component)=> {
+    //config.entry[path.basename(component, '.html')] = component
+    config.plugins.push(new webpack.PrefetchPlugin(component));
+});
 
 config.output = {
     path: PATHS.js.dest,
@@ -43,40 +48,42 @@ config.output = {
     library: 'uwhealth',
 };
 
-const ManifestPlugin = require('webpack-assets-manifest');
+config.resolve.mainFields.unshift("svelte", "browser");
+
+// Using Vue's manifest plugin for its formatting
+const VueManifestPlugin = require('vue-server-renderer/client-plugin.js');
 
 config.plugins.push(
-    new ManifestPlugin(
-        baseConfig.manifestConfig(config.output.publicPath, true)
-    )
+    new VueManifestPlugin({
+        filename: '../module-map-manifest.json'
+    })
 );
 
-components.forEach((mod) => {
-    config.plugins.push(
-        new webpack.PrefetchPlugin(mod)
-    )
-})
-
-
-// config.optimization.runtimeChunk = "single"
-
 config.optimization.concatenateModules = MODE.production;
+config.optimization.mergeDuplicateChunks = MODE.production;
 
 config.optimization.portableRecords = true;
 
-config.resolve.mainFields.unshift("svelte", "browser");
+
+config.optimization.runtimeChunk = { name: "runtime" };
 
 config.optimization.splitChunks = {
-    chunks: "all",
-    automaticNameDelimiter: "-",
+    chunks: "async",
+    automaticNameDelimiter: "+",
     cacheGroups: {
-        vendors: false
+        vendors: false,
+        commons: {
+            name: "shared",
+            chunks: "initial",
+            minChunks: 2,
+            reuseExistingChunk: true
+        }
     }
 };
 
 config.module.rules.push(
     {
-        test: /\.(html|sv\.html|svelte|js|jsx)$/,
+        test: /\.(html|svelte|js|jsx)$/,
         exclude: (mod) => {
             return MODE.production ? false : /(node_modules)/.test(mod);
         },
@@ -87,7 +94,7 @@ config.module.rules.push(
     },
 
     {
-        test: /\.(html|sv\.html|svelte)$/,
+        test: /\.(html|svelte)$/,
         use: [
             {
                 loader: 'svelte-loader',
@@ -110,44 +117,33 @@ if (MODE.production) {
 
     config.node = false;
 
-    config.optimization = {
-        splitChunks: {
-            chunks: "async"
-        },
-        runtimeChunk: {
-            name: "main",
-        },
-        mergeDuplicateChunks: true,
-        portableRecords: true,
-        minimizer: [
+    config.optimization.minimizer = [
+        // new ClosureCompilerPlugin({
+        //     compiler: {
+        //         language_in: 'ECMASCRIPT_2017',
+        //         language_out: 'ECMASCRIPT5_STRICT',
+        //         compilation_level: 'SIMPLE',
+        //         dependency_mode: 'LOOSE',
+        //         rewrite_polyfills: true,
+        //         create_source_map: true,
+        //     },
+        //     concurrency: 3
+        // }),
 
-            // new ClosureCompilerPlugin({
-            //     compiler: {
-            //         language_in: 'ECMASCRIPT_2017',
-            //         language_out: 'ECMASCRIPT5_STRICT',
-            //         compilation_level: 'SIMPLE',
-            //         dependency_mode: 'LOOSE',
-            //         rewrite_polyfills: true,
-            //         create_source_map: true,
-            //     },
-            //     concurrency: 3
-            // }),
-
-            new UglifyJsPlugin({
-                uglifyOptions: {
-                    ecma: 5,
-                    ie8: false,
-                    beautify: true,
-                    mangle: true,
-                    compress: true,
-                    comments: false,
-                    // exclude: /\/(t4|hbs)./
-                },
-                parallel: true,
-                sourceMap: true
-            })
-        ]
-    };
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                ecma: 5,
+                ie8: false,
+                beautify: true,
+                mangle: true,
+                compress: true,
+                comments: false,
+                // exclude: /\/(t4|hbs)./
+            },
+            parallel: true,
+            sourceMap: true
+        })
+    ];
 
     config.plugins.push(
 

@@ -1,6 +1,5 @@
 const gulp       = require('gulp');
 const series     = gulp.series;
-const parallel   = gulp.parallel;
 
 const TASKS      = require('./helpers/require-tasks.js');
 const Logger     = require('./helpers/logger.js');
@@ -10,19 +9,20 @@ LOG.spinner('Starting');
 
 function taskOrder() {
     const MODE  = require('./helpers/mode');
+    const p = gulp.parallel;
 
     LOG.ora.stopAndPersist({text: MODE.message()});
 
     return !MODE.production ?
         // DEV
-        series('clean', 'images', parallel('webpack', 'copy', 'sass'), 'styleGuide', parallel('watch', 'browserSync'))
+        series('clean', p('sass', 'webpack', 'copy'), p('images', 'styleGuide'), p('watch', 'browserSync'))
         :
         MODE.localProduction ?
             // LOCAL-PROD
-            series('clean', parallel('images', 'copy'), parallel('sass', 'webpack', 'hbs'), 'styleGuide', parallel('watch', 'browserSync'))
+            series('clean', p('copy', 'sass', 'webpack', 'hbs'), p('images', 'styleGuide'), p('watch', 'browserSync'))
             :
             // PROD
-            series('clean', parallel('images', 'copy'), parallel('sass', 'webpack', 'hbs'), 'styleGuide', 'size');
+            series('clean', p('copy', 'sass', 'webpack', 'hbs', 'images'), 'styleGuide', 'size');
 }
 
 /* ---------------------------------

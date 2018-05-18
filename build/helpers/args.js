@@ -18,7 +18,7 @@ yargs.options({
         group: 'Environment:'
     },
     'stats': {
-        describe: 'Show full Webpack stats',
+        describe: 'Show full Webpack stats and errors',
         type: 'boolean',
         default: false,
         group: 'Logging: '

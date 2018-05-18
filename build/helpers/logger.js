@@ -1,6 +1,5 @@
 const chalk        = require('chalk');
 const notify       = require('gulp-notify');
-const log          = require('fancy-log');
 const PrettyError  = require('pretty-error');
 const ora          = require('ora');
 
@@ -42,17 +41,12 @@ module.exports = function(task, message) {
         return self;
     };
 
-    this.info = function(msg, showOra) { // eslint-disable-line
-        msg = msg || (showOra && showOra.text) || message;
+    this.info = function(msg, oraOpts) { // eslint-disable-line
+        msg = msg || (OraOpts && oraOpts.text) || message;
 
-        if (showOra) {
-            msg = chalk.blue(task) + ' ' + msg + ' ' + getTime();
-            const opts = showOra.symbol ? { text: msg, symbol: showOra.symbol } : msg;
-            self.ora.clear().info(opts);
-        }
-        else {
-            log.info(chalk.cyan(task), msg);
-        }
+        msg = chalk.blue(task) + ' ' + msg + ' ' + getTime();
+        const opts = oraOpts.symbol ? { text: msg, symbol: oraOpts.symbol } : msg;
+        self.ora.clear().info(opts);
     };
 
     this.success = function(msg) {

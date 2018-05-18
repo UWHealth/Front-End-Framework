@@ -15,20 +15,23 @@ const PATHS    = require(`${process.cwd()}/config/paths.config.js`);
 const LOG = new Logger('Images');
 
 module.exports = () => {
-    LOG.spinner('Compressing\n');
+    LOG.spinner('Compressing');
 
     return gulp
         .src(PATHS.images.entry.all)
         .pipe(plumber(LOG.error))
         .pipe(changed(PATHS.images.dest))
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [
-                { removeViewBox: false },
-                { cleanupIDs: false }
-            ],
-            use: [pngquant()]
-        }))
-        .on('end', () => { LOG.ora.clear(); LOG.ora.clear(); LOG.success('Compressed '); })
+        .pipe(imagemin([
+            imagemin.gifsicle(), imagemin.optipng(),
+            imagemin.jpegtran({progressive: true}),
+            imagemin.svgo({
+                plugins: [
+                    { removeViewBox: false },
+                    { cleanupIDs: false }
+                ]
+            })
+        ],
+        {verbose: false}))
+        .on('end', () => { LOG.success('Compressed '); })
         .pipe(gulp.dest(PATHS.images.dest));
 };

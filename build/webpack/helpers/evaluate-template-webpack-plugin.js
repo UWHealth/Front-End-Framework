@@ -5,7 +5,6 @@
  */
 
 const _eval = require('eval');
-const vm = require('vm');
 
 function evaluateTemplatePlugin(options) {
     options = options || {};
