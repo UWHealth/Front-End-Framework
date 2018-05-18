@@ -33,7 +33,7 @@ Sass files are imported in order from lowest specificity to highest.
 //-----------------------------
 
 //Global functions and variables
-@import 'helpers/tools';
+@import 'helpers/_tools/index';
 
 //Settings
 @import '../config/sass.config';
@@ -44,7 +44,7 @@ Sass files are imported in order from lowest specificity to highest.
 // (after import, CSS will be written out)
 //-----------------------------
 
-@import 'globals/base';
+@import 'modules/base/index';
 
 
 //Grids, alignment and higher-level classes
@@ -63,12 +63,10 @@ Sass files are imported in order from lowest specificity to highest.
 //View-specific and theme-/skin-based styles
 //(+2-4 specificity)
 
-// @import 'views/'
-
 
 //High-specificity css and overrides classes (usually have !important).
 // Typically single-use classes
-@import 'helpers/overrides';
+@import 'helpers/_overrides/index';
 
 //Example Overrides (can be removed)
 //@import 'overrides/ov-polyfills.example';

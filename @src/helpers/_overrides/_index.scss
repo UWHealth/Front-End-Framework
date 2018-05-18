@@ -4,7 +4,7 @@
 // Should always end in !important to ensure their specificity.
 //-----------------------------
 
-@import '_overrides/ov-alignment';
-@import '_overrides/ov-display.scss';
-@import '_overrides/ov-spacing.scss';
-@import '_overrides/ov-type.scss';
+@import 'ov-alignment';
+@import 'ov-display.scss';
+@import 'ov-spacing.scss';
+@import 'ov-type.scss';

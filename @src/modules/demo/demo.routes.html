@@ -23,7 +23,7 @@
         data() {
             const globalState = findGlobalState();
             return Object.assign({}, {
-                path: '/components/:demo',
+                path: '/demo/:demo',
                 demoTitle: 'Demo',
                 currentRoute: '',
             }, globalState);
@@ -63,7 +63,9 @@
     };
 
     function splitRequire(pathname) {
-        const component = () => import(/* "webpackChunkName": "[request]" */ '@/components/' + pathname + '/' + pathname + '.demo.html');
+        const component = () => import(
+            /* "webpackChunkName": "demo.routes", "webpackMode": "lazy-once" */
+            '@/components/' + pathname + '/' + pathname + '.demo.html');
 
         const modID = () => require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');
 

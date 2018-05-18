@@ -5,13 +5,13 @@
 //-----------------------------
 
 //(normalize and resets, * selectors)
-@import '_base/reset';
-@import '_base/sanitize';
+@import 'reset';
+@import 'sanitize';
 
 //Elements and un-classed selectors
-@import '_base/font';
-@import '_base/silent';
-@import '_base/form';
-@import '_base/list';
-@import '_base/table';
-@import '_base/type';
+@import 'font';
+@import 'silent';
+@import 'form';
+@import 'list';
+@import 'table';
+@import 'type';

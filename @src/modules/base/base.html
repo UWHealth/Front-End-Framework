@@ -1,0 +1,65 @@
+{@html doctype + html[0]}
+{@html header}
+{@html body[0]}
+    <div id="app">
+        {@html innerComponent}
+    </div>
+    {@html pageState}
+{@html body[1] + html[1]}
+
+<script>
+    import header from '@/components/header/_header.hbs';
+    import footer from '@/components/footer/_footer.hbs';
+    import * as manifest from 'CWD/dist/public/module-map-manifest.json';
+
+    // doctype, html, body, and head tags added as strings
+    // to prevent Svelte from treating them as components
+    export default {
+
+        data: () => ({
+            doctype: '<!DOCTYPE html>',
+            body: ['<body>', '</body>'],
+            html: ['<html lang="en">', '</html>'],
+            htmlWebpackPlugin: null,
+            compilation: null,
+        }),
+
+        computed: {
+            // Convert htmlWebpackPlugin options as meta data for header template
+            pageTitle: ({htmlWebpackPlugin}) => htmlWebpackPlugin.options.pageTitle,
+            scripts: ({htmlWebpackPlugin}) => htmlWebpackPlugin.files.js,
+
+            // Pass state to handlebars templates
+            header: (state) => header(state),
+            footer: (state) => footer(state),
+
+            pageState: (state) => {
+                let opts = state.htmlWebpackPlugin.options;
+                return "<script> window.__APP_STATE__ = {" +
+                `initialRoute: '${opts.pathname}',` +
+                `componentPath: '${opts.componentPath}'` + `}; console.log(${JSON.stringify(manifest)}) <\/script>`;
+            },
+
+            // Get processed svelte template and evaluate it
+            // in a separate node VM (eval)
+            // Allows us to avoid bundling every possible page template
+            innerComponent: ({htmlWebpackPlugin, compilation, state}) => {
+                const _eval = __non_webpack_require__('eval');
+                const assetName = htmlWebpackPlugin.options.internalTemplate;
+
+                try {
+                    const source = compilation.assets[assetName].source();
+                    const context = _eval(
+                        source, assetName,
+                        {window: undefined, document: undefined, fetch: undefined},
+                        true /* include node globals */
+                    );
+                    return context.render(state);
+                }
+                catch (e) {
+                    return 'error: ' + e;
+                }
+            }
+        }
+    };
+</script>

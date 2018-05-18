@@ -29,7 +29,7 @@ const config   = path.resolve(root, "config");
 const build    = path.resolve(root, "build");
 const dist     = path.resolve(root, "dist");
 const pub      = path.join(dist, "public");
-const src      = path.resolve(root, "src");
+const src      = path.resolve(root, "@src");
 const docs     = path.resolve(root, "docs");
 const static   = path.resolve(root, "static");
 const dirArray = root.split(path.delimiter);
@@ -80,9 +80,9 @@ Object.assign(PATHS, {
         "entry": {
             "handlebars": `${src}/components/**/*.demo.js`,
             "svelte": `${src}/components/**/*.demo.html`,
-            "template": `${src}/components/base/_base.hbs`,
+            "base": `${src}/modules/base/base.js`
         },
-        "dest": `${dist}/components`
+        "dest": `${dist}/demo`
     },
     fonts: {
         "entry": {

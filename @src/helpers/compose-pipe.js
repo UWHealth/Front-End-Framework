@@ -1,5 +1,6 @@
 /**
  * Takes multiple functions and applies them in a series (from right-to-left/bottom-to-top)
+ * @example compose(trimLeft, trimRight, toLowerCase)( ' FOO ') === 'foo'
  * @param  {Function} functions - functions to be executed
  * @return {Function}           - Curried function
  */
@@ -13,6 +14,7 @@ export function compose(...functions) {
 
 /**
  * Takes multiple functions and applies them in a series (from left-to-right/top-to-bottom)
+ * @example pipe(toLowerCase, trimRight, trimLeft)(' FOO ') === 'foo'
  * @param  {Function} functions - functions to be executed
  * @return {Function}           - Curried function
  */

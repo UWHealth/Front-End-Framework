@@ -1,4 +1,4 @@
-const decodeEntities = (function() {
+const decodeHtml = (function() {
     // this prevents any overhead from creating the object each time
     const element = typeof document !== 'undefined' ? document.createElement('div') : '';
 
@@ -18,4 +18,4 @@ const decodeEntities = (function() {
     return decodeHTMLEntities;
 })();
 
-export default decodeEntities;
+export default decodeHtml;

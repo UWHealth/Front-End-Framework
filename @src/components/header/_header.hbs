@@ -25,14 +25,20 @@
 
     <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="screen" href="/public/css/main.css">
     <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="print" href="/public/css/print.css">
-    <script async src="/public/js/components-main.js"></script>
-    <script async src="/public/js/main.bundle.js"></script>
+    {{#if scripts}}
+        {{#each scripts}}
+        <!-- <script src="{{this}}"></script> -->
+        <!--{{this}}-->
+        {{/each}}
+    {{/if}}
+        <script src="/public/js/runtime.bundle.js"></script>
+        <script async src="/public/js/main.js"></script>
+
 
     <noscript>
         <link rel="stylesheet" media="screen" href="/public/css/main.css">
         <link rel="stylesheet" media="print" href="/public/css/print.css">
     </noscript>
-
 
     {{> ./_header.async.hbs}}
 </head>
