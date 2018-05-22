@@ -1,8 +1,8 @@
 //Global functions and variables
-@import '../../helpers/_tools/index';
+@import '@/helpers/_tools/index';
 
 //Settings
-@import '../../../config/sass.config';
+@import '@/../config/sass.config';
 
 $demo-cyan: lighten(blend-overlay(rgba(#08f, .5), color('links', 'lightest'), 35%), 3%);
 
