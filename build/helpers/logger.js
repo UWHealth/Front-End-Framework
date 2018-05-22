@@ -45,7 +45,7 @@ module.exports = function(task, message) {
         msg = msg || (OraOpts && oraOpts.text) || message;
 
         msg = chalk.blue(task) + ' ' + msg + ' ' + getTime();
-        const opts = oraOpts.symbol ? { text: msg, symbol: oraOpts.symbol } : msg;
+        const opts = oraOpts && oraOpts.symbol ? { text: msg, symbol: oraOpts.symbol } : msg;
         self.ora.clear().info(opts);
     };
 
