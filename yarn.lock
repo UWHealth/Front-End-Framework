@@ -3967,7 +3967,7 @@ eslint@^2.7.0:
     text-table "~0.2.0"
     user-home "^2.0.0"
 
-eslint@^4.18.2:
+eslint@^4.19.1:
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.19.1.tgz#32d1d653e1d90408854bfb296f076ec7e186a300"
   dependencies:
@@ -10361,9 +10361,9 @@ svelte-transitions@^1.1.1:
     svelte-transitions-fly "^1.0.1"
     svelte-transitions-slide "^1.0.0"
 
-svelte@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.5.0.tgz#f8926805f655631cd0f38ed3eddbdfff498de42e"
+svelte@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-2.6.3.tgz#ab6b463e76df7a294187396b3776b8b0c12c3c08"
 
 sver-compat@^1.5.0:
   version "1.5.0"
