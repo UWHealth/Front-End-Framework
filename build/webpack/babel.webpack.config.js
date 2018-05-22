@@ -15,7 +15,7 @@ module.exports = function(targetIsNode) {
                 "targets": targets,
                 "loose": true,
                 "modules": false,
-                "useESModules": MODE.production ? true : false,
+                "useESModules": Boolean(MODE.production),
                 "ignoreBrowserslistConfig": true,
                 "debug": false,
             }]
@@ -27,7 +27,7 @@ module.exports = function(targetIsNode) {
                 "polyfill": false,
                 "loose": true,
                 "modules": false,
-                "useESModules": MODE.production ? true : false
+                "useESModules": Boolean(MODE.production)
             }]
         ]
     };

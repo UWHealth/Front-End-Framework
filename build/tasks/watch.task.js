@@ -42,7 +42,7 @@ module.exports = function() {
     // where webpack needs to create new html pages.
     // Restarts webpack to add new files
     gulp.watch(
-        [PATHS.demos.entry.svelte], opts)
+        [PATHS.demos.entry.all], opts)
         .on('add', gulp.series('webpack'));
 };
 

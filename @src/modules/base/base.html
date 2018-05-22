@@ -11,7 +11,6 @@
     import header from '@/components/header/_header.hbs';
     import footer from '@/components/footer/_footer.hbs';
     import * as manifest from 'CWD/dist/public/module-map-manifest.json';
-
     // doctype, html, body, and head tags added as strings
     // to prevent Svelte from treating them as components
     export default {
@@ -35,9 +34,12 @@
 
             pageState: (state) => {
                 let opts = state.htmlWebpackPlugin.options;
-                return "<script> window.__APP_STATE__ = {" +
-                `initialRoute: '${opts.pathname}',` +
-                `componentPath: '${opts.componentPath}'` + `}; console.log(${JSON.stringify(manifest)}) <\/script>`;
+                return "<script>" +
+                    "window.__APP_STATE__ = {" +
+                        `initialRoute: '${opts.pathname}',` +
+                        `componentPath: '${opts.componentPath}'` +
+                    `};
+                <\/script>`; // eslint-disable-line
             },
 
             // Get processed svelte template and evaluate it

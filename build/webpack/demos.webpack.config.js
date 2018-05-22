@@ -5,25 +5,51 @@
 const CWD = process.cwd();
 const path = require('path');
 
-const htmlConfig = require('./helpers/create-html-config.js');
+const glob = require('fast-glob');
+const cloneDeep = require('lodash.clonedeep');
+
+const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
+const STATS = require("./helpers/webpack-stats.js");
+
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`./babel.webpack.config.js`);
+const HtmlPlugin = require('html-webpack-plugin');
 
-const config = htmlConfig({
-    baseConfig: baseConfig.config,
-    src: PATHS.demos.entry.svelte,
-    template: PATHS.demos.entry.base,
-    dest: PATHS.demos.dest,
-    nameSpace: "demo",
-    sourceExtension: ".demo.html",
-    debug: false,
-    assetName: "auto"
-});
+const config = cloneDeep(baseConfig.config);
 
 config.name = "Demo";
 
+config.devtool = MODE.production ? 'source-map' : false;
+config.target = "node";
+config.externals = {
+    manifest: 'module-map-manifest'
+}
+
+config.output = {
+    publicPath: '/',
+    libraryTarget: "commonjs2",
+    filename: `[name].demo.js`
+};
+
 config.module.rules.push(
+    // Svelte as server-side
+    {
+        test: /\.(html|sv\.html|svelte)$/,
+        use: {
+            loader: 'svelte-loader',
+            options: {
+                format: 'cjs',
+                generate: 'ssr',
+                dev: !MODE.production,
+                hydratable: true,
+                store: true,
+                preserveComments: false,
+            }
+        }
+    },
+
+    // Babelify
     {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
@@ -37,7 +63,30 @@ config.module.rules.push(
     {
         test: /\.demo\.css$/,
         use: 'raw-loader'
-    }
+    },
 );
+
+// Add all demo
+glob.sync(PATHS.demos.entry.all).forEach((file) => {
+    const baseName = path.basename(file, '.demo.html');
+    const entryName = path.join('demo', baseName, baseName);
+
+    config.entry[entryName] = file;
+
+    config.plugins.push(
+        new HtmlPlugin({
+            template: PATHS.demos.entry.main,
+            filename: path.join(entryName, '..', 'index.html'),
+            inject: false,
+            cache: true,
+            showErrors: true,
+            // Template-specific data
+            pageTitle: baseName,
+            internalTemplate: `${entryName}.demo.js`,
+            pathname: `/demo/${baseName}/`,
+            componentPath: `${baseName}`,
+        })
+    )
+});
 
 module.exports = config;

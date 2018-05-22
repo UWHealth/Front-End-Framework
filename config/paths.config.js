@@ -25,11 +25,12 @@ const path = require('path');
 const normalizePaths = require('./helpers/normalize-paths.js');
 
 const root     = process.cwd();
+
+const src      = path.resolve(root, "@src");
 const config   = path.resolve(root, "config");
 const build    = path.resolve(root, "build");
 const dist     = path.resolve(root, "dist");
 const pub      = path.join(dist, "public");
-const src      = path.resolve(root, "@src");
 const docs     = path.resolve(root, "docs");
 const static   = path.resolve(root, "static");
 const dirArray = root.split(path.delimiter);
@@ -51,12 +52,19 @@ const PATHS = {
 
 
 Object.assign(PATHS, {
+    // Allow for path aliases
+    "aliases": {
+        '@': src,
+        'CWD': root
+    },
+    // Folders/files that should be cleaned before build
     clean: {
         "entry": {
             "dist": `${dist}/*`,
             "docs": `${docs}/*`,
         }
     },
+    // Folders and files that should be copied directly
     copy: {
         "folders": {
             "root": `${static}`,
@@ -73,14 +81,16 @@ Object.assign(PATHS, {
         },
         "dest": `${dist}/public/`
     },
+    // Files to create demos from
     demos: {
         "folders": {
             "root": `${src}/components/`,
+            "components": `${src}/components/`,
+            "modules": `${src}/modules/`
         },
         "entry": {
-            "handlebars": `${src}/components/**/*.demo.js`,
-            "svelte": `${src}/components/**/*.demo.html`,
-            "base": `${src}/modules/base/base.js`
+            "all": `${src}/components/**/*.demo.html`,
+            "main": `${src}/demos.js`
         },
         "dest": `${dist}/demo`
     },

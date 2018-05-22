@@ -4,8 +4,7 @@ import store from '@/modules/demo/demo.store.js';
 import demoRouter from '@/modules/demo/demo.routes.html';
 import {importComponent} from '@/helpers/import-component';
 
-let application;
-let manifest;
+let application, manifest;
 
 fetch('/public/module-map-manifest.json')
     .then(r => r.json()).then((json) => manifest = json)

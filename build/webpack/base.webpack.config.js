@@ -12,6 +12,7 @@ const PATHS    = require(`${CWD}/config/paths.config.js`);
 const MODE     = require(`${CWD}/build/helpers/mode.js`);
 const BROWSERS = require(`${CWD}/package.json`).browserslist;
 
+
 const config = {
     context: __dirname,
     mode: process.env.NODE_ENV,
@@ -23,11 +24,7 @@ const config = {
             'node_modules'
         ],
         mainFields: ["svelte", "module", "main"],
-        alias: {
-            // Allow for local imports without relative paths
-            '@': PATHS.folders.src,
-            'CWD': PATHS.folders.root
-        },
+        alias: PATHS.aliases,
         extensions: [
             ".js", ".json", ".jsx",
             ".html", ".hbs", ".handlebars"
@@ -36,6 +33,7 @@ const config = {
     watchOptions: {
         ignored: /(node_modules|dist)/
     },
+    entry: {},
     output: {},
     plugins: [],
     module: {},
