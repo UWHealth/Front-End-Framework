@@ -21,12 +21,14 @@
             html: ['<html lang="en">', '</html>'],
             htmlWebpackPlugin: null,
             compilation: null,
+            manifest: manifest,
+            publicPath: __webpack_public_path__
         }),
 
         computed: {
             // Convert htmlWebpackPlugin options as meta data for header template
             pageTitle: ({htmlWebpackPlugin}) => htmlWebpackPlugin.options.pageTitle,
-            scripts: ({htmlWebpackPlugin}) => htmlWebpackPlugin.files.js,
+            scripts: ({manifest}) => manifest.initial,
 
             // Pass state to handlebars templates
             header: (state) => header(state),

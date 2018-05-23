@@ -26,14 +26,14 @@
     <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="screen" href="/public/css/main.css">
     <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="print" href="/public/css/print.css">
     {{#if scripts}}
-        {{#each scripts}}
-        <!-- <script src="{{this}}"></script> -->
+        {{#each scripts~}}
+        <script {{#unless @first}}async{{/unless}} src="{{{@root.publicPath}}}{{{this}}}"></script>
         <!--{{this}}-->
-        {{/each}}
-    {{/if}}
+        {{~/each}}
+    {{else}}
         <script src="/public/js/runtime.bundle.js"></script>
         <script async src="/public/js/main.js"></script>
-
+    {{/if}}
 
     <noscript>
         <link rel="stylesheet" media="screen" href="/public/css/main.css">
