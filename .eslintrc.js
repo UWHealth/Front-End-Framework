@@ -63,6 +63,7 @@ module.exports = {
         "__webpack_require__": true,
         "__webpack_chunk_load__": true,
         "__non_webpack_require__": true,
+        "__webpack_public_path__": true,
         "__webpack_hash__": true,
         "__resourceQuery": true,
         "DEBUG": true
