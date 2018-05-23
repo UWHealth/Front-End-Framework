@@ -37,7 +37,7 @@ Font file names must be the same as their CSS font-family values. Example: arial
 
 @mixin include-web-fonts($font-map: $web-fonts) {
     @each $name in map-keys($font-map) {
-        $inner-map: map-get($font-map, $font-name);
+        $inner-map: map-get($font-map, $name);
 
         $weights: map-get($inner-map, 'weights');
         $italics: map-get($inner-map, 'italics');
