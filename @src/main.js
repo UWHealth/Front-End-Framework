@@ -2,7 +2,6 @@ import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
 import store from '@/modules/demo/demo.store.js';
 import demoRouter from '@/modules/demo/demo.routes.html';
-import {importComponent} from '@/helpers/import-component';
 
 let application, manifest;
 

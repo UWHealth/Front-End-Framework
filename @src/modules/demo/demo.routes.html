@@ -64,7 +64,7 @@
 
     function splitRequire(pathname) {
         const component = () => import(
-            /* "webpackChunkName": "demo.routes", "webpackMode": "lazy-once" */
+            /* "webpackChunkName": "demo.route", "webpackMode": "lazy" */
             '@/components/' + pathname + '/' + pathname + '.demo.html');
 
         const modID = () => require.resolveWeak('@/components/' + pathname + '/' + pathname + '.demo.html');

@@ -68,13 +68,29 @@ config.optimization.portableRecords = true;
 config.optimization.runtimeChunk = { name: "runtime" };
 
 config.optimization.splitChunks = {
-    chunks: "async",
+    chunks: "all",
     automaticNameDelimiter: "+",
+    minSize: 15000,
+    minChunks: 1,
+    maxAsyncRequests: 5,
+    maxInitialRequests: 3,
     cacheGroups: {
         vendors: false,
+        default: {
+            minChunks: 2,
+            priority: 0,
+            reuseExistingChunk: true
+        },
+        routing: {
+            name: "routing",
+            test: /[\\/]node_modules[\\/](svelte|history)/,
+            chunks: "all",
+            minChunks: 3,
+            priority: -20
+        },
         commons: {
             name: "shared",
-            chunks: "initial",
+            chunks: "all",
             minChunks: 2,
             reuseExistingChunk: true
         }

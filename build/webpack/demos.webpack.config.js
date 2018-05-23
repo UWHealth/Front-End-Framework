@@ -27,7 +27,7 @@ config.externals = {
 }
 
 config.output = {
-    publicPath: '/',
+    publicPath: '/public/js/',
     libraryTarget: "commonjs2",
     filename: `[name].demo.js`
 };

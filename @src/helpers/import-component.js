@@ -5,9 +5,3 @@ function importComponent(component) {
     )
     .catch(err => console.error(err));
 }
-
-function requireComponent(component) {
-    return require('@/components/' + component + '.html');
-}
-
-export {importComponent, requireComponent};
