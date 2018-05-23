@@ -37,8 +37,8 @@ $font-looseness: 			15%;
 $auto-scale-type:           false;
 $scale-ratio:               1.35;
 
-$vertical-space:			$base-line-height; //Maintains best vertical rhythm
-$horizontal-space: 			$base-line-height;
+$vertical-space:			$base-line-height; // Maintains best vertical rhythm
+$horizontal-space: 			$base-line-height; // Simplifies measurements
 
 $rem-px-fallback: 			false;
 
@@ -75,27 +75,11 @@ Used wherever font-families are declared. Use `null` if nothing exists.
 
 ##### `$$use-web-fonts`
 ###### Boolean
-Whether to generate `@font-face` values based on `$$font-file-name` (and the other `$font-` variables).
+Whether to generate `@font-face` values based on the values of `$$web-fonts`.
 
-##### `$$font-file-name`
-###### List (string)
-Uses for automatically generated `@font-face` declarations. Describes the filename as well as the font-family name reference. _File names and @font-face values must be the same (e.g. 'opensans' and 'opensans.ttf').**Casing matters**._
-
-##### `$$font-weights`
-###### List (nested)
-Each parenthesis corresponds to each name in `$$font-file-name`. Determines how many `@font-face` weights are generated per font.
-
-##### `$$font-italics`
-###### List (nested) (boolean)
-Corresponds to each value in `$$font-weights`. (e.g. if `$font-weights: (400,700),(200,400)` and `$font-italics: (true),(false,true)` then the first font will have italics in the 400 and 700 weights while second font will have italics in the 400 weight).
-
-##### `$$font-include-woff2`
-###### Boolean (list)
-Determines whether woff2 formats be included in the `@font-face` generation. Can be a list if each font has different values (not recommended since woff2 is the most performant font-file format).
-
-##### `$$font-include-eot`
-###### Boolean (list)
-Determines whether to generate `@font-face` values that point at an .eot file. Fallback for IE8.
+##### `$$web-fonts`
+###### Map (`font-name`: (`weights`: List(Numbers), `italics`: List(Numbers), `formats`:(List(String))))
+Description of weights, styles and formats for the project's web fonts. The root key value determines the name, while each inner key determines the weights, styles, and formats.
 
 */
 
@@ -112,12 +96,19 @@ $icon-font-stack: 			null;
 $use-web-fonts: 		true;
 //Relative path to fonts from CSS file
 $font-file-location: 	'/public/fonts';
-$font-file-name:        ("Asap", 'opensans');
-$font-weights:          (400 , 700 ),  (200,  400,  700 );
-$font-italics:          (true, true),  (true, true, true);
 
-$font-include-woff2:    (false, false);
-$font-include-eot: 		false;
+$web-fonts: (
+    'Asap': (
+        'weights': (400, 700),
+        'italics': (400, 700),
+        'formats': ('woff', 'eot', 'svg', 'ttf')
+    ),
+    'opensans': (
+        'weights': (400, 700),
+        'italics': (400, 700),
+        'formats': ('woff', 'woff2', 'svg', 'ttf')
+    )
+);
 
 
 /* SG

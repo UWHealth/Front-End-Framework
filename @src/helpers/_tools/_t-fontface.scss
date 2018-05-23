@@ -5,172 +5,15 @@
 /* SG
 # Typography/Font Face [[dev]]
 
-##### `@fonts()`
-###### mixin(`$name`: `$$font-file-name`, `$path: $$font-file-location`, `$weights`: `$$font-weights`, `$italics`: `$$font-italics`)
-A wrapper function for `@font-face()`. Takes global configuration variables and passes them to `@font-face()`. Loops through each `$name` based on `$weights` and `$italics`. Uses `$path` and `$name` to point to font files. Formats these variables so they can be passed to `@font-face()`.
+##### `@include-web-fonts()`
+###### mixin(`$font-map: $web-fonts`)
+A wrapper function for `@font-face()`. Takes a configuration map and passes the keys to `@font-face()`. Loops through each font-name's (root map keys) weight and style.
 
-Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial400.ttf and the CSS value would be font-family: 'arial'; font-weight: 400.
+Font file names must be the same as their CSS font-family values. Example: arial font, 400 weight would be arial-400.ttf and the CSS value would be font-family: 'arial'; font-weight: 400.
 
 @requires `@font-face()`
 
-##### `@font-face()`
-###### mixin(`$name`, `$font-files`, `$weight:false`,` $style:false`, `$eot:false`)
-Generates cross-browser font-face declarations when called.
-$name is required, arbitrary, and what you will use in font stacks.
-**Arguments:**
-* $font-files is required using font-files('relative/location', 'format'). For best results use this order: woff, opentype/truetype, svg
-* $eot is required by IE, and is a relative location of the eot file.
-* $weight shows if the font is bold, defaults to normal
-* $style defaults to normal, might be also italic
-
-Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/css3/font_face/).
-
 */
-
-
-//------------------------------------
-//    $MIXIN
-//------------------------------------
-//	Uses our own take on Compass' font-face generator.
-//	More robust and automated than Compass, though.
-
-// 1. Get current weights of the font.
-// 1B. And then loop through those weights if there are different weights in each
-//  font-family.
-// 2. Create svg id based on font's supplied name.
-// 3. Create paths to various font files.
-//	  Always assumed woff, ttf, and svg files are supplied.
-// 4. If IE8 support is needed, create eot path.
-// 5. Call Compass-based font-generator.
-// 6. If italics are included, do all of the above, but append "italic" to the end
-//	  of every file name and style.
-// 7. Call Mixin for all fonts by looping through font-file-names.
-
-//-------
-// Cross-browser support for @font-face. Supports IE, Gecko, Webkit, Opera.
-// http://compass-style.org/reference/compass/css3/font_face/
-//-------
-// $name is required, arbitrary, and what you will use in font stacks.
-// $font-files is required using font-files('relative/location', 'format').
-//  for best results use this order: woff, opentype/truetype, svg
-// $eot is required by IE, and is a relative location of the eot file.
-// $weight shows if the font is bold, defaults to normal
-// $style defaults to normal, might be also italic
-// To support iOS < 4.2, an SVG file must be provided
-// If you need to generate other formats check out the Font Squirrel font generator
-
-@mixin font-face(
-    $name,
-    $font-files,
-    $weight: false,
-    $style: false,
-    $eot: false
-){
-    $iefont: unquote("'#{$eot}?#iefix'");
-    @font-face {
-        font-family: quote($name);
-        @if $eot {
-            src: url($eot);
-            $font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
-        }
-        src: #{$font-files};
-        @if $weight {
-            font-weight: $weight;
-        }
-        @if $style {
-            font-style: $style;
-        }
-    }
-}
-
-
-@mixin fonts(
-    $name: $font-file-name,
-    $path: $font-file-location,
-    $weights: $font-weights,
-    $italics: $font-italics
-){
-    $weight-group: $weights;
-
-    @if length($font-file-name) > 1{
-        $weight-group: nth($weights, $fontface-loop);		//[1]
-    }
-
-    @each $weight in $weight-group{			//[1B]
-
-        $font-eot: false;
-        $font-woff2: null;
-        $svg-id: ('##{$name}#{$weight}');		//[2]
-        $font-name: #{$path}/#{unquote($name)}-#{$weight};		//[3]
-
-        $font-files: (
-            'url("#{$font-name}.woff") format("woff")',
-            'url("#{$font-name}.ttf") format("truetype")',
-            'url("#{$font-name}.svg#{$svg-id}") format("svg")'
-        );
-
-        @if length($font-include-woff2) > 1 {
-            @if nth($font-include-woff2, $fontface-loop) == true {
-                $font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
-            }
-        }@else if $font-include-woff2 == true {
-            $font-files: join('url("#{$font-name}.woff2") format("woff2")', $font-files);
-        }
-
-        @if length($font-include-eot) > 1 {
-            @if nth($font-include-eot, $fontface-loop) {
-                $font-eot: '#{$font-name}.eot';	//[4]
-            }
-        }@else if $font-include-eot == true {
-            $font-eot: '#{$font-name}.eot';		//[4]
-        }
-
-        @include font-face($name, $font-files, $weight, normal, $font-eot); //[5]
-
-        $italic: nth($italics, $fontface-loop);
-        @if length($italic) > 1 {
-            $italic: nth($italic, index($weight-group, $weight));
-        }
-        @if $italic == true {		//[6]
-            $svg-id: ('##{$name}#{$weight}italic');
-
-            $font-files: (
-                unquote("url('#{$font-name}-italic.woff') format('woff')"),
-                unquote("url('#{$font-name}-italic.ttf') format('truetype')"),
-                unquote("url('#{$font-name}-italic.svg#{$svg-id}') format('svg')")
-            );
-
-            @if length($font-include-woff2) > 1 {
-                @if nth($font-include-woff2, $fontface-loop) == true {
-                    $font-files: join(unquote('url("#{$font-name}-italic.woff2") format("woff2")'), $font-files);
-                }
-            }@else if $font-include-woff2 == true {
-                $font-files: join('url("#{$font-name}-italic.woff2") format("woff2")', $font-files);
-            }
-
-            @if length($font-include-eot) > 1 {
-                @if nth($font-include-eot, $fontface-loop) {
-                    $font-eot: '#{$font-name}-italic.eot';	//[4]
-                }
-            }@else if $font-include-eot == true {
-                $font-eot: '#{$font-name}-italic.eot';		//[4]
-            }
-
-            @include font-face($name, $font-files, $weight, italic, $font-eot);
-        }
-    }
-}
-
-$fontface-loop: 0;
-
-@mixin include-web-fonts() {
-    @if $use-web-fonts and $font-file-name {
-        @each $font in $font-file-name { //[7]
-            $fontface-loop: $fontface-loop + 1 !global;
-            @include fonts($font);
-        }
-    }
-}
 
 
 //------------------------------------
@@ -191,15 +34,104 @@ $fontface-loop: 0;
 //    font-style: normal;
 //
 //}
-//
-//@font-face {
-//    font-family: 'Asap';
-//    src: url('fonts/Asap-Italic-webfont.eot');
-//    src: url('fonts/Asap-Italic-webfont.eot?#iefix') format('embedded-opentype'),
-//         url('fonts/Asap-Italic-webfont.woff') format('woff'),
-//         url('fonts/Asap-Italic-webfont.ttf') format('truetype'),
-//         url('fonts/Asap-Italic-webfont.svg#AsapItalic') format('svg');
-//    font-weight: 400;
-//    font-style: italic;
-//
-//}
+
+@mixin include-web-fonts($font-map: $web-fonts) {
+    @each $name in map-keys($font-map) {
+        $inner-map: map-get($font-map, $font-name);
+
+        $weights: map-get($inner-map, 'weights');
+        $italics: map-get($inner-map, 'italics');
+        $formats: map-get($inner-map, 'formats');
+        $path: map-get($inner-map, 'path') or $font-file-location;
+
+        @each $weight in $weights {
+            @include font-weights($name, $path, $weights, $formats);
+        }
+        @each $weight in $italics {
+            @include font-weights($name, $path, $weights, $formats, italic);
+        }
+    }
+}
+
+@mixin font-weights($name, $path, $weight, $formats, $style: '') {
+    $style-string: if($style, '-#{$style}', '');
+    $svg-id: ('##{$name}#{$weight}#{$style}');
+    $font-name: #{$path}/#{unquote('#{$name}-#{$weight}#{$style-string}')};
+
+    $fonts: join-formats($font-name, $formats);
+
+    $eot: map-get($fonts, 'eot');
+    $font-files: map-get($fonts, 'font-files');
+
+    @include font-face(
+        $name,
+        $font-files,
+        $weight,
+        $style,
+        $eot
+    );
+}
+
+
+/* SG
+##### `@font-face()`
+###### mixin(`$name`, `$font-files`, `$weight:false`,` $style:false`, `$eot:false`)
+Generates cross-browser font-face declarations when called.
+$name is required, arbitrary, and what you will use in font stacks.
+**Arguments:**
+* $font-files is required using font-files('relative/location', 'format'). For best results use this order: woff, opentype/truetype, svg
+* $eot is required by IE, and is a relative location of the eot file.
+* $weight shows if the font is bold, defaults to normal
+* $style defaults to normal, might be also italic
+
+Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/css3/font_face/).
+*/
+
+@mixin font-face(
+    $name,
+    $font-files,
+    $weight: false,
+    $style: false,
+    $eot: null
+){
+
+    $iefont: unquote("'#{$eot}?#iefix'");
+    @font-face {
+        font-family: quote($name);
+        @if $eot {
+            src: url($eot);
+            $font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
+        }
+        src: #{$font-files};
+        @if $weight {
+            font-weight: #{$weight};
+        }
+        @if $style {
+            font-style: #{$style};
+        }
+    }
+}
+
+@function join-formats($font-name, $formats) {
+    $font-files: ();
+    $eot: null;
+
+    @each $format in $formats {
+        $extension: if($format == 'svg', 'svg#{svg-id}', $format);
+
+        @if $format == 'eot' {
+            $eot: '#{$font-name}.eot';
+        }
+        @else {
+            $font-files: join(
+                unquote('url("#{$font-name}.#{extension}") format("#{format}")'),
+                $font-files
+            );
+        }
+    }
+
+    @return (
+        'font-files': $font-files,
+        'eot': $eot
+    );
+}
