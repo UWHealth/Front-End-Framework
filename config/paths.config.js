@@ -43,6 +43,7 @@ const PATHS = {
         "config": config, // Config folder
         "build": build,   // Build folder
         "dist": dist,     // Built files
+        "dest": dist,     // Built files alias
         "pub": pub,       // Published (public) folder
         "static": static, // Static assets
         "src": src,       // Files to be built
@@ -79,7 +80,7 @@ Object.assign(PATHS, {
             "meta": `${static}/meta/*.*`,
             "exclude": [`!${static}/img/**.*`]
         },
-        "dest": `${dist}/public/`
+        "dest": `${pub}/`
     },
     // Files to create demos from
     demos: {
@@ -90,7 +91,8 @@ Object.assign(PATHS, {
         },
         "entry": {
             "all": `${src}/components/**/*.demo.html`,
-            "main": `${src}/demos.js`
+            "main": `${src}/demos.js`,
+            "manifest": `${pub}/module-map-manifest.json`
         },
         "dest": `${dist}/demo`
     },

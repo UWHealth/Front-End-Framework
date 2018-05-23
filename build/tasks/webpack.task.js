@@ -4,7 +4,10 @@
 **/
 
 const webpack = require('webpack');
+const fs = require('fs');
+const path = require('path');
 
+const PATHS = require(`${process.cwd()}/config/paths.config.js`);
 const MODE = require('../helpers/mode.js');
 const STATS = require('../webpack/helpers/webpack-stats.js');
 const Logger = require('../helpers/logger.js');
@@ -12,7 +15,52 @@ const ARGS = require('../helpers/args.js');
 
 const LOG = new Logger('Webpack');
 
-const webpackLogger = function(err, stats, done) { // eslint-disable-line
+const watchOptions = (MODE.localProduction || !MODE.production) ?
+    { poll: 1000, ignored: /node_modules/ }
+    : null;
+
+let watching = false;
+
+function startWebpack(done) {
+    // Write out a temporary manifest so we can avoid errors on startup
+    const folders = path.relative(PATHS.folders.dist, PATHS.js.dest).replace(/\\/g, '/').split('/');
+
+    folders.reduce((prev, folder) => {
+        try { fs.mkdirSync(path.join(prev, folder)); } catch(e) {}
+        return path.join(prev, folder);
+    }, PATHS.folders.dist);
+
+    fs.writeFileSync(PATHS.demos.entry.manifest, '{}');
+
+    const webpackConfigs = require('../webpack.build.js');
+    const compiler = webpack(webpackConfigs);
+
+    // Restart if already watching
+    if (watching) {
+        LOG.info('Restarted', true);
+        watching.close(() => {
+            watching = false;
+            startWebpack(done);
+        });
+    }
+    else {
+
+        if (watchOptions) {
+            compiler.hooks.watchRun.tap('Log Compilation', () => {
+                LOG.spinner('Compiling');
+                return true;
+            });
+
+            watching = compiler.watch(watchOptions, (err, stats) => webpackLogger(err, stats, done));
+        }
+        else {
+            LOG.spinner('Compiling');
+            compiler.run((err, stats) => webpackLogger(err, stats, done));
+        }
+    }
+}
+
+function webpackLogger(err, stats, done) { // eslint-disable-line
 
     if (err) {
         LOG.error(err.stack || err);
@@ -56,41 +104,5 @@ const webpackLogger = function(err, stats, done) { // eslint-disable-line
 
     if (typeof done === 'function') done();
 };
-
-
-const watchOptions = (MODE.localProduction || !MODE.production) ?
-    { poll: 1000, ignored: /node_modules/ }
-    : null;
-
-let watching = false;
-
-function startWebpack(done) {
-    const webpackConfigs = require('../webpack.build.js');
-    const compiler = webpack(webpackConfigs);
-
-    // Restart if already watching
-    if (watching) {
-        LOG.info('Restarted', true);
-        watching.close(() => {
-            watching = false;
-            startWebpack(done);
-        });
-    }
-    else {
-
-        if (watchOptions) {
-            compiler.hooks.watchRun.tap('Log Compilation', () => {
-                LOG.spinner('Compiling');
-                return true;
-            });
-
-            watching = compiler.watch(watchOptions, (err, stats) => webpackLogger(err, stats, done));
-        }
-        else {
-            LOG.spinner('Compiling');
-            compiler.run((err, stats) => webpackLogger(err, stats, done));
-        }
-    }
-}
 
 module.exports = startWebpack;

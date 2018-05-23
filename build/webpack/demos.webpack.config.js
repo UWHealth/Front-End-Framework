@@ -7,6 +7,7 @@ const path = require('path');
 
 const glob = require('fast-glob');
 const cloneDeep = require('lodash.clonedeep');
+const fs = require('fs');
 
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
@@ -22,9 +23,6 @@ config.name = "Demo";
 
 config.devtool = MODE.production ? 'source-map' : false;
 config.target = "node";
-config.externals = {
-    manifest: 'module-map-manifest'
-}
 
 config.output = {
     publicPath: '/public/js/',
