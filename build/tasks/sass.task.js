@@ -1,23 +1,23 @@
 /**
  * @fileoverview Processes scss, adds browser prefixes, and minifies before saving to the destination folder.
-**/
+ **/
 
-const gulp         = require('gulp');
-const autoprefixer = require('gulp-autoprefixer');
-const cssnano      = require('gulp-cssnano');
-const plumber      = require('gulp-plumber');
-const rename       = require('gulp-rename');
-const sass         = require('gulp-sass');
-const sourcemaps   = require('gulp-sourcemaps');
-const path         = require('path');
+const gulp = require("gulp");
+const autoprefixer = require("gulp-autoprefixer");
+const cssnano = require("gulp-cssnano");
+const plumber = require("gulp-plumber");
+const rename = require("gulp-rename");
+const sass = require("gulp-sass");
+const sourcemaps = require("gulp-sourcemaps");
+const path = require("path");
 
-const CWD          = process.cwd();
-const BROWSERS     = require(`${CWD}/package.json`).browserslist;
-const Logger       = require('../helpers/logger.js');
-const MODE         = require('../helpers/mode');
-const PATHS        = require(`${CWD}/config/paths.config.js`);
+const CWD = process.cwd();
+const BROWSERS = require(`${CWD}/package.json`).browserslist;
+const Logger = require("../helpers/logger.js");
+const MODE = require("../helpers/mode");
+const PATHS = require(`${CWD}/config/paths.config.js`);
 
-const LOG = new Logger('Sass');
+const LOG = new Logger("Sass");
 
 /**
  * Allows for sass imports to use aliases to represent the folder paths (similar to webpack)
@@ -26,28 +26,31 @@ const LOG = new Logger('Sass');
  */
 function aliasPath(url, prev, done) {
     const aliases = Object.keys(PATHS.aliases);
-    const match = aliases.filter(alias => url.indexOf(alias) > -1);
+    const match = aliases.filter((alias) => url.indexOf(alias) > -1);
     return {
-        file: match[0] ?
-            path.resolve(PATHS.aliases[match[0]], url.replace(match[0] + '/', ''))
-            : url
+        file: match[0]
+            ? path.resolve(
+                PATHS.aliases[match[0]],
+                url.replace(match[0] + "/", "")
+            )
+            : url,
     };
 }
 
 const sass_config = {
-    outputStyle: 'expanded',
+    outputStyle: "expanded",
     errLogToConsole: true,
     includePaths: [PATHS.folders.src, PATHS.folders.config],
-    importer: aliasPath
+    importer: aliasPath,
 };
 
 const nano_config = {
-    discardComments: {removeAll: true},
-    zindex: false
+    discardComments: { removeAll: true },
+    zindex: false,
 };
 
 module.exports = () => {
-    LOG.spinner('Compiling ');
+    LOG.spinner("Compiling ");
 
     return new Promise((resolve, reject) => {
         if (!MODE.production) {
@@ -62,15 +65,15 @@ module.exports = () => {
                 .pipe(gulp.dest(PATHS.sass.dest))
                 // Minify
                 .pipe(cssnano(nano_config))
-                .pipe(rename({ suffix: '.min' }))
+                .pipe(rename({ suffix: ".min" }))
                 // Write out sourcemaps
-                .pipe(sourcemaps.write('./maps'))
+                .pipe(sourcemaps.write("./maps"))
                 // Output minified CSS
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
 
-                .on('error', (err) => reject(LOG.error(err)))
-                .on('end', () => resolve(LOG.success('Compiled')));
+                .on("error", (err) => reject(LOG.error(err)))
+                .on("end", () => resolve(LOG.success("Compiled")));
         }
         else {
             gulp
@@ -87,8 +90,8 @@ module.exports = () => {
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
 
-                .on('error', (err) => reject(LOG.error(err)))
-                .on('end', () => resolve(LOG.success('Compiled ')));
+                .on("error", (err) => reject(LOG.error(err)))
+                .on("end", () => resolve(LOG.success("Compiled ")));
         }
     });
 };
