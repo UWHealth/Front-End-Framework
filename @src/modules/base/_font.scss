@@ -1,1 +1,6 @@
-@include include-web-fonts();
+/*
+ * Generate font-face declarations based on web-font config
+ */
+@if $use-web-fonts {
+    @include include-web-fonts($web-fonts);
+}
