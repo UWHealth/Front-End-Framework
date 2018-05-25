@@ -51,11 +51,12 @@ config.output = {
 config.resolve.mainFields.unshift("svelte", "browser");
 
 // Using Vue's manifest plugin for its formatting
-const VueManifestPlugin = require('vue-server-renderer/client-plugin.js');
+const VueManifestPlugin = require('./helpers/vue-ssr-client-plugin.js');
+const manifestName = path.basename(PATHS.demos.entry.manifest);
 
 config.plugins.push(
     new VueManifestPlugin({
-        filename: '../module-map-manifest.json'
+        filename: `../${manifestName}`
     })
 );
 
@@ -128,7 +129,6 @@ config.module.rules.push(
 
 if (MODE.production) {
     const ClosureCompilerPlugin = require('webpack-closure-compiler');
-    // const ClosurePlugin = require('closure-webpack-plugin');
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
     config.node = false;

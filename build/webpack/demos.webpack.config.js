@@ -11,10 +11,10 @@ const fs = require('fs');
 
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
-const STATS = require("./helpers/webpack-stats.js");
+const STATS = require('./helpers/webpack-stats.js');
 
-const baseConfig = require(`./base.webpack.config.js`);
-const babelConfig = require(`./babel.webpack.config.js`);
+const baseConfig = require('./base.webpack.config.js)';
+const babelConfig = require('./babel.webpack.config.js');
 const HtmlPlugin = require('html-webpack-plugin');
 
 const config = cloneDeep(baseConfig.config);

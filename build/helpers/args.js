@@ -18,6 +18,7 @@ yargs.options({
         group: 'Environment:'
     },
     'stats': {
+        alias: 'debug',
         describe: 'Show full Webpack stats and errors',
         type: 'boolean',
         default: false,
