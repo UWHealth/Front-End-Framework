@@ -1,3 +1,5 @@
+@import "@/helpers/_tools/_index";
+
 /* SG
 # Config/Typography Settings [[dev]]
 
@@ -156,25 +158,21 @@ $breakpoints: (
 */
 
 $breakpoints: (
-    //Mostly phones
-    'smalls': '(max-width:#{ems($max-wide-content-width)})',
-
-    //Small Phones
-    'small': '(max-width: #{ems($max-content-width)})',
-
-    //Large (Modern) phones/phablets
-    'smallish': '(min-width: #{ems($max-content-width+1px)}) and (max-width: #{ems($max-wide-content-width)})',
-
-    //Tablets, Desktops and larger
-    'bigs': '(min-width: #{ems($max-wide-content-width+1px)})',
-
-    //Mostly Tablets and small laptops. Overrides Bigs
-    'lap': '(min-width: #{ems($max-wide-content-width + 1px)}) and (max-width: #{ems($max-site-width)})',
-
-    //Large Tablets and Desktops. Overrides Bigs.
-    'desk': '(min-width: #{ems($max-site-width)})'
+    // Mostly phones
+        "smalls": "(max-width:#{ems($max-wide-content-width)})",
+    // Small Phones
+        "small": "(max-width: #{ems($max-content-width)})",
+    // Large (Modern) phones/phablets
+        "smallish":
+        "(min-width: #{ems($max-content-width+1px)}) and (max-width: #{ems($max-wide-content-width)})",
+    // Tablets, Desktops and larger
+        "bigs": "(min-width: #{ems($max-wide-content-width+1px)})",
+    // Mostly Tablets and small laptops. Overrides Bigs
+        "lap":
+        "(min-width: #{ems($max-wide-content-width + 1px)}) and (max-width: #{ems($max-site-width)})",
+    // Large Tablets and Desktops. Overrides Bigs.
+        "desk": "(min-width: #{ems($max-site-width)})"
 );
-
 
 /* SG
 # Config/Grid Settings [[dev]]
@@ -252,7 +250,7 @@ $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 Used to define what character comes after an auto-generated responsive class. A setting of '_' would create classes like `smalls_space-v` whereas a '@' would create classes like `smalls@space-v`.
 */
 
-$breakpoint-namespace-character: '_';
+$breakpoint-namespace-character: "_";
 
 /* SG
 # Config/Utility Class Settings [[dev]]
@@ -316,41 +314,40 @@ Variable used to generate utility (override) spacing classes. Classes are create
 */
 
 $display-classes: (
-    'show': block,
-    'il': inline,
-    'i-block': inline-block,
-    'hide': none,
-    'flex': flex
+    "show": block,
+    "il": inline,
+    "i-block": inline-block,
+    "hide": none,
+    "flex": flex,
 );
 
 // If $breakpoint-has-spacing-classes is false, this can be ignored
 $spacing-classes: (
     directions: (
-        '': '',
-        '-t':'top',
-        '-b':'bottom',
-        '-l':'left',
-        '-r':'right',
-        '-v':'top' 'bottom',
-        '-h': 'right' 'left'
+        "": "",
+        "-t": "top",
+        "-b": "bottom",
+        "-l": "left",
+        "-r": "right",
+        "-v": "top" "bottom",
+        "-h": "right" "left",
     ),
     units: (
-        '-0': 0,
-        '': 1,
-        '-quarter':.25,
-        '-half':.5,
-        '-2': 2,
-        '-neg-quarter': -.25,
-        '-neg-half': -.5,
-        '-neg': -1,
-        '-neg-2': -2
+        "-0": 0,
+        "": 1,
+        "-quarter": 0.25,
+        "-half": 0.5,
+        "-2": 2,
+        "-neg-quarter": -0.25,
+        "-neg-half": -0.5,
+        "-neg": -1,
+        "-neg-2": -2,
     ),
     properties: (
-        'pad': padding,
-        'space': margin
-    )
+        "pad": padding,
+        "space": margin,
+    ),
 );
-
 
 /* SG
 # Config/Utility Class Settings [[dev]]
@@ -361,11 +358,10 @@ Determines what utility classes get generated at `$$breakpoints`. The list's ord
 A `false` value will output no classes of that type.
 */
 
-$breakpoint-has-alignment-classes: 			('smalls', 'bigs', 'desk');
-$breakpoint-has-spacing-classes: 			('smalls', 'bigs', 'desk');
-$breakpoint-has-display-classes: 			('smalls', 'bigs');
-$breakpoint-has-type-classes: 				('smalls', 'bigs');
-
+$breakpoint-has-alignment-classes: ("smalls", "bigs", "desk");
+$breakpoint-has-spacing-classes: ("smalls", "bigs", "desk");
+$breakpoint-has-display-classes: ("smalls", "bigs");
+$breakpoint-has-type-classes: ("smalls", "bigs");
 
 /* SG
 # Config/Color Settings [[dev]]
@@ -470,49 +466,13 @@ Displays the current breakpoint (from `$$breakpoints`) name on a psuedo element 
 
 */
 
-$debug-fonts: 				false;
+$debug-fonts: false;
 
-$debug-baseline:       	 	true;
+$debug-baseline: true;
 
-$debug-silent-classes: 		false;
+$debug-silent-classes: false;
 
-$debug-breakpoints:         true;
-
-
-/* SG
-# Config/Slick Settings [[dev]]
-
-##### `$$slick-[]-[]`
-Configuration for slick carousel jQuery plugin.
-[See Slick documentation for more](https://github.com/kenwheeler/slick/#sass-variables)
-
-*/
-
-$include-slider: 					false;
-
-$slick-font-path: "fonts/";
-$slick-loader-path: "../images/";
-$slick-arrow-color: white;
-$slick-dot-color: black;
-$slick-prev-character: '\2190';
-$slick-next-character: '\2192';
-$slick-dot-character: '\2022';
-
-//Tab-box settings
-
-//Do you want to create styles for tabs?
-//Might be unnecessary for certain projects.
-$include-tabs: 						true;
-
-$tab-invert-active:                 false;
-$tab-border:                        color(links);
-$tab-button-bg:                     color(links, light);
-$tab-button-secondary: 				rgb(153,17,37);
-$tab-content-bg:                    #fff;
-$tab-button-text:                   #fff;
-$tab-border-radius:                 2px;
-$tab-spacing:                       2px;
-
+$debug-breakpoints: true;
 
 // Initialize and propogate framework variables
 @include globalize-config();
