@@ -5,13 +5,11 @@
  *
  */
 
-const path     = require('path');
-const CWD      = process.cwd();
+const path = require('path');
+const CWD = process.cwd();
 
-const PATHS    = require(`${CWD}/config/paths.config.js`);
-const MODE     = require(`${CWD}/build/helpers/mode.js`);
-const BROWSERS = require(`${CWD}/package.json`).browserslist;
-
+const PATHS = require(`${CWD}/config/paths.config.js`);
+const MODE = require(`${CWD}/build/helpers/mode.js`);
 
 const config = {
     context: __dirname,
@@ -21,17 +19,14 @@ const config = {
         symlinks: false,
         modules: [
             path.resolve(PATHS.folders.root, 'node_modules'),
-            'node_modules'
+            'node_modules',
         ],
-        mainFields: ["svelte", "module", "main"],
+        mainFields: ['svelte', 'module', 'main'],
         alias: PATHS.aliases,
-        extensions: [
-            ".js", ".json", ".jsx",
-            ".html", ".hbs", ".handlebars"
-        ]
+        extensions: ['.js', '.json', '.jsx', '.html', '.hbs', '.handlebars'],
     },
     watchOptions: {
-        ignored: /(node_modules|dist)/
+        ignored: /(node_modules|dist)/,
     },
     entry: {},
     output: {},
@@ -40,9 +35,9 @@ const config = {
     optimization: {
         nodeEnv: process.env.NODE_ENV,
         splitChunks: {
-            chunks: "async"
-        }
-    }
+            chunks: 'async',
+        },
+    },
 };
 
 /*
@@ -51,24 +46,23 @@ const config = {
  * 2. Handlebars
  */
 config.module.rules = [
-
     {
         test: /\.(hbs|handlebars|hbs\.svg)$/,
         include: PATHS.folders.src,
-        use: [{
-            loader: 'handlebars-loader',
-            query: {
-                runtime: 'handlebars/runtime',
-                helperDirs: [],
-                partialsDirs: [
-                    PATHS.hbs.folders.root
-                ],
-                precompileOptions: {
-                    preventIndent: true
-                }
-            }
-        }]
-    }
+        use: [
+            {
+                loader: 'handlebars-loader',
+                query: {
+                    runtime: 'handlebars/runtime',
+                    helperDirs: [],
+                    partialsDirs: [PATHS.hbs.folders.root],
+                    precompileOptions: {
+                        preventIndent: true,
+                    },
+                },
+            },
+        ],
+    },
 ];
 
 module.exports.config = config;

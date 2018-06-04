@@ -1,33 +1,31 @@
 /**
  * @fileoverview - Webpack configuration for generating demo pages. Uses ./webpack.config.js as a base. Saves all files to dist/samples/
-**/
+ **/
 
 const CWD = process.cwd();
 const path = require('path');
 
 const glob = require('fast-glob');
 const cloneDeep = require('lodash.clonedeep');
-const fs = require('fs');
 
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
-const STATS = require('./helpers/webpack-stats.js');
 
-const baseConfig = require('./base.webpack.config.js)';
+const baseConfig = require('./base.webpack.config.js');
 const babelConfig = require('./babel.webpack.config.js');
 const HtmlPlugin = require('html-webpack-plugin');
 
 const config = cloneDeep(baseConfig.config);
 
-config.name = "Demo";
+config.name = 'Demo';
 
 config.devtool = MODE.production ? 'source-map' : false;
-config.target = "node";
+config.target = 'node';
 
 config.output = {
     publicPath: '/public/js/',
-    libraryTarget: "commonjs2",
-    filename: `[name].demo.js`
+    libraryTarget: 'commonjs2',
+    filename: `[name].demo.js`,
 };
 
 config.module.rules.push(
@@ -43,8 +41,8 @@ config.module.rules.push(
                 hydratable: true,
                 store: true,
                 preserveComments: false,
-            }
-        }
+            },
+        },
     },
 
     // Babelify
@@ -53,15 +51,15 @@ config.module.rules.push(
         exclude: /(node_modules)/,
         use: {
             loader: 'babel-loader',
-            options: babelConfig(true)
-        }
+            options: babelConfig(true),
+        },
     },
 
     // Allow for css to be inlined
     {
         test: /\.demo\.css$/,
-        use: 'raw-loader'
-    },
+        use: 'raw-loader',
+    }
 );
 
 // Add all demo
@@ -84,7 +82,7 @@ glob.sync(PATHS.demos.entry.all).forEach((file) => {
             pathname: `/demo/${baseName}/`,
             componentPath: `${baseName}`,
         })
-    )
+    );
 });
 
 module.exports = config;

@@ -3,43 +3,43 @@
  * Written in CommonJS (require/module).
  */
 
-const webpack   = require('webpack');
+const webpack = require('webpack');
 const cloneDeep = require('lodash.clonedeep');
-const glob      = require('fast-glob');
-const path      = require('path');
+const glob = require('fast-glob');
+const path = require('path');
 
-const CWD       = process.cwd();
+const CWD = process.cwd();
 
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const STATS = require('./helpers/webpack-stats.js')();
-const MODE  = require('../helpers/mode.js');
-const baseConfig  = require(`./base.webpack.config.js`);
+const MODE = require('../helpers/mode.js');
+const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`./babel.webpack.config.js`);
 
 const config = cloneDeep(baseConfig.config);
 
 config.stats = STATS;
-config.target = "web";
+config.target = 'web';
 
-config.name = "Client";
+config.name = 'Client';
 
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
 
 const components = glob.sync(PATHS.js.entry.components);
 
 config.entry = {
-    "main": PATHS.js.entry.main
+    main: PATHS.js.entry.main,
 };
 
-components.forEach((component)=> {
-    //config.entry[path.basename(component, '.html')] = component
+components.forEach((component) => {
+    // config.entry[path.basename(component, '.html')] = component
     config.plugins.push(new webpack.PrefetchPlugin(component));
 });
 
 config.output = {
     path: PATHS.js.dest,
     publicPath: '/public/js/',
-    pathinfo: MODE.production ? false : true,
+    pathinfo: !MODE.production,
 
     filename: '[name].bundle.js',
     chunkFilename: MODE.production ? '[name].[chunkhash:3].js' : '[name].js',
@@ -48,7 +48,7 @@ config.output = {
     library: 'uwhealth',
 };
 
-config.resolve.mainFields.unshift("svelte", "browser");
+config.resolve.mainFields.unshift('svelte', 'browser');
 
 // Using Vue's manifest plugin for its formatting
 const VueManifestPlugin = require('./helpers/vue-ssr-client-plugin.js');
@@ -56,7 +56,7 @@ const manifestName = path.basename(PATHS.demos.entry.manifest);
 
 config.plugins.push(
     new VueManifestPlugin({
-        filename: `../${manifestName}`
+        filename: `../${manifestName}`,
     })
 );
 
@@ -65,12 +65,11 @@ config.optimization.mergeDuplicateChunks = MODE.production;
 
 config.optimization.portableRecords = true;
 
-
-config.optimization.runtimeChunk = { name: "runtime" };
+config.optimization.runtimeChunk = { name: 'runtime' };
 
 config.optimization.splitChunks = {
-    chunks: "all",
-    automaticNameDelimiter: "+",
+    chunks: 'all',
+    automaticNameDelimiter: '+',
     minSize: 15000,
     minChunks: 1,
     maxAsyncRequests: 5,
@@ -80,22 +79,22 @@ config.optimization.splitChunks = {
         default: {
             minChunks: 2,
             priority: 0,
-            reuseExistingChunk: true
+            reuseExistingChunk: true,
         },
         routing: {
-            name: "routing",
+            name: 'routing',
             test: /[\\/]node_modules[\\/](svelte|history)/,
-            chunks: "all",
+            chunks: 'all',
             minChunks: 3,
-            priority: -20
+            priority: -20,
         },
         commons: {
-            name: "shared",
-            chunks: "all",
+            name: 'shared',
+            chunks: 'all',
             minChunks: 2,
-            reuseExistingChunk: true
-        }
-    }
+            reuseExistingChunk: true,
+        },
+    },
 };
 
 config.module.rules.push(
@@ -107,7 +106,7 @@ config.module.rules.push(
         use: {
             loader: 'babel-loader',
             options: babelConfig(false),
-        }
+        },
     },
 
     {
@@ -120,15 +119,15 @@ config.module.rules.push(
                     hydratable: true,
                     dev: !MODE.production,
                     store: true,
-                    shared: true
-                }
-            }
-        ]
+                    shared: true,
+                },
+            },
+        ],
     }
 );
 
 if (MODE.production) {
-    const ClosureCompilerPlugin = require('webpack-closure-compiler');
+    // const ClosureCompilerPlugin = require('webpack-closure-compiler');
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
     config.node = false;
@@ -157,14 +156,13 @@ if (MODE.production) {
                 // exclude: /\/(t4|hbs)./
             },
             parallel: true,
-            sourceMap: true
-        })
+            sourceMap: true,
+        }),
     ];
 
     config.plugins.push(
-
         // Keep module.id stable when vendor modules do not change
-        new webpack.HashedModuleIdsPlugin(),
+        new webpack.HashedModuleIdsPlugin()
 
         // Remove module.hot code from modules
         // new webpack.NoHotModuleReplacementPlugin(),

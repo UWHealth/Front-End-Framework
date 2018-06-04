@@ -6,8 +6,9 @@ import demoRouter from '@/modules/demo/demo.routes.html';
 let application, manifest;
 
 fetch('/public/module-map-manifest.json')
-    .then(r => r.json()).then((json) => manifest = json)
-    .catch(e => console.log(e));
+    .then((r) => r.json())
+    .then((json) => (manifest = json))
+    .catch((e) => console.log(e));
 
 domReady(async () => {
     const appElement = document.getElementById('app');
@@ -22,21 +23,19 @@ domReady(async () => {
             target: appElement,
             data: {
                 pathname: window.location.pathname,
-                innerComponent: currentComponent
-            }
+                innerComponent: currentComponent,
+            },
         });
 
         window.__APP__ = application;
     }
 
     if (process.env.NODE_ENV !== 'production') {
-        import(
-            /* "webpackChunkName": "keyboard" */
-            '@/helpers/keyboard-shortcuts'
-        ).then((keyboardSC) => keyboardSC.init());
+        import(/* "webpackChunkName": "keyboard" */
+        '@/helpers/keyboard-shortcuts').then((keyboardSC) => keyboardSC.init());
     }
 });
 
 window.store = store;
 
-export {cache, application, manifest, context};
+export { application, manifest };

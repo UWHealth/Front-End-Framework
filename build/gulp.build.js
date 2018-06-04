@@ -1,28 +1,42 @@
-const gulp       = require('gulp');
-const series     = gulp.series;
+const gulp = require('gulp');
+const series = gulp.series;
 
-const TASKS      = require('./helpers/require-tasks.js');
-const Logger     = require('./helpers/logger.js');
-const LOG        = new Logger('Gulp');
+const TASKS = require('./helpers/require-tasks.js');
+const Logger = require('./helpers/logger.js');
+const LOG = new Logger('Gulp');
 
 LOG.spinner('Starting');
 
 function taskOrder() {
-    const MODE  = require('./helpers/mode');
+    const MODE = require('./helpers/mode');
     const p = gulp.parallel;
 
-    LOG.ora.stopAndPersist({text: MODE.message()});
+    LOG.ora.stopAndPersist({ text: MODE.message() });
 
-    return !MODE.production ?
-        // DEV
-        series('clean', p('sass', 'webpack', 'copy'), p('images', 'styleGuide'), p('watch', 'browserSync'))
-        :
-        MODE.localProduction ?
-            // LOCAL-PROD
-            series('clean', p('copy', 'sass', 'webpack', 'hbs'), p('images', 'styleGuide'), p('watch', 'browserSync'))
-            :
-            // PROD
-            series('clean', p('copy', 'sass', 'webpack', 'hbs', 'images'), 'styleGuide', 'size');
+    return !MODE.production
+        ? // DEV
+          series(
+              'clean',
+              p('sass', 'webpack'),
+              p('images', 'copy'),
+              p('watch', 'browserSync')
+          )
+        : MODE.localProduction
+            ? // LOCAL-PROD
+              series(
+                  'clean',
+                  p('sass', 'webpack', 'copy'),
+                  p('images', 'copy'),
+                  p('watch', 'browserSync')
+              )
+            : // PROD
+              series(
+                  'clean',
+                  p('sass', 'webpack'),
+                  p('images', 'copy'),
+                  'styleGuide',
+                  'size'
+              );
 }
 
 /* ---------------------------------
@@ -63,15 +77,17 @@ gulp.task('styleGuide', require(TASKS.styleguide));
 // Javascript concatenating, bundling, and webpack-ifying
 gulp.task('webpack', require(TASKS.webpack));
 
-
 /* ---------------------------------
  * Base Tasks
  * --------------------------------*/
 
 // First task called when gulp is invoked
-gulp.task('default', series(taskOrder(), function finish(done) {
-    done();
-}));
+gulp.task(
+    'default',
+    series(taskOrder(), function finish(done) {
+        done();
+    })
+);
 
 gulp.on('error', function(err) {
     new Logger('General').error(err.error);

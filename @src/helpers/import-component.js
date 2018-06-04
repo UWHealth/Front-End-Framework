@@ -1,4 +1,4 @@
-function importComponent(component) {
+export default function importComponent(component) {
     return import(
         /* "webpackChunkName": "[request]" */
         '@/components/' + component + '.html'

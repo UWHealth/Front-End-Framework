@@ -32,9 +32,6 @@ Sass files are imported in order from lowest specificity to highest.
 // (functionality and setup used by project)
 //-----------------------------
 
-//Global functions and variables
-@import '@/helpers/_tools/index';
-
 //Settings
 @import '@/../config/sass.config.scss';
 

@@ -15,19 +15,19 @@
     export default {
         components: {
             Demo: '@/modules/demo/demo.wrapper.html',
-            Generic: './generic.html'
+            Generic: './generic.html',
         },
         data() {
             return {
-                widths: ['normal', 'wide', 'compact']
+                widths: ['normal', 'wide', 'compact'],
             };
         },
         oncreate() {
             // Simple way to override the default page title template
-            this.root.store.set({'pageTitle': 'Generic Cards'});
+            this.root.store.set({ pageTitle: 'Generic Cards' });
         },
         helpers: {
-            capitalize
-        }
+            capitalize,
+        },
     };
 </script>
