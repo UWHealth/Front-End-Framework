@@ -45,20 +45,21 @@ Font file names must be the same as their CSS font-family values. Example: arial
         $path: map-get($inner-map, 'path') or $font-file-location;
 
         @each $weight in $weights {
-            @include font-weights($name, $path, $weights, $formats);
+            @include font-weights($name, $path, $weight, $formats);
         }
         @each $weight in $italics {
-            @include font-weights($name, $path, $weights, $formats, italic);
+            @include font-weights($name, $path, $weight, $formats, italic);
         }
     }
 }
 
 @mixin font-weights($name, $path, $weight, $formats, $style: '') {
-    $style-string: if($style, '-#{$style}', '');
+    $style-string: if($style != '', '-#{$style}', '');
     $svg-id: ('##{$name}#{$weight}#{$style}');
     $font-name: #{$path}/#{unquote('#{$name}-#{$weight}#{$style-string}')};
+    $style: if($style == '', 'normal', $style);
 
-    $fonts: join-formats($font-name, $formats);
+    $fonts: join-formats($font-name, $formats, $svg-id);
 
     $eot: map-get($fonts, 'eot');
     $font-files: map-get($fonts, 'font-files');
@@ -99,7 +100,6 @@ Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/c
     @font-face {
         font-family: quote($name);
         @if $eot {
-            src: url($eot);
             $font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
         }
         src: #{$font-files};
@@ -112,20 +112,21 @@ Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/c
     }
 }
 
-@function join-formats($font-name, $formats) {
+@function join-formats($font-name, $formats, $svg-id) {
     $font-files: ();
     $eot: null;
 
     @each $format in $formats {
-        $extension: if($format == 'svg', 'svg#{svg-id}', $format);
+        $extension: if($format == 'svg', 'svg#{$svg-id}', $format);
 
         @if $format == 'eot' {
             $eot: '#{$font-name}.eot';
         }
         @else {
             $font-files: join(
-                unquote('url("#{$font-name}.#{extension}") format("#{format}")'),
-                $font-files
+                unquote('url("#{$font-name}.#{$extension}") format("#{$format}")'),
+                $font-files,
+                comma
             );
         }
     }
