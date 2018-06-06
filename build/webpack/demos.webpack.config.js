@@ -23,8 +23,10 @@ config.devtool = MODE.production ? 'source-map' : false;
 config.target = 'node';
 
 config.output = {
+    path: PATHS.folders.dest,
     publicPath: '/public/js/',
-    libraryTarget: 'commonjs2',
+    library: 'demo',
+    libraryTarget: 'commonjs',
     filename: `[name].demo.js`,
 };
 
@@ -32,26 +34,37 @@ config.module.rules.push(
     // Svelte as server-side
     {
         test: /\.(html|sv\.html|svelte)$/,
-        use: {
-            loader: 'svelte-loader',
-            options: {
-                format: 'cjs',
-                generate: 'ssr',
-                dev: !MODE.production,
-                hydratable: true,
-                store: true,
-                preserveComments: false,
+        use: [
+            {
+                loader: 'babel-loader',
+                options: babelConfig('node'),
             },
-        },
+            {
+                loader: 'svelte-loader',
+                options: {
+                    format: 'cjs',
+                    generate: 'ssr',
+                    dev: !MODE.production,
+                    hydratable: true,
+                    store: true,
+                    preserveComments: false,
+                },
+            },
+        ],
     },
 
     // Babelify
     {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules)/,
+        enforce: 'post',
+        exclude: [
+            /node_modules\/core-js\//,
+            /node_modules\/regenerator-runtime\//,
+            /node_modules\/@?babel/,
+        ],
         use: {
             loader: 'babel-loader',
-            options: babelConfig(true),
+            options: babelConfig('node'),
         },
     },
 

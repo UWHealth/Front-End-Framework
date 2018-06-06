@@ -32,7 +32,7 @@ const build    = path.resolve(root, "build");
 const dist     = path.resolve(root, "dist");
 const pub      = path.join(dist, "public");
 const docs     = path.resolve(root, "docs");
-const static   = path.resolve(root, "static");
+const assets   = path.resolve(src, "static");
 const dirArray = root.split(path.delimiter);
 
 const PATHS = {
@@ -45,7 +45,7 @@ const PATHS = {
         "dist": dist,     // Built files
         "dest": dist,     // Built files alias
         "pub": pub,       // Published (public) folder
-        "static": static, // Static assets
+        "static": assets, // Static assets
         "src": src,       // Files to be built
         "docs": docs,     // Documentation folder
     }
@@ -68,17 +68,17 @@ Object.assign(PATHS, {
     // Folders and files that should be copied directly
     copy: {
         "folders": {
-            "root": `${static}`,
+            "root": `${assets}`,
         },
         "entry": {
-            "all": `${static}/**/*.*`,
-            "exclude": `!${static}/img/**.*`
+            "all": `${assets}/**/*.*`,
+            "exclude": `!${assets}/img/**.*`
         },
         "watch": {
-            "all": `${static}/**/*.*`,
-            "fonts": `${static}/fonts/*.*`,
-            "meta": `${static}/meta/*.*`,
-            "exclude": [`!${static}/img/**.*`]
+            "all": `${assets}/**/*.*`,
+            "fonts": `${assets}/fonts/*.*`,
+            "meta": `${assets}/meta/*.*`,
+            "exclude": [`!${assets}/img/**.*`]
         },
         "dest": `${pub}/`
     },
@@ -98,11 +98,11 @@ Object.assign(PATHS, {
     },
     fonts: {
         "entry": {
-            "asap": `${static}/fonts/Asap*.*`,
-            "open": `${static}/fonts/opensans*.*`,
+            "asap": `${assets}/fonts/Asap*.*`,
+            "open": `${assets}/fonts/opensans*.*`,
         },
         "watch": {
-            "all": `${static}/fonts/**/*.*`,
+            "all": `${assets}/fonts/**/*.*`,
         },
         "dest": `${pub}/fonts`
     },
@@ -123,13 +123,13 @@ Object.assign(PATHS, {
     },
     images: {
         "entry": {
-            "all": `${static}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
-            "main": `${static}/img/**/*.+(jpe?g|png|gif|ico)`,
-            "svg": `${static}/img/svg/**/*.svg`,
+            "all": `${assets}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            "main": `${assets}/img/**/*.+(jpe?g|png|gif|ico)`,
+            "svg": `${assets}/img/svg/**/*.svg`,
         },
         "watch": {
-            "all": `${static}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
-            "svg": `${static}/img/svg/**/*.svg`,
+            "all": `${assets}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            "svg": `${assets}/img/svg/**/*.svg`,
         },
         "dest": `${pub}/img`
     },

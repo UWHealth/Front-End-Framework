@@ -1,15 +1,13 @@
+const prettier = require('./.prettierrc.js');
+
 module.exports = {
+    extends: ['standard', 'prettier/standard'],
+    plugins: ['compat', 'eslint-plugin-html', 'prettier'],
     parser: 'babel-eslint',
     parserOptions: {
         sourceType: 'module',
         allowImportExportEverywhere: true,
     },
-    extends: [
-        'standard',
-        'eslint-config-prettier',
-        'plugin:prettier/recommended',
-    ],
-    plugins: ['compat', 'eslint-plugin-html'],
     env: {
         browser: true,
         node: true,
@@ -17,18 +15,6 @@ module.exports = {
         commonjs: true,
     },
     rules: {
-        'prettier/prettier': [
-            'warn',
-            {
-                tabWidth: 4,
-                trailingComma: 'es5',
-                bracketSpacing: true,
-                arrowParens: 'always',
-                proseWrap: 'preserve',
-                singleQuote: true,
-                parser: 'babylon',
-            },
-        ],
         'lines-around-comment': [
             'warn',
             {
@@ -49,13 +35,7 @@ module.exports = {
         quotes: 'off',
         'new-cap': 'off',
         'operator-linebreak': 'off',
-        'brace-style': [
-            'warn',
-            'stroustrup',
-            {
-                allowSingleLine: true,
-            },
-        ],
+        'brace-style': 'warn',
         'no-trailing-spaces': [
             'warn',
             {

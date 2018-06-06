@@ -100,18 +100,26 @@ config.optimization.splitChunks = {
 config.module.rules.push(
     {
         test: /\.(html|svelte|js|jsx)$/,
-        exclude: (mod) => {
-            return MODE.production ? false : /(node_modules)/.test(mod);
-        },
+        enforce: 'post',
+        exclude: [
+            /node_modules\/babel-/m,
+            /node_modules\/core-js\//m,
+            /node_modules\/regenerator-runtime\//m,
+            /node_modules\/@babel/,
+        ],
         use: {
             loader: 'babel-loader',
-            options: babelConfig(false),
+            options: babelConfig('web'),
         },
     },
 
     {
-        test: /\.(html|svelte)$/,
+        test: /\.(html|sv\.html|svelte)$/,
         use: [
+            {
+                loader: 'babel-loader',
+                options: babelConfig('web'),
+            },
             {
                 loader: 'svelte-loader',
                 options: {

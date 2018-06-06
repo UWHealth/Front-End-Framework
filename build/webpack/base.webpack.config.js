@@ -23,7 +23,7 @@ const config = {
         ],
         mainFields: ['svelte', 'module', 'main'],
         alias: PATHS.aliases,
-        extensions: ['.js', '.json', '.jsx', '.html', '.hbs', '.handlebars'],
+        extensions: ['.js', '.json', '.html', '.hbs', '.jsx', '.handlebars'],
     },
     watchOptions: {
         ignored: /(node_modules|dist)/,
@@ -41,9 +41,7 @@ const config = {
 };
 
 /*
- * Loaders
- * 1. Babel
- * 2. Handlebars
+ * Base Loaders
  */
 config.module.rules = [
     {
