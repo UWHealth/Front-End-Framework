@@ -18,7 +18,7 @@
         </div>
     </header>
 
-    <Base mainClass="demo-body">
+    <Main mainClass="demo-body">
         <div class="wrap">
             {#if variants || variantTitle}
             <h2 class="demo-body__head">
@@ -27,7 +27,7 @@
             <slot name="variants"></slot>
             {/if}
         </div>
-    </Base>
+    </Main>
 </div>
 
 <script>
@@ -36,7 +36,7 @@
     export default {
         store: () => store,
         components: {
-            Base: '@/modules/main-wrapper/index.html',
+            Main: '@/modules/main-wrapper/index.html',
             Nav: '@/modules/demo/demo.nav.html'
         },
         data() {

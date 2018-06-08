@@ -25,7 +25,6 @@ config.target = 'node';
 config.output = {
     path: PATHS.folders.dest,
     publicPath: '/public/js/',
-    library: 'demo',
     libraryTarget: 'commonjs',
     filename: `[name].demo.js`,
 };
@@ -75,8 +74,10 @@ config.module.rules.push(
     }
 );
 
+const demos = glob.sync(PATHS.demos.entry.all);
+
 // Add all demo
-glob.sync(PATHS.demos.entry.all).forEach((file) => {
+demos.forEach((file) => {
     const baseName = path.basename(file, '.demo.html');
     const entryName = path.join('demo', baseName, baseName);
 
@@ -97,5 +98,25 @@ glob.sync(PATHS.demos.entry.all).forEach((file) => {
         })
     );
 });
+
+// Create "index" demo page
+const demoLinks = demos.reduce((string, file) => {
+    const name = path.basename(file, '.demo.html');
+    return string + `<li><a href="/demo/${name}/">${name}</a></li>`;
+}, '');
+
+config.plugins.push(
+    new HtmlPlugin({
+        template: PATHS.demos.entry.main,
+        filename: 'index.html',
+        inject: false,
+        cache: true,
+        showErrors: true,
+        // Template-specific data
+        pageTitle: 'Demos',
+        internalTemplate: false,
+        addon: `<ul>${demoLinks}</ul>`,
+    })
+);
 
 module.exports = config;

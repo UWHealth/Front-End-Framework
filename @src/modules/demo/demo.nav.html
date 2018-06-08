@@ -13,14 +13,13 @@
 
     if (typeof window === 'undefined') {
         history = createMemoryHistory();
-    }
-    else {
+    } else {
         history = createBrowserHistory();
     }
 
     export default {
         components: {
-            NavLink: 'babel-loader!svelte-routing/NavLink.html'
+            NavLink: 'svelte-routing/NavLink.html'
         },
         data: () => ({
             links: [
