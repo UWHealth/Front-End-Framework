@@ -6,17 +6,14 @@
 
 1.  [Node](https://nodejs.org/) (version 8+)
 2.  [Gulp 4](http://gulpjs.com/) (specifically, `gulp-cli`)
-
     -   Run `npm install --global gulp-cli` from the command line after Node has been installed.
-
 3.  [Yarn](https://yarnpkg.com/)
-
     -   Run `npm install --global yarn` from the command line after Node has been installed.
 
 ## ⚙️ Set up
 
 1.  [Clone this repository](https://github.com/UWHealth/Front-End-Framework.git)
-2.  Using the command line (preferably using PowerShell rather than cmd.exe), `cd` to the Framework's directory.
+2.  Using the command line (preferably using PowerShell/Terminal rather than cmd.exe), `cd` to the Framework's directory.
 3.  Run `yarn` and wait for the dependencies to install.
 4.  Run `gulp`.
 5.  Open a browser and go to [localhost:8080](http://localhost:8080/). This is your local running copy of the Framework.

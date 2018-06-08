@@ -16,12 +16,10 @@ Font file names must be the same as their CSS font-family values. Example: arial
 */
 
 
-//------------------------------------
-//    $EXAMPLE
-//------------------------------------
-//	This may be useful if you would rather generate your own font-face,
-//	or if you'd like to include some specialty fonts that aren't easy to
-//	feed into the mixin.
+// EXAMPLE
+//  This may be useful if you would rather generate your own font-face,
+//  or if you'd like to include some specialty fonts that aren't easy to
+//  feed into the mixin.
 
 //@font-face {
 //    font-family: 'Asap';
@@ -100,6 +98,7 @@ Based on [Compass' font-face mixin](http://compass-style.org/reference/compass/c
     @font-face {
         font-family: quote($name);
         @if $eot {
+            src: unquote("'#{$eot}'");
             $font-files: url($iefont) unquote("format('embedded-opentype')"), $font-files;
         }
         src: #{$font-files};
