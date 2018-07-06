@@ -1,4 +1,4 @@
-@import "@/helpers/_tools/_index";
+@import "NODE/@uwhealth/sass-tools/index.scss";
 
 /* SG
 # Config/Typography Settings [[dev]]
@@ -95,7 +95,7 @@ $monospace-font-stack: 		"Consolas", "Andale Mono WT", "Andale Mono", "Lucida Co
 $icon-font-stack: 			null;
 
 //Custom web fonts
-$use-web-fonts: 		true;
+$use-web-fonts: 		    true;
 //Relative path to fonts from CSS file
 $font-file-location: 	'/public/fonts';
 
@@ -108,7 +108,7 @@ $web-fonts: (
     'opensans': (
         'weights': (400, 700),
         'italics': (400, 700),
-        'formats': ('woff', 'woff2', 'svg', 'ttf')
+        'formats': ('woff', 'svg', 'ttf')
     )
 );
 
@@ -323,6 +323,10 @@ $display-classes: (
 
 // If $breakpoint-has-spacing-classes is false, this can be ignored
 $spacing-classes: (
+    properties: (
+        "pad": padding,
+        "space": margin,
+    ),
     directions: (
         "": "",
         "-t": "top",
@@ -342,10 +346,6 @@ $spacing-classes: (
         "-neg-half": -0.5,
         "-neg": -1,
         "-neg-2": -2,
-    ),
-    properties: (
-        "pad": padding,
-        "space": margin,
     ),
 );
 

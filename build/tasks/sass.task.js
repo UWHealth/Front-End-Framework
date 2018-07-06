@@ -1,11 +1,13 @@
 /**
  * @fileoverview Processes scss, adds browser prefixes, and minifies before saving to the destination folder.
+ *
  **/
+/* eslint "compat/compat": "off" */
 
 const CWD = process.cwd();
 const BROWSERS = require(`${CWD}/package.json`).browserslist;
-const Logger = require("../helpers/logger.js");
-const MODE = require("../helpers/mode");
+const Logger = require('../helpers/logger.js');
+const MODE = require('../helpers/mode');
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 /**
@@ -14,72 +16,79 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
  * @return {Object}      - Resolved path to url, with aliases replaced
  */
 function aliasPath(url, prev, done) {
-    const path = require("path");
+    const path = require('path');
 
     const aliases = Object.keys(PATHS.aliases);
-    const match = aliases.filter(alias => url.indexOf(alias) > -1);
+    const match = aliases.filter(
+        (alias) => url.indexOf(alias) > -1 && url.indexOf(alias) < 2
+    );
     return {
         file: match[0]
             ? path.resolve(
                   PATHS.aliases[match[0]],
-                  url.replace(match[0] + "/", "")
+                  url.replace(match[0] + '/', '')
               )
-            : url
+            : url,
     };
 }
 
-const sass_config = {
-    outputStyle: "expanded",
+const sassConfig = {
+    outputStyle: 'expanded',
     errLogToConsole: true,
     includePaths: [PATHS.folders.src, PATHS.folders.config],
-    importer: aliasPath
+    importer: aliasPath,
 };
 
-const nano_config = {
+const nanoConfig = {
     discardComments: { removeAll: true },
-    zindex: false
+    zindex: false,
 };
 
-module.exports = done => {
-    const gulp = require("gulp");
-    const autoprefixer = require("gulp-autoprefixer");
-    const cssnano = require("gulp-cssnano");
-    const plumber = require("gulp-plumber");
-    const rename = require("gulp-rename");
-    const sass = require("gulp-sass");
-    const sourcemaps = require("gulp-sourcemaps");
+const LOG = new Logger('Sass');
 
-    const LOG = new Logger("Sass");
-    LOG.spinner("Compiling ");
+module.exports = (done) => {
+    const gulp = require('gulp');
+    const autoprefixer = require('gulp-autoprefixer');
+    const cssnano = require('gulp-cssnano');
+    const plumber = require('gulp-plumber');
+    const rename = require('gulp-rename');
+    const sass = require('gulp-sass');
+    const sourcemaps = require('gulp-sourcemaps');
 
-    return new Promise((resolve, reject) => {
-        if (MODE.production) {
+    LOG.spinner('Compiling ');
+
+    if (MODE.production) {
+        return (
             gulp
                 .src(PATHS.sass.entry.array)
-                .pipe(plumber(LOG.notify))
-                .pipe(sass(sass_config))
-
+                .pipe(plumber(LOG.error))
+                .pipe(sass(sassConfig))
                 // Autoprefix
                 .pipe(autoprefixer({ browsers: BROWSERS }))
 
                 // Minify
-                .pipe(cssnano(nano_config))
+                .pipe(cssnano(nanoConfig))
 
-                // Output minified CSS
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
 
-                .on("error", err => reject(LOG.error(err)))
-                .on("end", () => {
-                    LOG.success("Compiled");
-                    resolve();
-                });
-        } else {
+                .on('error', (err) => {
+                    LOG.error(err);
+                    done();
+                })
+                .on('end', () => {
+                    LOG.success('Compiled');
+                    done();
+                })
+        );
+    } else {
+        return (
             gulp
                 .src(PATHS.sass.entry.array)
-                .pipe(plumber(LOG.notify))
                 .pipe(sourcemaps.init())
-                .pipe(sass(sass_config))
+
+                .pipe(plumber(LOG.error))
+                .pipe(sass(sassConfig))
 
                 // Autoprefix
                 .pipe(autoprefixer({ browsers: BROWSERS }))
@@ -88,23 +97,24 @@ module.exports = done => {
                 .pipe(gulp.dest(PATHS.sass.dest))
 
                 // Minify
-                .pipe(cssnano(nano_config))
-                .pipe(rename({ suffix: ".min" }))
+                .pipe(cssnano(nanoConfig))
+                .pipe(rename({ suffix: '.min' }))
 
                 // Write out sourcemaps
-                .pipe(sourcemaps.write("./maps"))
+                .pipe(sourcemaps.write('./maps'))
+                .pipe(plumber.stop())
 
                 // Output minified CSS
-                .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
 
-                .on("error", err => reject(LOG.error(err)))
-                .on("end", () => {
-                    LOG.success("Compiled");
-                    resolve(done);
-                });
-        }
-
-        done();
-    });
+                .on('error', (err) => {
+                    LOG.error(err);
+                    done();
+                })
+                .on('end', () => {
+                    LOG.success('Compiled');
+                    done();
+                })
+        );
+    }
 };
