@@ -5,10 +5,13 @@ import demoRouter from '@/modules/demo/demo.routes.html';
 
 let application, manifest;
 
-fetch('/public/module-map-manifest.json') //eslint-disable-line
+/* eslint-disable compat/compat */
+fetch('/public/module-map-manifest.json')
     .then((r) => r.json())
     .then((json) => (manifest = json))
     .catch((e) => console.log(e));
+
+/* eslint-enable compat/compat */
 
 domReady(async () => {
     const appElement = document.getElementById('app');
