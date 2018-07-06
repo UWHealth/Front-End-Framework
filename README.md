@@ -35,7 +35,7 @@ Conventions make scaling applications simpler while keeping complex build proces
 
 -   We use the term "helpers" to mean small pieces of code that other files rely on. Another term might be "utilities" or "tools".
 
--   The "@" symbol represents the src (@src) folder. Sass and JS files replace `@/` with `[root]/@src/`.
+-   The "@" symbol represents the src (@src) folder. Sass and JS files replace `@/` with `[root]/@src/` on build. Since this is a Webpack and Sass
 
 ## 📂 ./ (root)
 
@@ -68,7 +68,9 @@ Configuration files for the current project. Typically, you `sass.config.scss` a
 Build scripts and tasks.
 
 -   **bin/tasks/** contains all gulp task functions. The naming convention of "[task name].task.js" is employed here.
+
 -   **bin/webpack/** contains various webpack configuration helpers. Using the name "[purpose].webpack.config.js" keeps things organized by functionality. "demos", "samples", and "js" provide the bulk of the webpack workflow.
+
 -   **bin/helpers/** contains simple scripts to help with tasks and build steps. For instance, "logger.js" handles the consistent formatting of `console.log`-type output.
 
 ## 📂 docs
@@ -83,7 +85,7 @@ The build target. This folder should never contain pre-built files, since its co
 
 ---
 
-## Tips and Tricks
+## 💪 Tips and Tricks
 
 ### Gulp arguments
 

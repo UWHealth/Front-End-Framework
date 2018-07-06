@@ -20,7 +20,7 @@ Does this project use gulp, webpack, requireJS, sass, etc.? List those things he
 * Webpack
 * Babel
 * Sass
-* Handlebars
+* Svelte
 
 
 # Runtime dependencies
