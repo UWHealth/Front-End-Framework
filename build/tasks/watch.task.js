@@ -10,7 +10,7 @@ const opts = { ignoreInitial: true };
 
 module.exports = function() {
     // Watch sass, styleguide, images, and fonts for changes
-    gulp.watch(PATHS.sass.watch.all, opts, gulp.parallel("sass"));
+    gulp.watch(PATHS.sass.watch.array, opts, gulp.parallel("sass"));
     gulp.watch(PATHS.styleGuide.watch.array, opts, gulp.series("styleGuide"));
     gulp.watch(PATHS.images.watch.array, opts, gulp.parallel("images"));
     gulp.watch(PATHS.fonts.watch.array, opts, gulp.parallel("copy"));
