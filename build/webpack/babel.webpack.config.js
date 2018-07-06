@@ -11,12 +11,11 @@ module.exports = function(target) {
         auxiliaryCommentBefore: 'Babel»',
         presets: [
             [
-                '@babel/preset-env',
+                '@babel/env',
                 {
                     targets: targets,
                     loose: true,
                     modules: false,
-                    useESModules: Boolean(MODE.production),
                     ignoreBrowserslistConfig: true,
                     debug: false,
                 },
@@ -24,7 +23,7 @@ module.exports = function(target) {
         ],
         plugins: [
             [
-                '@babel/plugin-transform-runtime',
+                '@babel/transform-runtime',
                 {
                     useBuiltIns: target !== 't4' ? 'usage' : false,
                     helpers: false,
@@ -41,11 +40,11 @@ module.exports = function(target) {
 
     if (target === 'web') {
         config.plugins.push(
-            ['@babel/plugin-transform-arrow-functions'],
+            ['@babel/transform-arrow-functions'],
             ['syntax-dynamic-import'],
             ['transform-object-assign'],
             [
-                '@babel/plugin-transform-template-literals',
+                '@babel/transform-template-literals',
                 {
                     loose: true,
                 },
@@ -54,14 +53,14 @@ module.exports = function(target) {
     } else if (target === 'node') {
         config.plugins.push(['dynamic-import-node']);
     } else if (target === 't4') {
-        config.presets = ['@babel/preset-es2015'];
+        config.presets = ['@babel/es2015'];
         config.plugins.push(
             ['dynamic-import-node'],
-            ['@babel/plugin-transform-arrow-functions'],
+            ['@babel/transform-arrow-functions'],
             ['transform-es3-property-literals'],
             ['transform-es3-member-expression-literals'],
             [
-                '@babel/plugin-transform-template-literals',
+                '@babel/transform-template-literals',
                 {
                     loose: true,
                 },
