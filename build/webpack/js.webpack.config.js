@@ -14,7 +14,7 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 const STATS = require('./helpers/webpack-stats.js')();
 const MODE = require('../helpers/mode.js');
 const baseConfig = require(`./base.webpack.config.js`);
-const babelConfig = require(`./babel.webpack.config.js`);
+const babelConfig = require(`./helpers/babel-config.js`);
 
 const config = cloneDeep(baseConfig.config);
 
