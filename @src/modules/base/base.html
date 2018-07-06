@@ -1,12 +1,13 @@
-{@html doctype + html[0]}
+{@html '<!DOCTYPE html>'}
+{@html '<html lang="en">'}
 {@html header}
-{@html body[0]}
+{@html '<body>'}
     <div id="app">
         {@html innerComponent}
     </div>
     {@html addon}
     {@html pageState}
-{@html body[1] + html[1]}
+{@html '</body></html>'}
 
 <script>
 import header from '@/components/header/_header.hbs';
@@ -17,9 +18,6 @@ import * as manifest from '>/dist/public/module-map-manifest.json';
 // to prevent Svelte from treating them as components
 export default {
     data: () => ({
-        doctype: '<!DOCTYPE html>',
-        body: ['<body>', '</body>'],
-        html: ['<html lang="en">', '</html>'],
         htmlWebpackPlugin: null,
         compilation: null,
         manifest: manifest,
