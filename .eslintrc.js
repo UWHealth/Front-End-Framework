@@ -2,7 +2,7 @@ const prettier = require('./.prettierrc.js');
 
 module.exports = {
     extends: ['standard', 'prettier/standard'],
-    plugins: ['compat', 'eslint-plugin-html', 'prettier'],
+    plugins: ['compat', 'html', 'prettier'],
     parser: 'babel-eslint',
     parserOptions: {
         sourceType: 'module',
@@ -30,7 +30,9 @@ module.exports = {
         indent: 'off',
         semi: ['warn', 'always'],
         'no-tabs': 'off',
+        'no-mixed-spaces-and-tabs': ['warn', 'smart-tabs'],
         complexity: ['warn', 5],
+        'compat/compat': 'warn',
         'comma-dangle': ['warn', 'only-multiline'],
         quotes: 'off',
         'new-cap': 'off',
