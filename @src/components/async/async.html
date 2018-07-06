@@ -9,62 +9,61 @@
 {:elseif SSRComponent}
     <svelte:component this={SSRComponent} {...props} />
 {:elseif error}
-    <div> {error} </div>
+    <div> Oh no: {error} </div>
 {/if}
 
 <script>
-    import findExport from '@/helpers/find-export.js';
+import findExport from '@/helpers/find-export.js';
 
-    export default {
-        data() {
-            return {
-                props: {},
-                component: null,
-                loadingComponent: null,
-                errorComponent: null,
-                loader: null,
-                webpack: null,
-                error: null,
-                loading: false,
-            };
+export default {
+    data() {
+        return {
+            props: {},
+            component: null,
+            loadingComponent: null,
+            errorComponent: null,
+            loader: null,
+            webpack: null,
+            error: null,
+            loading: false,
+        };
+    },
+    computed: {
+        SSRComponent: ({ webpack }) => {
+            const load = webpack();
+            // Find module in webpack cache
+            const mod = __webpack_modules__[load];
+            const component = requireModule(mod, load);
+            return component && component;
         },
-        computed: {
-            SSRComponent: ({ webpack }) => {
-                const load = webpack();
-                // Find module in webpack cache
-                const mod = __webpack_modules__[load];
-                const component = requireModule(mod, load);
-                return component && component;
+    },
+    methods: {
+        getComponent() {
+            let { loader } = this.get();
+
+            try {
+                if (loader) {
+                    return loader().then((Component) => findExport(Component));
+                }
+            } catch (err) {
+                this.set({ error: err });
+                return err;
             }
         },
-        methods: {
-            async getComponent() {
-                let {loader} = this.get();
+    },
+    async oncreate() {
+        this.set({ loading: true });
+        const component = await this.getComponent();
+        this.set({ component: component, loading: false });
+    },
+};
 
-                try {
-                    if (loader) {
-                        return loader().then((Component) => findExport(Component));
-                    }
-                }
-                catch (err) {
-                    this.set({ 'error': err });
-                    return err;
-                }
-            }
-        },
-        async oncreate() {
-            this.set({loading: true});
-            const component = await this.getComponent();
-            this.set({component: component, loading: false});
-        }
-    };
-
-    function requireModule(mod, load) {
-        // Reject any modules not found in webpack
-        if (typeof mod === 'undefined') {
-            return false;
-        }
-        // We pass the id, name
-        return findExport(__webpack_require__(mod.name || mod.id || load));
+function requireModule(mod, load) {
+    // Reject any modules not found in webpack
+    if (typeof mod === 'undefined') {
+        return false;
     }
+    // We pass the id, name
+    return findExport(__webpack_require__(mod.name || mod.id || load));
+}
 </script>

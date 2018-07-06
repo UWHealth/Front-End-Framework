@@ -1,7 +1,7 @@
 /**
  * @fileoverview Starts webpack file watching and compilation. Compiles client-side JS and sample files.
  * Also handles webpack logging.
-**/
+ **/
 
 const webpack = require('webpack');
 const fs = require('fs');
@@ -15,18 +15,24 @@ const ARGS = require('../helpers/args.js');
 
 const LOG = new Logger('Webpack');
 
-const watchOptions = (MODE.localProduction || !MODE.production) ?
-    { poll: 1000, ignored: /node_modules/ }
-    : null;
+const watchOptions =
+    MODE.localProduction || !MODE.production
+        ? { poll: 1000, ignored: /node_modules/ }
+        : null;
 
 let watching = false;
 
 function startWebpack(done) {
     // Write out a temporary manifest so we can avoid errors on startup
-    const folders = path.relative(PATHS.folders.dist, PATHS.js.dest).replace(/\\/g, '/').split('/');
+    const folders = path
+        .relative(PATHS.folders.dist, PATHS.js.dest)
+        .replace(/\\/g, '/')
+        .split('/');
 
     folders.reduce((prev, folder) => {
-        try { fs.mkdirSync(path.join(prev, folder)); } catch(e) {}
+        try {
+            fs.mkdirSync(path.join(prev, folder));
+        } catch (e) {}
         return path.join(prev, folder);
     }, PATHS.folders.dist);
 
@@ -42,33 +48,31 @@ function startWebpack(done) {
             watching = false;
             startWebpack(done);
         });
-    }
-    else {
-
+    } else {
         if (watchOptions) {
             compiler.hooks.watchRun.tap('Log Compilation', () => {
                 LOG.spinner('Compiling');
                 return true;
             });
 
-            watching = compiler.watch(watchOptions, (err, stats) => webpackLogger(err, stats, done));
-        }
-        else {
+            watching = compiler.watch(watchOptions, (err, stats) =>
+                webpackLogger(err, stats, done)
+            );
+        } else {
             LOG.spinner('Compiling');
             compiler.run((err, stats) => webpackLogger(err, stats, done));
         }
     }
 }
 
-function webpackLogger(err, stats, done) { // eslint-disable-line
-
+/* eslint-disable-next-line */
+function webpackLogger(err, stats, done) {
     if (err) {
         LOG.error(err.stack || err);
         if (err.details) {
             LOG.error(err.details);
         }
-    }
-    else if (stats) {
+    } else if (stats) {
         const statLogs = stats.stats !== undefined ? stats.stats : [stats];
 
         statLogs.forEach((stats) => {
@@ -78,10 +82,15 @@ function webpackLogger(err, stats, done) { // eslint-disable-line
             const info = stats.toJson();
 
             if (stats.hasErrors()) {
-                return info.errors.forEach(err => {
+                return info.errors.forEach((err) => {
                     if (!MODE.production && !ARGS.stats) {
                         const errArray = err.split('\n');
-                        err = errArray[0] + '\n' + errArray[1] + '\n' + errArray[2];
+                        err =
+                            errArray[0] +
+                            '\n' +
+                            errArray[1] +
+                            '\n' +
+                            errArray[2];
                     }
                     LOG.error(name + err);
                 });
@@ -92,17 +101,18 @@ function webpackLogger(err, stats, done) { // eslint-disable-line
                 return LOG.info(stats.toString('minimal'));
             }
 
-            const statsString = (!MODE.production && !ARGS.stats) ?
-                `${stats.toString('minimal').replace(/\s+(\d*)(.*)/, ` $1 ${name}$2 `)}`
-                :
-                stats.toString(STATS());
-
+            const statsString =
+                !MODE.production && !ARGS.stats
+                    ? `${stats
+                          .toString('minimal')
+                          .replace(/\s+(\d*)(.*)/, ` $1 ${name}$2 `)}`
+                    : stats.toString(STATS());
 
             return LOG.success('Compiled' + statsString);
         });
     }
 
     if (typeof done === 'function') done();
-};
+}
 
 module.exports = startWebpack;

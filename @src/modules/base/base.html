@@ -4,14 +4,14 @@
     <div id="app">
         {@html innerComponent}
     </div>
-    {@html addon && addon}
+    {@html addon}
     {@html pageState}
 {@html body[1] + html[1]}
 
 <script>
 import header from '@/components/header/_header.hbs';
 import footer from '@/components/footer/_footer.hbs';
-import * as manifest from '@/../dist/public/module-map-manifest.json';
+import * as manifest from '>/dist/public/module-map-manifest.json';
 
 // doctype, html, body, and head tags added as strings
 // to prevent Svelte from treating them as components
@@ -31,7 +31,8 @@ export default {
         pageTitle: ({ htmlWebpackPlugin }) =>
             htmlWebpackPlugin.options.pageTitle,
         scripts: ({ manifest }) => manifest.initial,
-        addon: ({ htmlWebpackPlugin }) => htmlWebpackPlugin.options.addon,
+
+        addon: ({ htmlWebpackPlugin }) => htmlWebpackPlugin.options.addon || '',
 
         // Pass state to handlebars templates
         header: (state) => header(state),

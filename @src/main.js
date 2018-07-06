@@ -5,7 +5,7 @@ import demoRouter from '@/modules/demo/demo.routes.html';
 
 let application, manifest;
 
-fetch('/public/module-map-manifest.json')
+fetch('/public/module-map-manifest.json') //eslint-disable-line
     .then((r) => r.json())
     .then((json) => (manifest = json))
     .catch((e) => console.log(e));
