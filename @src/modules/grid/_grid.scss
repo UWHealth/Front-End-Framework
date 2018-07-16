@@ -7,25 +7,25 @@
 }
 
 .row--narrow {
-    @extend %grid_narrow;
+    @extend %grid--narrow;
 }
 
 .row--full {
-	@extend %grid_full;
+	@extend %grid--full;
 }
 
 .row > * {
-	@extend %grid_reset;
+	@extend %grid--reset;
 }
 
 .column {
-    @extend %grid_item;
+    @extend %grid__item;
 }
 
 .w-half {
-	@extend %one_half;
+	@extend %one-half;
 }
 
 .w-quarter {
-	@extend %one_quarter;
+	@extend %one-quarter;
 }

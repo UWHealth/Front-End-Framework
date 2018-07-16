@@ -1,63 +1,31 @@
-@import "NODE/@uwhealth/sass-tools/index.scss";
-
 /* SG
-# Config/Typography Settings [[dev]]
+# Config [[dev]]
 
-##### `$$base-font-size`
-###### Pixel value
-Font size all other values will use for calculation. Will be converted to `rems`.
-
-##### `$$base-line-height`
-###### Pixel value
-Line-height for base font-size. Will be used to determine the vertical spacing values when `type-space()` is used.
-
-##### `$$font-looseness`
-###### Percentage
-What to base the tightness/looseness of automatically-generated `line-heights`.
-
-##### `$$auto-scale-type`
-###### Boolean
-Uses `$$scale-ratio` to create font sizes for headings starting from the `$$base-font-size`. Overwrites `$$type-[h#]-size`.
-
-##### `$$scale-ratio`
-###### Numeric (float)
-Used for `$$auto-scale-type` and for `modular-scale()`.
-
-##### `$$rem-px-fallback`
-###### Boolean
-Determines whether `rems()` conversion includes a pixel-value fallback for older browsers like IE8.
-
-##### `$$indented-paragraphs`
-###### Boolean
-Determines whether to generate css for paragraphs with a text indent, rather than paragraphs with margins between them.
+See [UWHealth sass tools documenation](https://uwhealth.github.io/sass-tools/) for configuration variable details.
+What is set here are reasonable defaults.
 
 */
+
+// Import base sass toolset and default config variables
+@import "NODE/@uwhealth/sass-tools/index.scss";
+
+
+//------------------------------------------
+// 1.0 - Typography configration
+//------------------------------------------
 
 $base-font-size:            16px;
 $base-line-height:          24px;
-$font-looseness: 			15%;
+$font-looseness:            15%;
 $auto-scale-type:           false;
 $scale-ratio:               1.35;
 
-$vertical-space:			$base-line-height; // Maintains best vertical rhythm
-$horizontal-space: 			$base-line-height; // Simplifies measurements
+$vertical-space:            $base-line-height; // Maintains best vertical rhythm
+$horizontal-space:          $base-line-height; // Simplifies measurements
 
-$rem-px-fallback: 			false;
+$rem-px-fallback:           false;
 
 $indented-paragraphs:       false;
-
-
-
-/* SG
-# Config/Typography Settings [[dev]]
-
-##### `$$type-[h#]-size`
-###### List (pixel value [, pixel or unitless value])
-Variables used to generate heading (and small) font-sizes and line-heights. A secondary value will force the line-height to that base-value.
-
-_NOTE: First value must be pixel values(or a function that generates a pixel value like `modular-scale()`), but the optional secondary value can be unitless._
-*/
-
 
 $type-h1-size:           (modular-scale(6));
 $type-h2-size:           (modular-scale(5));
@@ -68,43 +36,19 @@ $type-h6-size:           (modular-scale(1));
 $type-small-size: 		 (ceil(modular-scale(-1)));
 
 
-/* SG
-# Config/Typography Settings [[dev]]
+//------------------------------------------
+// 1.1 - Font configuration
+//------------------------------------------
 
-##### `$$primary-font-stack`, `$$secondary-font-stack`, `$$monospace-font-stack`, `$$icon-font-stack`
-###### String
-Used wherever font-families are declared. Use `null` if nothing exists.
+$use-web-fonts:             true;
 
-##### `$$use-web-fonts`
-###### Boolean
-Whether to generate `@font-face` values based on the values of `$$web-fonts`.
+$primary-font-stack:        "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$secondary-font-stack:      $system-font-stack;
+$monospace-font-stack:      "Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
+$icon-font-stack:           null;
 
-##### `$$web-fonts`
-###### Map (`font-name`: (`weights`: List(Numbers), `italics`: List(Numbers), `formats`:(List(String))))
-Description of weights, styles and formats for the project's web fonts. The root key value determines the name, while each inner key determines the weights, styles, and formats.
-
-*/
-
-
-$primary-font-stack:      	"opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-
-$secondary-font-stack:     	"Asap", "Garamond","Baskerville", "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
-
-$monospace-font-stack: 		"Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
-
-$icon-font-stack: 			null;
-
-//Custom web fonts
-$use-web-fonts: 		    true;
-//Relative path to fonts from CSS file
-$font-file-location: 	'/public/fonts';
-
+$font-file-location: 	'/public/fonts'; //Paths are relative to CSS file
 $web-fonts: (
-    'Asap': (
-        'weights': (400, 700),
-        'italics': (400, 700),
-        'formats': ('woff', 'eot', 'svg', 'ttf')
-    ),
     'opensans': (
         'weights': (400, 700),
         'italics': (400, 700),
@@ -113,205 +57,62 @@ $web-fonts: (
 );
 
 
-/* SG
-# Config/Responsive Settings [[dev]]
-
-##### `$$max-site-width`
-###### Pixel value
-Maximum desktop width for the site wrapper.
-_This value is also useful as a breakpoint, since this is the point at which your site is going to squish._
-
-##### `$$max-content-width`
-###### Pixel value
-Maximum width for content set at the `$$base-font-size`. This should be set to whatever creates the ideal line-length for standard content (Usually 45-75 characters).
-_Also useful as a breakpoint, since it is typical that your viewport is now smaller than your ideal line-length._
-
-##### `$$max-wide-content-width`
-###### Pixel value
-Similar to `$$max-content-width`, but for type that might be a little larger, but smaller than your maximum site width(`$$max-site-width`). Useful for hero-style text treatments and content blocks that need a bit of constraint.
-
-*/
+//------------------------------------------
+// 2.0 - Responsive configuration
+//------------------------------------------
 
 $max-site-width:         1360px;
-
 $max-content-width: 	 690px;
-
 $max-wide-content-width: 910px;
 
-
-/* SG
-# Config/Breakpoints [[dev]]
-
-##### `$$breakpoints`
-###### Map (`breakpoint-name: 'breakpoint-value'`)
-Sets up variables for media-queries. Used in `@media-query()`.
-
-_Note: It's usually good to convert your pixel values to ems to ensure best browser behavior. Can be accomplished via `#{ems(10px)}`_
-
-**Example**
-```scss
-$breakpoints: (
-  'small':'(min-width: 320px)',
-  'bigs':'(min-width: 850px)'
-);
-```
-*/
-
+$breakpoint-namespace-character: "_";
 $breakpoints: (
     // Mostly phones
-        "smalls": "(max-width:#{ems($max-wide-content-width)})",
+    "smalls": "(max-width:#{ems($max-wide-content-width)})",
     // Small Phones
-        "small": "(max-width: #{ems($max-content-width)})",
+    "small": "(max-width: #{ems($max-content-width)})",
     // Large (Modern) phones/phablets
-        "smallish":
-        "(min-width: #{ems($max-content-width+1px)}) and (max-width: #{ems($max-wide-content-width)})",
+    "smallish":
+        "(min-width: #{ems($max-content-width+1px)})" +
+        " and (max-width: #{ems($max-wide-content-width)})",
     // Tablets, Desktops and larger
-        "bigs": "(min-width: #{ems($max-wide-content-width+1px)})",
+    "bigs": "(min-width: #{ems($max-wide-content-width+1px)})",
     // Mostly Tablets and small laptops. Overrides Bigs
-        "lap":
-        "(min-width: #{ems($max-wide-content-width + 1px)}) and (max-width: #{ems($max-site-width)})",
+    "lap":
+        "(min-width: #{ems($max-wide-content-width + 1px)})" +
+        " and (max-width: #{ems($max-site-width)})",
     // Large Tablets and Desktops. Overrides Bigs.
-        "desk": "(min-width: #{ems($max-site-width)})"
+    "desk": "(min-width: #{ems($max-site-width)})"
 );
 
-/* SG
-# Config/Grid Settings [[dev]]
 
-##### `$$grid-columns`
-###### Number
-Base number of grid columns to be generated. Note that any column number will include all fractions of the fewer columns. For instance, a 12-column grid would also include all fractions of 1-12 (including things like three-sevenths).
-
-##### `$$grid-gutter`
-###### Pixel value
-Space between grid items. Also used in `type-space()` for horizontal spacing units.
-
-##### `$$grid-silent-classes`
-###### Boolean
-If set to false, actual grid classes will be output to CSS.
-
-##### `$$grid-push`, `$$grid-pull`
-###### Boolean
-Determines whether to include extra grid classes for positional grid modifiers.
-*/
+//------------------------------------------
+// 2.1 - Grid configuration
+//------------------------------------------
 
 $grid-columns:           12;
 $grid-gutter:            32px;
-$grid-silent-classes:	 true;
+$grid-silent-classes:    true;
 $grid-push:              true;
 $grid-pull:              true;
-
-
-/* SG
-##### `$$grid-inline-block`
-###### Boolean
-Create grids using an inline-block-based layout.
-
-##### `$$grid-markup-fix`
-###### Boolean
-**Only applicable to inline-block grid.** If set to `true`, html must have no white space (or comments) between grid items. Almost always set to `false`.
-
-##### `$$grid-letter-space-fix`
-###### em value
-**Only applicable to inline-block grid.** If `$$grid-markup-fix` is not used, then a negative `em` value must be set to remove whitespace between columns. Usually, `-0.45em` works, but this should be adjusted based on the natural width of the font-family set on the body element.
-
-##### `$$grid-flex`
-###### Boolean
-If set to `true`, the grid will add markup for a flexbox-based layout. Can be combined with an inline-block-based grid to provide an older browser fallback.
-
-##### `$$grid-floats`
-###### Boolean
-If set to `true`, the grid uses floats-based layout. **This is usually not recommended since inline-block and flexbox are much are more flexible.**
-*/
-
-$grid-inline-block:      true;
-$grid-markup-fix:        false;
-$grid-letter-space-fix:  -0.45em;
 
 $grid-flex:              true;
 $grid-floats:            false;
 
+$grid-inline-block:      true; // Fallback for older browsers
+$grid-letter-space-fix:  -0.45em; // Should be based on $primary-font-stack
 
-/* SG
-##### `$$breakpoints-has-widths`, `$$breakpoints-has-push`, `$$breakpoints-has-pull`
-###### List (string)
-Determines what classes (widths, pushes, pulls) get generated at `$$breakpoints`. The list's order determines the output order. This is useful if you want one breakpoint to override another.
-*/
+$grid-bem-naming:        true; // Generated classes use BEM instead of snake_case
 
+// Include classes for each named breakpoint in $breakpoints
 $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-push:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 
 
-/* SG
-# Config/Utility Class Settings [[dev]]
-
-##### `$$breakpoint-namespace-character`
-###### String
-Used to define what character comes after an auto-generated responsive class. A setting of '_' would create classes like `smalls_space-v` whereas a '@' would create classes like `smalls@space-v`.
-*/
-
-$breakpoint-namespace-character: "_";
-
-/* SG
-# Config/Utility Class Settings [[dev]]
-
-##### `$$display-classes`
-###### Map (string: string)
-Variable used to generate display classes. Key value pairs determine the class name and the display value.
-
-**Example**
-```scss
-//SCSS input
-$display-classes: ('show':'block');
-
-//CSS output
-.show { display: block; }
-```
-
-##### `$$spacing-classes`
-###### Map (`string: string`)
-Variable used to generate utility (override) spacing classes. Classes are created via `@spacing-utilities()`.
-
-**Keys and Values**
-* 'directions': Direction class suffixes.
-* 'units': Numeric multiples (e.g. `2` or `-1`) of your spacing units (`$$horizontal-space` and `$$vertical-space`).
-* 'properties': Class name aliases for padding and margin.
-
-**Example**
-```scss
-//SCSS Input
-    $display-classes: (
-        'directions': (
-            '-t': 'top',
-            '-r': 'right',
-            '-v': 'top' 'bottom'
-        ),
-        'units': (
-            '-2': 2,
-            '-neg': -1
-        ),
-        'properties': (
-            'pad': 'padding',
-            'margin': 'space'
-        )
-    );
-
-//CSS output
-    // Assume spacing units are 1rem, for simplicity
-    .space-t-2, .space-v-2 { margin-top: 2rem; }
-    .space-v-2 { margin-bottom: 2rem; }
-    .space-r-2 { margin-right: 2rem; }
-    .space-t-neg { margin-top: -1rem; }
-    .space-r-neg { margin-right: -1rem; }
-
-    .pad-t-2 { padding-top: 2rem; }
-    .pad-r-2 { padding-right: 2rem;}
-    //--Negative padding classes filtered out since they are invalid---//
-
-    @media only screen and (min-width:300px){...}
-    //repeated for all media-queries defined by $breakpoints-has-spacing-classes...
-```
-*/
+//------------------------------------------
+// 2.2 - Utility class configuration
+//------------------------------------------
 
 $display-classes: (
     "show": block,
@@ -349,74 +150,48 @@ $spacing-classes: (
     ),
 );
 
-/* SG
-# Config/Utility Class Settings [[dev]]
 
-##### `$$breakpoints-has-alignment-classes`, `$$breakpoints-has-spacing-classes`, `$breakpoints-has-display-classes`, `$breakpoint-has-type-classes`
-###### List (keys from `$$breakpoints`)
-Determines what utility classes get generated at `$$breakpoints`. The list's order determines cascade The list's order determines the output order. This is useful if you want one breakpoint to override another.
-A `false` value will output no classes of that type.
-*/
-
+// Determines what utility classes get generated at `$$breakpoints`.
+// The list's order determines cascade (output order).
+// This is useful if you want one breakpoint to override another.
 $breakpoint-has-alignment-classes: ("smalls", "bigs", "desk");
-$breakpoint-has-spacing-classes: ("smalls", "bigs", "desk");
-$breakpoint-has-display-classes: ("smalls", "bigs");
-$breakpoint-has-type-classes: ("smalls", "bigs");
+$breakpoint-has-spacing-classes:   ("smalls", "bigs", "desk");
+$breakpoint-has-display-classes:   ("smalls", "bigs");
+$breakpoint-has-type-classes:      ("smalls", "bigs");
 
-/* SG
-# Config/Color Settings [[dev]]
 
-##### `$$base-colors`
-###### Map (key : color value)
-Sets up consistent color names to be used for color-palette. Dark and light values will be automatically generated. Key values should be accessed through `colors()`.
-`type`, `links`, and `bg` key values are required for some starter styles. If you choose not to use them, just replace their references in the appropriate files.
+//------------------------------------------
+// 3.0 - Color configuration
+//------------------------------------------
 
-Supports a nested map style like the following:
-```scss
 $base-colors: (
-  'type':(
-    'base':red,
-    'light': pink,
-    'dark':maroon
-  ),
-  'links':(
-    'base':blue,
-    'light': sky,
-    'dark': navy
-  ),
-  'bg': (
-    'base': #fff,
-    'dark': #ddd
-  )
-);
-```
-*/
+    'type': #0a1c2b, //Required
 
-//Create color variations based on the map, using the settings below
-$base-colors: generate-color-variations(
-    $map: (
-        'type': #0a1c2b, //Required
+    'links': #0d497b, //Required
 
-        'links': #0d497b, //Required
+    'bg': #f6f8fb, //Required
 
-        'bg': #f6f8fb, //Required
-
-        //Change the following names and colors project-specific
-        'styleguide': (
-            'base': #5E839E,
-            'light': #CADDE2,
-            'lighter': #F5D1DD,
-            'lightest': #E0ECF0,
-            'highlight':#f60255,
-            'dark': #175CA2,
-            'darker': #114a84,
-            'darkest': #081D33
-        ),
-
-        'accent': mix(#d40026, #AD0909, 45%),
-
-        'success': #bada55
+    //Change the following names and colors project-specific
+    'styleguide': (
+        'base': #5E839E,
+        'light': #CADDE2,
+        'lighter': #F5D1DD,
+        'lightest': #E0ECF0,
+        'highlight':#f60255,
+        'dark': #175CA2,
+        'darker': #114a84,
+        'darkest': #081D33
     ),
+
+    'accent': mix(#d40026, #AD0909, 45%),
+
+    'success': #bada55
+);
+
+// Create color variations based
+// NOTE: This is here as an example and can be removed from a real project.
+$base-colors: generate-color-variations(
+    $base-colors,
     $variations: ( //Color variation names
         'light', 'lighter', 'lightest',
         'dark', 'darker', 'darkest'
@@ -466,13 +241,23 @@ Displays the current breakpoint (from `$$breakpoints`) name on a psuedo element 
 
 */
 
+
+//------------------------------------------
+// 4.0 - Debug configuration
+//------------------------------------------
+
 $debug-fonts: false;
-
+// Adds style for a `baseline-on` class that will show a grid of the baseline
+// on any element (most useful on the `body` or `html` tag).
+// Makes vertical alignment easier.
 $debug-baseline: true;
-
+// Displays the current breakpoint (from `$$breakpoints`) name
+// on a psuedo element on the body.
+// Makes debugging media queries a little simpler.
+$debug-breakpoints: true;
+ // Stores all silent classes in $_silents-registry
 $debug-silent-classes: false;
 
-$debug-breakpoints: true;
 
 // Initialize and propogate framework variables
 @include globalize-config();
