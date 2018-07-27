@@ -16,20 +16,20 @@
 </button>
 
 <script>
-    import modifiers from '@/helpers/class-modifiers';
-    import titleCase from '@/helpers/title-case.js';
+import modifiers from '@/helpers/class-modifiers';
+import titleCase from '@/helpers/title-case.js';
 
-    export default {
-        data: () => ({
-            body: "Button",
-            icon: false,
-            iconUrl: false,
-            attrs: false,
-            type: []
-        }),
-        setup(thisComponent) {
-            thisComponent.TYPES = ['wide', 'compact', ''];
-        },
-        helpers: { modifiers, titleCase }
-    };
+export default {
+    helpers: { modifiers, titleCase },
+    data: () => ({
+        body: 'Button',
+        icon: false,
+        iconUrl: false,
+        attrs: false,
+        type: [],
+    }),
+    setup(thisComponent) {
+        thisComponent.TYPES = ['wide', 'compact', ''];
+    },
+};
 </script>

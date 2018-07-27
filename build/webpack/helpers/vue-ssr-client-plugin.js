@@ -16,18 +16,18 @@ var onEmit = function(compiler, name, hook) {
         compiler.hooks.emit.tapAsync(name, hook);
     } else {
         // Webpack < 4.0.0
-        compiler.plugin("emit", hook);
+        compiler.plugin('emit', hook);
     }
 };
 
-var hash = require("hash-sum");
-var uniq = require("lodash.uniq");
+var hash = require('hash-sum');
+var uniq = require('lodash.uniq');
 var VueSSRClientPlugin = function VueSSRClientPlugin(options) {
     if (options === void 0) options = {};
 
     this.options = Object.assign(
         {
-            filename: "vue-ssr-client-manifest.json"
+            filename: 'vue-ssr-client-manifest.json',
         },
         options
     );
@@ -36,7 +36,7 @@ var VueSSRClientPlugin = function VueSSRClientPlugin(options) {
 VueSSRClientPlugin.prototype.apply = function apply(compiler) {
     var this$1 = this;
 
-    onEmit(compiler, "vue-client-plugin", function(compilation, cb) {
+    onEmit(compiler, 'vue-client-plugin', function(compilation, cb) {
         var stats = compilation.getStats().toJson();
 
         var allFiles = uniq(
@@ -45,7 +45,7 @@ VueSSRClientPlugin.prototype.apply = function apply(compiler) {
             })
         )
             // Avoid preloading / injecting the style chunk
-            .filter(file => !/styles\.\w{8}\.js$/.test(file));
+            .filter((file) => !/styles\.\w{8}\.js$/.test(file));
 
         var initialFiles = uniq(
             Object.keys(stats.entrypoints)
@@ -60,7 +60,7 @@ VueSSRClientPlugin.prototype.apply = function apply(compiler) {
                 })
         )
             // Avoid preloading / injecting the style chunk
-            .filter(file => !/styles\.\w{8}\.js$/.test(file));
+            .filter((file) => !/styles\.\w{8}\.js$/.test(file));
 
         var asyncFiles = allFiles
             .filter(function(file) {
@@ -77,7 +77,7 @@ VueSSRClientPlugin.prototype.apply = function apply(compiler) {
             async: asyncFiles,
             modules: {
                 /* [identifier: string]: Array<index: number> */
-            }
+            },
         };
 
         var assetModules = stats.modules.filter(function(m) {
@@ -96,7 +96,7 @@ VueSSRClientPlugin.prototype.apply = function apply(compiler) {
                 if (!chunk || !chunk.files) {
                     return;
                 }
-                var id = m.identifier.replace(/\s\w+$/, ""); // remove appended hash
+                var id = m.identifier.replace(/\s\w+$/, ''); // remove appended hash
                 var files = (manifest.modules[hash(id)] = chunk.files.map(
                     fileToIndex
                 ));
@@ -120,7 +120,7 @@ VueSSRClientPlugin.prototype.apply = function apply(compiler) {
             },
             size: function() {
                 return json.length;
-            }
+            },
         };
         cb();
     });

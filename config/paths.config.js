@@ -5,21 +5,22 @@
  * Structure should follow:
 
     topic/concern
-      ┞─"folders"
+      ┞─ folders
          ┖─"name": `folder path`
-      ┞─"entry"
+      ┞─ entry
          ┖─"name": `glob/file path`
-      ┞─"watch"
-         ┞─"name": `glob/file`
-         ┖─"exclude": ["!glob", "!file"]
-      ┖─"dest": `folder path`
+      ┞─ watch
+         ┞─name: `glob/file`
+         ┖─exclude: [`!glob/*`, `!file`]
+      ┖─ dest : `folder path`
 
     Notes:
     • Use template literals (``) instead of strings where possible.
-    • "folders" should not contain file paths.
+    • "folders" should not contain paths to files.
     • "entry" and "watch" keys should be file paths (or globs).
     • "exclude" key should be the only array.
     • "exclude" must be listed last.
+    • Once compiled, an "array" key with a combination of all paths will be added to each topic.
 **/
 
 const path = require('path');
@@ -53,6 +54,8 @@ const PATHS = {
 };
 
 Object.assign(PATHS, {
+    /* eslint-disable no-useless-escape */
+
     // Allow for path aliases
     aliases: {
         '@': src,
@@ -82,12 +85,12 @@ Object.assign(PATHS, {
             meta: `${assets}/meta/*.*`,
             exclude: [`!${assets}/img/**.*`],
         },
-        dest: `${pub}/`,
+        dest: `${pub}/static/`,
     },
     // Files to create demos from
     demos: {
         folders: {
-            root: `${src}/components/`,
+            root: `${src}/`,
             components: `${src}/components/`,
             modules: `${src}/modules/`,
         },
@@ -106,7 +109,7 @@ Object.assign(PATHS, {
         watch: {
             all: `${assets}/fonts/**/*.*`,
         },
-        dest: `${pub}/fonts`,
+        dest: `${pub}/static/fonts`,
     },
     hbs: {
         folders: {
@@ -133,14 +136,14 @@ Object.assign(PATHS, {
             all: `${assets}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
             svg: `${assets}/img/svg/**/*.svg`,
         },
-        dest: `${pub}/img`,
+        dest: `${pub}/static/img`,
     },
     js: {
         folders: {
             root: `${src}`,
             components: `${src}/components`,
             modules: `${src}/modules`,
-            globals: `${src}/globals`,
+            helpers: `${src}/helpers`,
         },
         entry: {
             main: `${src}/main.js`,
@@ -166,7 +169,7 @@ Object.assign(PATHS, {
         watch: {
             all: `${src}/**/*.scss`,
             config: `${config}/sass.config.scss`,
-            main: `${src}/*.scss`
+            main: `${src}/*.scss`,
         },
         dest: `${pub}/css`,
     },
@@ -186,10 +189,10 @@ Object.assign(PATHS, {
         dest: `${pub}/styleguide/index.html`,
     },
     browserSync: {
+        port: 8080,
         entry: {
             serve: dist,
         },
-        port: 8080,
         watch: {
             css: `${pub}/css/*.css`,
             js: `${pub}/js/**/*.js`,

@@ -30,7 +30,7 @@ export default {
             htmlWebpackPlugin.options.pageTitle,
         scripts: ({ manifest }) => manifest.initial,
 
-        addon: ({ htmlWebpackPlugin }) => htmlWebpackPlugin.options.addon || '',
+        addon: ({ htmlWebpackPlugin }) => htmlWebpackPlugin.options.svelte.addon || '',
 
         // Pass state to handlebars templates
         header: (state) => header(state),
@@ -39,14 +39,14 @@ export default {
         // Add the initial page state,
         // Allowing our app to hydrate
         pageState: (state) => {
-            let opts = state.htmlWebpackPlugin.options;
+            let opts = state.htmlWebpackPlugin.options.svelte;
             return (
-                '<script>' +
-                'window.__APP_STATE__ = {' +
-                `initialRoute: '${opts.pathname}',` +
-                `componentPath: '${opts.componentPath}'` +
-                `};
-                <\/script>` // eslint-disable-line
+                `<script>` +
+                `window.__APP_STATE__ = { ` +
+                `  initialRoute: "${opts.pathname}",` +
+                `  componentPath: "${opts.componentPath}"` +
+                `}` +
+                `<\/script>` // eslint-disable-line
             );
         },
 

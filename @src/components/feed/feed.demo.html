@@ -6,46 +6,46 @@
 </Demo>
 
 <script>
-    import store from '@/modules/demo/demo.store.js';
+import store from '@/modules/demo/demo.store.js';
 
-    export default {
-        store: () => store,
-        components: {
-            Demo: '@/modules/demo/demo.wrapper.html',
-            List: './feed.html'
+export default {
+    store: () => store,
+    components: {
+        Demo: '@/modules/demo/index.html',
+        List: './index.html',
+    },
+    data() {
+        return {
+            feedUrl:
+                'https://uconnect.wisc.edu/feeds/30m/json/homepage/index.json',
+            MAX_PER_PAGE: 10,
+            page: 1,
+            feedResults: false,
+        };
+    },
+    computed: {
+        feed: ({ feedResults }) => feedResults,
+        props: (state) => state,
+    },
+    methods: {
+        fetchFeed() {
+            const { feedUrl } = this.get();
+            return fetch(feedUrl).then((r) => r.json());
         },
-        data() {
-            return {
-                feedUrl: "https://uconnect.wisc.edu/feeds/30m/json/homepage/index.json",
-                MAX_PER_PAGE: 10,
-                page: 1,
-                feedResults: false
-            };
-        },
-        computed: {
-            feed: ({ feedResults }) => feedResults,
-            props: state => state
-        },
-        methods: {
-            fetchFeed() {
-                const {feedUrl} = this.get();
-                return fetch(feedUrl).then(r => r.json());
-            }
-        },
-        oncreate() {
-            if (store.get()['feedResults']) {
-                this.set({"feedResults": store.get()['feedResults']});
-            }
-            else {
-                const feed = this.fetchFeed();
-                feed.then((feed) => {
-                    this.set({"feedResults": feed.results});
-                    store.set({'feedResults': feed.results});
-                }).catch(e => {
-                    console.log(e);
-                    return e;
-                });
-            };
+    },
+    oncreate() {
+        if (store.get()['feedResults']) {
+            this.set({ feedResults: store.get()['feedResults'] });
+        } else {
+            const feed = this.fetchFeed();
+            feed.then((feed) => {
+                this.set({ feedResults: feed.results });
+                store.set({ feedResults: feed.results });
+            }).catch((e) => {
+                console.log(e);
+                return e;
+            });
         }
-    };
+    },
+};
 </script>

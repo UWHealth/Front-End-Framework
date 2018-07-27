@@ -1,15 +1,15 @@
 export default function domReady(fn) {
     if (document.readyState !== 'loading') {
         fn();
-    }
-    // Modern browsers
-    else if (document.addEventListener) {
+    } else if (document.addEventListener) {
+        // Modern browsers
         document.addEventListener('DOMContentLoaded', fn);
-    }
-    // IE <= 8
-    else {
+    } else {
+        // IE <= 8
         document.attachEvent('onreadystatechange', () => {
-            if (document.readyState === 'complete') { fn(); }
+            if (document.readyState === 'complete') {
+                fn();
+            }
         });
     }
 }

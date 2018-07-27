@@ -10,24 +10,24 @@
 </Demo>
 
 <script>
-    import capitalize from '@/helpers/title-case.js';
+import capitalize from '@/helpers/title-case.js';
 
-    export default {
-        components: {
-            Demo: '@/modules/demo/demo.wrapper.html',
-            Generic: './generic.html',
-        },
-        data() {
-            return {
-                widths: ['normal', 'wide', 'compact'],
-            };
-        },
-        oncreate() {
-            // Simple way to override the default page title template
-            this.root.store.set({ pageTitle: 'Generic Cards' });
-        },
-        helpers: {
-            capitalize,
-        },
-    };
+export default {
+    components: {
+        Demo: '@/modules/demo/index.html',
+        Generic: './index.html',
+    },
+    data() {
+        return {
+            widths: ['normal', 'wide', 'compact'],
+        };
+    },
+    oncreate() {
+        // Simple way to override the default page title template
+        this.root.store.set({ pageTitle: 'Generic Cards' });
+    },
+    helpers: {
+        capitalize,
+    },
+};
 </script>

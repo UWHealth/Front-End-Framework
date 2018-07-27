@@ -29,25 +29,25 @@
 </Demo>
 
 <script>
-    import capitalize from '@/helpers/title-case';
+import capitalize from '@/helpers/title-case';
 
-    export default {
-        components: {
-            Button: './button.html',
-            Demo: '@/modules/demo/demo.wrapper.html',
-            Async: '@/components/async/async.html'
+export default {
+    components: {
+        Button: './index.html',
+        Demo: '@/modules/demo/index.html',
+        Async: '@/components/async/async.html',
+    },
+    data: () => ({
+        widths: ['normal', 'wide', 'compact'],
+        asyncButton: {
+            loader: () => import('./index.html'),
+            webpack: () => require.resolveWeak('./index.html'),
+            props: {
+                width: ['wide'],
+                body: 'Async button',
+            },
         },
-        data: () => ({
-            widths: ['normal', 'wide', 'compact'],
-            asyncButton: {
-                loader: () => import('./button.html'),
-                webpack: () => require.resolveWeak('./button.html'),
-                props: {
-                    width: ['wide'],
-                    body: 'Async button'
-                }
-            }
-        }),
-        helpers: { capitalize }
-    };
+    }),
+    helpers: { capitalize },
+};
 </script>
