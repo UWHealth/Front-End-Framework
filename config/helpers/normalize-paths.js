@@ -1,5 +1,3 @@
-const path = require('path');
-
 /**
  * Normalizes PATHS object by:
  *  - Adding "array" entry to path objects, allowing for a selection like `browsersync.watch.array`
@@ -11,28 +9,25 @@ module.exports = function(PATHS) {
         Object.keys(PATHS[target]).forEach((group) => {
             let currentGroup = PATHS[target][group];
 
-            if (typeof currentGroup === "object") {
+            if (typeof currentGroup === 'object') {
                 let array = [];
 
                 Object.keys(currentGroup).forEach((file) => {
                     if (Array.isArray(currentGroup[file])) {
-                        currentGroup[file] = currentGroup[file].map(globNormalize);
+                        currentGroup[file] = currentGroup[file].map(posixify);
                         array = array.concat(currentGroup[file]);
-                    }
-                    else {
-                        currentGroup[file] = globNormalize(currentGroup[file]);
+                    } else {
+                        currentGroup[file] = posixify(currentGroup[file]);
                         array.push(currentGroup[file]);
                     }
                 });
 
-                currentGroup["array"] = array;
-            }
-            else if (typeof currentGroup === 'string') {
-                currentGroup = globNormalize(currentGroup);
+                currentGroup['array'] = array;
+            } else if (typeof currentGroup === 'string') {
+                currentGroup = posixify(currentGroup);
             }
         });
     });
-
 
     return PATHS;
 };
@@ -42,6 +37,6 @@ module.exports = function(PATHS) {
  * @param  {String} item path string
  * @return {String}      normalize path string, if a glob, normalized to a POSIX path
  */
-const globNormalize = function(item) {
+const posixify = function(item) {
     return item.replace(/\\/g, '/');
 };

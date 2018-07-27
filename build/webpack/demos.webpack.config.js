@@ -1,5 +1,5 @@
 /**
- * @fileoverview - Webpack configuration for generating demo pages. Uses ./webpack.config.js as a base. Saves all files to dist/samples/
+ * @fileoverview - Webpack configuration for generating demo pages. Uses base.webpack.config.js as a base. Saves all files to dist/demos/
  **/
 
 const CWD = process.cwd();
@@ -12,7 +12,7 @@ const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const baseConfig = require('./base.webpack.config.js');
-const babelConfig = require('./helpers/babel-config.js');
+const babelConfig = require(`${CWD}/config/babel.config.js`);
 const HtmlPlugin = require('html-webpack-plugin');
 
 const config = cloneDeep(baseConfig.config);
@@ -90,11 +90,14 @@ demos.forEach((file) => {
             inject: false,
             cache: true,
             showErrors: true,
-            // Template-specific data
             pageTitle: baseName,
-            internalTemplate: `${entryName}.demo.js`,
-            pathname: `/demo/${baseName}/`,
-            componentPath: `${baseName}`,
+            // Template-specific data
+            svelte: {
+                internalTemplate: `${entryName}.demo.js`,
+                pathname: `/demo/${baseName}/`,
+                componentPath: `${baseName}`,
+                addon: '',
+            }
         })
     );
 });
@@ -112,10 +115,12 @@ config.plugins.push(
         inject: false,
         cache: true,
         showErrors: true,
-        // Template-specific data
         pageTitle: 'Demos',
-        internalTemplate: false,
-        addon: `<ul>${demoLinks}</ul>`,
+        // Template-specific data
+        svelte: {
+            internalTemplate: false,
+            addon: `<ul>${demoLinks}</ul>`,
+        }
     })
 );
 

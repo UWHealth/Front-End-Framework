@@ -1,5 +1,5 @@
 /**
- * @fileoverview - Webpack configuration for generating demo pages. Uses ./webpack.config.js as a base. Saves all files to dist/samples/
+ * @fileoverview - Webpack configuration for generating T4 components. Uses base.webpack.config.js as a base. Saves all files to dist/t4/
  **/
 
 const CWD = process.cwd();
@@ -12,7 +12,7 @@ const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const baseConfig = require('./base.webpack.config.js');
-const babelConfig = require('./helpers/babel-config.js');
+const babelConfig = require(`${CWD}/config/babel.config.js`);
 
 const config = cloneDeep(baseConfig.config);
 
@@ -32,7 +32,7 @@ config.output = {
 config.module.rules.push(
     // Svelte as server-side
     {
-        test: /\.(html|sv\.html|svelte)$/,
+        test: /\.((sv\.)?html|svelte)$/, // .sv.html / .html / .svelte
         use: [
             {
                 loader: 'babel-loader',
@@ -90,16 +90,6 @@ if (MODE.production) {
         new UglifyJsPlugin({
             uglifyOptions: {
                 ecma: 5,
-                // mangle: {
-                //     keep_fnames: true,
-                //     keep_classnames: true,
-                //     safari10: true,
-                //     reserved: ['svelte', 'default'],
-                //     properties: {
-                //         keep_quoted: true,
-                //         reserved: ['svelte', 'default'],
-                //     },
-                // },
                 mangle: false,
                 parse: {
                     ecma: 6,

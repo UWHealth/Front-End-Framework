@@ -31,8 +31,8 @@ module.exports = function(target) {
                     loose: true,
                     modules: target === 'web' ? false : 'umd',
                     include: target === 't4' ? ['es6.set', 'es6.map'] : [],
-                    // exclude: ['es6.typed.array-buffer', 'es6.array.slice'],
                     useESModules: Boolean(MODE.production),
+                    // exclude: ['es6.typed.array-buffer', 'es6.array.slice'],
                 },
             ],
         ],
@@ -74,6 +74,6 @@ function getTargets(target) {
     return target === 'node'
         ? { node: 'current' }
         : target === 't4'
-            ? { browsers: ['ff 2'] } // version 1.7
+            ? { browsers: ['ff 2'] } // ECMA/JS version 1.7
             : { browsers: BROWSERS };
 }
