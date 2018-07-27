@@ -4,7 +4,7 @@
     $type-baseline-size: strip-units($type-base-unit);
 
 	.baseline-on {
-        background-image: url(http://basehold.it/i/#{$type-baseline-size}); // [3]
+        background-image: url(http://basehold.it/i/#{$type-baseline-size});
         background: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px, rgba(black, .15) 1px, transparent 1px) top left / auto (($type-base-ratio / 2) * 1em);
     }
 
@@ -17,13 +17,11 @@
 //Output all silent classes and values at the end of the CSS file if silent-class debugging is enabled. Will not show up in minified output
 
 @if $debug-silent-classes {
-/*! Silent classes:
-	#{map-inspect($silent-class-registry)}
-*/
+    @include output-silent-classes;
 }
 
 @if $debug-breakpoints {
-    @each $breakpoint in $all-breakpoints {
+    @each $breakpoint, $bp in $breakpoints {
         @include mq($breakpoint) {
             .breakpoint-on:after {
                 content: "#{$breakpoint}";

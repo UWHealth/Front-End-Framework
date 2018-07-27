@@ -2,5 +2,12 @@
  * Generate font-face declarations based on web-font config
  */
 @if $use-web-fonts {
-    @include include-web-fonts($web-fonts);
+    @include web-fonts($web-fonts);
+}
+
+%primary_font_family {
+	font-family: $primary-font-stack;
+}
+%secondary_font_family {
+	font-family: $secondary-font-stack;
 }

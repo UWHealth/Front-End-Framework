@@ -33,7 +33,7 @@ Sass files are imported in order from lowest specificity to highest.
 //-----------------------------
 
 //Settings
-@import '@/../config/sass.config.scss';
+@import 'CWD/config/sass.config.scss';
 
 
 //----------------------------
@@ -54,7 +54,7 @@ Sass files are imported in order from lowest specificity to highest.
 //OOCSS styles and base-level classes
 // (+1 specificity)
 @import '@/components/button/button';
-@import '@/components/hero/hero';
+// @import '@/components/hero/hero';
 
 
 //View-specific and theme-/skin-based styles

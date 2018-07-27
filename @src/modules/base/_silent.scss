@@ -6,13 +6,6 @@ $base_namespace: '';
     margin-left: 0;
 }
 
-%primary_font_family {
-	font-family: $primary-font-stack;
-}
-%secondary_font_family {
-	font-family: $secondary-font-stack;
-}
-
 %type_vertical_rhythm {
 	@include type-space(margin, 0 0 1);
 }
@@ -21,7 +14,7 @@ $base_namespace: '';
 //screen readers.
 //Particularly useful for logos. e.g.
 // .logo{
-//   @include %image-replace;
+//   @extend %image-replace;
 //   background: url(image/logo.png) no-repeat;
 // }
 %replace_image {
@@ -42,7 +35,7 @@ $base_namespace: '';
 //Hide Visually. Usefuly for Accessiblity.
 //Used for text which describes a purely visual function.
 // e.g. Adding 'Current page' to the current nav item (which is usually indicated by something visual.
-%visually_hidden {
+%visually-hidden {
 	border: 0;
 	clip: rect(0 0 0 0);
 	clip: rect(0px, 0px, 0px, 0px);

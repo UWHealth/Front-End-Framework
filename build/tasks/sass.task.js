@@ -46,7 +46,12 @@ const nanoConfig = {
 
 const LOG = new Logger('Sass');
 
-module.exports = (done) => {
+function handleError(err) {
+    LOG.error(err);
+    this.emit('end');
+}
+
+module.exports = () => {
     const gulp = require('gulp');
     const autoprefixer = require('gulp-autoprefixer');
     const cssnano = require('gulp-cssnano');
@@ -62,7 +67,7 @@ module.exports = (done) => {
             gulp
                 .src(PATHS.sass.entry.array)
                 .pipe(plumber(LOG.error))
-                .pipe(sass(sassConfig))
+                .pipe(sass.sync(sassConfig))
                 // Autoprefix
                 .pipe(autoprefixer({ browsers: BROWSERS }))
 
@@ -72,13 +77,9 @@ module.exports = (done) => {
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.sass.dest))
 
-                .on('error', (err) => {
-                    LOG.error(err);
-                    done();
-                })
+                // .on('error', LOG.error)
                 .on('end', () => {
-                    LOG.success('Compiled');
-                    done();
+                    return LOG.success('Compiled');
                 })
         );
     } else {
@@ -88,7 +89,7 @@ module.exports = (done) => {
                 .pipe(sourcemaps.init())
 
                 .pipe(plumber(LOG.error))
-                .pipe(sass(sassConfig))
+                .pipe(sass.sync(sassConfig))
 
                 // Autoprefix
                 .pipe(autoprefixer({ browsers: BROWSERS }))
@@ -107,13 +108,9 @@ module.exports = (done) => {
                 // Output minified CSS
                 .pipe(gulp.dest(PATHS.sass.dest))
 
-                .on('error', (err) => {
-                    LOG.error(err);
-                    done();
-                })
+                // .on('error', LOG.error)
                 .on('end', () => {
-                    LOG.success('Compiled');
-                    done();
+                    return LOG.success('Compiled');
                 })
         );
     }

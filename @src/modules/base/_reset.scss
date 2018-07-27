@@ -6,7 +6,7 @@ body {
 }
 
 body {
-	@include font-size($base-font-size, true, p);
+	@include font-size($base-font-size, true);
 }
 
 abbr[title],

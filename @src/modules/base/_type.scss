@@ -2,32 +2,32 @@
 //    $HEADINGS
 //------------------------------------
 
-%base_heading_space {
+%base-heading-space {
 	@include type-space(margin-bottom, 1);
 }
 
 h1 {
-    @include font-size($type-h1-size, $h1-lh);
+    @include font-size($h1-fs, $h1-lh);
 }
 h2 {
-    @include font-size($type-h2-size, $h2-lh);
+    @include font-size($h2-fs, $h2-lh);
 }
 h3 {
-    @include font-size($type-h3-size, $h3-lh);
+    @include font-size($h3-fs, $h3-lh);
 }
 h4 {
-    @include font-size($type-h4-size, $h4-lh);
+    @include font-size($h4-fs, $h4-lh);
 }
 h5 {
-    @include font-size($type-h5-size, $h5-lh);
+    @include font-size($h5-fs, $h5-lh);
 }
 h6 {
-    @include font-size($type-h6-size, $h6-lh);
+    @include font-size($h6-fs, $h6-lh);
 }
 
 
 @include headings(1, 6) {
-    @extend %base_heading_space;
+    @extend %base-heading-space;
 	@extend %secondary_font_family;
 
     & + p {
@@ -69,7 +69,7 @@ p {
 
 small {
 	display: inline-block; //allows for own line-height
-	@include font-size($type-small-size, $small-lh);
+	@include font-size($small-fs, $small-lh);
 }
 
 //

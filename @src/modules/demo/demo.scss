@@ -1,5 +1,5 @@
 //Settings
-@import '@/../config/sass.config';
+@import 'CWD/config/sass.config';
 
 $demo-cyan: lighten(blend-overlay(rgba(#08f, .5), color('links', 'lightest'), 35%), 3%);
 

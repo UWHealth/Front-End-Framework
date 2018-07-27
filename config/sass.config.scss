@@ -14,40 +14,34 @@ What is set here are reasonable defaults.
 // 1.0 - Typography configration
 //------------------------------------------
 
-$base-font-size:            16px;
-$base-line-height:          24px;
-$font-looseness:            15%;
-$auto-scale-type:           false;
-$scale-ratio:               1.35;
+$base-font-size:       16px;
+$base-line-height:     24px;
+$font-looseness:       15%;
+$auto-scale-type:      false;
+$scale-ratio:          1.35;
 
-$vertical-space:            $base-line-height; // Maintains best vertical rhythm
-$horizontal-space:          $base-line-height; // Simplifies measurements
+$vertical-space:       $base-line-height; // Maintains best vertical rhythm
+$horizontal-space:     $base-line-height; // Simplifies measurements
 
-$rem-px-fallback:           false;
+$rem-px-fallback:      false;
 
-$indented-paragraphs:       false;
+$indented-paragraphs:  false;
 
-$type-h1-size:           (modular-scale(6));
-$type-h2-size:           (modular-scale(5));
-$type-h3-size:           (modular-scale(4));
-$type-h4-size:           (modular-scale(3));
-$type-h5-size:           (modular-scale(2));
-$type-h6-size:           (modular-scale(1));
-$type-small-size: 		 (ceil(modular-scale(-1)));
+$type-h1-size:         (modular-scale(6));
+$type-h2-size:         (modular-scale(5));
+$type-h3-size:         (modular-scale(4));
+$type-h4-size:         (modular-scale(3));
+$type-h5-size:         (modular-scale(2));
+$type-h6-size:         (modular-scale(1));
+$type-small-size: 	   (ceil(modular-scale(-1)));
 
 
 //------------------------------------------
 // 1.1 - Font configuration
 //------------------------------------------
 
-$use-web-fonts:             true;
+$use-web-fonts:         true;
 
-$primary-font-stack:        "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-$secondary-font-stack:      $system-font-stack;
-$monospace-font-stack:      "Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
-$icon-font-stack:           null;
-
-$font-file-location: 	'/public/fonts'; //Paths are relative to CSS file
 $web-fonts: (
     'opensans': (
         'weights': (400, 700),
@@ -55,6 +49,13 @@ $web-fonts: (
         'formats': ('woff', 'svg', 'ttf')
     )
 );
+
+$font-file-location: 	'/public/fonts'; //Paths are relative to CSS file
+
+$primary-font-stack:    "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$secondary-font-stack:  $system-font-stack;
+$monospace-font-stack:  "Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
+$icon-font-stack:       null;
 
 
 //------------------------------------------
@@ -65,7 +66,6 @@ $max-site-width:         1360px;
 $max-content-width: 	 690px;
 $max-wide-content-width: 910px;
 
-$breakpoint-namespace-character: "_";
 $breakpoints: (
     // Mostly phones
     "smalls": "(max-width:#{ems($max-wide-content-width)})",
@@ -84,6 +84,8 @@ $breakpoints: (
     // Large Tablets and Desktops. Overrides Bigs.
     "desk": "(min-width: #{ems($max-site-width)})"
 );
+
+$breakpoint-namespace-character: "_";
 
 
 //------------------------------------------
@@ -122,6 +124,8 @@ $display-classes: (
     "flex": flex,
 );
 
+$breakpoint-has-display-classes:   ("smalls", "bigs");
+
 // If $breakpoint-has-spacing-classes is false, this can be ignored
 $spacing-classes: (
     properties: (
@@ -150,13 +154,12 @@ $spacing-classes: (
     ),
 );
 
+$breakpoint-has-spacing-classes:   ("smalls", "bigs", "desk");
 
 // Determines what utility classes get generated at `$$breakpoints`.
 // The list's order determines cascade (output order).
-// This is useful if you want one breakpoint to override another.
+// Useful if you want one breakpoint to override another.
 $breakpoint-has-alignment-classes: ("smalls", "bigs", "desk");
-$breakpoint-has-spacing-classes:   ("smalls", "bigs", "desk");
-$breakpoint-has-display-classes:   ("smalls", "bigs");
 $breakpoint-has-type-classes:      ("smalls", "bigs");
 
 
@@ -182,8 +185,6 @@ $base-colors: (
         'darker': #114a84,
         'darkest': #081D33
     ),
-
-    'accent': mix(#d40026, #AD0909, 45%),
 
     'success': #bada55
 );

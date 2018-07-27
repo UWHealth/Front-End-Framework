@@ -1,32 +1,70 @@
-/*! sanitize.css v3.0.0 | CC0 1.0 Public Domain | github.com/10up/sanitize.css */
+/* sanitize.css v6.0.0 | CC0 1.0 Public Domain | github.com/csstools/sanitize.css */
 
-$root-background-color: #FFFFFF !default;
-$root-box-sizing: border-box !default;
-$root-color: #000000 !default;
-$root-cursor: default !default;
-$root-font-family: sans-serif !default;
-$root-font-size: 100% !default;
-$root-line-height: 1.5 !default;
-$root-text-rendering: optimizeLegibility !default;
+$root-text-rendering: optimizeLegibility;
 
-$anchor-text-decoration: none !default;
-$background-repeat: no-repeat !default;
-$form-element-background-color: transparent !default;
-$form-element-min-height: if(unitless($root-line-height), #{$root-line-height}em, if(unit($root-line-height) != '%', $root-line-height, null)) !default;
-$media-element-vertical-align: middle !default;
-$monospace-font-family: monospace !default;
-$nav-list-style: none !default;
-$selection-background-color: #B3D4FC !default;
-$selection-color: #ffffff !default;
-$selection-text-shadow: none !default;
-$small-font-size: 75% !default;
-$table-border-collapse: collapse !default;
-$table-border-spacing: 0 !default;
-$textarea-resize: vertical !default;
+$anchor-text-decoration: none;
+$background-repeat: no-repeat;
+
+$form-element-background-color: transparent;
+$form-element-min-height: $base-line-height;
+$media-element-vertical-align: middle;
+
+$selection-background-color: mix(color('links'), color('bg'), 80%);
+$selection-color: black-or-white($selection-background-color);
+$selection-text-shadow: none;
+
+$table-border-collapse: collapse;
+$table-border-spacing: 0;
+$textarea-resize: vertical;
 
 /*
  * Normalization
- */
+*/
+
+// specify universal inheritance
+// specify the border style and width of all elements
+
+*,
+::before,
+::after {
+	box-sizing: inherit;
+    border-style: solid;
+	border-width: 0;
+}
+
+* {
+	font-size: inherit;
+	line-height: inherit;
+    background-repeat: $background-repeat;
+	margin: 0;
+	padding: 0;
+}
+
+::before,
+::after {
+	text-decoration: inherit;
+	vertical-align: inherit;
+}
+
+// specify the root styles of the document
+
+:root {
+	background-color: color('bg');
+	box-sizing: border-box;
+	color: color('type');
+	cursor: inherit;
+    font-size: percentage($base-font-size/16px);
+	line-height: $type-base-ratio;
+    font-family: $primary-font-stack;
+	text-rendering: $root-text-rendering;
+}
+
+html {
+	-ms-overflow-style: -ms-autohiding-scrollbar; // Edge 12+, Internet Explorer 11-
+	overflow-y: scroll; // All browsers without overlaying scrollbars
+	-webkit-text-size-adjust: 100%; // iOS 8+
+	-ms-text-size-adjust: 100%;
+}
 
 audio:not([controls]) {
 	display: none; // Chrome 44-, iOS 8+, Safari 9+
@@ -37,15 +75,8 @@ button {
 	-webkit-appearance: button; // iOS 8+
 }
 
-//details {
-//	display: block; // Edge 12+, Firefox 40+, Internet Explorer 11-, Windows Phone 8.1+
-//}
-
-html {
-	-ms-overflow-style: -ms-autohiding-scrollbar; // Edge 12+, Internet Explorer 11-
-	overflow-y: scroll; // All browsers without overlaying scrollbars
-	-webkit-text-size-adjust: 100%; // iOS 8+
-	-ms-text-size-adjust: 100%;
+details {
+	display: block; // Edge 12+, Firefox 40+, Internet Explorer 11-, Windows Phone 8.1+
 }
 
 input {
@@ -69,9 +100,9 @@ input {
 	}
 }
 
-//main {
-//	display: block; // Android 4.3-, Internet Explorer 11-, Windows Phone 8.1+
-//}
+main {
+	display: block; // Android 4.3-, Internet Explorer 11-, Windows Phone 8.1+
+}
 
 pre {
 	overflow: auto; // Internet Explorer 11-
@@ -81,13 +112,9 @@ progress {
 	display: inline-block; // Internet Explorer 11-, Windows Phone 8.1+
 }
 
-//small {
-//	font-size: $small-font-size; // All browsers
-//}
-
-//summary {
-//	display: block; // Firefox 40+, Internet Explorer 11-, Windows Phone 8.1+
-//}
+summary {
+	display: block; // Firefox 40+, Internet Explorer 11-, Windows Phone 8.1+
+}
 
 svg:not(:root) {
 	overflow: hidden; // Internet Explorer 11-
@@ -106,65 +133,26 @@ textarea {
 	display: none; // Internet Explorer 10-
 }
 
-/*
- * Universal inheritance
- */
-
-*,
-::before,
-::after {
-	box-sizing: inherit;
-}
-
-* {
-	font-size: inherit;
-	line-height: inherit;
-}
-
-::before,
-::after {
-	text-decoration: inherit;
-	vertical-align: inherit;
-}
-
-
-
-/*
- * Opinionated defaults
- */
-
-// specify the border style and width of all elements
-
-*,
-::before,
-::after {
-	border-style: solid;
-	border-width: 0;
-}
-
-// specify the core styles of all elements
-
-* {
-	background-repeat: $background-repeat;
-	margin: 0;
-	padding: 0;
-}
-
-// specify the root styles of the document
-
-:root {
-	background-color: $root-background-color;
-	box-sizing: $root-box-sizing;
-	color: $root-color;
-	cursor: $root-cursor;
-	font: #{$root-font-size}/#{$root-line-height} $root-font-family;
-	text-rendering: $root-text-rendering;
-}
-
 // specify the text decoration of anchors
 
 a {
+    background-color: transparent;
 	text-decoration: $anchor-text-decoration;
+}
+
+// Remove the tapping delay on clickable elements in all browsers
+
+a,
+area,
+button,
+input,
+label,
+select,
+summary,
+textarea,
+[tabindex] {
+  -ms-touch-action: manipulation; /* 1 */
+  touch-action: manipulation; /* 2 */
 }
 
 // specify the alignment of media elements
@@ -177,15 +165,6 @@ svg,
 video {
 	vertical-align: $media-element-vertical-align;
 }
-
-// specify the background color of form elements
-
-//button,
-//input,
-//select,
-//textarea {
-//	background-color: $form-element-background-color;
-//}
 
 // specify the inherited color and font of form elements
 
@@ -229,14 +208,7 @@ code,
 kbd,
 pre,
 samp {
-	font-family: $monospace-font-family, monospace;
-}
-
-// specify the list style of nav lists
-
-nav ol,
-nav ul {
-	list-style: $nav-list-style;
+	font-family: $monospace-font-stack, monospace;
 }
 
 // specify the standard appearance of selects
@@ -275,6 +247,28 @@ table {
 	text-shadow: $selection-text-shadow;
 }
 
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+
+// Remove inner padding and border in Firefox 3+.
+::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
+}
+
 // specify the progress cursor of updating elements
 
 [aria-busy="true"] {
@@ -289,7 +283,8 @@ table {
 
 // specify the unstyled cursor of disabled, not-editable, or otherwise inoperable elements
 
-[aria-disabled] {
+[aria-disabled],
+[disabled] {
 	cursor: default;
 }
 
@@ -303,4 +298,22 @@ table {
 	&:focus {
 		clip: auto;
 	}
+}
+
+dialog {
+    background-color: white;
+    border: solid;
+    color: black;
+    display: block;
+    height: fit-content;
+    left: 0;
+    margin: auto;
+    padding: 1em;
+    position: absolute;
+    right: 0;
+    width: fit-content;
+}
+
+dialog:not([open]) {
+    display: none;
 }
