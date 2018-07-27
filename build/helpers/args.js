@@ -5,71 +5,74 @@
 const yargs = require('yargs');
 
 yargs.options({
-    'production': {
+    production: {
         alias: ['prd', 'p'],
         describe: 'Start production mode. "development" is default',
         type: 'boolean',
-        group: 'Environment:'
+        group: 'Environment:',
     },
-    'local': {
+    local: {
         alias: ['lprd'],
-        describe: 'Use "local production" mode. Allows development with production assets',
+        describe:
+            'Use "local production" mode. Allows development with production assets',
         type: 'boolean',
-        group: 'Environment:'
+        group: 'Environment:',
     },
-    'stats': {
+    stats: {
         alias: 'debug',
         describe: 'Show full Webpack stats and errors',
         type: 'boolean',
         default: false,
-        group: 'Logging: '
+        group: 'Logging: ',
     },
-    'open': {
+    open: {
         alias: 'newtab',
         describe: 'Open a new tab immediately',
-        coerce: (arg) => { return arg ? 'local' : false; },
+        coerce: (arg) => {
+            return arg ? 'local' : false;
+        },
         type: 'boolean',
         default: false,
-        group: 'Server:'
+        group: 'Server:',
     },
-    'bsdir': {
+    bsdir: {
         alias: ['dir'],
         describe: 'Show directories instead of index.html',
         type: 'boolean',
         default: false,
-        group: 'Server:'
+        group: 'Server:',
     },
-    'bsport': {
+    bsport: {
         alias: 'port',
         describe: 'Port to start server on',
         type: 'number',
         default: 8080,
-        group: 'Server:'
+        group: 'Server:',
     },
-    'bsproxy': {
+    bsproxy: {
         alias: 'proxy',
-        describe: "BrowserSync proxy URL",
+        describe: 'BrowserSync proxy URL',
         type: 'string',
         default: undefined,
-        group: 'Server:'
+        group: 'Server:',
     },
-    'bsservestatic': {
+    bsservestatic: {
         alias: ['static'],
         describe: 'BrowserSync "serveStatic" option',
         type: 'array',
         default: [],
-        group: 'Server:'
+        group: 'Server:',
     },
-    'bstunnel': {
+    bstunnel: {
         alias: 'tunnel',
         describe: 'BrowserSync "tunnel" option',
         type: 'string',
-        group: 'Server:'
+        group: 'Server:',
     },
-    'bsserver': {
+    bsserver: {
         alias: 'server',
-        describe: 'BrowserSync "server" option'
-    }
+        describe: 'BrowserSync "server" option',
+    },
 });
 
 module.exports = yargs

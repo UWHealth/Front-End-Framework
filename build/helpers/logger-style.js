@@ -1,38 +1,31 @@
 module.exports = {
     'pretty-error': {
         display: 'block',
-        marginLeft: '2'
-
+        marginLeft: '2',
     },
     'pretty-error > header': {
         display: 'block',
-
     },
     'pretty-error > header > title > kind': {
         display: 'none',
         background: 'red',
-        color: 'bright-white'
-
+        color: 'bright-white',
     },
     'pretty-error > header > title > wrapper': {
         marginRight: '1',
         color: 'grey',
-
     },
     'pretty-error > header > colon': {
         color: 'grey',
         display: 'none',
         marginRight: '1',
-
     },
     'pretty-error > header > message': {
         color: 'red',
-
     },
     'pretty-error > trace': {
         display: 'block',
         marginTop: 1,
-
     },
     'pretty-error > trace > item': {
         display: 'block',
@@ -59,7 +52,7 @@ module.exports = {
     'pretty-error > trace > item > header > what': {
         display: 'inline',
         color: 'none',
-        marginRight: 1
+        marginRight: 1,
     },
     'pretty-error > trace > item > footer > addr': {
         display: 'inline',
@@ -67,11 +60,10 @@ module.exports = {
     },
     'pretty-error > trace > item > footer': {
         display: 'inline',
-        color: 'grey'
-
+        color: 'grey',
     },
     'pretty-error > trace > item > footer > extra': {
         display: 'block',
         color: 'grey',
-    }
+    },
 };

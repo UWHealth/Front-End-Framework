@@ -1,11 +1,12 @@
 /* eslint indent: "off" */
 const MODE = require('../../helpers/mode.js');
 
-module.exports = function(minimalist = false) { // eslint-disable-line
+module.exports = function(minimalist = false) {
+    // eslint-disable-line
     // Exclude js assets from minimalist logs
     const excludes = minimalist ? /(\.js$|\.map$)/ : /(\.map$)/;
     const maximum = !minimalist;
-    const prod = (MODE.production === true);
+    const prod = MODE.production === true;
 
     // if (!prod && minimalist) {
     //     return 'minimal';
@@ -25,8 +26,8 @@ module.exports = function(minimalist = false) { // eslint-disable-line
 
         // Files
         assets: true,
-            cachedAssets: prod,
-            hash: maximum ? prod : false,
+        cachedAssets: prod,
+        hash: maximum ? prod : false,
         cached: prod,
         children: false,
 
@@ -38,11 +39,11 @@ module.exports = function(minimalist = false) { // eslint-disable-line
         //     source: true,
         //     moduleTrace: true,
         //     maxModules: 10,
-        //optimizationBailout: MODE.production,
+        // optimizationBailout: MODE.production,
         warnings: true,
 
         excludeAssets: excludes,
         excludeModules: excludes,
-        exclude: excludes
+        exclude: excludes,
     };
 };

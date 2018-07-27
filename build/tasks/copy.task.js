@@ -1,6 +1,6 @@
 /**
  * @fileoverview Copies files from one location to another without any processing. Mostly used for static or binary files.
-**/
+ **/
 
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
@@ -10,7 +10,8 @@ const LOG = require('../helpers/logger.js');
 const PATHS = require(`${process.cwd()}/config/paths.config.js`);
 
 module.exports = () =>
-    gulp.src(PATHS.copy.entry.array)
+    gulp
+        .src(PATHS.copy.entry.array)
         .pipe(plumber(new LOG('Copying').error))
         .pipe(changed(PATHS.copy.dest))
         .pipe(gulp.dest(PATHS.copy.dest));

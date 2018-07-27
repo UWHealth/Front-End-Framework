@@ -34,7 +34,7 @@ function loopAST(ast, loops, currentFile) {
 
     ast.body = newBody;
     return ast;
-};
+}
 
 /**
  * Evaluates Handlebars statements, sniffing for Partials. When a Block statement is found, the statement is passed back to loopAST()
@@ -44,20 +44,19 @@ function loopAST(ast, loops, currentFile) {
  */
 function findPartials(statement, loops, currentFile) {
     // BlockStatements can contain partials, so we'll have to recurse this
-    if (statement.type === "BlockStatement") {
+    if (statement.type === 'BlockStatement') {
         // Check again
         statement.program = loopAST(statement.program, loops++);
         return statement;
     }
     // We found a partial -- let's embed it
-    else if (statement.type === "PartialStatement") {
+    else if (statement.type === 'PartialStatement') {
         return embedPartial(statement, currentFile);
-    }
-    else {
+    } else {
         // If we haven't found anything, then lets just return it
         return statement;
     }
-};
+}
 
 /**
  * Takes a Handlebars "PartialStatement", and replaces it with the actual partial's content.
@@ -83,16 +82,14 @@ function embedPartial(statement, currentFile) {
             });
         }
         return Handlebars.parse('{{!-- --}}' + file);
-    }
-    catch (err) {
+    } catch (err) {
         console.error(`Can't find partial: ${partial} in ${currentFile}`);
         throw Error(err);
     }
 }
 
-
 function addBuildNumber(statement) {
-    if (statement.type === "MustacheStatement") {
+    if (statement.type === 'MustacheStatement') {
         return replaceBuildNumber(statement);
     }
     return statement;
@@ -104,7 +101,7 @@ function replaceBuildNumber(statement) {
 
         if (!MODE.local) {
             cacheBust = BUILD_NUMBER(cacheBust);
-        };
+        }
 
         return {
             type: 'ContentStatement',
@@ -112,11 +109,11 @@ function replaceBuildNumber(statement) {
             value: cacheBust,
             loc: statement.path.loc,
             rightStripped: true,
-            leftStripped: true
+            leftStripped: true,
         };
     }
 
     return statement;
-};
+}
 
 module.exports = loopAST;

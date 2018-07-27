@@ -1,7 +1,7 @@
-const chalk        = require('chalk');
-const notify       = require('gulp-notify');
-const PrettyError  = require('pretty-error');
-const ora          = require('ora');
+const chalk = require('chalk');
+const notify = require('gulp-notify');
+const PrettyError = require('pretty-error');
+const ora = require('ora');
 
 const pe = new PrettyError().appendStyle(require('./logger-style.js'));
 
@@ -19,12 +19,11 @@ module.exports = function(task, message) {
     this.notify = function(err) {
         const error = message || err;
         self.ora.clear();
-        notify
-            .onError({
-                title: "Error",
-                subtitle: "<%= error.plugin %>",
-                message: "<%= error.message %>"
-            })(error);
+        notify.onError({
+            title: 'Error',
+            subtitle: '<%= error.plugin %>',
+            message: '<%= error.message %>',
+        })(error);
 
         return self.error(error);
     };
@@ -36,16 +35,22 @@ module.exports = function(task, message) {
 
         console.error(pe.render(error));
 
-        if (this && this.emit) { this.emit('end'); }
+        if (this && this.emit) {
+            this.emit('end');
+        }
 
         return self;
     };
 
-    this.info = function(msg, oraOpts) { // eslint-disable-line
+    this.info = function(msg, oraOpts) {
+        // eslint-disable-line
         msg = msg || (OraOpts && oraOpts.text) || message;
 
         msg = chalk.blue(task) + ' ' + msg + ' ' + getTime();
-        const opts = oraOpts && oraOpts.symbol ? { text: msg, symbol: oraOpts.symbol } : msg;
+        const opts =
+            oraOpts && oraOpts.symbol
+                ? { text: msg, symbol: oraOpts.symbol }
+                : msg;
         self.ora.clear().info(opts);
     };
 
@@ -55,7 +60,6 @@ module.exports = function(task, message) {
         self.ora.stop().succeed(chalk.green(task) + ' ' + msg);
     };
 };
-
 
 function getTime() {
     return chalk.gray(`[${new Date().toTimeString().match(/^[\d:]+/)[0]}]`);

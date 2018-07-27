@@ -1,12 +1,9 @@
-const styleguide   = require('markdown-documentation-generator');
+const styleguide = require('markdown-documentation-generator');
 
-const Logger       = require('../helpers/logger.js');
-const PATHS        = require(`${process.cwd()}/config/paths.config.js`);
-const SG_CONFIG    = require(PATHS.styleGuide.entry.config);
+const Logger = require('../helpers/logger.js');
+const PATHS = require(`${process.cwd()}/config/paths.config.js`);
+const SG_CONFIG = require(PATHS.styleGuide.entry.config);
 
 const LOG = new Logger('Style Guide');
 
-module.exports = () =>
-    styleguide
-        .create(SG_CONFIG)
-        .catch(LOG.error);
+module.exports = () => styleguide.create(SG_CONFIG).catch(LOG.error);
