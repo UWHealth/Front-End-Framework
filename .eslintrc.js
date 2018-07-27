@@ -1,10 +1,10 @@
 const prettier = require('./.prettierrc.js');
 
 module.exports = {
-    extends: ['standard', 'prettier/standard'],
+    extends: ['plugin:prettier/recommended', 'prettier/standard'],
     plugins: ['compat', 'html', 'prettier'],
-    parser: 'babel-eslint',
     parserOptions: {
+        ecmaVersion: 9,
         sourceType: 'module',
         allowImportExportEverywhere: true,
     },
@@ -15,6 +15,8 @@ module.exports = {
         commonjs: true,
     },
     rules: {
+        'prettier/prettier': 'warn',
+        complexity: ['warn', 6],
         'lines-around-comment': [
             'warn',
             {
@@ -27,32 +29,17 @@ module.exports = {
                 allowArrayEnd: true,
             },
         ],
-        indent: 'off',
         semi: ['warn', 'always'],
         'no-tabs': 'off',
         'no-mixed-spaces-and-tabs': ['warn', 'smart-tabs'],
-        complexity: ['warn', 5],
-        'compat/compat': 'warn',
-        'comma-dangle': ['warn', 'only-multiline'],
-        quotes: 'off',
         'new-cap': 'off',
-        'operator-linebreak': 'off',
-        'brace-style': 'warn',
         'no-trailing-spaces': [
             'warn',
             {
                 skipBlankLines: true,
             },
         ],
-        'space-before-function-paren': 'off',
         'space-before-blocks': ['warn', 'always'],
-        'spaced-comment': [
-            'warn',
-            'always',
-            {
-                exceptions: ['-', '+'],
-            },
-        ],
         'no-multiple-empty-lines': ['warn', { max: 2 }],
         'padded-blocks': ['warn', 'never'],
         'no-multi-spaces': [
