@@ -2,7 +2,7 @@
 # Config [[dev]]
 
 See [UWHealth sass tools documenation](https://uwhealth.github.io/sass-tools/) for configuration variable details.
-What is set here are reasonable defaults.
+What is set here are **reasonable defaults**.
 
 */
 
@@ -50,7 +50,7 @@ $web-fonts: (
     )
 );
 
-$font-file-location: 	'/public/fonts'; //Paths are relative to CSS file
+$font-file-location: 	'/public/static/fonts'; //Paths are relative to CSS file
 
 $primary-font-stack:    "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 $secondary-font-stack:  $system-font-stack;
@@ -124,6 +124,8 @@ $display-classes: (
     "flex": flex,
 );
 
+// Determines what display utility classes get generated at `$breakpoints`
+// The list's order determines cascade (output order).
 $breakpoint-has-display-classes:   ("smalls", "bigs");
 
 // If $breakpoint-has-spacing-classes is false, this can be ignored
@@ -154,12 +156,16 @@ $spacing-classes: (
     ),
 );
 
+// Determines what spacing utility classes get generated at `$breakpoints`
+// The list's order determines cascade (output order).
 $breakpoint-has-spacing-classes:   ("smalls", "bigs", "desk");
 
-// Determines what utility classes get generated at `$$breakpoints`.
-// The list's order determines cascade (output order).
-// Useful if you want one breakpoint to override another.
+// Alignment utility classes
+// See helpers/_overrides/_ov-alignment
 $breakpoint-has-alignment-classes: ("smalls", "bigs", "desk");
+
+// Typography utility classes
+// See helpers/_overrides/_ov-type
 $breakpoint-has-type-classes:      ("smalls", "bigs");
 
 
