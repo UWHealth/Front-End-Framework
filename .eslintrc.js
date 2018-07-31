@@ -1,4 +1,4 @@
-const prettier = require('./.prettierrc.js');
+const prettier = require('./package.json').prettier;
 
 module.exports = {
     extends: ['plugin:prettier/recommended', 'prettier/standard'],
