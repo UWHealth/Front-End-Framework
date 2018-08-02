@@ -1,0 +1,21 @@
+{
+  "modules": {
+    "byIdentifier": {},
+    "usedIds": {}
+  },
+  "chunks": {
+    "byName": {},
+    "bySource": {
+      "0 ../../node_modules/babel-loader/lib/index.js??ref--5!../../@src/main.js @/helpers/keyboard-shortcuts": 0,
+      "1 ../../@src/components lazy /^\\.\\/.*\\.demo\\.html$/ groupOptions: {} namespace object ./button/button.demo.html": 1,
+      "1 ../../@src/components lazy /^\\.\\/.*\\.demo\\.html$/ groupOptions: {} namespace object ./feed/feed.demo.html": 2,
+      "1 ../../@src/components lazy /^\\.\\/.*\\.demo\\.html$/ groupOptions: {} namespace object ./generic/generic.demo.html": 3
+    },
+    "usedIds": [
+      0,
+      1,
+      2,
+      3
+    ]
+  }
+}
