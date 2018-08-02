@@ -30,7 +30,8 @@ export default {
             htmlWebpackPlugin.options.pageTitle,
         scripts: ({ manifest }) => manifest.initial,
 
-        addon: ({ htmlWebpackPlugin }) => htmlWebpackPlugin.options.svelte.addon || '',
+        addon: ({ htmlWebpackPlugin }) =>
+            htmlWebpackPlugin.options.svelte.addon || '',
 
         // Pass state to handlebars templates
         header: (state) => header(state),

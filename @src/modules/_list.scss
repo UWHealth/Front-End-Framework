@@ -35,12 +35,10 @@ Creates a list with borders above and below each list item. Appending `list_bord
 }
 
 .bordered-list--short {
-
     > li {
-        @include type-space((padding-top, padding-bottom), .5);
+        @include type-space((padding-top, padding-bottom), 0.5);
     }
 }
-
 
 /* SG
 # Lists/Inline Lists
@@ -65,15 +63,13 @@ A list where each item is in a row, with spacing to the right of each item
         padding-left: 0;
         width: auto;
         vertical-align: middle;
-        @include type-space(padding-right, .5);
+        @include type-space(padding-right, 0.5);
 
         &:last-child {
             padding-right: 0;
         }
     }
-
 }
-
 
 /* SG
 # Lists/Breadcrumbs
@@ -98,20 +94,18 @@ A list where each item is in a row, with a &#x25B8; between each item.
 .breadcrumb-list > li,
 .breadcrumb {
     display: inline-block;
-    white-space: nowrap;
     margin-left: 0;
+    white-space: nowrap;
 
     a {
         display: block;
     }
 
     &:after {
-        content: "\25B8";
+        content: '\25B8';
         display: inline-block;
     }
-
 }
-
 
 /* SG
 # Lists/Navigation List
@@ -141,6 +135,6 @@ Also useful as a modifier class since it can be used on any container with ancho
 
     & a {
         display: block;
-        @include type-space((padding-top, padding-bottom), .5);
+        @include type-space((padding-top, padding-bottom), 0.5);
     }
 }

@@ -34,7 +34,7 @@ Isolates an image from text wrapping underneath. Useful for creating an associat
 .media-object {
     width: 100%;
     @extend %media_block;
-    @extend %clearfix;
+    @include clearfix;
     @include type-space(margin-bottom, 1);
 
     &__media {

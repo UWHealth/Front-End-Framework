@@ -2,7 +2,6 @@
 
 $root-text-rendering: optimizeLegibility;
 
-$anchor-text-decoration: none;
 $background-repeat: no-repeat;
 
 $form-element-background-color: transparent;
@@ -49,14 +48,11 @@ $textarea-resize: vertical;
 // specify the root styles of the document
 
 :root {
+    box-sizing: border-box;
+    cursor: inherit;
+    color: color('type');
 	background-color: color('bg');
-	box-sizing: border-box;
-	color: color('type');
-	cursor: inherit;
-    font-size: percentage($base-font-size/16px);
-	line-height: $type-base-ratio;
-    font-family: $primary-font-stack;
-	text-rendering: $root-text-rendering;
+    text-rendering: $root-text-rendering;
 }
 
 html {
@@ -73,16 +69,15 @@ audio:not([controls]) {
 button {
 	overflow: visible; // Internet Explorer 11-
 	-webkit-appearance: button; // iOS 8+
-}
-
-details {
-	display: block; // Edge 12+, Firefox 40+, Internet Explorer 11-, Windows Phone 8.1+
+    text-transform: none;
 }
 
 input {
 	-webkit-border-radius: 0; // iOS 8+
 
-	&[type="button"], &[type="reset"], &[type="submit"] {
+	&[type="button"],
+    &[type="reset"],
+    &[type="submit"] {
 		-webkit-appearance: button; // iOS 8+
 	}
 
@@ -92,6 +87,7 @@ input {
 
 	&[type="search"] {
 		-webkit-appearance: textfield; // Chrome 45+, Safari 9+
+        outline-offset: -2px;
 
 		&::-webkit-search-cancel-button,
 		&::-webkit-search-decoration {
@@ -100,8 +96,20 @@ input {
 	}
 }
 
-main {
-	display: block; // Android 4.3-, Internet Explorer 11-, Windows Phone 8.1+
+dialog {
+    border: solid;
+    color: colors('type');
+    display: block;
+    height: fit-content;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    width: fit-content;
+}
+
+dialog:not([open]) {
+    display: none;
 }
 
 pre {
@@ -112,10 +120,6 @@ progress {
 	display: inline-block; // Internet Explorer 11-, Windows Phone 8.1+
 }
 
-summary {
-	display: block; // Firefox 40+, Internet Explorer 11-, Windows Phone 8.1+
-}
-
 svg:not(:root) {
 	overflow: hidden; // Internet Explorer 11-
 }
@@ -124,20 +128,8 @@ template {
 	display: none; // Android 4.3-, Internet Explorer 11-, iOS 7-, Safari 7-, Windows Phone 8.1+
 }
 
-textarea {
-	overflow: auto; // Edge 12+, Internet Explorer 11-
-	resize: $textarea-resize;
-}
-
 [hidden] {
 	display: none; // Internet Explorer 10-
-}
-
-// specify the text decoration of anchors
-
-a {
-    background-color: transparent;
-	text-decoration: $anchor-text-decoration;
 }
 
 // Remove the tapping delay on clickable elements in all browsers
@@ -151,8 +143,8 @@ select,
 summary,
 textarea,
 [tabindex] {
-  -ms-touch-action: manipulation; /* 1 */
-  touch-action: manipulation; /* 2 */
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
 }
 
 // specify the alignment of media elements
@@ -226,13 +218,6 @@ select {
 	}
 }
 
-// specify the border styling of tables
-
-table {
-	border-collapse: $table-border-collapse;
-	border-spacing: $table-border-spacing;
-}
-
 // specify the background color, font color and drop shadow of text selections
 
 ::-moz-selection {
@@ -269,6 +254,14 @@ button:-moz-focusring,
     font: inherit;
 }
 
+// Fix the cursor style for Chrome's increment/decrement buttons. For certain
+// `font-size` values of the `input`, it causes the cursor style of the
+// decrement button to change from `default` to `text`.
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	height: auto;
+}
+
 // specify the progress cursor of updating elements
 
 [aria-busy="true"] {
@@ -285,7 +278,7 @@ button:-moz-focusring,
 
 [aria-disabled],
 [disabled] {
-	cursor: default;
+	cursor: default !important;
 }
 
 // specify the style of visually hidden yet accessible elements
@@ -298,22 +291,4 @@ button:-moz-focusring,
 	&:focus {
 		clip: auto;
 	}
-}
-
-dialog {
-    background-color: white;
-    border: solid;
-    color: black;
-    display: block;
-    height: fit-content;
-    left: 0;
-    margin: auto;
-    padding: 1em;
-    position: absolute;
-    right: 0;
-    width: fit-content;
-}
-
-dialog:not([open]) {
-    display: none;
 }

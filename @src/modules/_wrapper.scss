@@ -1,11 +1,11 @@
 .wrap {
-	margin: 0 auto;
-	max-width: $max-site-width;
-	display: block !important;
+    display: block !important;
     float: none;
-	@extend %clearfix;
-	@include type-space(padding, 1 0);
+    margin: 0 auto;
     width: 95%;
+    max-width: $max-site-width;
+    @include type-space(padding, 1 0);
+    @include clearfix;
 
     @include mq(smallish) {
         width: 93%;
@@ -21,20 +21,4 @@
 
 .wrap--wide-content {
     @include rems(max-width, $max-wide-content-width);
-}
-
-.clearfix,
-%clearfix {
-	*zoom: 1;
-
-	&:before,
-    &:after{
-		display: table;
-		content: " ";
-	}
-	&:after{
-		clear: both;
-		height: 0;
-		width: 0;
-	}
 }

@@ -52,8 +52,8 @@ $web-fonts: (
 
 $font-file-location: 	'/public/static/fonts'; //Paths are relative to CSS file
 
-$primary-font-stack:    "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-$secondary-font-stack:  $system-font-stack;
+$primary-font-stack:    $system-font-stack;
+$secondary-font-stack:  "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 $monospace-font-stack:  "Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
 $icon-font-stack:       null;
 
@@ -68,21 +68,25 @@ $max-wide-content-width: 910px;
 
 $breakpoints: (
     // Mostly phones
-    "smalls": "(max-width:#{ems($max-wide-content-width)})",
+    "smalls":
+        "(max-width:#{ems($max-wide-content-width)})",
     // Small Phones
-    "small": "(max-width: #{ems($max-content-width)})",
+    "small":
+        "(max-width: #{ems($max-content-width)})",
     // Large (Modern) phones/phablets
     "smallish":
         "(min-width: #{ems($max-content-width+1px)})" +
         " and (max-width: #{ems($max-wide-content-width)})",
     // Tablets, Desktops and larger
-    "bigs": "(min-width: #{ems($max-wide-content-width+1px)})",
+    "bigs":
+        "(min-width: #{ems($max-wide-content-width+1px)})",
     // Mostly Tablets and small laptops. Overrides Bigs
     "lap":
         "(min-width: #{ems($max-wide-content-width + 1px)})" +
         " and (max-width: #{ems($max-site-width)})",
     // Large Tablets and Desktops. Overrides Bigs.
-    "desk": "(min-width: #{ems($max-site-width)})"
+    "desk":
+        "(min-width: #{ems($max-site-width)})"
 );
 
 $breakpoint-namespace-character: "_";
@@ -126,7 +130,7 @@ $display-classes: (
 
 // Determines what display utility classes get generated at `$breakpoints`
 // The list's order determines cascade (output order).
-$breakpoint-has-display-classes:   ("smalls", "bigs");
+$breakpoint-has-display-classes: ("smalls", "bigs");
 
 // If $breakpoint-has-spacing-classes is false, this can be ignored
 $spacing-classes: (
@@ -218,37 +222,6 @@ $base-colors: generate-color-variations(
 );
 
 
-/* SG
-# Config/Debug Settings [[dev]]
-
-_NOTE: These settings, when set to `true`, will slow down compilation somewhat._
-
-##### `$$debug-fonts`
-###### Boolean
-Whether to include debug statements about font sizes and line-heights as they're generated. Useful if you're getting weird values on auto-generated line-heights.
-
-* %: Distance from the lowest font-size.
-* ub: Line-height upperbounds
-* lb: Line-height lowerbounds
-* lh: Final line-height (in pixels and unit-less).
-* loops: Number of times it took to process the line-height. High numbers can indicate font-sizes that are very difficult to process.
-
-##### `$$debug-baseline`
-###### Boolean
-Adds style for a `baseline-on` class that will show a grid of the baseline on any element (most useful on the `body` or `html` tag). Makes vertical alignment easier.
-
-
-##### `$$debug-silent-classes`
-###### Boolean
-Stores all auto-generated silent classes into a map that is then output as a comment at the end of the final css. Useful for getting an overview of values that are stored by the framework.
-
-##### `$$debug-breakpoints`
-###### Boolean
-Displays the current breakpoint (from `$$breakpoints`) name on a psuedo element on the body. Makes debugging media queries a little simpler.
-
-*/
-
-
 //------------------------------------------
 // 4.0 - Debug configuration
 //------------------------------------------
@@ -267,4 +240,4 @@ $debug-silent-classes: false;
 
 
 // Initialize and propogate framework variables
-@include globalize-config();
+@include init();

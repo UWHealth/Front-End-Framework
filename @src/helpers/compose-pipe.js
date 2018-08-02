@@ -10,7 +10,7 @@ export function compose(...functions) {
             return func(value);
         }, data);
     };
-};
+}
 
 /**
  * Takes multiple functions and applies them in a series (from left-to-right/top-to-bottom)
@@ -24,4 +24,4 @@ export function pipe(...functions) {
             return func(value);
         }, data);
     };
-};
+}

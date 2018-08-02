@@ -1,81 +1,38 @@
-
 // 1. Enable line-wrapping in IE8+.
 // 2. Enable line-wrapping in old versions of some other browsers.
 legend {
-	display: table; // [1]
-	white-space: normal; // [2]
+    display: table; // [1]
+    white-space: normal; // [2]
 }
 
-//
-// Address Firefox 4+ setting `line-height` on `input` using `!important` in
-// the UA stylesheet.
 button,
 input {
-    line-height: normal;
-}
-
-button {
-    overflow: visible;
-    text-transform: none;
-}
-
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
     border: 0;
-    -webkit-appearance: button;
-    cursor: pointer;
-    *overflow: visible;
+    line-height: $type-p-lh;
 }
 
 button,
 input,
 select,
 textarea {
-	background-color: #fff;
+    background-color: #fff;
 }
 
-// 1. Address box sizing set to content-box in IE 8/9.
-// 2. Remove excess padding in IE 8/9.
-input[type="checkbox"],
-input[type="radio"] {
-	box-sizing: border-box; // 1
-	padding: 0; // 2
-}
-
-// Re-set default cursor for disabled elements.
-button[disabled],
-input[disabled] {
-	cursor: default !important;
-}
-
-// Fix the cursor style for Chrome's increment/decrement buttons. For certain
-// `font-size` values of the `input`, it causes the cursor style of the
-// decrement button to change from `default` to `text`.
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-	height: auto;
-}
-
-// 2. Address `appearance` in iOS defaulting to rounded corners.
-// 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
-input[type="search"] {
-	-webkit-appearance: textfield;
-	box-sizing: border-box;
-    outline-offset: -2px;
+dialog {
+    background-color: #fff;
+    @include type-space(padding, 1);
 }
 
 //Allow styling of particularly annoying inputs
-select
-input[type="submit"],
-input[type="button"],
-input[type="image"],
-input[type="reset"] {
-	border-radius: 0;
-	-webkit-border-radius: 0; //Mobile Safari
+select input[type='submit'],
+input[type='button'],
+input[type='image'],
+input[type='reset'] {
+    -webkit-border-radius: 0;
+    border-radius: 0; //Mobile Safari
+}
+
+textarea {
+    overflow: auto; // Edge 12+, Internet Explorer 11-
+    resize: vertical;
 }

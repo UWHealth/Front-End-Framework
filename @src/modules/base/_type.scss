@@ -1,34 +1,53 @@
 //------------------------------------
+//    $BASE
+//------------------------------------
+:root,
+html {
+    line-height: $type-base-ratio;
+    font-family: $primary-font-stack;
+    font-size: percentage($base-font-size/16px);
+}
+
+body {
+    @include font-size($base-font-size, $base-line-height);
+}
+
+//------------------------------------
 //    $HEADINGS
 //------------------------------------
 
-%base-heading-space {
-	@include type-space(margin-bottom, 1);
+%base-heading-space,
+%type-vertical-rhythm {
+    @include type-space(margin-bottom, 1);
 }
 
 h1 {
     @include font-size($h1-fs, $h1-lh);
 }
+
 h2 {
     @include font-size($h2-fs, $h2-lh);
 }
+
 h3 {
     @include font-size($h3-fs, $h3-lh);
 }
+
 h4 {
     @include font-size($h4-fs, $h4-lh);
 }
+
 h5 {
     @include font-size($h5-fs, $h5-lh);
 }
+
 h6 {
     @include font-size($h6-fs, $h6-lh);
 }
 
-
 @include headings(1, 6) {
     @extend %base-heading-space;
-	@extend %secondary_font_family;
+    @extend %secondary_font_family;
 
     & + p {
         @include type-space(margin-top, -1);
@@ -55,59 +74,56 @@ The default font-family is set in **Asap**.
 */
 
 p {
-	@extend %type_vertical_rhythm;
+    @extend %type-vertical-rhythm;
 
     @if $indented-paragraphs {
-
         & + & {
-            @include type-space(text-indent, .5);
+            @include type-space(text-indent, 0.5);
             @include type-space(margin-top, -1);
         }
-
     }
 }
 
 small {
-	display: inline-block; //allows for own line-height
-	@include font-size($small-fs, $small-lh);
+    display: inline-block; //allows for own line-height
+    @include font-size($small-fs, $small-lh);
 }
 
 //
 // Not strictly a paragraph, but probably doesn’t need its own section.
 //
 address {
-    @extend %type_vertical_rhythm;
+    @extend %type-vertical-rhythm;
 }
 
 b,
 strong {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 pre {
-    @extend %type_vertical_rhythm;
+    @extend %type-vertical-rhythm;
+    overflow: auto;
     white-space: pre;
     white-space: pre-wrap;
     word-wrap: break-word;
-    overflow: auto;
 }
 
 sub,
 sup {
-	font-size: 75%;
-	line-height: 0;
-	position: relative;
-	vertical-align: baseline;
+    position: relative;
+    vertical-align: baseline;
+    line-height: 0;
+    font-size: 75%;
 }
 
 sup {
-	top: -0.5ex;
+    top: -0.5ex;
 }
 
 sub {
-	bottom: -0.25ex;
+    bottom: -0.25ex;
 }
-
 
 // 1. Fix an odd quirk whereby, without this, code blocks are rendered at a
 //    font-size smaller than 1em.
@@ -123,7 +139,6 @@ samp {
 
 //Address styling not present in IE 7/8/9, Safari 5, and Chrome.
 
-
 //-------------------------------
 //    $QUOTES
 //-------------------------------
@@ -132,7 +147,7 @@ samp {
 //	Uses ex length for font-relative spacing
 //
 blockquote {
-    text-indent: -.5ex; // [1]
+    text-indent: -0.5ex; // [1]
 }
 
 blockquote {
@@ -141,46 +156,44 @@ blockquote {
 
     p {
         &:before {
-            content: "“";
+            content: '“';
             content: open-quote;
         }
 
         &:after {
-            content: "";
+            content: '';
             content: no-close-quote;
         }
 
         &:last-of-type:after {
-            content: "”";
+            content: '”';
             content: close-quote;
         }
-
     }
-
 }
 
 q {
     *quotes: none;
-    quotes: "‘" "’" "“" "”";
+    quotes: '‘' '’' '“' '”';
     overflow: visible;
 
     &:before {
-        content: "‘";
+        content: '‘';
         content: open-quote;
     }
 
     &:after {
-        content: "’";
+        content: '’';
         content: close-quote;
     }
 
     q:before {
-        content: "“";
+        content: '“';
         content: open-quote;
     }
 
     q:after {
-        content: "”";
+        content: '”';
         content: close-quote;
     }
 
@@ -191,5 +204,4 @@ q {
         display: inline-block;
         text-indent: -0.22em;
     }
-
 }

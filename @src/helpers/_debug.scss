@@ -1,18 +1,26 @@
 //Allow a toggle for baseline image
 @if $debug-baseline == true {
-
     $type-baseline-size: strip-units($type-base-unit);
 
-	.baseline-on {
+    .baseline-on {
         background-image: url(http://basehold.it/i/#{$type-baseline-size});
-        background: linear-gradient(to top, rgba(0, 0, 0, .15) 1px, transparent 1px, rgba(black, .15) 1px, transparent 1px) top left / auto (($type-base-ratio / 2) * 1em);
+        background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                rgba(black, 0.15) 1px,
+                transparent 1px
+            )
+            top
+            left /
+            auto
+            (($type-base-ratio / 2) * 1em);
     }
 
     .baseline-off {
         background-image: none;
     }
 }
-
 
 //Output all silent classes and values at the end of the CSS file if silent-class debugging is enabled. Will not show up in minified output
 
@@ -24,18 +32,18 @@
     @each $breakpoint, $bp in $breakpoints {
         @include mq($breakpoint) {
             .breakpoint-on:after {
-                content: "#{$breakpoint}";
+                content: '#{$breakpoint}';
                 position: fixed;
                 top: 0;
                 right: 0;
+                z-index: 999999;
                 background: #fff;
                 padding: 10px;
-                z-index: 999999;
             }
         }
     }
 }
 
 #testing {
-    padding: type-space(auto 10 auto auto)
+    padding: type-space(auto 10 auto auto);
 }
