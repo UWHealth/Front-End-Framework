@@ -23,17 +23,11 @@
         "safari >= 10",
         "edge >= 14"
     ],
-    "prettier": {
-        "printWidth": 80,
-        "tabWidth": 4,
-        "useTabs": false,
-        "trailingComma": "es5",
-        "bracketSpacing": true,
-        "arrowParens": "always",
-        "proseWrap": "preserve",
-        "singleQuote": true,
-        "parser": "babylon",
-        "semi": true
+    "stylelint": {
+        "extends": ["./node_modules/@uwhealth/linter-configs/stylelint.js"]
+    },
+    "eslintConfig": {
+        "extends": ["./node_modules/@uwhealth/linter-configs/eslint.js"]
     },
     "devDependencies": {
         "@babel/core": "^7.0.0-beta.44",
@@ -42,7 +36,8 @@
         "@babel/preset-env": "^7.0.0-beta.44",
         "@babel/preset-es2015": "^7.0.0-beta.49",
         "@babel/runtime": "^7.0.0-beta.44",
-        "@uwhealth/sass-tools": "uwhealth/sass-tools#^1.0.0",
+        "@uwhealth/linter-configs": "uwhealth/linter-configs#^1.0.1",
+        "@uwhealth/sass-tools": "uwhealth/sass-tools#^1.0.9",
         "babel-cli": "^6.24.1",
         "babel-core": "7.0.0-bridge.0",
         "babel-loader": "^8.0.0-beta",
@@ -58,10 +53,6 @@
         "css-loader": "^0.28.11",
         "del": "^3.0.0",
         "eslint": "^4.19.1",
-        "eslint-config-prettier": "^2.9.0",
-        "eslint-plugin-compat": "^2.2.0",
-        "eslint-plugin-html": "^4.0.2",
-        "eslint-plugin-prettier": "^2.6.2",
         "eval": "^0.1.2",
         "fast-glob": "^2.0.4",
         "gulp": "^4.0.0",
@@ -90,12 +81,12 @@
         "markdown-documentation-generator": "^2.4.0",
         "ora": "^2.0.0",
         "prettier": "^1.13.4",
+        "prettier-stylelint": "^0.4.2",
         "pretty-error": "^2.1.1",
         "raw-loader": "^0.5.1",
-        "sass-lint": "^1.12.1",
         "sass-loader": "^7.0.1",
         "style-loader": "^0.21.0",
-        "stylelint": "^9.2.1",
+        "stylelint": "^9.4.0",
         "svelte": "^2.7.0",
         "svelte-loader": "^2.9.0",
         "uglifyjs-webpack-plugin": "^1.1.6",
