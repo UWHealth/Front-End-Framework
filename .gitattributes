@@ -1,12 +1,35 @@
-'package-lock.json -diff'
+# Blanket rules
 * text eol=lf
 'bin/* eol=lf'
+'package-lock.json diff'
+
+# Binaries
+# Images
 *.png binary
-*.gif binary
 *.jpg binary
 *.jpeg binary
+*.gif binary
+*.ico binary
 *.webp binary
-*.jar binary
-*.eot binary
-*.woff binary
+
+# Media
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.flv binary
+*.fla binary
+*.swf binary
+*.pdf binary
+
+# Fonts
 *.ttf binary
+*.woff binary
+*.woff2 binary
+*.otf binary
+*.eot binary
+
+# Compiled/Compressed
+*.jar binary
+*.gz binary
+*.zip binary
+*.7z binary
