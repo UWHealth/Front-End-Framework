@@ -1,11 +1,15 @@
+/**
+ * @fileoverview - Configures babel based on the passed in target ("web", "node", "t4").
+ *               - If adding to this file, be sure consider which target your change applies to.
+ *               - Babel/env should take care of most polyfilling,
+ *               - but anything targeting t4 needs to be considered carefully (and tested).
+ **/
+
 const CWD = process.cwd();
-const BROWSERS = require(`${CWD}/package.json`).browserslist;
 const MODE = require(`${CWD}/build/helpers/mode`);
 
 /* eslint complexity: "off" */
 module.exports = function(target) {
-    const targets = getTargets(target);
-
     const config = {
         cacheDirectory: true,
         auxiliaryCommentBefore: 'Babel»',
@@ -13,7 +17,7 @@ module.exports = function(target) {
             [
                 '@babel/env',
                 {
-                    targets: targets,
+                    targets: getTargets(target),
                     loose: true,
                     modules: false,
                     ignoreBrowserslistConfig: true,
@@ -25,9 +29,7 @@ module.exports = function(target) {
             [
                 '@babel/transform-runtime',
                 {
-                    useBuiltIns: target !== 't4' ? 'usage' : false,
                     helpers: false,
-                    polyfill: Boolean(target === 't4'),
                     loose: true,
                     modules: target === 'web' ? false : 'umd',
                     include: target === 't4' ? ['es6.set', 'es6.map'] : [],
@@ -50,8 +52,6 @@ module.exports = function(target) {
                 },
             ]
         );
-    } else if (target === 'node') {
-        config.plugins.push(['dynamic-import-node']);
     } else if (target === 't4') {
         config.presets = ['@babel/es2015'];
         config.plugins.push(
@@ -66,14 +66,31 @@ module.exports = function(target) {
                 },
             ]
         );
+    } else if (target === 'node') {
+        config.plugins.push(['dynamic-import-node']);
     }
     return config;
 };
 
+/**
+ * Takes a target and converts it to a babel-preset-env-compatible object.
+ * @param  {String} target - Accepts "web", "t4", or "node".
+ * @return {Object}        - Babel-compatible targets object.
+ */
 function getTargets(target) {
-    return target === 'node'
-        ? { node: 'current' }
-        : target === 't4'
-            ? { browsers: ['ff 2'] } // ECMA/JS version 1.7
-            : { browsers: BROWSERS };
+    const BROWSERS = require(`${CWD}/package.json`).browserslist;
+
+    switch (target) {
+        case 'node':
+            return { node: 'current' };
+
+        case 't4':
+            return { browsers: ['ff 2'] }; // ECMA/JS version 1.7 (Rhino-like)
+
+        case 'web':
+            return { browsers: BROWSERS };
+
+        default:
+            return { browsers: BROWSERS };
+    }
 }

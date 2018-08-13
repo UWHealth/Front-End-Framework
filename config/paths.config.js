@@ -5,19 +5,20 @@
  * Structure should follow:
 
     topic/concern
-      ┞─ folders
+     ┞─ "folders"
          ┖─"name": `folder path`
-      ┞─ entry
+     ┞─ "entry"
          ┖─"name": `glob/file path`
-      ┞─ watch
-         ┞─name: `glob/file`
-         ┖─exclude: [`!glob/*`, `!file`]
-      ┖─ dest : `folder path`
+     ┞─ "watch"
+         ┞─"name": `glob/file`
+         ┖─"exclude": [`!glob/*`, `!file`]
+     ┖─ "dest": `folder path`
 
     Notes:
     • Use template literals (``) instead of strings where possible.
     • "folders" should not contain paths to files.
     • "entry" and "watch" keys should be file paths (or globs).
+    • "dest" should always be a single folder (and not a file or glob).
     • "exclude" key should be the only array.
     • "exclude" must be listed last.
     • Once compiled, an "array" key with a combination of all paths will be added to each topic.
@@ -61,7 +62,7 @@ Object.assign(PATHS, {
         '@': src,
         '>': root,
         CWD: root,
-        NODE: path.resolve(root, 'node_modules'),
+        '~': path.resolve(root, 'node_modules'),
     },
     // Folders/files that should be cleaned before build
     clean: {

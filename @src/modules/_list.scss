@@ -135,6 +135,7 @@ Also useful as a modifier class since it can be used on any container with ancho
 
     & a {
         display: block;
+        text-decoration: none;
         @include type-space((padding-top, padding-bottom), 0.5);
     }
 }

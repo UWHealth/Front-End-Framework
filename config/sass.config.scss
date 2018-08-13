@@ -1,5 +1,5 @@
 /* SG
-# Config [[dev]]
+# DEV: Config
 
 See [UWHealth sass tools documenation](https://uwhealth.github.io/sass-tools/) for configuration variable details.
 What is set here are **reasonable defaults**.
@@ -7,7 +7,7 @@ What is set here are **reasonable defaults**.
 */
 
 // Import base sass toolset and default config variables
-@import "NODE/@uwhealth/sass-tools/index.scss";
+@import "~/@uwhealth/sass-tools/index.scss";
 
 
 //------------------------------------------

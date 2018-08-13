@@ -15,7 +15,7 @@ Isolates an image from text wrapping underneath. Useful for creating an associat
 
 %media_overflow {
     overflow: hidden;
-    _overflow:visible;
+    _overflow: visible;
     zoom: 1;
 }
 
@@ -50,10 +50,9 @@ Isolates an image from text wrapping underneath. Useful for creating an associat
     &__body {
         @extend %media_block;
         @extend %media_overflow;
-        @include type-space(padding-left, .5);
+        @include type-space(padding-left, 0.5);
     }
 }
-
 
 /* SG
 
@@ -105,12 +104,11 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 ```
 */
 
-
 .arrange {
-    table-layout: auto;
-    min-width: 100%;
     display: table;
     width: 100%;
+    min-width: 100%;
+    table-layout: auto;
     @include type-space(margin-bottom, 1);
 
     &__item,
@@ -134,7 +132,7 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
 
     &__item--pad,
     &__body {
-        @include type-space(padding-left, .5);
+        @include type-space(padding-left, 0.5);
     }
 
     &__item--fill,
@@ -150,7 +148,6 @@ _NOTE: Do not mistake this for true grid items. This should only be used for the
         .arrange--bottom > & {
             vertical-align: bottom;
         }
-
     }
 }
 

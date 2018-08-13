@@ -1,15 +1,17 @@
-<style>
+<style type="text/scss">
+    @import '>/config/sass.config.scss';
+
     .button-holder {
         display: inline-block;
-        padding: 1rem 1rem 1rem 0;
+        padding: type-space(1 1 1 0);
     }
     .button-holder--wide {
-        min-width: 20%;
+        min-width: #{columns(1, 4)};
     }
 
     .btn {
-        margin-bottom: 1rem;
-        margin-right: 1rem;
+        margin-bottom: type-space(1);
+        margin-right: type-space(1);
         vertical-align: middle;
     }
 </style>
@@ -24,7 +26,6 @@
             <Button type="{buttonType}" body="{capitalize(buttonType)}"/>
         </div>
         {/each}
-        <Async {...asyncButton} />
     </div>
 </Demo>
 
@@ -35,18 +36,9 @@ export default {
     components: {
         Button: './index.html',
         Demo: '@/modules/demo/index.html',
-        Async: '@/components/async/async.html',
     },
     data: () => ({
         widths: ['normal', 'wide', 'compact'],
-        asyncButton: {
-            loader: () => import('./index.html'),
-            webpack: () => require.resolveWeak('./index.html'),
-            props: {
-                width: ['wide'],
-                body: 'Async button',
-            },
-        },
     }),
     helpers: { capitalize },
 };

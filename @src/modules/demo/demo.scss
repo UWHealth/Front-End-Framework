@@ -1,21 +1,24 @@
 //Settings
-@import 'CWD/config/sass.config';
+@import '>/config/sass.config';
 
-$demo-cyan: lighten(blend-overlay(rgba(#08f, .5), color('links', 'lightest'), 35%), 3%);
+$demo-cyan: lighten(
+    blend-overlay(rgba(#08f, 0.5), color('links', 'lightest'), 35%),
+    3%
+);
 
 .demo-navigation {
     display: flex;
     position: relative;
     z-index: 2;
-    box-shadow: 0 4px 6px rgba(colors('type'), .2);
+    box-shadow: 0 4px 6px rgba(colors('type'), 0.2);
     background-color: #fff;
     width: 100%;
 }
 
 .demo-navigation__link {
     flex: 1 1 auto;
-    margin-left: type-space(.25);
-    padding: type-space(.75 .5);
+    margin-left: type-space(0.25);
+    padding: type-space(0.75 0.5);
     max-width: type-space(5);
     text-align: center;
 
@@ -37,8 +40,8 @@ $demo-cyan: lighten(blend-overlay(rgba(#08f, .5), color('links', 'lightest'), 35
 
 .demo-header__title {
     padding-bottom: type-space(1);
-    letter-spacing: .01em;
-    color: rgba(color('links', 'darker'), .6);
+    letter-spacing: 0.01em;
+    color: rgba(color('links', 'darker'), 0.6);
     font-weight: normal;
 }
 
@@ -54,8 +57,8 @@ $demo-cyan: lighten(blend-overlay(rgba(#08f, .5), color('links', 'lightest'), 35
 .demo-body__head {
     @include font-size($type-h5-size, $type-h5-lh);
     margin-bottom: type-space(1.25);
-    border-bottom: 2px solid rgba(color('links', 'lighter'), .7);
-    padding-bottom: calc(#{type-space(.5)} - 1px);
+    border-bottom: 2px solid rgba(color('links', 'lighter'), 0.7);
+    padding-bottom: calc(#{type-space(0.5)} - 1px);
     color: color('links', 'lighter');
 }
 

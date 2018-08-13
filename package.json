@@ -18,10 +18,11 @@
     "browserslist": [
         ">0.5%",
         "ie >= 11",
-        "chrome >= 60",
-        "firefox >= 53",
         "safari >= 10",
-        "edge >= 14"
+        "last 3 iOS versions",
+        "last 3 Chrome versions",
+        "last 3 Firefox versions",
+        "last 3 Edge versions"
     ],
     "stylelint": {
         "extends": [
@@ -98,7 +99,7 @@
         "webpack": "^4.1.1",
         "webpack-cli": "^2.0.12",
         "webpack-closure-compiler": "^2.1.6",
-        "yargs": "^10.0.3"
+        "yargs": "^12.0.0"
     },
     "dependencies": {
         "eases-jsnext": "^1.0.10",

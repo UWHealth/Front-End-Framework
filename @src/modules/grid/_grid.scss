@@ -11,11 +11,11 @@
 }
 
 .row--full {
-	@extend %grid--full;
+    @extend %grid--full;
 }
 
 .row > * {
-	@extend %grid--reset;
+    @extend %grid--reset;
 }
 
 .column {
@@ -23,9 +23,9 @@
 }
 
 .w-half {
-	@extend %one-half;
+    @extend %one-half;
 }
 
 .w-quarter {
-	@extend %one-quarter;
+    @extend %one-quarter;
 }
