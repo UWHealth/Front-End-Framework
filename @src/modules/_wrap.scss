@@ -2,9 +2,9 @@
     display: block !important;
     float: none;
     margin: 0 auto;
+    padding: type-space(1 0);
     width: 95%;
     max-width: $max-site-width;
-    @include type-space(padding, 1 0);
     @include clearfix;
 
     @include mq(smallish) {

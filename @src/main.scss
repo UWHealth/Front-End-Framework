@@ -1,28 +1,28 @@
 @charset 'UTF-8';
 
 /* SG
-# Imports [[dev]]
+# DEV: Imports
 
 @priority 0
 @file main.scss
 
 Sass files are imported in order from lowest specificity to highest.
-1. `/helpers/tools`
+1. `@/helpers/tools`
   * Functions
   * System variables and defaults
   * General-use mixins and sass utilities
 2. `config`
   * Project-specific configuration
-3. `/base`
+3. `@/modules/base`
   * Resets and normalization (sanitize and normalize)
   * Element styles (unclassed)
-4. `/layout`
+4. `@/modules/*`
   * Basic layout and object styles (single-class)
-5. `/components`
+5. `@/components/*`
   * Module and component styles (single- and child-classes)
-6. `/modules/`
+6. `@/modules/*`
   * View- and page-specific and scoped styles (typically `parent > child` classes).
-7. `/helpers/overrides`
+7. `@/helpers/overrides/`
   * Utility styles, usually end in `!important`.
 
 */
@@ -33,40 +33,39 @@ Sass files are imported in order from lowest specificity to highest.
 //-----------------------------
 
 //Settings
-@import 'CWD/config/sass.config.scss';
-
+@import '>/config/sass.config.scss';
 
 //----------------------------
 // CSS-producing files
 // (after import, CSS will be written out)
 //-----------------------------
 
+// Basic elements -
+// normalization, resets, and elements
+// Lowest specificity
 @import '@/modules/base/index';
 
-
-//Grids, alignment and higher-level classes
-// (+1 specificity)
-@import '@/modules/wrapper';
+// Layout classes -
+// Grids, alignment and higher-level classes
+// +1 specificity
+@import '@/modules/wrap';
 @import '@/modules/grid/grid';
 @import '@/modules/media-object';
+@import '@/modules/list';
 
-
-//OOCSS styles and base-level classes
-// (+1 specificity)
+// Components -
+// OOCSS styles and base-level classes
+// +1 specificity
 @import '@/components/button/button';
-// @import '@/components/hero/hero';
 
+// Skins -
+// View-specific and theme-/skin-based styles
+// +2-4 specificity
+// @import '@/modules/homepage/homepage'
 
-//View-specific and theme-/skin-based styles
-//(+2-4 specificity)
-
-
-//High-specificity css and overrides classes (usually have !important).
-// Typically single-use classes
+// Overrides -
+// High-specificity css and overrides classes (typically single-use classes)
+// !important-level specificity
 @import '@/helpers/_overrides/index';
-
-//Example Overrides (can be removed)
-//@import 'overrides/ov-polyfills.example';
-//@import 'overrides/ov-overrides.example';
 
 @import '@/helpers/debug';
