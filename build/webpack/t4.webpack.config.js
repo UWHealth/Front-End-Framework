@@ -48,6 +48,7 @@ config.module.rules.push(
                     store: true,
                     preserveComments: false,
                     legacy: true,
+                    preprocess: require('./helpers/svelte-sass.js'),
                 },
             },
         ],

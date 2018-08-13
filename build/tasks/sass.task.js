@@ -9,35 +9,7 @@ const BROWSERS = require(`${CWD}/package.json`).browserslist;
 const Logger = require('../helpers/logger.js');
 const MODE = require('../helpers/mode');
 const PATHS = require(`${CWD}/config/paths.config.js`);
-
-/**
- * Allows for sass imports to use aliases to represent the folder paths (similar to webpack)
- * @reference            - https://github.com/sass/node-sass#importer
- * @return {Object}      - Resolved path to url, with aliases replaced
- */
-function aliasPath(url, prev, done) {
-    const path = require('path');
-
-    const aliases = Object.keys(PATHS.aliases);
-    const match = aliases.filter(
-        (alias) => url.indexOf(alias) > -1 && url.indexOf(alias) < 2
-    );
-    return {
-        file: match[0]
-            ? path.resolve(
-                  PATHS.aliases[match[0]],
-                  url.replace(match[0] + '/', '')
-              )
-            : url,
-    };
-}
-
-const sassConfig = {
-    outputStyle: 'expanded',
-    errLogToConsole: true,
-    includePaths: [PATHS.folders.src, PATHS.folders.config],
-    importer: aliasPath,
-};
+const sassConfig = require(`../helpers/sass-config.js`);
 
 const nanoConfig = {
     discardComments: { removeAll: true },
@@ -45,11 +17,6 @@ const nanoConfig = {
 };
 
 const LOG = new Logger('Sass');
-
-function handleError(err) {
-    LOG.error(err);
-    this.emit('end');
-}
 
 module.exports = () => {
     const gulp = require('gulp');

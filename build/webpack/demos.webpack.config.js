@@ -29,6 +29,8 @@ config.output = {
     filename: `[name].demo.js`,
 };
 
+config.watchOptions.ignored = '/dist/';
+
 config.module.rules.push(
     // Svelte as server-side
     {
@@ -47,6 +49,7 @@ config.module.rules.push(
                     hydratable: true,
                     store: true,
                     preserveComments: false,
+                    preprocess: require('./helpers/svelte-sass.js')
                 },
             },
         ],
@@ -97,7 +100,7 @@ demos.forEach((file) => {
                 pathname: `/demo/${baseName}/`,
                 componentPath: `${baseName}`,
                 addon: '',
-            }
+            },
         })
     );
 });
@@ -120,7 +123,7 @@ config.plugins.push(
         svelte: {
             internalTemplate: false,
             addon: `<ul>${demoLinks}</ul>`,
-        }
+        },
     })
 );
 

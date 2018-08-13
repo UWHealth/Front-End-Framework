@@ -128,6 +128,7 @@ config.module.rules.push(
                     dev: !MODE.production,
                     store: true,
                     shared: true,
+                    preprocess: require('./helpers/svelte-sass.js'),
                 },
             },
         ],
