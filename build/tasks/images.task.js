@@ -6,7 +6,6 @@ const gulp = require('gulp');
 const imagemin = require('gulp-imagemin');
 
 const plumber = require('gulp-plumber');
-const pngquant = require('imagemin-pngquant');
 const changed = require('gulp-changed');
 
 const Logger = require('../helpers/logger.js');
@@ -18,7 +17,7 @@ module.exports = () => {
     LOG.spinner('Compressing');
 
     return gulp
-        .src(PATHS.images.entry.all)
+        .src(PATHS.images.entry.array)
         .pipe(plumber(LOG.error))
         .pipe(changed(PATHS.images.dest))
         .pipe(

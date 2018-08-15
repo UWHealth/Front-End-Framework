@@ -32,7 +32,7 @@ function startWebpack(done) {
     folders.reduce((prev, folder) => {
         try {
             fs.mkdirSync(path.join(prev, folder));
-        } catch (e) {}
+        } catch (e) {} // eslint-disable-line
         return path.join(prev, folder);
     }, PATHS.folders.dist);
 
@@ -82,6 +82,7 @@ function webpackLogger(err, stats, done) {
             const info = stats.toJson();
 
             if (stats.hasErrors()) {
+                debugger;
                 return info.errors.forEach((err) => {
                     if (!MODE.production && !ARGS.stats) {
                         const errArray = err.split('\n');

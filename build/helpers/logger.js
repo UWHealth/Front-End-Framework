@@ -43,8 +43,7 @@ module.exports = function(task, message) {
     };
 
     this.info = function(msg, oraOpts) {
-        // eslint-disable-line
-        msg = msg || (OraOpts && oraOpts.text) || message;
+        msg = msg || (oraOpts && oraOpts.text) || message;
 
         msg = chalk.blue(task) + ' ' + msg + ' ' + getTime();
         const opts =

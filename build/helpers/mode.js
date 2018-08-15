@@ -1,3 +1,4 @@
+/* eslint "no-console": "off" */
 const chalk = require('chalk');
 const args = require('./args.js');
 

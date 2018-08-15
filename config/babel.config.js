@@ -7,11 +7,16 @@
 
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode`);
+const getTargets = require('./helpers/string-to-babel-target.js');
 
 /* eslint complexity: "off" */
 module.exports = function(target) {
     const config = {
         cacheDirectory: true,
+        configFile: false,
+        babelrc: false,
+        ignore: [/@?babel/g, /core-js/g],
+        sourceType: 'unambiguous',
         auxiliaryCommentBefore: 'Babel»',
         presets: [
             [
@@ -20,7 +25,9 @@ module.exports = function(target) {
                     targets: getTargets(target),
                     loose: true,
                     modules: false,
+                    useBuiltIns: 'usage',
                     ignoreBrowserslistConfig: true,
+                    // debug: target === 't4',
                     debug: false,
                 },
             ],
@@ -29,12 +36,10 @@ module.exports = function(target) {
             [
                 '@babel/transform-runtime',
                 {
-                    helpers: false,
+                    helpers: true,
+                    corejs: false,
                     loose: true,
-                    modules: target === 'web' ? false : 'umd',
-                    include: target === 't4' ? ['es6.set', 'es6.map'] : [],
                     useESModules: Boolean(MODE.production),
-                    // exclude: ['es6.typed.array-buffer', 'es6.array.slice'],
                 },
             ],
         ],
@@ -43,54 +48,21 @@ module.exports = function(target) {
     if (target === 'web') {
         config.plugins.push(
             ['@babel/transform-arrow-functions'],
-            ['syntax-dynamic-import'],
+            ['@babel/plugin-syntax-dynamic-import'],
             ['transform-object-assign'],
-            [
-                '@babel/transform-template-literals',
-                {
-                    loose: true,
-                },
-            ]
+            ['@babel/transform-template-literals']
         );
     } else if (target === 't4') {
-        config.presets = ['@babel/es2015'];
         config.plugins.push(
+            // ['@babel/plugin-syntax-dynamic-import'],
             ['dynamic-import-node'],
             ['@babel/transform-arrow-functions'],
             ['transform-es3-property-literals'],
-            ['transform-es3-member-expression-literals'],
-            [
-                '@babel/transform-template-literals',
-                {
-                    loose: true,
-                },
-            ]
+            ['transform-es3-member-expression-literals']
         );
     } else if (target === 'node') {
         config.plugins.push(['dynamic-import-node']);
     }
+
     return config;
 };
-
-/**
- * Takes a target and converts it to a babel-preset-env-compatible object.
- * @param  {String} target - Accepts "web", "t4", or "node".
- * @return {Object}        - Babel-compatible targets object.
- */
-function getTargets(target) {
-    const BROWSERS = require(`${CWD}/package.json`).browserslist;
-
-    switch (target) {
-        case 'node':
-            return { node: 'current' };
-
-        case 't4':
-            return { browsers: ['ff 2'] }; // ECMA/JS version 1.7 (Rhino-like)
-
-        case 'web':
-            return { browsers: BROWSERS };
-
-        default:
-            return { browsers: BROWSERS };
-    }
-}

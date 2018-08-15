@@ -41,7 +41,7 @@ module.exports = function() {
     // Watch for new demos or other such entries
     // where webpack needs to create new html pages.
     // Restarts webpack to add new files
-    gulp.watch([PATHS.demos.entry.all], opts).on('add', gulp.series('webpack'));
+    gulp.watch(PATHS.demos.entry.array, opts).on('add', gulp.series('webpack'));
 };
 
 function flushWebpackFromCache(configPaths) {
