@@ -3,7 +3,7 @@ const PATHS = require(`${process.cwd()}/config/paths.config.js`);
 /**
  * Allows for sass imports to use aliases to represent the folder paths (similar to webpack)
  * @reference            - https://github.com/sass/node-sass#importer
- * @return {Object}      - Resolved path to url, with aliases replaced
+ * @return {Object}      - Resolved path, with aliases replaced
  */
 function aliasPath(url) {
     const path = require('path');

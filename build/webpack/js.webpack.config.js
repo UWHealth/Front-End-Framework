@@ -13,8 +13,10 @@ const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const STATS = require('./helpers/webpack-stats.js')();
 const MODE = require('../helpers/mode.js');
+
 const baseConfig = require(`./base.webpack.config.js`);
-const babelConfig = require(`${CWD}/config/babel.config.js`);
+const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
+const svelteConfig = require('./helpers/svelte-config.js')('web', babelConfig);
 
 const config = cloneDeep(baseConfig.config);
 
@@ -98,8 +100,12 @@ config.optimization.splitChunks = {
 };
 
 config.module.rules.push(
+    // Svelte-generation, with babel
+    svelteConfig,
+
+    // Babelify
     {
-        test: /\.(html|svelte|js|jsx)$/,
+        test: /\.(js|jsx)$/,
         enforce: 'post',
         exclude: [
             /node_modules\/babel-/m,
@@ -109,29 +115,8 @@ config.module.rules.push(
         ],
         use: {
             loader: 'babel-loader',
-            options: babelConfig('web'),
+            options: babelConfig,
         },
-    },
-
-    {
-        test: /\.(html|sv\.html|svelte)$/,
-        use: [
-            {
-                loader: 'babel-loader',
-                options: babelConfig('web'),
-            },
-            {
-                loader: 'svelte-loader',
-                options: {
-                    generate: 'dom',
-                    hydratable: true,
-                    dev: !MODE.production,
-                    store: true,
-                    shared: true,
-                    preprocess: require('./helpers/svelte-sass.js'),
-                },
-            },
-        ],
     }
 );
 

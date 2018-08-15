@@ -7,12 +7,15 @@ const path = require('path');
 
 const glob = require('fast-glob');
 const cloneDeep = require('lodash.clonedeep');
+const webpack = require('webpack');
 
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
-const baseConfig = require('./base.webpack.config.js');
-const babelConfig = require(`${CWD}/config/babel.config.js`);
+const baseConfig = require(`./base.webpack.config.js`);
+const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
+const svelteConfig = require('./helpers/svelte-config.js')('node', babelConfig);
+
 const HtmlPlugin = require('html-webpack-plugin');
 
 const config = cloneDeep(baseConfig.config);
@@ -29,31 +32,15 @@ config.output = {
     filename: `[name].demo.js`,
 };
 
-config.watchOptions.ignored = '/dist/';
+config.plugins.push(
+    new webpack.DefinePlugin({
+        'typeof window': '"undefined"',
+    })
+);
 
 config.module.rules.push(
     // Svelte as server-side
-    {
-        test: /\.(html|sv\.html|svelte)$/,
-        use: [
-            {
-                loader: 'babel-loader',
-                options: babelConfig('node'),
-            },
-            {
-                loader: 'svelte-loader',
-                options: {
-                    format: 'cjs',
-                    generate: 'ssr',
-                    dev: !MODE.production,
-                    hydratable: true,
-                    store: true,
-                    preserveComments: false,
-                    preprocess: require('./helpers/svelte-sass.js')
-                },
-            },
-        ],
-    },
+    svelteConfig,
 
     // Babelify
     {
@@ -66,7 +53,7 @@ config.module.rules.push(
         ],
         use: {
             loader: 'babel-loader',
-            options: babelConfig('node'),
+            options: babelConfig,
         },
     },
 
@@ -77,7 +64,7 @@ config.module.rules.push(
     }
 );
 
-const demos = glob.sync(PATHS.demos.entry.all);
+const demos = glob.sync(PATHS.demos.entry.src);
 
 // Add all demo
 demos.forEach((file) => {

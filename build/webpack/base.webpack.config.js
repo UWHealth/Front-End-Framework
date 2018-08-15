@@ -23,7 +23,7 @@ const config = {
         ],
         mainFields: ['svelte', 'module', 'main'],
         alias: PATHS.aliases,
-        extensions: ['.js', '.json', '.html', '.hbs', '.jsx', '.handlebars'],
+        extensions: ['.js', '.jsx', '.json', '.html', '.hbs', '.handlebars'],
     },
     watchOptions: {
         ignored: /(node_modules|dist)/,
