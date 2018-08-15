@@ -29,37 +29,25 @@ const normalizePaths = require('./helpers/normalize-paths.js');
 
 const root = process.cwd();
 
-const src = path.resolve(root, '@src');
-const config = path.resolve(root, 'config');
-const build = path.resolve(root, 'build');
-const dist = path.resolve(root, 'dist');
-const pub = path.join(dist, 'public');
-const docs = path.resolve(root, 'docs');
-const assets = path.resolve(src, 'static');
-const dirArray = root.split(path.delimiter);
+// Base folders
+const _ = {
+    root: root,
+    src: path.resolve(root, '@src'),
+    assets: path.resolve(root, '@src', 'static'),
+    build: path.resolve(root, 'build'),
+    config: path.resolve(root, 'config'),
+    dist: path.resolve(root, 'dist'),
+    pub: path.resolve(root, 'dist', 'public'),
 
-const PATHS = {
-    folders: {
-        project: dirArray[dirArray.length - 1], // Project Name or root folder name
-        // All paths from here on are absolute
-        root: root, // Root folder
-        config: config, // Config folder
-        build: build, // Build folder
-        dist: dist, // Built files
-        dest: dist, // Built files alias
-        pub: pub, // Published (public) folder
-        static: assets, // Static assets
-        src: src, // Files to be built
-        docs: docs, // Documentation folder
-    },
+    docs: path.resolve(root, 'docs'),
+    dirArray: root.split(path.delimiter),
 };
 
-Object.assign(PATHS, {
-    /* eslint-disable no-useless-escape */
-
-    // Allow for path aliases
+const PATHS = {
+    folders: _,
+    // Aliases used in webpack and sass
     aliases: {
-        '@': src,
+        '@': _.src,
         '>': root,
         CWD: root,
         '~': path.resolve(root, 'node_modules'),
@@ -67,140 +55,140 @@ Object.assign(PATHS, {
     // Folders/files that should be cleaned before build
     clean: {
         entry: {
-            dist: `${dist}/*`,
-            docs: `${docs}/*`,
+            dist: `${_.dist}/*`,
+            docs: `${_.docs}/*`,
         },
     },
     // Folders and files that should be copied directly
     copy: {
         folders: {
-            root: `${assets}`,
+            root: `${_.assets}`,
         },
         entry: {
-            all: `${assets}/**/*.*`,
-            exclude: `!${assets}/img/**.*`,
+            src: `${_.assets}/**/*.*`,
+            exclude: `!${_.assets}/img/**.*`,
         },
         watch: {
-            all: `${assets}/**/*.*`,
-            fonts: `${assets}/fonts/*.*`,
-            meta: `${assets}/meta/*.*`,
-            exclude: [`!${assets}/img/**.*`],
+            src: `${_.assets}/**/*.*`,
+            fonts: `${_.assets}/fonts/*.*`,
+            meta: `${_.assets}/meta/*.*`,
+            exclude: [`!${_.assets}/img/**.*`],
         },
-        dest: `${pub}/static/`,
+        dest: `${_.pub}/static/`,
     },
     // Files to create demos from
     demos: {
         folders: {
-            root: `${src}/`,
-            components: `${src}/components/`,
-            modules: `${src}/modules/`,
+            root: `${_.src}/`,
+            components: `${_.src}/components/`,
+            modules: `${_.src}/modules/`,
         },
         entry: {
-            all: `${src}/components/**/*.demo.html`,
-            main: `${src}/demos.js`,
-            manifest: `${pub}/module-map-manifest.json`,
+            src: `${_.src}/components/**/*.demo.html`,
+            main: `${_.src}/demos.js`,
+            manifest: `${_.pub}/module-map-manifest.json`,
         },
-        dest: `${dist}/demo`,
+        dest: `${_.dist}/demo`,
     },
     fonts: {
         entry: {
-            asap: `${assets}/fonts/Asap*.*`,
-            open: `${assets}/fonts/opensans*.*`,
+            asap: `${_.assets}/fonts/Asap*.*`,
+            open: `${_.assets}/fonts/opensans*.*`,
         },
         watch: {
-            all: `${assets}/fonts/**/*.*`,
+            src: `${_.assets}/fonts/**/*.*`,
         },
-        dest: `${pub}/static/fonts`,
+        dest: `${_.pub}/static/fonts`,
     },
     hbs: {
         folders: {
-            root: `${src}/components`,
-            components: `${src}/components`,
+            root: `${_.src}/components`,
+            components: `${_.src}/components`,
         },
         watch: {
-            main: `${src}/components/**/*.hbs`,
+            main: `${_.src}/components/**/*.hbs`,
         },
         entry: {
-            main: `${src}/components/**/*.hbs`,
-            header: `${src}/components/header/_header.hbs`,
-            footer: `${src}/components/footer/_footer.hbs`,
+            main: `${_.src}/components/**/*.hbs`,
+            header: `${_.src}/components/header/_header.hbs`,
+            footer: `${_.src}/components/footer/_footer.hbs`,
         },
-        dest: `${pub}/components/`,
+        dest: `${_.pub}/components/`,
     },
     images: {
         entry: {
-            all: `${assets}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
-            main: `${assets}/img/**/*.+(jpe?g|png|gif|ico)`,
-            svg: `${assets}/img/svg/**/*.svg`,
+            src: `${_.assets}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            main: `${_.assets}/img/**/*.+(jpe?g|png|gif|ico)`,
+            svg: `${_.assets}/img/svg/**/*.svg`,
         },
         watch: {
-            all: `${assets}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
-            svg: `${assets}/img/svg/**/*.svg`,
+            src: `${_.assets}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
+            svg: `${_.assets}/img/svg/**/*.svg`,
         },
-        dest: `${pub}/static/img`,
+        dest: `${_.pub}/static/img`,
     },
     js: {
         folders: {
-            root: `${src}`,
-            components: `${src}/components`,
-            modules: `${src}/modules`,
-            helpers: `${src}/helpers`,
+            root: `${_.src}`,
+            components: `${_.src}/components`,
+            modules: `${_.src}/modules`,
+            helpers: `${_.src}/helpers`,
         },
         entry: {
-            main: `${src}/main.js`,
-            components: `${src}/components/**/*[!demo].html`,
+            main: `${_.src}/main.js`,
+            components: `${_.src}/components/**/*[!demo].html`,
         },
         watch: {
-            all: `${src}/**/*.js`,
+            src: `${_.src}/**/*.js`,
         },
-        dest: `${pub}/js`,
+        dest: `${_.pub}/js`,
     },
     sass: {
         folders: {
-            components: `${src}/components`,
-            root: `${src}/sass`,
+            components: `${_.src}/components`,
+            root: `${_.src}/sass`,
         },
         entry: {
-            main: `${src}/main.scss`,
-            print: `${src}/print.scss`,
-            components: `${src}/components/**/[!_]*.scss`,
-            modules: `${src}/modules/**/[!_]*.scss`,
-            styleguide: `${src}/modules/styleguide/styleguide.scss`,
+            main: `${_.src}/main.scss`,
+            print: `${_.src}/print.scss`,
+            components: `${_.src}/components/**/[!_]*.scss`,
+            modules: `${_.src}/modules/**/[!_]*.scss`,
+            styleguide: `${_.src}/modules/styleguide/styleguide.scss`,
         },
         watch: {
-            all: `${src}/**/*.scss`,
-            config: `${config}/sass.config.scss`,
-            main: `${src}/*.scss`,
+            src: `${_.src}/**/*.scss`,
+            config: `${_.config}/sass.config.scss`,
         },
-        dest: `${pub}/css`,
+        dest: `${_.pub}/css`,
     },
     styleGuide: {
         entry: {
-            config: `${config}/styleguide.config.js`,
-            templateFile: `${src}/modules/styleguide/styleguide.hbs`,
-            themeFile: `${pub}/css/styleguide/styleguide.css`,
-            jquery: `${src}/modules/styleguide/imports/jquery.js`,
-            toc: `${src}/modules/styleguide/imports/toc.js`,
+            config: `${_.config}/styleguide.config.js`,
+            templateFile: `${_.src}/modules/styleguide/styleguide.hbs`,
+            themeFile: `${_.pub}/css/styleguide/styleguide.css`,
+            jquery: `${_.src}/modules/styleguide/imports/jquery.js`,
+            toc: `${_.src}/modules/styleguide/imports/toc.js`,
         },
         watch: {
-            imports: `${src}/modules/styleguide/**/*.*`,
-            style: `${pub}/css/styleguide/styleguide.css`,
-            config: `${config}/styleguide.config.js`,
+            imports: `${_.src}/modules/styleguide/**/*.*`,
+            style: `${_.pub}/css/styleguide/styleguide.css`,
+            config: `${_.config}/styleguide.config.js`,
         },
-        dest: `${pub}/styleguide/index.html`,
+        dest: `${_.pub}/styleguide/index.html`,
     },
     browserSync: {
         port: 8080,
         entry: {
-            serve: dist,
+            serve: `${_.dist}`,
         },
         watch: {
-            css: `${pub}/css/*.css`,
-            js: `${pub}/js/**/*.js`,
-            components: `${dist}/components/**/*.html`,
-            exclude: [`!${dist}/**/*.map`, `!${pub}/styleguide/*.html`],
+            css: `${_.pub}/css/*.css`,
+            js: `${_.pub}/js/**/*.js`,
+            components: `${_.dist}/components/**/*.html`,
+            exclude: [`!${_.dist}/**/*.map`, `!${_.pub}/styleguide/*.html`],
         },
     },
-});
+};
 
+// Ensure all paths are exported predictably
 module.exports = normalizePaths(PATHS);
