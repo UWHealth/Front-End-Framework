@@ -67,6 +67,6 @@ a {
 
 hr {
     outline: 1px solid color('bg', darker);
-    height: 0;
+    height: 0.01px;
     @include type-space(margin, 0 0 1);
 }

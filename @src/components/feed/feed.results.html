@@ -1,4 +1,4 @@
-{#if results}
+{#if results && results.result}
     {#each results.result.slice(pageStart, pageEnd) as result (result.title)}
         <div class="media-object" in:slide='{duration: 300, easing: cubicOut}' out:fade='{duration: 100}'>
             <div class="media-object__media">
@@ -9,7 +9,6 @@
                 <p>{@html description(result.description).text}</p>
             </div>
         </div>
-        <hr>
     {/each}
 {/if}
 

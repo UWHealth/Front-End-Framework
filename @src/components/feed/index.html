@@ -2,14 +2,14 @@
 <header>
 {#if feedResults}
     {#if page !== 1}
-    <button class="btn" on:click="set({'page': page - 1})">« Page {page - 1}</button>
+    <button class="btn space-r-half" on:click="set({'page': page - 1})">« Page {page - 1}</button>
     {/if}
         {pageString}
     {#if feedMax}
-        <button class="btn" on:click="set({'page': page + 1})">Page {page + 1} »</button>
+        <button class="btn space-l-half" on:click="set({'page': page + 1})">Page {page + 1} »</button>
     {/if}
 {/if}
-    <hr>
+    <hr class="space-t">
 </header>
 
 {#if $feedResults}
@@ -44,32 +44,32 @@
 </style>
 
 <script>
-    import store from '@/modules/demo/demo.store.js';
+import store from '@/modules/demo/demo.store.js';
 
-    export default {
-        components: {
-            Results: './feed.results.html'
-        },
-        computed: {
-            feedMax: ({page, MAX_PER_PAGE, feedResults}) => {
-                if (feedResults && feedResults.result) {
-                    return ((page * (MAX_PER_PAGE + 1)) <= feedResults.result.length);
-                }
-                return false;
-            },
-            pageString: ({page}) => {
-                return page && 'Page' + page;
+export default {
+    components: {
+        Results: './feed.results.html',
+    },
+    computed: {
+        feedMax: ({ page, MAX_PER_PAGE, feedResults }) => {
+            if (feedResults && feedResults.result) {
+                return page * (MAX_PER_PAGE + 1) <= feedResults.result.length;
             }
+            return false;
         },
-        oncreate() {
-            this.set({ 'feedTop': document.getElementById('feedTop').offsetTop });
-            this.on('update', ({ changed, current, previous }) => {
-                if (changed.page) {
-                    window.scroll(0, this.get()["feedTop"]);
-                }
-            });
+        pageString: ({ page }) => {
+            return page && 'Page ' + page;
         },
+    },
+    oncreate() {
+        this.set({ feedTop: document.getElementById('feedTop').offsetTop });
+        this.on('update', ({ changed }) => {
+            if (changed.page) {
+                window.scroll(0, this.get()['feedTop']);
+            }
+        });
+    },
 
-        store: () => store
-    };
+    store: () => store,
+};
 </script>
