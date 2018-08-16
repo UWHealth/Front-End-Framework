@@ -2,7 +2,6 @@
  * @fileoverview - Webpack configuration for generating T4 components. Uses base.webpack.config.js as a base. Saves all files to dist/t4/
  **/
 
-
 const cloneDeep = require('lodash.clonedeep');
 const glob = require('fast-glob');
 const path = require('path');

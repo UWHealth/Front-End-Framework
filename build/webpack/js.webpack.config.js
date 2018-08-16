@@ -111,7 +111,7 @@ config.module.rules.push(
             /node_modules\/babel-/m,
             /node_modules\/core-js\//m,
             /node_modules\/regenerator-runtime\//m,
-            /node_modules\/@babel/,
+            /node_modules\/@?babel/,
         ],
         use: {
             loader: 'babel-loader',
@@ -125,6 +125,13 @@ if (MODE.production) {
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
     config.node = false;
+
+    config.plugins.push(
+        new webpack.DefinePlugin({
+            'typeof window': '"defined"',
+            "process.env.NODE_ENV": "'production'"
+        })
+    );
 
     config.optimization.minimizer = [
         // new ClosureCompilerPlugin({

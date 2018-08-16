@@ -2,20 +2,12 @@
     "name": "front-end-framework",
     "version": "1.0.0",
     "description": "",
-    "readme": "./README.md",
     "scripts": {
         "start": "npx gulp",
         "prod": "npm start -- --production",
         "webpack": "npx gulp webpack",
-        "debug": "npx webpack -- --config=\"./build/webpack/t4.webpack.config.js\""
+        "t4": "npx webpack --config=\"./build/webpack/t4.webpack.config.js\" --production"
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/UWHealth/Front-End-Framework.git"
-    },
-    "main": "./@src/main.js",
-    "author": "UW Health Web Center",
-    "license": "ISC",
     "browserslist": [
         ">0.5%",
         "ie >= 11",
@@ -35,15 +27,17 @@
         "extends": [
             "./node_modules/@uwhealth/linter-configs/eslint.js"
         ],
-        "rules": {
-            "no-console": ["error", { "allow": ["warn", "error", "info", "table"] }]
-        },
-        "overrides": [{
-            "files": [ "config/**/*.js", "build/**/*.js" ],
-            "rules": {
-                "no-console": "off"
+        "overrides": [
+            {
+                "files": [
+                    "config/**/*.js",
+                    "build/**/*.js"
+                ],
+                "rules": {
+                    "no-console": "off"
+                }
             }
-        }]
+        ]
     },
     "eslintIgnore": [
         "node_modules/*",
@@ -57,16 +51,13 @@
         "@babel/polyfill": "^7.0.0-rc.1",
         "@babel/preset-env": "^7.0.0-beta.44",
         "@babel/runtime": "^7.0.0-beta.44",
-        "@uwhealth/linter-configs": "uwhealth/linter-configs#^1.0.1",
+        "@uwhealth/linter-configs": "^1.0.1",
         "@uwhealth/sass-tools": "uwhealth/sass-tools#^1.0.9",
         "babel-cli": "^6.24.1",
-        "babel-core": "7.0.0-bridge.0",
         "babel-loader": "^8.0.0-beta",
         "babel-plugin-dynamic-import-node": "^1.2.0",
-        "babel-plugin-syntax-dynamic-import": "^6.18.0",
         "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
         "babel-plugin-transform-es3-property-literals": "^6.22.0",
-        "babel-plugin-transform-imports": "^1.4.1",
         "babel-plugin-transform-object-assign": "^6.22.0",
         "browser-sync": "^2.23.3",
         "chalk": "^2.3.0",
@@ -121,5 +112,13 @@
         "svelte-extras": "^1.6.0",
         "svelte-routing": "0.4.0",
         "svelte-transitions": "^1.1.1"
-    }
+    },
+    "readme": "./README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/UWHealth/Front-End-Framework.git"
+    },
+    "main": "./@src/main.js",
+    "author": "UW Health Web Center",
+    "license": "ISC"
 }

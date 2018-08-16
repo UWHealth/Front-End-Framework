@@ -82,7 +82,6 @@ function webpackLogger(err, stats, done) {
             const info = stats.toJson();
 
             if (stats.hasErrors()) {
-                debugger;
                 return info.errors.forEach((err) => {
                     if (!MODE.production && !ARGS.stats) {
                         const errArray = err.split('\n');
@@ -106,10 +105,10 @@ function webpackLogger(err, stats, done) {
                 !MODE.production && !ARGS.stats
                     ? `${stats
                           .toString('minimal')
-                          .replace(/\s+(\d*)(.*)/, ` $1 ${name}$2 `)}`
+                          .replace(/\s+(\d*)(.*)/, `$1 ${name}$2 `)}`
                     : stats.toString(STATS());
 
-            return LOG.success('Compiled' + statsString);
+            return LOG.success('Compiled ' + statsString);
         });
     }
 
