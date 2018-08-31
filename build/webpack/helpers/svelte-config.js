@@ -47,22 +47,31 @@ module.exports = function(target, babelConfig) {
     };
 };
 
-function processSass(value) {
-    const content = value.content;
-    const attributes = value.attributes;
+function processSass(input) {
+    const content = input.content;
+    const attributes = input.attributes;
+    const filename = input.filename;
 
-    if (attributes.type !== 'text/scss' && attributes.type !== 'text/sass') {
+    if (
+        attributes.type !== 'text/scss' &&
+        attributes.type !== 'text/sass' &&
+        attributes.lang !== 'scss' &&
+        attributes.lang !== 'sass'
+    ) {
         return;
     }
     try {
         sassConfig.data = content;
+        sassConfig.outFile = filename;
+        sassConfig.includePaths = [path.dirname(filename)];
         const result = sass.renderSync(sassConfig);
 
         return {
-            code: result.css,
+            code: result.css.toString('utf-8'),
             map: result.map,
         };
     } catch (e) {
-        return new Error(e);
+        console.error(filename + '\n', new Error(e));
+        return;
     }
 }

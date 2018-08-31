@@ -49,10 +49,10 @@
         computed: {
             lowercaseRoute: ({ currentRoute }) => currentRoute.toLowerCase(),
         },
-        oncreate () {
-            if (this.slots.variants) {
-                this.set({'variants': true});
+        oncreate() {
+            if (this._slots.variants) {
+                this.set({ variants: true });
             }
-        }
+        },
     };
 </script>
