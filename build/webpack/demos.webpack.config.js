@@ -16,6 +16,7 @@ const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
 const svelteConfig = require('./helpers/svelte-config.js')('node', babelConfig);
 
+const TimeFixPlugin = require('time-fix-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 const config = cloneDeep(baseConfig.config);
@@ -27,14 +28,16 @@ config.target = 'node';
 
 config.output = {
     path: PATHS.folders.dest,
-    publicPath: '/public/js/',
+    publicPath: '/',
     libraryTarget: 'commonjs',
     filename: `[name].demo.js`,
 };
 
 config.plugins.push(
+    new TimeFixPlugin(),
     new webpack.DefinePlugin({
         'typeof window': '"undefined"',
+        'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
     })
 );
 
@@ -71,7 +74,13 @@ demos.forEach((file) => {
     const baseName = path.basename(file, '.demo.html');
     const entryName = path.join('demo', baseName, baseName);
 
-    config.entry[entryName] = file;
+    config.entry[entryName] = [file];
+
+    // if (MODE.localProduction || !MODE.production) {
+    //     config.entry[entryName].unshift(
+    //         'webpack-hot-middleware/client?name=Demo&overlay=true&reload=false'
+    //     );
+    // }
 
     config.plugins.push(
         new HtmlPlugin({
@@ -105,7 +114,7 @@ config.plugins.push(
         inject: false,
         cache: true,
         showErrors: true,
-        pageTitle: 'Demos',
+        pageTitle: 'Demo Index',
         // Template-specific data
         svelte: {
             internalTemplate: false,

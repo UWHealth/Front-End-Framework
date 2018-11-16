@@ -13,7 +13,7 @@ fetch('/public/module-map-manifest.json')
 
 /* eslint-enable compat/compat */
 
-domReady(async () => {
+async function init() {
     const appElement = document.getElementById('app');
 
     if (appElement) {
@@ -37,8 +37,17 @@ domReady(async () => {
         import(/* "webpackChunkName": "keyboard" */
         '@/helpers/keyboard-shortcuts').then((keyboardSC) => keyboardSC.init());
     }
-});
+}
+
+domReady(init);
 
 window.store = store;
+
+if (module.hot) {
+    console.log("I'm hot.");
+    module.hot.accept(function(err) {
+        console.log(err);
+    });
+}
 
 export { application, manifest };

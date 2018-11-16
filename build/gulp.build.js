@@ -17,26 +17,20 @@ function taskOrder() {
         ? // DEV
           series(
               'clean',
-              p('sass', 'webpack'),
+              p('sass'),
               p('images', 'copy'),
               p('watch', 'browserSync')
           )
         : MODE.localProduction
-            ? // LOCAL-PROD
-              series(
-                  'clean',
-                  p('sass', 'webpack', 'copy'),
-                  p('images', 'copy'),
-                  p('watch', 'browserSync')
-              )
-            : // PROD
-              series(
-                  'clean',
-                  p('sass', 'webpack'),
-                  p('images', 'copy'),
-                  'styleGuide',
-                  'size'
-              );
+        ? // LOCAL-PROD
+          series(
+              'clean',
+              p('sass'),
+              p('images', 'copy'),
+              p('watch', 'browserSync')
+          )
+        : // PROD
+          series('clean', p('sass'), p('images', 'copy'), 'styleGuide', 'size');
 }
 
 /* ---------------------------------

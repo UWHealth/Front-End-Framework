@@ -1,6 +1,7 @@
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const sassConfig = require(`${CWD}/build/helpers/sass-config`);
+const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const sass = require('node-sass');
 const path = require('path');
@@ -10,6 +11,13 @@ const cacheConfig = {
     hydratable: true,
     store: true,
     preserveComments: !MODE.production,
+    skipIntroByDefault: true,
+    nestedTransitions: true,
+    hotReload: true,
+    // hotOptions: {
+    //     noPreserveState: true,
+    // },
+    externalDependencies: [PATHS.sass.entry.config],
     preprocess: {
         style: processSass,
     },
@@ -21,8 +29,6 @@ module.exports = function(target, babelConfig) {
     return {
         test: /\.(html|sv\.html|svelte)$/,
         exclude: [
-            'node_modules/babel',
-            'node_modules/@babel/',
             path.resolve(CWD, 'node_modules', '@babel'),
             path.resolve(CWD, 'node_modules', 'babel'),
             path.resolve(CWD, 'node_modules', 'core-js'),

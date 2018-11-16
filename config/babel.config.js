@@ -49,14 +49,9 @@ module.exports = function(target) {
     };
 
     if (target === 'web') {
-        config.plugins.push(
-            // [require('@babel/plugin-transform-arrow-functions')],
-            [require('@babel/plugin-syntax-dynamic-import')],
-            // [require('@babel/plugin-transform-template-literals')]
-        );
+        config.plugins.push([require('@babel/plugin-syntax-dynamic-import')]);
     } else if (target === 't4') {
         config.plugins.push(
-            // ['@babel/plugin-syntax-dynamic-import'],
             [require('@babel/plugin-transform-arrow-functions')],
             [require('babel-plugin-dynamic-import-node')],
             [require('babel-plugin-transform-es3-property-literals')],

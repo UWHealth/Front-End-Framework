@@ -20,13 +20,25 @@ const watchOptions =
         ? { poll: 1000, ignored: /node_modules/ }
         : null;
 
-let watching = false;
+let instance = false;
 
-function startWebpack(done) {
+const throttle = (func, delay) => {
+  let inDebounce
+  return function() {
+    const context = this
+    const args = arguments
+    clearTimeout(inDebounce)
+    inDebounce = setTimeout(() =>
+      func.apply(context, args)
+    , delay)
+  }
+};
+
+module.exports = function startWebpack(browserSync) {
     // Write out a temporary manifest so we can avoid errors on startup
-    const folders = path
-        .relative(PATHS.folders.dist, PATHS.js.dest)
+    const folders = PATHS.demos.entry.manifest
         .replace(/\\/g, '/')
+        .replace(/.*dist\/(.*)(\/.*\.json)/gi, '$1')
         .split('/');
 
     folders.reduce((prev, folder) => {
@@ -41,28 +53,87 @@ function startWebpack(done) {
     const webpackConfigs = require('../webpack.build.js');
     const compiler = webpack(webpackConfigs);
 
-    // Restart if already watching
-    if (watching) {
-        LOG.info('Restarted', true);
-        watching.close(() => {
-            watching = false;
-            startWebpack(done);
-        });
-    } else {
-        if (watchOptions) {
-            compiler.hooks.watchRun.tap('Log Compilation', () => {
-                LOG.spinner('Compiling');
-                return true;
-            });
+    const webpackDevMiddleware = require('webpack-dev-middleware');
+    const webpackHotMiddleware = require('webpack-hot-middleware');
+    // if (instance) {
+    //     LOG.info('Restarted', true);
+    //     instance.close(() => {
+    //         instance = false;
+    //
+    //     });
+    // }
+    // else {
 
-            watching = compiler.watch(watchOptions, (err, stats) =>
-                webpackLogger(err, stats, done)
-            );
-        } else {
-            LOG.spinner('Compiling');
-            compiler.run((err, stats) => webpackLogger(err, stats, done));
-        }
-    }
+    instance = webpackDevMiddleware(compiler, {
+        publicPath: '/',
+        stats: require('../webpack/helpers/webpack-stats.js')(),
+        writeToDisk: true,
+        // logLevel: 'error',
+        reporter: (middlewareOptions, options) => {
+            webpackLogger(false, options.stats);
+        },
+        watchOptions: {
+            aggregateTimeout: 300,
+            ignored: /(node_modules|dist)/
+        },
+    });
+
+    const middleware = [
+            instance,
+
+            // bundler should be the same as above
+            webpackHotMiddleware(compiler, {
+                //path: '/__webpack_hmr',
+                noInfo: true,
+                log: false,
+                silent: true,
+            })
+        ];
+    // }
+
+    compiler.hooks.watchRun.tap('Log Compilation', () => {
+        LOG.spinner('Compiling');
+    });
+
+    const debouncedLog = (stats) => throttle(webpackLogger(false, stats), 5000);
+
+    compiler.hooks.done.tap('Log Compilation', debouncedLog)
+    //     => {
+    //
+    //     // if (stats.hasErrors() || stats.hasWarnings()) {
+    //     //     return browserSync.sockets.emit('fullscreen:message', {
+    //     //         title: 'Webpack Error:',
+    //     //         body: stats.toString(),
+    //     //         timeout: 100000
+    //     //     });
+    //     // }
+    // });
+
+    // Restart if already watching
+
+
+        // LOG.info('Restarted', true);
+        // watching.close(() => {
+        //     watching = false;
+        //     startWebpack(done);
+        // });
+    // } else {
+        // if (watchOptions) {
+        //     compiler.hooks.watchRun.tap('Log Compilation', () => {
+        //         LOG.spinner('Compiling');
+        //         return true;
+        //     });
+        //
+        //     // watching = compiler.watch(watchOptions, (err, stats) =>
+        //     //     webpackLogger(err, stats, done)
+        //     // );
+        // } else {
+        //     LOG.spinner('Compiling');
+        //     compiler.run((err, stats) => webpackLogger(err, stats, done));
+        // }
+    // }
+
+    return middleware;
 }
 
 /* eslint-disable-next-line */
@@ -114,5 +185,3 @@ function webpackLogger(err, stats, done) {
 
     if (typeof done === 'function') done();
 }
-
-module.exports = startWebpack;

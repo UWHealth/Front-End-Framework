@@ -10,6 +10,7 @@ const CWD = process.cwd();
 
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
+const TimeFixPlugin = require('time-fix-plugin');
 
 const config = {
     context: __dirname,
@@ -30,7 +31,9 @@ const config = {
     },
     entry: {},
     output: {},
-    plugins: [],
+    plugins: [
+        new TimeFixPlugin()
+    ],
     module: {},
     optimization: {
         nodeEnv: process.env.NODE_ENV,

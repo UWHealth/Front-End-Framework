@@ -150,6 +150,7 @@ const PATHS = {
         },
         entry: {
             main: `${_.src}/main.scss`,
+            config: `${_.config}/sass.config.scss`,
             print: `${_.src}/print.scss`,
             components: `${_.src}/components/**/[!_]*.scss`,
             modules: `${_.src}/modules/**/[!_]*.scss`,

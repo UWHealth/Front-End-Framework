@@ -5,10 +5,11 @@
 /* eslint-disable complexity */
 module.exports = () => {
     const browserSync = require('browser-sync');
+    const webpackMiddleware = require('./webpack.task.js');
 
     const ARGS = require('../helpers/args.js');
     const PATHS = require(`${process.cwd()}/config/paths.config.js`);
-    const INSTANCE = browserSync.create(PATHS.folders.project);
+    const INSTANCE = browserSync.create();
 
     attachEvents(INSTANCE);
 
@@ -18,48 +19,55 @@ module.exports = () => {
     // Allow for --bsserver argument. Otherwise, use default
     const BS_SERVER = ARGS.bsserver || {
         baseDir: PATHS.browserSync.entry.array,
-        directory: BS_DIR_VIEW,
+        directory: true || BS_DIR_VIEW,
     };
 
     const BS_PORT = ARGS.bsport || PATHS.browserSync.port;
 
-    INSTANCE.init(
-        {
-            files: PATHS.browserSync.watch.array,
-            port: BS_PORT, // Allow for --bsport= argument
-            proxy: ARGS.bsproxy || undefined, // Allow for --bsproxy= argument
-            serveStatic: ARGS.bsservestatic || [], // Allow for --bsservestatic= argument
-            tunnel: ARGS.bstunnel || null, // Allow for --bstunnel= argument
-            server: ARGS.bsproxy ? false : BS_SERVER, // If proxy, ignore server setting
-            open: BS_OPEN_NEW_TAB,
-            ui: {
-                port: 3030,
-            },
-            ghostMode: {
-                clicks: false,
-                location: false,
-                forms: true,
-                scroll: false,
-            },
-            logPrefix: 'BrowserSync',
-            snippetOptions: {
-                // Browsersync script tag placement
-                rule: {
-                    match: /<\/body>/i,
-                    fn: function(snippet, match) {
-                        return snippet + match;
-                    },
+    INSTANCE.init({
+        // files: PATHS.browserSync.watch.array,
+        port: BS_PORT, // Allow for --bsport= argument
+        proxy: ARGS.bsproxy || undefined, // Allow for --bsproxy= argument
+        serveStatic: ARGS.bsservestatic || [], // Allow for --bsservestatic= argument
+        tunnel: ARGS.bstunnel || null, // Allow for --bstunnel= argument
+        server: ARGS.bsproxy ? false : BS_SERVER, // If proxy, ignore server setting
+        open: BS_OPEN_NEW_TAB,
+        ui: {
+            port: 3030,
+        },
+        ghostMode: {
+            clicks: false,
+            location: false,
+            forms: true,
+            scroll: false,
+        },
+        logPrefix: 'BrowserSync',
+        snippetOptions: {
+            // Browsersync script tag placement
+            rule: {
+                match: /<\/body>/i,
+                fn: function(snippet, match) {
+                    return snippet + match;
                 },
             },
-            reloadOnRestart: true,
-            // Use our own logging
-            logLevel: 'silent',
-            logFileChanges: true,
         },
-        function() {
-            module.exports.instance = INSTANCE;
-        }
-    );
+        reloadOnRestart: true,
+        plugins: [
+            'bs-fullscreen-message',
+            // {
+            //     module: 'bs-html-injector',
+            //     options: {
+            //         files: [process.cwd() + '/dist/**/*.html'],
+            //     },
+            // },
+        ],
+        // Use our own logging
+        //logLevel: 'silent',
+        logFileChanges: true,
+        middleware: webpackMiddleware(INSTANCE),
+    });
+
+    //gulp.watch(PATHS.folders.project, browserSync.reload);
 };
 
 function attachEvents(INSTANCE) {
