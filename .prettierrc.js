@@ -1,1 +1,1 @@
-module.exports = require('@uwhealth/linter-configs/prettier.js');
+module.exports = require('@uwhealth/prettier-config');
