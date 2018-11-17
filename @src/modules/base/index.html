@@ -1,5 +1,7 @@
-{@html '<!DOCTYPE html>'}
-{@html '<html lang="en">'}
+{@html
+    '<!DOCTYPE html>' +
+    '<html lang="en">'
+}
 {@html header}
 {@html '<body>'}
     <div id="app">
@@ -43,6 +45,7 @@ export default {
             let opts = state.htmlWebpackPlugin.options.svelte;
             return (
                 `<script>` +
+                `console.log(${JSON.stringify(manifest)});` +
                 `window.__APP_STATE__ = { ` +
                 `  initialRoute: "${opts.pathname}",` +
                 `  componentPath: "${opts.componentPath}"` +

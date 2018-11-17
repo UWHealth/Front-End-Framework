@@ -25,27 +25,23 @@
 </style>
 
 <script>
-    import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
+import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
 
-    let history;
+let history;
 
-    if (typeof window === 'undefined') {
-        history = createMemoryHistory();
-    } else {
-        history = createBrowserHistory();
-    }
+if (typeof window === 'undefined') {
+    history = createMemoryHistory();
+} else {
+    history = createBrowserHistory();
+}
 
-    export default {
-        components: {
-            NavLink: 'svelte-routing/NavLink.html'
-        },
-        data: () => ({
-            links: [
-                ['Button', '/demo/button/'],
-                ['Generic', '/demo/generic/'],
-                ['Feed', '/demo/feed/']
-            ],
-            "history": history
-        })
-    };
+export default {
+    components: {
+        NavLink: 'svelte-routing/NavLink.html',
+    },
+    data: () => ({
+        links: [['Button', '/demo/button/'], ['Feed', '/demo/feed/']],
+        history: history,
+    }),
+};
 </script>
