@@ -16,8 +16,7 @@ const MODE = require('../helpers/mode.js');
 
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
-const svelteConfig = require('./helpers/svelte-config.js')('web', babelConfig);
-const TimeFixPlugin = require('time-fix-plugin');
+const svelteConfig = require('./helpers/svelte-loader-config.js')('web', babelConfig);
 
 const config = cloneDeep(baseConfig.config);
 
@@ -48,7 +47,6 @@ components.forEach((component) => {
 });
 
 config.plugins.push(
-    new TimeFixPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin()
 );

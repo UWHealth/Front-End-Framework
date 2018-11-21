@@ -1,21 +1,3 @@
-<style type="text/scss">
-    @import '>/config/sass.config.scss';
-
-    .button-holder {
-        display: inline-block;
-        padding: type-space(1 1 1 0);
-    }
-    .button-holder--wide {
-        min-width: #{columns(1, 4)};
-    }
-
-    .btn {
-        margin-bottom: type-space(1);
-        margin-right: type-space(1);
-        vertical-align: middle;
-    }
-</style>
-
 <Demo demoTitle="Buttons" variants="{true}" currentRoute="Button">
     <div slot="header">
         <Button>Whatup</Button>
@@ -37,9 +19,27 @@ export default {
         Button: './index.html',
         Demo: '@/modules/demo/index.html',
     },
-    data: () => ({
+    helpers: {
         widths: ['normal', 'wide', 'compact'],
-    }),
-    helpers: { capitalize },
+        capitalize,
+    },
 };
 </script>
+
+<style type="text/scss">
+    @import '>/config/sass.config.scss';
+
+    .button-holder {
+        display: inline-block;
+        padding: type-space(1 1 1 0);
+    }
+    .button-holder--wide {
+        min-width: #{columns(1, 4)};
+    }
+
+    .btn {
+        margin-bottom: type-space(1);
+        margin-right: type-space(1);
+        vertical-align: middle;
+    }
+</style>

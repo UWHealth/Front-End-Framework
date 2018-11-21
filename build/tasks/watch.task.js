@@ -20,6 +20,10 @@ module.exports = function() {
         gulp.watch(PATHS.hbs.watch.array, opts, gulp.series('hbs'));
     }
 
+    //watchWebpackConfigs();
+};
+
+function watchWebpackConfigs() {
     // Watch for webpack config changes,
     // Restarts webpack using the new changes
     gulp.watch(
@@ -42,7 +46,7 @@ module.exports = function() {
     // where webpack needs to create new html pages.
     // Restarts webpack to add new files
     gulp.watch(PATHS.demos.entry.array, opts).on('add', gulp.series('webpack'));
-};
+}
 
 function flushWebpackFromCache(configPaths) {
     const webpackConfigs = glob.sync(configPaths);

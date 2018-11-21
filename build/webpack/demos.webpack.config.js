@@ -14,9 +14,11 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
-const svelteConfig = require('./helpers/svelte-config.js')('node', babelConfig);
+const svelteConfig = require('./helpers/svelte-loader-config.js')(
+    'node',
+    babelConfig
+);
 
-const TimeFixPlugin = require('time-fix-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 
 const config = cloneDeep(baseConfig.config);
@@ -34,7 +36,6 @@ config.output = {
 };
 
 config.plugins.push(
-    new TimeFixPlugin(),
     new webpack.DefinePlugin({
         'typeof window': '"undefined"',
         'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
@@ -45,7 +46,7 @@ config.module.rules.push(
     // Svelte as server-side
     svelteConfig,
 
-    // Babelify
+    // Babel JS files
     {
         test: /\.(js|jsx)$/,
         enforce: 'post',

@@ -17,10 +17,11 @@
 
 <script>
 import modifiers from '@/helpers/class-modifiers';
-import titleCase from '@/helpers/title-case.js';
 
 export default {
-    helpers: { modifiers, titleCase },
+    helpers: {
+        modifiers,
+    },
     data: () => ({
         body: 'Button',
         icon: false,
@@ -28,8 +29,8 @@ export default {
         attrs: false,
         type: [],
     }),
-    setup(thisComponent) {
-        thisComponent.TYPES = ['wide', 'compact', ''];
-    },
+    // setup(thisComponent) {
+    //     thisComponent.TYPES = ;
+    // },
 };
 </script>

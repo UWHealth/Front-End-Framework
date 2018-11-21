@@ -5,11 +5,12 @@
 /* eslint-disable complexity */
 module.exports = () => {
     const browserSync = require('browser-sync');
-    const webpackMiddleware = require('./webpack.task.js');
+    const { middleware, compiler } = require('./webpack.task.js')();
+    const PKG = require(`${process.cwd()}/package.json`);
 
     const ARGS = require('../helpers/args.js');
     const PATHS = require(`${process.cwd()}/config/paths.config.js`);
-    const INSTANCE = browserSync.create();
+    const INSTANCE = browserSync.create(PKG.name);
 
     attachEvents(INSTANCE);
 
@@ -25,10 +26,10 @@ module.exports = () => {
     const BS_PORT = ARGS.bsport || PATHS.browserSync.port;
 
     INSTANCE.init({
-        // files: PATHS.browserSync.watch.array,
+        files: PATHS.browserSync.watch.css,
         port: BS_PORT, // Allow for --bsport= argument
         proxy: ARGS.bsproxy || undefined, // Allow for --bsproxy= argument
-        serveStatic: ARGS.bsservestatic || [], // Allow for --bsservestatic= argument
+        serveStatic: false, // Allow for --bsservestatic= argument
         tunnel: ARGS.bstunnel || null, // Allow for --bstunnel= argument
         server: ARGS.bsproxy ? false : BS_SERVER, // If proxy, ignore server setting
         open: BS_OPEN_NEW_TAB,
@@ -52,19 +53,11 @@ module.exports = () => {
             },
         },
         reloadOnRestart: true,
-        plugins: [
-            'bs-fullscreen-message',
-            // {
-            //     module: 'bs-html-injector',
-            //     options: {
-            //         files: [process.cwd() + '/dist/**/*.html'],
-            //     },
-            // },
-        ],
         // Use our own logging
-        //logLevel: 'silent',
+        logLevel: 'silent',
         logFileChanges: true,
-        middleware: webpackMiddleware(INSTANCE),
+        plugins: ['bs-fullscreen-message'],
+        middleware: middleware,
     });
 
     //gulp.watch(PATHS.folders.project, browserSync.reload);
