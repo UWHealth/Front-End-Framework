@@ -3,36 +3,35 @@
  * Written in CommonJS (require/module).
  */
 
+const CWD = process.cwd();
+const PATHS = require(`${CWD}/config/paths.config.js`);
+const STATS = require(`${CWD}/build/helpers/webpack-stats.js`)();
+const MODE = require(`${CWD}/build/helpers/mode.js`);
+
 const webpack = require('webpack');
 const cloneDeep = require('lodash.clonedeep');
 const glob = require('fast-glob');
 const path = require('path');
 
-const CWD = process.cwd();
-
-const PATHS = require(`${CWD}/config/paths.config.js`);
-const STATS = require('./helpers/webpack-stats.js')();
-const MODE = require('../helpers/mode.js');
-
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
-const svelteConfig = require('./helpers/svelte-loader-config.js')('web', babelConfig);
-
+const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
+const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
 const config = cloneDeep(baseConfig.config);
 
-config.stats = STATS;
-config.target = 'web';
+const components = glob.sync(PATHS.js.entry.components);
+const jsFolder = path.relative(PATHS.folders.dist, PATHS.js.dest);
 
 config.name = 'Client';
-
+config.stats = STATS;
+config.target = 'web';
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
-
-const components = glob.sync(PATHS.js.entry.components);
 
 config.entry = {
     main: [PATHS.js.entry.main],
 };
 
+// Add hot-module reloading to all entry points
 if (MODE.localProduction || !MODE.production) {
     Object.keys(config.entry).forEach((entry) => {
         config.entry[entry].unshift(
@@ -41,11 +40,12 @@ if (MODE.localProduction || !MODE.production) {
     });
 }
 
+// Prefetch components
 components.forEach((component) => {
-    // config.entry[path.basename(component, '.html')] = component
     config.plugins.push(new webpack.PrefetchPlugin(component));
 });
 
+/* JS Plugins */
 config.plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin()
@@ -56,10 +56,10 @@ config.output = {
     publicPath: '/',
     pathinfo: !MODE.production,
 
-    filename: 'public/js/[name].bundle.js',
+    filename: jsFolder + '/[name].bundle.js',
     chunkFilename: MODE.production
-        ? 'public/js/[name].[chunkhash:3].js'
-        : 'public/js/[name].js',
+        ? jsFolder + '/[name].[chunkhash:3].js'
+        : jsFolder + '/[name].js',
 
     libraryTarget: 'umd',
     library: 'uwhealth',
@@ -68,12 +68,14 @@ config.output = {
 config.resolve.mainFields.unshift('svelte', 'browser');
 
 // Using Vue's manifest plugin for its formatting
-const VueManifestPlugin = require('./helpers/vue-ssr-client-plugin.js');
 const manifestName = path.basename(PATHS.demos.entry.manifest);
 
 config.plugins.push(
     new VueManifestPlugin({
-        filename: `public/${manifestName}`,
+        filename: `${path.relative(
+            PATHS.folders.dist,
+            PATHS.folders.pub
+        )}/${manifestName}`,
     })
 );
 
@@ -116,7 +118,7 @@ if (MODE.production) {
 
 config.module.rules.push(
     // Svelte-generation, with babel
-    svelteConfig,
+    svelteConfig('web', babelConfig),
 
     // Babelify
     {
@@ -127,7 +129,7 @@ config.module.rules.push(
             /node_modules\/core-js\//m,
             /node_modules\/regenerator-runtime\//m,
             /node_modules\/@?babel/,
-            /node_modules\/webpack/m
+            /node_modules\/webpack/m,
         ],
         use: {
             loader: 'babel-loader',

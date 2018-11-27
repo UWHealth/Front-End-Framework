@@ -13,7 +13,7 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const baseConfig = require('./base.webpack.config.js');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
-const svelteConfig = require('./helpers/svelte-config.js')('t4', babelConfig);
+const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`)('t4', babelConfig);
 
 const config = cloneDeep(baseConfig.config);
 

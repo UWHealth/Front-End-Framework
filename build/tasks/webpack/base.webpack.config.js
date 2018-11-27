@@ -31,9 +31,7 @@ const config = {
     },
     entry: {},
     output: {},
-    plugins: [
-        new TimeFixPlugin()
-    ],
+    plugins: [],
     module: {},
     optimization: {
         nodeEnv: process.env.NODE_ENV,
@@ -42,6 +40,14 @@ const config = {
         },
     },
 };
+
+/*
+ * Base plugins
+ */
+if (MODE.local || !MODE.production) {
+    // Ensures only one compilation happens per file change
+    config.plugins.push(new TimeFixPlugin());
+}
 
 /*
  * Base Loaders

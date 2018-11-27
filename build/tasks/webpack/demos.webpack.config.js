@@ -14,7 +14,7 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
-const svelteConfig = require('./helpers/svelte-loader-config.js')(
+const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`)(
     'node',
     babelConfig
 );
@@ -77,12 +77,6 @@ demos.forEach((file) => {
 
     config.entry[entryName] = [file];
 
-    // if (MODE.localProduction || !MODE.production) {
-    //     config.entry[entryName].unshift(
-    //         'webpack-hot-middleware/client?name=Demo&overlay=true&reload=false'
-    //     );
-    // }
-
     config.plugins.push(
         new HtmlPlugin({
             template: PATHS.demos.entry.main,
@@ -103,25 +97,25 @@ demos.forEach((file) => {
 });
 
 // Create "index" demo page
-const demoLinks = demos.reduce((string, file) => {
-    const name = path.basename(file, '.demo.html');
-    return string + `<li><a href="/demo/${name}/">${name}</a></li>`;
-}, '');
-
-config.plugins.push(
-    new HtmlPlugin({
-        template: PATHS.demos.entry.main,
-        filename: 'index.html',
-        inject: false,
-        cache: true,
-        showErrors: true,
-        pageTitle: 'Demo Index',
-        // Template-specific data
-        svelte: {
-            internalTemplate: false,
-            addon: `<ul>${demoLinks}</ul>`,
-        },
-    })
-);
+// const demoLinks = demos.reduce((string, file) => {
+//     const name = path.basename(file, '.demo.html');
+//     return string + `<li><a href="/demo/${name}/">${name}</a></li>`;
+// }, '');
+//
+// config.plugins.push(
+//     new HtmlPlugin({
+//         template: PATHS.demos.entry.main,
+//         filename: 'index.html',
+//         inject: false,
+//         cache: true,
+//         showErrors: true,
+//         pageTitle: 'Demo Index',
+//         // Template-specific data
+//         svelte: {
+//             internalTemplate: false,
+//             addon: `<ul>${demoLinks}</ul>`,
+//         },
+//     })
+// );
 
 module.exports = config;

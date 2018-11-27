@@ -1,5 +1,5 @@
 /* eslint indent: "off" */
-const MODE = require('../../helpers/mode.js');
+const MODE = require('./mode.js');
 
 module.exports = function(minimalist = false) {
     // eslint-disable-line
