@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "start": "npx gulp",
+        "start": "gulp",
         "prod": "npm start -- --production",
-        "webpack": "npx gulp webpack",
-        "t4": "npx webpack --config=\"./build/webpack/t4.webpack.config.js\" --production"
+        "webpack": "gulp webpack",
+        "t4": "webpack --config=\"./build/tasks/webpack/t4.webpack.config.js\" --production"
     },
     "browserslist": [
         ">0.5%",
@@ -30,9 +30,7 @@
         "overrides": [
             {
                 "files": [
-                    "**/*.js",
-                    "config/**/*.js",
-                    "build/**/*.js"
+                    "**/*.js"
                 ],
                 "rules": {
                     "no-console": "off"
@@ -62,9 +60,7 @@
         "babel-plugin-transform-object-assign": "^6.22.0",
         "browser-sync": "^2.23.3",
         "bs-fullscreen-message": "^1.1.0",
-        "bs-html-injector": "^3.0.3",
         "chalk": "^2.3.0",
-        "css-declaration-sorter": "^3.0.1",
         "css-loader": "^0.28.11",
         "del": "^3.0.0",
         "eslint": "^5.2.0",
@@ -74,8 +70,6 @@
         "gulp-autoprefixer": "^4.1.0",
         "gulp-changed": "^3.2.0",
         "gulp-cssnano": "^2.1.0",
-        "gulp-handlebars": "^5.0.1",
-        "gulp-htmlmin": "^4.0.0",
         "gulp-if": "^2.0.2",
         "gulp-imagemin": "^5.0.3",
         "gulp-notify": "^3.1.0",
@@ -85,7 +79,6 @@
         "gulp-sass": "^3.0.0",
         "gulp-sizereport": "^1.2.0",
         "gulp-sourcemaps": "^2.6.3",
-        "gulp-tap": "^1.0.1",
         "handlebars": "^4.0.11",
         "handlebars-loader": "^1.7.0",
         "hash-sum": "^1.0.2",
@@ -104,7 +97,6 @@
         "svelte-loader": "^2.9.0",
         "time-fix-plugin": "^2.0.5",
         "uglifyjs-webpack-plugin": "^1.1.6",
-        "vue-server-renderer": "^2.5.17-beta.0",
         "webpack": "^4.1.1",
         "webpack-cli": "^3.1.0",
         "webpack-closure-compiler": "^2.1.6",
