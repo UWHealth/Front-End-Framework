@@ -18,11 +18,11 @@ const mode = {
                 ? 'yellow'
                 : 'green'
             : 'blue',
-    icon: args.production || args.local ? (args.local ? '👁' : '📦') : '🚧',
+    icon: !args.production ? `⚙️` : args.local ? '☀️ ' : '📦',
     message: function() {
         return [
-            '\n ════════════════════════════════════\n',
-            ` ${this.icon}  ${chalk[this.color](this.mode + ' Mode')}`,
+            '\n ═══════════════════════════════════\n',
+            ` ${chalk[this.color](this.icon + '  ' + this.mode + ' Mode')}`,
             '     Launched\n',
             ' ════════════════════════════════════\n',
         ].join('\n');
