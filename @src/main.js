@@ -3,16 +3,6 @@ import domReady from '@/helpers/dom-ready';
 import store from '@/modules/demo/demo.store.js';
 import demoRouter from '@/modules/demo/demo.routes.html';
 
-let application, manifest;
-
-/* eslint-disable compat/compat */
-fetch('/public/module-map-manifest.json')
-    .then((r) => r.json())
-    .then((json) => (manifest = json))
-    .catch((e) => console.log(e));
-
-/* eslint-enable compat/compat */
-
 async function init() {
     const appElement = document.getElementById('app');
 
