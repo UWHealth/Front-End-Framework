@@ -26,6 +26,7 @@
 
 const path = require('path');
 const normalizePaths = require('./helpers/normalize-paths.js');
+const MODE = require('../build/helpers/mode.js');
 
 const root = process.cwd();
 
@@ -38,6 +39,7 @@ const _ = {
     config: path.resolve(root, 'config'),
     dist: path.resolve(root, 'dist'),
     pub: path.resolve(root, 'dist', 'public'),
+    cache: path.resolve(root, 'node_modules', '.cache'),
 
     docs: path.resolve(root, 'docs'),
     dirArray: root.split(path.delimiter),
@@ -86,7 +88,9 @@ const PATHS = {
         entry: {
             src: `${_.src}/components/**/*.demo.html`,
             main: `${_.src}/demos.js`,
-            manifest: `${_.pub}/module-map-manifest.json`,
+            manifest: MODE.production
+                ? `${_.pub}/module-map-manifest.json`
+                : `${_.cache}/module-map-manifest.json`,
         },
         dest: `${_.dist}/demo`,
     },

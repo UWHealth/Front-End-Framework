@@ -20,9 +20,9 @@ const watchOptions =
         : null;
 
 function createManifestFolders() {
-    const folders = PATHS.demos.entry.manifest
+    const folders = path.relative(CWD, PATHS.demos.entry.manifest)
         .replace(/\\/g, '/')
-        .replace(/.*dist\/(.*)(\/.*\.json)/gi, '$1')
+        .replace(/(.*)(\/.*\\.json)/gi, '$1')
         .split('/');
 
     return folders.reduce((prev, folder) => {
@@ -30,7 +30,7 @@ function createManifestFolders() {
             fs.mkdirSync(path.join(prev, folder));
         } catch (e) {} // eslint-disable-line
         return path.join(prev, folder);
-    }, PATHS.folders.dist);
+    }, CWD);
 }
 
 module.exports = function startWebpack(runImmediately, done) {
@@ -39,20 +39,22 @@ module.exports = function startWebpack(runImmediately, done) {
 
     const compiler = webpack(webpackConfigs);
 
-    // Write out a temporary manifest so we can avoid errors on startup
-    const folders = createManifestFolders();
-    fs.writeFileSync(
-        PATHS.demos.entry.manifest,
-        '{ "folders":"' + folders + '"}'
-    );
+    // Write out a temporary manifest (if needed), so we can avoid errors on startup
+    try {
+        fs.readFileSync(PATHS.demos.entry.manifest);
+    }catch (e) {
+        const folders = createManifestFolders();
+        fs.writeFileSync(
+            PATHS.demos.entry.manifest,
+            '{ "folders":"' + folders + '"}'
+        );
+    }
 
     // Allow for immediate run
     if (runImmediately || (!MODE.local && MODE.production)) {
         LOG.spinner('Compiling');
         compiler.run((err, stats) => webpackLogger(LOG, err, stats, done));
-    }
-    else {
-
+    } else {
         const webpackDevMiddleware = require('webpack-dev-middleware');
         const webpackHotMiddleware = require('webpack-hot-middleware');
 
@@ -65,7 +67,7 @@ module.exports = function startWebpack(runImmediately, done) {
                 publicPath: '/',
                 stats: require(`${CWD}/build/helpers/webpack-stats.js`)(),
                 writeToDisk: true,
-                // logLevel: 'error',
+                logLevel: 'silent',
                 serverSideRender: true,
                 reporter: (middlewareOptions, options) => {
                     throttle(webpackLogger(LOG, null, options.stats), 5000);
@@ -74,18 +76,18 @@ module.exports = function startWebpack(runImmediately, done) {
             }),
             function(req, res, next) {
                 const parsed = require('url').parse(req.url);
-                console.log(
-                    parsed.pathname,
-                    parsed.pathname.match(
-                        /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
-                    )
-                );
+                // console.log(
+                //     parsed.pathname,
+                //     parsed.pathname.match(
+                //         /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
+                //     )
+                // );
                 if (
                     parsed.pathname.match(
                         /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
                     )
                 ) {
-                    console.log(parsed);
+                    // console.log(parsed);
                     const assetsByChunkName = res.locals.webpackStats
                         .toJson()
                         .children.map((compilation) => {
@@ -94,9 +96,12 @@ module.exports = function startWebpack(runImmediately, done) {
                             ).filter((asset) => path.extname(asset) === '.js');
                         });
                     //console.log('Assets', flattenArray(assetsByChunkName));
-                    console.log(
-                        path.resolve(`${PATHS.folders.dist}`, `${parsed.pathname}`)
-                    );
+                    // console.log(
+                    //     path.resolve(
+                    //         `${PATHS.folders.dist}`,
+                    //         `${parsed.pathname}`
+                    //     )
+                    // );
                     const content = require(path.resolve(
                         `${PATHS.folders.dist}`,
                         `${parsed.pathname}`
@@ -160,9 +165,10 @@ function webpackLogger(LOG, err, stats, done) {
                           .replace(/\s+(\d*)(.*)/, `$1 ${name}$2 `)}`
                     : stats.toString(STATS());
 
-            return LOG.success('Compiled ' + statsString);
+            LOG.success('Compiled ' + statsString);
         });
     }
+    if (typeof done === 'function') done();
 }
 
 function throttle(func, delay) {

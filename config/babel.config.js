@@ -36,6 +36,7 @@ module.exports = function(target) {
             ],
         ],
         plugins: [
+            [require('babel-plugin-preval')],
             [
                 require('@babel/plugin-transform-runtime'),
                 {
