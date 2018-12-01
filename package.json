@@ -30,6 +30,15 @@
         "extends": [
             "@uwhealth"
         ],
+        "globals": {
+            "preval": true
+        },
+        "plugins": [
+            "@uwhealth/environments"
+        ],
+        "env": {
+            "@uwhealth/environments/webpack": true
+        },
         "overrides": [
             {
                 "files": [
