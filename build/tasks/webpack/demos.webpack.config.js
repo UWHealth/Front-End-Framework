@@ -9,30 +9,27 @@ const glob = require('fast-glob');
 const cloneDeep = require('lodash.clonedeep');
 const webpack = require('webpack');
 
+const HtmlPlugin = require('html-webpack-plugin');
+
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
-const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`)(
-    'node',
-    babelConfig
-);
-
-const HtmlPlugin = require('html-webpack-plugin');
+const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 
 const config = cloneDeep(baseConfig.config);
 
 config.name = 'Demo';
+config.target = 'node';
 
 config.devtool = MODE.production ? 'source-map' : false;
-config.target = 'node';
 
 config.output = {
     path: PATHS.folders.dest,
     publicPath: '/',
     libraryTarget: 'commonjs',
-    filename: `[name].demo.js`,
+    filename: `demo/[name].demo.js`,
 };
 
 config.plugins.push(
@@ -42,9 +39,9 @@ config.plugins.push(
     })
 );
 
-config.module.rules.push(
+config.module.rules.unshift(
     // Svelte as server-side
-    svelteConfig,
+    svelteConfig('node', babelConfig),
 
     // Babel JS files
     {
@@ -55,10 +52,20 @@ config.module.rules.push(
             /node_modules\/regenerator-runtime\//,
             /node_modules\/@?babel/,
         ],
-        use: {
-            loader: 'babel-loader',
-            options: babelConfig,
-        },
+        use: [
+            {
+                loader: 'cache-loader',
+                options: {
+                    cacheDirectory: path.resolve(
+                        `${CWD}/node_modules/.cache/${config.name}/babel-loader`
+                    ),
+                },
+            },
+            {
+                loader: 'babel-loader',
+                options: babelConfig,
+            },
+        ],
     },
 
     // Allow for css to be inlined
@@ -73,21 +80,21 @@ const demos = glob.sync(PATHS.demos.entry.src);
 // Add all demo
 demos.forEach((file) => {
     const baseName = path.basename(file, '.demo.html');
-    const entryName = path.join('demo', baseName, baseName);
+    const entryName = path.join(baseName, baseName);
 
     config.entry[entryName] = [file];
 
     config.plugins.push(
         new HtmlPlugin({
             template: PATHS.demos.entry.main,
-            filename: path.join(entryName, '..', 'index.html'),
+            filename: path.join('demo', baseName, 'index.html'),
             inject: false,
             cache: true,
             showErrors: true,
             pageTitle: baseName,
             // Template-specific data
             svelte: {
-                internalTemplate: `${entryName}.demo.js`,
+                internalTemplate: `demo/${entryName}.demo.js`,
                 pathname: `/demo/${baseName}/`,
                 componentPath: `${baseName}`,
                 addon: '',

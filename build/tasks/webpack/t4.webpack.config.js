@@ -13,7 +13,7 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const baseConfig = require('./base.webpack.config.js');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
-const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`)('t4', babelConfig);
+const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 
 const config = cloneDeep(baseConfig.config);
 
@@ -24,10 +24,10 @@ config.target = 'node'; // Closest target to Rhino
 
 config.output = {
     path: path.join(PATHS.folders.dist, 't4'),
-    publicPath: '/t4/',
+    publicPath: '/',
     library: 'svelte',
     libraryTarget: 'global',
-    filename: `[name].t4.js`,
+    filename: `t4/[name].t4.js`,
 };
 
 config.plugins.push(
@@ -36,7 +36,6 @@ config.plugins.push(
         // PRODUCTION: JSON.stringify(true),
         // VERSION: JSON.stringify('5fa3b9'),
         // BROWSER_SUPPORTS_HTML5: true,
-        // TWO: '1+1',
         // 'process.env': {
         //     NODE_ENV: JSON.stringify(process.env.NODE_ENV)
         // }
@@ -45,16 +44,18 @@ config.plugins.push(
 
 config.module.rules.push(
     // Svelte as server-side
-    svelteConfig,
+    svelteConfig('t4', babelConfig),
 
     // Babelify
     {
         test: /\.(js|jsx)$/,
         enforce: 'post',
         exclude: [
-            /node_modules\/core-js\//,
-            /node_modules\/regenerator-runtime\//,
+            /node_modules\/babel-/m,
+            /node_modules\/core-js\//m,
+            /node_modules\/regenerator-runtime\//m,
             /node_modules\/@?babel/,
+            /node_modules\/webpack/m,
         ],
         use: {
             loader: 'babel-loader',
@@ -96,8 +97,6 @@ if (MODE.production) {
 
                 mangle: false,
 
-                // compress: false,
-                // output: { beautify: true, keep_quoted_props: true, quoted_keys: true },
                 compress: {
                     arrows: false,
                     keep_fnames: true,
@@ -112,7 +111,7 @@ if (MODE.production) {
                     ecma: 5,
                     wrap_iife: true,
                     keep_quoted_props: true, // important - Rhino hates .default
-                    quote_keys: true, // important - Rhino hates .default
+                    quote_keys: true, // important - Rhino hates { default: }
                 },
             },
         }),

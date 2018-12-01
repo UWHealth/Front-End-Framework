@@ -5,9 +5,9 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const sass = require('node-sass');
 const path = require('path');
+const postcss = require('postcss');
 
 const cacheConfig = {
-    dev: !MODE.production,
     hydratable: true,
     store: true,
     preserveComments: !MODE.production,
@@ -15,6 +15,7 @@ const cacheConfig = {
     nestedTransitions: true,
     hotReload: true,
     // hotOptions: {
+    //     // Refresh state on reload
     //     noPreserveState: true,
     // },
     externalDependencies: [PATHS.sass.entry.config],
@@ -34,6 +35,16 @@ module.exports = function(target, babelConfig) {
             path.resolve(CWD, 'node_modules', 'core-js'),
         ],
         use: [
+            !MODE.production
+                ? {
+                      loader: 'cache-loader',
+                      options: {
+                          cacheDirectory: path.resolve(
+                              `${CWD}/node_modules/.cache/${target}/svelte-loader`
+                          ),
+                      },
+                  }
+                : false,
             {
                 loader: 'babel-loader',
                 options: babelConfig,
@@ -42,6 +53,7 @@ module.exports = function(target, babelConfig) {
                 loader: 'svelte-loader',
                 options: Object.assign(
                     {
+                        emitCss: MODE.production && !ssr,
                         format: ssr ? 'cjs' : 'es',
                         generate: ssr ? 'ssr' : 'dom',
                         legacy: false,
@@ -49,7 +61,7 @@ module.exports = function(target, babelConfig) {
                     cacheConfig
                 ),
             },
-        ],
+        ].filter(Boolean),
     };
 };
 
@@ -58,13 +70,23 @@ function processSass(input) {
     const attributes = input.attributes;
     const filename = input.filename;
 
+    // Autoprefixer
+    function runPostCss(css) {
+        return postcss([require('autoprefixer')({ grid: true })])
+            .process(css, { from: 'src/app.css', to: 'dest/app.css' })
+            .then((result) => ({
+                code: result.css,
+                map: result.map,
+            }));
+    }
+
     if (
         attributes.type !== 'text/scss' &&
         attributes.type !== 'text/sass' &&
         attributes.lang !== 'scss' &&
         attributes.lang !== 'sass'
     ) {
-        return;
+        return runPostCss(content);
     }
     try {
         sassConfig.data = content;
@@ -72,10 +94,7 @@ function processSass(input) {
         sassConfig.includePaths = [path.dirname(filename)];
         const result = sass.renderSync(sassConfig);
 
-        return {
-            code: result.css.toString('utf-8'),
-            map: result.map,
-        };
+        return runPostCss(result.css.toString('utf-8'));
     } catch (e) {
         console.error(filename + '\n', new Error(e));
         return;

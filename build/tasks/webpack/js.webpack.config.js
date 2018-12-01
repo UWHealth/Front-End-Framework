@@ -19,9 +19,6 @@ const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
 const config = cloneDeep(baseConfig.config);
 
-const components = glob.sync(PATHS.js.entry.components);
-const jsFolder = path.relative(PATHS.folders.dist, PATHS.js.dest);
-
 config.name = 'Client';
 config.stats = STATS;
 config.target = 'web';
@@ -30,6 +27,43 @@ config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
 config.entry = {
     main: [PATHS.js.entry.main],
 };
+
+const jsFolder = path.relative(PATHS.folders.dist, PATHS.js.dest);
+
+config.output = {
+    library: 'uwhealth',
+    libraryTarget: 'umd',
+
+    publicPath: '/',
+    pathinfo: !MODE.production,
+    path: PATHS.folders.dist,
+
+    filename: `${jsFolder}/[name].bundle.js`,
+    chunkFilename: MODE.production
+        ? `${jsFolder}/[name].[chunkhash:3].js`
+        : `${jsFolder}/[name].js`,
+};
+
+// Add "svelte" key to package resolver
+config.resolve.mainFields.unshift('svelte', 'browser');
+
+/* JS Plugins */
+config.plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+);
+
+// Using Vue's manifest plugin for its formatting
+const manifestName = path.basename(PATHS.demos.entry.manifest);
+
+config.plugins.push(
+    new VueManifestPlugin({
+        filename: `../${path.relative(
+            PATHS.folders.root,
+            PATHS.demos.entry.manifest
+        )}`,
+    })
+);
 
 // Add hot-module reloading to all entry points
 if (MODE.localProduction || !MODE.production) {
@@ -41,45 +75,10 @@ if (MODE.localProduction || !MODE.production) {
 }
 
 // Prefetch components
-components.forEach((component) => {
+glob.sync(PATHS.js.entry.components).forEach((component) => {
     config.plugins.push(new webpack.PrefetchPlugin(component));
 });
 
-/* JS Plugins */
-config.plugins.push(
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
-);
-
-config.output = {
-    path: PATHS.folders.dist,
-    publicPath: '/',
-    pathinfo: !MODE.production,
-
-    filename: jsFolder + '/[name].bundle.js',
-    chunkFilename: MODE.production
-        ? jsFolder + '/[name].[chunkhash:3].js'
-        : jsFolder + '/[name].js',
-
-    libraryTarget: 'umd',
-    library: 'uwhealth',
-};
-
-config.resolve.mainFields.unshift('svelte', 'browser');
-
-// Using Vue's manifest plugin for its formatting
-const manifestName = path.basename(PATHS.demos.entry.manifest);
-
-config.plugins.push(
-    new VueManifestPlugin({
-        filename: `${path.relative(
-            PATHS.folders.dist,
-            PATHS.folders.pub
-        )}/${manifestName}`,
-    })
-);
-
-config.optimization.portableRecords = true;
 config.optimization.concatenateModules = MODE.production;
 config.optimization.mergeDuplicateChunks = MODE.production;
 config.optimization.runtimeChunk = { name: 'runtime' };
@@ -116,7 +115,7 @@ if (MODE.production) {
     };
 }
 
-config.module.rules.push(
+config.module.rules.unshift(
     // Svelte-generation, with babel
     svelteConfig('web', babelConfig),
 
@@ -131,39 +130,50 @@ config.module.rules.push(
             /node_modules\/@?babel/,
             /node_modules\/webpack/m,
         ],
-        use: {
-            loader: 'babel-loader',
-            options: babelConfig,
-        },
+        use: [
+            {
+                loader: 'cache-loader',
+                options: {
+                    cacheDirectory: path.resolve(
+                        `${CWD}/node_modules/.cache/${config.name}/babel-loader`
+                    ),
+                },
+            },
+            {
+                loader: 'babel-loader',
+                options: babelConfig,
+            },
+        ],
     }
 );
 
 if (MODE.production) {
-    // const ClosureCompilerPlugin = require('webpack-closure-compiler');
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-    config.node = false;
+    // Remove unecessary node faking
+    config.node = {
+        setImmediate: false,
+        process: 'mock',
+        dgram: 'empty',
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty',
+        child_process: 'empty',
+    };
 
     config.plugins.push(
+        // Keep module.id stable when vendor modules do not change
+        new webpack.HashedModuleIdsPlugin(),
+
+        // Allow non-production code to be removed
         new webpack.DefinePlugin({
             'typeof window': '"object"',
             'process.env.NODE_ENV': "'production'",
+            'module.hot': 'false',
         })
     );
 
     config.optimization.minimizer = [
-        // new ClosureCompilerPlugin({
-        //     compiler: {
-        //         language_in: 'ECMASCRIPT_2017',
-        //         language_out: 'ECMASCRIPT5_STRICT',
-        //         compilation_level: 'SIMPLE',
-        //         dependency_mode: 'LOOSE',
-        //         rewrite_polyfills: true,
-        //         create_source_map: true,
-        //     },
-        //     concurrency: 3
-        // }),
-
         new UglifyJsPlugin({
             uglifyOptions: {
                 ecma: 5,
@@ -178,14 +188,6 @@ if (MODE.production) {
             sourceMap: true,
         }),
     ];
-
-    config.plugins.push(
-        // Keep module.id stable when vendor modules do not change
-        new webpack.HashedModuleIdsPlugin()
-
-        // Remove module.hot code from modules
-        // new webpack.NoHotModuleReplacementPlugin(),
-    );
 }
 
 module.exports = config;
