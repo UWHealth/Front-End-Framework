@@ -18,6 +18,7 @@ const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
 const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
 const config = cloneDeep(baseConfig.config);
+const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
 
 config.name = 'Client';
 config.stats = STATS;
@@ -25,10 +26,8 @@ config.target = 'web';
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
 
 config.entry = {
-    main: [PATHS.js.entry.main],
+    main: addHMR(path.resolve(PATHS.js.entry.main)),
 };
-
-const jsFolder = path.relative(PATHS.folders.dist, PATHS.js.dest);
 
 config.output = {
     library: 'uwhealth',
@@ -36,54 +35,131 @@ config.output = {
 
     publicPath: '/',
     pathinfo: !MODE.production,
-    path: PATHS.folders.dist,
+    path: path.resolve(PATHS.folders.dist),
 
-    filename: `${jsFolder}/[name].bundle.js`,
+    filename: `${jsPath}/[name].bundle.js`,
     chunkFilename: MODE.production
-        ? `${jsFolder}/[name].[chunkhash:3].js`
-        : `${jsFolder}/[name].js`,
+        ? `${jsPath}/[name].[chunkhash:3].js`
+        : `${jsPath}/[name].js`,
 };
 
-// Add "svelte" key to package resolver
+// Add "svelte" key to the front of package resolution
 config.resolve.mainFields.unshift('svelte', 'browser');
+config.resolve.alias['@manifest'] = PATHS.demos.entry.manifest;
 
-/* JS Plugins */
-config.plugins.push(
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+/*
+ * Client Plugins
+ */
+config.plugins = config.plugins.concat(
+    [
+        // Using Vue's manifest plugin so we can reference it in SSR config
+        new VueManifestPlugin({
+            filename: `${path.posix.relative(
+                PATHS.folders.dist,
+                PATHS.demos.entry.manifest
+            )}`,
+        }),
+        // Ensure chunk order stays consistent
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        // Hot module replacement
+        new webpack.HotModuleReplacementPlugin(),
+
+        // Keep module.id stable when vendor modules do not change
+        MODE.production ? new webpack.HashedModuleIdsPlugin() : false,
+
+        // Allow non-production code to be removed
+        MODE.production
+            ? new webpack.DefinePlugin({
+                  'typeof window': '"object"',
+                  'process.env.NODE_ENV': "'production'",
+                  'module.hot': 'false',
+              })
+            : false,
+    ].filter(Boolean)
 );
 
-// Using Vue's manifest plugin for its formatting
-const manifestName = path.basename(PATHS.demos.entry.manifest);
-
-config.plugins.push(
-    new VueManifestPlugin({
-        filename: `../${path.relative(
-            PATHS.folders.root,
-            PATHS.demos.entry.manifest
-        )}`,
-    })
-);
-
-// Add hot-module reloading to all entry points
-if (MODE.localProduction || !MODE.production) {
-    Object.keys(config.entry).forEach((entry) => {
-        config.entry[entry].unshift(
-            'webpack-hot-middleware/client?name=Client&reload=false'
-        );
-    });
-}
-
-// Prefetch components
+// Prefetch components, for quicker compile times
 glob.sync(PATHS.js.entry.components).forEach((component) => {
-    config.plugins.push(new webpack.PrefetchPlugin(component));
+    config.plugins.push(new webpack.PrefetchPlugin(path.resolve(component)));
 });
 
-config.optimization.concatenateModules = MODE.production;
-config.optimization.mergeDuplicateChunks = MODE.production;
+/*
+ * Client loaders
+ */
+config.module.rules.unshift(
+    // Svelte-generation, with babel
+    svelteConfig('web', babelConfig),
+
+    // Babelify
+    {
+        test: /\.(js|jsx)$/,
+        enforce: 'post',
+        exclude: [
+            /node_modules[\\/]core-js/,
+            /node_modules[\\/]regenerator-runtime/,
+            /node_modules[\\/]@?babel/,
+        ],
+        use: [
+            {
+                loader: 'cache-loader',
+                options: {
+                    cacheDirectory: path.resolve(
+                        PATHS.folders.cache,
+                        config.name,
+                        `babel-loader`
+                    ),
+                },
+            },
+            {
+                loader: 'babel-loader',
+                options: babelConfig,
+            },
+        ],
+    }
+);
+
+/*
+ * Client optimizations
+ */
+// Always create a runtime entry point
 config.optimization.runtimeChunk = { name: 'runtime' };
 
 if (MODE.production) {
+    const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+    // Remove unecessary node faking
+    config.node = {
+        setImmediate: false,
+        process: 'mock',
+        dgram: 'empty',
+        fs: 'empty',
+        net: 'empty',
+        tls: 'empty',
+        child_process: 'empty',
+    };
+
+    config.optimization.minimizer = [
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                ecma: 5,
+                ie8: false,
+                beautify: true,
+                mangle: true,
+                compress: true,
+                comments: false,
+                // exclude: /\/(t4|hbs)./
+            },
+            parallel: true,
+            sourceMap: true,
+        }),
+    ];
+
+    // Split chunks optimally
+    // Might need to be tweaked based on project needs
+
+    config.optimization.concatenateModules = true;
+    config.optimization.mergeDuplicateChunks = true;
+
     config.optimization.splitChunks = {
         chunks: 'all',
         automaticNameDelimiter: '+',
@@ -115,79 +191,25 @@ if (MODE.production) {
     };
 }
 
-config.module.rules.unshift(
-    // Svelte-generation, with babel
-    svelteConfig('web', babelConfig),
-
-    // Babelify
-    {
-        test: /\.(js|jsx)$/,
-        enforce: 'post',
-        exclude: [
-            /node_modules\/babel-/m,
-            /node_modules\/core-js\//m,
-            /node_modules\/regenerator-runtime\//m,
-            /node_modules\/@?babel/,
-            /node_modules\/webpack/m,
-        ],
-        use: [
-            {
-                loader: 'cache-loader',
-                options: {
-                    cacheDirectory: path.resolve(
-                        `${CWD}/node_modules/.cache/${config.name}/babel-loader`
-                    ),
-                },
-            },
-            {
-                loader: 'babel-loader',
-                options: babelConfig,
-            },
-        ],
+/**
+ * Adds Hot Module Replacement to entry points when necessary
+ * @link https://webpack.js.org/concepts/hot-module-replacement/
+ */
+function addHMR(entry) {
+    // Never add HMR to production code
+    if (MODE.production && !MODE.localProduction) {
+        return entry;
     }
-);
 
-if (MODE.production) {
-    const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
-    // Remove unecessary node faking
-    config.node = {
-        setImmediate: false,
-        process: 'mock',
-        dgram: 'empty',
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty',
-        child_process: 'empty',
-    };
-
-    config.plugins.push(
-        // Keep module.id stable when vendor modules do not change
-        new webpack.HashedModuleIdsPlugin(),
-
-        // Allow non-production code to be removed
-        new webpack.DefinePlugin({
-            'typeof window': '"object"',
-            'process.env.NODE_ENV': "'production'",
-            'module.hot': 'false',
-        })
+    // Make sure we're dealing with an array
+    if (!Array.isArray(entry)) {
+        entry = [entry];
+    }
+    entry.unshift(
+        `webpack-hot-middleware/client?name=${config.name}&reload=false`
     );
 
-    config.optimization.minimizer = [
-        new UglifyJsPlugin({
-            uglifyOptions: {
-                ecma: 5,
-                ie8: false,
-                beautify: true,
-                mangle: true,
-                compress: true,
-                comments: false,
-                // exclude: /\/(t4|hbs)./
-            },
-            parallel: true,
-            sourceMap: true,
-        }),
-    ];
+    return entry;
 }
 
 module.exports = config;

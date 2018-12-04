@@ -6,12 +6,12 @@
 
     topic/concern
      ┞─ "folders"
-         ┖─"name": `folder path`
+        ┖─"name": `folder path`
      ┞─ "entry"
-         ┖─"name": `glob/file path`
+        ┖─"name": `glob/file path`
      ┞─ "watch"
-         ┞─"name": `glob/file`
-         ┖─"exclude": [`!glob/*`, `!file`]
+        ┞─"name": `glob/file`
+        ┖─"exclude": [`!glob/*`, `!file`]
      ┖─ "dest": `folder path`
 
     Notes:

@@ -4,7 +4,7 @@ const sassConfig = require(`${CWD}/build/helpers/sass-config`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const sass = require('node-sass');
-const path = require('path');
+const path = require('path').posix;
 const postcss = require('postcss');
 
 const cacheConfig = {
@@ -30,9 +30,9 @@ module.exports = function(target, babelConfig) {
     return {
         test: /\.(html|sv\.html|svelte)$/,
         exclude: [
-            path.resolve(CWD, 'node_modules', '@babel'),
-            path.resolve(CWD, 'node_modules', 'babel'),
-            path.resolve(CWD, 'node_modules', 'core-js'),
+            /node_modules[\\/]core-js/,
+            /node_modules[\\/]regenerator-runtime/,
+            /node_modules[\\/]@?babel/,
         ],
         use: [
             !MODE.production
@@ -40,7 +40,9 @@ module.exports = function(target, babelConfig) {
                       loader: 'cache-loader',
                       options: {
                           cacheDirectory: path.resolve(
-                              `${CWD}/node_modules/.cache/${target}/svelte-loader`
+                              PATHS.folders.cache,
+                              target,
+                              `svelte-loader`
                           ),
                       },
                   }

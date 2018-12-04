@@ -19,18 +19,13 @@ const watchOptions =
         ? { poll: 1000, ignored: /(node_modules|dist|public)/ }
         : null;
 
-function createManifestFolders() {
-    const folders = path.relative(CWD, PATHS.demos.entry.manifest)
-        .replace(/\\/g, '/')
-        .replace(/(.*)(\/.*\\.json)/gi, '$1')
-        .split('/');
-
-    return folders.reduce((prev, folder) => {
-        try {
-            fs.mkdirSync(path.join(prev, folder));
-        } catch (e) {} // eslint-disable-line
-        return path.join(prev, folder);
-    }, CWD);
+function createManifestFolders(pathToManifest) {
+    const folders = path.dirname(pathToManifest);
+    try {
+        return fs.mkdirSync(folders, { recursive: true });
+    } catch(e) {
+        return folders;
+    }
 }
 
 module.exports = function startWebpack(runImmediately, done) {
@@ -40,17 +35,16 @@ module.exports = function startWebpack(runImmediately, done) {
     const compiler = webpack(webpackConfigs);
 
     // Write out a temporary manifest (if needed), so we can avoid errors on startup
-    try {
-        fs.readFileSync(PATHS.demos.entry.manifest);
-    }catch (e) {
-        const folders = createManifestFolders();
+    if (!fs.existsSync(PATHS.demos.entry.manifest)) {
+        const folders = createManifestFolders(PATHS.demos.entry.manifest);
         fs.writeFileSync(
             PATHS.demos.entry.manifest,
             '{ "folders":"' + folders + '"}'
         );
     }
 
-    // Allow for immediate run
+    // Allow for immediate run (essentially, non-watch mode)
+    // Primarily used for --production mode
     if (runImmediately || (!MODE.local && MODE.production)) {
         LOG.spinner('Compiling');
         compiler.run((err, stats) => webpackLogger(LOG, err, stats, done));
@@ -74,42 +68,8 @@ module.exports = function startWebpack(runImmediately, done) {
                 },
                 watchOptions,
             }),
-            function(req, res, next) {
-                const parsed = require('url').parse(req.url);
-                // console.log(
-                //     parsed.pathname,
-                //     parsed.pathname.match(
-                //         /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
-                //     )
-                // );
-                if (
-                    parsed.pathname.match(
-                        /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
-                    )
-                ) {
-                    // console.log(parsed);
-                    const assetsByChunkName = res.locals.webpackStats
-                        .toJson()
-                        .children.map((compilation) => {
-                            return normalizeAssets(
-                                compilation.assetsByChunkName
-                            ).filter((asset) => path.extname(asset) === '.js');
-                        });
-                    //console.log('Assets', flattenArray(assetsByChunkName));
-                    // console.log(
-                    //     path.resolve(
-                    //         `${PATHS.folders.dist}`,
-                    //         `${parsed.pathname}`
-                    //     )
-                    // );
-                    const content = require(path.resolve(
-                        `${PATHS.folders.dist}`,
-                        `${parsed.pathname}`
-                    ));
-                    res.render(content.render());
-                }
-                next();
-            },
+
+            // customMiddleware,
 
             webpackHotMiddleware(compiler, {
                 noInfo: true,
@@ -181,19 +141,56 @@ function throttle(func, delay) {
     };
 }
 
-function normalizeAssets(assets) {
-    if (assets === Object(assets)) {
-        return flattenArray(Object.values(assets));
-    }
-    return Array.isArray(assets) ? assets : [assets];
-}
+// function customMiddleware(req, res, next) {
+//     const parsed = require('url').parse(req.url);
+//     // console.log(
+//     //     parsed.pathname,
+//     //     parsed.pathname.match(
+//     //         /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
+//     //     )
+//     // );
+//     if (
+//         parsed.pathname.match(
+//             /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
+//         )
+//     ) {
+//         // console.log(parsed);
+//         const assetsByChunkName = res.locals.webpackStats
+//             .toJson()
+//             .children.map((compilation) => {
+//                 return normalizeAssets(
+//                     compilation.assetsByChunkName
+//                 ).filter((asset) => path.extname(asset) === '.js');
+//             });
+//         //console.log('Assets', flattenArray(assetsByChunkName));
+//         // console.log(
+//         //     path.resolve(
+//         //         `${PATHS.folders.dist}`,
+//         //         `${parsed.pathname}`
+//         //     )
+//         // );
+//         const content = require(path.resolve(
+//             `${PATHS.folders.dist}`,
+//             `${parsed.pathname}`
+//         ));
+//         res.render(content.render());
+//     }
+//     next();
+// }
 
-function flattenArray(arr1) {
-    return arr1.reduce(
-        (acc, val) =>
-            Array.isArray(val)
-                ? acc.concat(flattenArray(val))
-                : acc.concat(val),
-        []
-    );
-}
+// function normalizeAssets(assets) {
+//     if (assets === Object(assets)) {
+//         return flattenArray(Object.values(assets));
+//     }
+//     return Array.isArray(assets) ? assets : [assets];
+// }
+//
+// function flattenArray(arr1) {
+//     return arr1.reduce(
+//         (acc, val) =>
+//             Array.isArray(val)
+//                 ? acc.concat(flattenArray(val))
+//                 : acc.concat(val),
+//         []
+//     );
+// }

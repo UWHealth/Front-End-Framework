@@ -6,6 +6,9 @@
  */
 module.exports = function(PATHS) {
     Object.keys(PATHS).forEach((target) => {
+        if (typeof PATHS[target] === 'string' && target !== 'alias') {
+            PATHS[target] = posixify(PATHS[target]);
+        }
         Object.keys(PATHS[target]).forEach((group) => {
             let currentGroup = PATHS[target][group];
 
@@ -24,11 +27,10 @@ module.exports = function(PATHS) {
 
                 currentGroup['array'] = array;
             } else if (typeof currentGroup === 'string') {
-                currentGroup = posixify(currentGroup);
+                PATHS[target][group] = posixify(currentGroup);
             }
         });
     });
-
     return PATHS;
 };
 
@@ -38,5 +40,5 @@ module.exports = function(PATHS) {
  * @return {String}      normalize path string, if a glob, normalized to a POSIX path
  */
 const posixify = function(item) {
-    return item.replace(/\\/g, '/');
+    return item.replace(/\\/g, '/').replace(/[A-z]:/, '');
 };

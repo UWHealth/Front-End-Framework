@@ -23,7 +23,7 @@ config.devtool = false;
 config.target = 'node'; // Closest target to Rhino
 
 config.output = {
-    path: path.join(PATHS.folders.dist, 't4'),
+    path: path.resolve(PATHS.folders.dist, 't4'),
     publicPath: '/',
     library: 'svelte',
     libraryTarget: 'global',
@@ -51,11 +51,9 @@ config.module.rules.push(
         test: /\.(js|jsx)$/,
         enforce: 'post',
         exclude: [
-            /node_modules\/babel-/m,
-            /node_modules\/core-js\//m,
-            /node_modules\/regenerator-runtime\//m,
-            /node_modules\/@?babel/,
-            /node_modules\/webpack/m,
+            /node_modules[\\/]core-js/,
+            /node_modules[\\/]regenerator-runtime/,
+            /node_modules[\\/]@?babel/,
         ],
         use: {
             loader: 'babel-loader',
@@ -75,7 +73,7 @@ glob.sync(PATHS.folders.src + '/**/*.t4.js').forEach((file) => {
     let baseName = path.basename(file, '.t4.js');
     const entryName = baseName;
 
-    config.entry[entryName] = file;
+    config.entry[entryName] = path.resolve(file);
 });
 
 if (MODE.production) {

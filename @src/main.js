@@ -2,6 +2,10 @@ import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
 import store from '@/modules/demo/demo.store.js';
 import demoRouter from '@/modules/demo/demo.routes.html';
+const PATHS = preval`module.exports = require(process.cwd() + '/config/paths.config.js')`;
+
+console.log(PATHS);
+let application;
 
 async function init() {
     const appElement = document.getElementById('app');
@@ -40,4 +44,4 @@ if (module.hot) {
     });
 }
 
-export { application, manifest };
+export { application };

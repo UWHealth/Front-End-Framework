@@ -5,13 +5,12 @@
  *
  */
 
-const path = require('path');
+const path = require('path').posix;
 const CWD = process.cwd();
 
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 
-//const webpack = require('webpack');
 const TimeFixPlugin = require('time-fix-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -31,9 +30,6 @@ const config = {
         mainFields: ['svelte', 'module', 'main'],
         alias: PATHS.aliases,
         extensions: ['.js', '.jsx', '.json', '.html', '.hbs', '.handlebars'],
-    },
-    watchOptions: {
-        ignored: /(node_modules|dist)/,
     },
     entry: {},
     output: {},
@@ -58,10 +54,12 @@ if (!MODE.production || MODE.local) {
 }
 
 if (MODE.production) {
+    const cssPath = path.relative(PATHS.folders.dist, PATHS.sass.dest);
+    // Extract CSS to its own file in --production mode
     config.plugins.push(
         new MiniCssExtractPlugin({
-            filename: 'public/css/[name].[contenthash:8].css',
-            chunkFilename: 'public/css/[name].[contenthash:8].css',
+            filename: `${cssPath}/[name].[contenthash:8].css`,
+            chunkFilename: `${cssPath}/[name].[contenthash:8].css`,
         })
     );
 }
@@ -70,7 +68,8 @@ if (MODE.production) {
  * Base Loaders
  */
 
-const cssLoading = [
+// Base CSS Loaders
+const cssLoaders = [
     process.env.NODE_ENV !== 'production'
         ? 'style-loader'
         : MiniCssExtractPlugin.loader,
@@ -88,10 +87,12 @@ const cssLoading = [
     {
         loader: 'postcss-loader',
         options: {
-            plugins: [require('autoprefixer')({ grid:true })],
+            plugins: [require('autoprefixer')({ grid: true })],
         },
     },
 ];
+
+const staticPath = path.relative(PATHS.folders.dist, PATHS.folders.assets);
 
 config.module.rules = [
     /* handlebars */
@@ -115,17 +116,18 @@ config.module.rules = [
 
     {
         test: /\.css(\?.*)?$/,
-        use: cssLoading,
+        use: cssLoaders,
     },
 
     /* Sass */
     {
         test: /\.s[ca]ss(\?.*)?$/,
-        use: cssLoading.concat([
+        use: cssLoaders.concat([
             {
                 loader: 'sass-loader',
-                options: require(PATHS.folders.build +
-                    `/helpers/sass-config.js`),
+                options: require(`${
+                    PATHS.folders.build
+                }/helpers/sass-config.js`),
             },
         ]),
     },
@@ -141,7 +143,7 @@ config.module.rules = [
                     fallback: {
                         loader: 'file-loader',
                         options: {
-                            name: 'public/static/img/[name].[hash:8].[ext]',
+                            name: `${staticPath}/img/[name].[hash:8].[ext]`,
                         },
                     },
                 },
@@ -156,7 +158,7 @@ config.module.rules = [
             {
                 loader: 'file-loader',
                 options: {
-                    name: 'public/static/img/[name].[hash:8].[ext]',
+                    name: `${staticPath}/img/[name].[hash:8].[ext]`,
                 },
             },
         ],
@@ -173,7 +175,7 @@ config.module.rules = [
                     fallback: {
                         loader: 'file-loader',
                         options: {
-                            name: 'public/static/media/[name].[hash:8].[ext]',
+                            name: `${staticPath}/media/[name].[hash:8].[ext]`,
                         },
                     },
                 },
@@ -192,7 +194,7 @@ config.module.rules = [
                     fallback: {
                         loader: 'file-loader',
                         options: {
-                            name: 'public/static/fonts/[name].[hash:8].[ext]',
+                            name: `${staticPath}/fonts/[name].[hash:8].[ext]`,
                         },
                     },
                 },

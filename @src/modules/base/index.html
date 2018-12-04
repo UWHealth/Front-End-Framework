@@ -4,7 +4,7 @@
 }
 {@html header}
 {@html '<body>'}
-    <div id="app">
+    <div id="app" class="application">
         {@html innerComponent}
     </div>
     {@html addon}
@@ -15,8 +15,27 @@
 import header from '@/components/header/_header.hbs';
 import footer from '@/components/footer/_footer.hbs';
 // Node imports
-const PATHS = preval`module.exports = require(process.cwd() + '/config/paths.config.js')`;
-const manifest = __non_webpack_require__(PATHS.demos.entry.manifest);
+//const CACHE_BUSTER = new Date().getTime();
+// const manifestPath = preval`
+//     const path = require('path');
+//     const manifestPath = require(
+//         process.cwd() + '/config/paths.config.js'
+//     ).demos.entry.manifest;
+//     const regEx = new RegExp('/\\\\/', 'g');
+//     const rel = path.relative(
+//         process.cwd(),
+//         path.resolve(manifestPath)
+//     );
+//     module.exports = path.normalize('/' + rel.replace(regEx, '/'))`;
+//console.log(manifestPathz);
+import manifest from '@manifest';
+
+// const manifest = preval`
+//     const cache = new Date().getTime();
+//     const fs = require('fs');
+//     const PATHS = require(process.cwd() + '/config/paths.config.js');
+//     const manifest = fs.readFileSync(PATHS.demos.entry.manifest, 'utf-8');
+//     module.exports = JSON.parse(manifest);`;
 
 // doctype, html, body, and head tags added as strings
 // to prevent Svelte from treating them as components
@@ -47,7 +66,7 @@ export default {
             let opts = state.htmlWebpackPlugin.options.svelte;
             return (
                 `<script>` +
-                `console.log(${JSON.stringify(manifest)});` +
+                `console.log('Manifest', ${JSON.stringify(manifest)});` +
                 `window.__APP_STATE__ = { ` +
                 `  initialRoute: "${opts.pathname}",` +
                 `  componentPath: "${opts.componentPath}"` +
@@ -84,7 +103,7 @@ export default {
                 return context.render(state);
             } catch (e) {
                 console.log(e);
-                return 'error: ' + e;
+                return 'error: ' + e.message;
             }
         },
     },
