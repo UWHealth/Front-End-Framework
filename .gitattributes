@@ -1,7 +1,6 @@
 # Blanket rules
 * text eol=lf
 'bin/* eol=lf'
-'package-lock.json diff'
 
 # Binaries
 # Images
