@@ -2,7 +2,6 @@
  * @fileoverview - Webpack configuration for generating T4 components. Uses base.webpack.config.js as a base. Saves all files to dist/t4/
  **/
 
-const cloneDeep = require('lodash.clonedeep');
 const glob = require('fast-glob');
 const path = require('path');
 const webpack = require('webpack');
@@ -15,7 +14,7 @@ const baseConfig = require('./base.webpack.config.js');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
 const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 
-const config = cloneDeep(baseConfig.config);
+const config = baseConfig();
 
 config.name = 'T4';
 
@@ -59,12 +58,6 @@ config.module.rules.push(
             loader: 'babel-loader',
             options: babelConfig,
         },
-    },
-
-    // Allow for css to be inlined
-    {
-        test: /\.demo\.css$/,
-        use: 'raw-loader',
     }
 );
 

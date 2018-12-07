@@ -3,9 +3,12 @@
  * Also handles webpack logging.
  **/
 
-const webpack = require('webpack');
 const fs = require('fs');
 const path = require('path');
+
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
@@ -13,33 +16,61 @@ const MODE = require(`${CWD}/build/helpers/mode.js`);
 const STATS = require(`${CWD}/build/helpers/webpack-stats.js`);
 const ARGS = require(`${CWD}/build/helpers/args.js`);
 const Logger = require(`${CWD}/build/helpers/logger.js`);
+const LOG = new Logger('Webpack');
+
+const webpackConfigs = require(`${CWD}/build/webpack.build.js`);
+const compiler = webpack(webpackConfigs);
 
 const watchOptions =
-    MODE.localProduction || !MODE.production
+    !MODE.production || MODE.localProduction
         ? { poll: 1000, ignored: /(node_modules|dist|public)/ }
         : null;
+
+const middleware = [
+    webpackDevMiddleware(compiler, {
+        publicPath: '/',
+        stats: require(`${CWD}/build/helpers/webpack-stats.js`)(),
+        writeToDisk: (filepath) => filepath.indexOf('hot-update') < 0,
+        logLevel: 'silent',
+        serverSideRender: true,
+        reporter: (middlewareOptions, options) => {
+            throttle(webpackLogger(LOG, null, options.stats), 5000);
+        },
+        watchOptions,
+    }),
+
+    customMiddleware,
+
+    webpackHotMiddleware(compiler, {
+        noInfo: true,
+        log: false,
+        silent: true,
+    }),
+];
 
 function createManifestFolders(pathToManifest) {
     const folders = path.dirname(pathToManifest);
     try {
         return fs.mkdirSync(folders, { recursive: true });
-    } catch(e) {
+    } catch (e) {
         return folders;
     }
 }
 
-module.exports = function startWebpack(runImmediately, done) {
-    const LOG = new Logger('Webpack');
-    const webpackConfigs = require(`${CWD}/build/webpack.build.js`);
+module.exports.restart = function(done) {
+    middleware[0].invalidate();
+    return done;
+};
 
-    const compiler = webpack(webpackConfigs);
-
+module.exports.start = function startWebpack(runImmediately, done) {
     // Write out a temporary manifest (if needed), so we can avoid errors on startup
     if (!fs.existsSync(PATHS.demos.entry.manifest)) {
         const folders = createManifestFolders(PATHS.demos.entry.manifest);
         fs.writeFileSync(
             PATHS.demos.entry.manifest,
-            '{ "folders":"' + folders + '"}'
+            '{ "initial":["runtime.bundle.js", "main.js"], "folders":"' +
+                folders +
+                '"}'
         );
     }
 
@@ -49,36 +80,14 @@ module.exports = function startWebpack(runImmediately, done) {
         LOG.spinner('Compiling');
         compiler.run((err, stats) => webpackLogger(LOG, err, stats, done));
     } else {
-        const webpackDevMiddleware = require('webpack-dev-middleware');
-        const webpackHotMiddleware = require('webpack-hot-middleware');
-
         compiler.hooks.watchRun.tap('Log Compilation', () => {
             throttle(LOG.spinner('Compiling'), 5000);
         });
 
-        const middleware = [
-            webpackDevMiddleware(compiler, {
-                publicPath: '/',
-                stats: require(`${CWD}/build/helpers/webpack-stats.js`)(),
-                writeToDisk: true,
-                logLevel: 'silent',
-                serverSideRender: true,
-                reporter: (middlewareOptions, options) => {
-                    throttle(webpackLogger(LOG, null, options.stats), 5000);
-                },
-                watchOptions,
-            }),
-
-            // customMiddleware,
-
-            webpackHotMiddleware(compiler, {
-                noInfo: true,
-                log: false,
-                silent: true,
-            }),
-        ];
-
-        return { middleware, compiler };
+        return {
+            middleware,
+            compiler,
+        };
     }
 };
 
@@ -141,56 +150,81 @@ function throttle(func, delay) {
     };
 }
 
-// function customMiddleware(req, res, next) {
-//     const parsed = require('url').parse(req.url);
-//     // console.log(
-//     //     parsed.pathname,
-//     //     parsed.pathname.match(
-//     //         /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
-//     //     )
-//     // );
-//     if (
-//         parsed.pathname.match(
-//             /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
-//         )
-//     ) {
-//         // console.log(parsed);
-//         const assetsByChunkName = res.locals.webpackStats
-//             .toJson()
-//             .children.map((compilation) => {
-//                 return normalizeAssets(
-//                     compilation.assetsByChunkName
-//                 ).filter((asset) => path.extname(asset) === '.js');
-//             });
-//         //console.log('Assets', flattenArray(assetsByChunkName));
-//         // console.log(
-//         //     path.resolve(
-//         //         `${PATHS.folders.dist}`,
-//         //         `${parsed.pathname}`
-//         //     )
-//         // );
-//         const content = require(path.resolve(
-//             `${PATHS.folders.dist}`,
-//             `${parsed.pathname}`
-//         ));
-//         res.render(content.render());
-//     }
-//     next();
-// }
+function customMiddleware(req, res, next) {
+    const parsed = require('url').parse(req.url);
+    // console.log(
+    //     parsed.pathname,
+    //     parsed.pathname.match(
+    //         /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
+    //     )
+    // );
+    if (
+        parsed.pathname.match(
+            /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
+        )
+    ) {
+        // console.log(parsed);
+        let compilations = [];
+        const assetsByChunkName = res.locals.webpackStats
+            .toJson()
+            .children.map((compilation) => {
+                compilations.push(compilation);
+                return normalizeAssets(compilation.assetsByChunkName).filter(
+                    (asset) => path.extname(asset) === '.js'
+                );
+            });
+        const baseName = path.basename(parsed.pathname);
+        const entryName = path.posix.join(baseName, baseName);
+        const demoPath = path.posix.relative(
+            PATHS.folders.dist,
+            PATHS.demos.dest
+        );
 
-// function normalizeAssets(assets) {
-//     if (assets === Object(assets)) {
-//         return flattenArray(Object.values(assets));
-//     }
-//     return Array.isArray(assets) ? assets : [assets];
-// }
-//
-// function flattenArray(arr1) {
-//     return arr1.reduce(
-//         (acc, val) =>
-//             Array.isArray(val)
-//                 ? acc.concat(flattenArray(val))
-//                 : acc.concat(val),
-//         []
-//     );
-// }
+        const resolved = path.resolve(`${PATHS.demos.dest}`, `base.demo.js`);
+        const content = require(resolved);
+        const htmlWebpackPlugin = {
+            options: {
+                pageTitle: path.basename(parsed.pathname),
+                //Template-specific data
+                render: {
+                    internalTemplate: `${demoPath}/${entryName}.demo.js`,
+                    pathname: `/${demoPath}/${baseName}/`,
+                    componentPath: `${baseName}`,
+                    addon: '',
+                },
+            },
+        };
+        const asset = require(path.resolve(`${PATHS.demos.dest}`, `${entryName}.demo.js`));
+        delete require.cache[require.resolve(resolved)];
+        res.setHeader('Content-Type', 'text/html');
+        res.end(
+            content.render({
+                asset,
+                assetContent: fs.readFileSync(
+                    path.resolve(`${PATHS.demos.dest}`, `${entryName}.demo.js`)
+                ),
+                compilation: compilations[0],
+                htmlWebpackPlugin,
+            }).html
+        );
+    } else {
+        next();
+    }
+}
+
+function normalizeAssets(assets) {
+    if (assets === Object(assets)) {
+        return flattenArray(Object.values(assets));
+    }
+    return Array.isArray(assets) ? assets : [assets];
+}
+
+function flattenArray(arr1) {
+    return arr1.reduce(
+        (acc, val) =>
+            Array.isArray(val)
+                ? acc.concat(flattenArray(val))
+                : acc.concat(val),
+        []
+    );
+}

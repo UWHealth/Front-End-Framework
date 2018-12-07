@@ -1,13 +1,13 @@
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
-const sassConfig = require(`${CWD}/build/helpers/sass-config`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
+const sassConfig = require(`${CWD}/build/helpers/sass-config`);
 
 const sass = require('node-sass');
-const path = require('path').posix;
+const path = require('path');
 const postcss = require('postcss');
 
-const cacheConfig = {
+const svelteConfig = {
     hydratable: true,
     store: true,
     preserveComments: !MODE.production,
@@ -18,7 +18,7 @@ const cacheConfig = {
     //     // Refresh state on reload
     //     noPreserveState: true,
     // },
-    externalDependencies: [PATHS.sass.entry.config],
+    externalDependencies: [PATHS.style.entry.config],
     preprocess: {
         style: processSass,
     },
@@ -44,6 +44,7 @@ module.exports = function(target, babelConfig) {
                               target,
                               `svelte-loader`
                           ),
+                          cacheIdentifier: require(`${CWD}/build/helpers/cache-identifier.js`),
                       },
                   }
                 : false,
@@ -60,7 +61,7 @@ module.exports = function(target, babelConfig) {
                         generate: ssr ? 'ssr' : 'dom',
                         legacy: false,
                     },
-                    cacheConfig
+                    svelteConfig
                 ),
             },
         ].filter(Boolean),
@@ -74,14 +75,16 @@ function processSass(input) {
 
     // Autoprefixer
     function runPostCss(css) {
-        return postcss([require('autoprefixer')({ grid: true })])
-            .process(css, { from: 'src/app.css', to: 'dest/app.css' })
+        return postcss([require('autoprefixer')({ grid: 'autoplace' })])
+            .process(css, { from: filename, to: filename })
             .then((result) => ({
                 code: result.css,
                 map: result.map,
             }));
     }
 
+    // Assume input is sass,
+    // unless something else is specified
     if (
         attributes.type !== 'text/scss' &&
         attributes.type !== 'text/sass' &&

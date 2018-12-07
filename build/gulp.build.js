@@ -32,7 +32,7 @@ function taskOrder() {
         : // PROD
           series(
               'clean',
-              p('style', 'webpack','images', 'copy'),
+              p('style', 'webpack', 'images', 'copy'),
               'styleGuide',
               'size'
           );
@@ -75,7 +75,7 @@ gulp.task('styleGuide', require(TASKS.styleguide));
 
 // Javascript concatenating, bundling, and webpack-ifying
 gulp.task('webpack', (done) => {
-    require(TASKS.webpack)(true, done);
+    require(TASKS.webpack).start(true, done);
 });
 
 /* ---------------------------------

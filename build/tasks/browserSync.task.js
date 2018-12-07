@@ -5,7 +5,7 @@
 /* eslint-disable complexity */
 module.exports = () => {
     const browserSync = require('browser-sync');
-    const { middleware, compiler } = require('./webpack.task.js')();
+    const webpack = require('./webpack.task.js').start();
     const PKG = require(`${process.cwd()}/package.json`);
 
     const ARGS = require('../helpers/args.js');
@@ -57,7 +57,7 @@ module.exports = () => {
         logLevel: 'silent',
         logFileChanges: true,
         plugins: ['bs-fullscreen-message'],
-        middleware: middleware,
+        middleware: webpack.middleware,
     });
 
     //gulp.watch(PATHS.folders.project, browserSync.reload);

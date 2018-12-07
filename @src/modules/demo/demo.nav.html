@@ -35,13 +35,28 @@ if (typeof window === 'undefined') {
     history = createBrowserHistory();
 }
 
+const links = preval`
+    const glob = require('fast-glob');
+    const path = require('path');
+    const PATHS = require(process.cwd() + '/config/paths.config.js');
+    const files = glob.sync(PATHS.demos.entry.src);
+    const links = [];
+    files.forEach((file)=> {
+        const filename = path.basename(file, '.demo.html');
+        links.push([filename + 's', '/demo/' + filename]);
+    });
+    module.exports = links;
+`;
+
 export default {
     components: {
         NavLink: 'svelte-routing/NavLink.html',
     },
     data: () => ({
-        links: [['Button', '/demo/button/'], ['Feed', '/demo/feed/']],
-        history: history,
+        history,
     }),
+    helpers: {
+        links,
+    },
 };
 </script>

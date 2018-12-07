@@ -14,8 +14,9 @@
 <script>
 import header from '@/components/header/_header.hbs';
 import footer from '@/components/footer/_footer.hbs';
+import manifest from '__manifest__';
 // Node imports
-//const CACHE_BUSTER = new Date().getTime();
+// const CACHE_BUSTER = new Date().getTime();
 // const manifestPath = preval`
 //     const path = require('path');
 //     const manifestPath = require(
@@ -27,9 +28,7 @@ import footer from '@/components/footer/_footer.hbs';
 //         path.resolve(manifestPath)
 //     );
 //     module.exports = path.normalize('/' + rel.replace(regEx, '/'))`;
-//console.log(manifestPathz);
-import manifest from '@manifest';
-
+// console.log(manifestPath);
 // const manifest = preval`
 //     const cache = new Date().getTime();
 //     const fs = require('fs');
@@ -45,16 +44,21 @@ export default {
         compilation: '',
         manifest: manifest,
         publicPath: __webpack_public_path__,
+        assetContent: null,
+        asset: null
     }),
 
     computed: {
         // Convert htmlWebpackPlugin options as meta data for header template
         pageTitle: ({ htmlWebpackPlugin }) =>
             htmlWebpackPlugin.options.pageTitle,
-        scripts: ({ manifest }) => manifest.initial,
+        scripts: ({ manifest }) =>
+            manifest.initial.filter(
+                (script) => script.indexOf('hot-update') < 0
+            ),
 
         addon: ({ htmlWebpackPlugin }) =>
-            htmlWebpackPlugin.options.svelte.addon || '',
+            htmlWebpackPlugin.options.render.addon || '',
 
         // Pass state to handlebars templates
         header: (state) => header(state),
@@ -63,10 +67,11 @@ export default {
         // Add the initial page state,
         // Allowing our app to hydrate
         pageState: (state) => {
-            let opts = state.htmlWebpackPlugin.options.svelte;
+            let opts = state.htmlWebpackPlugin.options.render;
             return (
                 `<script>` +
                 `console.log('Manifest', ${JSON.stringify(manifest)});` +
+                `var webpackPlugin = ${JSON.stringify(state.htmlWebpackPlugin)};` +
                 `window.__APP_STATE__ = { ` +
                 `  initialRoute: "${opts.pathname}",` +
                 `  componentPath: "${opts.componentPath}"` +
@@ -78,33 +83,41 @@ export default {
         // Get processed svelte template and evaluate it
         // in a separate node VM (eval)
         // Allows us to avoid bundling every possible page template
-        innerComponent: ({ htmlWebpackPlugin, compilation, state }) => {
-            const _eval = __non_webpack_require__('eval');
-            const assetName = htmlWebpackPlugin.options.svelte.internalTemplate;
+        innerComponent: ({
+            htmlWebpackPlugin,
+            compilation,
+            state,
+            assetContent,
+            asset,
+        }) => {
+            if(!asset) {
+                const _eval = __non_webpack_require__('eval');
+                const assetName = htmlWebpackPlugin.options.render.internalTemplate;
 
-            if (!assetName) {
-                return '';
+                if (!assetName) {
+                    return '';
+                }
+
+                try {
+                    const source = !assetContent ? compilation.assets[assetName].toSource() : assetContent;
+                    const context = _eval(
+                        source,
+                        assetName,
+                        {
+                            window: undefined,
+                            document: undefined,
+                            fetch: undefined,
+                        },
+                        false /* Do not include node globals */
+                    );
+                    return context.render(state);
+                } catch (e) {
+                    console.log(e); // eslint ignore-line
+                    return 'error: ' + e.message;
+                }
             }
-
-            try {
-                const asset = compilation.assets[assetName];
-
-                const context = _eval(
-                    asset.source(),
-                    assetName,
-                    {
-                        window: undefined,
-                        document: undefined,
-                        fetch: undefined,
-                    },
-                    false /* Do not include node globals */
-                );
-
-                return context.render(state);
-            } catch (e) {
-                console.log(e);
-                return 'error: ' + e.message;
-            }
+            // console.log(asset);
+            return asset.render(state);
         },
     },
 };

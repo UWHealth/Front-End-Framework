@@ -9,7 +9,6 @@ const STATS = require(`${CWD}/build/helpers/webpack-stats.js`)();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 
 const webpack = require('webpack');
-const cloneDeep = require('lodash.clonedeep');
 const glob = require('fast-glob');
 const path = require('path');
 
@@ -17,7 +16,8 @@ const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
 const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
-const config = cloneDeep(baseConfig.config);
+const config = baseConfig();
+
 const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
 
 config.name = 'Client';
@@ -45,7 +45,7 @@ config.output = {
 
 // Add "svelte" key to the front of package resolution
 config.resolve.mainFields.unshift('svelte', 'browser');
-config.resolve.alias['@manifest'] = PATHS.demos.entry.manifest;
+config.resolve.alias['__manifest__'] = PATHS.demos.entry.manifest;
 
 /*
  * Client Plugins
@@ -108,6 +108,7 @@ config.module.rules.unshift(
                         config.name,
                         `babel-loader`
                     ),
+                    cacheIdentifier: require(`${CWD}/build/helpers/cache-identifier.js`),
                 },
             },
             {
@@ -121,13 +122,14 @@ config.module.rules.unshift(
 /*
  * Client optimizations
  */
+
 // Always create a runtime entry point
 config.optimization.runtimeChunk = { name: 'runtime' };
 
 if (MODE.production) {
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-    // Remove unecessary node faking
+    // Remove unecessary Node faking
     config.node = {
         setImmediate: false,
         process: 'mock',
@@ -138,6 +140,7 @@ if (MODE.production) {
         child_process: 'empty',
     };
 
+    // Uglification options
     config.optimization.minimizer = [
         new UglifyJsPlugin({
             uglifyOptions: {
@@ -154,41 +157,52 @@ if (MODE.production) {
         }),
     ];
 
-    // Split chunks optimally
-    // Might need to be tweaked based on project needs
+    /* Split chunks optimally */
+    /* Might need to be tweaked based on project needs */
 
     config.optimization.concatenateModules = true;
     config.optimization.mergeDuplicateChunks = true;
 
-    config.optimization.splitChunks = {
-        chunks: 'all',
-        automaticNameDelimiter: '+',
-        minSize: 15000,
-        minChunks: 1,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
-        cacheGroups: {
-            vendors: false,
-            default: {
-                minChunks: 2,
-                priority: 0,
-                reuseExistingChunk: true,
+    config.optimization.splitChunks = Object.assign(
+        config.optimization.splitChunks,
+        {
+            chunks: 'all',
+            automaticNameDelimiter: '+',
+            minSize: 15000,
+            minChunks: 1,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            cacheGroups: {
+                vendors: false,
+                default: {
+                    minChunks: 2,
+                    priority: 0,
+                    reuseExistingChunk: true,
+                },
+                routing: {
+                    name: 'routing',
+                    test: /[\\/]node_modules[\\/](svelte|history)/,
+                    chunks: 'all',
+                    minChunks: 3,
+                    priority: -20,
+                },
+                commons: {
+                    name: 'shared',
+                    chunks: 'all',
+                    minChunks: 2,
+                    reuseExistingChunk: true,
+                },
             },
-            routing: {
-                name: 'routing',
-                test: /[\\/]node_modules[\\/](svelte|history)/,
-                chunks: 'all',
-                minChunks: 3,
-                priority: -20,
-            },
-            commons: {
-                name: 'shared',
-                chunks: 'all',
-                minChunks: 2,
-                reuseExistingChunk: true,
-            },
-        },
-    };
+        }
+    );
+
+    /* Take all extracted CSS and concatenate it into one .css file */
+    // config.optimization.splitChunks.cacheGroups['styles'] = {
+    //     name: 'styles',
+    //     test: /\.css$/,
+    //     chunks: 'all',
+    //     enforce: true
+    // };
 }
 
 /**

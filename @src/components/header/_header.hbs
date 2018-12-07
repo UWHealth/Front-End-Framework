@@ -28,13 +28,13 @@
     {{#if scripts}}
         {{#each scripts~}}
         <script {{#unless @first}}async{{/unless}} src="{{{@root.publicPath}}}{{{this}}}"></script>
-        <!--{{this}}-->
         {{~/each}}
     {{else}}
         <script src="/public/js/runtime.bundle.js"></script>
         <script async src="/public/js/main.js"></script>
     {{/if}}
-
+    {{#if css}}{{css}}{{/if}}
+    {{#if headExtra}}{{headExtra}}{{/if}}
     <noscript>
         <link rel="stylesheet" media="screen" href="/public/css/main.css">
         <link rel="stylesheet" media="print" href="/public/css/print.css">
