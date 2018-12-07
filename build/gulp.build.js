@@ -17,7 +17,7 @@ function taskOrder() {
         ? // DEV
           series(
               'clean',
-              p('sass'),
+              p('style'),
               p('images', 'copy'),
               p('watch', 'browserSync')
           )
@@ -25,14 +25,14 @@ function taskOrder() {
         ? // LOCAL-PROD
           series(
               'clean',
-              p('sass'),
+              p('style'),
               p('images', 'copy'),
               p('watch', 'browserSync')
           )
         : // PROD
           series(
               'clean',
-              p('sass', 'webpack','images', 'copy'),
+              p('style', 'webpack','images', 'copy'),
               'styleGuide',
               'size'
           );
@@ -68,7 +68,7 @@ gulp.task('hbs', require(TASKS.hbs));
 gulp.task('images', require(TASKS.images));
 
 // Sass processing
-gulp.task('sass', require(TASKS.sass));
+gulp.task('style', require(TASKS.style));
 
 // Compile style guide
 gulp.task('styleGuide', require(TASKS.styleguide));

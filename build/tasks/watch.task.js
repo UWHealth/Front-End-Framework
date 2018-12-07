@@ -2,7 +2,7 @@ const gulp = require('gulp');
 
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config`);
-const MODE = require(`${CWD}/build/helpers/mode`);
+// const MODE = require(`${CWD}/build/helpers/mode`);
 const glob = require('fast-glob');
 const path = require('path');
 
@@ -10,15 +10,15 @@ const opts = { ignoreInitial: true };
 
 module.exports = function() {
     // Watch sass, styleguide, images, and fonts for changes
-    gulp.watch(PATHS.sass.watch.array, opts, gulp.parallel('sass'));
+    gulp.watch(PATHS.style.watch.array, opts, gulp.parallel('style'));
     gulp.watch(PATHS.styleGuide.watch.array, opts, gulp.series('styleGuide'));
     gulp.watch(PATHS.images.watch.array, opts, gulp.parallel('images'));
-    gulp.watch(PATHS.fonts.watch.array, opts, gulp.parallel('copy'));
+    gulp.watch(PATHS.copy.watch.array, opts, gulp.parallel('copy'));
 
     // Watch handlebars files in local production mode
-    if (MODE.localProduction) {
-        gulp.watch(PATHS.hbs.watch.array, opts, gulp.series('hbs'));
-    }
+    // if (MODE.localProduction) {
+    //     gulp.watch(PATHS.hbs.watch.array, opts, gulp.series('hbs'));
+    // }
 
     //watchWebpackConfigs();
 };
@@ -29,7 +29,7 @@ function watchWebpackConfigs() {
     gulp.watch(
         [
             `${PATHS.folders.build}/webpack.build.js`,
-            `${PATHS.folders.build.replace(/\\/g, '/')}/webpack/**/*.js`,
+            `${PATHS.folders.build.replace(/\\/g, '/')}/**/webpack/**/*.js`,
         ],
         opts,
         gulp.series((done) => {
@@ -60,3 +60,5 @@ function flushWebpackFromCache(configPaths) {
         });
     });
 }
+
+module.exports.watchWebpackConfigs = watchWebpackConfigs;

@@ -94,16 +94,6 @@ const PATHS = {
         },
         dest: `${_.dist}/demo`,
     },
-    fonts: {
-        entry: {
-            asap: `${_.assets}/fonts/Asap*.*`,
-            open: `${_.assets}/fonts/opensans*.*`,
-        },
-        watch: {
-            src: `${_.assets}/fonts/**/*.*`,
-        },
-        dest: `${_.pub}/static/fonts`,
-    },
     hbs: {
         folders: {
             root: `${_.src}/components`,
@@ -147,7 +137,7 @@ const PATHS = {
         },
         dest: `${_.pub}/js`,
     },
-    sass: {
+    style: {
         folders: {
             components: `${_.src}/components`,
             root: `${_.src}/sass`,
