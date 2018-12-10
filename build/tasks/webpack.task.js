@@ -109,6 +109,8 @@ function webpackLogger(LOG, err, stats, done) {
 
             if (stats.hasErrors()) {
                 return info.errors.forEach((err) => {
+                    // Show the first 4 lines of an error
+                    // in non stats mode
                     if (!MODE.production && !ARGS.stats) {
                         const errArray = err.split('\n');
                         err =
@@ -116,7 +118,9 @@ function webpackLogger(LOG, err, stats, done) {
                             '\n' +
                             errArray[1] +
                             '\n' +
-                            errArray[2];
+                            errArray[2] +
+                            '\n' +
+                            errArray[3];
                     }
                     LOG.error(name + err);
                 });
@@ -152,16 +156,11 @@ function throttle(func, delay) {
 
 function customMiddleware(req, res, next) {
     const parsed = require('url').parse(req.url);
-    // console.log(
-    //     parsed.pathname,
-    //     parsed.pathname.match(
-    //         /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
-    //     )
-    // );
+
+    // Only allow /demo/
     if (
-        parsed.pathname.match(
-            /\/?demo\/(?:.*\/){1,2}((?:.*\.){0,2}(html|js))?/gim
-        )
+        parsed.pathname.match(/^\/demo\/([^/]+?)\/?$/gim) ||
+        parsed.pathname.match(/index\.html/gim)
     ) {
         // console.log(parsed);
         let compilations = [];
@@ -194,12 +193,16 @@ function customMiddleware(req, res, next) {
                 },
             },
         };
-        const asset = require(path.resolve(`${PATHS.demos.dest}`, `${entryName}.demo.js`));
-        delete require.cache[require.resolve(resolved)];
+        const assetPath = path.resolve(
+            `${PATHS.demos.dest}`,
+            `${entryName}.demo.js`
+        );
         res.setHeader('Content-Type', 'text/html');
         res.end(
             content.render({
-                asset,
+                asset: require(assetPath),
+                manifest: require(PATHS.demos.entry.manifest),
+                assetsByChunkName,
                 assetContent: fs.readFileSync(
                     path.resolve(`${PATHS.demos.dest}`, `${entryName}.demo.js`)
                 ),
@@ -207,6 +210,9 @@ function customMiddleware(req, res, next) {
                 htmlWebpackPlugin,
             }).html
         );
+        delete require.cache[require.resolve(resolved)];
+        delete require.cache[require.resolve(PATHS.demos.entry.manifest)];
+        delete require.cache[require.resolve(assetPath)];
     } else {
         next();
     }

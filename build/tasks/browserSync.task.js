@@ -26,7 +26,7 @@ module.exports = () => {
     const BS_PORT = ARGS.bsport || PATHS.browserSync.port;
 
     INSTANCE.init({
-        files: PATHS.browserSync.watch.css,
+        files: PATHS.style.watch.array,
         port: BS_PORT, // Allow for --bsport= argument
         proxy: ARGS.bsproxy || undefined, // Allow for --bsproxy= argument
         serveStatic: false, // Allow for --bsservestatic= argument
@@ -42,7 +42,6 @@ module.exports = () => {
             forms: true,
             scroll: false,
         },
-        logPrefix: 'BrowserSync',
         snippetOptions: {
             // Browsersync script tag placement
             rule: {

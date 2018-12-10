@@ -16,27 +16,31 @@ const baseConfig = require(`./base.webpack.config.js`);
 const config = baseConfig();
 
 const demoPath = path.posix.relative(PATHS.folders.dist, PATHS.demos.dest);
+const baseEntryPoints = {
+    base: path.resolve(PATHS.demos.folders.modules, 'base', 'index.html'),
+    demos: PATHS.demos.entry.main,
+};
 
 config.name = 'Demo';
 config.target = 'node';
 config.devtool = false;
+config.output = {
+    path: path.resolve(PATHS.folders.dist),
+    publicPath: '/',
+    libraryTarget: 'commonjs',
+    filename: `${demoPath}/[name].demo.js`,
+};
+
 config.entry = () => {
-    const entries = {
-        base: path.resolve(PATHS.demos.folders.modules, 'base', 'index.html'),
-    };
+    const entries = baseEntryPoints;
+    // Dynamically add .demo files as entry points
+    // Allowing new ones to be added while webpack runs
     glob.sync(PATHS.demos.entry.src).forEach((file) => {
         const baseName = path.basename(file, '.demo.html');
         const entryName = path.posix.join(baseName, baseName);
         entries[entryName] = file;
     });
     return entries;
-};
-
-config.output = {
-    path: path.resolve(PATHS.folders.dist),
-    publicPath: '/',
-    libraryTarget: 'commonjs',
-    filename: `${demoPath}/[name].demo.js`,
 };
 
 // Cross-config aliases
