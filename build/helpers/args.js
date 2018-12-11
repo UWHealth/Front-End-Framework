@@ -18,6 +18,22 @@ yargs.options({
         type: 'boolean',
         group: 'Environment:',
     },
+    mode: {
+        describe: 'Set the mode explicity.',
+        type: 'string',
+        default: 'development',
+        coerce: (arg) => {
+            console.log(arg);
+            if (!arg) return 'development';
+            arg = arg.toLowerCase();
+            return ['prd', 'production'].indexOf(arg) > -1
+                ? 'production'
+                : ['local', 'lprd'].indexOf(arg) > -1
+                ? 'local'
+                : 'development';
+        },
+        group: 'Environment:',
+    },
     stats: {
         alias: 'debug',
         describe: 'Show full Webpack stats and errors',
@@ -31,13 +47,6 @@ yargs.options({
         coerce: (arg) => {
             return arg ? 'local' : false;
         },
-        type: 'boolean',
-        default: false,
-        group: 'Server:',
-    },
-    bsdir: {
-        alias: ['dir'],
-        describe: 'Show directories instead of index.html',
         type: 'boolean',
         default: false,
         group: 'Server:',

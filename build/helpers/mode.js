@@ -1,6 +1,9 @@
 /* eslint "no-console": "off" */
 const chalk = require('chalk');
 const args = require('./args.js');
+if (args.mode) {
+    args[args.mode] = true;
+}
 
 const mode = {
     production: args.production || args.local,
@@ -32,6 +35,7 @@ const mode = {
     },
 };
 
+// Set NODE_ENV to be consistent with mode
 process.env.NODE_ENV = mode.production ? 'production' : 'development';
 
 module.exports = mode;
