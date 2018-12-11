@@ -10,17 +10,20 @@ const changed = require('gulp-changed');
 
 const Logger = require('../helpers/logger.js');
 const PATHS = require(`${process.cwd()}/config/paths.config.js`);
+const MODE = require('../helpers/mode.js');
 
 const LOG = new Logger('Images');
 
 module.exports = () => {
-    LOG.spinner('Compressing');
+    //LOG.info('Compressing');
 
-    return gulp
+    let imageStream = gulp
         .src(PATHS.images.entry.array)
         .pipe(plumber(LOG.error))
-        .pipe(changed(PATHS.images.dest))
-        .pipe(
+        .pipe(changed(PATHS.images.dest));
+
+    if (MODE.production) {
+        imageStream = imageStream.pipe(
             imagemin(
                 [
                     imagemin.gifsicle(),
@@ -35,9 +38,8 @@ module.exports = () => {
                 ],
                 { verbose: false }
             )
-        )
-        .on('end', () => {
-            LOG.success('Compressed ');
-        })
-        .pipe(gulp.dest(PATHS.images.dest));
+        );
+    }
+
+    return imageStream.pipe(gulp.dest(PATHS.images.dest));
 };
