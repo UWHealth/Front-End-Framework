@@ -3,9 +3,9 @@ import domReady from '@/helpers/dom-ready';
 import store from '@/modules/demo/demo.store.js';
 import demoRouter from '@/modules/demo/demo.routes.html';
 import '@/main.scss';
-const PATHS = preval`module.exports = require(process.cwd() + '/config/paths.config.js')`;
+// const PATHS = preval`module.exports = require(process.cwd() + '/config/paths.config.js')`;
+//console.log(PATHS);
 
-console.log(PATHS);
 let application;
 
 async function init() {

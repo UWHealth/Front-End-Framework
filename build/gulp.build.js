@@ -2,13 +2,11 @@ const gulp = require('gulp');
 const series = gulp.series;
 
 const TASKS = require('./helpers/require-tasks.js');
+const MODE = require('./helpers/mode');
 const Logger = require('./helpers/logger.js');
 const LOG = new Logger('Gulp');
 
-LOG.spinner('Starting');
-
 function taskOrder() {
-    const MODE = require('./helpers/mode');
     const p = gulp.parallel;
 
     LOG.ora.stopAndPersist({ text: MODE.message() });
@@ -74,8 +72,8 @@ gulp.task('style', require(TASKS.style));
 gulp.task('styleGuide', require(TASKS.styleguide));
 
 // Javascript concatenating, bundling, and webpack-ifying
-gulp.task('webpack', (done) => {
-    require(TASKS.webpack).start(true, done);
+gulp.task('js', (done) => {
+    require(TASKS.js).start(true, done);
 });
 
 /* ---------------------------------
@@ -83,12 +81,9 @@ gulp.task('webpack', (done) => {
  * --------------------------------*/
 
 // First task called when gulp is invoked
-gulp.task(
-    'default',
-    series(taskOrder(), function finish(done) {
-        done();
-    })
-);
+gulp.task('default', (done) => {
+    return series(taskOrder())(done);
+});
 
 gulp.on('error', function(err) {
     new Logger('General').error(err.error);

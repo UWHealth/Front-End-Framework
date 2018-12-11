@@ -14,6 +14,8 @@ const buildInfo = {
     cacheLoader: require('cache-loader/package.json').version || '',
     babelLoader: require('babel-loader/package.json').version || '',
     babel: require('@babel/core/package.json').version || '',
+    paths: PATHS,
+    babelConfig: require(PATHS.folders.config + '/babel.config.js'),
     svelteLoader: require('svelte-loader/package.json').version || '',
     svelte: require('svelte/package.json').version || '',
     webpack: require('webpack/package.json').version || '',

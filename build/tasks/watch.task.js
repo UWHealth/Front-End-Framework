@@ -2,9 +2,6 @@ const gulp = require('gulp');
 
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config`);
-// const MODE = require(`${CWD}/build/helpers/mode`);
-// const glob = require('fast-glob');
-// const path = require('path');
 
 const opts = { ignoreInitial: true };
 
@@ -19,7 +16,7 @@ module.exports = function() {
 };
 
 function watchWebpackConfigs() {
-    const webpack = require('./webpack.task.js');
+    const webpack = require('./js.task.js');
     // Watch for webpack config changes,
     // Restarts webpack using the new changes
     gulp.watch(
@@ -34,25 +31,10 @@ function watchWebpackConfigs() {
     // Watch for new demos or other such entries
     // where webpack needs to create new html pages.
     // Restarts webpack to add new files
-    gulp.watch(PATHS.demos.entry.array, opts).on('add', (done) =>
+    gulp.watch(PATHS.demos.watch.all, opts).on('add', (done) =>
         webpack.restart(done)
     );
-    gulp.watch(PATHS.demos.entry.array, opts).on('unlink', (done) =>
+    gulp.watch(PATHS.demos.watch.all, opts).on('unlink', (done) =>
         webpack.restart(done)
     );
 }
-
-// function flushWebpackFromCache(configPaths) {
-//     const webpackConfigs = glob.sync(configPaths);
-//
-//     require('./clean.task.js').specific(PATHS.js.dest, () => {
-//         webpackConfigs.forEach((config) => {
-//             const fullPath = path.resolve(process.cwd(), config);
-//             return fullPath
-//                 ? delete require.cache[require.resolve(fullPath)]
-//                 : null;
-//         });
-//     });
-// }
-
-//module.exports.watchWebpackConfigs = watchWebpackConfigs;

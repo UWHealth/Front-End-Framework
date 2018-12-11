@@ -5,12 +5,11 @@ module.exports = {
     sgComment: 'SG',
     exampleIdentifier: 'html_example',
     sortCategories: true,
-    excludeDirs: ['target', 'node_modules', '.git', 'dist'],
+    excludeDirs: ['node_modules', '.git', 'dist'],
     fileExtensions: {
         scss: true,
         sass: false,
         css: false,
-        less: false,
         md: true,
     },
     templateFile: SG.templateFile,

@@ -8,18 +8,12 @@ const path = require('path');
 const glob = require('fast-glob');
 
 const webpack = require('webpack');
-const HtmlPlugin = require('html-webpack-plugin');
+//const HtmlPlugin = require('html-webpack-plugin');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
 const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
-
-const baseConfig = require(`./base.webpack.config.js`);
-const config = baseConfig();
+const config = require(`./base.webpack.config.js`)();
 
 const demoPath = path.posix.relative(PATHS.folders.dist, PATHS.demos.dest);
-const baseEntryPoints = {
-    base: path.resolve(PATHS.demos.folders.modules, 'base', 'index.html'),
-    demos: PATHS.demos.entry.main,
-};
 
 config.name = 'Demo';
 config.target = 'node';
@@ -29,6 +23,11 @@ config.output = {
     publicPath: '/',
     libraryTarget: 'commonjs',
     filename: `${demoPath}/[name].demo.js`,
+};
+
+const baseEntryPoints = {
+    base: path.resolve(PATHS.demos.folders.modules, 'base', 'index.html'),
+    demos: PATHS.demos.entry.main,
 };
 
 config.entry = () => {

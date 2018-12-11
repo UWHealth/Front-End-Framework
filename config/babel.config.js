@@ -1,7 +1,7 @@
 /**
  * @fileoverview - Configures babel based on the passed in target ("web", "node", "t4").
  *               - If adding to this file, be sure consider which target your change applies to.
- *               - Babel/env should take care of most polyfilling,
+ *               - Babel/preset-env should take care of most polyfilling,
  *               - but anything targeting t4 needs to be considered carefully (and tested).
  **/
 

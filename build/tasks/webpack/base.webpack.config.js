@@ -10,6 +10,7 @@ const path = require('path');
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
+const STATS = require(`${CWD}/build/helpers/webpack-stats.js`)();
 
 const TimeFixPlugin = require('time-fix-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -22,6 +23,7 @@ module.exports = () => {
     const config = {
         context: __dirname,
         mode: process.env.NODE_ENV,
+        stats: STATS,
         devtool: MODE.production ? 'source-map' : 'cheap-source-map',
         resolve: {
             symlinks: false,
@@ -46,8 +48,8 @@ module.exports = () => {
         module: {},
         optimization: {
             nodeEnv: process.env.NODE_ENV,
-            removeAvailableModules: !MODE.production,
-            removeEmptyChunks: !MODE.production,
+            removeAvailableModules: !!MODE.production,
+            removeEmptyChunks: !!MODE.production,
             splitChunks: !MODE.production && {
                 chunks: 'async',
             },

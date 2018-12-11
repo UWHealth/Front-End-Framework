@@ -14,27 +14,6 @@
 <script>
 import header from '@/components/header/_header.hbs';
 import footer from '@/components/footer/_footer.hbs';
-import manifest from '__manifest__';
-// Node imports
-// const CACHE_BUSTER = new Date().getTime();
-// const manifestPath = preval`
-//     const path = require('path');
-//     const manifestPath = require(
-//         process.cwd() + '/config/paths.config.js'
-//     ).demos.entry.manifest;
-//     const regEx = new RegExp('/\\\\/', 'g');
-//     const rel = path.relative(
-//         process.cwd(),
-//         path.resolve(manifestPath)
-//     );
-//     module.exports = path.normalize('/' + rel.replace(regEx, '/'))`;
-// console.log(manifestPath);
-// const manifest = preval`
-//     const cache = new Date().getTime();
-//     const fs = require('fs');
-//     const PATHS = require(process.cwd() + '/config/paths.config.js');
-//     const manifest = fs.readFileSync(PATHS.demos.entry.manifest, 'utf-8');
-//     module.exports = JSON.parse(manifest);`;
 
 // doctype, html, body, and head tags added as strings
 // to prevent Svelte from treating them as components
@@ -42,17 +21,19 @@ export default {
     data: () => ({
         htmlWebpackPlugin: null,
         compilation: '',
-        manifest: manifest,
+        manifest: null,
         publicPath: __webpack_public_path__,
         assetContent: null,
-        asset: null
+        asset: null,
     }),
-
     computed: {
         // Convert htmlWebpackPlugin options as meta data for header template
         pageTitle: ({ htmlWebpackPlugin }) =>
             htmlWebpackPlugin.options.pageTitle,
+        // Get initial scripts from manifest, if they exist
+        // (filter hot-module-replacement updates)
         scripts: ({ manifest }) =>
+            manifest.initial &&
             manifest.initial.filter(
                 (script) => script.indexOf('hot-update') < 0
             ),
@@ -70,13 +51,16 @@ export default {
             let opts = state.htmlWebpackPlugin.options.render;
             return (
                 `<script>` +
-                `console.log('Manifest', ${JSON.stringify(manifest)});` +
-                `var webpackPlugin = ${JSON.stringify(state.htmlWebpackPlugin)};` +
+                `console.log('Manifest', ${JSON.stringify(state.manifest)});` +
+                `var webpackPlugin = ${JSON.stringify(
+                    state.htmlWebpackPlugin
+                )};` +
                 `window.__APP_STATE__ = { ` +
                 `  initialRoute: "${opts.pathname}",` +
                 `  componentPath: "${opts.componentPath}"` +
                 `}` +
-                `<\/script>` // eslint-disable-line
+                // eslint-disable-next-line
+                `<\/script>`
             );
         },
 
@@ -90,16 +74,19 @@ export default {
             assetContent,
             asset,
         }) => {
-            if(!asset) {
+            if (!asset) {
                 const _eval = __non_webpack_require__('eval');
-                const assetName = htmlWebpackPlugin.options.render.internalTemplate;
+                const assetName =
+                    htmlWebpackPlugin.options.render.internalTemplate;
 
                 if (!assetName) {
                     return '';
                 }
 
                 try {
-                    const source = !assetContent ? compilation.assets[assetName].toSource() : assetContent;
+                    const source = !assetContent
+                        ? compilation.assets[assetName].toSource()
+                        : assetContent;
                     const context = _eval(
                         source,
                         assetName,
@@ -112,7 +99,8 @@ export default {
                     );
                     return context.render(state);
                 } catch (e) {
-                    console.log(e); // eslint ignore-line
+                    // eslint-disable-next-line
+                    console.log(e);
                     return 'error: ' + e.message;
                 }
             }

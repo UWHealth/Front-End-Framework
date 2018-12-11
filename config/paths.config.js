@@ -92,6 +92,9 @@ const PATHS = {
                 ? `${_.pub}/module-map-manifest.json`
                 : `${_.cache}/module-map-manifest.json`,
         },
+        watch: {
+            all: `${_.src}/**/*.demo.html`,
+        },
         dest: `${_.dist}/demo`,
     },
     hbs: {
@@ -172,7 +175,6 @@ const PATHS = {
         dest: `${_.pub}/styleguide/index.html`,
     },
     browserSync: {
-        port: 8080,
         entry: {
             serve: `${_.dist}`,
         },
@@ -182,7 +184,7 @@ const PATHS = {
             components: `${_.dist}/components/**/*.html`,
             exclude: [`!${_.dist}/**/*.map`, `!${_.pub}/styleguide/*.html`],
         },
-    },
+    }
 };
 
 // Ensure all paths are exported predictably

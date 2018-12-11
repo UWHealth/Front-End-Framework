@@ -5,25 +5,33 @@
 /* eslint-disable complexity */
 module.exports = () => {
     const browserSync = require('browser-sync');
-    const webpack = require('./webpack.task.js').start();
+    const webpack = require('./js.task.js').start();
     const PKG = require(`${process.cwd()}/package.json`);
 
     const ARGS = require('../helpers/args.js');
     const PATHS = require(`${process.cwd()}/config/paths.config.js`);
     const INSTANCE = browserSync.create(PKG.name);
 
+    // Ensure browserSync options exist
+    PATHS.browsersync = PATHS.browserSync || {
+        port: 8080,
+        entry: { array: PATHS.folders.dist },
+    };
+
     attachEvents(INSTANCE);
 
-    const BS_DIR_VIEW = ARGS.dir;
     const BS_OPEN_NEW_TAB = ARGS.open;
 
     // Allow for --bsserver argument. Otherwise, use default
-    const BS_SERVER = ARGS.bsserver || {
-        baseDir: PATHS.browserSync.entry.array,
-        directory: true || BS_DIR_VIEW,
-    };
+    const BS_SERVER = Object.assign(
+        {
+            baseDir: PATHS.browserSync.entry.array,
+            directory: true,
+        },
+        ARGS.bsserver || {}
+    );
 
-    const BS_PORT = ARGS.bsport || PATHS.browserSync.port;
+    const BS_PORT = ARGS.bsport || PATHS.browserSync.port || 8080;
 
     INSTANCE.init({
         files: PATHS.style.watch.array,
@@ -33,6 +41,7 @@ module.exports = () => {
         tunnel: ARGS.bstunnel || null, // Allow for --bstunnel= argument
         server: ARGS.bsproxy ? false : BS_SERVER, // If proxy, ignore server setting
         open: BS_OPEN_NEW_TAB,
+        reloadOnRestart: true,
         ui: {
             port: 3030,
         },
@@ -42,8 +51,10 @@ module.exports = () => {
             forms: true,
             scroll: false,
         },
+        // Add webpack middlware
+        middleware: webpack.middleware,
+        // Browsersync script tag placement
         snippetOptions: {
-            // Browsersync script tag placement
             rule: {
                 match: /<\/body>/i,
                 fn: function(snippet, match) {
@@ -51,15 +62,10 @@ module.exports = () => {
                 },
             },
         },
-        reloadOnRestart: true,
         // Use our own logging
         logLevel: 'silent',
         logFileChanges: true,
-        plugins: ['bs-fullscreen-message'],
-        middleware: webpack.middleware,
     });
-
-    //gulp.watch(PATHS.folders.project, browserSync.reload);
 };
 
 function attachEvents(INSTANCE) {
@@ -69,7 +75,7 @@ function attachEvents(INSTANCE) {
     const LOG = new Logger('Server');
     const symbol = chalk`{blue.bold →}`;
 
-    EVENT.on('service:running', (bs, data) => {
+    EVENT.on('service:running', (bs /*, data */) => {
         let baseDir = bs.options.getIn(['server', 'baseDir']);
         for (const [, value] of baseDir.entries()) {
             baseDir = value;

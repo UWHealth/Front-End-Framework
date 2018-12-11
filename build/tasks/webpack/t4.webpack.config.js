@@ -10,28 +10,28 @@ const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
-const baseConfig = require('./base.webpack.config.js');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
 const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
-
-const config = baseConfig();
+const config = require('./base.webpack.config.js')();
 
 config.name = 'T4';
-
-config.devtool = false;
 config.target = 'node'; // Closest target to Rhino
+
+const pubPath = path.posix.relative(PATHS.folders.dist, PATHS.folders.pub);
 
 config.output = {
     path: path.resolve(PATHS.folders.dist, 't4'),
     publicPath: '/',
-    library: 'svelte',
+    library: 'uwhealth',
     libraryTarget: 'global',
-    filename: `t4/[name].t4.js`,
+    filename: `${pubPath}/t4/[name].t4.js`,
 };
+config.devtool = false;
 
 config.plugins.push(
     new webpack.DefinePlugin({
         'typeof window': '"undefined"',
+        'typeof document': '"object"',
         // PRODUCTION: JSON.stringify(true),
         // VERSION: JSON.stringify('5fa3b9'),
         // BROWSER_SUPPORTS_HTML5: true,
