@@ -73,7 +73,6 @@
         "babel-plugin-transform-es3-property-literals": "^6.22.0",
         "babel-plugin-transform-object-assign": "^6.22.0",
         "browser-sync": "^2.23.3",
-        "bs-fullscreen-message": "^1.1.0",
         "cache-loader": "^1.2.5",
         "chalk": "^2.3.0",
         "css-loader": "^1.0.1",
