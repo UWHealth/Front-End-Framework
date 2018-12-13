@@ -24,11 +24,11 @@ module.exports = function(LOG, err, stats, done) {
             // Find the correct stat config, and get its name
             const name = '(' + stats.compilation.compiler.options.name + ')';
 
-            const info = stats.toJson();
+            const info = stats.toJson({ errorDetails: true });
 
             if (stats.hasErrors()) {
                 return info.errors.forEach((err) => {
-                    // Show the first 4 lines of an error
+                    // Show the first 5 lines of an error
                     // in non stats mode
                     if (!MODE.production && !ARGS.stats) {
                         const errArray = err.split('\n');
@@ -37,11 +37,11 @@ module.exports = function(LOG, err, stats, done) {
                             '\n' +
                             errArray[1] +
                             '\n' +
-                            errArray[2] +
-                            '\n' +
-                            errArray[3];
+                            errArray[2];
+                        err += (errArray[3] && '\n' + errArray[3]) || '';
+                        err += (errArray[4] && '\n' + errArray[4]) || '';
                     }
-                    LOG.error(name + err);
+                    LOG.error(name + ' ' + err);
                 });
             }
 
@@ -61,4 +61,4 @@ module.exports = function(LOG, err, stats, done) {
         });
     }
     if (typeof done === 'function') done();
-}
+};

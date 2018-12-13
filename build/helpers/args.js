@@ -23,7 +23,6 @@ yargs.options({
         type: 'string',
         default: 'development',
         coerce: (arg) => {
-            console.log(arg);
             if (!arg) return 'development';
             arg = arg.toLowerCase();
             return ['prd', 'production'].indexOf(arg) > -1
