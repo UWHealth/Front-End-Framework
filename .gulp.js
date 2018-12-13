@@ -5,4 +5,4 @@ module.exports = {
         "silent": true,
         "gulpfile": path.resolve(__dirname, "build", "gulp.build.js")
     }
-}
+};

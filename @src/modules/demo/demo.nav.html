@@ -11,7 +11,8 @@
     {/each}
 </nav>
 
-<style lang='scss'>
+<style type="text/scss">
+
     :global(.demo-navigation__link) {
         transition: background-color color 200ms ease-out;
     }
@@ -34,19 +35,7 @@ if (typeof window === 'undefined') {
 } else {
     history = createBrowserHistory();
 }
-
-const links = preval`
-    const glob = require('fast-glob');
-    const path = require('path');
-    const PATHS = require(process.cwd() + '/config/paths.config.js');
-    const files = glob.sync(PATHS.demos.entry.src);
-    const links = [];
-    files.forEach((file)=> {
-        const filename = path.basename(file, '.demo.html');
-        links.push([filename + 's', '/demo/' + filename]);
-    });
-    module.exports = links;
-`;
+const links = require('./create-nav.js?eval');
 
 export default {
     components: {
