@@ -65,14 +65,20 @@ config.module.rules.unshift(
 
     // Babel JS files
     {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx)(\?.*)?$/,
         enforce: 'post',
         exclude: [
             /node_modules[\\/]core-js/,
             /node_modules[\\/]regenerator-runtime/,
             /node_modules[\\/]@?babel/,
         ],
-        use: [
+        oneOf: [
+            // Load with ./something?eval with val-loader
+            // Avoid cache
+            {
+                resourceQuery: /\?e?val/,
+                loader: 'val-loader',
+            },
             {
                 loader: 'cache-loader',
                 options: {

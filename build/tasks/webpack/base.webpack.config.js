@@ -129,7 +129,7 @@ module.exports = () => {
     config.module.rules = [
         /* handlebars */
         {
-            test: /\.(hbs|handlebars|hbs\.svg)$/,
+            test: /\.(hbs|handlebars|hbs\.svg)(\?.*)?$/,
             include: PATHS.folders.src,
             use: [
                 {
@@ -152,7 +152,7 @@ module.exports = () => {
             oneOf: [
                 // Inline CSS (use foo.css?inline)
                 {
-                    resourceQuery: /inline/,
+                    resourceQuery: /\?inline/,
                     use: 'raw-loader',
                 },
 

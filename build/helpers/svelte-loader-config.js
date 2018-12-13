@@ -2,12 +2,13 @@ const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const sassConfig = require(`${CWD}/build/helpers/sass-config`);
+const babelOpts = require(`${CWD}/config/babel.config.js`);
 
 const sass = require('node-sass');
 const path = require('path');
 const postcss = require('postcss');
 
-const svelteConfig = {
+const defaultSvelteConfig = {
     hydratable: true,
     store: true,
     preserveComments: !MODE.production,
@@ -26,45 +27,62 @@ const svelteConfig = {
 
 module.exports = function(target, babelConfig) {
     const ssr = target !== 'web';
+    const svelteConfig = (ssr) =>
+        Object.assign(
+            {
+                emitCss: MODE.production && !ssr,
+                format: ssr ? 'cjs' : 'es',
+                generate: ssr ? 'ssr' : 'dom',
+                legacy: false,
+            },
+            defaultSvelteConfig
+        );
 
     return {
-        test: /\.(html|sv\.html|svelte)$/,
+        test: /\.(html|sv\.html|svelte)(\?.*)?$/,
         exclude: [
             /node_modules[\\/]core-js/,
             /node_modules[\\/]regenerator-runtime/,
             /node_modules[\\/]@?babel/,
         ],
-        use: [
-            !MODE.production
-                ? {
-                      loader: 'cache-loader',
-                      options: {
-                          cacheDirectory: path.resolve(
-                              PATHS.folders.cache,
-                              target,
-                              `svelte-loader`
-                          ),
-                          cacheIdentifier: require(`${CWD}/build/helpers/cache-identifier.js`),
-                      },
-                  }
-                : false,
+        oneOf: [
             {
-                loader: 'babel-loader',
-                options: babelConfig,
-            },
-            {
-                loader: 'svelte-loader',
-                options: Object.assign(
+                resourceQuery: /\?ssr/,
+                use: [
                     {
-                        emitCss: MODE.production && !ssr,
-                        format: ssr ? 'cjs' : 'es',
-                        generate: ssr ? 'ssr' : 'dom',
-                        legacy: false,
+                        loader: 'babel-loader',
+                        options: babelOpts('node'),
                     },
-                    svelteConfig
-                ),
+                    {
+                        loader: 'svelte-loader',
+                        options: svelteConfig(true),
+                    },
+                ],
             },
-        ].filter(Boolean),
+            {
+                use: [
+                    !MODE.production && {
+                        loader: 'cache-loader',
+                        options: {
+                            cacheDirectory: path.resolve(
+                                PATHS.folders.cache,
+                                target,
+                                `svelte-loader`
+                            ),
+                            cacheIdentifier: require(`${CWD}/build/helpers/cache-identifier.js`),
+                        },
+                    },
+                    {
+                        loader: 'babel-loader',
+                        options: babelConfig,
+                    },
+                    {
+                        loader: 'svelte-loader',
+                        options: svelteConfig(ssr),
+                    },
+                ].filter(Boolean),
+            },
+        ],
     };
 };
 

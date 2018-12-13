@@ -90,14 +90,19 @@ config.module.rules.unshift(
 
     // Babelify
     {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx)(\?.*)?$/,
         enforce: 'post',
         exclude: [
             /node_modules[\\/]core-js/,
             /node_modules[\\/]regenerator-runtime/,
             /node_modules[\\/]@?babel/,
         ],
-        use: [
+        oneOf: [
+            // Load with ./something?eval with val-loader
+            {
+                resourceQuery: /\?e?val/,
+                loader: 'val-loader',
+            },
             {
                 loader: 'cache-loader',
                 options: {
