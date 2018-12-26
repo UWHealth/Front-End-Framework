@@ -30,7 +30,7 @@ function taskOrder() {
         : // PROD
           series(
               'clean',
-              p('style', 'webpack', 'images', 'copy'),
+              p('style', 'js', 'images', 'copy'),
               'styleGuide',
               'size'
           );
