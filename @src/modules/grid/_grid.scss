@@ -1,6 +1,6 @@
 //Create grid classes
 
-@include grid-init();
+@include grid-setup($silent: true);
 
 .row {
     @extend %grid;
@@ -23,9 +23,9 @@
 }
 
 .w-half {
-    @extend %one-half;
+    @include grid-width(1, 2);
 }
 
 .w-quarter {
-    @extend %one-quarter;
+    @include grid-width(1, 4);
 }

@@ -1,16 +1,16 @@
-@if $breakpoint-has-display-classes != false {
+@if $breakpoint-has-display-classes {
     @include display-utilities-init(
         $breakpoints: $breakpoint-has-display-classes,
         $namespace: '',
         $silent: false,
         $important: true
     );
+}
 
-    [hidden] {
-        display: none !important;
-    }
+[hidden] {
+    display: none !important;
+}
 
-    .invisible {
-        visibility: hidden !important;
-    }
+.invisible {
+    visibility: hidden !important;
 }

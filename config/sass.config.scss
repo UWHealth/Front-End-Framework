@@ -46,11 +46,12 @@ $web-fonts: (
     'opensans': (
         'weights': (400, 700),
         'italics': (400, 700),
-        'formats': ('woff', 'svg', 'ttf')
+        'formats': ('woff', 'svg', 'ttf'),
+        'path': '/public/static/fonts'
     )
 );
 
-$font-file-location: 	'/public/static/fonts'; //Paths are relative to CSS file
+// $web-fonts-path: 	'/public/static/fonts'; //Paths are relative to CSS file
 
 $primary-font-stack:    $system-font-stack;
 $secondary-font-stack:  "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -130,7 +131,7 @@ $display-classes: (
 
 // Determines what display utility classes get generated at `$breakpoints`
 // The list's order determines cascade (output order).
-$breakpoint-has-display-classes: ("smalls", "bigs");
+$breakpoint-has-display-classes: false; // ("smalls", "bigs");
 
 // If $breakpoint-has-spacing-classes is false, this can be ignored
 $spacing-classes: (
@@ -162,15 +163,15 @@ $spacing-classes: (
 
 // Determines what spacing utility classes get generated at `$breakpoints`
 // The list's order determines cascade (output order).
-$breakpoint-has-spacing-classes:   ("smalls", "bigs", "desk");
+$breakpoint-has-spacing-classes: ("smalls", "bigs", "desk");
 
 // Alignment utility classes
 // See helpers/_overrides/_ov-alignment
-$breakpoint-has-alignment-classes: ("smalls", "bigs", "desk");
+$breakpoint-has-alignment-classes: false; // ("smalls", "bigs", "desk");
 
 // Typography utility classes
 // See helpers/_overrides/_ov-type
-$breakpoint-has-type-classes:      ("smalls", "bigs");
+$breakpoint-has-type-classes:     false; // ("smalls", "bigs");
 
 
 //------------------------------------------
@@ -236,7 +237,7 @@ $debug-baseline: true;
 // Makes debugging media queries a little simpler.
 $debug-breakpoints: true;
  // Stores all silent classes in $_silents-registry
-$debug-silent-classes: false;
+$debug-silent-classes: true;
 
 
 // Initialize and propogate framework variables

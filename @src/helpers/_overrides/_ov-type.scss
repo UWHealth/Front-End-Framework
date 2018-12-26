@@ -49,49 +49,51 @@ Moving from `h6` up to `h1`, the heading font sizes get larger on a scale. For i
     }
 }
 
-@include create-overrides(
-    (
-        'txt-small': (
-            font-size: rems(modular-scale(-1)),
-            line-height: $type-small-lh,
+@if $breakpoint-has-type-classes {
+    @include create-overrides(
+        (
+            'txt-small': (
+                font-size: rems(modular-scale(-1)),
+                line-height: $type-small-lh,
+            ),
+            'txt-smaller': (
+                font-size: ems(modular-scale(-1)),
+            ),
+            'txt-center': (
+                text-align: center,
+            ),
+            'txt-normal': (
+                font-weight: 400,
+            ),
+            'txt-italic': (
+                font-style: italic,
+            ),
+            'txt-bold': (
+                font-weight: 700,
+                -webkit-font-smoothing: antialiased,
+            ),
+            'txt-upper': (
+                text-transform: uppercase,
+                letter-spacing: 0.1em,
+            ),
+            'txt-capital': (
+                text-transform: capitalize,
+            ),
+            'txt-lower': (
+                text-transform: none,
+                letter-spacing: normal,
+            ),
+            'txt-space-reset': (
+                letter-spacing: normal,
+                word-spacing: normal,
+            ),
+            'txt-primary': (
+                font-family: $primary-font-stack,
+            ),
+            'txt-secondary': (
+                font-family: $secondary-font-stack,
+            ),
         ),
-        'txt-smaller': (
-            font-size: ems(modular-scale(-1)),
-        ),
-        'txt-center': (
-            text-align: center,
-        ),
-        'txt-normal': (
-            font-weight: 400,
-        ),
-        'txt-italic': (
-            font-style: italic,
-        ),
-        'txt-bold': (
-            font-weight: 700,
-            -webkit-font-smoothing: antialiased,
-        ),
-        'txt-upper': (
-            text-transform: uppercase,
-            letter-spacing: 0.1em,
-        ),
-        'txt-capital': (
-            text-transform: capitalize,
-        ),
-        'txt-lower': (
-            text-transform: none,
-            letter-spacing: normal,
-        ),
-        'txt-space-reset': (
-            letter-spacing: normal,
-            word-spacing: normal,
-        ),
-        'txt-primary': (
-            font-family: $primary-font-stack,
-        ),
-        'txt-secondary': (
-            font-family: $secondary-font-stack,
-        ),
-    ),
-    $breakpoint-has-type-classes
-);
+        $breakpoint-has-type-classes
+    );
+}

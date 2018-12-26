@@ -1,4 +1,4 @@
-@if $breakpoint-has-spacing-classes != false {
+@if $breakpoint-has-spacing-classes {
     //Assume important and non-silent
     $spacing-config: (
         important: true,
