@@ -17,18 +17,22 @@ const LOG = new Logger('Webpack');
 
 const webpack = require('webpack');
 const webpackConfigs = require(`${CWD}/build/webpack.build.js`);
-const compiler = webpack(webpackConfigs);
 
-let firstRun = true;
-
-const middleware = customMiddleware(compiler, LOG);
+module.exports.devMiddleware = {
+    invalidate: () => null,
+};
 
 module.exports.restart = function(done) {
-    middleware[0].invalidate();
+    LOG.info('Restarting...');
+    // Invalidate webpack-dev-middleware
+    module.exports.devMiddleware.invalidate();
     return done;
 };
 
 module.exports.start = function startWebpack(runImmediately, done) {
+    // Create webpack compiler instance
+    const compiler = webpack(webpackConfigs);
+
     // Write out a temporary manifest (if needed), so we can avoid errors on startup
     if (!fs.existsSync(PATHS.demos.entry.manifest)) {
         const folders = createManifestFolders(PATHS.demos.entry.manifest);
@@ -39,21 +43,31 @@ module.exports.start = function startWebpack(runImmediately, done) {
         );
     }
 
-    compiler.hooks.watchRun.tap('Log Compilation', () => {
-        if (firstRun) {
-            LOG.info('Started');
-            firstRun = false;
-        } else {
-            LOG.spinner('Compiling');
-        }
-    });
-
     // Allow for immediate run (essentially, non-watch mode)
     // Primarily used for --production mode
     if (runImmediately || (!MODE.local && MODE.production)) {
         LOG.spinner('Compiling');
         compiler.run((err, stats) => webpackLogger(LOG, err, stats, done));
     } else {
+        const middleware = () => {
+            let firstRun = true;
+            const middleware = customMiddleware(compiler, LOG);
+
+            // Expose webpack-dev-middleware
+            module.exports.devMiddleware = middleware[0];
+
+            compiler.hooks.watchRun.tap('Log Compilation', () => {
+                if (firstRun) {
+                    LOG.info('Started');
+                    firstRun = false;
+                } else {
+                    LOG.spinner('Compiling');
+                }
+            });
+
+            return middleware;
+        };
+
         return {
             middleware,
             compiler,

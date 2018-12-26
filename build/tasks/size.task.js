@@ -9,7 +9,7 @@ const cwd = process.cwd();
 const PATHS = require(`${cwd}/config/paths.config.js`);
 
 module.exports = (done) => {
-    gulp.src(PATHS.sass.dest + '/**/*.css').pipe(
+    gulp.src(PATHS.style.dest + '/**/*.css').pipe(
         size({
             gzip: true,
         })

@@ -5,7 +5,7 @@
 /* eslint-disable complexity */
 module.exports = () => {
     const browserSync = require('browser-sync');
-    const webpack = require('./js.task.js').start();
+    const { middleware } = require('./js.task.js').start();
     const PKG = require(`${process.cwd()}/package.json`);
 
     const ARGS = require('../helpers/args.js');
@@ -34,7 +34,7 @@ module.exports = () => {
     const BS_PORT = ARGS.bsport || PATHS.browserSync.port || 8080;
 
     INSTANCE.init({
-        files: PATHS.style.watch.array,
+        files: [`${PATHS.style.dest}/**/*.css`],
         port: BS_PORT, // Allow for --bsport= argument
         proxy: ARGS.bsproxy || undefined, // Allow for --bsproxy= argument
         serveStatic: false, // Allow for --bsservestatic= argument
@@ -52,7 +52,7 @@ module.exports = () => {
             scroll: false,
         },
         // Add webpack middlware
-        middleware: webpack.middleware,
+        middleware: middleware(),
         // Browsersync script tag placement
         snippetOptions: {
             rule: {
@@ -102,34 +102,34 @@ function attachEvents(INSTANCE) {
     //     });
     // });
 
-    EVENT.on('stream:changed', (bs, data) => {
-        const changed = data && data.changed;
-        const plural = changed.length > 1 ? 'files' : 'file';
-        const files = changed.join(', ');
-        console.info('\n');
-        LOG.ora.stopAndPersist({
-            symbol: symbol,
-            text: chalk`{blue ${changed.length} ${plural} changed} (${files})`,
-        });
-    });
-
-    EVENT.on('file:reload', (bs, data) => {
-        if (data && data.path[0] === '*') {
-            return LOG.ora.stopAndPersist({
-                symbol: symbol,
-                text: chalk`{blue Reloading files that match: {magenta ${
-                    data.path
-                }}}`,
-            });
-        }
-
-        if (data) {
-            LOG.ora.stopAndPersist({
-                symbol: symbol,
-                text: chalk`{blue File event [${data.event}] : {magenta ${
-                    data.path
-                }}}`,
-            });
-        }
-    });
+    // EVENT.on('stream:changed', (bs, data) => {
+    //     const changed = data && data.changed ||;
+    //     const plural = changed.length > 1 ? 'files' : 'file';
+    //     const files = changed.join(', ');
+    //     console.info('\n');
+    //     LOG.ora.stopAndPersist({
+    //         symbol: symbol,
+    //         text: chalk`{blue ${changed.length} ${plural} changed} (${files})`,
+    //     });
+    // });
+    //
+    // EVENT.on('file:reload', (bs, data) => {
+    //     if (data && data.path[0] === '*') {
+    //         return LOG.ora.stopAndPersist({
+    //             symbol: symbol,
+    //             text: chalk`{blue Reloading files that match: {magenta ${
+    //                 data.path
+    //             }}}`,
+    //         });
+    //     }
+    //
+    //     if (data) {
+    //         LOG.ora.stopAndPersist({
+    //             symbol: symbol,
+    //             text: chalk`{blue File event [${data.event}] : {magenta ${
+    //                 data.path
+    //             }}}`,
+    //         });
+    //     }
+    // });
 }

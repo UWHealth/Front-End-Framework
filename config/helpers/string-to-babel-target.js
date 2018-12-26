@@ -13,9 +13,6 @@ module.exports = (target) => {
         case 't4':
             return { firefox: 2 }; // ECMA/JS version 1.7 (Rhino-like)
 
-        case 'web':
-            return { browsers: BROWSERS };
-
         default:
             return { browsers: BROWSERS };
     }

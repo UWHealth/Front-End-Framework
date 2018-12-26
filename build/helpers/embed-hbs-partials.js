@@ -2,9 +2,9 @@ const fs = require('fs');
 const Handlebars = require('handlebars');
 const path = require('path');
 
-const cwd = process.cwd();
+const CWD = process.cwd();
 const BUILD_NUMBER = require('./build-number.js');
-const PATHS = require(`${cwd}/config/paths.config.js`);
+const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require('./mode.js');
 
 /**
@@ -22,7 +22,7 @@ function loopAST(ast, loops, currentFile) {
         return ast;
     }
 
-    let newBody = ast.body.map(function(statement, i) {
+    let newBody = ast.body.map(function(statement) {
         statement = addBuildNumber(statement);
 
         if (typeof statement !== 'undefined') {
