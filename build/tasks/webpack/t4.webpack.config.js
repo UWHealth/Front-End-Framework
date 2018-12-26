@@ -11,8 +11,9 @@ const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
-const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
-const config = require('./base.webpack.config.js')();
+const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
+const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
+const config = require('./base.webpack.config.js')('node');
 
 config.name = 'T4';
 config.target = 'node'; // Closest target to Rhino
@@ -43,22 +44,10 @@ config.plugins.push(
 
 config.module.rules.push(
     // Svelte as server-side
-    svelteConfig('t4', babelConfig),
+    svelteLoader(config.name, babelConfig),
 
     // Babelify
-    {
-        test: /\.(js|jsx)$/,
-        enforce: 'post',
-        exclude: [
-            /node_modules[\\/]core-js/,
-            /node_modules[\\/]regenerator-runtime/,
-            /node_modules[\\/]@?babel/,
-        ],
-        use: {
-            loader: 'babel-loader',
-            options: babelConfig,
-        },
-    }
+    babelLoader(config.name, babelConfig)
 );
 
 // Add all components and demos
@@ -79,7 +68,6 @@ if (MODE.production) {
             uglifyOptions: {
                 warnings: false,
 
-                ecma: 5,
                 keep_classnames: true,
                 keep_fnames: true,
                 ie8: false,
@@ -89,17 +77,14 @@ if (MODE.production) {
                 mangle: false,
 
                 compress: {
-                    arrows: false,
                     keep_fnames: true,
                     properties: false,
-                    ecma: 5,
                     drop_console: true,
                     dead_code: true,
                     passes: 2,
                 },
 
                 output: {
-                    ecma: 5,
                     wrap_iife: true,
                     keep_quoted_props: true, // important - Rhino hates .default
                     quote_keys: true, // important - Rhino hates { default: }

@@ -10,7 +10,7 @@ const path = require('path');
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
-const STATS = require(`${CWD}/build/helpers/webpack-stats.js`)();
+const STATS = require(`${CWD}/build/helpers/webpack-stats-config.js`);
 
 const TimeFixPlugin = require('time-fix-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -19,11 +19,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const inlineFileSizeLimit = 4096;
 
 /* eslint-disable complexity */
-module.exports = () => {
+module.exports = (target) => {
     const config = {
+        target: target,
         context: __dirname,
         mode: process.env.NODE_ENV,
-        stats: STATS,
+        stats: STATS(),
         devtool: MODE.production ? 'source-map' : 'cheap-source-map',
         resolve: {
             symlinks: false,
@@ -66,11 +67,10 @@ module.exports = () => {
         );
     }
 
+    // Re-usable CSS output path
+    const cssPath = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
+
     if (MODE.production) {
-        const cssPath = path.posix.relative(
-            PATHS.folders.dist,
-            PATHS.style.dest
-        );
         // Extract CSS to its own file in --production mode
         config.plugins.push(
             new MiniCssExtractPlugin({
@@ -86,7 +86,20 @@ module.exports = () => {
 
     // Base CSS Loaders
     const cssLoaders = [
-        !MODE.production ? 'style-loader' : MiniCssExtractPlugin.loader,
+        /* Output file for SSR */
+        !MODE.production &&
+            target !== 'web' && {
+                loader: 'file-loader',
+                options: {
+                    name: `${cssPath}/[name].[hash:base64:5].css`,
+                },
+            },
+
+        !MODE.production
+            ? target === 'web'
+                ? 'style-loader'
+                : 'extract-loader'
+            : MiniCssExtractPlugin.loader,
 
         {
             loader: 'css-loader',
@@ -119,7 +132,7 @@ module.exports = () => {
                 ].filter(Boolean),
             },
         },
-    ];
+    ].filter(Boolean);
 
     const staticAssetPath = path.posix.relative(
         PATHS.folders.dist,
@@ -146,9 +159,9 @@ module.exports = () => {
             ],
         },
 
-        /* Sass */
+        /* Plain CSS */
         {
-            test: /\.css(\?.*)?$/,
+            test: /\.(css)(\?.*)?$/,
             oneOf: [
                 // Inline CSS (use foo.css?inline)
                 {
@@ -164,8 +177,9 @@ module.exports = () => {
         },
 
         /* Sass */
+        // Add sass to the beginning of the cssLoaders chain
         {
-            test: /\.s[ca]ss(\?.*)?$/,
+            test: /\.(s[ca]ss)(\?.*)?$/,
             use: cssLoaders.concat([
                 {
                     loader: 'sass-loader',
@@ -198,7 +212,11 @@ module.exports = () => {
         /* svg */
         {
             test: /\.(svg)(\?.*)?$/,
-            use: [
+            oneOf: [
+                {
+                    resourceQuery: /\?inline/,
+                    use: 'raw-loader'
+                },
                 {
                     loader: 'file-loader',
                     options: {

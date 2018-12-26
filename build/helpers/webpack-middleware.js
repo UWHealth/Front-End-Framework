@@ -1,5 +1,4 @@
 const path = require('path');
-const fs = require('fs');
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
@@ -17,7 +16,7 @@ module.exports = function(compiler, LOG) {
     return [
         webpackDevMiddleware(compiler, {
             publicPath: '/',
-            stats: require(`${CWD}/build/helpers/webpack-stats.js`)(),
+            stats: require(`${CWD}/build/helpers/webpack-stats-config.js`)(),
             writeToDisk: (filepath) => filepath.indexOf('hot-update') < 0,
             logLevel: 'silent',
             serverSideRender: true,
@@ -40,10 +39,14 @@ module.exports = function(compiler, LOG) {
 function customMiddleware(req, res, next) {
     const parsed = require('url').parse(req.url);
 
-    // Only allow /demo/
+    // Only allow /demo/:something || /demo/:something/:file.html
+    //
+    // /:path(demo)/:key([\w]*)*/:file([\w\-]*)?:ext(\.html?)?
+    // http://forbeslindesay.github.io/express-route-tester/
     if (
-        parsed.pathname.match(/^\/demo\/([^/]+?)\/?$/gim) ||
-        parsed.pathname.match(/index\.html/gim)
+        parsed.pathname.match(
+            /^\/((?:demo))(?:\/((?:[\w]*)(?:\/(?:[\w]*))*))?\/((?:[\w-]*))?(?:((?:\.html?)))?(?:\/(?=$))?$/i
+        )
     ) {
         // console.log(parsed);
         let compilations = [];
@@ -55,6 +58,10 @@ function customMiddleware(req, res, next) {
                     (asset) => path.extname(asset) === '.js'
                 );
             });
+
+        const initialFiles = require('./get-initial-webpack-files.js')(
+            res.locals.webpackStats
+        )[0];
         const baseName = path.basename(parsed.pathname);
         const entryName = path.posix.join(baseName, baseName);
         const demoPath = path.posix.relative(
@@ -62,43 +69,56 @@ function customMiddleware(req, res, next) {
             PATHS.demos.dest
         );
 
-        const resolved = path.resolve(`${PATHS.demos.dest}`, `base.demo.js`);
-        const content = require(resolved);
+        const basePath = path.resolve(`${PATHS.demos.dest}`, `base.demo.js`);
+        const assetPath = path.resolve(
+            `${PATHS.demos.dest}`,
+            `${entryName}.demo.js`
+        );
+
         // Recreate HTML webpack plugin options object
         const htmlWebpackPlugin = {
             options: {
-                pageTitle: path.basename(parsed.pathname),
+                pageTitle: false,
                 //Template-specific data
                 render: {
                     internalTemplate: `${demoPath}/${entryName}.demo.js`,
                     pathname: `/${demoPath}/${baseName}/`,
                     componentPath: `${baseName}`,
-                    addon: '',
                 },
             },
         };
 
-        const assetPath = path.resolve(
-            `${PATHS.demos.dest}`,
-            `${entryName}.demo.js`
-        );
-        const assetContent = fs.readFileSync(
-            path.resolve(`${PATHS.demos.dest}`, `${entryName}.demo.js`)
-        );
-        res.setHeader('Content-Type', 'text/html');
-        res.end(
-            content.render({
-                asset: require(assetPath),
-                assetContent,
+        let render;
+        try {
+            const content = require(basePath);
+            const asset = require(assetPath);
+            const headExtra = asset.render({}).head;
+
+            render = content.render({
+                asset,
                 assetsByChunkName,
+                headExtra,
                 manifest: require(PATHS.demos.entry.manifest),
                 compilation: compilations[0],
                 htmlWebpackPlugin,
-            }).html
-        );
-        delete require.cache[require.resolve(resolved)];
-        delete require.cache[require.resolve(PATHS.demos.entry.manifest)];
-        delete require.cache[require.resolve(assetPath)];
+                scripts: initialFiles,
+            }).html;
+        } catch (err) {
+            render = `<pre>${err.message} \n ${err.stack}</pre>`;
+        }
+
+        try {
+            // Remove assets from Node cache
+            delete require.cache[require.resolve(basePath)];
+            delete require.cache[require.resolve(PATHS.demos.entry.manifest)];
+            delete require.cache[require.resolve(assetPath)];
+        } catch (err) {
+            // Ignore these errors
+            () => null;
+        }
+
+        res.setHeader('Content-Type', 'text/html');
+        res.end(render);
     } else {
         next();
     }
@@ -132,4 +152,36 @@ function throttle(func, delay) {
         clearTimeout(inDebounce);
         inDebounce = setTimeout(() => func.apply(context, args), delay);
     };
+}
+
+
+function requireFromString(
+    code,
+    filename = '',
+    opts = { appendPaths: [], prependPaths: [] }
+) {
+    const fs = require('fs');
+    const path = require('path');
+    const Module = require('module');
+
+    opts.appendPaths = opts.appendPaths || [];
+    opts.prependPaths = opts.prependPaths || [];
+
+    const paths = Module._nodeModulePaths(path.dirname(filename));
+
+    const parent = module.parent;
+    const m = new Module(filename, parent);
+    m.filename = filename;
+    m.paths = []
+        .concat(opts.prependPaths)
+        .concat(paths)
+        .concat(opts.appendPaths);
+    m._compile(code, filename);
+
+    const exports = m.exports;
+    parent &&
+        parent.children &&
+        parent.children.splice(parent.children.indexOf(m), 1);
+
+    return exports;
 }

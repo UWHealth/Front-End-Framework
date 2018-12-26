@@ -13,14 +13,15 @@ const path = require('path');
 
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
-const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
+const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
+const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
-const config = baseConfig();
+const Jarvis = require('webpack-jarvis');
+const config = baseConfig('web');
 
 const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
 
 config.name = 'Client';
-config.target = 'web';
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
 
 config.entry = {
@@ -62,6 +63,8 @@ config.plugins = config.plugins.concat(
         // Hot module replacement
         new webpack.HotModuleReplacementPlugin(),
 
+        // new Jarvis(),
+
         // Keep module.id stable when vendor modules do not change
         MODE.production ? new webpack.HashedModuleIdsPlugin() : false,
 
@@ -84,55 +87,30 @@ glob.sync(PATHS.js.entry.components).forEach((component) => {
 /*
  * Client loaders
  */
-config.module.rules.unshift(
-    // Svelte-generation, with babel
-    svelteConfig('web', babelConfig),
+config.module.rules.push(
+    // Svelte Loader
+    svelteLoader(config.target, babelConfig),
 
-    // Babelify
-    {
-        test: /\.(js|jsx)(\?.*)?$/,
-        enforce: 'post',
-        exclude: [
-            /node_modules[\\/]core-js/,
-            /node_modules[\\/]regenerator-runtime/,
-            /node_modules[\\/]@?babel/,
-        ],
-        oneOf: [
-            // Load with ./something?eval with val-loader
-            {
-                resourceQuery: /\?e?val/,
-                loader: 'val-loader',
-            },
-            {
-                loader: 'cache-loader',
-                options: {
-                    cacheDirectory: path.resolve(
-                        PATHS.folders.cache,
-                        config.name,
-                        `babel-loader`
-                    ),
-                    cacheIdentifier: require(`${CWD}/build/helpers/cache-identifier.js`),
-                },
-            },
-            {
-                loader: 'babel-loader',
-                options: babelConfig,
-            },
-        ],
-    }
+    // Babel JS files
+    babelLoader(config.name, babelConfig)
 );
 
 /*
  * Client optimizations
+ * 1. Always create a runtime entry point (dev and prod)
+ * 2. Remove Node polyfills (prod)
+ * 3. Uglify (prod)
+ * 4. Split & merge chunks (prod)
+ * 5. Merge extracted CSS (prod)
  */
 
-// Always create a runtime entry point
+// [1] Simplify chunks to rely on webpack runtime for loading
 config.optimization.runtimeChunk = { name: 'runtime' };
 
 if (MODE.production) {
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-    // Remove unecessary Node faking
+    // [2] Remove unecessary Node faking
     config.node = {
         setImmediate: false,
         process: 'mock',
@@ -143,11 +121,11 @@ if (MODE.production) {
         child_process: 'empty',
     };
 
-    // Uglification options
+    // [3] Uglification options
     config.optimization.minimizer = [
         new UglifyJsPlugin({
             uglifyOptions: {
-                ecma: 5,
+                ecma: 6,
                 ie8: false,
                 beautify: true,
                 mangle: true,
@@ -160,9 +138,8 @@ if (MODE.production) {
         }),
     ];
 
-    /* Split chunks optimally */
-    /* Might need to be tweaked based on project needs */
-
+    // [4] Split chunks optimally
+    // Might need to be tweaked based on project needs */
     config.optimization.concatenateModules = true;
     config.optimization.mergeDuplicateChunks = true;
 
@@ -199,7 +176,7 @@ if (MODE.production) {
         }
     );
 
-    /* Take all extracted CSS and concatenate it into one .css file */
+    // // [5] Take all extracted CSS and concatenate it into one .css file
     // config.optimization.splitChunks.cacheGroups['styles'] = {
     //     name: 'styles',
     //     test: /\.css$/,

@@ -10,13 +10,18 @@ const glob = require('fast-glob');
 const webpack = require('webpack');
 //const HtmlPlugin = require('html-webpack-plugin');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
-const svelteConfig = require(`${CWD}/build/helpers/svelte-loader-config.js`);
-const config = require(`./base.webpack.config.js`)();
+const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
+const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
+const config = require(`./base.webpack.config.js`)('node');
 
 const demoPath = path.posix.relative(PATHS.folders.dist, PATHS.demos.dest);
 
 config.name = 'Demo';
-config.target = 'node';
+
+/*
+ * Demo-specific output
+ * Making stuff consumable by Node
+ */
 config.devtool = false;
 config.output = {
     path: path.resolve(PATHS.folders.dist),
@@ -27,7 +32,6 @@ config.output = {
 
 const baseEntryPoints = {
     base: path.resolve(PATHS.demos.folders.modules, 'base', 'index.html'),
-    demos: PATHS.demos.entry.main,
 };
 
 config.entry = () => {
@@ -59,43 +63,12 @@ config.plugins.push(
 /*
  * Demo loaders
  */
-config.module.rules.unshift(
+config.module.rules.push(
     // Svelte as server-side renderer
-    svelteConfig('node', babelConfig),
+    svelteLoader(config.target, babelConfig),
 
     // Babel JS files
-    {
-        test: /\.(js|jsx)(\?.*)?$/,
-        enforce: 'post',
-        exclude: [
-            /node_modules[\\/]core-js/,
-            /node_modules[\\/]regenerator-runtime/,
-            /node_modules[\\/]@?babel/,
-        ],
-        oneOf: [
-            // Load with ./something?eval with val-loader
-            // Avoid cache
-            {
-                resourceQuery: /\?e?val/,
-                loader: 'val-loader',
-            },
-            {
-                loader: 'cache-loader',
-                options: {
-                    cacheDirectory: path.resolve(
-                        PATHS.folders.cache,
-                        config.name,
-                        `babel-loader`
-                    ),
-                    cacheIdentifier: require(`${CWD}/build/helpers/cache-identifier.js`),
-                },
-            },
-            {
-                loader: 'babel-loader',
-                options: babelConfig,
-            },
-        ],
-    }
+    babelLoader(config.name, babelConfig)
 );
 
 // config.plugins.push(
