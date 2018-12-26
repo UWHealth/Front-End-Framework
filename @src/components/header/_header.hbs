@@ -19,26 +19,36 @@
     <!--<link rel="alternate" href="https://feeds2.feedburner.com/uwsmph/news" type="application/rss+xml" title="RSS 2.0">-->
     <!--<link rel="alternate" href="http://example.com/feed.atom" type="application/atom+xml" title="Atom 0.3">-->
 
+    {{#if pageTitle}}
     <title>
         {{~{pageTitle}~}}
     </title>
-
-    <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="screen" href="/public/css/main.css">
-    <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="print" href="/public/css/print.css">
-    {{#if scripts}}
-        {{#each scripts~}}
+    {{/if}}
+    {{#if scripts}}{{#each scripts~}}
         <script {{#unless @first}}async{{/unless}} src="{{{@root.publicPath}}}{{{this}}}"></script>
-        {{~/each}}
+    {{/each}}
     {{else}}
         <script src="/public/js/runtime.bundle.js"></script>
         <script async src="/public/js/main.js"></script>
     {{/if}}
-    {{#if css}}{{css}}{{/if}}
-    {{#if headExtra}}{{headExtra}}{{/if}}
-    <noscript>
-        <link rel="stylesheet" media="screen" href="/public/css/main.css">
-        <link rel="stylesheet" media="print" href="/public/css/print.css">
-    </noscript>
+    {{#if css}}{{#each css~}}
+        {{this}}
+        <noscript>
+            {{this}}
+        </noscript>
+    {{/each}}
+    {{else}}
+        <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="screen" href="/public/css/main.css">
+        <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="print" href="/public/css/print.css">
+        <noscript>
+            <link rel="stylesheet" media="screen" href="/public/css/main.css">
+            <link rel="stylesheet" media="print" href="/public/css/print.css">
+        </noscript>
+    {{/if}}
+    {{#if headExtra}}
+        {{{headExtra}}}
+    {{/if}}
+
 
     {{> ./_header.async.hbs}}
 </head>

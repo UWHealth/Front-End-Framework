@@ -1,6 +1,9 @@
-{#if stylesheet}
-<link rel="stylesheet" media="screen" href="/public/css/demo/demo.css" />
-{/if}
+<svelte:head>
+    <title>→ { $pageTitle || demoTitle } demo</title>
+    {#if (typeof style !== 'object')}
+        <link href="{style || style.url}" rel="stylesheet" />
+    {/if}
+</svelte:head>
 
 <Nav/>
 
@@ -22,7 +25,7 @@
         <div class="wrap">
             {#if variants || variantTitle}
             <h2 class="demo-body__head">
-                {variantTitle || demoTitle} Variants
+                { variantTitle || demoTitle } Variants
             </h2>
             <slot name="variants"></slot>
             {/if}
@@ -31,28 +34,30 @@
 </div>
 
 <script>
-    import store from './demo.store.js';
+import store from './demo.store.js';
+import style from /* webpackPrefetch: true */ './demo.scss';
 
-    export default {
-        store: () => store,
-        components: {
-            Nav: '@/modules/demo/demo.nav.html'
-        },
-        data() {
-            return {
-                demoTitle: 'Demo',
-                variantTitle: false,
-                variants: false,
-                stylesheet: true
-            };
-        },
-        computed: {
-            lowercaseRoute: ({ currentRoute }) => currentRoute.toLowerCase(),
-        },
-        oncreate() {
-            if (this._slots.variants) {
-                this.set({ variants: true });
-            }
-        },
-    };
+export default {
+    store: () => store,
+    components: {
+        Nav: '@/modules/demo/demo.nav.html',
+    },
+    data() {
+        return {
+            style,
+            demoTitle: 'Demo',
+            variantTitle: false,
+            variants: false,
+            stylesheet: true,
+        };
+    },
+    computed: {
+        lowercaseRoute: ({ currentRoute }) => currentRoute.toLowerCase(),
+    },
+    oncreate() {
+        if (this._slots.variants) {
+            this.set({ variants: true });
+        }
+    },
+};
 </script>

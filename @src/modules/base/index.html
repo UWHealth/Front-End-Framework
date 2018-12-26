@@ -19,12 +19,12 @@ import footer from '@/components/footer/_footer.hbs';
 // to prevent Svelte from treating them as components
 export default {
     data: () => ({
-        htmlWebpackPlugin: null,
-        compilation: '',
-        manifest: null,
-        publicPath: __webpack_public_path__,
-        assetContent: null,
         asset: null,
+        compilation: '',
+        htmlWebpackPlugin: null,
+        manifest: {},
+        noInternal: false,
+        publicPath: __webpack_public_path__,
     }),
     computed: {
         // Convert htmlWebpackPlugin options as meta data for header template
@@ -48,6 +48,7 @@ export default {
         // Add the initial page state,
         // Allowing our app to hydrate
         pageState: (state) => {
+            if (state.noInternal) return '';
             let opts = state.htmlWebpackPlugin.options.render;
             return (
                 `<script>` +
@@ -67,15 +68,13 @@ export default {
         // Get processed svelte template and evaluate it
         // in a separate node VM (eval)
         // Allows us to avoid bundling every possible page template
-        innerComponent: ({
-            htmlWebpackPlugin,
-            compilation,
-            state,
-            assetContent,
-            asset,
-        }) => {
-            if (!asset) {
+        innerComponent: (state) => {
+            if (state.noInternal) return '';
+            if (!state.asset) {
                 const _eval = __non_webpack_require__('eval');
+
+                let { htmlWebpackPlugin, compilation } = state;
+
                 const assetName =
                     htmlWebpackPlugin.options.render.internalTemplate;
 
@@ -84,9 +83,7 @@ export default {
                 }
 
                 try {
-                    const source = !assetContent
-                        ? compilation.assets[assetName].toSource()
-                        : assetContent;
+                    const source = compilation.assets[assetName].toSource();
                     const context = _eval(
                         source,
                         assetName,
@@ -105,7 +102,7 @@ export default {
                 }
             }
             // console.log(asset);
-            return asset.render(state);
+            return state.asset.render(state);
         },
     },
 };

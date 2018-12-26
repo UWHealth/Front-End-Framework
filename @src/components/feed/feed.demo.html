@@ -34,6 +34,9 @@ export default {
         },
     },
     oncreate() {
+        if (store.get()['feed:page']) {
+            this.set({ page: store.get()['feed:page'] });
+        }
         if (store.get()['feedResults']) {
             this.set({ feedResults: store.get()['feedResults'] });
         } else {
@@ -42,7 +45,7 @@ export default {
                 this.set({ feedResults: feed.results });
                 store.set({ feedResults: feed.results });
             }).catch((e) => {
-                console.log(e);
+                console.log(e); // eslint-disable-line
                 return e;
             });
         }

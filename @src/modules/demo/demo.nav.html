@@ -11,8 +11,7 @@
     {/each}
 </nav>
 
-<style type="text/scss">
-
+<style lang="scss">
     :global(.demo-navigation__link) {
         transition: background-color color 200ms ease-out;
     }
@@ -35,6 +34,7 @@ if (typeof window === 'undefined') {
 } else {
     history = createBrowserHistory();
 }
+// Use Node to pre-evaluate the .demo files and create a list of demo links
 const links = require('./create-nav.js?eval');
 
 export default {
