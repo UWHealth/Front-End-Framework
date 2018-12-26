@@ -1,5 +1,12 @@
 const PATHS = require(`${process.cwd()}/config/paths.config.js`);
 
+module.exports = {
+    outputStyle: 'expanded',
+    errLogToConsole: true,
+    includePaths: [PATHS.folders.src, PATHS.folders.config],
+    importer: aliasPath,
+};
+
 /**
  * Allows for sass imports to use aliases to represent the folder paths (similar to webpack)
  * @reference            - https://github.com/sass/node-sass#importer
@@ -21,12 +28,3 @@ function aliasPath(url) {
             : url,
     };
 }
-
-const sassConfig = {
-    outputStyle: 'expanded',
-    errLogToConsole: true,
-    includePaths: [PATHS.folders.src, PATHS.folders.config],
-    importer: aliasPath,
-};
-
-module.exports = sassConfig;

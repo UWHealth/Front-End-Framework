@@ -8,12 +8,10 @@ const BROWSERS = require(`${CWD}/package.json`).browserslist;
 const Logger = require('../helpers/logger.js');
 const MODE = require('../helpers/mode');
 const PATHS = require(`${CWD}/config/paths.config.js`);
+const PKG = require(`${CWD}/package.json`);
+const browserSync = require('browser-sync');
 const sassConfig = require(`../helpers/sass-config.js`);
-
-const nanoConfig = {
-    discardComments: { removeAll: true },
-    zindex: false,
-};
+const nanoConfig = require('../helpers/cssnano-config.js');
 
 const LOG = new Logger('Sass');
 
@@ -26,10 +24,11 @@ module.exports = () => {
     const sourcemaps = require('gulp-sourcemaps');
     LOG.spinner('Compiling ');
 
-    const initialInput = () => gulp
-        .src(PATHS.style.entry.array)
-        .pipe(plumber(LOG.error))
-        .pipe(sass.sync(sassConfig));
+    const initialInput = () =>
+        gulp
+            .src(PATHS.style.entry.array)
+            .pipe(plumber(LOG.error))
+            .pipe(sass.sync(sassConfig));
 
     if (MODE.production) {
         return (
@@ -54,7 +53,6 @@ module.exports = () => {
     } else {
         return (
             initialInput()
-
                 // Autoprefix
                 .pipe(
                     postcss([
@@ -78,7 +76,13 @@ module.exports = () => {
 
                 // Output minified CSS
                 .pipe(gulp.dest(PATHS.style.dest))
-
+                .pipe(
+                    browserSync.has(PKG.name)
+                        ? browserSync
+                              .get(PKG.name)
+                              .stream({ match: '**/*.*.css' })
+                        : browserSync.stream()
+                )
                 .on('end', () => {
                     return LOG.success('Compiled');
                 })
