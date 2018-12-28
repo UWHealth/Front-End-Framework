@@ -10,6 +10,7 @@ yargs.options({
         describe: 'Start production mode. "development" is default',
         type: 'boolean',
         group: 'Environment:',
+        default: false
     },
     local: {
         alias: ['lprd'],
@@ -17,6 +18,7 @@ yargs.options({
             'Use "local production" mode. Allows development with production assets',
         type: 'boolean',
         group: 'Environment:',
+        default: false
     },
     mode: {
         describe: 'Set the mode explicity.',

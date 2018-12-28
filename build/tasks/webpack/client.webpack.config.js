@@ -16,7 +16,6 @@ const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
 const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
 const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
-const Jarvis = require('webpack-jarvis');
 const config = baseConfig('web');
 
 const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);

@@ -21,15 +21,20 @@ export default {
     data: () => ({
         asset: null,
         compilation: '',
-        htmlWebpackPlugin: null,
+        htmlWebpackPlugin: {
+            options: {
+                render: {}
+            }
+        },
         manifest: {},
         noInternal: false,
         publicPath: __webpack_public_path__,
+        fromServer: {}
     }),
     computed: {
         // Convert htmlWebpackPlugin options as meta data for header template
-        pageTitle: ({ htmlWebpackPlugin }) =>
-            htmlWebpackPlugin.options.pageTitle,
+        pageTitle: ({ fromServer, htmlWebpackPlugin }) =>
+            fromServer.pageTitle || htmlWebpackPlugin.options.pageTitle,
         // Get initial scripts from manifest, if they exist
         // (filter hot-module-replacement updates)
         scripts: ({ manifest }) =>
@@ -38,8 +43,8 @@ export default {
                 (script) => script.indexOf('hot-update') < 0
             ),
 
-        addon: ({ htmlWebpackPlugin }) =>
-            htmlWebpackPlugin.options.render.addon || '',
+        addon: ({ fromServer, htmlWebpackPlugin }) =>
+            fromServer.addon || '',
 
         // Pass state to handlebars templates
         header: (state) => header(state),
@@ -48,8 +53,7 @@ export default {
         // Add the initial page state,
         // Allowing our app to hydrate
         pageState: (state) => {
-            if (state.noInternal) return '';
-            let opts = state.htmlWebpackPlugin.options.render;
+            let {pathname, componentPath} = state.fromServer || state.htmlWebpackPlugin.options.render;
             return (
                 `<script>` +
                 `console.log('Manifest', ${JSON.stringify(state.manifest)});` +
@@ -57,8 +61,8 @@ export default {
                     state.htmlWebpackPlugin
                 )};` +
                 `window.__APP_STATE__ = { ` +
-                `  initialRoute: "${opts.pathname}",` +
-                `  componentPath: "${opts.componentPath}"` +
+                `  initialRoute: "${pathname}",` +
+                `  componentPath: "${componentPath}"` +
                 `}` +
                 // eslint-disable-next-line
                 `<\/script>`

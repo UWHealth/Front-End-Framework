@@ -18,7 +18,6 @@
     <Results ref:feedList {...result} {page} {MAX_PER_PAGE}/>
     {/each}
 {:else}
-
     {#await feed}
     <p>Loading Feed...</p>
     {:then response}
@@ -30,16 +29,15 @@
     {:catch error}
     <p>Feed load error: {@html error}</p>
     {/await}
-
 {/if}
 
 {#if feedResults}
     {#if page !== 1}
-        <button class="btn" on:click="set({'page': page - 1})">« Page {page - 1}</button>
+        <button class="btn" on:click="scrollFeed(page - 1)">« Page {page - 1}</button>
     {/if}
         {pageString}
     {#if feedMax}
-        <button class="btn" on:click="set({'page': page + 1})">Page {page + 1} »</button>
+        <button class="btn" on:click="scrollFeed(page + 1)">Page {page + 1} »</button>
     {/if}
 {/if}
 
@@ -78,20 +76,21 @@ export default {
             return pageStart + MAX_PER_PAGE + 1;
         },
     },
+    methods: {
+        scrollFeed(pageNum) {
+            this.set({ page: pageNum });
+            window.scroll(0, this.get()['feedTop']);
+        },
+    },
     oncreate() {
         this.set({ feedTop: document.getElementById('feedTop').offsetTop });
-        this.on('update', ({ changed }) => {
-            if (changed.page) {
-                window.scroll(0, this.get()['feedTop']);
-            }
-        });
     },
-    ondestroy() {
+    onupdate({ changed, current, previous }) {
         const _this = this;
-        // Store the page number
-        store.set({ 'feed:page': _this.get()['page'] });
+        if (previous && changed.page && current.page !== previous.page) {
+            store.set({ feedPage: _this.get()['page'] });
+        }
     },
-
     store: () => store,
 };
 </script>

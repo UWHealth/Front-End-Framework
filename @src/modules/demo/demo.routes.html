@@ -60,12 +60,13 @@ export default {
     store: () => store,
 };
 
-const getComponent = (pathname) =>
-    import(/* "webpackChunkName": "demo.route", "webpackMode": "lazy" */ '@/components/' +
-        pathname +
-        '/' +
-        pathname +
-        '.demo.html');
+function getComponent(pathname) {
+    return import(/* webpackChunkName: "demo-route" */
+    /* webpackMode: "lazy" */
+    /* webpackPrefetch: true */
+    /* webpackPreload: -1 */
+    '@/components/' + pathname + '/' + pathname + '.demo.html');
+}
 
 async function findGlobalState() {
     appState.history = createBrowserHistory();

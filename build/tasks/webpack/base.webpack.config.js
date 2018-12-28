@@ -4,6 +4,7 @@
  * Most configuration lives in build/webpack/
  *
  */
+/* eslint-disable complexity */
 
 const path = require('path');
 
@@ -15,11 +16,14 @@ const STATS = require(`${CWD}/build/helpers/webpack-stats-config.js`);
 const TimeFixPlugin = require('time-fix-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-// Set the threshold for base64/inlined file size
-const inlineFileSizeLimit = 4096;
-
-/* eslint-disable complexity */
 module.exports = (target) => {
+    // Set the threshold for base64/inlined file size
+    const inlineFileSizeLimit = 4096;
+
+    /*
+     * Base settings
+     */
+
     const config = {
         target: target,
         context: __dirname,
@@ -36,9 +40,11 @@ module.exports = (target) => {
             alias: PATHS.aliases,
             extensions: [
                 '.js',
+                '.mjs',
                 '.jsx',
                 '.json',
                 '.html',
+                '.svelte',
                 '.hbs',
                 '.handlebars',
             ],
@@ -49,18 +55,21 @@ module.exports = (target) => {
         module: {},
         optimization: {
             nodeEnv: process.env.NODE_ENV,
-            removeAvailableModules: !!MODE.production,
-            removeEmptyChunks: !!MODE.production,
-            splitChunks: !MODE.production && {
-                chunks: 'async',
-            },
+            removeAvailableModules: MODE.production,
+            removeEmptyChunks: MODE.production,
+            splitChunks: MODE.production &&
+                target === 'web' && {
+                    automaticNameDelimiter: '+',
+                    chunks: 'all',
+                },
         },
     };
 
     /*
      * Base plugins
      */
-    if (!MODE.production || MODE.local) {
+
+    if (MODE.dev || MODE.localProduction) {
         config.plugins.push(
             // Ensures only one compilation happens per file change
             new TimeFixPlugin()
@@ -85,17 +94,21 @@ module.exports = (target) => {
      */
 
     // Base CSS Loaders
+    // Order of operations (loaders work from bottom to top):
+    // 1. Process with postcss
+    // 2. Convert to string with css-loader
+    // 3a. Web targets: add the style string to the dom.
+    // 3c. Non-web targets: extract (remove it from JS file) the string
+    // 4. Save the string to a file.
     const cssLoaders = [
-        /* Output file for SSR */
-        !MODE.production &&
-            target !== 'web' && {
-                loader: 'file-loader',
-                options: {
-                    name: `${cssPath}/[name].[hash:base64:5].css`,
-                },
+        target !== 'web' && {
+            loader: 'file-loader',
+            options: {
+                name: `${cssPath}/[name].[hash:8].css`,
             },
+        },
 
-        !MODE.production
+        MODE.dev
             ? target === 'web'
                 ? 'style-loader'
                 : 'extract-loader'
@@ -105,8 +118,8 @@ module.exports = (target) => {
             loader: 'css-loader',
             options: {
                 modules: false,
-                url: false,
-                import: false,
+                url: true,
+                import: true,
                 localIdentName: '[name]_[local]_[hash:base64:5]',
             },
         },
@@ -118,17 +131,16 @@ module.exports = (target) => {
                     require('autoprefixer')({ grid: true }),
 
                     // Minify for production
-                    MODE.production
-                        ? require('cssnano')({
-                              preset: [
-                                  'default',
-                                  {
-                                      mergeLonghand: false,
-                                      cssDeclarationSorter: false,
-                                  },
-                              ],
-                          })
-                        : false,
+                    MODE.production &&
+                        require('cssnano')({
+                            preset: [
+                                'default',
+                                {
+                                    mergeLonghand: false,
+                                    cssDeclarationSorter: false,
+                                },
+                            ],
+                        }),
                 ].filter(Boolean),
             },
         },
@@ -201,7 +213,7 @@ module.exports = (target) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${staticAssetPath}/img/[name].[hash:8].[ext]`,
+                                name: `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`,
                             },
                         },
                     },
@@ -215,12 +227,12 @@ module.exports = (target) => {
             oneOf: [
                 {
                     resourceQuery: /\?inline/,
-                    use: 'raw-loader'
+                    use: 'raw-loader',
                 },
                 {
                     loader: 'file-loader',
                     options: {
-                        name: `${staticAssetPath}/img/[name].[hash:8].[ext]`,
+                        name: `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`,
                     },
                 },
             ],
@@ -237,7 +249,7 @@ module.exports = (target) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${staticAssetPath}/media/[name].[hash:8].[ext]`,
+                                name: `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`,
                             },
                         },
                     },
@@ -256,7 +268,7 @@ module.exports = (target) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${staticAssetPath}/fonts/[name].[hash:8].[ext]`,
+                                name: `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`,
                             },
                         },
                     },

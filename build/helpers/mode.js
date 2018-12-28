@@ -1,41 +1,44 @@
 /* eslint "no-console": "off" */
 const chalk = require('chalk');
 const args = require('./args.js');
+
+// Alter the arguments if mode is explicitly set
 if (args.mode) {
     args[args.mode] = true;
 }
 
-const mode = {
-    production: args.production || args.local,
-    localProduction: args.local,
-    local: args.local,
-    mode:
-        args.production || args.local
-            ? args.local
-                ? 'Local Production'
-                : 'Production'
-            : 'Development',
-    color:
-        args.production || args.local
-            ? args.local
-                ? 'yellow'
-                : 'green'
-            : 'blue',
-    icon: !args.production ? `⚙️` : args.local ? '☀️ ' : '📦',
+// Shorthand logic
+const isDev = !args.production && !args.local;
+const isProd = args.production || args.local;
+const isLocal = args.local;
+
+// Make the "what to return" logic easier to understand
+const devLocalProd = (dev, local, prod) => isProd ? (isLocal ? local : prod) : dev;
+
+// Set NODE_ENV to be consistent with mode
+process.env.NODE_ENV = isProd ? 'production' : 'development';
+
+module.exports = {
+    dev: isDev,
+    production: isProd,
+    localProduction: isLocal,
+    local: isLocal,
+    mode: devLocalProd('Development', 'Local Production', 'Production'),
+    color: devLocalProd('blue', 'yellow', 'green'),
+    icon: devLocalProd(`⚙️`, ' ▶︎', '📦'),
     message: function() {
         return [
-            '\n ═══════════════════════════════════\n',
+            '',
+            ' ╒════════════════════════════════════╕',
+            '',
             ` ${chalk[this.color](this.icon + '  ' + this.mode + ' Mode')}`,
-            '     Launched\n',
-            ' ════════════════════════════════════\n',
+            '     Started',
+            '',
+            ' ╘════════════════════════════════════╛',
+            '',
         ].join('\n');
     },
     show: function() {
         console.info(this.message);
     },
 };
-
-// Set NODE_ENV to be consistent with mode
-process.env.NODE_ENV = mode.production ? 'production' : 'development';
-
-module.exports = mode;

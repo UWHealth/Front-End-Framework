@@ -51,19 +51,19 @@ module.exports.start = function startWebpack(runImmediately, done) {
     } else {
         const middleware = () => {
             let firstRun = true;
-            const middleware = customMiddleware(compiler, LOG);
+            const middleware = customMiddleware(webpack(webpackConfigs[0]), webpack(webpackConfigs[1]), LOG);
 
             // Expose webpack-dev-middleware
             module.exports.devMiddleware = middleware[0];
 
-            compiler.hooks.watchRun.tap('Log Compilation', () => {
-                if (firstRun) {
-                    LOG.info('Started');
-                    firstRun = false;
-                } else {
-                    LOG.spinner('Compiling');
-                }
-            });
+            // compiler.hooks.watchRun.tap('Log Compilation', () => {
+            //     if (firstRun) {
+            //         LOG.info('Started');
+            //         firstRun = false;
+            //     } else {
+            //         LOG.spinner('Compiling');
+            //     }
+            // });
 
             return middleware;
         };

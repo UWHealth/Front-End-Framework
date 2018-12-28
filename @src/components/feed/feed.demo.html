@@ -34,8 +34,8 @@ export default {
         },
     },
     oncreate() {
-        if (store.get()['feed:page']) {
-            this.set({ page: store.get()['feed:page'] });
+        if (store.get()['feedPage']) {
+            this.set({ page: store.get()['feedPage'] });
         }
         if (store.get()['feedResults']) {
             this.set({ feedResults: store.get()['feedResults'] });
