@@ -9,7 +9,7 @@
     </div>
     {@html addon}
     {@html pageState}
-<!-- doctype, html, and body are strings 
+<!-- doctype, html, and body are strings
     to prevent svelte from evaluating them -->
 {@html '</body></html>'}
 
@@ -53,7 +53,7 @@ export default {
         header: (state) => header(state),
         footer: (state) => footer(state),
 
-        // Add the initial page state,
+        // Add the initial page state to the window,
         // Allowing our app to hydrate
         pageState: (state) => {
             let {pathname, componentPath} = state.fromServer || state.htmlWebpackPlugin.options.render;
