@@ -35,7 +35,7 @@ if (typeof window === 'undefined') {
     history = createBrowserHistory();
 }
 // Use Node to pre-evaluate the .demo files and create a list of demo links
-const links = require('./create-nav.js?eval');
+const links = require(`val-loader?{"filePath":"","publicPath":"/"}!./create-nav.js`);
 
 export default {
     components: {

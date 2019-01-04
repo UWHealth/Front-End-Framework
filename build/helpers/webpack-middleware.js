@@ -53,28 +53,39 @@ module.exports = function(client, server /*, LOG */) {
 async function demoMiddleware(req, res, next) {
     const parsed = require('url').parse(req.url);
 
+    // Only allow /demo/:something || /demo/:something/:file.html
+    //
+    // /:path(demo)/:key([\w]*)*/:file([\w\-]*)?:ext(\.html?)?
+    // http://forbeslindesay.github.io/express-route-tester/
     if (
-        parsed.pathname.match(
-            /^\/((?:demo))(?:\/((?:[\w]*)(?:\/(?:[\w]*))*))?\/((?:[\w-]*))?(?:((?:\.html?)))?(?:\/(?=$))?$/i
-        )
+        // parsed.pathname.match(
+        //     /^\/((?:demo))(?:\/((?:[\w]*)(?:\/(?:[\w]*))*))?\/((?:[\w-]*))?(?:((?:\.html?)))?(?:\/(?=$))?$/i
+        // )
+        parsed.pathname.match(/^\/((?:[^/]+?)(?:\/(?:[^/]+?))*)(?:\/(?=$))?$/i)
     ) {
+        let render = '';
         const { compilation, exports } = res.locals.isomorphic;
         const serverStats = compilation.serverStats.toJson();
-        const clientFiles = require('./get-initial-webpack-files.js')(
-            res.locals.isomorphic.compilation.clientStats
-        );
-        const baseName = path.basename(parsed.pathname);
-        const entryName = path.posix.join(parsed.href, baseName);
-        const entryPath = serverStats.assetsByChunkName[entryName];
+        // const baseName = path.basename(parsed.pathname);
+        // const entryName = path.posix.join(parsed.href, baseName);
+        const entryName = parsed.pathname.replace('/', '');
+        console.log(entryName);
+        const pathFromStats =
+            serverStats.assetsByChunkName[entryName] ||
+            serverStats.assetsByChunkName['/' + entryName];
+
+        console.log(pathFromStats);
+        if (!pathFromStats) {
+            return next();
+        }
         const filePath = path.posix.join(
             serverStats.outputPath,
             serverStats.publicPath,
-            entryPath
+            pathFromStats
         );
         const serverFS =
             compilation.serverStats.compilation.compiler.outputFileSystem;
 
-        let render = '';
         try {
             const file = await new Promise((resolve, reject) =>
                 serverFS.readFile(filePath, (err, buffer) => {
@@ -85,9 +96,13 @@ async function demoMiddleware(req, res, next) {
                     }
                 })
             );
-            const asset = await requireFromString(file, filePath);
 
+            const asset = await requireFromString(file, filePath);
             const assetHead = asset.render({}).head;
+
+            const clientFiles = require('./get-initial-webpack-files.js')(
+                res.locals.isomorphic.compilation.clientStats
+            );
             render = exports.render({
                 asset,
                 headExtra: assetHead,
@@ -97,15 +112,21 @@ async function demoMiddleware(req, res, next) {
                     internalTemplate: `${
                         serverStats.publicPath
                     }/${entryName}.demo.js`,
-                    pathname: `${serverStats.publicPath}/${baseName}/`,
-                    componentPath: `${baseName}`,
+                    pathname: `${serverStats.publicPath}${pathFromStats}`,
+                    componentPath: `${path.basename('/' + entryName)}`,
                 },
                 scripts: clientFiles,
             }).html;
         } catch (err) {
-            render = err;
+            render = `
+            <html>
+            <head><title>Error</title></head>
+            <body>
+                <pre>${err.message} \n ${err.stack}</pre>
+            </body>
+            </html>`;
         }
-
+        res.setHeader('Content-Type', 'text/html');
         res.end(render);
     } else {
         next();

@@ -39,6 +39,7 @@ config.output = {
     chunkFilename: MODE.production
         ? `${jsPath}/[name].[chunkhash:3].js`
         : `${jsPath}/[name].js`,
+    hotUpdateChunkFilename: '[id].hot-update.js'
 };
 
 // Add "svelte" key to the front of package resolution

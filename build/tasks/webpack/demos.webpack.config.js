@@ -40,7 +40,7 @@ config.entry = () => {
     // Allowing new ones to be added while webpack runs
     glob.sync(PATHS.demos.entry.src).forEach((file) => {
         const baseName = path.basename(file, '.demo.html');
-        const entryName = path.posix.join(baseName, baseName);
+        const entryName = path.posix.join(baseName);
         entries[entryName] = file;
     });
     return entries;

@@ -25,7 +25,7 @@ module.exports.devMiddleware = {
 module.exports.restart = function(done) {
     LOG.info('Restarting...');
     // Invalidate webpack-dev-middleware
-    module.exports.devMiddleware.invalidate();
+    module.exports.devMiddleware();
     return done;
 };
 
@@ -50,11 +50,14 @@ module.exports.start = function startWebpack(runImmediately, done) {
         compiler.run((err, stats) => webpackLogger(LOG, err, stats, done));
     } else {
         const middleware = () => {
-            let firstRun = true;
-            const middleware = customMiddleware(webpack(webpackConfigs[0]), webpack(webpackConfigs[1]), LOG);
+            // let firstRun = true;
+            const middleware = customMiddleware(
+                webpack(webpackConfigs[0]),
+                webpack(webpackConfigs[1])
+            );
 
             // Expose webpack-dev-middleware
-            module.exports.devMiddleware = middleware[0];
+            module.exports.devMiddleware = middleware[1];
 
             // compiler.hooks.watchRun.tap('Log Compilation', () => {
             //     if (firstRun) {
