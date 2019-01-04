@@ -24,10 +24,15 @@
         {{~{pageTitle}~}}
     </title>
     {{/if}}
-    {{#if scripts}}{{#each scripts~}}
+    {{#if scripts}}
+    
+    <!-- scripts provided by server -->
+    {{#each scripts~}}
         <script {{#unless @first}}async{{/unless}} src="{{{@root.publicPath}}}{{{this}}}"></script>
     {{/each}}
     {{else}}
+        <!-- 
+            defaults, not from server -->
         <script src="/public/js/runtime.bundle.js"></script>
         <script async src="/public/js/main.js"></script>
     {{/if}}

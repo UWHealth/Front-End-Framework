@@ -9,14 +9,14 @@
     </div>
     {@html addon}
     {@html pageState}
+<!-- doctype, html, and body are strings 
+    to prevent svelte from evaluating them -->
 {@html '</body></html>'}
 
 <script>
 import header from '@/components/header/_header.hbs';
 import footer from '@/components/footer/_footer.hbs';
 
-// doctype, html, body, and head tags added as strings
-// to prevent Svelte from treating them as components
 export default {
     data: () => ({
         asset: null,
@@ -31,13 +31,16 @@ export default {
         publicPath: __webpack_public_path__,
         fromServer: {}
     }),
+    helpers: {
+
+    },
     computed: {
         // Convert htmlWebpackPlugin options as meta data for header template
         pageTitle: ({ fromServer, htmlWebpackPlugin }) =>
             fromServer.pageTitle || htmlWebpackPlugin.options.pageTitle,
         // Get initial scripts from manifest, if they exist
         // (filter hot-module-replacement updates)
-        scripts: ({ manifest }) =>
+        scripts: ({ manifest, initialFiles }) =>
             manifest.initial &&
             manifest.initial.filter(
                 (script) => script.indexOf('hot-update') < 0

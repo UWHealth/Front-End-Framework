@@ -34,7 +34,8 @@
             "@uwhealth/environments"
         ],
         "env": {
-            "@uwhealth/environments/webpack": true
+            "@uwhealth/environments/webpack": true,
+            "es6": true
         },
         "overrides": [
             {

@@ -16,3 +16,6 @@ logs
 npm-debug.log*
 *.log
 .imdone
+
+# This can (and probably should) be deleted in a real project
+dist/

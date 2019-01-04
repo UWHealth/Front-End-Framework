@@ -7,6 +7,7 @@
 module.exports = function(wpStats) {
     try {
         // If we have stats.stats, then this is a MultiCompiler
+        // We'll return the results of both compilers (array of arrays)
         return wpStats.stats
             ? wpStats.toJson().children.map((stats) => getInitial(stats))
             : getInitial(wpStats);
@@ -22,7 +23,7 @@ function getInitial(stats) {
     const isCSS = (file) => /\.css(\?[^.]+)?$/.test(file);
 
     // Webpack stats object normalization
-    stats = stats.compilation || stats;
+    stats = stats.compilation ? stats.toJson() : stats;
 
     // Only return unique entrypoints
     return uniq(
