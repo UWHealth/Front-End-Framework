@@ -20,7 +20,6 @@ module.exports = {
         jquery: SG.jquery,
         toc: SG.toc,
         head: PATHS.hbs.entry.header,
-        footer: PATHS.hbs.entry.footer,
     },
     sections: {
         'getting started': 'Setup:',

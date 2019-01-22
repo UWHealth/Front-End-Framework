@@ -32,15 +32,23 @@ const root = process.cwd();
 
 // Base folders
 const _ = {
+    // Root of the project
     root: root,
+    // Source
     src: path.resolve(root, '@src'),
-    assets: path.resolve(root, '@src', 'static'),
+    // Media assets
+    assets: path.resolve(root, '@src', 'assets'),
+    // Build scripts
     build: path.resolve(root, 'build'),
+    // Config files
     config: path.resolve(root, 'config'),
+    // Base Distribution folder
     dist: path.resolve(root, 'dist'),
+    // Public folder (usually nested in dist)
     pub: path.resolve(root, 'dist', 'public'),
+    // Base Cache location
     cache: path.resolve(root, 'node_modules', '.cache'),
-
+    // Documentation
     docs: path.resolve(root, 'docs'),
     dirArray: root.split(path.delimiter),
 };
@@ -76,14 +84,14 @@ const PATHS = {
             meta: `${_.assets}/meta/*.*`,
             exclude: [`!${_.assets}/img/**.*`],
         },
-        dest: `${_.pub}/static/`,
+        dest: `${_.pub}/assets/`,
     },
     // Files to create demos from
     demos: {
         folders: {
             root: `${_.src}/`,
             components: `${_.src}/components/`,
-            modules: `${_.src}/modules/`,
+            modules: `${_.src}/layouts/`,
         },
         entry: {
             src: `${_.src}/components/**/*.demo.html`,
@@ -107,8 +115,8 @@ const PATHS = {
         },
         entry: {
             main: `${_.src}/components/**/*.hbs`,
-            header: `${_.src}/components/header/_header.hbs`,
-            footer: `${_.src}/components/footer/_footer.hbs`,
+            header: `${_.src}/components/head/index.hbs`,
+            footer: `${_.src}/components/footer/index.hbs`,
         },
         dest: `${_.pub}/components/`,
     },
@@ -122,13 +130,13 @@ const PATHS = {
             src: `${_.assets}/img/**/*.+(jpe?g|png|gif|ico|svg)`,
             svg: `${_.assets}/img/svg/**/*.svg`,
         },
-        dest: `${_.pub}/static/img`,
+        dest: `${_.pub}/assets/img`,
     },
     js: {
         folders: {
             root: `${_.src}`,
             components: `${_.src}/components`,
-            modules: `${_.src}/modules`,
+            modules: `${_.src}/layouts`,
             helpers: `${_.src}/helpers`,
         },
         entry: {
@@ -150,8 +158,8 @@ const PATHS = {
             config: `${_.config}/sass.config.scss`,
             print: `${_.src}/print.scss`,
             components: `${_.src}/components/**/[!_]*.scss`,
-            modules: `${_.src}/modules/**/[!_]*.scss`,
-            styleguide: `${_.src}/modules/styleguide/styleguide.scss`,
+            modules: `${_.src}/layouts/**/[!_]*.scss`,
+            styleguide: `${_.src}/layouts/styleguide/styleguide.scss`,
         },
         watch: {
             src: `${_.src}/**/*.scss`,
@@ -162,13 +170,13 @@ const PATHS = {
     styleGuide: {
         entry: {
             config: `${_.config}/styleguide.config.js`,
-            templateFile: `${_.src}/modules/styleguide/styleguide.hbs`,
+            templateFile: `${_.src}/layouts/styleguide/styleguide.hbs`,
             themeFile: `${_.pub}/css/styleguide/styleguide.css`,
-            jquery: `${_.src}/modules/styleguide/imports/jquery.js`,
-            toc: `${_.src}/modules/styleguide/imports/toc.js`,
+            jquery: `${_.src}/layouts/styleguide/imports/jquery.js`,
+            toc: `${_.src}/layouts/styleguide/imports/toc.js`,
         },
         watch: {
-            imports: `${_.src}/modules/styleguide/**/*.*`,
+            imports: `${_.src}/layouts/styleguide/**/*.*`,
             style: `${_.pub}/css/styleguide/styleguide.css`,
             config: `${_.config}/styleguide.config.js`,
         },
@@ -180,11 +188,8 @@ const PATHS = {
         },
         watch: {
             css: `${_.pub}/css/*.css`,
-            js: `${_.pub}/js/**/*.js`,
-            components: `${_.dist}/components/**/*.html`,
-            exclude: [`!${_.dist}/**/*.map`, `!${_.pub}/styleguide/*.html`],
         },
-    }
+    },
 };
 
 // Ensure all paths are exported predictably

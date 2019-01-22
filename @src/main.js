@@ -1,16 +1,14 @@
 import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
-import store from '@/modules/demo/demo.store.js';
-import demoRouter from '@/modules/demo/demo.routes.html';
-// const PATHS = preval`module.exports = require(process.cwd() + '/config/paths.config.js')`;
-//console.log(PATHS);
+import store from '@/layouts/demo/demo.store.js';
+import demoRouter from '@/layouts/demo/demo.routes.html';
 
 let application;
 
 async function init() {
     const appElement = document.getElementById('app');
 
-    if (appElement) {
+    if (appElement && window.__APP_STATE__) {
         const currentRoute = window.__APP_STATE__.componentPath;
 
         const currentComponent = await demoRouter.getComponent(currentRoute);
@@ -29,7 +27,7 @@ async function init() {
 
     if (process.env.NODE_ENV !== 'production') {
         import(/* "webpackChunkName": "keyboard" */
-        '@/helpers/keyboard-shortcuts').then((keyboardSC) => keyboardSC.init());
+        '@/components/keyboard').then((keyboardSC) => keyboardSC.init());
     }
 }
 
@@ -38,7 +36,6 @@ domReady(init);
 window.store = store;
 
 if (module.hot) {
-    console.log("I'm hot.");
     module.hot.accept(function(err) {
         console.log(err);
     });

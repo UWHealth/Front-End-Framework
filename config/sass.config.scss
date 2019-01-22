@@ -1,13 +1,13 @@
+/* stylelint-disable */
 /* SG
 # DEV: Config
 
 See [UWHealth sass tools documenation](https://uwhealth.github.io/sass-tools/) for configuration variable details.
 What is set here are **reasonable defaults**.
-
 */
 
 // Import base sass toolset and default config variables
-@import "~/@uwhealth/sass-tools/index.scss";
+@import '~/@uwhealth/sass-tools/index.scss';
 
 
 //------------------------------------------
@@ -20,8 +20,9 @@ $font-looseness:       15%;
 $auto-scale-type:      false;
 $scale-ratio:          1.35;
 
-$vertical-space:       $base-line-height; // Maintains best vertical rhythm
-$horizontal-space:     $base-line-height; // Simplifies measurements
+// Use multiple of base-line-height for best rhythm and simplest measurements
+$vertical-space:       $base-line-height;
+$horizontal-space:     $base-line-height;
 
 $rem-px-fallback:      false;
 
@@ -47,15 +48,21 @@ $web-fonts: (
         'weights': (400, 700),
         'italics': (400, 700),
         'formats': ('woff', 'svg', 'ttf'),
-        'path': '/public/static/fonts'
+        'path': '/public/assets/fonts'
     )
 );
 
-// $web-fonts-path: 	'/public/static/fonts'; //Paths are relative to CSS file
-
-$primary-font-stack:    $system-font-stack;
-$secondary-font-stack:  "opensans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-$monospace-font-stack:  "Consolas", "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", "Monaco", "Courier New", "Courier", monospace;
+$primary-font-stack: $system-font-stack;
+$secondary-font-stack: (
+    'opensans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif
+);
+$monospace-font-stack: (
+    'Consolas', 'Andale Mono WT', 'Andale Mono',
+    'Lucida Console', 'Lucida Sans Typewriter',
+    'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
+    'Liberation Mono', 'Nimbus Mono L', 'Monaco',
+    'Courier New', 'Courier', monospace
+);
 $icon-font-stack:       null;
 
 
@@ -69,28 +76,28 @@ $max-wide-content-width: 910px;
 
 $breakpoints: (
     // Mostly phones
-    "smalls":
-        "(max-width:#{ems($max-wide-content-width)})",
+    'smalls':
+        '(max-width:#{ems($max-wide-content-width)})',
     // Small Phones
-    "small":
-        "(max-width: #{ems($max-content-width)})",
+    'small':
+        '(max-width: #{ems($max-content-width)})',
     // Large (Modern) phones/phablets
-    "smallish":
-        "(min-width: #{ems($max-content-width+1px)})" +
-        " and (max-width: #{ems($max-wide-content-width)})",
+    'smallish':
+        '(min-width: #{ems($max-content-width+1px)})' +
+        ' and (max-width: #{ems($max-wide-content-width)})',
     // Tablets, Desktops and larger
-    "bigs":
-        "(min-width: #{ems($max-wide-content-width+1px)})",
+    'bigs':
+        '(min-width: #{ems($max-wide-content-width+1px)})',
     // Mostly Tablets and small laptops. Overrides Bigs
-    "lap":
-        "(min-width: #{ems($max-wide-content-width + 1px)})" +
-        " and (max-width: #{ems($max-site-width)})",
+    'lap':
+        '(min-width: #{ems($max-wide-content-width + 1px)})' +
+        ' and (max-width: #{ems($max-site-width)})',
     // Large Tablets and Desktops. Overrides Bigs.
-    "desk":
-        "(min-width: #{ems($max-site-width)})"
+    'desk':
+        '(min-width: #{ems($max-site-width)})'
 );
 
-$breakpoint-namespace-character: "_";
+$breakpoint-namespace-character: '_';
 
 
 //------------------------------------------
@@ -104,12 +111,23 @@ $grid-push:              true;
 $grid-pull:              true;
 
 $grid-flex:              true;
+
+// Class naming format (default is BEM-style with namespace)
+$grid-class-format:  'grid''{__}{%child%}''{--}{%modifier%}';
+$width-class-format: (
+    'width-''{%numerator%}-{%denominator%}''{\\@}{%breakpoint%}'
+);
+$push-class-format: (
+    'push-''{%numerator%}-{%denominator%}''{\\@}{%breakpoint%}'
+);
+$pull-class-format: (
+    'push-''{%numerator%}-{%denominator%}''{\\@}{%breakpoint%}'
+);
+
+// Fallback for older browsers (IE 9 -)
 $grid-floats:            false;
-
-$grid-inline-block:      true; // Fallback for older browsers
-$grid-letter-space-fix:  -0.45em; // Should be based on $primary-font-stack
-
-$grid-bem-naming:        true; // Generated classes use BEM instead of snake_case
+$grid-inline-block:      false;
+$grid-letter-space-fix:  -0.45em;
 
 // Include classes for each named breakpoint in $breakpoints
 $breakpoint-has-widths: ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
@@ -122,11 +140,15 @@ $breakpoint-has-pull:   ('smalls', 'small', 'smallish', 'bigs', 'lap', 'desk');
 //------------------------------------------
 
 $display-classes: (
-    "show": block,
-    "il": inline,
-    "i-block": inline-block,
-    "hide": none,
-    "flex": flex,
+    'block': block,
+    'inline': inline,
+    'inline-block': inline-block,
+    'none': none,
+    'flex': flex,
+);
+
+$display-class-format: (
+    'ov-{%display%}''{\\@}{%breakpoint%}'
 );
 
 // Determines what display utility classes get generated at `$breakpoints`
@@ -136,34 +158,36 @@ $breakpoint-has-display-classes: false; // ("smalls", "bigs");
 // If $breakpoint-has-spacing-classes is false, this can be ignored
 $spacing-classes: (
     properties: (
-        "pad": padding,
-        "space": margin,
+        'pad': padding,
+        'space': margin,
     ),
     directions: (
-        "": "",
-        "-t": "top",
-        "-b": "bottom",
-        "-l": "left",
-        "-r": "right",
-        "-v": "top" "bottom",
-        "-h": "right" "left",
+        '': '',
+        't': 'top',
+        'b': 'bottom',
+        'l': 'left',
+        'r': 'right',
+        'v': 'top' 'bottom',
+        'h': 'right' 'left',
     ),
-    units: (
-        "-0": 0,
-        "": 1,
-        "-quarter": 0.25,
-        "-half": 0.5,
-        "-2": 2,
-        "-neg-quarter": -0.25,
-        "-neg-half": -0.5,
-        "-neg": -1,
-        "-neg-2": -2,
+    amounts: (
+        '0': 0,
+        '': 1,
+        'quarter': 0.25,
+        'half': 0.5,
+        '2': 2,
+        'neg-half': -0.5,
+        'neg': -1,
+        'neg-2': -2,
     ),
+    format: (
+        'ov-{%property%}''{-}{%direction%}''{-}{%amount%}''{\\@}{%breakpoint%}'
+    )
 );
 
 // Determines what spacing utility classes get generated at `$breakpoints`
 // The list's order determines cascade (output order).
-$breakpoint-has-spacing-classes: ("smalls", "bigs", "desk");
+$breakpoint-has-spacing-classes: ('smalls', 'bigs', 'desk');
 
 // Alignment utility classes
 // See helpers/_overrides/_ov-alignment

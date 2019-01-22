@@ -13,14 +13,14 @@ Sass files are imported in order from lowest specificity to highest.
   * General-use mixins and sass utilities
 2. `config`
   * Project-specific configuration
-3. `@/modules/base`
+3. `@/layouts/base`
   * Resets and normalization (sanitize and normalize)
   * Element styles (unclassed)
-4. `@/modules/*`
+4. `@/layouts/*`
   * Basic layout and object styles (single-class)
 5. `@/components/*`
   * Module and component styles (single- and child-classes)
-6. `@/modules/*`
+6. `@/layouts/*`
   * View- and page-specific and scoped styles (typically `parent > child` classes).
 7. `@/helpers/overrides/`
   * Utility styles, usually end in `!important`.
@@ -43,25 +43,19 @@ Sass files are imported in order from lowest specificity to highest.
 // Basic elements -
 // normalization, resets, and elements
 // Lowest specificity
-@import '@/modules/base/index';
+@import '@/layouts/base/index';
 
 // Layout classes -
 // Grids, alignment and higher-level classes
 // +1 specificity
-@import '@/modules/wrap';
-@import '@/modules/grid/grid';
-@import '@/modules/media-object';
-@import '@/modules/list';
+@import '@/layouts/grid/index';
+@import '@/layouts/list/index';
 
 // Components -
 // OOCSS styles and base-level classes
 // +1 specificity
 @import '@/components/button/button';
-
-// Skins -
-// View-specific and theme-/skin-based styles
-// +2-4 specificity
-// @import '@/modules/homepage/homepage'
+@import '@/components/media-object';
 
 // Overrides -
 // High-specificity css and overrides classes (typically single-use classes)

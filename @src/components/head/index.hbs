@@ -1,21 +1,28 @@
+{{!--
+    ================================
+    Meta Tags
+    ================================
+    Best practice (as of 1-17-2019) head tags
 
+--}}
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {{~!--Favicons--}}
+    {{!--Favicons--}}
     <link rel="apple-touch-icon" sizes="180x180" href="/public/static/img/favicons/favicon-180x180.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/public/static/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/public/static/img/favicons/favicon-192x192.png">
-    <link rel="mask-icon" href="/public/static/img/favicons/icon.svg" color="#d40943">
-    <link rel="shortcut icon" href="/public/static/img/favicons/favicon.ico">
+    <link rel="mask-icon" href="/public/assets/img/favicons/icon.svg" color="#d40943">
+    <link rel="shortcut icon" href="/public/assets/img/favicons/favicon.ico">
 
-    {{> ./_header.seo.hbs}}
-    {{> ./_header.app.hbs}}
-    {{> ./_header.social.hbs}}
+    {{!-- Optional meta tags  --}}
+    {{> ./head.seo.hbs}}
+    {{> ./head.app.hbs}}
+    {{> ./head.social.hbs}}
 
-    {{~!-- Feeds --}}
+    {{!-- Feeds --}}
     <!--<link rel="alternate" href="https://feeds2.feedburner.com/uwsmph/news" type="application/rss+xml" title="RSS 2.0">-->
     <!--<link rel="alternate" href="http://example.com/feed.atom" type="application/atom+xml" title="Atom 0.3">-->
 
@@ -25,13 +32,12 @@
     </title>
     {{/if}}
     {{#if scripts}}
-    
     <!-- scripts provided by server -->
     {{#each scripts~}}
         <script {{#unless @first}}async{{/unless}} src="{{{@root.publicPath}}}{{{this}}}"></script>
     {{/each}}
     {{else}}
-        <!-- 
+        <!--
             defaults, not from server -->
         <script src="/public/js/runtime.bundle.js"></script>
         <script async src="/public/js/main.js"></script>
@@ -54,6 +60,5 @@
         {{{headExtra}}}
     {{/if}}
 
-
-    {{> ./_header.async.hbs}}
+    {{> ./head.async.hbs}}
 </head>

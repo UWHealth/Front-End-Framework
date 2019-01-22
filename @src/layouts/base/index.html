@@ -1,0 +1,124 @@
+<!-- doctype, html, and body are strings
+    to prevent svelte from evaluating them -->
+{@html
+    `<!DOCTYPE html>
+    <html lang="en" itemscope itemtype="https://schema.org/Article">`
+}
+{@html header}
+{@html '<body>'}
+    <div id="app" class="application">
+        {@html innerComponent}
+    </div>
+    <Footer {...props} />
+    {@html exportedState}
+{@html `
+    </body></html>
+`}
+
+<script>
+import HeadTemplate from '@/components/head';
+
+export default {
+    components: {
+        Footer: '@/components/footer',
+    },
+    data: () => ({
+        asset: null,
+        manifest: {},
+        noInternal: false,
+        publicPath: __webpack_public_path__,
+        head: {
+            pageTitle: 'Front-End-Framework',
+            meta: {},
+            links: {},
+            scripts: {},
+            headExtra: '',
+        },
+        fromServer: {
+            pathname: '/',
+            componentPath: '/',
+            request: {},
+        },
+    }),
+    computed: {
+        // Convenient way to pass entire state to components
+        props: (state) => state,
+
+        // Get initial scripts from manifest, if they exist
+        // (filter out hot-module-replacement updates)
+        scripts: ({ manifest }) =>
+            manifest.initial &&
+            manifest.initial.filter(
+                (script) => script.indexOf('hot-update') < 0
+            ),
+
+        // Pass head state to handlebars template
+        header: ({ head, scripts, publicPath }) =>
+            HeadTemplate(Object.assign({}, head, { scripts, publicPath })),
+
+        // Add the initial page state to the window,
+        // Allowing our app to hydrate
+        exportedState: ({ fromServer, manifest }) => {
+            let { pathname, componentPath, request } = fromServer;
+            request = request
+                ? {
+                      url: request.url,
+                      headers: request.headers,
+                      method: request.method,
+                  }
+                : '""';
+            return (
+                `<script>` +
+                `console.log('Manifest', ${JSON.stringify(manifest)});` +
+                `window.__APP_STATE__ = { ` +
+                `  initialRoute: "${pathname}",` +
+                `  componentPath: "${componentPath}",` +
+                `  request: ${JSON.stringify(request)}` +
+                `};` +
+                // eslint-disable-next-line
+                `<\/script>`
+            );
+        },
+
+        // Get processed svelte template and evaluate it
+        // in a separate node VM (eval)
+        // Allows us to avoid bundling every possible page template
+        innerComponent: (state) => {
+            if (state.noInternal) return '';
+            return state.asset.render(state);
+            // if (!state.asset) {
+            //     const _eval = __non_webpack_require__('eval');
+            //
+            //     let { htmlWebpackPlugin, compilation } = state;
+            //
+            //     const assetName =
+            //         htmlWebpackPlugin.options.render.internalTemplate;
+            //
+            //     if (!assetName) {
+            //         return '';
+            //     }
+            //
+            //     try {
+            //         const source = compilation.assets[assetName].toSource();
+            //         const context = _eval(
+            //             source,
+            //             assetName,
+            //             {
+            //                 window: undefined,
+            //                 document: undefined,
+            //                 fetch: undefined,
+            //             },
+            //             false /* Do not include node globals */
+            //         );
+            //         return context.render(state);
+            //     } catch (e) {
+            //         // eslint-disable-next-line
+            //         console.log(e);
+            //         return 'error: ' + e.message;
+            //     }
+            // }
+            // console.log(asset);
+        },
+    },
+};
+</script>

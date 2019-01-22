@@ -34,7 +34,7 @@ module.exports = () => {
     const BS_PORT = ARGS.bsport || PATHS.browserSync.port || 8080;
 
     INSTANCE.init({
-        files: [`${PATHS.style.dest}/**/*.css`],
+        files: PATHS.browserSync.watch.array,
         port: BS_PORT, // Allow for --bsport= argument
         proxy: ARGS.bsproxy || undefined, // Allow for --bsproxy= argument
         serveStatic: false, // Allow for --bsservestatic= argument
