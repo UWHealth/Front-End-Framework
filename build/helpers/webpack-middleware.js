@@ -13,7 +13,7 @@ const watchOptions =
         ? { poll: 1000, ignored: /(node_modules|dist|public)/ }
         : null;
 
-module.exports = function(client, server /*, LOG */) {
+module.exports = function(client, server, LOG) {
     return [
         // Force express-like res.locals
         // webpackIsoMiddleware depends on it
@@ -23,21 +23,33 @@ module.exports = function(client, server /*, LOG */) {
             }
             next();
         },
-        // webpackDevMiddleware(compiler, {
-        //     publicPath: '/',
-        //     stats: require(`${CWD}/build/helpers/webpack-stats-config.js`)(),
-        //     writeToDisk: (filepath) => filepath.indexOf('hot-update') < 0,
-        //     logLevel: 'silent',
-        //     serverSideRender: true,
-        //     reporter: (middlewareOptions, options) => {
-        //         throttle(webpackLogger(LOG, null, options.stats), 5000);
-        //     },
-        //     watchOptions,
-        // }),
         webpackIsoMiddleware(client, server, {
             watchOptions,
             notify: true,
-            report: { stats: 'once' },
+            report: {
+                stats: 'once',
+                write: (str) => {
+                    if (str) {
+                        let log = LOG;
+                        if (Array.isArray(str)) {
+                            log = LOG[str[1]];
+                            str = str[0];
+                        } else {
+                            log = LOG.info;
+                        }
+                        log(str);
+                    }
+                },
+                printStart: () => {
+                    // const method = firstRun ? 'info' : 'spinner';
+                    // firstRun = false;
+                    return 'Compiling...';
+                },
+                printSuccess: ({ duration }) => [
+                    `Compiled in ${duration}ms`,
+                    'success',
+                ],
+            },
         }),
 
         webpackHotMiddleware(client, {
@@ -69,12 +81,12 @@ async function demoMiddleware(req, res, next) {
         // const baseName = path.basename(parsed.pathname);
         // const entryName = path.posix.join(parsed.href, baseName);
         const entryName = parsed.pathname.replace('/', '');
-        console.log(entryName);
+        // console.log(entryName);
         const pathFromStats =
             serverStats.assetsByChunkName[entryName] ||
             serverStats.assetsByChunkName['/' + entryName];
 
-        console.log(pathFromStats);
+        // console.log(pathFromStats);
         if (!pathFromStats) {
             return next();
         }
@@ -98,24 +110,25 @@ async function demoMiddleware(req, res, next) {
             );
 
             const asset = await requireFromString(file, filePath);
-            const assetHead = asset.render({}).head;
+            const generatedHead = asset.render({}).head;
 
             const clientFiles = require('./get-initial-webpack-files.js')(
                 res.locals.isomorphic.compilation.clientStats
             );
             render = exports.render({
                 asset,
-                headExtra: assetHead,
                 manifest: { initial: clientFiles },
                 compilation: compilation.clientStats.compilation,
+                publicPath: `${serverStats.publicPath}`,
+                head: {
+                    pageTitle: '',
+                    headExtra: generatedHead,
+                },
                 fromServer: {
-                    internalTemplate: `${
-                        serverStats.publicPath
-                    }/${entryName}.demo.js`,
+                    request: req,
                     pathname: `${serverStats.publicPath}${pathFromStats}`,
                     componentPath: `${path.basename('/' + entryName)}`,
                 },
-                scripts: clientFiles,
             }).html;
         } catch (err) {
             render = `
@@ -164,119 +177,135 @@ function requireFromString(
     return exports;
 }
 
-// function customMiddleware(req, res, next) {
-//     const parsed = require('url').parse(req.url);
+/*
+module.exports = [
+    webpackDevMiddleware(compiler, {
+        publicPath: '/',
+        stats: require(`${CWD}/build/helpers/webpack-stats-config.js`)(),
+        writeToDisk: (filepath) => filepath.indexOf('hot-update') < 0,
+        logLevel: 'silent',
+        serverSideRender: true,
+        reporter: (middlewareOptions, options) => {
+            throttle(webpackLogger(LOG, null, options.stats), 5000);
+        },
+        watchOptions,
+    }),
+]
 
-//     // Only allow /demo/:something || /demo/:something/:file.html
-//     //
-//     // /:path(demo)/:key([\w]*)*/:file([\w\-]*)?:ext(\.html?)?
-//     // http://forbeslindesay.github.io/express-route-tester/
-//     if (
-//         parsed.pathname.match(
-//             /^\/((?:demo))(?:\/((?:[\w]*)(?:\/(?:[\w]*))*))?\/((?:[\w-]*))?(?:((?:\.html?)))?(?:\/(?=$))?$/i
-//         )
-//     ) {
-//         // console.log(parsed);
-//         let compilations = [];
-//         const assetsByChunkName = res.locals.isomorphic.compilation.stats
-//             .toJson()
-//             .children.map((compilation) => {
-//                 compilations.push(compilation);
-//                 return normalizeAssets(compilation.assetsByChunkName).filter(
-//                     (asset) => path.extname(asset) === '.js'
-//                 );
-//             });
+function customMiddleware(req, res, next) {
+    const parsed = require('url').parse(req.url);
 
-//         const initialFiles = require('./get-initial-webpack-files.js')(
-//             res.locals.webpackStats
-//         )[0];
-//         const baseName = path.basename(parsed.pathname);
-//         const entryName = path.posix.join(baseName, baseName);
-//         const demoPath = path.posix.relative(
-//             PATHS.folders.dist,
-//             PATHS.demos.dest
-//         );
+    // Only allow /demo/:something || /demo/:something/:file.html
+    //
+    // /:path(demo)/:key([\w]*)* ?/:file([\w\-]*)?:ext(\.html?)?
+    // http://forbeslindesay.github.io/express-route-tester/
+    if (
+        parsed.pathname.match(
+            /^\/((?:demo))(?:\/((?:[\w]*)(?:\/(?:[\w]*))*))?\/((?:[\w-]*))?(?:((?:\.html?)))?(?:\/(?=$))?$/i
+        )
+    ) {
+        // console.log(parsed);
+        let compilations = [];
+        const assetsByChunkName = res.locals.isomorphic.compilation.stats
+            .toJson()
+            .children.map((compilation) => {
+                compilations.push(compilation);
+                return normalizeAssets(compilation.assetsByChunkName).filter(
+                    (asset) => path.extname(asset) === '.js'
+                );
+            });
 
-//         const basePath = path.resolve(`${PATHS.demos.dest}`, `base.demo.js`);
-//         const assetPath = path.resolve(
-//             `${PATHS.demos.dest}`,
-//             `${entryName}.demo.js`
-//         );
+        const initialFiles = require('./get-initial-webpack-files.js')(
+            res.locals.webpackStats
+        )[0];
+        const baseName = path.basename(parsed.pathname);
+        const entryName = path.posix.join(baseName, baseName);
+        const demoPath = path.posix.relative(
+            PATHS.folders.dist,
+            PATHS.demos.dest
+        );
 
-//         // Recreate HTML webpack plugin options object
-//         const htmlWebpackPlugin = {
-//             options: {
-//                 pageTitle: false,
-//                 //Template-specific data
-//                 render: {
-//                     internalTemplate: `${demoPath}/${entryName}.demo.js`,
-//                     pathname: `/${demoPath}/${baseName}/`,
-//                     componentPath: `${baseName}`,
-//                 },
-//             },
-//         };
+        const basePath = path.resolve(`${PATHS.demos.dest}`, `base.demo.js`);
+        const assetPath = path.resolve(
+            `${PATHS.demos.dest}`,
+            `${entryName}.demo.js`
+        );
 
-//         let render;
-//         try {
-//             const content = require(basePath);
-//             const asset = require(assetPath);
-//             const headExtra = asset.render({}).head;
+        // Recreate HTML webpack plugin options object
+        const htmlWebpackPlugin = {
+            options: {
+                pageTitle: false,
+                //Template-specific data
+                render: {
+                    internalTemplate: `${demoPath}/${entryName}.demo.js`,
+                    pathname: `/${demoPath}/${baseName}/`,
+                    componentPath: `${baseName}`,
+                },
+            },
+        };
 
-//             render = content.render({
-//                 asset,
-//                 assetsByChunkName,
-//                 headExtra,
-//                 manifest: { initial: initialFiles },
-//                 compilation: compilations[0],
-//                 htmlWebpackPlugin,
-//             }).html;
-//         } catch (err) {
-//             render = `<pre>${err.message} \n ${err.stack}</pre>`;
-//         }
+        let render;
+        try {
+            const content = require(basePath);
+            const asset = require(assetPath);
+            const headExtra = asset.render({}).head;
 
-//         try {
-//             // Remove assets from Node cache
-//             delete require.cache[require.resolve(basePath)];
-//             delete require.cache[require.resolve(PATHS.demos.entry.manifest)];
-//             delete require.cache[require.resolve(assetPath)];
-//         } catch (err) {
-//             // Ignore these errors
-//             () => null;
-//         }
+            render = content.render({
+                asset,
+                assetsByChunkName,
+                headExtra,
+                manifest: { initial: initialFiles },
+                compilation: compilations[0],
+                htmlWebpackPlugin,
+            }).html;
+        } catch (err) {
+            render = `<pre>${err.message} \n ${err.stack}</pre>`;
+        }
 
-//         res.setHeader('Content-Type', 'text/html');
-//         res.end(render);
-//     } else {
-//         next();
-//     }
-// }
+        try {
+            // Remove assets from Node cache
+            delete require.cache[require.resolve(basePath)];
+            delete require.cache[require.resolve(PATHS.demos.entry.manifest)];
+            delete require.cache[require.resolve(assetPath)];
+        } catch (err) {
+            // Ignore these errors
+            () => null;
+        }
 
-// function normalizeAssets(assets) {
-//     if (assets === Object(assets)) {
-//         return flattenArray(Object.values(assets));
-//     }
-//     return Array.isArray(assets) ? assets : [assets];
-// }
+        res.setHeader('Content-Type', 'text/html');
+        res.end(render);
+    } else {
+        next();
+    }
+}
 
-// function flattenArray(arr1) {
-//     return arr1.reduce(
-//         (acc, val) =>
-//             Array.isArray(val)
-//                 ? acc.concat(flattenArray(val))
-//                 : acc.concat(val),
-//         []
-//     );
-// }
+function normalizeAssets(assets) {
+    if (assets === Object(assets)) {
+        return flattenArray(Object.values(assets));
+    }
+    return Array.isArray(assets) ? assets : [assets];
+}
 
-// /**
-//  * Throttles function calls. Used for throttling over-aggressive webpack logging.
-//  */
-// function throttle(func, delay) {
-//     let inDebounce;
-//     return function() {
-//         const context = this;
-//         const args = arguments;
-//         clearTimeout(inDebounce);
-//         inDebounce = setTimeout(() => func.apply(context, args), delay);
-//     };
-// }
+function flattenArray(arr1) {
+    return arr1.reduce(
+        (acc, val) =>
+            Array.isArray(val)
+                ? acc.concat(flattenArray(val))
+                : acc.concat(val),
+        []
+    );
+}
+
+/**
+ * Throttles function calls. Used for throttling over-aggressive webpack logging.
+
+function throttle(func, delay) {
+    let inDebounce;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(inDebounce);
+        inDebounce = setTimeout(() => func.apply(context, args), delay);
+    };
+}
+*/

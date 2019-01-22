@@ -1,45 +1,58 @@
-<div id="feedTop" style="display:block; height:0; visibility:hidden;"></div>
-<header>
-{#if feedResults}
-    {#if page !== 1}
-    <button class="btn u-space-r-half" on:click="set({'page': page - 1})">« Page {page - 1}</button>
+<header id="feedTop">
+    {#if feedResults}{#if page !== 1}
+    <button class="btn" on:click="set({'page': page - 1})">
+        ← Page {page - 1}
+    </button>
     {/if}
-        {pageString}
+    <span>{pageString}</span>
     {#if feedMax}
-        <button class="btn u-space-l-half" on:click="set({'page': page + 1})">Page {page + 1} »</button>
-    {/if}
-{/if}
-    <hr class="u-space-t">
+    <button class="btn" on:click="set({'page': page + 1})">
+        Page {page + 1} →
+    </button>
+    {/if}{/if}
+    <hr class="ov-space-t" >
 </header>
 
-{#if $feedResults}
+<div>
     <!-- Cached feed, from store -->
-    {#each $feedResults.result.slice(pageStart, pageEnd) as result (result.title)}
-    <Results ref:feedList {...result} {page} {MAX_PER_PAGE}/>
-    {/each}
-{:else}
-    {#await feed}
-    <p>Loading Feed...</p>
-    {:then response}
-    {#if response && response.results}
-        {#each response.results.result.slice(pageStart, pageEnd) as result (result.title)}
-            <Results ref:feedList {...result} {page} {MAX_PER_PAGE}/>
+    {#if $feedResults}
+        {#each $feedResults.result.slice(pageStart, pageEnd)
+            as result (result.title)
+        }
+        <Results ref:feedList {...result} {page} {MAX_PER_PAGE} />
         {/each}
+    {:else}
+        {#await feed}
+            <p>Loading Feed...</p>
+        {:then response}
+        {#if response && response.results}
+            {#each
+                response.results.result.slice(pageStart, pageEnd)
+                as result (result.title)
+            }
+                <Results ref:feedList {...result} {page} {MAX_PER_PAGE} />
+            {/each}
+            {/if}
+        {:catch error}
+            <p>Feed load error: {@html error}</p>
+        {/await}
     {/if}
-    {:catch error}
-    <p>Feed load error: {@html error}</p>
-    {/await}
-{/if}
+</div>
 
-{#if feedResults}
-    {#if page !== 1}
-        <button class="btn" on:click="scrollFeed(page - 1)">« Page {page - 1}</button>
+<div>
+    <hr class="ov-space-t" />
+    {#if feedResults} {#if page !== 1}
+    <button class="btn" on:click="scrollFeed(page - 1)">
+        ←&nbsp; &nbsp; Page {page - 1}
+    </button>
     {/if}
-        {pageString}
+    <span>{pageString}</span>
     {#if feedMax}
-        <button class="btn" on:click="scrollFeed(page + 1)">Page {page + 1} »</button>
-    {/if}
-{/if}
+    <button class="btn" on:click="scrollFeed(page + 1)">
+        Page {page + 1} &nbsp; &nbsp;→
+    </button>
+    {/if}{/if}
+</div>
 
 <style>
     header {
@@ -48,49 +61,56 @@
     :root {
         scroll-behavior: smooth;
     }
+    button {
+        padding-right: 1.6rem;
+        padding-left: 1.6rem;
+    }
+    span {
+        margin: 0 2.25rem;
+    }
 </style>
 
 <script>
-import store from '@/modules/demo/demo.store.js';
+    import store from '@/layouts/demo/demo.store.js';
 
-export default {
-    components: {
-        Results: './result.html',
-    },
-    computed: {
-        feedMax: ({ page, MAX_PER_PAGE, feedResults }) => {
-            if (feedResults && feedResults.result) {
-                return page * (MAX_PER_PAGE + 1) <= feedResults.result.length;
+    export default {
+        components: {
+            Results: './result.html',
+        },
+        computed: {
+            feedMax: ({ page, MAX_PER_PAGE, feedResults }) => {
+                if (feedResults && feedResults.result) {
+                    return page * (MAX_PER_PAGE + 1) <= feedResults.result.length;
+                }
+                return false;
+            },
+            pageString: ({ page }) => {
+                return page && 'Page ' + page;
+            },
+            pageStart: ({ page, MAX_PER_PAGE }) => {
+                return page === 1
+                    ? 0
+                    : Math.max(0, (page - 1) * (MAX_PER_PAGE + 1));
+            },
+            pageEnd: ({ pageStart, MAX_PER_PAGE }) => {
+                return pageStart + MAX_PER_PAGE + 1;
+            },
+        },
+        methods: {
+            scrollFeed(pageNum) {
+                this.set({ page: pageNum });
+                window.scroll(0, this.get()['feedTop']);
+            },
+        },
+        oncreate() {
+            this.set({ feedTop: document.getElementById('feedTop').offsetTop });
+        },
+        onupdate({ changed, current, previous }) {
+            const _this = this;
+            if (previous && changed.page && current.page !== previous.page) {
+                store.set({ feedPage: _this.get()['page'] });
             }
-            return false;
         },
-        pageString: ({ page }) => {
-            return page && 'Page ' + page;
-        },
-        pageStart: ({ page, MAX_PER_PAGE }) => {
-            return page === 1
-                ? 0
-                : Math.max(0, (page - 1) * (MAX_PER_PAGE + 1));
-        },
-        pageEnd: ({ pageStart, MAX_PER_PAGE }) => {
-            return pageStart + MAX_PER_PAGE + 1;
-        },
-    },
-    methods: {
-        scrollFeed(pageNum) {
-            this.set({ page: pageNum });
-            window.scroll(0, this.get()['feedTop']);
-        },
-    },
-    oncreate() {
-        this.set({ feedTop: document.getElementById('feedTop').offsetTop });
-    },
-    onupdate({ changed, current, previous }) {
-        const _this = this;
-        if (previous && changed.page && current.page !== previous.page) {
-            store.set({ feedPage: _this.get()['page'] });
-        }
-    },
-    store: () => store,
-};
+        store: () => store,
+    };
 </script>

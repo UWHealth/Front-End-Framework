@@ -15,7 +15,7 @@ const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
 const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
 const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
-const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
+// const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
 const config = baseConfig('web');
 
 const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
@@ -39,12 +39,13 @@ config.output = {
     chunkFilename: MODE.production
         ? `${jsPath}/[name].[chunkhash:3].js`
         : `${jsPath}/[name].js`,
-    hotUpdateChunkFilename: '[id].hot-update.js'
+    hotUpdateChunkFilename: '[id].hot-update.js',
+    hotUpdateMainFilename: 'main.hot-update.js',
 };
 
 // Add "svelte" key to the front of package resolution
 config.resolve.mainFields.unshift('svelte', 'browser');
-config.resolve.alias['__manifest__'] = PATHS.demos.entry.manifest;
+// config.resolve.alias['__manifest__'] = PATHS.demos.entry.manifest;
 
 /*
  * Client Plugins
@@ -52,12 +53,12 @@ config.resolve.alias['__manifest__'] = PATHS.demos.entry.manifest;
 config.plugins = config.plugins.concat(
     [
         // Using Vue's manifest plugin so we can reference it in SSR config
-        new VueManifestPlugin({
-            filename: `${path.posix.relative(
-                PATHS.folders.dist,
-                PATHS.demos.entry.manifest
-            )}`,
-        }),
+        // new VueManifestPlugin({
+        //     filename: `${path.posix.relative(
+        //         PATHS.folders.dist,
+        //         PATHS.demos.entry.manifest
+        //     )}`,
+        // }),
         // Ensure chunk order stays consistent
         new webpack.optimize.OccurrenceOrderPlugin(),
         // Hot module replacement
@@ -100,8 +101,8 @@ config.module.rules.push(
  * 1. Always create a runtime entry point (dev and prod)
  * 2. Remove Node polyfills (prod)
  * 3. Uglify (prod)
- * 4. Split & merge chunks (prod)
- * 5. Merge extracted CSS (prod)
+ * 4. Merge extracted CSS (prod)
+ * 5. Split & merge chunks (prod)
  */
 
 // [1] Simplify chunks to rely on webpack runtime for loading
@@ -131,15 +132,24 @@ if (MODE.production) {
                 mangle: true,
                 compress: true,
                 comments: false,
-                // exclude: /\/(t4|hbs)./
             },
             parallel: true,
             sourceMap: true,
         }),
     ];
 
-    // [4] Split chunks optimally
-    // Might need to be tweaked based on project needs */
+    // [4] Take all extracted CSS and concatenate it into one .css file
+    // This might need to be changed or disabled depending on the project
+    // In many cases, component/route-based CSS is actually faster
+    config.optimization.splitChunks.cacheGroups['styles'] = {
+        name: 'styles',
+        test: /\.css$/,
+        chunks: 'all',
+        enforce: true,
+    };
+
+    // [5] Split chunks optimally
+    // Probably needs to be tweaked based on project needs
     config.optimization.concatenateModules = true;
     config.optimization.mergeDuplicateChunks = true;
 
@@ -175,14 +185,6 @@ if (MODE.production) {
             },
         }
     );
-
-    // // [5] Take all extracted CSS and concatenate it into one .css file
-    // config.optimization.splitChunks.cacheGroups['styles'] = {
-    //     name: 'styles',
-    //     test: /\.css$/,
-    //     chunks: 'all',
-    //     enforce: true
-    // };
 }
 
 /**

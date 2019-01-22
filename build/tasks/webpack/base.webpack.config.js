@@ -13,7 +13,7 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const STATS = require(`${CWD}/build/helpers/webpack-stats-config.js`);
 
-const TimeFixPlugin = require('time-fix-plugin');
+// const TimeFixPlugin = require('time-fix-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (target) => {
@@ -50,7 +50,10 @@ module.exports = (target) => {
             ],
         },
         entry: {},
-        output: {},
+        output: {
+            hotUpdateChunkFilename: '[id].hot-update.js',
+            hotUpdateMainFilename: '[id].hot-update.js',
+        },
         plugins: [],
         module: {},
         optimization: {
@@ -69,12 +72,12 @@ module.exports = (target) => {
      * Base plugins
      */
 
-    if (MODE.dev || MODE.localProduction) {
-        config.plugins.push(
-            // Ensures only one compilation happens per file change
-            new TimeFixPlugin()
-        );
-    }
+    // if (MODE.dev || MODE.localProduction) {
+    //     config.plugins.push(
+    //         // Ensures only one compilation happens per file change
+    //         new TimeFixPlugin()
+    //     );
+    // }
 
     // Re-usable CSS output path
     const cssPath = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);

@@ -16,12 +16,7 @@
 </button>
 
 <script>
-import modifiers from '@/helpers/class-modifiers';
-
 export default {
-    helpers: {
-        modifiers,
-    },
     data: () => ({
         body: 'Button',
         icon: false,
@@ -29,5 +24,16 @@ export default {
         attrs: false,
         type: [],
     }),
+    helpers: {
+        modifiers: (types, prefix) => {
+            if (!types.length) {
+                return '';
+            }
+            if (!Array.isArray(types)) {
+                types = [types];
+            }
+            return types.map((type) => prefix + type).join(' ');
+        },
+    },
 };
 </script>

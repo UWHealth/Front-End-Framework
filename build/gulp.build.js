@@ -1,10 +1,10 @@
 const gulp = require('gulp');
 const series = gulp.series;
 
-const TASKS = require('./helpers/require-tasks.js');
 const MODE = require('./helpers/mode');
 const Logger = require('./helpers/logger.js');
 const LOG = new Logger('Gulp');
+const TASKS = require('./helpers/require-tasks.js');
 
 function taskOrder() {
     const p = gulp.parallel;
@@ -15,16 +15,14 @@ function taskOrder() {
         ? // DEV
           series(
               'clean',
-              p('style'),
-              p('images', 'copy'),
-              p('watch', 'browserSync')
+              p('style', 'images', 'copy', 'browserSync'),
+              p('watch')
           )
         : MODE.localProduction
         ? // LOCAL-PROD
           series(
               'clean',
-              p('style'),
-              p('images', 'copy'),
+              p('style', 'images', 'copy'),
               p('watch', 'browserSync')
           )
         : // PROD
@@ -58,9 +56,6 @@ gulp.task('browserSync', require(TASKS.browserSync));
 /* ---------------------------------
  * Compilation Tasks
  * --------------------------------*/
-
-// Handlebars compilation
-gulp.task('hbs', require(TASKS.hbs));
 
 // Image copying and compilation
 gulp.task('images', require(TASKS.images));

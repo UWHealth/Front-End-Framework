@@ -6,12 +6,12 @@
 </Demo>
 
 <script>
-import store from '@/modules/demo/demo.store.js';
+import store from '@/layouts/demo/demo.store.js';
 
 export default {
     store: () => store,
     components: {
-        Demo: '@/modules/demo/index.html',
+        Demo: '@/layouts/demo/index.html',
         List: './index.html',
     },
     data() {
