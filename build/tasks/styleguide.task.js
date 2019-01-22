@@ -6,4 +6,10 @@ const SG_CONFIG = require(PATHS.styleGuide.entry.config);
 
 const LOG = new Logger('Style Guide');
 
-module.exports = () => styleguide.create(SG_CONFIG).catch(LOG.error);
+module.exports = () => {
+    try {
+        return styleguide.create(SG_CONFIG).catch(LOG.error);
+    } catch(e) {
+        return LOG.error(e);
+    }
+};

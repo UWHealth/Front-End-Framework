@@ -16,18 +16,20 @@ const nanoConfig = require('../helpers/cssnano-config.js');
 const LOG = new Logger('Sass');
 
 module.exports = () => {
+    const DraftLog = require('draftlog');
+    DraftLog(console);
     const gulp = require('gulp');
     const postcss = require('gulp-postcss');
     const plumber = require('gulp-plumber');
     const rename = require('gulp-rename');
     const sass = require('gulp-sass');
     const sourcemaps = require('gulp-sourcemaps');
-    LOG.spinner('Compiling ');
-
+    //LOG.spinner('Compiling ');
+    const log = console.draft('Sass Compiling');
     const initialInput = () =>
         gulp
             .src(PATHS.style.entry.array)
-            .pipe(plumber(LOG.error))
+            //.pipe(plumber(LOG.error))
             .pipe(sass.sync(sassConfig));
 
     if (MODE.production) {
@@ -72,7 +74,7 @@ module.exports = () => {
 
                 // Write out sourcemaps
                 .pipe(sourcemaps.write('./maps'))
-                .pipe(plumber.stop())
+                //.pipe(plumber.stop())
 
                 // Output minified CSS
                 .pipe(gulp.dest(PATHS.style.dest))
@@ -84,7 +86,10 @@ module.exports = () => {
                         : browserSync.stream()
                 )
                 .on('end', () => {
-                    return LOG.success('Compiled');
+                    return log('Compiled');
+                })
+                .on('data', (chunk) => {
+                    return log('sass compiling still ' + chunk.length);
                 })
         );
     }

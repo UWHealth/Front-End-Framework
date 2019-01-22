@@ -53,7 +53,8 @@ module.exports.start = function startWebpack(runImmediately, done) {
             // let firstRun = true;
             const middleware = customMiddleware(
                 webpack(webpackConfigs[0]),
-                webpack(webpackConfigs[1])
+                webpack(webpackConfigs[1]),
+                LOG
             );
 
             // Expose webpack-dev-middleware

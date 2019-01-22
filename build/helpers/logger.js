@@ -53,6 +53,8 @@ module.exports = function(task, message) {
         self.ora.clear().info(opts);
     };
 
+    this.clear = self.ora.clear();
+
     this.success = function(msg) {
         msg = msg || message || '';
         msg += ' ' + getTime();

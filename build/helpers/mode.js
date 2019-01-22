@@ -13,13 +13,16 @@ const isProd = args.production || args.local;
 const isLocal = args.local;
 
 // Make the "what to return" logic easier to understand
-const devLocalProd = (dev, local, prod) => isProd ? (isLocal ? local : prod) : dev;
+const devLocalProd = (dev, local, prod) =>
+    isProd ? (isLocal ? local : prod) : dev;
 
 // Set NODE_ENV to be consistent with mode
 process.env.NODE_ENV = isProd ? 'production' : 'development';
 
 module.exports = {
     dev: isDev,
+    development: isDev,
+    prod: isProd,
     production: isProd,
     localProduction: isLocal,
     local: isLocal,
