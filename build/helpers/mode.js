@@ -1,6 +1,8 @@
 /* eslint "no-console": "off" */
 const chalk = require('chalk');
 const args = require('./args.js');
+const DraftLog = require('draftlog');
+DraftLog(console);
 
 // Alter the arguments if mode is explicitly set
 if (args.mode) {
@@ -42,6 +44,6 @@ module.exports = {
         ].join('\n');
     },
     show: function() {
-        console.info(this.message);
+        process.stdout.write(this.message);
     },
 };
