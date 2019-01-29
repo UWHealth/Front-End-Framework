@@ -18,20 +18,27 @@ const LOG = new Logger('Webpack');
 const webpack = require('webpack');
 const webpackConfigs = require(`${CWD}/build/webpack.build.js`);
 
-module.exports.devMiddleware = {
+let devMiddleware = {
     invalidate: () => null,
 };
 
-module.exports.restart = function(done) {
+function restart() {
     LOG.info('Restarting...');
+    delete require.cache[require.resolve('../helpers/webpack-middleware.js')];
+    delete require.cache[require.resolve(`${CWD}/build/webpack.build.js`)];
     // Invalidate webpack-dev-middleware
-    module.exports.devMiddleware();
-    return done;
+    devMiddleware();
 };
 
-module.exports.start = function startWebpack(runImmediately, done) {
+function runImmediately(done) {
+    LOG.spinner('Compiling');
+    webpack(webpackConfigs).run((err, stats) =>
+        webpackLogger(LOG, err, stats, done)
+    );
+}
+
+function startWebpack(done) {
     // Create webpack compiler instance
-    const compiler = webpack(webpackConfigs);
 
     // Write out a temporary manifest (if needed), so we can avoid errors on startup
     if (!fs.existsSync(PATHS.demos.entry.manifest)) {
@@ -45,11 +52,10 @@ module.exports.start = function startWebpack(runImmediately, done) {
 
     // Allow for immediate run (essentially, non-watch mode)
     // Primarily used for --production mode
-    if (runImmediately || (!MODE.local && MODE.production)) {
-        LOG.spinner('Compiling');
-        compiler.run((err, stats) => webpackLogger(LOG, err, stats, done));
+    if (!MODE.local && MODE.production) {
+        runImmediately(done);
     } else {
-        const middleware = () => {
+        return () => {
             // let firstRun = true;
             const middleware = customMiddleware(
                 webpack(webpackConfigs[0]),
@@ -58,7 +64,7 @@ module.exports.start = function startWebpack(runImmediately, done) {
             );
 
             // Expose webpack-dev-middleware
-            module.exports.devMiddleware = middleware[1];
+            devMiddleware = middleware[1];
 
             // compiler.hooks.watchRun.tap('Log Compilation', () => {
             //     if (firstRun) {
@@ -71,13 +77,12 @@ module.exports.start = function startWebpack(runImmediately, done) {
 
             return middleware;
         };
-
-        return {
-            middleware,
-            compiler,
-        };
     }
 };
+
+module.exports = startWebpack;
+module.exports.run = runImmediately;
+module.exports.restart = restart;
 
 /**
  * Creates the folders for the manifest in case they don't already exist.

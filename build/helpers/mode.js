@@ -1,8 +1,6 @@
 /* eslint "no-console": "off" */
 const chalk = require('chalk');
 const args = require('./args.js');
-const DraftLog = require('draftlog');
-DraftLog(console);
 
 // Alter the arguments if mode is explicitly set
 if (args.mode) {
@@ -20,6 +18,8 @@ const devLocalProd = (dev, local, prod) =>
 
 // Set NODE_ENV to be consistent with mode
 process.env.NODE_ENV = isProd ? 'production' : 'development';
+// Set the process title to the project
+process.title = require(process.cwd() + '/package.json').name;
 
 module.exports = {
     dev: isDev,

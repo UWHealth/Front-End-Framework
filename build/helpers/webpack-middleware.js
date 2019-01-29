@@ -18,14 +18,18 @@ module.exports = function(client, server, LOG) {
         // Force express-like res.locals
         // webpackIsoMiddleware depends on it
         function(req, res, next) {
-            if (!res.locals) {
-                res.locals = {};
-            }
+            res.locals = res.locals || {};
             next();
         },
         webpackIsoMiddleware(client, server, {
             watchOptions,
             notify: true,
+            findServerAssetName: (stats) => {
+                const assetName = stats.assetsByChunkName['base'];
+                return stats.assets
+                    .map((asset) => asset.name)
+                    .find((name) => name === assetName)
+            },
             report: {
                 stats: 'once',
                 write: (str) => {
@@ -77,6 +81,7 @@ async function demoMiddleware(req, res, next) {
     ) {
         let render = '';
         const { compilation, exports } = res.locals.isomorphic;
+
         const serverStats = compilation.serverStats.toJson();
         // const baseName = path.basename(parsed.pathname);
         // const entryName = path.posix.join(parsed.href, baseName);
@@ -115,7 +120,7 @@ async function demoMiddleware(req, res, next) {
             const clientFiles = require('./get-initial-webpack-files.js')(
                 res.locals.isomorphic.compilation.clientStats
             );
-            render = exports.render({
+            render = exports.default({
                 asset,
                 manifest: { initial: clientFiles },
                 compilation: compilation.clientStats.compilation,

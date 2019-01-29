@@ -5,7 +5,7 @@
 /* eslint-disable complexity */
 module.exports = () => {
     const browserSync = require('browser-sync');
-    const { middleware } = require('./js.task.js').start();
+    const middleware = require('./js.task.js')();
     const PKG = require(`${process.cwd()}/package.json`);
 
     const ARGS = require('../helpers/args.js');
@@ -71,8 +71,8 @@ module.exports = () => {
 function attachEvents(INSTANCE) {
     const EVENT = INSTANCE.emitter;
     const chalk = require('chalk');
-    const Logger = require('../helpers/logger.js');
-    const LOG = new Logger('Server');
+    //const Logger = require('../helpers/logger.js');
+    //const LOG = new Logger('Server');
     const symbol = chalk`{blue.bold →}`;
 
     EVENT.on('service:running', (bs /*, data */) => {
@@ -82,10 +82,10 @@ function attachEvents(INSTANCE) {
         }
         const URLS = bs.options.get('urls');
 
-        return console.info(
+        return process.stdout.write(
             chalk`\n${symbol} {blue Server started at {bold ${URLS.get(
                 'local'
-            )}}} (${URLS.get('external')})\n`
+            )}}} (${URLS.get('external')})\n\n`
         );
     });
 

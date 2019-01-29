@@ -149,12 +149,38 @@ module.exports = (target) => {
         },
     ].filter(Boolean);
 
-    const staticAssetPath = path.posix.relative(
+    const relativePubPath = path.posix.relative(
         PATHS.folders.dist,
-        PATHS.folders.assets
+        PATHS.folders.pub
+    );
+    const staticAssetPath = path.posix.join(
+        relativePubPath,
+        path.posix.relative(PATHS.folders.src, PATHS.folders.assets)
     );
 
     config.module.rules = [
+        /* Text files */
+        {
+            test: /\.txt(\?.*)?$/,
+            use: 'raw-loader',
+        },
+
+        /* App Manifests */
+        {
+            test: /(manifest\.webmanifest|browserconfig\.xml)$/,
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: `${relativePubPath}/[name].[ext]`,
+                    },
+                },
+                {
+                    loader: 'app-manifest-loader',
+                },
+            ],
+        },
+
         /* handlebars */
         {
             test: /\.(hbs|handlebars|hbs\.svg)(\?.*)?$/,
@@ -216,7 +242,9 @@ module.exports = (target) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`,
+                                name: MODE.production
+                                    ? `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`
+                                    : `${staticAssetPath}/[folder]/[name].[ext]`,
                             },
                         },
                     },

@@ -2,7 +2,7 @@ const chalk = require('chalk');
 const notify = require('gulp-notify');
 const PrettyError = require('pretty-error');
 const ora = require('ora');
-const DraftLog = require('draftlog');
+// const DraftLog = require('draftlog');
 
 const pErr = new PrettyError();
 
@@ -11,13 +11,13 @@ module.exports = function(task, message) {
     this.ora = new ora(task);
 
     const self = this;
-    DraftLog(console);
-    const log = console.draft();
+    // DraftLog(console);
+    const log = console.log;
 
     this.spinner = function(msg) {
         msg = msg || message;
-        //self.ora.start(chalk.cyan(task) + ' ' + msg);
-        log(chalk.cyan(task) + ' ' + msg);
+        self.ora.start(chalk.cyan(task) + ' ' + msg);
+        // log(chalk.cyan(task) + ' ' + msg);
     };
 
     this.notify = function(err) {
@@ -35,7 +35,7 @@ module.exports = function(task, message) {
     this.error = function(err) {
         const error = message || err;
 
-        // self.ora.stop().fail(chalk.bold.red(`${task} error ${getTime()}\n`));
+        self.ora.stop().fail(chalk.bold.red(`${task} error ${getTime()}\n`));
         log(chalk.bold.red(`${task} error ${getTime()}\n`), pErr.render(error));
 
         if (this && this.emit) {
@@ -49,12 +49,12 @@ module.exports = function(task, message) {
         msg = msg || (oraOpts && oraOpts.text) || message;
 
         msg = chalk.blue(task) + ' ' + msg + ' ' + getTime();
-        log(msg);
-        // const opts =
-        //     oraOpts && oraOpts.symbol
-        //         ? { text: msg, symbol: oraOpts.symbol }
-        //         : msg;
-        // self.ora.clear().info(opts);
+        // log(msg);
+        const opts =
+            oraOpts && oraOpts.symbol
+                ? { text: msg, symbol: oraOpts.symbol }
+                : msg;
+        self.ora.clear().info(opts);
     };
 
     this.clear = self.ora.clear();
@@ -62,8 +62,8 @@ module.exports = function(task, message) {
     this.success = function(msg) {
         msg = msg || message || '';
         msg += ' ' + getTime();
-        // self.ora.stop().succeed(chalk.green(task) + ' ' + msg);
-        log(chalk.green(task) + ' ' + msg);
+        self.ora.stop().succeed(chalk.green(task) + ' ' + msg);
+        // log(chalk.green(task) + ' ' + msg);
     };
 };
 

@@ -2,9 +2,8 @@ const del = require('del');
 const Logger = require('../helpers/logger.js');
 const PATHS = require(`${process.cwd()}/config/paths.config.js`);
 
-const LOG = new Logger('Clean');
-
 module.exports = function(done) {
+    const LOG = new Logger('Clean');
     LOG.spinner('deleting ./dist contents');
 
     return del(PATHS.clean.entry.array)
@@ -24,6 +23,7 @@ module.exports = function(done) {
 };
 
 module.exports.specific = function(fileArray, callback) {
+    const LOG = new Logger('Clean');
     return del(fileArray)
         .then(() => {
             callback();

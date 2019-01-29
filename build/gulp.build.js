@@ -4,19 +4,19 @@ const series = gulp.series;
 const MODE = require('./helpers/mode');
 const Logger = require('./helpers/logger.js');
 const LOG = new Logger('Gulp');
-const TASKS = require('./helpers/require-tasks.js');
+const TASKS = require('./helpers/get-tasks.js');
 
 function taskOrder() {
     const p = gulp.parallel;
 
     LOG.ora.stopAndPersist({ text: MODE.message() });
 
-    return !MODE.production
+    return MODE.dev
         ? // DEV
           series(
               'clean',
-              p('style', 'images', 'copy', 'browserSync'),
-              p('watch')
+              p('style', 'images', 'copy'),
+              p('browserSync', 'watch')
           )
         : MODE.localProduction
         ? // LOCAL-PROD
@@ -68,7 +68,7 @@ gulp.task('styleGuide', require(TASKS.styleguide));
 
 // Javascript concatenating, bundling, and webpack-ifying
 gulp.task('js', (done) => {
-    require(TASKS.js).start(true, done);
+    require(TASKS.js).run(done);
 });
 
 /* ---------------------------------

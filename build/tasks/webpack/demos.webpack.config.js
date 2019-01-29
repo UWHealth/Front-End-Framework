@@ -28,14 +28,15 @@ config.output = {
     publicPath: '/',
     libraryTarget: 'commonjs',
     filename: `${demoPath}/[name].demo.js`,
-};
-
-const baseEntryPoints = {
-    base: path.resolve(PATHS.demos.folders.modules, 'base', 'index.html'),
+    chunkFilename: `${demoPath}/[id].[ext]`,
+    hotUpdateChunkFilename: '[id].hot-update.js',
+    hotUpdateMainFilename: 'main.hot-update.js',
 };
 
 config.entry = () => {
-    const entries = baseEntryPoints;
+    const entries = {};
+    entries['base'] = path.resolve(PATHS.folders.src, 'demos.js');
+
     // Dynamically add .demo files as entry points
     // Allowing new ones to be added while webpack runs
     glob.sync(PATHS.demos.entry.src).forEach((file) => {

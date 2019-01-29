@@ -13,8 +13,6 @@ const browserSync = require('browser-sync');
 const sassConfig = require(`../helpers/sass-config.js`);
 const nanoConfig = require('../helpers/cssnano-config.js');
 
-const LOG = new Logger('Sass');
-
 module.exports = () => {
     const gulp = require('gulp');
     const postcss = require('gulp-postcss');
@@ -22,6 +20,8 @@ module.exports = () => {
     const rename = require('gulp-rename');
     const sass = require('gulp-sass');
     const sourcemaps = require('gulp-sourcemaps');
+    const LOG = new Logger('Sass');
+
     LOG.spinner('Compiling ');
     // const log = console.draft('Sass Compiling');
     const initialInput = () =>
