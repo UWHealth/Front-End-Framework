@@ -2,6 +2,9 @@ import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
 import store from '@/layouts/demo/demo.store.js';
 import demoRouter from '@/layouts/demo/demo.routes.html';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+
+OfflinePluginRuntime.install();
 
 let application;
 

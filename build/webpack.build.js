@@ -14,5 +14,5 @@ module.exports = !MODE.production
       [
           require('./tasks/webpack/client.webpack.config.js'),
           require('./tasks/webpack/demos.webpack.config.js'),
-          require('./tasks/webpack/t4.webpack.config.js'),
+          //require('./tasks/webpack/t4.webpack.config.js'),
       ];

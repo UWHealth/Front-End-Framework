@@ -7,7 +7,9 @@
 {@html header}
 {@html '<body>'}
     <div id="app" class="application">
-        {@html innerComponent}
+        {#if innerComponent}
+            {@html innerComponent}
+        {/if}
     </div>
     <Footer {...props} />
     {@html exportedState}
@@ -17,6 +19,8 @@
 
 <script>
 import HeadTemplate from '@/components/head';
+// import appManifest from './manifest.webmanifest';
+// import browserConfig from './browserconfig.xml';
 
 export default {
     components: {
@@ -25,8 +29,6 @@ export default {
     data: () => ({
         asset: null,
         manifest: {},
-        noInternal: false,
-        publicPath: __webpack_public_path__,
         head: {
             pageTitle: 'Front-End-Framework',
             meta: {},
@@ -40,6 +42,7 @@ export default {
             request: {},
         },
     }),
+    helpers: {},
     computed: {
         // Convenient way to pass entire state to components
         props: (state) => state,
@@ -84,7 +87,6 @@ export default {
         // in a separate node VM (eval)
         // Allows us to avoid bundling every possible page template
         innerComponent: (state) => {
-            if (state.noInternal) return '';
             return state.asset.render(state);
             // if (!state.asset) {
             //     const _eval = __non_webpack_require__('eval');

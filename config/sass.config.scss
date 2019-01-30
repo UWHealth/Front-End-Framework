@@ -48,7 +48,8 @@ $web-fonts: (
         'weights': (400, 700),
         'italics': (400, 700),
         'formats': ('woff', 'svg', 'ttf'),
-        'path': '/public/assets/fonts'
+        'path': '/public/assets/fonts',
+        'font-display': 'swap'
     )
 );
 

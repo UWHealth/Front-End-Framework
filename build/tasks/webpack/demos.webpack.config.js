@@ -14,15 +14,16 @@ const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
 const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 const config = require(`./base.webpack.config.js`)('node');
 
-const demoPath = path.posix.relative(PATHS.folders.dist, PATHS.demos.dest);
-
 config.name = 'Demo';
+
+const demoPath = path.posix.relative(PATHS.folders.dist, PATHS.demos.dest);
 
 /*
  * Demo-specific output
  * Making stuff consumable by Node
  */
 config.devtool = false;
+config.mode = 'development';
 config.output = {
     path: path.resolve(PATHS.folders.dist),
     publicPath: '/',
@@ -35,7 +36,7 @@ config.output = {
 
 config.entry = () => {
     const entries = {};
-    entries['base'] = path.resolve(PATHS.folders.src, 'demos.js');
+    entries['base'] = path.resolve(PATHS.folders.src, 'server.js');
 
     // Dynamically add .demo files as entry points
     // Allowing new ones to be added while webpack runs
@@ -72,6 +73,10 @@ config.module.rules.push(
     babelLoader(config.name, babelConfig)
 );
 
+config.optimization.concatenateModules = false;
+config.optimization.mergeDuplicateChunks = false;
+config.optimization.splitChunks = false;
+
 // config.plugins.push(
 //     new HtmlPlugin({
 //         template: path.resolve(PATHS.demos.entry.main),
@@ -94,8 +99,8 @@ config.module.rules.push(
 // Create HTML pages from *.demo.html files
 // glob.sync(PATHS.demos.entry.src).forEach((file) => {
 //     const baseName = path.basename(file, '.demo.html');
-//     const entryName = path.posix.join(baseName, baseName);
-//
+//     const entryName = path.posix.join(baseName);
+
 //     config.plugins.push(
 //         new HtmlPlugin({
 //             template: path.resolve(PATHS.demos.entry.main),

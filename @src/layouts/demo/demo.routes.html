@@ -16,17 +16,15 @@ export default {
     components: {
         Route: 'svelte-routing/Route.html',
     },
-    data() {
-        return Object.assign(
-            {},
-            {
-                path: '/:demo',
-                demoTitle: 'Demo',
-                currentRoute: '',
-            },
-            globalState
-        );
-    },
+    data: () => Object.assign(
+        {},
+        {
+            path: '/:demo',
+            demoTitle: 'Demo',
+            currentRoute: '',
+        },
+        globalState
+    ),
     oncreate() {
         const router = this.refs.router;
 

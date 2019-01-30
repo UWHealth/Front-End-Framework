@@ -8,6 +8,7 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 
 const webpack = require('webpack');
+const OfflinePlugin = require('offline-plugin');
 const glob = require('fast-glob');
 const path = require('path');
 
@@ -16,6 +17,7 @@ const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
 const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
 const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
 // const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
+
 const config = baseConfig('web');
 
 const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
@@ -59,24 +61,24 @@ config.plugins = config.plugins.concat(
         //         PATHS.demos.entry.manifest
         //     )}`,
         // }),
+
         // Ensure chunk order stays consistent
         new webpack.optimize.OccurrenceOrderPlugin(),
         // Hot module replacement
-        new webpack.HotModuleReplacementPlugin(),
-
-        // new Jarvis(),
+        MODE.production && new webpack.HotModuleReplacementPlugin(),
 
         // Keep module.id stable when vendor modules do not change
-        MODE.production ? new webpack.HashedModuleIdsPlugin() : false,
+        MODE.production && new webpack.HashedModuleIdsPlugin(),
 
         // Allow non-production code to be removed
-        MODE.production
-            ? new webpack.DefinePlugin({
-                  'typeof window': '"object"',
-                  'process.env.NODE_ENV': "'production'",
-                  'module.hot': 'false',
-              })
-            : false,
+        MODE.production &&
+        new webpack.DefinePlugin({
+            'typeof window': '"object"',
+            'process.env.NODE_ENV': "'production'",
+            'module.hot': 'false',
+            }),
+
+        new OfflinePlugin(),
     ].filter(Boolean)
 );
 
@@ -141,50 +143,52 @@ if (MODE.production) {
     // [4] Take all extracted CSS and concatenate it into one .css file
     // This might need to be changed or disabled depending on the project
     // In many cases, component/route-based CSS is actually faster
-    config.optimization.splitChunks.cacheGroups['styles'] = {
-        name: 'styles',
-        test: /\.css$/,
-        chunks: 'all',
-        enforce: true,
-    };
+    // config.optimization.splitChunks.cacheGroups = {
+    //     styles: {
+    //         name: 'styles',
+    //         test: /\.css$/,
+    //         chunks: 'all',
+    //         enforce: true,
+    //     },
+    // }
 
     // [5] Split chunks optimally
     // Probably needs to be tweaked based on project needs
     config.optimization.concatenateModules = true;
     config.optimization.mergeDuplicateChunks = true;
 
-    config.optimization.splitChunks = Object.assign(
-        config.optimization.splitChunks,
-        {
-            chunks: 'all',
-            automaticNameDelimiter: '+',
-            minSize: 15000,
-            minChunks: 1,
-            maxAsyncRequests: 5,
-            maxInitialRequests: 3,
-            cacheGroups: {
-                vendors: false,
-                default: {
-                    minChunks: 2,
-                    priority: 0,
-                    reuseExistingChunk: true,
-                },
-                routing: {
-                    name: 'routing',
-                    test: /[\\/]node_modules[\\/](svelte|history)/,
-                    chunks: 'all',
-                    minChunks: 3,
-                    priority: -20,
-                },
-                commons: {
-                    name: 'shared',
-                    chunks: 'all',
-                    minChunks: 2,
-                    reuseExistingChunk: true,
-                },
-            },
-        }
-    );
+    // config.optimization.splitChunks = Object.assign(
+    //     config.optimization.splitChunks,
+    //     {
+    //         chunks: 'all',
+    //         automaticNameDelimiter: '+',
+    //         minSize: 15000,
+    //         minChunks: 1,
+    //         maxAsyncRequests: 5,
+    //         maxInitialRequests: 3,
+    //         cacheGroups: {
+    //             vendors: false,
+    //             default: {
+    //                 minChunks: 2,
+    //                 priority: 0,
+    //                 reuseExistingChunk: true,
+    //             },
+    //             routing: {
+    //                 name: 'routing',
+    //                 test: /[\\/]node_modules[\\/](svelte|history)/,
+    //                 chunks: 'all',
+    //                 minChunks: 3,
+    //                 priority: -20,
+    //             },
+    //             commons: {
+    //                 name: 'shared',
+    //                 chunks: 'all',
+    //                 minChunks: 2,
+    //                 reuseExistingChunk: true,
+    //             },
+    //         },
+    //     }
+    // );
 }
 
 /**
@@ -193,7 +197,7 @@ if (MODE.production) {
  */
 function addHMR(entry) {
     // Never add HMR to production code
-    if (MODE.production && !MODE.localProduction) {
+    if (MODE.production && MODE.localProduction) {
         return entry;
     }
 

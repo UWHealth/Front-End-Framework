@@ -1,11 +1,11 @@
 <Demo demoTitle="Buttons" variants="{true}" currentRoute="Button">
     <div slot="header">
-        <Button>Whatup, I'm a button</Button>
+        <Buttons>Whatup, I'm a button</Buttons>
     </div>
     <div slot="variants">
         {#each widths as buttonType}
         <div class="button-holder button-holder--{buttonType}">
-            <Button type="{buttonType}" body="{capitalize(buttonType)}"/>
+            <Buttons type="{buttonType}" body="{capitalize(buttonType)}"/>
         </div>
         {/each}
     </div>
@@ -16,7 +16,7 @@ import capitalize from '@/helpers/title-case';
 
 export default {
     components: {
-        Button: './index.html',
+        Buttons: './index.html',
         Demo: '@/layouts/demo/index.html',
     },
     helpers: {

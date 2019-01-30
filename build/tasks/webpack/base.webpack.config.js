@@ -82,7 +82,7 @@ module.exports = (target) => {
     // Re-usable CSS output path
     const cssPath = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
 
-    if (MODE.production) {
+    if (MODE.production && target === 'web') {
         // Extract CSS to its own file in --production mode
         config.plugins.push(
             new MiniCssExtractPlugin({
@@ -111,10 +111,8 @@ module.exports = (target) => {
             },
         },
 
-        MODE.dev
-            ? target === 'web'
-                ? 'style-loader'
-                : 'extract-loader'
+        MODE.dev || target !== 'web'
+            ? 'style-loader'
             : MiniCssExtractPlugin.loader,
 
         {
@@ -159,6 +157,38 @@ module.exports = (target) => {
     );
 
     config.module.rules = [
+
+        /* Plain CSS */
+        {
+            test: /\.(css)(\?.*)?$/,
+            oneOf: [
+                // Inline CSS (use foo.css?inline)
+                {
+                    resourceQuery: /\?inline/,
+                    use: 'raw-loader',
+                },
+
+                // Normal CSS
+                {
+                    use: cssLoaders,
+                },
+            ],
+        },
+
+        /* Sass */
+        // Add sass to the beginning of the cssLoaders chain
+        {
+            test: /\.(s[ca]ss)(\?.*)?$/,
+            use: cssLoaders.concat([
+                {
+                    loader: 'sass-loader',
+                    options: require(`${
+                        PATHS.folders.build
+                    }/helpers/sass-config.js`),
+                },
+            ]),
+        },
+
         /* Text files */
         {
             test: /\.txt(\?.*)?$/,
@@ -198,37 +228,6 @@ module.exports = (target) => {
                     },
                 },
             ],
-        },
-
-        /* Plain CSS */
-        {
-            test: /\.(css)(\?.*)?$/,
-            oneOf: [
-                // Inline CSS (use foo.css?inline)
-                {
-                    resourceQuery: /\?inline/,
-                    use: 'raw-loader',
-                },
-
-                // Normal CSS
-                {
-                    use: cssLoaders,
-                },
-            ],
-        },
-
-        /* Sass */
-        // Add sass to the beginning of the cssLoaders chain
-        {
-            test: /\.(s[ca]ss)(\?.*)?$/,
-            use: cssLoaders.concat([
-                {
-                    loader: 'sass-loader',
-                    options: require(`${
-                        PATHS.folders.build
-                    }/helpers/sass-config.js`),
-                },
-            ]),
         },
 
         /* images */

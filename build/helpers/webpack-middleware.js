@@ -1,8 +1,8 @@
 const path = require('path');
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
+const history = require('connect-history-api-fallback');
 // const PATHS = require(`${CWD}/config/paths.config.js`);
-
 // const webpackLogger = require('./webpack-logger.js');
 // const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackIsoMiddleware = require('webpack-isomorphic-dev-middleware');
@@ -21,6 +21,7 @@ module.exports = function(client, server, LOG) {
             res.locals = res.locals || {};
             next();
         },
+
         webpackIsoMiddleware(client, server, {
             watchOptions,
             notify: true,
@@ -28,7 +29,7 @@ module.exports = function(client, server, LOG) {
                 const assetName = stats.assetsByChunkName['base'];
                 return stats.assets
                     .map((asset) => asset.name)
-                    .find((name) => name === assetName)
+                    .find((name) => name === assetName);
             },
             report: {
                 stats: 'once',
@@ -63,92 +64,102 @@ module.exports = function(client, server, LOG) {
         }),
 
         demoMiddleware,
+
+        history(),
     ];
 };
 
 async function demoMiddleware(req, res, next) {
     const parsed = require('url').parse(req.url);
+    const { compilation, exports } = res.locals.isomorphic;
+
 
     // Only allow /demo/:something || /demo/:something/:file.html
     //
     // /:path(demo)/:key([\w]*)*/:file([\w\-]*)?:ext(\.html?)?
     // http://forbeslindesay.github.io/express-route-tester/
     if (
-        // parsed.pathname.match(
-        //     /^\/((?:demo))(?:\/((?:[\w]*)(?:\/(?:[\w]*))*))?\/((?:[\w-]*))?(?:((?:\.html?)))?(?:\/(?=$))?$/i
-        // )
         parsed.pathname.match(/^\/((?:[^/]+?)(?:\/(?:[^/]+?))*)(?:\/(?=$))?$/i)
     ) {
         let render = '';
-        const { compilation, exports } = res.locals.isomorphic;
-
-        const serverStats = compilation.serverStats.toJson();
-        // const baseName = path.basename(parsed.pathname);
-        // const entryName = path.posix.join(parsed.href, baseName);
-        const entryName = parsed.pathname.replace('/', '');
-        // console.log(entryName);
-        const pathFromStats =
-            serverStats.assetsByChunkName[entryName] ||
-            serverStats.assetsByChunkName['/' + entryName];
-
-        // console.log(pathFromStats);
-        if (!pathFromStats) {
-            return next();
-        }
-        const filePath = path.posix.join(
-            serverStats.outputPath,
-            serverStats.publicPath,
-            pathFromStats
-        );
-        const serverFS =
-            compilation.serverStats.compilation.compiler.outputFileSystem;
-
+        // console.log(JSON.stringify(exports));
         try {
-            const file = await new Promise((resolve, reject) =>
-                serverFS.readFile(filePath, (err, buffer) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(buffer.toString());
-                    }
-                })
-            );
-
-            const asset = await requireFromString(file, filePath);
-            const generatedHead = asset.render({}).head;
-
-            const clientFiles = require('./get-initial-webpack-files.js')(
-                res.locals.isomorphic.compilation.clientStats
-            );
-            render = exports.default({
-                asset,
-                manifest: { initial: clientFiles },
-                compilation: compilation.clientStats.compilation,
-                publicPath: `${serverStats.publicPath}`,
-                head: {
-                    pageTitle: '',
-                    headExtra: generatedHead,
-                },
-                fromServer: {
-                    request: req,
-                    pathname: `${serverStats.publicPath}${pathFromStats}`,
-                    componentPath: `${path.basename('/' + entryName)}`,
-                },
-            }).html;
-        } catch (err) {
-            render = `
-            <html>
-            <head><title>Error</title></head>
-            <body>
-                <pre>${err.message} \n ${err.stack}</pre>
-            </body>
-            </html>`;
+            render = await exports.default(req, res, next);
+        } catch(e) {
+            console.error(e);
+        }
+        if (!render) {
+            return next();
         }
         res.setHeader('Content-Type', 'text/html');
         res.end(render);
     } else {
         next();
     }
+        // const { compilation, exports } = res.locals.isomorphic;
+
+        // const serverStats = compilation.serverStats.toJson();
+        // // const baseName = path.basename(parsed.pathname);
+        // // const entryName = path.posix.join(parsed.href, baseName);
+        // const entryName = parsed.pathname.replace('/', '');
+        // // console.log(entryName);
+        // const pathFromStats =
+        //     serverStats.assetsByChunkName[entryName] ||
+        //     serverStats.assetsByChunkName['/' + entryName];
+
+        // // console.log(pathFromStats);
+        // if (!pathFromStats) {
+        //     return next();
+        // }
+        // const filePath = path.posix.join(
+        //     serverStats.outputPath,
+        //     serverStats.publicPath,
+        //     pathFromStats
+        // );
+        // const serverFS =
+        //     compilation.serverStats.compilation.compiler.outputFileSystem;
+
+        // try {
+        //     const file = await new Promise((resolve, reject) =>
+        //         serverFS.readFile(filePath, (err, buffer) => {
+        //             if (err) {
+        //                 reject(err);
+        //             } else {
+        //                 resolve(buffer.toString());
+        //             }
+        //         })
+        //     );
+
+        //     const asset = await requireFromString(file, filePath);
+        //     const generatedHead = asset.render({}).head;
+
+        //     const clientFiles = require('./get-initial-webpack-files.js')(
+        //         res.locals.isomorphic.compilation.clientStats
+        //     );
+        //     render = exports.default({
+        //         asset,
+        //         manifest: { initial: clientFiles },
+        //         compilation: compilation.clientStats.compilation,
+        //         publicPath: `${serverStats.publicPath}`,
+        //         head: {
+        //             pageTitle: '',
+        //             headExtra: generatedHead,
+        //         },
+        //         fromServer: {
+        //             request: req,
+        //             pathname: `${serverStats.publicPath}${pathFromStats}`,
+        //             componentPath: `${path.basename('/' + entryName)}`,
+        //         },
+        //     }).html;
+        // } catch (err) {
+        //     render = `
+        //     <html>
+        //     <head><title>Error</title></head>
+        //     <body>
+        //         <pre>${err.message} \n ${err.stack}</pre>
+        //     </body>
+        //     </html>`;
+        // }
 }
 
 function requireFromString(
