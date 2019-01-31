@@ -44,6 +44,16 @@ const svelteConfig = (ssr) =>
 
 module.exports = function(target, babelConfig) {
     const ssr = target !== 'web';
+    const nodeLoaders = [
+        {
+            loader: 'babel-loader',
+            options: babelOpts('node'),
+        },
+        {
+            loader: 'svelte-loader',
+            options: svelteConfig(true),
+        },
+    ];
 
     return {
         test: /\.(html|sv\.html|svelte)(\?.*)?$/,
@@ -55,16 +65,11 @@ module.exports = function(target, babelConfig) {
         oneOf: [
             {
                 resourceQuery: /\?ssr/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: babelOpts('node'),
-                    },
-                    {
-                        loader: 'svelte-loader',
-                        options: svelteConfig(true),
-                    },
-                ],
+                use: nodeLoaders,
+            },
+            {
+                issuer: /server\.js/,
+                use: nodeLoaders,
             },
             {
                 use: [

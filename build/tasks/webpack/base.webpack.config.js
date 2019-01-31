@@ -82,7 +82,7 @@ module.exports = (target) => {
     // Re-usable CSS output path
     const cssPath = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
 
-    if (MODE.production && target === 'web') {
+    if (MODE.production || target !== 'web') {
         // Extract CSS to its own file in --production mode
         config.plugins.push(
             new MiniCssExtractPlugin({
@@ -96,6 +96,8 @@ module.exports = (target) => {
      * Base Loaders
      */
 
+    const sassOpts = require(`${PATHS.folders.build}/helpers/sass-config.js`);
+
     // Base CSS Loaders
     // Order of operations (loaders work from bottom to top):
     // 1. Process with postcss
@@ -103,19 +105,9 @@ module.exports = (target) => {
     // 3a. Web targets: add the style string to the dom.
     // 3c. Non-web targets: extract (remove it from JS file) the string
     // 4. Save the string to a file.
-    const cssLoaders = [
-        target !== 'web' && {
-            loader: 'file-loader',
-            options: {
-                name: `${cssPath}/[name].[hash:8].css`,
-            },
-        },
-
-        MODE.dev || target !== 'web'
-            ? 'style-loader'
-            : MiniCssExtractPlugin.loader,
-
-        {
+    const cssLoaders = (isSSR) => {
+        isSSR = isSSR || (target !== 'web' || MODE.production);
+        const cssLoader = {
             loader: 'css-loader',
             options: {
                 modules: false,
@@ -123,9 +115,8 @@ module.exports = (target) => {
                 import: true,
                 localIdentName: '[name]_[local]_[hash:base64:5]',
             },
-        },
-
-        {
+        };
+        const postcssLoader = {
             loader: 'postcss-loader',
             options: {
                 plugins: [
@@ -144,8 +135,31 @@ module.exports = (target) => {
                         }),
                 ].filter(Boolean),
             },
-        },
-    ].filter(Boolean);
+        };
+
+        return isSSR
+            ? [
+                  MODE.production && {
+                      loader: 'file-loader',
+                      options: {
+                          name: `${cssPath}/[name].[hash:8].css`,
+                      },
+                  },
+                  MODE.production && MiniCssExtractPlugin.loader,
+                  cssLoader,
+                  postcssLoader,
+                  { loader: 'sass-loader', options: sassOpts },
+              ].filter(Boolean)
+            : [
+                  'style-loader',
+                  cssLoader,
+                  postcssLoader,
+                  {
+                      loader: 'sass-loader',
+                      options: sassOpts,
+                  },
+              ];
+    };
 
     const relativePubPath = path.posix.relative(
         PATHS.folders.dist,
@@ -157,10 +171,9 @@ module.exports = (target) => {
     );
 
     config.module.rules = [
-
         /* Plain CSS */
         {
-            test: /\.(css)(\?.*)?$/,
+            test: /\.(s?[ca]ss)(\?.*)?$/,
             oneOf: [
                 // Inline CSS (use foo.css?inline)
                 {
@@ -168,26 +181,31 @@ module.exports = (target) => {
                     use: 'raw-loader',
                 },
 
-                // Normal CSS
                 {
+                    issuer: /server\.js/,
                     use: cssLoaders,
+                },
+
+                // Normal (s)CSS
+                {
+                    use: cssLoaders(),
                 },
             ],
         },
 
         /* Sass */
         // Add sass to the beginning of the cssLoaders chain
-        {
-            test: /\.(s[ca]ss)(\?.*)?$/,
-            use: cssLoaders.concat([
-                {
-                    loader: 'sass-loader',
-                    options: require(`${
-                        PATHS.folders.build
-                    }/helpers/sass-config.js`),
-                },
-            ]),
-        },
+        // {
+        //     test: /\.(s[ca]ss)(\?.*)?$/,
+        //     use: cssLoaders.concat([
+        //         {
+        //             loader: 'sass-loader',
+        //             options: require(`${
+        //                 PATHS.folders.build
+        //             }/helpers/sass-config.js`),
+        //         },
+        //     ]),
+        // },
 
         /* Text files */
         {

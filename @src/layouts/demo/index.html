@@ -1,7 +1,7 @@
 <svelte:head>
     <title>→ { $pageTitle || demoTitle } demo</title>
     {#if (typeof style !== 'object')}
-        <link href="{style || style.url}" rel="stylesheet" />
+        <link href="{ style || style.url }" rel="stylesheet" />
     {/if}
 </svelte:head>
 
@@ -11,7 +11,7 @@
     <header class="demo-header">
         <div class="wrap">
             <h1 class="demo-header__title">
-                {demoTitle}
+                { demoTitle }
             </h1>
             <div class="demo-header__component">
                 <slot name="header">
@@ -35,22 +35,20 @@
 
 <script>
 import store from './demo.store.js';
-import style from /* webpackPrefetch: true */ './demo.scss';
+import stylesheet from /* webpackPrefetch: true */ './demo.scss';
+import Nav from '@/layouts/demo/demo.nav.html';
 
 export default {
+    components: { Nav },
     store: () => store,
-    components: {
-        Nav: '@/layouts/demo/demo.nav.html',
-    },
-    data() {
-        return {
-            style,
-            demoTitle: 'Demo',
-            variantTitle: false,
-            variants: false,
-            stylesheet: true,
-        };
-    },
+    data: () => ({
+        style: stylesheet,
+        demoTitle: 'Demo',
+        variantTitle: false,
+        variants: false,
+        stylesheet: true,
+        currentRoute: 'demo',
+    }),
     computed: {
         lowercaseRoute: ({ currentRoute }) => currentRoute.toLowerCase(),
     },

@@ -10,7 +10,7 @@
     <div id="app" class="application">
         { @html appHtmlSnippet }
         {#if appComponent}
-            { @html renderedComponent }
+            { @html renderComponent(appComponent, props) }
         {/if}
     </div>
     <Footer></Footer>
@@ -47,18 +47,17 @@ export default {
             request: {},
         },
     }),
-    helpers: {},
+    helpers: {
+        renderComponent: (appComponent, props) => {
+            if (!appComponent) return '';
+            return appComponent.render
+                ? appComponent.render(props)
+                : appComponent.html;
+        },
+    },
     computed: {
         // Convenient way to pass entire state to components
         props: (state) => state,
-
-        // Get initial scripts from manifest, if they exist
-        // (filter out hot-module-replacement updates)
-        manifestScripts: ({ fileManifest }) =>
-            fileManifest.initial &&
-            fileManifest.initial.filter(
-                (script) => script.indexOf('hot-update') < 0
-            ),
 
         // Pass head state to handlebars template
         header: (state) => HeadTemplate(state),
@@ -85,46 +84,6 @@ export default {
                 // eslint-disable-next-line
                 `<\/script>`
             );
-        },
-
-        // Get processed svelte template and evaluate it
-        // in a separate node VM (eval)
-        // Allows us to avoid bundling every possible page template
-        renderedComponent: (state) => {
-            if (!state.appComponent) return '';
-            return state.appComponent.render(state);
-            // if (!state.asset) {
-            //     const _eval = __non_webpack_require__('eval');
-            //
-            //     let { htmlWebpackPlugin, compilation } = state;
-            //
-            //     const assetName =
-            //         htmlWebpackPlugin.options.render.internalTemplate;
-            //
-            //     if (!assetName) {
-            //         return '';
-            //     }
-            //
-            //     try {
-            //         const source = compilation.assets[assetName].toSource();
-            //         const context = _eval(
-            //             source,
-            //             assetName,
-            //             {
-            //                 window: undefined,
-            //                 document: undefined,
-            //                 fetch: undefined,
-            //             },
-            //             false /* Do not include node globals */
-            //         );
-            //         return context.render(state);
-            //     } catch (e) {
-            //         // eslint-disable-next-line
-            //         console.log(e);
-            //         return 'error: ' + e.message;
-            //     }
-            // }
-            // console.log(asset);
         },
     },
 };

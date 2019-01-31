@@ -32,7 +32,7 @@
     {{#if scripts}}
     <!-- scripts provided by server -->
     {{#each scripts~}}
-        <script {{#unless @first}}async defer{{/unless}} src="{{{this}}}"></script>
+        <script {{#unless @first}}async defer{{/unless}} src="{{{@root.publicPath}}}{{{this}}}"></script>
     {{/each}}
     {{else}}
         <!--

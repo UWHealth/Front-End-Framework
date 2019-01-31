@@ -36,7 +36,7 @@ config.output = {
 
 config.entry = () => {
     const entries = {};
-    entries['base'] = path.resolve(PATHS.folders.src, 'server.js');
+    entries['main'] = path.resolve(PATHS.folders.src, 'server.js');
 
     // Dynamically add .demo files as entry points
     // Allowing new ones to be added while webpack runs

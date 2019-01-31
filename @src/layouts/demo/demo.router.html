@@ -1,0 +1,40 @@
+<Route path="/demo/:demo" ref:router bind:match>
+{#if innerComponent}
+    <svelte:component this={innerComponent} {...props} />
+{:else}
+    <p> No Route Found at {pathname}. </p>
+    <pre>
+        Path: {path}
+        Pathname: {pathname}
+    </pre>
+{/if}
+</Route>
+
+<script>
+// import store from './demo.store.js';
+import Route from 'svelte-routing/Route.html?ssr';
+import capitalize from '@/helpers/title-case';
+import findExport from '@/helpers/find-export.js';
+
+export default {
+    components: { Route },
+    data: () => ({
+        path: '/',
+        pathname: '/',
+        basePath: '/',
+    }),
+    computed: {
+        props: (state) => state,
+        innerComponent: ({props, path, pathname }) => {
+            //console.log(path, pathname);
+            path = path.replace('/demo/', '');
+            const componentName = path + '/' + path;
+            const component = findExport(
+                require('../../components/' + componentName + '.demo.html')
+            );
+            //console.log(component);
+            return component;
+        },
+    },
+};
+</script>

@@ -1,9 +1,19 @@
-import base from '!!svelte-loader?generate=ssr&hotReload=false&dev=false!@/index.html';
+import Base from './index.html';
+import Router from './layouts/demo/demo.router.html';
 import url from 'url';
 import path from 'path';
 import getInitialFiles from '>/build/helpers/get-initial-webpack-files.js';
+import { createMemoryHistory } from 'svelte-routing';
 
-function formatData(data = {}, { stats, component, entryName = 'demo', req }) {
+const history = createMemoryHistory();
+
+function formatData({
+    data = {},
+    stats,
+    appComponent = null,
+    entryName = 'demo',
+    req = {},
+}) {
     const clientFiles = getInitialFiles(stats);
     const fromServer = Object.assign(
         {
@@ -20,16 +30,16 @@ function formatData(data = {}, { stats, component, entryName = 'demo', req }) {
 
     return Object.assign(
         {
-            appComponent: component,
+            appComponent,
             compilation: null,
             publicPath: stats.publicPath,
             fileManifest,
             googleAnalytics: null,
+            title: 'Front-End-Framework',
             meta: [],
             links: [],
             inlineStyle: '',
             scripts: clientFiles,
-            title: 'Front-End-Framework',
             headHtmlSnippet: '',
             appHtmlSnippet: '',
             bodyHtmlSnippet: '',
@@ -37,7 +47,7 @@ function formatData(data = {}, { stats, component, entryName = 'demo', req }) {
         },
         data
     );
-};
+}
 
 export default function({ htmlWebpackPlugin, webpack }, req, res) {
     if (htmlWebpackPlugin) {
@@ -48,15 +58,15 @@ export default function({ htmlWebpackPlugin, webpack }, req, res) {
 }
 
 function webpackPlugin(htmlWebpackPlugin, webpack) {
-    const data = Object.assign(htmlWebpackPlugin.options, {});
-    const formattedData = formatData(data, {
+    const formattedData = formatData({
+        data: htmlWebpackPlugin.options,
         stats: webpack,
     });
-    return base.render(formattedData).html;
+    return Base.render(formattedData).html;
 }
 
-
 function middleware(req, res) {
+    history.replace(req.url);
     const parsed = url.parse(req.url);
     const baseName = path.basename(parsed.pathname);
     const entryName = path.posix.join(parsed.href, baseName);
@@ -68,46 +78,39 @@ function middleware(req, res) {
         return false;
     }
 
-    let component = {};
+    const pathFromStats =
+        serverStats.assetsByChunkName[entryName] ||
+        serverStats.assetsByChunkName['/' + entryName];
 
     try {
-        console.log(entryName);
-        component = require('./components' + entryName + '.demo.html');
-    } catch (e) {
-        console.log('no component', e);
-        return false;
-    }
+        const appComponent = Router.render({
+            path: parsed.pathname,
+            basePath: process.cwd() + '/@src/',
+        });
+        const headHtmlSnippet = appComponent.head;
 
-    try {
-        const pathFromStats =
-            serverStats.assetsByChunkName[entryName] ||
-            serverStats.assetsByChunkName['/' + entryName];
-
-        const headExtra = component.render().head;
-
-        const out = base.render(
-            formatData(
-                {
-                    headHtmlSnippet: headExtra,
-                    title: entryName,
+        const out = Base.render(
+            formatData({
+                data: {
+                    headHtmlSnippet,
+                    title: baseName,
+                    inlineStyle: appComponent.css.code,
                     fromServer: {
                         pathname: `${serverStats.publicPath}${pathFromStats}`,
                         componentPath: `${path.basename('/' + entryName)}`,
                     },
                 },
-                {
-                    stats: clientStats,
-                    entryName,
-                    req,
-                    component,
-                }
-            )
+                stats: clientStats,
+                appComponent,
+                entryName,
+                req,
+            })
         ).html;
 
         return out;
     } catch (e) {
         console.log(e);
-        return e;
+        return false;
     }
 
     // const baseName = path.basename(parsed.pathname);
@@ -171,4 +174,4 @@ function middleware(req, res) {
     // }
     // res.setHeader('Content-Type', 'text/html');
     // res.end(render);
-};
+}

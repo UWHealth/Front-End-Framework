@@ -26,30 +26,21 @@
 
 <script>
 import icon from '@/assets/img/favicons/icon.svg';
-import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
+import NavLink from 'svelte-routing/NavLink.html';
+// import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
 
-let history;
+// let history;
 
-if (typeof window === 'undefined') {
-    history = createMemoryHistory();
-} else {
-    history = createBrowserHistory();
-}
+// if (typeof window === 'undefined') {
+//     history = createMemoryHistory();
+// } else {
+//     history = createBrowserHistory();
+// }
 // Use Node to pre-evaluate the .demo files and create a list of demo links
-const links = require(
-    `val-loader?{"filePath":"","publicPath":"/"}!./create-nav.js`
-    );
+const links = require(`val-loader?{"filePath":"","publicPath":"/"}!./create-nav.js`);
 
 export default {
-    components: {
-        NavLink: 'svelte-routing/NavLink.html',
-    },
-    data: () => ({
-        history,
-    }),
-    helpers: {
-        links,
-        icon,
-    },
+    components: { NavLink },
+    helpers: { links, icon },
 };
 </script>
