@@ -1,62 +1,108 @@
-import base from '@/index.html';
-import manifest from '@/manifest.webmanifest';
-import browserConfig from '@/browserconfig.xml';
+import base from '!!svelte-loader?generate=ssr&hotReload=false&dev=false!@/index.html';
 import url from 'url';
 import path from 'path';
 import getInitialFiles from '>/build/helpers/get-initial-webpack-files.js';
 
-export default async function middleware(req, res) {
+function formatData(data = {}, { stats, component, entryName = 'demo', req }) {
+    const clientFiles = getInitialFiles(stats);
+    const fromServer = Object.assign(
+        {
+            pathname: '/',
+            componentPath: path.basename(entryName),
+            request: req,
+        },
+        data.fromServer
+    );
+    const fileManifest = Object.assign(
+        { initial: clientFiles },
+        data.fileManifest
+    );
+
+    return Object.assign(
+        {
+            appComponent: component,
+            compilation: null,
+            publicPath: stats.publicPath,
+            fileManifest,
+            googleAnalytics: null,
+            meta: [],
+            links: [],
+            inlineStyle: '',
+            scripts: clientFiles,
+            title: 'Front-End-Framework',
+            headHtmlSnippet: '',
+            appHtmlSnippet: '',
+            bodyHtmlSnippet: '',
+            fromServer,
+        },
+        data
+    );
+};
+
+export default function({ htmlWebpackPlugin, webpack }, req, res) {
+    if (htmlWebpackPlugin) {
+        return webpackPlugin(htmlWebpackPlugin, webpack);
+    } else {
+        return middleware(req, res);
+    }
+}
+
+function webpackPlugin(htmlWebpackPlugin, webpack) {
+    const data = Object.assign(htmlWebpackPlugin.options, {});
+    const formattedData = formatData(data, {
+        stats: webpack,
+    });
+    return base.render(formattedData).html;
+}
+
+
+function middleware(req, res) {
     const parsed = url.parse(req.url);
     const baseName = path.basename(parsed.pathname);
     const entryName = path.posix.join(parsed.href, baseName);
     const compilation = res.locals.isomorphic.compilation;
     const serverStats = compilation.serverStats.toJson();
+    const clientStats = compilation.clientStats.toJson();
 
     if (baseName.indexOf('.') > -1) {
         return false;
     }
-    //console.log('component: ', entryName);
+
     let component = {};
-    const componentName = entryName.replace('/', '');
+
     try {
-        // console.log(entryName);
-        component = require('./components/' + componentName + '.demo.html');
+        console.log(entryName);
+        component = require('./components' + entryName + '.demo.html');
     } catch (e) {
-        console.log(e);
+        console.log('no component', e);
         return false;
     }
 
     try {
-        const clientFiles = getInitialFiles(
-            res.locals.isomorphic.compilation.clientStats
-        );
         const pathFromStats =
             serverStats.assetsByChunkName[entryName] ||
             serverStats.assetsByChunkName['/' + entryName];
 
-        const head = component.render().head;
+        const headExtra = component.render().head;
 
-        const out = base.render({
-            asset: component,
-            manifest: { initial: clientFiles },
-            compilation: compilation.clientStats.compilation,
-            publicPath: `${serverStats.publicPath}`,
-            head: {
-                pageTitle: '',
-                headExtra: head,
-                links: {
-                    'msapplication-config': browserConfig,
+        const out = base.render(
+            formatData(
+                {
+                    headHtmlSnippet: headExtra,
+                    title: entryName,
+                    fromServer: {
+                        pathname: `${serverStats.publicPath}${pathFromStats}`,
+                        componentPath: `${path.basename('/' + entryName)}`,
+                    },
                 },
-                meta: {
-                    manifest: manifest,
-                },
-            },
-            fromServer: {
-                request: req,
-                pathname: `${serverStats.publicPath}${pathFromStats}`,
-                componentPath: `${path.basename(entryName)}`,
-            },
-        }).html;
+                {
+                    stats: clientStats,
+                    entryName,
+                    req,
+                    component,
+                }
+            )
+        ).html;
 
         return out;
     } catch (e) {
@@ -115,14 +161,14 @@ export default async function middleware(req, res) {
     //                 },
     //             }).html;
     //         } catch (err) {
-            //     render = `
-            //     <html>
-            //     <head><title>Error</title></head>
-            //     <body>
-            //         <pre>${err.message} \n ${err.stack}</pre>
-            //     </body>
-            //     </html>`;
-            // }
-            // res.setHeader('Content-Type', 'text/html');
-            // res.end(render);
-}
+    //     render = `
+    //     <html>
+    //     <head><title>Error</title></head>
+    //     <body>
+    //         <pre>${err.message} \n ${err.stack}</pre>
+    //     </body>
+    //     </html>`;
+    // }
+    // res.setHeader('Content-Type', 'text/html');
+    // res.end(render);
+};

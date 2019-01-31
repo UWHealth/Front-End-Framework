@@ -1,7 +1,7 @@
 {
     "name": "UW Health",
     "short_name": "UW Health",
-    "start_url": "/button",
+    "start_url": "/index.html",
     "icons": [
         {
             "src": "./assets/img/favicons/favicon-192x192.png",

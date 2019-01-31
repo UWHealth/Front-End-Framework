@@ -31,7 +31,8 @@ const defaultSvelteConfig = {
 };
 
 const svelteConfig = (ssr) =>
-    Object.assign({},
+    Object.assign(
+        {},
         {
             emitCss: MODE.production && !ssr,
             format: ssr ? 'cjs' : 'es',

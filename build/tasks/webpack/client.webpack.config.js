@@ -9,6 +9,7 @@ const MODE = require(`${CWD}/build/helpers/mode.js`);
 
 const webpack = require('webpack');
 const OfflinePlugin = require('offline-plugin');
+const HtmlPlugin = require('html-webpack-plugin');
 const glob = require('fast-glob');
 const path = require('path');
 
@@ -65,20 +66,32 @@ config.plugins = config.plugins.concat(
         // Ensure chunk order stays consistent
         new webpack.optimize.OccurrenceOrderPlugin(),
         // Hot module replacement
-        MODE.production && new webpack.HotModuleReplacementPlugin(),
+        MODE.development && new webpack.HotModuleReplacementPlugin(),
 
         // Keep module.id stable when vendor modules do not change
         MODE.production && new webpack.HashedModuleIdsPlugin(),
 
         // Allow non-production code to be removed
         MODE.production &&
-        new webpack.DefinePlugin({
-            'typeof window': '"object"',
-            'process.env.NODE_ENV': "'production'",
-            'module.hot': 'false',
+            new webpack.DefinePlugin({
+                'typeof window': '"object"',
+                'process.env.NODE_ENV': "'production'",
+                'module.hot': 'false',
             }),
 
-        new OfflinePlugin(),
+        new HtmlPlugin({
+            template: PATHS.folders.src + '/server.js',
+            compile: false,
+            inject: false,
+        }),
+
+        new OfflinePlugin({
+            excludes: ['**/.*', '**/*.map', '**/*.gz', '**/*.hot-update*'],
+            externals: ['/public/css/main.css', '/demo/button.demo.js'],
+            rewrites: function rewrites(asset) {
+                return asset;
+            }
+        }),
     ].filter(Boolean)
 );
 
@@ -91,6 +104,11 @@ glob.sync(PATHS.js.entry.components).forEach((component) => {
  * Client loaders
  */
 config.module.rules.push(
+    // {
+    //     test: path.resolve(PATHS.folders.src + '/index.html'),
+    //     loader: 'prerender-loader?string',
+    //     enforce: 'post',
+    // },
     // Svelte Loader
     svelteLoader(config.target, babelConfig),
 
@@ -206,7 +224,8 @@ function addHMR(entry) {
         entry = [entry];
     }
     entry.unshift(
-        `webpack-hot-middleware/client?name=${config.name}&reload=false`
+        require.resolve(`webpack-hot-middleware/client`) +
+            `?name=${config.name}&reload=false`
     );
 
     return entry;

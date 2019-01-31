@@ -11,9 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{!--Favicons--}}
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/static/img/favicons/favicon-180x180.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/public/static/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/public/static/img/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/assets/img/favicons/favicon-180x180.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/public/assets/img/favicons/favicon-192x192.png">
     <link rel="mask-icon" href="/public/assets/img/favicons/icon.svg" color="#d40943">
     <link rel="shortcut icon" href="/public/assets/img/favicons/favicon.ico">
 
@@ -26,28 +26,30 @@
     <!--<link rel="alternate" href="https://feeds2.feedburner.com/uwsmph/news" type="application/rss+xml" title="RSS 2.0">-->
     <!--<link rel="alternate" href="http://example.com/feed.atom" type="application/atom+xml" title="Atom 0.3">-->
 
-    {{#if pageTitle}}
-    <title>
-        {{~{pageTitle}~}}
-    </title>
+    {{#if title}}
+    <title>{{{title}}}</title>
     {{/if}}
     {{#if scripts}}
     <!-- scripts provided by server -->
     {{#each scripts~}}
-        <script {{#unless @first}}async{{/unless}} src="{{{@root.publicPath}}}{{{this}}}"></script>
+        <script {{#unless @first}}async defer{{/unless}} src="{{{this}}}"></script>
     {{/each}}
     {{else}}
         <!--
             defaults, not from server -->
-        <script src="/public/js/runtime.bundle.js"></script>
-        <script async src="/public/js/main.js"></script>
+        <script id="_js-runtime" src="/public/js/runtime.bundle.js"></script>
+        <script id="_js-main" defer async src="/public/js/main.js"></script>
     {{/if}}
-    {{#if css}}{{#each css~}}
+    {{#if inlineStyle}}
+        <style>{{{inlineStyle}}}</style>
+    {{/if}}
+    {{#if css}}
+        {{#each css~}}
         {{this}}
         <noscript>
             {{this}}
         </noscript>
-    {{/each}}
+        {{/each}}
     {{else}}
         <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="screen" href="/public/css/main.css">
         <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="print" href="/public/css/print.css">
@@ -56,8 +58,8 @@
             <link rel="stylesheet" media="print" href="/public/css/print.css">
         </noscript>
     {{/if}}
-    {{#if headExtra}}
-        {{{headExtra}}}
+    {{#if headHtmlSnippet}}
+        {{{headHtmlSnippet}}}
     {{/if}}
 
     {{> ./head.async.hbs}}

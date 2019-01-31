@@ -1,41 +1,46 @@
 <!-- doctype, html, and body are strings
     to prevent svelte from evaluating them -->
-{@html
+{ @html
     `<!DOCTYPE html>
     <html lang="en" itemscope itemtype="https://schema.org/Article">`
 }
-{@html header}
-{@html '<body>'}
+{ @html header }
+{ @html '<body>' }
+    { @html bodyHtmlSnippet }
     <div id="app" class="application">
-        {#if innerComponent}
-            {@html innerComponent}
+        { @html appHtmlSnippet }
+        {#if appComponent}
+            { @html renderedComponent }
         {/if}
     </div>
-    <Footer {...props} />
-    {@html exportedState}
-{@html `
+    <Footer></Footer>
+    { @html exportedState }
+{ @html `
     </body></html>
-`}
+` }
 
 <script>
 import HeadTemplate from '@/components/head';
-// import appManifest from './manifest.webmanifest';
-// import browserConfig from './browserconfig.xml';
+import Footer from '@/components/footer?ssr';
+import webmanifest from '@/manifest.webmanifest';
+import browserConfig from '@/browserconfig.xml';
 
 export default {
-    components: {
-        Footer: '@/components/footer',
-    },
+    components: { Footer },
     data: () => ({
-        asset: null,
-        manifest: {},
-        head: {
-            pageTitle: 'Front-End-Framework',
-            meta: {},
-            links: {},
-            scripts: {},
-            headExtra: '',
-        },
+        appComponent: null,
+        fileManifest: {},
+        googleAnalytics: null,
+        meta: [],
+        links: [],
+        inlineStyle: '',
+        scripts: [],
+        webmanifest: webmanifest,
+        browserConfig: browserConfig,
+        title: 'Front-End-Framework',
+        headHtmlSnippet: '',
+        appHtmlSnippet: '',
+        bodyHtmlSnippet: '',
         fromServer: {
             pathname: '/',
             componentPath: '/',
@@ -49,19 +54,18 @@ export default {
 
         // Get initial scripts from manifest, if they exist
         // (filter out hot-module-replacement updates)
-        scripts: ({ manifest }) =>
-            manifest.initial &&
-            manifest.initial.filter(
+        manifestScripts: ({ fileManifest }) =>
+            fileManifest.initial &&
+            fileManifest.initial.filter(
                 (script) => script.indexOf('hot-update') < 0
             ),
 
         // Pass head state to handlebars template
-        header: ({ head, scripts, publicPath }) =>
-            HeadTemplate(Object.assign({}, head, { scripts, publicPath })),
+        header: (state) => HeadTemplate(state),
 
         // Add the initial page state to the window,
         // Allowing our app to hydrate
-        exportedState: ({ fromServer, manifest }) => {
+        exportedState: ({ fromServer, fileManifest }) => {
             let { pathname, componentPath, request } = fromServer;
             request = request
                 ? {
@@ -72,7 +76,7 @@ export default {
                 : '""';
             return (
                 `<script>` +
-                `console.log('Manifest', ${JSON.stringify(manifest)});` +
+                `console.log('Manifest', ${JSON.stringify(fileManifest)});` +
                 `window.__APP_STATE__ = { ` +
                 `  initialRoute: "${pathname}",` +
                 `  componentPath: "${componentPath}",` +
@@ -86,8 +90,9 @@ export default {
         // Get processed svelte template and evaluate it
         // in a separate node VM (eval)
         // Allows us to avoid bundling every possible page template
-        innerComponent: (state) => {
-            return state.asset.render(state);
+        renderedComponent: (state) => {
+            if (!state.appComponent) return '';
+            return state.appComponent.render(state);
             // if (!state.asset) {
             //     const _eval = __non_webpack_require__('eval');
             //

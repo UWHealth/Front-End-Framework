@@ -84,7 +84,12 @@ async function demoMiddleware(req, res, next) {
         let render = '';
         // console.log(JSON.stringify(exports));
         try {
-            render = await exports.default(req, res, next);
+            render = await exports.default(
+                { htmlWebpackPlugin: false },
+                req,
+                res,
+                next
+            );
         } catch(e) {
             console.error(e);
         }

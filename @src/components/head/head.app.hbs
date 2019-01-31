@@ -8,19 +8,20 @@
 {{#unless meta.["theme-color"]}}
 <meta name="theme-color" content="#d40943">
 {{/unless}}
-{{#unless meta.['msapplication-config']}}
+{{#unless browserConfig}}
 <meta name="msapplication-config" content="/public/browserconfig.xml">
 {{/unless}}
-{{#unless links.["manifest"]}}
+{{#unless webManifest}}
 <link rel="manifest" href="/public/manifest.webmanifest">
 {{/unless}}
 {{#each meta }}
     <!-- from meta -->
-    <meta name="{{{@key}}}" content="{{{this}}}">
+    {{#if @key}}<meta name="{{{@key}}}" content="{{{this}}}">
+    {{else}}<meta{{#each this}} {{{@key}}}="{{{this}}}"{{/each}}>
+    {{/if}}
 {{/each}}
 {{#each links }}
-    <link rel="{{{@key}}}" href="{{{this}}}">
-{{/each}}
-{{#each @root}}
-    <!--{{@key}}-->
+    {{#if @key}}<link rel="{{{@key}}}" href="{{{this}}}">
+    {{else}}<link{{#each this}} {{{@key}}}="{{{this}}}"{{/each}}>
+    {{/if}}
 {{/each}}

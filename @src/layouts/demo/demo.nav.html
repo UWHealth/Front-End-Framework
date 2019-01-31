@@ -1,6 +1,6 @@
 <!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
 <nav ref:navigation class="demo-navigation">
-    <img src="/public/static/img/favicons/icon.svg" style="height: {60/16}rem;" alt="">
+    <img src="{icon}" style="height: {60/16}rem;" alt="">
     {#each links as [name, url] (url)}
         <NavLink ref:url
             to="{url}"
@@ -25,6 +25,7 @@
 </style>
 
 <script>
+import icon from '@/assets/img/favicons/icon.svg';
 import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
 
 let history;
@@ -48,6 +49,7 @@ export default {
     }),
     helpers: {
         links,
+        icon,
     },
 };
 </script>
