@@ -11,8 +11,8 @@ const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
-const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
-const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
+const babelLoader = require(`./babel-loader-config.js`);
+const svelteLoader = require(`./helpers/svelte-loader-config.js`);
 const config = require('./base.webpack.config.js')('node');
 
 config.name = 'T4';

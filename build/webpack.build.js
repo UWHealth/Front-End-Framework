@@ -7,12 +7,12 @@ const MODE = require('./helpers/mode.js');
 module.exports = !MODE.production
     ? // DEV
       [
-          require('./tasks/webpack/client.webpack.config.js'),
-          require('./tasks/webpack/demos.webpack.config.js'),
+          require('./webpack/client.webpack.config.js'),
+          require('./webpack/server.webpack.config.js'),
       ]
     : // PROD/LOCAL PROD
       [
-          require('./tasks/webpack/client.webpack.config.js'),
-          require('./tasks/webpack/demos.webpack.config.js'),
+          require('./webpack/client.webpack.config.js'),
+          require('./webpack/server.webpack.config.js'),
           //require('./tasks/webpack/t4.webpack.config.js'),
       ];

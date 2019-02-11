@@ -10,13 +10,13 @@ const glob = require('fast-glob');
 const webpack = require('webpack');
 //const HtmlPlugin = require('html-webpack-plugin');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
-const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
-const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
+const babelLoader = require(`./helpers/babel-loader-config.js`);
+const svelteLoader = require(`./helpers/svelte-loader-config.js`);
 const config = require(`./base.webpack.config.js`)('node');
 
-config.name = 'Demo';
+config.name = 'Server';
 
-const demoPath = path.posix.relative(PATHS.folders.dist, PATHS.demos.dest);
+const outPath = '.';
 
 /*
  * Demo-specific output
@@ -27,29 +27,33 @@ config.mode = 'development';
 config.output = {
     path: path.resolve(PATHS.folders.dist),
     publicPath: '/',
-    libraryTarget: 'commonjs',
-    filename: `${demoPath}/[name].demo.js`,
-    chunkFilename: `${demoPath}/[id].[ext]`,
-    hotUpdateChunkFilename: '[id].hot-update.js',
-    hotUpdateMainFilename: 'main.hot-update.js',
+    libraryTarget: 'commonjs2',
+    filename: `[name].js`,
 };
 
 config.entry = () => {
     const entries = {};
-    entries['main'] = path.resolve(PATHS.folders.src, 'server.js');
+    entries['main'] = PATHS.pages.entry.server;
 
     // Dynamically add .demo files as entry points
     // Allowing new ones to be added while webpack runs
-    glob.sync(PATHS.demos.entry.src).forEach((file) => {
-        const baseName = path.basename(file, '.demo.html');
-        const entryName = path.posix.join(baseName);
+    glob.sync(PATHS.pages.entry.src).forEach((file) => {
+        let folder = path.posix.dirname(
+            path.relative(PATHS.pages.folders.root, file)
+        );
+        folder = folder || '';
+        let baseName = path.basename(file, path.extname(file));
+        if (baseName !== 'index') {
+            folder = path.posix.join(folder, baseName);
+        }
+        const entryName = path.posix.join(folder, 'index.html');
         entries[entryName] = file;
     });
     return entries;
 };
 
 // Cross-config aliases
-config.resolve.alias['__manifest__'] = path.resolve(PATHS.demos.entry.manifest);
+// config.resolve.alias['__manifest__'] = path.resolve(PATHS.pages.entry.manifest);
 
 /*
  * Demo plugins

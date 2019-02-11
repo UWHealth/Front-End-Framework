@@ -76,34 +76,31 @@ const PATHS = {
         },
         entry: {
             src: `${_.assets}/**/*.*`,
-            exclude: `!${_.assets}/img/**.*`,
+            exclude: `!${_.assets}/images/**.*`,
         },
         watch: {
             src: `${_.assets}/**/*.*`,
             fonts: `${_.assets}/fonts/*.*`,
             meta: `${_.assets}/meta/*.*`,
-            exclude: [`!${_.assets}/img/**.*`],
+            exclude: [`!${_.assets}/images/**.*`],
         },
         dest: `${_.pub}/assets/`,
     },
-    // Files to create demos from
-    demos: {
+    // Files to create pages from
+    pages: {
         folders: {
-            root: `${_.src}/`,
-            components: `${_.src}/components/`,
-            modules: `${_.src}/layouts/`,
+            root: `${_.src}/pages`,
+            demos: `${_.src}/pages/demos/`,
         },
         entry: {
-            src: `${_.src}/components/**/*.demo.html`,
-            main: `${_.src}/demos.js`,
-            manifest: MODE.production
-                ? `${_.pub}/module-map-manifest.json`
-                : `${_.cache}/module-map-manifest.json`,
+            src: `${_.src}/pages/**/*.(html|hbs|js)`,
+            server: `${_.src}/server.js`,
+            exclude: [`!${_.src}/pages/**/_*.*`, `!${_.src}/pages/_**/*`],
         },
         watch: {
-            all: `${_.src}/**/*.demo.html`,
+            all: `${_.src}/pages/**/*`,
         },
-        dest: `${_.dist}/demo`,
+        dest: `${_.dist}/`,
     },
     hbs: {
         folders: {

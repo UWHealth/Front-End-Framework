@@ -14,7 +14,7 @@
         {/if}
     </div>
     <Footer></Footer>
-    { @html exportedState }
+    { @html '<script>' + exportedState + '</script>' }
 { @html `
     </body></html>
 ` }
@@ -22,8 +22,8 @@
 <script>
 import HeadTemplate from '@/components/head';
 import Footer from '@/components/footer?ssr';
-import webmanifest from '@/manifest.webmanifest';
-import browserConfig from '@/browserconfig.xml';
+import webmanifest from '@/static/manifest.webmanifest';
+import browserConfig from '@/static/browserconfig.xml';
 
 export default {
     components: { Footer },
@@ -74,15 +74,12 @@ export default {
                   }
                 : '""';
             return (
-                `<script>` +
                 `console.log('Manifest', ${JSON.stringify(fileManifest)});` +
                 `window.__APP_STATE__ = { ` +
                 `  initialRoute: "${pathname}",` +
                 `  componentPath: "${componentPath}",` +
                 `  request: ${JSON.stringify(request)}` +
-                `};` +
-                // eslint-disable-next-line
-                `<\/script>`
+                `};`
             );
         },
     },

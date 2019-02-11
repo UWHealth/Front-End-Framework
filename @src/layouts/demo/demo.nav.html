@@ -25,18 +25,8 @@
 </style>
 
 <script>
-import icon from '@/assets/img/favicons/icon.svg';
+import icon from '@/assets/favicons/icon.svg';
 import NavLink from 'svelte-routing/NavLink.html';
-// import { createMemoryHistory, createBrowserHistory } from 'svelte-routing';
-
-// let history;
-
-// if (typeof window === 'undefined') {
-//     history = createMemoryHistory();
-// } else {
-//     history = createBrowserHistory();
-// }
-// Use Node to pre-evaluate the .demo files and create a list of demo links
 const links = require(`val-loader?{"filePath":"","publicPath":"/"}!./create-nav.js`);
 
 export default {

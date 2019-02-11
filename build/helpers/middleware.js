@@ -1,7 +1,7 @@
-const path = require('path');
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const history = require('connect-history-api-fallback');
+// const path = require('path');
 // const PATHS = require(`${CWD}/config/paths.config.js`);
 // const webpackLogger = require('./webpack-logger.js');
 // const webpackDevMiddleware = require('webpack-dev-middleware');

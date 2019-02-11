@@ -15,9 +15,8 @@ const path = require('path');
 
 const baseConfig = require(`./base.webpack.config.js`);
 const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
-const babelLoader = require(`${CWD}/build/helpers/babel-loader-config.js`);
-const svelteLoader = require(`${CWD}/build/helpers/svelte-loader-config.js`);
-// const VueManifestPlugin = require(`${CWD}/build/helpers/vue-ssr-client-plugin.js`);
+const babelLoader = require(`./helpers/babel-loader-config.js`);
+const svelteLoader = require(`./helpers/svelte-loader-config.js`);
 
 const config = baseConfig('web');
 
@@ -55,14 +54,6 @@ config.resolve.mainFields.unshift('svelte', 'browser');
  */
 config.plugins = config.plugins.concat(
     [
-        // Using Vue's manifest plugin so we can reference it in SSR config
-        // new VueManifestPlugin({
-        //     filename: `${path.posix.relative(
-        //         PATHS.folders.dist,
-        //         PATHS.demos.entry.manifest
-        //     )}`,
-        // }),
-
         // Ensure chunk order stays consistent
         new webpack.optimize.OccurrenceOrderPlugin(),
         // Hot module replacement
@@ -88,9 +79,7 @@ config.plugins = config.plugins.concat(
         new OfflinePlugin({
             excludes: ['**/.*', '**/*.map', '**/*.gz', '**/*.hot-update*'],
             externals: ['/public/css/main.css', '/demo/button.demo.js'],
-            rewrites: function rewrites(asset) {
-                return asset;
-            }
+            rewrites: (asset) => asset,
         }),
     ].filter(Boolean)
 );
@@ -104,11 +93,6 @@ glob.sync(PATHS.js.entry.components).forEach((component) => {
  * Client loaders
  */
 config.module.rules.push(
-    // {
-    //     test: path.resolve(PATHS.folders.src + '/index.html'),
-    //     loader: 'prerender-loader?string',
-    //     enforce: 'post',
-    // },
     // Svelte Loader
     svelteLoader(config.target, babelConfig),
 

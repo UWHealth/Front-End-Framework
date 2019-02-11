@@ -67,10 +67,10 @@ module.exports = function(target, babelConfig) {
                 resourceQuery: /\?ssr/,
                 use: nodeLoaders,
             },
-            {
-                issuer: /server\.js/,
-                use: nodeLoaders,
-            },
+            // {
+            //     issuer: /server\.js/,
+            //     use: nodeLoaders,
+            // },
             {
                 use: [
                     !MODE.production && {

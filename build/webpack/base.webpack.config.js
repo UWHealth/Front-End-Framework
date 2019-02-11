@@ -13,6 +13,8 @@ const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const STATS = require(`${CWD}/build/helpers/webpack-stats-config.js`);
 
+const isProd = MODE.production;
+
 // const TimeFixPlugin = require('time-fix-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -27,9 +29,9 @@ module.exports = (target) => {
     const config = {
         target: target,
         context: __dirname,
-        mode: process.env.NODE_ENV,
+        mode: process.env.NODE_ENV || 'development',
         stats: STATS(),
-        devtool: MODE.production ? 'source-map' : 'cheap-source-map',
+        devtool: false, //MODE.production ? 'source-map' : 'cheap-source-map',
         resolve: {
             symlinks: false,
             modules: [
@@ -40,9 +42,9 @@ module.exports = (target) => {
             alias: PATHS.aliases,
             extensions: [
                 '.js',
+                '.json',
                 '.mjs',
                 '.jsx',
-                '.json',
                 '.html',
                 '.svelte',
                 '.hbs',
@@ -82,15 +84,13 @@ module.exports = (target) => {
     // Re-usable CSS output path
     const cssPath = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
 
-    if (MODE.production || target !== 'web') {
-        // Extract CSS to its own file in --production mode
-        config.plugins.push(
-            new MiniCssExtractPlugin({
-                filename: `${cssPath}/[name].[contenthash:8].css`,
-                chunkFilename: `${cssPath}/[name].[contenthash:8].css`,
-            })
-        );
-    }
+    // Extract CSS to its own file (depends upon the existence of its loader)
+    config.plugins.push(
+        new MiniCssExtractPlugin({
+            filename: `${cssPath}/[name].[contenthash:8].css`,
+            chunkFilename: `${cssPath}/[name].[contenthash:8].css`,
+        })
+    );
 
     /*
      * Base Loaders
@@ -106,7 +106,7 @@ module.exports = (target) => {
     // 3c. Non-web targets: extract (remove it from JS file) the string
     // 4. Save the string to a file.
     const cssLoaders = (isSSR) => {
-        isSSR = isSSR || (target !== 'web' || MODE.production);
+        isSSR = isSSR || (target !== 'web' || isProd);
         const cssLoader = {
             loader: 'css-loader',
             options: {
@@ -123,7 +123,7 @@ module.exports = (target) => {
                     require('autoprefixer')({ grid: true }),
 
                     // Minify for production
-                    MODE.production &&
+                    isProd &&
                         require('cssnano')({
                             preset: [
                                 'default',
@@ -139,26 +139,17 @@ module.exports = (target) => {
 
         return isSSR
             ? [
-                  MODE.production && {
-                      loader: 'file-loader',
-                      options: {
-                          name: `${cssPath}/[name].[hash:8].css`,
-                      },
-                  },
-                  MODE.production && MiniCssExtractPlugin.loader,
                   cssLoader,
                   postcssLoader,
                   { loader: 'sass-loader', options: sassOpts },
               ].filter(Boolean)
             : [
-                  'style-loader',
+                  isProd && 'file-loader',
+                  isProd ? MiniCssExtractPlugin.loader : 'style-loader',
                   cssLoader,
                   postcssLoader,
-                  {
-                      loader: 'sass-loader',
-                      options: sassOpts,
-                  },
-              ];
+                  { loader: 'sass-loader', options: sassOpts },
+              ].filter(Boolean);
     };
 
     const relativePubPath = path.posix.relative(
@@ -193,20 +184,6 @@ module.exports = (target) => {
             ],
         },
 
-        /* Sass */
-        // Add sass to the beginning of the cssLoaders chain
-        // {
-        //     test: /\.(s[ca]ss)(\?.*)?$/,
-        //     use: cssLoaders.concat([
-        //         {
-        //             loader: 'sass-loader',
-        //             options: require(`${
-        //                 PATHS.folders.build
-        //             }/helpers/sass-config.js`),
-        //         },
-        //     ]),
-        // },
-
         /* Text files */
         {
             test: /\.txt(\?.*)?$/,
@@ -220,7 +197,7 @@ module.exports = (target) => {
                 {
                     loader: 'file-loader',
                     options: {
-                        name: `${relativePubPath}/[name].[ext]`,
+                        name: `[name].[ext]`,
                     },
                 },
                 {

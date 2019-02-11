@@ -1,39 +1,24 @@
-import Base from './index.html';
-import Router from './layouts/demo/demo.router.html';
-import url from 'url';
-import path from 'path';
-import getInitialFiles from '>/build/helpers/get-initial-webpack-files.js';
-import { createMemoryHistory } from 'svelte-routing';
+const Base = require('./pages/index.html?ssr');
+const { createMemoryHistory } = require('svelte-routing');
+const path = require('path');
 
 const history = createMemoryHistory();
 
 function formatData({
     data = {},
-    stats,
+    stats = {},
     appComponent = null,
     entryName = 'demo',
     req = {},
 }) {
+    const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
     const clientFiles = getInitialFiles(stats);
-    const fromServer = Object.assign(
-        {
-            pathname: '/',
-            componentPath: path.basename(entryName),
-            request: req,
-        },
-        data.fromServer
-    );
-    const fileManifest = Object.assign(
-        { initial: clientFiles },
-        data.fileManifest
-    );
 
     return Object.assign(
         {
             appComponent,
             compilation: null,
             publicPath: stats.publicPath,
-            fileManifest,
             googleAnalytics: null,
             title: 'Front-End-Framework',
             meta: [],
@@ -43,17 +28,28 @@ function formatData({
             headHtmlSnippet: '',
             appHtmlSnippet: '',
             bodyHtmlSnippet: '',
-            fromServer,
+            fileManifest: Object.assign(
+                { initial: clientFiles },
+                data.fileManifest
+            ),
+            fromServer: Object.assign(
+                {
+                    pathname: '/',
+                    componentPath: path.basename(entryName),
+                    request: req,
+                },
+                data.fromServer
+            ),
         },
         data
     );
 }
 
-export default function({ htmlWebpackPlugin, webpack }, req, res) {
+module.exports = function({ htmlWebpackPlugin, webpack }, req, res) {
     if (htmlWebpackPlugin) {
         return webpackPlugin(htmlWebpackPlugin, webpack);
     } else {
-        return middleware(req, res);
+        return middleware({}, req, res);
     }
 }
 
@@ -62,10 +58,14 @@ function webpackPlugin(htmlWebpackPlugin, webpack) {
         data: htmlWebpackPlugin.options,
         stats: webpack,
     });
-    return Base.render(formattedData).html;
+    const { html } = Base.render(formattedData);
+
+    return html;
 }
 
-function middleware(req, res) {
+function middleware(obj = {}, req, res) {
+    const Router = require('@/layouts/demo/demo.router.html');
+    const url = require('url');
     history.replace(req.url);
     const parsed = url.parse(req.url);
     const baseName = path.basename(parsed.pathname);
@@ -89,7 +89,7 @@ function middleware(req, res) {
         });
         const headHtmlSnippet = appComponent.head;
 
-        const out = Base.render(
+        const { html } = Base.render(
             formatData({
                 data: {
                     headHtmlSnippet,
@@ -104,10 +104,11 @@ function middleware(req, res) {
                 appComponent,
                 entryName,
                 req,
+                history,
             })
-        ).html;
+        );
 
-        return out;
+        return html;
     } catch (e) {
         console.log(e);
         return false;
@@ -175,3 +176,5 @@ function middleware(req, res) {
     // res.setHeader('Content-Type', 'text/html');
     // res.end(render);
 }
+
+module.exports.default = middleware;

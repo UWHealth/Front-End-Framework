@@ -15,7 +15,7 @@ const appState = typeof window === 'undefined' ? {} : window.__APP_STATE__;
 export default {
     components: { Route },
     data: () => ({
-        path: '/:demo',
+        path: '/:page',
         demoTitle: 'Demo',
         currentRoute: '',
     }),
@@ -35,33 +35,50 @@ export default {
             if (changed.match) {
                 const match = current.match;
 
-                getComponent(match.params.demo).then((comp) => {
+                getComponent(match.params.page).then((comp) => {
                     this.set({ innerComponent: findExport(comp) });
-                    store.set({ pageTitle: capitalize(match.params.demo) });
-                    store.set({ currentRoute: match.params.demo });
+                    store.set({ pageTitle: capitalize(match.params.page) });
+                    store.set({ currentRoute: match.params.page });
                 });
             }
         });
     },
     setup(DemoRouter) {
         DemoRouter.getComponent = async (componentPath) => {
-            const comp = await getComponent(componentPath);
+            console.log(componentPath);
+            const comp = await getPage(componentPath);
             return findExport(comp);
         };
     },
     store: () => store,
 };
 
-function getComponent(pathname) {
-    return import(/* webpackChunkName: "demo-route" */
-    /* webpackMode: "lazy" */
-    /* webpackPrefetch: true */
-    /* webpackPreload: -1 */
-    '@/components/' + pathname + '/' + pathname + '.demo.html');
+async function getPage(pathname) {
+    let component;
+    try {
+        component = await import(/* webpackChunkName: "route-[request]" */
+        /* webpackMode: "lazy" */
+        /* webpackPrefetch: true */
+        /* webpackPreload: -1 */
+        '@/pages/' + pathname + '/' + 'index.html');
+    }
+    catch(e) {
+        console.log(e);
+        try {
+            component = await import(/* webpackChunkName: "route-[request]" */
+            /* webpackMode: "lazy" */
+            /* webpackPrefetch: true */
+            /* webpackPreload: -1 */
+            '@/pages/' + pathname + '/' + pathname + '.html');
+        } catch(e) {
+            console.log(e);
+            component = false;
+        }
+    }
+    return component;
 }
 
 async function findGlobalState() {
-    appState.history = appState.history || createBrowserHistory();
     appState.innerComponent = await findExport(
         getComponent(appState.componentPath)
     );

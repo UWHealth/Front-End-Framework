@@ -5,11 +5,11 @@
 
 const fs = require('fs');
 const path = require('path');
-
-const customMiddleware = require('../helpers/webpack-middleware.js');
-const webpackLogger = require('../helpers/webpack-logger.js');
-
 const CWD = process.cwd();
+
+const customMiddleware = require(`${CWD}/build/helpers/middleware.js`);
+const webpackLogger = require(`${CWD}/build/helpers/webpack-logger.js`);
+
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const Logger = require(`${CWD}/build/helpers/logger.js`);
@@ -41,14 +41,14 @@ function startWebpack(done) {
     // Create webpack compiler instance
 
     // Write out a temporary manifest (if needed), so we can avoid errors on startup
-    if (!fs.existsSync(PATHS.demos.entry.manifest)) {
-        const folders = createManifestFolders(PATHS.demos.entry.manifest);
-        fs.writeFileSync(
-            PATHS.demos.entry.manifest,
-            `{ "initial":["runtime.bundle.js", "main.js"],` +
-                `"folders":"${folders}"}`
-        );
-    }
+    // if (!fs.existsSync(PATHS.demos.entry.manifest)) {
+    //     const folders = createManifestFolders(PATHS.demos.entry.manifest);
+    //     fs.writeFileSync(
+    //         PATHS.demos.entry.manifest,
+    //         `{ "initial":["runtime.bundle.js", "main.js"],` +
+    //             `"folders":"${folders}"}`
+    //     );
+    // }
 
     // Allow for immediate run (essentially, non-watch mode)
     // Primarily used for --production mode

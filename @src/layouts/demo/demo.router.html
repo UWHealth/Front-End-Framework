@@ -1,12 +1,13 @@
-<Route path="/demo/:demo" ref:router bind:match>
+<Route bind:path ref:router bind:match>
 {#if innerComponent}
     <svelte:component this={innerComponent} {...props} />
 {:else}
-    <p> No Route Found at {pathname}. </p>
+    <p> No Route Found at {path}. </p>
     <pre>
         Path: {path}
         Pathname: {pathname}
     </pre>
+    { error }
 {/if}
 </Route>
 
@@ -19,21 +20,45 @@ import findExport from '@/helpers/find-export.js';
 export default {
     components: { Route },
     data: () => ({
-        path: '/',
+        path: '/:page*/:file?',
         pathname: '/',
         basePath: '/',
+        match: '',
+        error: ''
     }),
     computed: {
         props: (state) => state,
-        innerComponent: ({props, path, pathname }) => {
-            //console.log(path, pathname);
-            path = path.replace('/demo/', '');
-            const componentName = path + '/' + path;
-            const component = findExport(
-                require('../../components/' + componentName + '.demo.html')
-            );
-            //console.log(component);
-            return component;
+        innerComponent: ({match, props, path, pathname, error }) => {
+
+            let baseName = path.split('/').reverse()[1];
+            console.log('BASE', baseName);
+            if (baseName === 'index.html') {
+                baseName = path.split('/').reverse()[3] || '';
+            }
+
+            try {
+                return findExport(
+                    require(/* webpackChunkName: "pages/route-[request]" */
+                        '@/pages' + path + '/index.html')
+                );
+            } catch(e) {
+                console.log(e);
+                try {
+                    path = path
+                    .replace('/', '')
+                    .replace(baseName, '')
+                    .replace('index.html', '');
+                    if (path === '/') path = '';
+
+                    return findExport(
+                        require(/* webpackChunkName: "pages/route-[request]" */
+                            '@/pages' + path + '/' + baseName + '.html')
+                    );
+                } catch(e) {
+                    console.log(e);
+                    return false;
+                }
+            }
         },
     },
 };
