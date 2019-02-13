@@ -45,11 +45,11 @@ function formatData({
     );
 }
 
-module.exports = function({ htmlWebpackPlugin, webpack }, req, res) {
+module.exports = function({ htmlWebpackPlugin = false, webpack = false, req = {}, res = {} }) {
     if (htmlWebpackPlugin) {
         return webpackPlugin(htmlWebpackPlugin, webpack);
     } else {
-        return middleware({}, req, res);
+        return middleware(req, res);
     }
 }
 
@@ -58,16 +58,19 @@ function webpackPlugin(htmlWebpackPlugin, webpack) {
         data: htmlWebpackPlugin.options,
         stats: webpack,
     });
-    const { html } = Base.render(formattedData);
-
-    return html;
+    try {
+        return Base.render(formattedData).html;
+    } catch(e) {
+        console.log(e);
+    }
+    return '';
 }
 
-function middleware(obj = {}, req, res) {
+function middleware({ req, res }) {
     const Router = require('@/layouts/demo/demo.router.html');
     const url = require('url');
     history.replace(req.url);
-    const parsed = url.parse(req.url);
+    const parsed = url.parse(req.url || req.originalUrl);
     const baseName = path.basename(parsed.pathname);
     const entryName = path.posix.join(parsed.href, baseName);
     const compilation = res.locals.isomorphic.compilation;
@@ -88,25 +91,25 @@ function middleware(obj = {}, req, res) {
             basePath: process.cwd() + '/@src/',
         });
         const headHtmlSnippet = appComponent.head;
-
-        const { html } = Base.render(
-            formatData({
-                data: {
-                    headHtmlSnippet,
-                    title: baseName,
-                    inlineStyle: appComponent.css.code,
-                    fromServer: {
-                        pathname: `${serverStats.publicPath}${pathFromStats}`,
-                        componentPath: `${path.basename('/' + entryName)}`,
-                    },
+        const formattedData = formatData({
+            data: {
+                headHtmlSnippet,
+                title: baseName,
+                inlineStyle: appComponent.css.code,
+                fromServer: {
+                    pathname: `${serverStats.publicPath}${pathFromStats}`,
+                    componentPath: `${path.basename('/' + entryName)}`,
                 },
-                stats: clientStats,
-                appComponent,
-                entryName,
-                req,
-                history,
-            })
-        );
+            },
+            stats: clientStats,
+            appComponent,
+            entryName,
+            req,
+            history,
+            appHtmlSnippet: appComponent.html,
+        });
+
+        const { html } = Base.render(formattedData);
 
         return html;
     } catch (e) {

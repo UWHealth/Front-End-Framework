@@ -1,4 +1,3 @@
-<Route bind:path ref:router bind:match>
 {#if innerComponent}
     <svelte:component this={innerComponent} {...props} />
 {:else}
@@ -9,18 +8,17 @@
     </pre>
     { error }
 {/if}
-</Route>
 
 <script>
 // import store from './demo.store.js';
 import Route from 'svelte-routing/Route.html?ssr';
 import capitalize from '@/helpers/title-case';
 import findExport from '@/helpers/find-export.js';
+const pages = require(`val-loader?{"returnPages": true}!./create-nav.js`);
 
 export default {
     components: { Route },
     data: () => ({
-        path: '/:page*/:file?',
         pathname: '/',
         basePath: '/',
         match: '',
@@ -29,35 +27,34 @@ export default {
     computed: {
         props: (state) => state,
         innerComponent: ({match, props, path, pathname, error }) => {
-
-            let baseName = path.split('/').reverse()[1];
-            console.log('BASE', baseName);
-            if (baseName === 'index.html') {
-                baseName = path.split('/').reverse()[3] || '';
+            //console.log(path, pages);
+            if(path.indexOf('index.html') < 0) {
+                if(path.substring(path.length - 1) !== '/') {
+                    path += '/';
+                }
+                path += 'index.html';
             }
+            path = path.replace('/', '');
 
+            if(!pages[path]) return false;
+
+            const file = pages[path].file.replace('.html', '');
+            const folder = pages[path].folder;
+
+            //console.log(pages[path]);
+            if (folder === '.') { folder = 'pages/'; }
+
+            const page = file.substring(file.indexOf(folder));
             try {
-                return findExport(
+                const component = findExport(
                     require(/* webpackChunkName: "pages/route-[request]" */
-                        '@/pages' + path + '/index.html')
+                        '@/pages/' + page + '.html')
                 );
+
+                return component;
             } catch(e) {
                 console.log(e);
-                try {
-                    path = path
-                    .replace('/', '')
-                    .replace(baseName, '')
-                    .replace('index.html', '');
-                    if (path === '/') path = '';
-
-                    return findExport(
-                        require(/* webpackChunkName: "pages/route-[request]" */
-                            '@/pages' + path + '/' + baseName + '.html')
-                    );
-                } catch(e) {
-                    console.log(e);
-                    return false;
-                }
+                return false;
             }
         },
     },

@@ -1,2 +1,22 @@
-<ul>
-</ul>
+{@html layout}
+
+<script>
+import Layout from '@/layouts/base/index.hbs';
+
+export default {
+    data: () => ({
+        htmlWebpackPlugin: false
+    }),
+    computed: {
+        props: (state) => {
+            if (state.htmlWebpackPlugin) {
+                return htmlWebpackPlugin.options;
+            }
+            return state;
+        },
+        layout: (state) => {
+            return Layout({...state});
+        } 
+    }
+};
+</script>

@@ -5,9 +5,12 @@
 <body>
     {{{bodyHtmlSnippet}}}
     <div id="app" class="application">
-        {{{appHtmlSnippet}}}
+        {{#if appHtmlSnippet}}
+            Got snippet
+            {{{appHtmlSnippet}}}
+        {{/if}}
     </div>
-    {{> ../../components/footer}}
+    {{{footer}}}
     <script>{{{ exportedState }}}</script>
 </body>
 </html>

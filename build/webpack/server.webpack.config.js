@@ -12,11 +12,12 @@ const webpack = require('webpack');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
 const babelLoader = require(`./helpers/babel-loader-config.js`);
 const svelteLoader = require(`./helpers/svelte-loader-config.js`);
+const getPages = require(`${CWD}/build/helpers/get-pages.js`);
 const config = require(`./base.webpack.config.js`)('node');
 
 config.name = 'Server';
 
-const outPath = '.';
+const outPath = '';
 
 /*
  * Demo-specific output
@@ -28,27 +29,20 @@ config.output = {
     path: path.resolve(PATHS.folders.dist),
     publicPath: '/',
     libraryTarget: 'commonjs2',
-    filename: `[name].js`,
+    filename: `${outPath}[name].js`,
 };
 
 config.entry = () => {
     const entries = {};
     entries['main'] = PATHS.pages.entry.server;
-
-    // Dynamically add .demo files as entry points
+    // Dynamically add pages/** files as entry points
     // Allowing new ones to be added while webpack runs
-    glob.sync(PATHS.pages.entry.src).forEach((file) => {
-        let folder = path.posix.dirname(
-            path.relative(PATHS.pages.folders.root, file)
-        );
-        folder = folder || '';
-        let baseName = path.basename(file, path.extname(file));
-        if (baseName !== 'index') {
-            folder = path.posix.join(folder, baseName);
-        }
-        const entryName = path.posix.join(folder, 'index.html');
-        entries[entryName] = file;
+    const pages = getPages(PATHS.pages.entry.src, PATHS.pages.folders.root);
+
+    Object.keys(pages).forEach((page) => {
+        entries[page] = pages[page].file;
     });
+
     return entries;
 };
 

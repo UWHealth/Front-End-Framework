@@ -64,13 +64,13 @@ module.exports = function(client, server, LOG) {
             silent: true,
         }),
 
-        demoMiddleware,
+        pageMiddleware,
 
-        history(),
+        // history(),
     ];
 };
 
-async function demoMiddleware(req, res, next) {
+async function pageMiddleware(req, res, next) {
     //const parsed = require('url').parse(req.url);
     const { /*compilation,*/ exports } = res.locals.isomorphic;
 
@@ -84,7 +84,7 @@ async function demoMiddleware(req, res, next) {
     let render = '';
     // console.log(JSON.stringify(exports));
     try {
-        render = await exports.default(false, req, res, next);
+        render = await exports.default({ req, res, next });
     } catch (e) {
         console.error(e);
     }
