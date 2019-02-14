@@ -39,9 +39,10 @@ config.entry = () => {
     // Allowing new ones to be added while webpack runs
     const pages = getPages(PATHS.pages.entry.src, PATHS.pages.folders.root);
 
-    Object.keys(pages).forEach((page) => {
-        entries[page] = pages[page].file;
-    });
+    // Object.keys(pages).forEach((page) => {
+    //     const entryName = page.replace('.html', '');
+    //     entries[entryName] = pages[page].file;
+    // });
 
     return entries;
 };

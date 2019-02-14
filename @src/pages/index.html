@@ -1,9 +1,11 @@
-{@html layout}
+<Nav></Nav>
+<h1>Index</h1>
 
 <script>
-import Layout from '@/layouts/base/index.hbs';
+import Nav from '@/layouts/demo/demo.nav.html';
 
 export default {
+    components: { Nav },
     data: () => ({
         htmlWebpackPlugin: false
     }),
@@ -13,10 +15,7 @@ export default {
                 return htmlWebpackPlugin.options;
             }
             return state;
-        },
-        layout: (state) => {
-            return Layout({...state});
-        } 
+        }
     }
 };
 </script>

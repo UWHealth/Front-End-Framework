@@ -192,7 +192,7 @@ module.exports = (target) => {
 
         /* App Manifests */
         {
-            test: /(manifest\.webmanifest|browserconfig\.xml)$/,
+            test: /(manifest\.(webmanifest|json)|browserconfig\.xml)$/,
             use: [
                 {
                     loader: 'file-loader',
@@ -257,7 +257,7 @@ module.exports = (target) => {
                 {
                     loader: 'file-loader',
                     options: {
-                        name: `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`,
+                        name: `${staticAssetPath}/[folder]/[name].[hash:3].[ext]`,
                     },
                 },
             ],
@@ -274,7 +274,7 @@ module.exports = (target) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`,
+                                name: `${staticAssetPath}/[folder]/[name].[hash:3].[ext]`,
                             },
                         },
                     },
@@ -293,7 +293,7 @@ module.exports = (target) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`,
+                                name: `${staticAssetPath}/[folder]/[name].[hash:3].[ext]`,
                             },
                         },
                     },

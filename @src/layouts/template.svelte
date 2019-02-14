@@ -41,11 +41,6 @@ export default {
         headHtmlSnippet: '',
         appHtmlSnippet: '',
         bodyHtmlSnippet: '',
-        fromServer: {
-            pathname: '/',
-            componentPath: '/',
-            request: {},
-        },
     }),
     helpers: {
         renderComponent: (appComponent, props) => {
@@ -65,6 +60,7 @@ export default {
         // Add the initial page state to the window,
         // Allowing our app to hydrate
         exportedState: ({ fromServer, fileManifest }) => {
+            return '';
             let { pathname, componentPath, request } = fromServer;
             request = request
                 ? {

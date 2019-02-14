@@ -5,16 +5,16 @@ import demoRouter from '@/layouts/demo/demo.routes.html';
 import { createBrowserHistory } from 'svelte-routing';
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
-OfflinePluginRuntime.install();
-const history = createBrowserHistory();
+//OfflinePluginRuntime.install();
+createBrowserHistory();
 
 let application;
 
 async function init() {
     const appElement = document.getElementById('app');
 
-    if (appElement && window.__APP_STATE__) {
-        const currentRoute = window.__APP_STATE__.componentPath;
+    if (appElement) {
+        const currentRoute = window.location.pathname;
 
         const currentComponent = await demoRouter.getComponent(currentRoute);
 

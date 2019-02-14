@@ -60,6 +60,7 @@
         "@babel/polyfill": "^7.2.5",
         "@babel/preset-env": "^7.3.1",
         "@babel/runtime": "^7.3.1",
+        "@uwhealth/babel-preset-t4": "^1.0.1",
         "@uwhealth/linter-configs": "^1.5.2",
         "@uwhealth/sass-tools": "^1.1.2",
         "app-manifest-loader": "^2.2.3",

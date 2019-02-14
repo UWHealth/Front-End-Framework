@@ -1,50 +1,43 @@
+<!-- Used for /path/to/thing/index.html or /path/to/thing/ -->
+<Route path='/:path([^.]*)*/:file([^.]+\.html)?'
+    {...history} {pathname}
+    bind:match="match"
+>
 {#if innerComponent}
-    <svelte:component this={innerComponent} {...props} />
-{:else}
-    <p> No Route Found at {path}. </p>
-    <pre>
-        Path: {path}
-        Pathname: {pathname}
-    </pre>
-    { error }
+    <svelte:component this={innerComponent} />
 {/if}
+</Route>
 
 <script>
-// import store from './demo.store.js';
 import Route from 'svelte-routing/Route.html?ssr';
 import capitalize from '@/helpers/title-case';
 import findExport from '@/helpers/find-export.js';
-const pages = require(`val-loader?{"returnPages": true}!./create-nav.js`);
+import findPage from './check-route.js';
+import {matchPath, getHistory} from 'svelte-routing';
 
 export default {
     components: { Route },
-    data: () => ({
-        pathname: '/',
-        basePath: '/',
-        match: '',
-        error: ''
-    }),
+    data() {
+        const history = getHistory();
+        //console.log(history.location);
+        return {
+            basePath: '/',
+            error: '',
+            pathname: history.location.pathname,
+            history,
+            next: false
+        }
+    },
+    helpers: {},
     computed: {
         props: (state) => state,
-        innerComponent: ({match, props, path, pathname, error }) => {
-            //console.log(path, pages);
-            if(path.indexOf('index.html') < 0) {
-                if(path.substring(path.length - 1) !== '/') {
-                    path += '/';
-                }
-                path += 'index.html';
-            }
-            path = path.replace('/', '');
-
-            if(!pages[path]) return false;
-
-            const file = pages[path].file.replace('.html', '');
-            const folder = pages[path].folder;
-
-            //console.log(pages[path]);
-            if (folder === '.') { folder = 'pages/'; }
-
-            const page = file.substring(file.indexOf(folder));
+        // match: ({ pathname, path, exact, strict }) => {
+        //     return matchPath(pathname, { path, exact, strict });
+        // },
+        innerComponent: ({ match, pathname }) => {
+            const page = findPage(pathname);
+            console.log('page:', page, match);
+            if (!page) return false;
             try {
                 const component = findExport(
                     require(/* webpackChunkName: "pages/route-[request]" */
@@ -56,7 +49,11 @@ export default {
                 console.log(e);
                 return false;
             }
-        },
+        }
     },
+    oncreate() {
+        this.checkRoute
+        //console.log('opts', this.options);
+    }
 };
 </script>

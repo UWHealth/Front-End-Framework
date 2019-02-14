@@ -1,12 +1,13 @@
 <!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
 <nav ref:navigation class="demo-navigation">
     <img src="{icon}" style="height: {60/16}rem;" alt="">
-    {#each links as [name, url] (url)}
+    {#each Object.keys(links) as url (url)}
         <NavLink ref:url
-            to="{url}"
+            to="/{url.replace('index.html', '')}"
+            exact="true"
             activeClassName="demo-navigation__link--active"
             className="demo-navigation__link">
-            {name}
+            {links[url].basename}
         </NavLink>
     {/each}
 </nav>

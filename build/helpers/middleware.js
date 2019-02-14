@@ -32,6 +32,7 @@ module.exports = function(client, server, LOG) {
                     .map((asset) => asset.name)
                     .find((name) => name === assetName);
             },
+            watchDelay: 300,
             report: {
                 stats: 'once',
                 write: (str) => {
@@ -66,23 +67,14 @@ module.exports = function(client, server, LOG) {
 
         pageMiddleware,
 
-        // history(),
+        history(),
     ];
 };
 
 async function pageMiddleware(req, res, next) {
-    //const parsed = require('url').parse(req.url);
     const { /*compilation,*/ exports } = res.locals.isomorphic;
 
-    // Only allow /demo/:something || /demo/:something/:file.html
-    //
-    // /:path(demo)/:key([\w]*)*/:file([\w\-]*)?:ext(\.html?)?
-    // http://forbeslindesay.github.io/express-route-tester/
-    // if (
-    //     parsed.pathname.match(/^\/((?:[^/]+?)(?:\/(?:[^/]+?))*)(?:\/(?=$))?$/i)
-    // ) {
     let render = '';
-    // console.log(JSON.stringify(exports));
     try {
         render = await exports.default({ req, res, next });
     } catch (e) {
@@ -93,73 +85,6 @@ async function pageMiddleware(req, res, next) {
     }
     res.setHeader('Content-Type', 'text/html');
     res.end(render);
-    // } else {
-    //     next();
-    // }
-    // const { compilation, exports } = res.locals.isomorphic;
-
-    // const serverStats = compilation.serverStats.toJson();
-    // // const baseName = path.basename(parsed.pathname);
-    // // const entryName = path.posix.join(parsed.href, baseName);
-    // const entryName = parsed.pathname.replace('/', '');
-    // // console.log(entryName);
-    // const pathFromStats =
-    //     serverStats.assetsByChunkName[entryName] ||
-    //     serverStats.assetsByChunkName['/' + entryName];
-
-    // // console.log(pathFromStats);
-    // if (!pathFromStats) {
-    //     return next();
-    // }
-    // const filePath = path.posix.join(
-    //     serverStats.outputPath,
-    //     serverStats.publicPath,
-    //     pathFromStats
-    // );
-    // const serverFS =
-    //     compilation.serverStats.compilation.compiler.outputFileSystem;
-
-    // try {
-    //     const file = await new Promise((resolve, reject) =>
-    //         serverFS.readFile(filePath, (err, buffer) => {
-    //             if (err) {
-    //                 reject(err);
-    //             } else {
-    //                 resolve(buffer.toString());
-    //             }
-    //         })
-    //     );
-
-    //     const asset = await requireFromString(file, filePath);
-    //     const generatedHead = asset.render({}).head;
-
-    //     const clientFiles = require('./get-initial-webpack-files.js')(
-    //         res.locals.isomorphic.compilation.clientStats
-    //     );
-    //     render = exports.default({
-    //         asset,
-    //         manifest: { initial: clientFiles },
-    //         compilation: compilation.clientStats.compilation,
-    //         publicPath: `${serverStats.publicPath}`,
-    //         head: {
-    //             pageTitle: '',
-    //             headExtra: generatedHead,
-    //         },
-    //         fromServer: {
-    //             request: req,
-    //             pathname: `${serverStats.publicPath}${pathFromStats}`,
-    //             componentPath: `${path.basename('/' + entryName)}`,
-    //         },
-    //     }).html;
-    // } catch (err) {
-    //     render = `
-    //     <html>
-    //     <head><title>Error</title></head>
-    //     <body>
-    //         <pre>${err.message} \n ${err.stack}</pre>
-    //     </body>
-    //     </html>`;
-    // }
 }
 
 function requireFromString(
@@ -167,7 +92,6 @@ function requireFromString(
     filename = '',
     opts = { appendPaths: [], prependPaths: [] }
 ) {
-    // const fs = require('fs');
     const path = require('path');
     const Module = require('module');
 

@@ -5,10 +5,9 @@ const glob = require('fast-glob');
 function getPages(files, context) {
     const entries = {};
     glob.sync(files).forEach((file) => {
-        let folder = path.posix.dirname(path.relative(context, file));
-        let is_index = true;
+        let is_index = true; // Assume index
+        let folder = path.posix.dirname(path.relative(context, file)) || '';
         let ext = path.extname(file);
-        folder = folder || '';
         let basename = path.basename(file, ext);
         if (basename !== 'index') {
             folder = path.posix.join(folder, basename);
@@ -16,6 +15,7 @@ function getPages(files, context) {
         }
         const entryName = path.posix.join(folder, 'index.html');
         entries[entryName] = {
+            basename,
             file,
             folder,
             is_index,

@@ -11,14 +11,14 @@ const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
-const babelLoader = require(`./babel-loader-config.js`);
+const babelLoader = require(`./helpers/babel-loader-config.js`);
 const svelteLoader = require(`./helpers/svelte-loader-config.js`);
 const config = require('./base.webpack.config.js')('node');
 
 config.name = 'T4';
 config.target = 'node'; // Closest target to Rhino
 
-const pubPath = path.posix.relative(PATHS.folders.dist, PATHS.folders.pub);
+const pubPath = path.posix.relative(PATHS.folders.pub, PATHS.folders.dist);
 
 config.output = {
     path: path.resolve(PATHS.folders.dist, 't4'),
@@ -58,40 +58,42 @@ glob.sync(PATHS.folders.src + '/**/*.t4.js').forEach((file) => {
     config.entry[entryName] = path.resolve(file);
 });
 
-if (MODE.production) {
-    const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+config.optimization.minimize = false;
 
-    config.optimization.minimizer = [
-        new UglifyJsPlugin({
-            parallel: true,
-            cache: true,
-            uglifyOptions: {
-                warnings: false,
+// if (MODE.production) {
+//     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-                keep_classnames: true,
-                keep_fnames: true,
-                ie8: false,
-                nameCache: {},
-                toplevel: false,
+//     config.optimization.minimizer = [
+//         new UglifyJsPlugin({
+//             parallel: true,
+//             cache: true,
+//             uglifyOptions: {
+//                 warnings: false,
 
-                mangle: false,
+//                 keep_classnames: true,
+//                 keep_fnames: true,
+//                 ie8: false,
+//                 nameCache: {},
+//                 toplevel: false,
 
-                compress: {
-                    keep_fnames: true,
-                    properties: false,
-                    drop_console: true,
-                    dead_code: true,
-                    passes: 2,
-                },
+//                 mangle: false,
 
-                output: {
-                    wrap_iife: true,
-                    keep_quoted_props: true, // important - Rhino hates .default
-                    quote_keys: true, // important - Rhino hates { default: }
-                },
-            },
-        }),
-    ];
-}
+//                 compress: {
+//                     keep_fnames: true,
+//                     properties: false,
+//                     drop_console: true,
+//                     dead_code: true,
+//                     passes: 2,
+//                 },
+
+//                 output: {
+//                     wrap_iife: true,
+//                     keep_quoted_props: true, // important - Rhino hates .default
+//                     quote_keys: true, // important - Rhino hates { default: }
+//                 },
+//             },
+//         }),
+//     ];
+// }
 
 module.exports = config;

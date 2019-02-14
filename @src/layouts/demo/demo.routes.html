@@ -1,4 +1,4 @@
-<Route hydrate="{true}" ref:router bind:pathname bind:path>
+<Route ref:router bind:pathname bind:path>
     <svelte:component this={innerComponent} />
 </Route>
 
@@ -7,6 +7,8 @@ import store from './demo.store.js';
 import capitalize from '@/helpers/title-case';
 import findExport from '@/helpers/find-export.js';
 import Route from 'svelte-routing/Route.html';
+import findPage from './check-route.js';
+const pages = require(`val-loader?{"returnPages": true}!./create-nav.js`);
 
 // Find the initial state of the page, provided by the template
 const appState = typeof window === 'undefined' ? {} : window.__APP_STATE__;
@@ -15,14 +17,14 @@ const appState = typeof window === 'undefined' ? {} : window.__APP_STATE__;
 export default {
     components: { Route },
     data: () => ({
-        path: '/:page',
+        path: '/:page*',
         demoTitle: 'Demo',
         currentRoute: '',
     }),
     oncreate() {
         const router = this.refs.router;
 
-        store.set({ pageTitle: capitalize(appState.componentPath) });
+        // store.set({ pageTitle: capitalize(appState.componentPath) });
         store.set({ currentRoute: router.get()['pathname'] });
 
         router.on('state', ({ changed, current }) => {
@@ -35,7 +37,7 @@ export default {
             if (changed.match) {
                 const match = current.match;
 
-                getComponent(match.params.page).then((comp) => {
+                getPage(match.params.page).then((comp) => {
                     this.set({ innerComponent: findExport(comp) });
                     store.set({ pageTitle: capitalize(match.params.page) });
                     store.set({ currentRoute: match.params.page });
@@ -55,27 +57,43 @@ export default {
 
 async function getPage(pathname) {
     let component;
-    try {
-        component = await import(/* webpackChunkName: "route-[request]" */
-        /* webpackMode: "lazy" */
-        /* webpackPrefetch: true */
-        /* webpackPreload: -1 */
-        '@/pages/' + pathname + '/' + 'index.html');
+    const page = findPage(pathname);
+
+    if (!page) {
+        console.log('No page found at ' + pathname);
+        return false;
     }
-    catch(e) {
-        console.log(e);
-        try {
-            component = await import(/* webpackChunkName: "route-[request]" */
+
+    try {
+
+        component = await import(/* webpackChunkName: "page-[request]" */
             /* webpackMode: "lazy" */
             /* webpackPrefetch: true */
             /* webpackPreload: -1 */
-            '@/pages/' + pathname + '/' + pathname + '.html');
-        } catch(e) {
-            console.log(e);
-            component = false;
-        }
+            '@/pages/' + page  + '.html');
+
+        return component;
+    } catch(e) {
+        console.error(e);
+        return false;
     }
-    return component;
+    // try {
+
+    // }
+    // catch(e) {
+    //     console.log(e);
+    //     try {
+    //         component = await import(/* webpackChunkName: "route-[request]" */
+    //         /* webpackMode: "lazy" */
+    //         /* webpackPrefetch: true */
+    //         /* webpackPreload: -1 */
+    //         '@/pages/' + pathname + '/' + pathname + '.html');
+    //     } catch(e) {
+    //         console.log(e);
+    //         component = false;
+    //     }
+    // }
+    // return component;
 }
 
 async function findGlobalState() {

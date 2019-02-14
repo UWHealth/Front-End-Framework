@@ -7,7 +7,6 @@
 
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode`);
-const getTargets = require('./helpers/string-to-babel-target.js');
 
 const baseConfig = {
     ignore: [/@?babel/g, /core-js/g],
@@ -22,21 +21,29 @@ const baseConfig = {
 
 /* eslint complexity: "off" */
 module.exports = function(target) {
+    const webOrNodeEnv = [
+        require('@babel/preset-env'),
+        {
+            targets: target === 'node' ? { node: true } : {},
+            ignoreBrowserslistConfig: target !== 'web',
+            loose: true,
+            modules: false,
+            useBuiltIns: 'usage',
+            debug: false,
+        },
+    ];
+
     const config = {
         presets: [
-            [
-                require('@babel/preset-env'),
-                {
-                    targets: getTargets(target),
-                    ignoreBrowserslistConfig: true,
-                    loose: true,
-                    modules: false,
-                    useBuiltIns: 'usage',
-                    debug: false,
-                },
-            ],
+            target === 't4'
+                ? [require('@uwhealth/babel-preset-t4')]
+                : webOrNodeEnv,
         ],
-        plugins: [
+    };
+
+    if (target === 'web') {
+        config.plugins = [
+            [require('@babel/plugin-syntax-dynamic-import')],
             [
                 require('@babel/plugin-transform-runtime'),
                 {
@@ -46,20 +53,10 @@ module.exports = function(target) {
                     useESModules: !!MODE.production,
                 },
             ],
-        ],
-    };
-
-    if (target === 'web') {
-        config.plugins.push([require('@babel/plugin-syntax-dynamic-import')]);
-    } else if (target === 'node') {
-        config.plugins.push([require('babel-plugin-dynamic-import-node')]);
-    } else if (target === 't4') {
-        config.plugins.push(
-            [require('@babel/plugin-transform-arrow-functions')],
-            [require('babel-plugin-dynamic-import-node')],
-            [require('babel-plugin-transform-es3-property-literals')],
-            [require('babel-plugin-transform-es3-member-expression-literals')]
-        );
+        ];
+    }
+    if (target === 'node') {
+        config.plugins = [require('babel-plugin-dynamic-import-node')];
     }
 
     return Object.assign(config, baseConfig);

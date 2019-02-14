@@ -26,7 +26,7 @@ module.exports = () => {
     const BS_SERVER = Object.assign(
         {
             baseDir: PATHS.browserSync.entry.array,
-            directory: true,
+            directory: false,
         },
         ARGS.bsserver || {}
     );

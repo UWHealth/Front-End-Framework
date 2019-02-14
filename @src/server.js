@@ -1,22 +1,15 @@
-const Base = require('./pages/index.html?ssr');
+const Base = require('@/layouts/template.svelte?ssr');
 const { createMemoryHistory } = require('svelte-routing');
 const path = require('path');
+const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
 
 const history = createMemoryHistory();
 
-function formatData({
-    data = {},
-    stats = {},
-    appComponent = null,
-    entryName = 'demo',
-    req = {},
-}) {
-    const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
+function formatData({ data = {}, stats = {} }) {
     const clientFiles = getInitialFiles(stats);
 
     return Object.assign(
         {
-            appComponent,
             compilation: null,
             publicPath: stats.publicPath,
             googleAnalytics: null,
@@ -28,28 +21,40 @@ function formatData({
             headHtmlSnippet: '',
             appHtmlSnippet: '',
             bodyHtmlSnippet: '',
+            globals: Object.assign(
+                {
+                    '__APP_STATE__' : {}
+                },
+                data.globals
+            ),
             fileManifest: Object.assign(
                 { initial: clientFiles },
                 data.fileManifest
             ),
-            fromServer: Object.assign(
-                {
-                    pathname: '/',
-                    componentPath: path.basename(entryName),
-                    request: req,
-                },
-                data.fromServer
-            ),
+            // fromServer: Object.assign(
+            //     {
+            //         pathname: '/',
+            //         componentPath: path.basename(data.entryName || 'index.html'),
+            //         request: data.req,
+            //     },
+            //     data.fromServer
+            // ),
         },
         data
     );
 }
 
-module.exports = function({ htmlWebpackPlugin = false, webpack = false, req = {}, res = {} }) {
-    if (htmlWebpackPlugin) {
+module.exports = function({
+    htmlWebpackPlugin = {},
+    webpack = {},
+    req = {},
+    res = {},
+    next = {},
+}) {
+    if (htmlWebpackPlugin.options) {
         return webpackPlugin(htmlWebpackPlugin, webpack);
     } else {
-        return middleware(req, res);
+        return middleware(req, res, next);
     }
 }
 
@@ -66,12 +71,13 @@ function webpackPlugin(htmlWebpackPlugin, webpack) {
     return '';
 }
 
-function middleware({ req, res }) {
+function middleware({ req, res, next }) {
+    history.replace(req.url);
     const Router = require('@/layouts/demo/demo.router.html');
     const url = require('url');
-    history.replace(req.url);
+
     const parsed = url.parse(req.url || req.originalUrl);
-    const baseName = path.basename(parsed.pathname);
+    const baseName = path.basename(parsed.pathname, '.html');
     const entryName = path.posix.join(parsed.href, baseName);
     const compilation = res.locals.isomorphic.compilation;
     const serverStats = compilation.serverStats.toJson();
@@ -86,27 +92,25 @@ function middleware({ req, res }) {
         serverStats.assetsByChunkName['/' + entryName];
 
     try {
-        const appComponent = Router.render({
-            path: parsed.pathname,
+        const routerComponent = Router.render({
+            url: parsed.pathname,
             basePath: process.cwd() + '/@src/',
+            history,
+            next,
         });
-        const headHtmlSnippet = appComponent.head;
+        const headHtmlSnippet = routerComponent.head;
         const formattedData = formatData({
             data: {
                 headHtmlSnippet,
                 title: baseName,
-                inlineStyle: appComponent.css.code,
-                fromServer: {
-                    pathname: `${serverStats.publicPath}${pathFromStats}`,
-                    componentPath: `${path.basename('/' + entryName)}`,
-                },
+                appHtmlSnippet: routerComponent.html,
+                inlineStyle: routerComponent.css.code,
+                // fromServer: {
+                //     pathname: `${serverStats.publicPath}${pathFromStats}`,
+                //     componentPath: `${path.basename('/' + entryName)}`,
+                // },
             },
             stats: clientStats,
-            appComponent,
-            entryName,
-            req,
-            history,
-            appHtmlSnippet: appComponent.html,
         });
 
         const { html } = Base.render(formattedData);
