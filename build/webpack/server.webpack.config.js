@@ -5,17 +5,16 @@
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const path = require('path');
-const glob = require('fast-glob');
 
 const webpack = require('webpack');
-//const HtmlPlugin = require('html-webpack-plugin');
 const babelConfig = require(`${CWD}/config/babel.config.js`)('node');
 const babelLoader = require(`./helpers/babel-loader-config.js`);
 const svelteLoader = require(`./helpers/svelte-loader-config.js`);
-const getPages = require(`${CWD}/build/helpers/get-pages.js`);
-const config = require(`./base.webpack.config.js`)('node');
 
-config.name = 'Server';
+const config = require(`./base.webpack.config.js`)({
+    target: 'node',
+    name: 'Dev Server',
+});
 
 const outPath = '';
 
@@ -34,15 +33,10 @@ config.output = {
 
 config.entry = () => {
     const entries = {};
-    entries['main'] = PATHS.pages.entry.server;
+    entries['server'] = PATHS.pages.entry.server;
     // Dynamically add pages/** files as entry points
     // Allowing new ones to be added while webpack runs
-    const pages = getPages(PATHS.pages.entry.src, PATHS.pages.folders.root);
-
-    // Object.keys(pages).forEach((page) => {
-    //     const entryName = page.replace('.html', '');
-    //     entries[entryName] = pages[page].file;
-    // });
+    // const getPages = require(`${CWD}/build/helpers/get-pages.js`);
 
     return entries;
 };

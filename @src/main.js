@@ -18,21 +18,23 @@ async function init() {
 
         const currentComponent = await demoRouter.getComponent(currentRoute);
 
-        application = new demoRouter({
-            hydrate: true,
-            target: appElement,
-            data: {
-                pathname: window.location.pathname,
-                innerComponent: currentComponent,
-            },
-        });
+        if (currentComponent) {
+            application = new demoRouter({
+                hydrate: true,
+                target: appElement,
+                data: {
+                    pathname: window.location.pathname,
+                    innerComponent: currentComponent,
+                },
+            });
+        }
 
         window.__APP__ = application;
     }
 
     if (process.env.NODE_ENV !== 'production') {
         import(/* "webpackChunkName": "keyboard" */
-        '@/components/keyboard').then((keyboardSC) => keyboardSC.init());
+        '@/components/keyboard-shortcuts').then((keyboardSC) => keyboardSC.init());
     }
 }
 

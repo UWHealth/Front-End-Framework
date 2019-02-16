@@ -1,37 +1,85 @@
-<!-- Svelte-routing: https://github.com/EmilTholin/svelte-routing -->
-<nav ref:navigation class="demo-navigation">
-    <img src="{icon}" style="height: {60/16}rem;" alt="">
-    {#each Object.keys(links) as url (url)}
-        <NavLink ref:url
-            to="/{url.replace('index.html', '')}"
-            exact="true"
-            activeClassName="demo-navigation__link--active"
-            className="demo-navigation__link">
-            {links[url].basename}
-        </NavLink>
+<nav ref:navigation use:links class="demo-navigation">
+    <img src="{icon}" alt="">
+    {#each Object.keys(pages).reverse() as url (url)}
+        <a ref:url
+            href="/{ url.replace('index.html', '') }"
+            class="demo-navigation__link {
+                activePath(currentPath, url)
+                ? 'demo-navigation__link--active'
+                : ''
+            }">{
+                pages[url].basename === 'index'
+                ? pages[url].folder
+                : pages[url].basename
+            }</a>
     {/each}
 </nav>
 
 <style lang="scss">
-    :global(.demo-navigation__link) {
-        transition: background-color color 200ms ease-out;
+    @import '>/config/sass.config.scss';
+
+    img {
+        height: rems(60px);
     }
 
-    :global(.demo-navigation__link--active) {
-        background-color: lighten(#DBE6EF, 6%);
+    $demo-cyan: lighten(
+        blend-overlay(rgba(#08f, 0.5), color('links', 'lightest'), 35%),
+        3%
+    );
+
+    .demo-navigation__link--active {
+        background-color: lighten(color('links', lightest), 6%);
         border-radius: 5px;
-        color: darken(#DBE6EF, 25%);
+        color: darken($demo-cyan, 25%);
         transition: background 2000ms ease-out;
     }
+
+    .demo-navigation {
+        display: flex;
+        position: relative;
+        z-index: 2;
+        box-shadow: 0 4px 6px rgba(colors('type'), 0.2);
+        background-color: #fff;
+        width: 100%;
+    }
+
+    .demo-navigation__link {
+        flex: 1 1 auto;
+        margin-left: type-space(0.25);
+        padding: type-space(0.75 0.5);
+        max-width: type-space(5);
+        text-align: center;
+        transition: background-color color 200ms ease-out;
+
+        &:hover {
+            background-color: $demo-cyan;
+            color: color('links', 'light');
+        }
+    }
+
 </style>
 
 <script>
 import icon from '@/assets/favicons/icon.svg';
-import NavLink from 'svelte-routing/NavLink.html';
-const links = require(`val-loader?{"filePath":"","publicPath":"/"}!./create-nav.js`);
+import links from 'svelte-routing/links';
+import { getHistory } from 'svelte-routing';
+const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!./create-nav.js`);
 
 export default {
-    components: { NavLink },
-    helpers: { links, icon },
+    data() {
+        const history = getHistory();
+        return {
+            currentPath: history.location.pathname
+        };
+    },
+    helpers: {
+        pages,
+        icon,
+        activePath: (path, url) => {
+            console.log(path, url)
+            return (url === path || url.replace('index.html', '') === path);
+        }
+    },
+    actions: { links },
 };
 </script>

@@ -1,10 +1,5 @@
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
-const history = require('connect-history-api-fallback');
-// const path = require('path');
-// const PATHS = require(`${CWD}/config/paths.config.js`);
-// const webpackLogger = require('./webpack-logger.js');
-// const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackIsoMiddleware = require('webpack-isomorphic-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
@@ -26,7 +21,11 @@ module.exports = function(client, server, LOG) {
             watchOptions,
             notify: true,
             findServerAssetName: (stats) => {
-                let assetName = stats.assetsByChunkName['main'];
+                let assetName =
+                    stats.assetsByChunkName['main'] ||
+                    stats.assetsByChunkName['server'] ||
+                    stats.assetsByChunkName[0];
+
                 assetName = Array.isArray(assetName) ? assetName[0] : assetName;
                 return stats.assets
                     .map((asset) => asset.name)
@@ -36,26 +35,13 @@ module.exports = function(client, server, LOG) {
             report: {
                 stats: 'once',
                 write: (str) => {
-                    if (str) {
-                        let log = LOG;
-                        if (Array.isArray(str)) {
-                            log = LOG[str[1]];
-                            str = str[0];
-                        } else {
-                            log = LOG.info;
-                        }
-                        log(str);
-                    }
+                    if (!str || typeof str !== 'string') return '';
+                    process.stdout.write(str);
                 },
-                printStart: () => {
-                    // const method = firstRun ? 'info' : 'spinner';
-                    // firstRun = false;
-                    return 'Compiling...';
-                },
-                printSuccess: ({ duration }) => [
-                    `Compiled in ${duration}ms`,
-                    'success',
-                ],
+                printStart: () => false, // Handled by webpackbar
+                printSuccess: (/*{ duration }*/) => false,
+                // printFailure: (err) => LOG.error(err),
+                // printStats: ({ stats }) => ``
             },
         }),
 
@@ -66,8 +52,6 @@ module.exports = function(client, server, LOG) {
         }),
 
         pageMiddleware,
-
-        history(),
     ];
 };
 

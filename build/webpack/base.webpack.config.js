@@ -15,10 +15,11 @@ const STATS = require(`${CWD}/build/helpers/webpack-stats-config.js`);
 
 const isProd = MODE.production;
 
-// const TimeFixPlugin = require('time-fix-plugin');
+const webpack = require('webpack');
+const WebpackBar = require('webpackbar'); // Webpack progress bars
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = (target) => {
+module.exports = ({ target, name }) => {
     // Set the threshold for base64/inlined file size
     const inlineFileSizeLimit = 4096;
 
@@ -27,7 +28,8 @@ module.exports = (target) => {
      */
 
     const config = {
-        target: target,
+        name,
+        target,
         context: __dirname,
         mode: process.env.NODE_ENV || 'development',
         stats: STATS(),
@@ -74,13 +76,6 @@ module.exports = (target) => {
      * Base plugins
      */
 
-    // if (MODE.dev || MODE.localProduction) {
-    //     config.plugins.push(
-    //         // Ensures only one compilation happens per file change
-    //         new TimeFixPlugin()
-    //     );
-    // }
-
     // Re-usable CSS output path
     const cssPath = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
 
@@ -89,6 +84,15 @@ module.exports = (target) => {
         new MiniCssExtractPlugin({
             filename: `${cssPath}/[name].[contenthash:8].css`,
             chunkFilename: `${cssPath}/[name].[contenthash:8].css`,
+        }),
+
+        new WebpackBar({
+            name: name || target,
+            color: target === 'node' ? 'green' : 'orange',
+        }),
+
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         })
     );
 

@@ -14,8 +14,8 @@ module.exports = {
     },
     templateFile: SG.templateFile,
     themeFile: SG.themeFile,
-    htmlOutput: PATHS.styleGuide.dest,
-    jsonOutput: false,
+    htmlOutput: false,
+    jsonOutput: PATHS.styleGuide.folders.root + '/dist/styleguide.json',
     handlebarsPartials: {
         jquery: SG.jquery,
         toc: SG.toc,

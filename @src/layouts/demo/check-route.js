@@ -9,13 +9,14 @@ export default function(path) {
     }
     path = path.indexOf('/') === 0 ? path.replace('/', '') : path;
 
+    console.log('evaledPages', pages, path);
     if (!pages[path]) return false;
 
     const file = pages[path].file.replace('.html', '');
     let folder = pages[path].folder;
     let root_offset = 0;
 
-    //console.log(pages[path]);
+    console.log(pages[path]);
     if (folder === '.') {
         folder = 'pages/';
         root_offset = folder.length;

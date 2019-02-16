@@ -31,7 +31,6 @@ function restart() {
 };
 
 function runImmediately(done) {
-    LOG.spinner('Compiling');
     webpack(webpackConfigs).run((err, stats) =>
         webpackLogger(LOG, err, stats, done)
     );

@@ -1,8 +1,5 @@
 <svelte:head>
-    <title>→ { $pageTitle || demoTitle } demo</title>
-    {#if (typeof style !== 'object')}
-        <link href="{ style || style.url }" rel="stylesheet" />
-    {/if}
+    <title>→ { demoTitle } demo</title>
 </svelte:head>
 
 <Nav/>
@@ -33,16 +30,18 @@
     </main>
 </div>
 
+<style lang="scss">
+    @import '@/layouts/demo/demo.scss';
+</style>
+
 <script>
 import store from './demo.store.js';
-import stylesheet from /* webpackPrefetch: true */ './demo.scss';
 import Nav from '@/layouts/demo/demo.nav.html';
 
 export default {
     components: { Nav },
     store: () => store,
     data: () => ({
-        style: stylesheet,
         demoTitle: 'Demo',
         variantTitle: false,
         variants: false,

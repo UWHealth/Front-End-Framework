@@ -1,4 +1,4 @@
 import { default as Button } from './index.html';
 
-var THING = 'stuff';
+var TESTING = 'stuff';
 export default Button;

@@ -7,16 +7,15 @@ const path = require('path');
 const webpack = require('webpack');
 
 const CWD = process.cwd();
-const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
 const babelLoader = require(`./helpers/babel-loader-config.js`);
 const svelteLoader = require(`./helpers/svelte-loader-config.js`);
-const config = require('./base.webpack.config.js')('node');
-
-config.name = 'T4';
-config.target = 'node'; // Closest target to Rhino
+const config = require('./base.webpack.config.js')({
+    name: 'T4',
+    target: 'node',
+});
 
 const pubPath = path.posix.relative(PATHS.folders.pub, PATHS.folders.dist);
 

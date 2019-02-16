@@ -49,11 +49,11 @@ Sass files are imported in order from lowest specificity to highest.
 // Grids, alignment and higher-level classes
 // +1 specificity
 @import '@/layouts/grid/index';
-@import '@/layouts/list/index';
 
 // Components -
 // OOCSS styles and base-level classes
 // +1 specificity
+@import '@/components/styled-list/index';
 @import '@/components/button/button';
 @import '@/components/media-object';
 

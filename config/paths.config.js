@@ -61,6 +61,7 @@ const PATHS = {
         '>': root,
         CWD: root,
         '~': path.resolve(root, 'node_modules'),
+        '@sassConfig': `${_.config}/sass.config.scss`,
     },
     // Folders/files that should be cleaned before build
     clean: {
@@ -93,7 +94,9 @@ const PATHS = {
             demos: `${_.src}/pages/demos/`,
         },
         entry: {
-            src: `${_.src}/pages/**/*.(html|hbs|js)`,
+            src: [`${_.src}/pages/[!_]**/[!_]*.(html|svelte)`,
+                `${_.src}/pages/[!_]*.(html|svelte)`
+            ],
             server: `${_.src}/server.js`,
             exclude: [`!${_.src}/pages/**/_*.*`, `!${_.src}/pages/_**/*`],
         },
@@ -155,8 +158,8 @@ const PATHS = {
             config: `${_.config}/sass.config.scss`,
             print: `${_.src}/print.scss`,
             components: `${_.src}/components/**/[!_]*.scss`,
-            modules: `${_.src}/layouts/**/[!_]*.scss`,
-            styleguide: `${_.src}/layouts/styleguide/styleguide.scss`,
+            layouts: `${_.src}/layouts/**/[!_]*.scss`,
+            styleguide: `${_.src}/pages/styleguide/styleguide.scss`,
         },
         watch: {
             src: `${_.src}/**/*.scss`,
@@ -165,15 +168,18 @@ const PATHS = {
         dest: `${_.pub}/css`,
     },
     styleGuide: {
+        folders: {
+            root: `${_.src}/pages/styleguide/`,
+        },
         entry: {
             config: `${_.config}/styleguide.config.js`,
-            templateFile: `${_.src}/layouts/styleguide/styleguide.hbs`,
+            templateFile: `${_.src}/pages/styleguide/styleguide.hbs`,
             themeFile: `${_.pub}/css/styleguide/styleguide.css`,
-            jquery: `${_.src}/layouts/styleguide/imports/jquery.js`,
-            toc: `${_.src}/layouts/styleguide/imports/toc.js`,
+            jquery: `${_.src}/pages/styleguide/imports/jquery.js`,
+            toc: `${_.src}/pages/styleguide/imports/toc.js`,
         },
         watch: {
-            imports: `${_.src}/layouts/styleguide/**/*.*`,
+            imports: `${_.src}/pages/styleguide/**/*.*`,
             style: `${_.pub}/css/styleguide/styleguide.css`,
             config: `${_.config}/styleguide.config.js`,
         },

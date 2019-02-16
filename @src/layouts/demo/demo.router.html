@@ -5,6 +5,8 @@
 >
 {#if innerComponent}
     <svelte:component this={innerComponent} />
+{:else}
+    <Errors message="{errors.message}" stack="{errors.stack}"></Errors>
 {/if}
 </Route>
 
@@ -12,48 +14,51 @@
 import Route from 'svelte-routing/Route.html?ssr';
 import capitalize from '@/helpers/title-case';
 import findExport from '@/helpers/find-export.js';
-import findPage from './check-route.js';
-import {matchPath, getHistory} from 'svelte-routing';
+import checkRoute from './check-route.js';
+import Errors from '@/pages/_error.svelte';
+import { getHistory } from 'svelte-routing';
+
+let errors = '';
 
 export default {
-    components: { Route },
+    components: { Route, Errors },
     data() {
         const history = getHistory();
         //console.log(history.location);
         return {
-            basePath: '/',
             error: '',
             pathname: history.location.pathname,
             history,
-            next: false
         }
     },
-    helpers: {},
+    helpers: {
+        errors,
+    },
     computed: {
         props: (state) => state,
-        // match: ({ pathname, path, exact, strict }) => {
-        //     return matchPath(pathname, { path, exact, strict });
-        // },
         innerComponent: ({ match, pathname }) => {
-            const page = findPage(pathname);
-            console.log('page:', page, match);
-            if (!page) return false;
+            const page = checkRoute(pathname);
+            //console.log('page:', page, match);
+            console.log('GLOB PAGES:',
+                require('fast-glob').sync( process.cwd() +
+        '/@src/pages/[!_]**/[!_]*.(html|svelte)')
+            )
+            if (!page) {
+                errors = new Error(`No page found at <strong>${pathname}</strong>`);
+                return false;
+            }
             try {
                 const component = findExport(
-                    require(/* webpackChunkName: "pages/route-[request]" */
-                        '@/pages/' + page + '.html')
+                    require('@/pages/' + page + '.html')
                 );
 
                 return component;
             } catch(e) {
                 console.log(e);
+                errors = new Error(e);
                 return false;
             }
         }
     },
-    oncreate() {
-        this.checkRoute
-        //console.log('opts', this.options);
-    }
 };
 </script>

@@ -1,28 +1,42 @@
-const fs = require('fs');
 const path = require('path');
 const glob = require('fast-glob');
+const PATHS = require(`${process.cwd()}/config/paths.config.js`);
 
-function getPages(files, context) {
-    const entries = {};
+function getPages({
+    files = PATHS.pages.entry.src,
+    context = PATHS.pages.folders.root,
+}) {
+    const pages = {};
     glob.sync(files).forEach((file) => {
         let is_index = true; // Assume index
         let folder = path.posix.dirname(path.relative(context, file)) || '';
+        if (folder === '.' || folder === '') {
+            pages['index.html'] = {
+                basename: 'index',
+                path: '/index.html',
+                file: '@src/pages/index.html',
+            };
+        }
         let ext = path.extname(file);
         let basename = path.basename(file, ext);
+        process.stdout.write('basename', basename);
         if (basename !== 'index') {
             folder = path.posix.join(folder, basename);
             is_index = false;
         }
-        const entryName = path.posix.join(folder, 'index.html');
-        entries[entryName] = {
+        if(folder === '.') folder = '';
+        const pagePath = path.posix.join(folder, 'index.html');
+        pages[pagePath] = {
             basename,
-            file,
+            path: pagePath,
+            file: path.posix.relative(context, file),
             folder,
             is_index,
+            ext
         };
     });
 
-    return entries;
+    return pages;
 }
 
 module.exports = getPages;

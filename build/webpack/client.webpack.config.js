@@ -9,7 +9,6 @@ const MODE = require(`${CWD}/build/helpers/mode.js`);
 
 const webpack = require('webpack');
 const OfflinePlugin = require('offline-plugin');
-const HtmlPlugin = require('html-webpack-plugin');
 const glob = require('fast-glob');
 const path = require('path');
 
@@ -18,11 +17,10 @@ const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
 const babelLoader = require(`./helpers/babel-loader-config.js`);
 const svelteLoader = require(`./helpers/svelte-loader-config.js`);
 
-const config = baseConfig('web');
+const config = baseConfig({ target: 'web', name: 'Client' });
 
 const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
 
-config.name = 'Client';
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
 
 config.entry = {
@@ -69,12 +67,6 @@ config.plugins = config.plugins.concat(
                 'process.env.NODE_ENV': "'production'",
                 'module.hot': 'false',
             }),
-
-        new HtmlPlugin({
-            template: PATHS.folders.src + '/server.js',
-            compile: false,
-            inject: false,
-        }),
 
         new OfflinePlugin({
             excludes: ['**/.*', '**/*.map', '**/*.gz', '**/*.hot-update*'],

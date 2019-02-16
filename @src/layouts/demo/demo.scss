@@ -1,32 +1,9 @@
-//Settings
 @import '>/config/sass.config';
 
 $demo-cyan: lighten(
     blend-overlay(rgba(#08f, 0.5), color('links', 'lightest'), 35%),
     3%
 );
-
-.demo-navigation {
-    display: flex;
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 4px 6px rgba(colors('type'), 0.2);
-    background-color: #fff;
-    width: 100%;
-}
-
-.demo-navigation__link {
-    flex: 1 1 auto;
-    margin-left: type-space(0.25);
-    padding: type-space(0.75 0.5);
-    max-width: type-space(5);
-    text-align: center;
-
-    &:hover {
-        background-color: $demo-cyan;
-        color: color('links', 'light');
-    }
-}
 
 .demo-header {
     display: flex;
@@ -49,8 +26,7 @@ $demo-cyan: lighten(
     padding-top: type-space(1);
 }
 
-.demo-body__head,
-.demo-category {
+.demo-body__head {
     font-weight: normal;
 }
 
@@ -62,7 +38,7 @@ $demo-cyan: lighten(
     color: color('links', 'lighter');
 }
 
-.demo-category {
-    @include font-size($type-h6-size, $type-h6-lh);
-    padding-top: type-space(1.5);
-}
+// .demo-category {
+//     @include font-size($type-h6-size, $type-h6-lh);
+//     padding-top: type-space(1.5);
+// }

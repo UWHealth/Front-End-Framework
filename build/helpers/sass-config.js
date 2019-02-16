@@ -4,7 +4,7 @@ module.exports = {
     outputStyle: 'expanded',
     errLogToConsole: true,
     includePaths: [PATHS.folders.src, PATHS.folders.config],
-    importer: aliasPath,
+    importer: enhancedImport,
 };
 
 /**
@@ -12,7 +12,7 @@ module.exports = {
  * @reference            - https://github.com/sass/node-sass#importer
  * @return {Object}      - Resolved path, with aliases replaced
  */
-function aliasPath(url) {
+function enhancedImport(url) {
     const path = require('path');
 
     const aliases = Object.keys(PATHS.aliases);

@@ -12,7 +12,7 @@ module.exports = !MODE.production
       ]
     : // PROD/LOCAL PROD
       [
-        //   require('./webpack/client.webpack.config.js'),
-        //   require('./webpack/server.webpack.config.js'),
+          require('./webpack/client.webpack.config.js'),
+          require('./webpack/server.webpack.config.js'),
           require('./webpack/t4.webpack.config.js'),
       ];

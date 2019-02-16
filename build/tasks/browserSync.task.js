@@ -85,7 +85,7 @@ function attachEvents(INSTANCE) {
         return process.stdout.write(
             chalk`\n${symbol} {blue Server started at {bold ${URLS.get(
                 'local'
-            )}}} (${URLS.get('external')})\n\n`
+            )}}} (${URLS.get('external')})\n`
         );
     });
 

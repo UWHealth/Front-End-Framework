@@ -6,7 +6,7 @@
 
 -   **tasks**: Gulp task functions. Imported and run by gulpfile.js. Functions are exported without the `gulp.task` method wrapper. File names should represent their intended task's name, followed by ".task.js" (e.g. "sass.task.js" for the "sass" task).
 
-    -   **A note about tasks:** Tasks should wait to require their dependencies until they've been called. In other words, `require` calls should be held within the exported (`module.exports`) function. This helps keep tasks self contained until they are explicitly called.
+    -   **A note about tasks:** Tasks should wait to require their dependencies until they've been called. In other words, `require` calls should be held within the exported (`module.exports`) function. This helps keep tasks self-contained until they are explicitly called.
 
 -   **helpers**: Build helper scripts. These generalized scripts are imported by tasks and webpack configurations to make certain tasks simpler. For instance, all build messaging is handled by "logger.js".
 

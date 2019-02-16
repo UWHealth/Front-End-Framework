@@ -2,6 +2,8 @@ const Base = require('@/layouts/template.svelte?ssr');
 const { createMemoryHistory } = require('svelte-routing');
 const path = require('path');
 const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
+const Router = require('@/layouts/demo/demo.router.html');
+const url = require('url');
 
 const history = createMemoryHistory();
 
@@ -10,7 +12,6 @@ function formatData({ data = {}, stats = {} }) {
 
     return Object.assign(
         {
-            compilation: null,
             publicPath: stats.publicPath,
             googleAnalytics: null,
             title: 'Front-End-Framework',
@@ -18,12 +19,13 @@ function formatData({ data = {}, stats = {} }) {
             links: [],
             inlineStyle: '',
             scripts: clientFiles,
-            headHtmlSnippet: '',
-            appHtmlSnippet: '',
-            bodyHtmlSnippet: '',
+            headHtmlSnippet: '<!-- Head html Snippet -->',
+            appHtmlSnippet: '<!-- App html Snippet -->',
+            bodyHtmlSnippet: '<!-- Body html Snippet -->',
+            globalsProperty: '__APP_STATE__',
             globals: Object.assign(
                 {
-                    '__APP_STATE__' : {}
+                    initial: clientFiles,
                 },
                 data.globals
             ),
@@ -31,89 +33,62 @@ function formatData({ data = {}, stats = {} }) {
                 { initial: clientFiles },
                 data.fileManifest
             ),
-            // fromServer: Object.assign(
-            //     {
-            //         pathname: '/',
-            //         componentPath: path.basename(data.entryName || 'index.html'),
-            //         request: data.req,
-            //     },
-            //     data.fromServer
-            // ),
         },
         data
     );
 }
 
-module.exports = function({
-    htmlWebpackPlugin = {},
-    webpack = {},
-    req = {},
-    res = {},
-    next = {},
-}) {
-    if (htmlWebpackPlugin.options) {
-        return webpackPlugin(htmlWebpackPlugin, webpack);
-    } else {
-        return middleware(req, res, next);
-    }
-}
-
-function webpackPlugin(htmlWebpackPlugin, webpack) {
-    const formattedData = formatData({
-        data: htmlWebpackPlugin.options,
-        stats: webpack,
-    });
-    try {
-        return Base.render(formattedData).html;
-    } catch(e) {
-        console.log(e);
-    }
-    return '';
-}
-
 function middleware({ req, res, next }) {
     history.replace(req.url);
-    const Router = require('@/layouts/demo/demo.router.html');
-    const url = require('url');
 
     const parsed = url.parse(req.url || req.originalUrl);
-    const baseName = path.basename(parsed.pathname, '.html');
-    const entryName = path.posix.join(parsed.href, baseName);
     const compilation = res.locals.isomorphic.compilation;
-    const serverStats = compilation.serverStats.toJson();
     const clientStats = compilation.clientStats.toJson();
+    // const serverStats = compilation.serverStats.toJson();
 
+    const baseName = path.basename(parsed.pathname, '.html');
+
+    // Ignore files that aren't html
     if (baseName.indexOf('.') > -1) {
         return false;
     }
 
-    const pathFromStats =
-        serverStats.assetsByChunkName[entryName] ||
-        serverStats.assetsByChunkName['/' + entryName];
+    // const pathFromStats =
+    //     serverStats.assetsByChunkName[entryName] ||
+    //     serverStats.assetsByChunkName['/' + entryName];
+    let headHtmlSnippet, data;
 
     try {
         const routerComponent = Router.render({
-            url: parsed.pathname,
-            basePath: process.cwd() + '/@src/',
             history,
-            next,
         });
-        const headHtmlSnippet = routerComponent.head;
-        const formattedData = formatData({
+
+        headHtmlSnippet = routerComponent.head;
+
+        data = formatData({
             data: {
                 headHtmlSnippet,
                 title: baseName,
                 appHtmlSnippet: routerComponent.html,
                 inlineStyle: routerComponent.css.code,
-                // fromServer: {
-                //     pathname: `${serverStats.publicPath}${pathFromStats}`,
-                //     componentPath: `${path.basename('/' + entryName)}`,
-                // },
             },
             stats: clientStats,
         });
+    } catch (e) {
+        data = formatData({
+            data: {
+                title: 'Error',
+                appHtmlSnippet: require('@/pages/_error.svelte').render({
+                    message: e.message,
+                    stack: e.stack,
+                }).html,
+            },
+            stats: clientStats,
+        });
+    }
 
-        const { html } = Base.render(formattedData);
+    try {
+        const { html } = Base.render(data);
 
         return html;
     } catch (e) {
