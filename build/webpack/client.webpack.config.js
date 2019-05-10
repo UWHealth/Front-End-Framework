@@ -68,11 +68,11 @@ config.plugins = config.plugins.concat(
                 'module.hot': 'false',
             }),
 
-        new OfflinePlugin({
-            excludes: ['**/.*', '**/*.map', '**/*.gz', '**/*.hot-update*'],
-            externals: ['/public/css/main.css', '/demo/button.demo.js'],
-            rewrites: (asset) => asset,
-        }),
+        // new OfflinePlugin({
+        //     excludes: ['**/.*', '**/*.map', '**/*.gz', '**/*.hot-update*'],
+        //     externals: ['/public/css/main.css', '/demo/button.demo.js'],
+        //     rewrites: (asset) => asset,
+        // }),
     ].filter(Boolean)
 );
 

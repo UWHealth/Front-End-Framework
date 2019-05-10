@@ -40,8 +40,8 @@ module.exports = function(client, server, LOG) {
                 },
                 printStart: () => false, // Handled by webpackbar
                 printSuccess: (/*{ duration }*/) => false,
-                // printFailure: (err) => LOG.error(err),
-                // printStats: ({ stats }) => ``
+                printFailure: (err) => '', //LOG.error(err),
+                printStats: ({ stats }) => '', //LOG.info(stats)
             },
         }),
 

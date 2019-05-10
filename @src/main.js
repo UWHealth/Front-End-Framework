@@ -3,7 +3,7 @@ import domReady from '@/helpers/dom-ready';
 import store from '@/layouts/demo/demo.store.js';
 import demoRouter from '@/layouts/demo/demo.routes.html';
 import { createBrowserHistory } from 'svelte-routing';
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 //OfflinePluginRuntime.install();
 createBrowserHistory();

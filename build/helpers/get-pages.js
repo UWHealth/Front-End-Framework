@@ -19,12 +19,12 @@ function getPages({
         }
         let ext = path.extname(file);
         let basename = path.basename(file, ext);
-        process.stdout.write('basename', basename);
+
         if (basename !== 'index') {
             folder = path.posix.join(folder, basename);
             is_index = false;
         }
-        if(folder === '.') folder = '';
+        if (folder === '.') folder = '';
         const pagePath = path.posix.join(folder, 'index.html');
         pages[pagePath] = {
             basename,
@@ -32,7 +32,7 @@ function getPages({
             file: path.posix.relative(context, file),
             folder,
             is_index,
-            ext
+            ext,
         };
     });
 

@@ -89,6 +89,7 @@ module.exports = ({ target, name }) => {
         new WebpackBar({
             name: name || target,
             color: target === 'node' ? 'green' : 'orange',
+            reporters: ['fancy'],
         }),
 
         new webpack.DefinePlugin({
