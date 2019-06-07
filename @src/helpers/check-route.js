@@ -1,4 +1,4 @@
-const pages = require(`val-loader?{"returnPages": true}!./create-nav.js`);
+const pages = require(`val-loader?{"returnPages": true}!@/helpers/create-nav.js`);
 
 export default function(path) {
     if (path.indexOf('index.html') < 0) {
@@ -9,14 +9,14 @@ export default function(path) {
     }
     path = path.indexOf('/') === 0 ? path.replace('/', '') : path;
 
-    console.log('evaledPages', pages, path);
+    //console.log('evaledPages', pages, path);
     if (!pages[path]) return false;
 
     const file = pages[path].file.replace('.html', '');
     let folder = pages[path].folder;
     let root_offset = 0;
 
-    console.log(pages[path]);
+    //console.log(pages[path]);
     if (folder === '.') {
         folder = 'pages/';
         root_offset = folder.length;
@@ -25,7 +25,7 @@ export default function(path) {
     let folder_index = file.indexOf(folder) + root_offset;
     const page = file.substring(folder_index);
 
-    console.log(page);
+    //console.log(page);
 
     return page;
 }

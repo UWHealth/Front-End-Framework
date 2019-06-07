@@ -3,11 +3,11 @@
     <header>
         <h1 class="h2">Error</h1>
         <h2 class="h4">
-            {@html message}
+            {@html escapeHtml(message)}
         </h2>
     </header>
     <div>
-        <pre><code><slot></slot>{@html stack}</code></pre>
+        <pre><code><slot></slot>{@html escapeHtml(stack)}</code></pre>
     </div>
 </main>
 
@@ -43,10 +43,15 @@
 </style>
 
 <script>
+import escapeHtml from 'escape-html';
+
 export default {
     data: ()=> ({
         message: '',
         stack: '',
     }),
+    helpers: {
+        escapeHtml
+    }
 };
 </script>

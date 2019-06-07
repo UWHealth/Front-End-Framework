@@ -21,7 +21,7 @@
     • "dest" should always be a single folder (and not a file or glob).
     • "exclude" key should be the only array.
     • "exclude" must be listed last.
-    • Once compiled, an "array" key with a combination of all paths will be added to each topic.
+    • Once compiled, an "array" key with a combination of all paths will be added to each topic. (e.g. style.entry.array / js.folders.array)
 **/
 
 const path = require('path');
@@ -38,6 +38,10 @@ const _ = {
     src: path.resolve(root, '@src'),
     // Media assets
     assets: path.resolve(root, '@src', 'assets'),
+    // Static assets
+    static: path.resolve(root, '@src', 'static'),
+    // Routes and markup
+    pages: path.resolve(root, '@src', 'pages'),
     // Build scripts
     build: path.resolve(root, 'build'),
     // Config files
@@ -60,7 +64,7 @@ const PATHS = {
         '@': _.src,
         '>': root,
         CWD: root,
-        '~': path.resolve(root, 'node_modules'),
+        '~': path.resolve(root, 'node_modules') + '/',
         '@sassConfig': `${_.config}/sass.config.scss`,
     },
     // Folders/files that should be cleaned before build
@@ -94,8 +98,9 @@ const PATHS = {
             demos: `${_.src}/pages/demos/`,
         },
         entry: {
-            src: [`${_.src}/pages/[!_]**/[!_]*.(html|svelte)`,
-                `${_.src}/pages/[!_]*.(html|svelte)`
+            src: [
+                `${_.src}/pages/[!_]**/[!_]*.(html|svelte)`,
+                `${_.src}/pages/[!_]*.(html|svelte)`,
             ],
             server: `${_.src}/server.js`,
             exclude: [`!${_.src}/pages/**/_*.*`, `!${_.src}/pages/_**/*`],

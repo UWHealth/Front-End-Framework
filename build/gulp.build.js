@@ -1,10 +1,21 @@
+const glob = require('fast-glob');
+const path = require('path');
 const gulp = require('gulp');
 const series = gulp.series;
 
-const MODE = require('./helpers/mode');
+const MODE = require('./helpers/mode.js');
 const Logger = require('./helpers/logger.js');
 const LOG = new Logger('Gulp');
-const TASKS = require('./helpers/get-tasks.js');
+
+function getTasks() {
+    const tasks = {};
+    glob.sync(`${process.cwd()}/build/tasks/*.task.js`).forEach((task) => {
+        tasks[path.basename(task, '.task.js')] = require.resolve(
+            path.resolve(task)
+        );
+    });
+    return tasks;
+}
 
 function taskOrder() {
     const p = gulp.parallel;
@@ -33,6 +44,8 @@ function taskOrder() {
               'size'
           );
 }
+
+const TASKS = getTasks();
 
 /* ---------------------------------
  * Utility Tasks

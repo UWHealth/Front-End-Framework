@@ -1,12 +1,12 @@
 import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
 import store from '@/layouts/demo/demo.store.js';
-import demoRouter from '@/layouts/demo/demo.routes.html';
+import demoRouter from '@/pages/_router.svelte';
 import { createBrowserHistory } from 'svelte-routing';
 // import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 //OfflinePluginRuntime.install();
-createBrowserHistory();
+const history = createBrowserHistory();
 
 let application;
 
@@ -16,18 +16,15 @@ async function init() {
     if (appElement) {
         const currentRoute = window.location.pathname;
 
-        const currentComponent = await demoRouter.getComponent(currentRoute);
-
-        if (currentComponent) {
-            application = new demoRouter({
-                hydrate: true,
-                target: appElement,
-                data: {
-                    pathname: window.location.pathname,
-                    innerComponent: currentComponent,
-                },
-            });
-        }
+        application = new demoRouter({
+            hydrate: true,
+            target: appElement,
+            data: {
+                history,
+                pathname: currentRoute,
+                // innerComponent: currentComponent,
+            },
+        });
 
         window.__APP__ = application;
     }

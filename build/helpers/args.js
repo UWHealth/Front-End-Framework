@@ -10,7 +10,7 @@ yargs.options({
         describe: 'Start production mode. "development" is default',
         type: 'boolean',
         group: 'Environment:',
-        default: false
+        default: false,
     },
     local: {
         alias: ['lprd'],
@@ -18,7 +18,7 @@ yargs.options({
             'Use "local production" mode. Allows development with production assets',
         type: 'boolean',
         group: 'Environment:',
-        default: false
+        default: false,
     },
     mode: {
         describe: 'Set the mode explicity.',
@@ -41,6 +41,13 @@ yargs.options({
         type: 'boolean',
         default: false,
         group: 'Logging: ',
+    },
+    cache: {
+        alias: 'clear',
+        describe: 'Clear cache folder before starting',
+        type: 'boolean',
+        default: false,
+        group: 'Environment: '
     },
     open: {
         alias: 'newtab',

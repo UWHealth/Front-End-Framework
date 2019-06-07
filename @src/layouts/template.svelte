@@ -1,9 +1,9 @@
-<!-- doctype, html, and body are strings
-    to prevent svelte from evaluating them -->
 { @html
     `<!DOCTYPE html>
     <html lang="en" itemscope itemtype="https://schema.org/Article">`
 }
+<!-- doctype, html, and body are strings
+    to prevent svelte from evaluating them -->
 { @html header }
 { @html '<body>' }
     { @html bodyHtmlSnippet }

@@ -37,18 +37,6 @@ function runImmediately(done) {
 }
 
 function startWebpack(done) {
-    // Create webpack compiler instance
-
-    // Write out a temporary manifest (if needed), so we can avoid errors on startup
-    // if (!fs.existsSync(PATHS.demos.entry.manifest)) {
-    //     const folders = createManifestFolders(PATHS.demos.entry.manifest);
-    //     fs.writeFileSync(
-    //         PATHS.demos.entry.manifest,
-    //         `{ "initial":["runtime.bundle.js", "main.js"],` +
-    //             `"folders":"${folders}"}`
-    //     );
-    // }
-
     // Allow for immediate run (essentially, non-watch mode)
     // Primarily used for --production mode
     if (!MODE.local && MODE.production) {
@@ -65,15 +53,6 @@ function startWebpack(done) {
             // Expose webpack-dev-middleware
             devMiddleware = middleware[1];
 
-            // compiler.hooks.watchRun.tap('Log Compilation', () => {
-            //     if (firstRun) {
-            //         LOG.info('Started');
-            //         firstRun = false;
-            //     } else {
-            //         LOG.spinner('Compiling');
-            //     }
-            // });
-
             return middleware;
         };
     }
@@ -82,18 +61,3 @@ function startWebpack(done) {
 module.exports = startWebpack;
 module.exports.run = runImmediately;
 module.exports.restart = restart;
-
-/**
- * Creates the folders for the manifest in case they don't already exist.
- * This is necessary since you Node's fs.writeFile doesn't create a file
- *  unless folders the folders already exist.
- * @returns {Array} folders
- */
-function createManifestFolders(pathToManifest) {
-    const folders = path.dirname(pathToManifest);
-    try {
-        return fs.mkdirSync(folders, { recursive: true });
-    } catch (e) {
-        return folders;
-    }
-}

@@ -10,7 +10,7 @@
 
 -   **helpers**: Build helper scripts. These generalized scripts are imported by tasks and webpack configurations to make certain tasks simpler. For instance, all build messaging is handled by "logger.js".
 
--   **webpack**: Webpack configurations. These are imported by the `webpack` task (technically by "webpack.build.js"). While in production mode, Webpack only handles javascript bundling, but in development (default) mode, Webpack also generates html files for development.
+-   **webpack**: Webpack configurations. These are imported by the `js` task (technically by "webpack.build.js"). While in production mode, Webpack only handles javascript bundling, but in development (default) mode, Webpack also generates html files for development and handles hot module replacement.
 
 ## Files
 

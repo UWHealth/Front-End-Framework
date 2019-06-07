@@ -6,12 +6,9 @@
 </Demo>
 
 <script>
-import store from '@/layouts/demo/demo.store.js';
-
 export default {
-    store: () => store,
     components: {
-        Demo: '@/layouts/demo/index.html',
+        Demo: '@/layouts/demo',
         List: '@/components/feed/index.html',
     },
     data() {

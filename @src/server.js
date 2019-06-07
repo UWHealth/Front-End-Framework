@@ -1,11 +1,12 @@
-const Base = require('@/layouts/template.svelte?ssr');
-const { createMemoryHistory } = require('svelte-routing');
 const path = require('path');
+const Template = require('@/layouts/template.svelte');
+const { createMemoryHistory } = require('svelte-routing');
 const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
-const Router = require('@/layouts/demo/demo.router.html');
+const Router = require('@/pages/_router.svelte');
 const url = require('url');
 
-const history = createMemoryHistory();
+// Start up history recording
+const HISTORY = createMemoryHistory();
 
 function formatData({ data = {}, stats = {} }) {
     const clientFiles = getInitialFiles(stats);
@@ -39,32 +40,60 @@ function formatData({ data = {}, stats = {} }) {
 }
 
 function middleware({ req, res, next }) {
-    history.replace(req.url);
+    // Add new URL to history
+    HISTORY.replace(req.url);
+    // Preload pages
+    require.context('@/pages/', true, /\.(html|svelte)$/);
 
     const parsed = url.parse(req.url || req.originalUrl);
+
+    if (parsed.pathname.indexOf('webpack-dev-server') > 1) {
+        return false;
+    }
     const compilation = res.locals.isomorphic.compilation;
     const clientStats = compilation.clientStats.toJson();
     // const serverStats = compilation.serverStats.toJson();
 
-    const baseName = path.basename(parsed.pathname, '.html');
+    let baseName = path.basename(parsed.pathname, '.html');
+    baseName = path.basename(parsed.pathname, '.svelte');
 
-    // Ignore files that aren't html
+    // Ignore files that aren't html/svelte
     if (baseName.indexOf('.') > -1) {
         return false;
     }
 
+    try {
+        const render = gatherComponent(baseName, clientStats);
+        return render.html;
+    } catch (e) {
+        console.error(new Error(e));
+        return false;
+    }
     // const pathFromStats =
     //     serverStats.assetsByChunkName[entryName] ||
     //     serverStats.assetsByChunkName['/' + entryName];
+}
+
+/**
+ * Gets the current page (typically a svelte page) and renders it with the current history and webpack client files.
+ *
+ * @param {String} baseName - current page's basename
+ * @param {Object} clientStats - current clientStats, used for gathering webpack output names
+ * @returns {Object} Rendered Svelte component
+ */
+function gatherComponent(baseName, clientStats = {}) {
     let headHtmlSnippet, data;
 
     try {
+        // Gather component from router,
+        // based on current request stored in history
         const routerComponent = Router.render({
-            history,
+            history: HISTORY,
         });
 
         headHtmlSnippet = routerComponent.head;
 
+        // Add in known data
         data = formatData({
             data: {
                 headHtmlSnippet,
@@ -75,6 +104,7 @@ function middleware({ req, res, next }) {
             stats: clientStats,
         });
     } catch (e) {
+        // Display an error page in case of failure
         data = formatData({
             data: {
                 title: 'Error',
@@ -85,78 +115,12 @@ function middleware({ req, res, next }) {
             },
             stats: clientStats,
         });
+        console.error(new Error(e));
     }
 
-    try {
-        const { html } = Base.render(data);
-
-        return html;
-    } catch (e) {
-        console.log(e);
-        return false;
-    }
-
-    // const baseName = path.basename(parsed.pathname);
-    // const entryName = path.posix.join(parsed.href, baseName);
-    // const pathFromStats =
-    //     serverStats.assetsByChunkName[entryName] ||
-    //     serverStats.assetsByChunkName['/' + entryName];
-
-    //     // console.log(pathFromStats);
-    //     if (!pathFromStats) {
-    //         return next();
-    //     }
-    //     const filePath = path.posix.join(
-    //         serverStats.outputPath,
-    //         serverStats.publicPath,
-    //         pathFromStats
-    //     );
-    //     const serverFS =
-    //         compilation.serverStats.compilation.compiler.outputFileSystem;
-
-    //         try {
-    //             const file = await new Promise((resolve, reject) =>
-    //                 serverFS.readFile(filePath, (err, buffer) => {
-    //                     if (err) {
-    //                         reject(err);
-    //                     } else {
-    //                         resolve(buffer.toString());
-    //                     }
-    //                 })
-    //             );
-
-    //             const asset = await requireFromString(file, filePath);
-    //             const generatedHead = asset.render({}).head;
-
-    //             const clientFiles = require('./get-initial-webpack-files.js')(
-    //                 res.locals.isomorphic.compilation.clientStats
-    //             );
-    //             render = exports.default({
-    //                 asset,
-    //                 manifest: { initial: clientFiles },
-    //                 compilation: compilation.clientStats.compilation,
-    //                 publicPath: `${serverStats.publicPath}`,
-    //                 head: {
-    //                     pageTitle: '',
-    //                     headExtra: generatedHead,
-    //                 },
-    //                 fromServer: {
-    //                     request: req,
-    //                     pathname: `${serverStats.publicPath}${pathFromStats}`,
-    //                     componentPath: `${path.basename('/' + entryName)}`,
-    //                 },
-    //             }).html;
-    //         } catch (err) {
-    //     render = `
-    //     <html>
-    //     <head><title>Error</title></head>
-    //     <body>
-    //         <pre>${err.message} \n ${err.stack}</pre>
-    //     </body>
-    //     </html>`;
-    // }
-    // res.setHeader('Content-Type', 'text/html');
-    // res.end(render);
+    return Template.render(data);
 }
+
+
 
 module.exports.default = middleware;

@@ -2,7 +2,7 @@ const chalk = require('chalk');
 const notify = require('gulp-notify');
 const PrettyError = require('pretty-error');
 const ora = require('ora');
-// const DraftLog = require('draftlog');
+const readline = require('readline');
 
 const pErr = new PrettyError();
 
@@ -11,7 +11,6 @@ module.exports = function(task, message) {
     this.ora = new ora(task);
 
     const self = this;
-    // DraftLog(console);
     const log = console.log;
 
     this.spinner = function(msg) {
@@ -57,13 +56,23 @@ module.exports = function(task, message) {
         self.ora.clear().info(opts);
     };
 
-    this.clear = self.ora.clear();
-
     this.success = function(msg) {
         msg = msg || message || '';
         msg += ' ' + getTime();
         self.ora.stop().succeed(chalk.green(task) + ' ' + msg);
         // log(chalk.green(task) + ' ' + msg);
+    };
+
+    this.clear = function(title) {
+        if (process.stdout.isTTY) {
+            const blank = '\n'.repeat(process.stdout.rows)
+            log(blank)
+            readline.cursorTo(process.stdout, 0, 0)
+            readline.clearScreenDown(process.stdout)
+            if (title) {
+                log(title);
+            }
+        }
     };
 };
 

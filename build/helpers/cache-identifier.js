@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const PATHS = require(`${CWD}/config/paths.config.js`);
@@ -9,38 +10,35 @@ const hash = require('hash-sum');
 // to determine if the cache should be invalidated
 const pkg = require(CWD + '/package.json');
 
-const buildInfo = {
-    pkg: pkg.version,
-    cacheLoader: require('cache-loader/package.json').version || '',
-    babelLoader: require('babel-loader/package.json').version || '',
-    babel: require('@babel/core/package.json').version || '',
-    paths: PATHS,
-    babelConfig: require(PATHS.folders.config + '/babel.config.js'),
-    svelteLoader: require('svelte-loader/package.json').version || '',
-    svelte: require('svelte/package.json').version || '',
-    webpack: require('webpack/package.json').version || '',
-    configs: {},
-    mode: MODE.mode,
-    isProd: !!MODE.production,
-    isDev: !MODE.production,
-};
+function requireString(path, asJson) {
+    const file = fs.readFileSync(require.resolve(path), 'utf-8');
+    return asJson ? JSON.parse(file) : file;
+}
 
-// Add config files to cache,
-// so we can invalidate cache on config change
-glob.sync([`${PATHS.folders.build}/**/webpack/**/*.js`]).forEach(
-    (config, i) => {
-        try {
-            buildInfo.configs[`${i}`] = fs.readFileSync(config, 'utf-8');
-        } catch (e) {
-            return '';
+module.exports = () => {
+    const buildInfo = {
+        pkg: pkg.version,
+        babelLoader: requireString('babel-loader/package.json', true).version || '',
+        babel: requireString('@babel/core/package.json').version || '',
+        corejs: requireString('core-js/package.json').version || '',
+        paths: PATHS,
+        svelte: requireString('svelte/package.json').version || '',
+        webpack: requireString('webpack/package.json').version || '',
+        configs: {
+            babel: requireString(PATHS.folders.config + '/babel.config.js'),
+        },
+        mode: MODE.mode,
+    };
+    // Add webpack files to cache,
+    // so we can invalidate cache on config change
+    glob.sync([`${PATHS.folders.build}/**/webpack/**/*.js`]).forEach(
+        (config, i) => {
+            try {
+                buildInfo.configs[`${i}`] = requireString(config);
+            } catch (e) {
+                return '';
+            }
         }
-    }
-);
-
-module.exports = hash(JSON.stringify(buildInfo));
-
-// fs.writeFileSync(
-//     '/Users/lee/Desktop/test.txt',
-//     JSON.stringify(buildInfo),
-//     'utf-8'
-// );
+    );
+    return hash(JSON.stringify(buildInfo));
+}

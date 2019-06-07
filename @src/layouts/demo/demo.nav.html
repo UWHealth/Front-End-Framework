@@ -4,7 +4,7 @@
         <a ref:url
             href="/{ url.replace('index.html', '') }"
             class="demo-navigation__link {
-                activePath(currentPath, url)
+                activePath(currentPath, '/' + url)
                 ? 'demo-navigation__link--active'
                 : ''
             }">{
@@ -63,22 +63,22 @@
 import icon from '@/assets/favicons/icon.svg';
 import links from 'svelte-routing/links';
 import { getHistory } from 'svelte-routing';
-const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!./create-nav.js`);
+const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
 
 export default {
     data() {
         const history = getHistory();
         return {
-            currentPath: history.location.pathname
+            currentPath: history.location.pathname,
         };
     },
     helpers: {
         pages,
         icon,
         activePath: (path, url) => {
-            console.log(path, url)
-            return (url === path || url.replace('index.html', '') === path);
-        }
+            //console.info('PATH', path, 'ITEM URL', url);
+            return url === path || url.replace('index.html', '') === path;
+        },
     },
     actions: { links },
 };

@@ -1,6 +1,6 @@
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
-const STATS = require(`${CWD}/build/helpers/webpack-stats-config.js`);
+const STATS = require(`${CWD}/build/webpack/helpers/stats-config.js`);
 
 /* eslint-disable complexity */
 /**

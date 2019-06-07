@@ -10,8 +10,8 @@ const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
 const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
-const babelLoader = require(`./helpers/babel-loader-config.js`);
-const svelteLoader = require(`./helpers/svelte-loader-config.js`);
+const babelLoader = require(`./helpers/loader-configs.js`).babel;
+const svelteLoader = require(`./helpers/loader-configs.js`).svelte;
 const config = require('./base.webpack.config.js')({
     name: 'T4',
     target: 'node',

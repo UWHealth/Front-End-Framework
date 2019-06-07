@@ -7,11 +7,10 @@ import store from './demo.store.js';
 import capitalize from '@/helpers/title-case';
 import findExport from '@/helpers/find-export.js';
 import Route from 'svelte-routing/Route.html';
-import findPage from './check-route.js';
-const pages = require(`val-loader?{"returnPages": true}!./create-nav.js`);
+import findPage from '@/helpers/check-route.js';
 
 // Find the initial state of the page, provided by the template
-const appState = typeof window === 'undefined' ? {} : window.__APP_STATE__;
+// const appState = typeof window === 'undefined' ? {} : window.__APP_STATE__;
 // const globalState = findGlobalState();
 
 export default {
@@ -47,7 +46,7 @@ export default {
     },
     setup(DemoRouter) {
         DemoRouter.getComponent = async (componentPath) => {
-            console.log(componentPath);
+            //console.log(componentPath);
             const comp = await getPage(componentPath);
             return findExport(comp);
         };
@@ -60,46 +59,23 @@ async function getPage(pathname) {
     const page = findPage(pathname);
 
     if (!page) {
-        console.log('No page found at ' + pathname);
+        console.info('No page found at ' + pathname);
         return false;
     }
 
     try {
-
-        component = await import(/* webpackChunkName: "page-[request]" */
+        component = await import(
+            /* webpackChunkName: "page-[request]" */
             /* webpackMode: "lazy" */
             /* webpackPrefetch: true */
             /* webpackPreload: -1 */
-            '@/pages/' + page  + '.html');
+            '@/pages/' + page + '.html'
+        );
 
         return component;
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         return false;
     }
-    // try {
-
-    // }
-    // catch(e) {
-    //     console.log(e);
-    //     try {
-    //         component = await import(/* webpackChunkName: "route-[request]" */
-    //         /* webpackMode: "lazy" */
-    //         /* webpackPrefetch: true */
-    //         /* webpackPreload: -1 */
-    //         '@/pages/' + pathname + '/' + pathname + '.html');
-    //     } catch(e) {
-    //         console.log(e);
-    //         component = false;
-    //     }
-    // }
-    // return component;
-}
-
-async function findGlobalState() {
-    appState.innerComponent = await findExport(
-        getComponent(appState.componentPath)
-    );
-    return appState;
 }
 </script>

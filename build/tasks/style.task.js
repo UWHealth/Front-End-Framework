@@ -4,14 +4,13 @@
  **/
 
 const CWD = process.cwd();
-const BROWSERS = require(`${CWD}/package.json`).browserslist;
-const Logger = require('../helpers/logger.js');
-const MODE = require('../helpers/mode');
-const PATHS = require(`${CWD}/config/paths.config.js`);
 const PKG = require(`${CWD}/package.json`);
-const browserSync = require('browser-sync');
+const PATHS = require(`${CWD}/config/paths.config.js`);
+const postCssConfig = require(`${CWD}/config/postcss.config.js`);
 const sassConfig = require(`../helpers/sass-config.js`);
-const nanoConfig = require('../helpers/cssnano-config.js');
+const MODE = require('../helpers/mode');
+const Logger = require('../helpers/logger.js');
+const browserSync = require('browser-sync');
 
 module.exports = () => {
     const gulp = require('gulp');
@@ -23,7 +22,7 @@ module.exports = () => {
     const LOG = new Logger('Sass');
 
     LOG.spinner('Compiling ');
-    // const log = console.draft('Sass Compiling');
+
     const initialInput = () =>
         gulp
             .src(PATHS.style.entry.array)
@@ -34,16 +33,7 @@ module.exports = () => {
         return (
             initialInput()
                 // Autoprefix, Minify
-                .pipe(
-                    postcss([
-                        require('autoprefixer')({
-                            browsers: BROWSERS,
-                            grid: 'autoplace',
-                        }),
-                        require('cssnano')(nanoConfig),
-                    ])
-                )
-
+                .pipe(postcss(postCssConfig.plugins))
                 .pipe(plumber.stop())
                 .pipe(gulp.dest(PATHS.style.dest))
                 .on('end', () => {
@@ -54,28 +44,22 @@ module.exports = () => {
         return (
             initialInput()
                 // Autoprefix
-                .pipe(
-                    postcss([
-                        require('autoprefixer')({
-                            browsers: BROWSERS,
-                            grid: 'autoplace',
-                        }),
-                    ])
-                )
+                .pipe(postcss([require('autoprefixer')]))
 
                 // Output non-minified
                 .pipe(gulp.dest(PATHS.style.dest))
 
                 // Minify
-                .pipe(postcss([require('cssnano')(nanoConfig)]))
+                .pipe(postcss(postCssConfig.plugins))
                 .pipe(rename({ suffix: '.min' }))
 
                 // Write out sourcemaps
                 .pipe(sourcemaps.write('./maps'))
-                //.pipe(plumber.stop())
 
                 // Output minified CSS
                 .pipe(gulp.dest(PATHS.style.dest))
+
+                // Reload browsersync
                 .pipe(
                     browserSync.has(PKG.name)
                         ? browserSync
@@ -86,9 +70,6 @@ module.exports = () => {
                 .on('end', () => {
                     return LOG.success('Compiled');
                 })
-                // .on('data', (chunk) => {
-                //     return log('sass compiling still ' + chunk.length);
-                // })
         );
     }
 };

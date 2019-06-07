@@ -11,9 +11,8 @@ const path = require('path');
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
-const STATS = require(`${CWD}/build/helpers/webpack-stats-config.js`);
-
-const isProd = MODE.production;
+const STATS = require(`./helpers/stats-config.js`);
+const cssLoaders = require('./helpers/loader-configs.js').style;
 
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar'); // Webpack progress bars
@@ -33,7 +32,7 @@ module.exports = ({ target, name }) => {
         context: __dirname,
         mode: process.env.NODE_ENV || 'development',
         stats: STATS(),
-        devtool: false, //MODE.production ? 'source-map' : 'cheap-source-map',
+        devtool: MODE.production ? 'source-map' : 'cheap-source-map',
         resolve: {
             symlinks: false,
             modules: [
@@ -101,62 +100,6 @@ module.exports = ({ target, name }) => {
      * Base Loaders
      */
 
-    const sassOpts = require(`${PATHS.folders.build}/helpers/sass-config.js`);
-
-    // Base CSS Loaders
-    // Order of operations (loaders work from bottom to top):
-    // 1. Process with postcss
-    // 2. Convert to string with css-loader
-    // 3a. Web targets: add the style string to the dom.
-    // 3c. Non-web targets: extract (remove it from JS file) the string
-    // 4. Save the string to a file.
-    const cssLoaders = (isSSR) => {
-        isSSR = isSSR || (target !== 'web' || isProd);
-        const cssLoader = {
-            loader: 'css-loader',
-            options: {
-                modules: false,
-                url: true,
-                import: true,
-                localIdentName: '[name]_[local]_[hash:base64:5]',
-            },
-        };
-        const postcssLoader = {
-            loader: 'postcss-loader',
-            options: {
-                plugins: [
-                    require('autoprefixer')({ grid: true }),
-
-                    // Minify for production
-                    isProd &&
-                        require('cssnano')({
-                            preset: [
-                                'default',
-                                {
-                                    mergeLonghand: false,
-                                    cssDeclarationSorter: false,
-                                },
-                            ],
-                        }),
-                ].filter(Boolean),
-            },
-        };
-
-        return isSSR
-            ? [
-                  cssLoader,
-                  postcssLoader,
-                  { loader: 'sass-loader', options: sassOpts },
-              ].filter(Boolean)
-            : [
-                  isProd && 'file-loader',
-                  isProd ? MiniCssExtractPlugin.loader : 'style-loader',
-                  cssLoader,
-                  postcssLoader,
-                  { loader: 'sass-loader', options: sassOpts },
-              ].filter(Boolean);
-    };
-
     const relativePubPath = path.posix.relative(
         PATHS.folders.dist,
         PATHS.folders.pub
@@ -179,12 +122,12 @@ module.exports = ({ target, name }) => {
 
                 {
                     issuer: /server\.js/,
-                    use: cssLoaders,
+                    use: cssLoaders('node'),
                 },
 
                 // Normal (s)CSS
                 {
-                    use: cssLoaders(),
+                    use: cssLoaders(target),
                 },
             ],
         },

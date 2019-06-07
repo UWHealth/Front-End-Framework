@@ -13,9 +13,8 @@ const glob = require('fast-glob');
 const path = require('path');
 
 const baseConfig = require(`./base.webpack.config.js`);
-const babelConfig = require(`${CWD}/config/babel.config.js`)('web');
-const babelLoader = require(`./helpers/babel-loader-config.js`);
-const svelteLoader = require(`./helpers/svelte-loader-config.js`);
+const babelLoader = require(`./helpers/loader-configs.js`).babel;
+const svelteLoader = require(`./helpers/loader-configs.js`).svelte;
 
 const config = baseConfig({ target: 'web', name: 'Client' });
 
@@ -86,10 +85,10 @@ glob.sync(PATHS.js.entry.components).forEach((component) => {
  */
 config.module.rules.push(
     // Svelte Loader
-    svelteLoader(config.target, babelConfig),
+    svelteLoader(config.target),
 
     // Babel JS files
-    babelLoader(config.name, babelConfig)
+    babelLoader(config.target)
 );
 
 /*

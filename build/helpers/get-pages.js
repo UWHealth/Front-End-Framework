@@ -2,6 +2,25 @@ const path = require('path');
 const glob = require('fast-glob');
 const PATHS = require(`${process.cwd()}/config/paths.config.js`);
 
+/**
+ * Gather markup from a folder and create a data structure that can be used
+ * in client (components) or server routes
+ * @param {Object} options
+ * @param {String|Array} options.files [PATHS.pages.entry.src] - glob of svelte/html files to gather
+ * @param {String} options.context [PATHS.pages.folders.root] - path that should be used for returning path.relative calls.
+ * @returns {Object} - An object containing keys based on relative paths, with nested objects describing those keys.
+ *
+ * @example
+ *  let pages = getPages({
+ *   files: ['pages/index.html', 'pages/foo.html', 'pages/bar/index.html'],
+ *   content: 'pages'}
+ *  );
+ *  pages === {
+ *   'index.html': { basename, path, file, folder, is_index, ext},
+ *   'foo/index.html': { ... }
+ *   'bar/index.html': { ... }
+ * };
+ */
 function getPages({
     files = PATHS.pages.entry.src,
     context = PATHS.pages.folders.root,
@@ -14,7 +33,7 @@ function getPages({
             pages['index.html'] = {
                 basename: 'index',
                 path: '/index.html',
-                file: '@src/pages/index.html',
+                file: `${PATHS.pages.folders.root}/index.html`,
             };
         }
         let ext = path.extname(file);
@@ -40,42 +59,3 @@ function getPages({
 }
 
 module.exports = getPages;
-
-// function walk(dir, parent_segments, ) {
-//     const items = fs
-//         .readdirSync(dir)
-//         .map((basename) => {
-//             const resolved = path.join(dir, basename);
-//             const file = path.relative(cwd, resolved);
-//             const is_dir = fs.statSync(resolved).isDirectory();
-
-//             const ext = path.extname(basename);
-//             if (!is_dir && !/^\.[a-z]+$/i.test(ext)) return null; // filter out tmp files etc
-
-//             const is_index = is_dir ? false : basename.startsWith('index.');
-//             const is_page = component_extensions.indexOf(ext) !== -1;
-
-//             return {
-//                 basename,
-//                 ext,
-//                 file: posixify(file),
-//                 is_dir,
-//                 is_index,
-//                 is_page,
-//             };
-//         })
-//         .filter(Boolean);
-
-//     items.forEach((item) => {
-//         if (item.basename[0] === '_') return;
-//         if (item.basename[0] === '.') return;
-
-//         if(item.is_dir) {
-//             const
-//         }
-//     });
-// }
-
-// function posixify(str) {
-//     return str.replace(/\\/g, '/');
-// }
