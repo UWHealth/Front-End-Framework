@@ -39,19 +39,21 @@ function formatData({ data = {}, stats = {} }) {
     );
 }
 
-function middleware({ req, res, next }) {
+// eslint-disable-next-line complexity
+function middleware({ req, res /*, next*/ }) {
     // Add new URL to history
     HISTORY.replace(req.url);
     // Preload pages
     require.context('@/pages/', true, /\.(html|svelte)$/);
 
     const parsed = url.parse(req.url || req.originalUrl);
-
-    if (parsed.pathname.indexOf('webpack-dev-server') > 1) {
-        return false;
-    }
     const compilation = res.locals.isomorphic.compilation;
     const clientStats = compilation.clientStats.toJson();
+
+    // Return webpack stuff for this particular path
+    if (parsed.pathname.indexOf('webpack') === 1) {
+        return showWebpackStats(req, res, compilation);
+    }
     // const serverStats = compilation.serverStats.toJson();
 
     let baseName = path.basename(parsed.pathname, '.html');
@@ -59,7 +61,7 @@ function middleware({ req, res, next }) {
 
     // Ignore files that aren't html/svelte
     if (baseName.indexOf('.') > -1) {
-        return next();
+        return false;
     }
 
     try {
@@ -121,6 +123,34 @@ function gatherComponent(baseName, clientStats = {}) {
     return Template.render(data);
 }
 
+/**
+ * Show webpack stats as JSON
+ * @param {Object} req request object
+ * @param {Object} res response object
+ * @param {Object} compilation webpack compilation
+ */
+function showWebpackStats(req, res, compilation) {
+    res.setHeader('Content-Type', 'application/json');
 
+    const file = path.parse(req.url);
+    const result =
+        file.base === 'server.json'
+            ? {
+                  serverStats: compilation.serverStats.toJson({
+                      source: false,
+                  }),
+              }
+            : file.base === 'client.json'
+            ? {
+                  clientStats: compilation.serverStats.toJson({
+                      source: false,
+                  }),
+              }
+            : {
+                  serverStats: 'http://localhost:8080/webpack/server.json',
+                  clientStats: 'http://localhost:8080/webpack/client.json',
+              };
+    return new Promise((resolve) => resolve(JSON.stringify(result, null, 2)));
+}
 
 module.exports.default = middleware;

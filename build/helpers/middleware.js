@@ -61,16 +61,26 @@ async function pageMiddleware(req, res, next) {
 
     let render = '';
     try {
-        render = await exports.default({ req, res, next });
+        const renderer = findExport(exports);
+        render = await renderer({ req, res, next });
     } catch (e) {
         console.error(e);
     }
     if (!render) {
         return next();
     }
-    res.setHeader('Content-Type', 'text/html');
+    if (!res.hasHeader('content-type')) {
+        res.setHeader('Content-Type', 'text/html');
+    }
     res.end(render);
 }
+
+function findExport(mod) {
+    return mod && typeof mod === 'object' && (mod['default'] || mod.__esModule)
+        ? mod['default']
+        : mod;
+}
+
 
 function requireFromString(
     code,

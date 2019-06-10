@@ -3,14 +3,11 @@
  * Also handles webpack logging.
  **/
 
-const fs = require('fs');
-const path = require('path');
 const CWD = process.cwd();
 
 const customMiddleware = require(`${CWD}/build/helpers/middleware.js`);
 const webpackLogger = require(`${CWD}/build/helpers/webpack-logger.js`);
 
-const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const Logger = require(`${CWD}/build/helpers/logger.js`);
 const LOG = new Logger('Webpack');
@@ -48,7 +45,7 @@ function startWebpack(done) {
             return middleware;
         };
     }
-};
+}
 
 function restart() {
     LOG.info('Restarting...');
@@ -56,7 +53,7 @@ function restart() {
     delete require.cache[require.resolve(`${CWD}/build/webpack.build.js`)];
     // Invalidate webpack-dev-middleware
     devMiddleware();
-};
+}
 
 module.exports = startWebpack;
 module.exports.create = startWebpack;
