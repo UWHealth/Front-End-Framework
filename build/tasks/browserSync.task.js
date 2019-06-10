@@ -5,7 +5,7 @@
 /* eslint-disable complexity */
 module.exports = () => {
     const browserSync = require('browser-sync');
-    const middleware = require('./js.task.js')();
+    const middleware = require('./js.task.js').create();
     const PKG = require(`${process.cwd()}/package.json`);
 
     const ARGS = require('../helpers/args.js');

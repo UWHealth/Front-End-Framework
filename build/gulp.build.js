@@ -17,9 +17,11 @@ function getTasks() {
     return tasks;
 }
 
-function taskOrder() {
+function defaultTaskOrder() {
     const p = gulp.parallel;
 
+    // Clear console, then show mode message
+    LOG.clear();
     LOG.ora.stopAndPersist({ text: MODE.message() });
 
     return MODE.dev
@@ -90,7 +92,7 @@ gulp.task('js', (done) => {
 
 // First task called when gulp is invoked
 gulp.task('default', (done) => {
-    return series(taskOrder())(done);
+    return series(defaultTaskOrder())(done);
 });
 
 gulp.on('error', function(err) {

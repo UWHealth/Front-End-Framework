@@ -13,6 +13,7 @@ const isProd = args.production || args.local;
 const isLocal = args.local;
 
 // Make the "what to return" logic easier to understand
+// Return either dev, local, or production
 const devLocalProd = (dev, local, prod) =>
     isProd ? (isLocal ? local : prod) : dev;
 

@@ -22,14 +22,6 @@ let devMiddleware = {
     invalidate: () => null,
 };
 
-function restart() {
-    LOG.info('Restarting...');
-    delete require.cache[require.resolve('../helpers/webpack-middleware.js')];
-    delete require.cache[require.resolve(`${CWD}/build/webpack.build.js`)];
-    // Invalidate webpack-dev-middleware
-    devMiddleware();
-};
-
 function runImmediately(done) {
     webpack(webpackConfigs).run((err, stats) =>
         webpackLogger(LOG, err, stats, done)
@@ -58,6 +50,15 @@ function startWebpack(done) {
     }
 };
 
+function restart() {
+    LOG.info('Restarting...');
+    delete require.cache[require.resolve('../helpers/webpack-middleware.js')];
+    delete require.cache[require.resolve(`${CWD}/build/webpack.build.js`)];
+    // Invalidate webpack-dev-middleware
+    devMiddleware();
+};
+
 module.exports = startWebpack;
+module.exports.create = startWebpack;
 module.exports.run = runImmediately;
 module.exports.restart = restart;

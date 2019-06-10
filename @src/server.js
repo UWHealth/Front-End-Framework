@@ -59,7 +59,7 @@ function middleware({ req, res, next }) {
 
     // Ignore files that aren't html/svelte
     if (baseName.indexOf('.') > -1) {
-        return false;
+        return next();
     }
 
     try {
