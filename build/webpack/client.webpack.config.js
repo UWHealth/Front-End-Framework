@@ -102,6 +102,14 @@ config.module.rules.push(
 
 // [1] Simplify chunks to rely on webpack runtime for loading
 config.optimization.runtimeChunk = { name: 'runtime' };
+config.optimization.splitChunks.cacheGroups = {
+    styles: {
+        name: 'styles',
+        test: /\.css$/,
+        chunks: 'all',
+        enforce: true,
+    },
+};
 
 if (MODE.production) {
     const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -118,33 +126,26 @@ if (MODE.production) {
     };
 
     // [3] Uglification options
-    config.optimization.minimizer = [
-        new UglifyJsPlugin({
-            uglifyOptions: {
-                ecma: 6,
-                ie8: false,
-                beautify: true,
-                mangle: true,
-                compress: true,
-                comments: false,
-            },
-            parallel: true,
-            sourceMap: true,
-        }),
-    ];
+    //config.optimization.minimize = false;
+    // config.optimization.minimizer = [
+    //     new UglifyJsPlugin({
+    //         uglifyOptions: {
+    //             ecma: 6,
+    //             ie8: false,
+    //             beautify: true,
+    //             mangle: true,
+    //             compress: true,
+    //             comments: false,
+    //         },
+    //         parallel: true,
+    //         sourceMap: true,
+    //     }),
+    // ];
 
     // [4] Take all extracted CSS and concatenate it into one .css file
     // This might need to be changed or disabled depending on the project
     // In many cases, component/route-based CSS is actually faster
-    // config.optimization.splitChunks.cacheGroups = {
-    //     styles: {
-    //         name: 'styles',
-    //         test: /\.css$/,
-    //         chunks: 'all',
-    //         enforce: true,
-    //     },
-    // }
-
+    config.optimization.noEmitOnErrors = false;
     // [5] Split chunks optimally
     // Probably needs to be tweaked based on project needs
     config.optimization.concatenateModules = true;
@@ -190,7 +191,7 @@ if (MODE.production) {
  */
 function addHMR(entry) {
     // Never add HMR to production code
-    if (MODE.production && MODE.localProduction) {
+    if (MODE.production || MODE.localProduction) {
         return entry;
     }
 

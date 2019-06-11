@@ -94,13 +94,13 @@ const PATHS = {
     // Files to create pages from
     pages: {
         folders: {
-            root: `${_.src}/pages`,
+            root: `${_.pages}`,
             demos: `${_.src}/pages/demos/`,
         },
         entry: {
             src: [
-                `${_.src}/pages/[!_]**/[!_]*.(html|svelte)`,
-                `${_.src}/pages/[!_]*.(html|svelte)`,
+                `${_.pages}/[!_]**/[!_]*.(html|svelte)`,
+                `${_.pages}/[!_]*.(html|svelte)`,
             ],
             server: `${_.src}/server.js`,
             exclude: [`!${_.src}/pages/**/_*.*`, `!${_.src}/pages/_**/*`],
@@ -179,7 +179,7 @@ const PATHS = {
         entry: {
             config: `${_.config}/styleguide.config.js`,
             templateFile: `${_.src}/pages/styleguide/styleguide.hbs`,
-            themeFile: `${_.pub}/css/styleguide/styleguide.css`,
+            themeFile: `${_.pub}/css/styleguide.css`,
             jquery: `${_.src}/pages/styleguide/imports/jquery.js`,
             toc: `${_.src}/pages/styleguide/imports/toc.js`,
         },

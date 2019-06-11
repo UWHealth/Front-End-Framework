@@ -21,7 +21,7 @@ module.exports = (api) => {
                 loose: true,
                 corejs: 3,
                 modules: false,
-                useBuiltIns: 'usage',
+                useBuiltIns: api.env('node') ? 'usage' : 'entry',
                 debug: false,
             },
         ],

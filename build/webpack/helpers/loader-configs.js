@@ -5,7 +5,7 @@ const cacheIdentifier = require(`${CWD}/build/helpers/cache-identifier.js`);
 const sassOpts = require(`${CWD}/build/helpers/sass-config.js`);
 const postCssOpts = require(`${CWD}/config/postcss.config.js`);
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('extract-css-chunks-webpack-plugin');
 const path = require('path');
 const sveltePreprocess = require('svelte-preprocess');
 
@@ -28,12 +28,11 @@ module.exports.svelte = function(target) {
             preserveComments: isDev,
             skipIntroByDefault: true,
             nestedTransitions: true,
-            hotReload: true,
             externalDependencies: [PATHS.style.entry.config],
             preprocess: sveltePreprocess({
                 transformers: {
                     scss: sassOpts,
-                    postcss: postCssOpts,
+                    postcss: isDev && postCssOpts,
                 },
             }),
         };
@@ -41,8 +40,9 @@ module.exports.svelte = function(target) {
         return Object.assign(
             {},
             {
-                emitCss: !isDev && !isSSR,
+                emitCss: !isSSR && !isDev,
                 format: isSSR ? 'cjs' : 'es',
+                hotReload: isDev,
                 generate: isSSR ? 'ssr' : 'dom',
                 legacy: false,
             },
@@ -110,6 +110,7 @@ module.exports.babel = (target = 'web') => {
         test: /\.(mjs|js|jsx)(\?.*)?$/,
         enforce: 'post',
         exclude: [
+            /\.css$/,
             /node_modules[\\/]core-js/,
             /node_modules[\\/]regenerator-runtime/,
             /node_modules[\\/]@?babel/,
@@ -159,7 +160,7 @@ module.exports.style = (target) => {
             modules: false,
             url: true,
             import: true,
-            localIdentName: '[name]_[local]_[hash:base64:5]',
+            //localIdentName: '[name]_[local]_[hash:base64:5]',
         },
     };
     const postcssLoader = {
@@ -167,12 +168,21 @@ module.exports.style = (target) => {
         options: postCssOpts,
     };
     const sassLoader = { loader: 'sass-loader', options: sassOpts };
+    const extractLoader = {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+            hmr: isDev,
+            reloadAll: isDev,
+        },
+    };
 
     return isSSR
-        ? [cssLoader, postcssLoader, sassLoader].filter(Boolean)
+        ? [cssLoader, postcssLoader, sassLoader]
         : [
-              !isDev && 'file-loader',
-              isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+              //!isDev &&
+              //'file-loader',
+              //isDev ? 'style-loader' :
+              extractLoader,
               cssLoader,
               postcssLoader,
               sassLoader,

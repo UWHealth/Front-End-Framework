@@ -3,72 +3,93 @@ const Template = require('@/layouts/template.svelte');
 const { createMemoryHistory } = require('svelte-routing');
 const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
 const Router = require('@/pages/_router.svelte');
-const url = require('url');
+const Url = require('url');
 
 // Start up history recording
 const HISTORY = createMemoryHistory();
 
+/**
+ *
+ * @param {Object} options - options object
+ * @param {Object} options.data - Data (props) to pass directly to page
+ * @param {Object} options.stats - webpack stats object
+ * @returns {Object} merged props object, formatted for svelte template
+ */
 function formatData({ data = {}, stats = {} }) {
     const clientFiles = getInitialFiles(stats);
+    const assign = Object.assign;
 
-    return Object.assign(
+    return assign(
         {
-            publicPath: stats.publicPath,
-            googleAnalytics: null,
-            title: 'Front-End-Framework',
-            meta: [],
-            links: [],
-            inlineStyle: '',
-            scripts: clientFiles,
+            publicPath: stats.publicPath, // webpack public path
+            googleAnalytics: null, // GA account id
+            title: 'Front-End-Framework', // title tag
+            meta: [], // head meta tags
+            links: [], // head link tags
+            inlineStyle: '', // inline head styles
+            scripts: clientFiles, // initial script tags
             headHtmlSnippet: '<!-- Head html Snippet -->',
             appHtmlSnippet: '<!-- App html Snippet -->',
             bodyHtmlSnippet: '<!-- Body html Snippet -->',
-            globalsProperty: '__APP_STATE__',
-            globals: Object.assign(
+            globalsProperty: '__APP_STATE__', // key to access global state
+            globals: assign(
+                // global state object
                 {
                     initial: clientFiles,
                 },
                 data.globals
             ),
-            fileManifest: Object.assign(
-                { initial: clientFiles },
-                data.fileManifest
-            ),
+            // project files manifest
+            fileManifest: assign({ initial: clientFiles }, data.fileManifest),
         },
         data
     );
 }
 
+
+/**
+ * Takes in http requests and returns a rendered svelte page
+ * using the files in  @src/pages/.
+ * @param {Object} o - options object
+ * @param {Object} o.req - http request object
+ * @param {Object} o.res - http resolution object
+ * @param {Object} o.compilation - webpack compilation stats
+ * @param {String} o.route - url (alternative to req.url)
+ * @return {String} rendered html page
+ */
 // eslint-disable-next-line complexity
-function middleware({ req, res /*, next*/ }) {
-    // Add new URL to history
-    HISTORY.replace(req.url);
-    // Preload pages
+function middleware({ req = {}, res = {}, compilation, route }) {
+    compilation = compilation || res.locals.isomorphic.compilation;
+    route = route || req.url || req.originalUrl;
+
+    // Change history's route path
+    HISTORY.replace(route);
+
+    // Gather information about route
+    const url = Url.parse(route);
+    const basename = baseNames(url.pathname, ['.html', '.svelte']);
+
+    // Add new route url to history
+    // Bundle pages so we can resolveWeak later
     require.context('@/pages/', true, /\.(html|svelte)$/);
 
-    const parsed = url.parse(req.url || req.originalUrl);
-    const compilation = res.locals.isomorphic.compilation;
-    const clientStats = compilation.clientStats.toJson();
-
     // Return webpack stuff for this particular path
-    if (parsed.pathname.indexOf('webpack') === 1) {
-        return showWebpackStats(req, res, compilation);
+    if (url.pathname.indexOf('webpack') === 1 && res.setHeader) {
+        return showWebpackStats({ url, res, compilation });
     }
-    // const serverStats = compilation.serverStats.toJson();
-
-    let baseName = path.basename(parsed.pathname, '.html');
-    baseName = path.basename(parsed.pathname, '.svelte');
 
     // Ignore files that aren't html/svelte
-    if (baseName.indexOf('.') > -1) {
+    if (basename.indexOf('.') > -1) {
         return false;
     }
 
+    // Try to render initial component
     try {
-        const render = gatherComponent(baseName, clientStats);
+        const clientStats = compilation.clientStats.toJson();
+        const render = renderComponent({ baseName: basename, clientStats });
         return render.html;
     } catch (e) {
-        console.error(new Error(e));
+        console.error(e);
         return false;
     }
     // const pathFromStats =
@@ -83,7 +104,7 @@ function middleware({ req, res /*, next*/ }) {
  * @param {Object} clientStats - current clientStats, used for gathering webpack output names
  * @returns {Object} Rendered Svelte component
  */
-function gatherComponent(baseName, clientStats = {}) {
+function renderComponent({ baseName, clientStats }) {
     let headHtmlSnippet, data;
 
     try {
@@ -95,13 +116,13 @@ function gatherComponent(baseName, clientStats = {}) {
 
         headHtmlSnippet = routerComponent.head;
 
-        // Add in known data
+        // Add in known data, including routed component
         data = formatData({
             data: {
-                headHtmlSnippet,
-                title: baseName,
                 appHtmlSnippet: routerComponent.html,
                 inlineStyle: routerComponent.css.code,
+                headHtmlSnippet,
+                title: baseName,
             },
             stats: clientStats,
         });
@@ -125,14 +146,16 @@ function gatherComponent(baseName, clientStats = {}) {
 
 /**
  * Show webpack stats as JSON
- * @param {Object} req request object
+ * @param {String} url url string
  * @param {Object} res response object
  * @param {Object} compilation webpack compilation
  */
-function showWebpackStats(req, res, compilation) {
-    res.setHeader('Content-Type', 'application/json');
+function showWebpackStats({ url, res, compilation }) {
+    if (res && res.setHeader) {
+        res.setHeader('Content-Type', 'application/json');
+    }
 
-    const file = path.parse(req.url);
+    const file = path.parse(url);
     const result =
         file.base === 'server.json'
             ? {
@@ -142,15 +165,24 @@ function showWebpackStats(req, res, compilation) {
               }
             : file.base === 'client.json'
             ? {
-                  clientStats: compilation.serverStats.toJson({
+                  clientStats: compilation.clientStats.toJson({
                       source: false,
                   }),
               }
             : {
+                  // Unknown webpack path, return urls to stats
                   serverStats: 'http://localhost:8080/webpack/server.json',
                   clientStats: 'http://localhost:8080/webpack/client.json',
               };
     return new Promise((resolve) => resolve(JSON.stringify(result, null, 2)));
 }
 
-module.exports.default = middleware;
+function baseNames(p = '', exts = []) {
+    exts.forEach((ext) => {
+        p = path.basename(p, ext);
+    });
+
+    return p;
+}
+
+module.exports = middleware;

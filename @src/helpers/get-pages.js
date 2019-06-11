@@ -49,6 +49,7 @@ function getPages({
             basename,
             path: pagePath,
             file: path.posix.relative(context, file),
+            route: folder,
             folder,
             is_index,
             ext,

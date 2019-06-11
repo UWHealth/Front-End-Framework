@@ -9,7 +9,6 @@ const webpack = require('webpack');
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 
-const babelConfig = require(`${CWD}/config/babel.config.js`)('t4');
 const babelLoader = require(`./helpers/loader-configs.js`).babel;
 const svelteLoader = require(`./helpers/loader-configs.js`).svelte;
 const config = require('./base.webpack.config.js')({
@@ -43,10 +42,10 @@ config.plugins.push(
 
 config.module.rules.push(
     // Svelte as server-side
-    svelteLoader(config.name, babelConfig),
+    svelteLoader(config.name),
 
     // Babelify
-    babelLoader(config.name, babelConfig)
+    babelLoader(config.name)
 );
 
 // Add all components and demos

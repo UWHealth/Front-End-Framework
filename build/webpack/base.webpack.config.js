@@ -16,7 +16,9 @@ const cssLoaders = require('./helpers/loader-configs.js').style;
 
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar'); // Webpack progress bars
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('extract-css-chunks-webpack-plugin');
+
+const isProd = !!MODE.production;
 
 module.exports = ({ target, name }) => {
     // Set the threshold for base64/inlined file size
@@ -32,7 +34,7 @@ module.exports = ({ target, name }) => {
         context: __dirname,
         mode: process.env.NODE_ENV || 'development',
         stats: STATS(),
-        devtool: MODE.production ? 'source-map' : 'cheap-source-map',
+        devtool: isProd ? 'source-map' : 'cheap-source-map',
         resolve: {
             symlinks: false,
             modules: [
@@ -61,9 +63,9 @@ module.exports = ({ target, name }) => {
         module: {},
         optimization: {
             nodeEnv: process.env.NODE_ENV,
-            removeAvailableModules: MODE.production,
-            removeEmptyChunks: MODE.production,
-            splitChunks: MODE.production &&
+            removeAvailableModules: isProd,
+            removeEmptyChunks: isProd,
+            splitChunks: isProd &&
                 target === 'web' && {
                     automaticNameDelimiter: '+',
                     chunks: 'all',
@@ -81,10 +83,15 @@ module.exports = ({ target, name }) => {
     // Extract CSS to its own file (depends upon the existence of its loader)
     config.plugins.push(
         new MiniCssExtractPlugin({
-            filename: `${cssPath}/[name].[contenthash:8].css`,
-            chunkFilename: `${cssPath}/[name].[contenthash:8].css`,
+            filename: `${cssPath}/[name]${
+                isProd ? '.[contenthash:4]' : '.bundle'
+            }.css`,
+            chunkFilename: `${cssPath}/[name]${
+                isProd ? '.[contenthash:4]' : '.chunk'
+            }.css`,
         }),
 
+        //
         new WebpackBar({
             name: name || target,
             color: target === 'node' ? 'green' : 'orange',

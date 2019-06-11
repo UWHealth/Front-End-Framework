@@ -31,18 +31,18 @@ module.exports = function(client, server, LOG) {
                     .map((asset) => asset.name)
                     .find((name) => name === assetName);
             },
-            memoryFs: false,
+            memoryFs: true,
             watchDelay: 300,
             report: {
                 stats: 'once',
                 write: (str) => {
-                    if (!str || typeof str !== 'string') return '';
+                    if (!str || typeof str !== 'string') return false;
                     process.stdout.write(str);
                 },
                 printStart: () => false, // Handled by webpackbar
                 printSuccess: (/*{ duration }*/) => false,
-                printFailure: (err) => '', //LOG.error(err),
-                printStats: ({ stats }) => '', //LOG.info(stats)
+                printFailure: (err) => false, //LOG.error(err),
+                printStats: ({ stats }) => false, //LOG.info(stats)
             },
         }),
 
@@ -62,7 +62,8 @@ async function pageMiddleware(req, res, next) {
     let render = '';
     try {
         const renderer = findExport(exports);
-        render = await renderer({ req, res, next });
+        const compilation = res.locals.isomorphic.compilation;
+        render = await renderer({ req, res, next, compilation });
     } catch (e) {
         console.error(e);
     }

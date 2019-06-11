@@ -5,16 +5,16 @@
 <h1 class="wrap">Front-End Framework</h1>
 
 <main class="wrap">
-        <p><strong>Page index</strong></p>
-        <ul>
-            {#each Object.keys(pages) as url (url) }
-            <li>
-                <a href="/{ url.replace('index.html', '') }">
-                    {pages[url].folder + '/' + pages[url].basename}
-                </a>
-            </li>
-            {/each}
-        </ul>
+    <p><strong>Page index</strong></p>
+    <ul>
+    {#each Object.keys(pages) as url, i (url) }
+        <li>
+            <a href="/{ url.replace('index.html', '') }">
+                {pages[url].folder + '/' + pages[url].basename}
+            </a>
+        </li>
+    {/each}
+    </ul>
 </main>
 
 <style>
@@ -46,7 +46,7 @@ li:before {
     margin-right: .5rem;
     margin-left: -3rem;
     border-radius: 3rem;
-    background-image: url('/public/assets/images/dev/logo.png');
+    background-image: url('../assets/images/dev/logo.png');
     background-size: cover;
     width: 1.5rem;
     height: 1.5rem;

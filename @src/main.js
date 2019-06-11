@@ -1,8 +1,9 @@
 import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
 import store from '@/layouts/demo/demo.store.js';
-import demoRouter from '@/pages/_router.svelte';
+import Router from '@/pages/_router.svelte';
 import { createBrowserHistory } from 'svelte-routing';
+import 'core-js/stable';
 // import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 //OfflinePluginRuntime.install();
@@ -16,7 +17,7 @@ async function init() {
     if (appElement) {
         const currentRoute = window.location.pathname;
 
-        application = new demoRouter({
+        application = new Router({
             hydrate: true,
             target: appElement,
             data: {
@@ -30,8 +31,13 @@ async function init() {
     }
 
     if (process.env.NODE_ENV !== 'production') {
-        import(/* "webpackChunkName": "keyboard" */
-        '@/components/keyboard-shortcuts').then((keyboardSC) => keyboardSC.init());
+        import(
+            // eslint-disable-next-line lines-around-comment
+            /*
+                "webpackChunkName": "keyboard"
+            */
+            '@/components/keyboard-shortcuts'
+        ).then((keyboardSC) => keyboardSC.init());
     }
 }
 

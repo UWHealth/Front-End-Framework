@@ -41,7 +41,8 @@ function defaultTaskOrder() {
         : // PROD
           series(
               'clean',
-              p('style', 'js', 'images', 'copy'),
+              'style',
+              p('js', 'images', 'copy'),
               'styleGuide',
               'size'
           );
