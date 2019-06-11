@@ -14,29 +14,14 @@
 </header>
 
 <div>
-    <!-- Cached feed, from store -->
-    {#if $feedResults}
-        {#each $feedResults.result.slice(pageStart, pageEnd)
-            as result (result.title)
-        }
-        <Results ref:feedList {...result} {page} {MAX_PER_PAGE} />
-        {/each}
-    {:else}
-        {#await feed}
-            <p>Loading Feed...</p>
-        {:then response}
-        {#if response && response.results}
-            {#each
-                response.results.result.slice(pageStart, pageEnd)
-                as result (result.title)
-            }
-                <Results ref:feedList {...result} {page} {MAX_PER_PAGE} />
-            {/each}
-            {/if}
-        {:catch error}
-            <p>Feed load error: {@html error}</p>
-        {/await}
-    {/if}
+<!-- Cached feed, from store -->
+{#if $feedResults}
+    {#each $feedResults.result.slice(pageStart, pageEnd)
+        as result (result.title)
+    }
+    <Results ref:feedList {...result} {page} {MAX_PER_PAGE} />
+    {/each}
+{/if}
 </div>
 
 <div>

@@ -9,45 +9,6 @@ const Url = require('url');
 const HISTORY = createMemoryHistory();
 
 /**
- *
- * @param {Object} options - options object
- * @param {Object} options.data - Data (props) to pass directly to page
- * @param {Object} options.stats - webpack stats object
- * @returns {Object} merged props object, formatted for svelte template
- */
-function formatData({ data = {}, stats = {} }) {
-    const clientFiles = getInitialFiles(stats);
-    const assign = Object.assign;
-
-    return assign(
-        {
-            publicPath: stats.publicPath, // webpack public path
-            googleAnalytics: null, // GA account id
-            title: 'Front-End-Framework', // title tag
-            meta: [], // head meta tags
-            links: [], // head link tags
-            inlineStyle: '', // inline head styles
-            scripts: clientFiles, // initial script tags
-            headHtmlSnippet: '<!-- Head html Snippet -->',
-            appHtmlSnippet: '<!-- App html Snippet -->',
-            bodyHtmlSnippet: '<!-- Body html Snippet -->',
-            globalsProperty: '__APP_STATE__', // key to access global state
-            globals: assign(
-                // global state object
-                {
-                    initial: clientFiles,
-                },
-                data.globals
-            ),
-            // project files manifest
-            fileManifest: assign({ initial: clientFiles }, data.fileManifest),
-        },
-        data
-    );
-}
-
-
-/**
  * Takes in http requests and returns a rendered svelte page
  * using the files in  @src/pages/.
  * @param {Object} o - options object
@@ -142,6 +103,44 @@ function renderComponent({ baseName, clientStats }) {
     }
 
     return Template.render(data);
+}
+
+/**
+ * Merge webpack compilation data into data specific to each route and format it for consumption by the base template.
+ * @param {Object} options - options object
+ * @param {Object} options.data - Data (props) to pass directly to page
+ * @param {Object} options.stats - webpack stats object
+ * @returns {Object} merged props object, formatted for svelte template
+ */
+function formatData({ data = {}, stats = {} }) {
+    const clientFiles = getInitialFiles(stats);
+    const assign = Object.assign;
+
+    return assign(
+        {
+            publicPath: stats.publicPath, // webpack public path
+            googleAnalytics: null, // GA account id
+            title: 'Front-End-Framework', // title tag
+            meta: [], // head meta tags
+            links: [], // head link tags
+            inlineStyle: '', // inline head styles
+            scripts: clientFiles, // initial script tags
+            headHtmlSnippet: '<!-- Head html Snippet -->',
+            appHtmlSnippet: '<!-- App html Snippet -->',
+            bodyHtmlSnippet: '<!-- Body html Snippet -->',
+            globalsProperty: '__APP_STATE__', // key to access global state
+            globals: assign(
+                // global state object
+                {
+                    initial: clientFiles,
+                },
+                data.globals
+            ),
+            // project files manifest
+            fileManifest: assign({ initial: clientFiles }, data.fileManifest),
+        },
+        data
+    );
 }
 
 /**

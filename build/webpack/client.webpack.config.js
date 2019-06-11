@@ -15,10 +15,10 @@ const path = require('path');
 const baseConfig = require(`./base.webpack.config.js`);
 const babelLoader = require(`./helpers/loader-configs.js`).babel;
 const svelteLoader = require(`./helpers/loader-configs.js`).svelte;
-
 const config = baseConfig({ target: 'web', name: 'Client' });
-
 const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
+
+const isDev = MODE.development;
 
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
 
@@ -31,11 +31,11 @@ config.output = {
     libraryTarget: 'umd',
 
     publicPath: '/',
-    pathinfo: !MODE.production,
+    pathinfo: isDev,
     path: path.resolve(PATHS.folders.dist),
 
     filename: `${jsPath}/[name].bundle.js`,
-    chunkFilename: MODE.production
+    chunkFilename: !isDev
         ? `${jsPath}/[name].[chunkhash:3].js`
         : `${jsPath}/[name].js`,
     hotUpdateChunkFilename: '[id].hot-update.js',
@@ -44,23 +44,23 @@ config.output = {
 
 // Add "svelte" key to the front of package resolution
 config.resolve.mainFields.unshift('svelte', 'browser');
-// config.resolve.alias['__manifest__'] = PATHS.demos.entry.manifest;
 
 /*
  * Client Plugins
  */
 config.plugins = config.plugins.concat(
     [
-        // Ensure chunk order stays consistent
-        new webpack.optimize.OccurrenceOrderPlugin(),
         // Hot module replacement
-        MODE.development && new webpack.HotModuleReplacementPlugin(),
+        isDev && new webpack.HotModuleReplacementPlugin(),
 
         // Keep module.id stable when vendor modules do not change
-        MODE.production && new webpack.HashedModuleIdsPlugin(),
+        isDev && new webpack.HashedModuleIdsPlugin(),
 
-        // Allow non-production code to be removed
-        MODE.production &&
+        // Ensure chunk order stays consistent
+        new webpack.optimize.OccurrenceOrderPlugin(),
+
+        // Allow fenced developer code to be tree-shaken
+        !isDev &&
             new webpack.DefinePlugin({
                 'typeof window': '"object"',
                 'process.env.NODE_ENV': "'production'",
@@ -102,6 +102,10 @@ config.module.rules.push(
 
 // [1] Simplify chunks to rely on webpack runtime for loading
 config.optimization.runtimeChunk = { name: 'runtime' };
+
+// [2] Take all extracted CSS and concatenate it into one .css file
+// This might need to be changed or disabled depending on the project
+// In many cases, component/route-based CSS is actually faster
 config.optimization.splitChunks.cacheGroups = {
     styles: {
         name: 'styles',
@@ -111,10 +115,11 @@ config.optimization.splitChunks.cacheGroups = {
     },
 };
 
-if (MODE.production) {
-    const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// Allow/disallow output of errored files
+config.optimization.noEmitOnErrors = false;
 
-    // [2] Remove unecessary Node faking
+if (!isDev) {
+    // [3] Remove unecessary Node faking
     config.node = {
         setImmediate: false,
         process: 'mock',
@@ -125,7 +130,8 @@ if (MODE.production) {
         child_process: 'empty',
     };
 
-    // [3] Uglification options
+    // [4] Uglification options
+    // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
     //config.optimization.minimize = false;
     // config.optimization.minimizer = [
     //     new UglifyJsPlugin({
@@ -142,10 +148,6 @@ if (MODE.production) {
     //     }),
     // ];
 
-    // [4] Take all extracted CSS and concatenate it into one .css file
-    // This might need to be changed or disabled depending on the project
-    // In many cases, component/route-based CSS is actually faster
-    config.optimization.noEmitOnErrors = false;
     // [5] Split chunks optimally
     // Probably needs to be tweaked based on project needs
     config.optimization.concatenateModules = true;
@@ -188,6 +190,8 @@ if (MODE.production) {
 /**
  * Adds Hot Module Replacement to entry points when necessary
  * @link https://webpack.js.org/concepts/hot-module-replacement/
+ * @param {String|Array} entry - entrypoint path(s).
+ * @returns {Array} entrypoint with HMR js added to the front
  */
 function addHMR(entry) {
     // Never add HMR to production code

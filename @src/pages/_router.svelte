@@ -23,10 +23,6 @@ import Errors from '@/pages/_error.svelte';
 import { getHistory } from 'svelte-routing';
 import Route from 'svelte-routing/Route.html';
 
-// const Route = () => typeof window !== 'undefined'
-//     ? require('svelte-routing/Route.html')
-//     : require.resolveWeak('svelte-routing/Route.html');
-
 let errors = '';
 
 async function getPage(pathname) {
