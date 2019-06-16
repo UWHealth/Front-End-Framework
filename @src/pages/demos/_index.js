@@ -6,13 +6,5 @@
 
 <script>
 import Demo from '@/layouts/demo/';
-
-export default {
-    components: {
-        Demo,
-    },
-    data: () => ({
-        title: 'Demos'
-    }),
-};
+export let title = 'Demos';
 </script>

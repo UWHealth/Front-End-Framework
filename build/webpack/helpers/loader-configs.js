@@ -19,86 +19,79 @@ const babelOpts = {
 };
 
 module.exports.svelte = function(target) {
-    const isSSR = target !== 'web';
+    // eslint-disable-next-line complexity
+    function svelteLoader(target) {
+        const isSSR = target !== 'web';
 
-    function svelteOpts(isSSR) {
-        const defaultSvelteConfig = {
-            hydratable: true,
-            store: true,
-            preserveComments: isDev,
-            skipIntroByDefault: true,
-            nestedTransitions: true,
-            externalDependencies: [PATHS.style.entry.config],
-            preprocess: sveltePreprocess({
-                transformers: {
-                    scss: sassOpts,
-                    postcss: isDev && postCssOpts,
-                },
-            }),
-        };
-
-        return Object.assign(
-            {},
-            {
-                emitCss: !isSSR && !isDev,
-                format: isSSR ? 'cjs' : 'es',
-                hotReload: isDev,
+        // https://svelte.dev/docs#svelte_compile
+        return {
+            loader: 'svelte-loader',
+            options: {
+                accessors: true,
+                css: true,
+                dev: isDev && !isSSR,
+                format: isSSR ? 'cjs' : 'esm',
                 generate: isSSR ? 'ssr' : 'dom',
-                legacy: false,
+                hydratable: true,
+                legacy: !isDev && !isSSR,
+                preserveWhitespace: isDev,
+                preserveComments: isDev,
+
+                // loader-specific options
+                hotReload: false, //isDev,
+                emitCss: !isSSR && !isDev,
+                externalDependencies: [PATHS.style.entry.config],
+                preprocess: sveltePreprocess({
+                    transformers: {
+                        scss: sassOpts,
+                        postcss: isDev && postCssOpts,
+                    },
+                }),
             },
-            defaultSvelteConfig
-        );
+        };
     }
 
+    const babelLoader = (target) => {
+        return {
+            loader: 'babel-loader',
+            options: {
+                ...babelOpts,
+                envName: target,
+            },
+        };
+    };
+
+    const cacheLoader = {
+        loader: 'cache-loader',
+        options: {
+            cacheDirectory: path.resolve(
+                PATHS.folders.cache,
+                target,
+                `svelte-loader`
+            ),
+            cacheIdentifier: cacheIdentifier(),
+        },
+    };
+
     return {
-        test: /\.(html|svelte)(\?.*)?$/,
+        test: /\.(svelte)(\?.*)?$/,
         exclude: [
             /node_modules[\\/]core-js/,
             /node_modules[\\/]regenerator-runtime/,
             /node_modules[\\/]@?babel/,
         ],
         oneOf: [
-            // SSR loading in a non-ssr environment
+            // Forced SSR loading using ?ssr
             {
                 resourceQuery: /\?ssr/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            ...babelOpts,
-                            envName: 'node',
-                        },
-                    },
-                    {
-                        loader: 'svelte-loader',
-                        options: svelteOpts(true),
-                    },
-                ],
+                use: [babelLoader('node'), svelteLoader('node')],
             },
             {
                 use: [
-                    isDev && {
-                        loader: 'cache-loader',
-                        options: {
-                            cacheDirectory: path.resolve(
-                                PATHS.folders.cache,
-                                target,
-                                `svelte-loader`
-                            ),
-                            cacheIdentifier: cacheIdentifier(),
-                        },
-                    },
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            ...babelOpts,
-                            envName: target,
-                        },
-                    },
-                    {
-                        loader: 'svelte-loader',
-                        options: svelteOpts(isSSR),
-                    },
+                    // Cache svelte-babel transforms during development
+                    isDev && cacheLoader,
+                    babelLoader(target),
+                    svelteLoader(target),
                 ].filter(Boolean),
             },
         ],

@@ -1,0 +1,40 @@
+{{!---------------------
+    ================================
+    Social Media Meta Tags
+    ================================
+---------------------
+
+---------------------
+    Facebook/Open-graph
+    https://developers.facebook.com/docs/sharing/webmasters#markup
+---------------------}}
+<meta property="fb:app_id" content="{{fb_app_id}}">
+<meta property="og:url" content="{{base_url}}{{publicPath}}{{pagePath}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{og_title}}">
+<meta property="og:image" content="{{og_image}}">
+<meta property="og:description" content="{{og_description}}">
+<meta property="og:site_name" content="{{og_site_name}}">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="{{author}}">
+{{!---------------------
+    Twitter
+    https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started
+---------------------}}
+<meta name="twitter:card" content="{{twitter_card}}">
+<meta name="twitter:site" content="@uwhealth">
+<meta name="twitter:creator" content="@uwhealth">
+<meta name="twitter:url" content="{{base_url}}{{publicPath}}{{pagePath}}">
+<meta name="twitter:title" content="{{twitter_title}}">
+<meta name="twitter:description" content="{{twitter_description}}">
+<meta name="twitter:image" content="{{twitter_image}}">
+
+{{!---------------------
+    General / Schema.org / formerly Google +
+----------------------}}
+<meta itemprop="name" content="{{title}}">
+<meta itemprop="description" content="{{description}}">
+<meta itemprop="image" content="{{og_image}}">
+
+{{!-- oEmbed https://oembed.com/ --}}
+{{!-- TODO: add meta tags here --}}

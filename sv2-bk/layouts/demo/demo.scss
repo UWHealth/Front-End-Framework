@@ -1,0 +1,44 @@
+@import '>/config/sass.config';
+
+$demo-cyan: lighten(
+    blend-overlay(rgba(#08f, 0.5), color('links', 'lightest'), 35%),
+    3%
+);
+
+.demo-header {
+    display: flex;
+    align-items: center;
+    background-color: color('bg', 'dark');
+    background-image: linear-gradient(rgba($demo-cyan, 0) 0%, $demo-cyan 100%);
+    width: 100%;
+    height: 70vh;
+    max-height: type-space(25);
+}
+
+.demo-header__title {
+    padding-bottom: type-space(1);
+    letter-spacing: 0.01em;
+    color: rgba(color('links', 'darker'), 0.6);
+    font-weight: normal;
+}
+
+.demo-body {
+    padding-top: type-space(1);
+}
+
+.demo-body__head {
+    font-weight: normal;
+}
+
+.demo-body__head {
+    @include font-size($type-h5-size, $type-h5-lh);
+    margin-bottom: type-space(1.25);
+    border-bottom: 2px solid rgba(color('links', 'lighter'), 0.7);
+    padding-bottom: calc(#{type-space(0.5)} - 1px);
+    color: color('links', 'lighter');
+}
+
+// .demo-category {
+//     @include font-size($type-h6-size, $type-h6-lh);
+//     padding-top: type-space(1.5);
+// }

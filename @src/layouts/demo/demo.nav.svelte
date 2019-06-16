@@ -1,0 +1,81 @@
+<nav use:links class="demo-navigation">
+    <img src="{icon}" alt="">
+    {#each Object.keys(pages).reverse() as url (url)}
+        {#if url.indexOf('demos/') > -1}
+        <a
+            href="/{ url.replace('index.html', '') }"
+            class="demo-navigation__link {
+                activePath(currentPath, '/' + url)
+                ? 'demo-navigation__link--active'
+                : ''
+            }">{
+                pages[url].basename === 'index'
+                ? pages[url].route
+                : pages[url].basename
+            }</a>
+        {/if}
+    {/each}
+</nav>
+
+<style lang="scss">
+@import '>/config/sass.config.scss';
+
+$demo-cyan: lighten(
+    blend-overlay(rgba(#08f, 0.5), color('links', 'lightest'), 35%),
+    3%
+);
+
+img {
+    height: rems(60px);
+}
+
+.demo-navigation__link--active {
+    border-radius: 5px;
+    background-color: lighten(color('links', lightest), 6%);
+    color: darken($demo-cyan, 25%);
+    transition: background 2000ms ease-out;
+}
+
+.demo-navigation {
+    display: flex;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 6px rgba(colors('type'), 0.2);
+    background-color: #fff;
+    width: 100%;
+}
+
+.demo-navigation__link {
+    flex: 1 1 auto;
+    margin-left: type-space(0.25);
+    padding: type-space(0.75 0.5);
+    max-width: type-space(5);
+    text-align: center;
+    transition: background-color color 200ms ease-out;
+
+    &:hover {
+        background-color: $demo-cyan;
+        color: color('links', 'light');
+    }
+}
+</style>
+
+<script>
+import { onMount } from 'svelte';
+import icon from '@/assets/favicons/icon.svg';
+import links from 'svelte-routing';
+
+const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
+
+export let history;
+export let currentPath = history.location.pathname;
+
+const activePath = (path, url) => {
+    //console.info('PATH', path, 'ITEM URL', url);
+    return url === path || url.replace('index.html', '') === path;
+}
+
+onMount(() => {
+    history = getHistory();
+});
+</script>

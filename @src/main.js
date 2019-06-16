@@ -1,13 +1,13 @@
 import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
-import store from '@/layouts/demo/demo.store.js';
+//import store from '@/layouts/demo/demo.store.js';
 import Router from '@/pages/_router.svelte';
-import { createBrowserHistory } from 'svelte-routing';
+// import { createBrowserHistory } from 'svelte-routing';
 import 'core-js/stable';
 // import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 //OfflinePluginRuntime.install();
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 
 let application;
 
@@ -20,8 +20,7 @@ async function init() {
         application = new Router({
             hydrate: true,
             target: appElement,
-            data: {
-                history,
+            props: {
                 pathname: currentRoute,
                 // innerComponent: currentComponent,
             },
@@ -42,8 +41,6 @@ async function init() {
 }
 
 domReady(init);
-
-window.store = store;
 
 if (module.hot) {
     module.hot.accept(function(err) {

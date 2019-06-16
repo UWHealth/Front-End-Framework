@@ -48,19 +48,16 @@ module.exports = ({ target, name }) => {
                 '.json',
                 '.mjs',
                 '.jsx',
-                '.html',
                 '.svelte',
+                '.html',
                 '.hbs',
                 '.handlebars',
             ],
         },
-        entry: {},
         output: {
             hotUpdateChunkFilename: '[id].hot-update.js',
             hotUpdateMainFilename: '[id].hot-update.js',
         },
-        plugins: [],
-        module: {},
         optimization: {
             nodeEnv: process.env.NODE_ENV,
             removeAvailableModules: isProd,
@@ -71,6 +68,9 @@ module.exports = ({ target, name }) => {
                     chunks: 'all',
                 },
         },
+        plugins: [],
+        module: {},
+        entry: {},
     };
 
     /*
@@ -254,6 +254,11 @@ module.exports = ({ target, name }) => {
                     },
                 },
             ],
+        },
+
+        {
+            test: /\.mjs$/,
+            type: 'javascript/auto',
         },
     ];
 

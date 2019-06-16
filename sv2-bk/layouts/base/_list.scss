@@ -1,0 +1,24 @@
+//-------------------------------
+//   $LISTS
+//-------------------------------
+
+ul,
+ol,
+dl,
+menu {
+    @include type-space(margin, 0 0 1 1);
+}
+
+li > ul,
+li > ol {
+    margin-bottom: 0;
+}
+
+nav ol,
+nav ul {
+    margin-left: 0;
+}
+
+nav a {
+    text-decoration: none;
+}

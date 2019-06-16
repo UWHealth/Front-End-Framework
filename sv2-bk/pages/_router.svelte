@@ -1,39 +1,36 @@
 <!-- Used for /path/to/thing/index.html or /path/to/thing/ -->
-<Router url={url}>
-    <Route
-        bind:this={router}
-        path='/:path([^.]*)*/:file([^.]+\.html)?'
-        {pathname}
-        bind:match
-    >
-    {#if innerComponent}
-        {#await innerComponent then component}
-        <svelte:component this={component} />
-        {/await}
-    {:else}
-        <Errors message="{errors.message}" stack="{errors.stack}"></Errors>
-    {/if}
-    </Route>
-</Router>
+
+<Route
+    bind:this={router}
+    path='/:path([^.]*)*/:file([^.]+\.html)?'
+    {...history} {pathname}
+    bind:match
+>
+{#if innerComponent}
+    {#await innerComponent then component}
+    <svelte:component this={component} />
+    {/await}
+{:else}
+    <Errors message="{errors.message}" stack="{errors.stack}"></Errors>
+{/if}
+</Route>
 
 
 <script>
 import findExport from '@/helpers/find-export.js';
 import checkRoute from '@/helpers/check-route.js';
 import Errors from '@/pages/_error.svelte';
-import { Route } from 'svelte-routing';
-import * as Router from 'svelte-routing/src/Router.svelte';
+import { getHistory } from 'svelte-routing';
+import Route from 'svelte-routing/Route.svelte';
 
 export let error = '';
 export let pathname = null;
+export let history = null;
 export let match;
-export let url = '';
 
-let router;
 let errors = '';
 
-
-$: innerComponent = getPage(url).then(c => findExport(c));
+$: innerComponent = getPage(history.location.pathname).then(c => findExport(c));
 
 async function getPage(pathname) {
     let page = checkRoute(pathname);
@@ -52,7 +49,7 @@ async function getPage(pathname) {
         // }
         // else {
             if (typeof window === 'undefined') {
-                pageComponent = () => __webpack_modules__[require.resolveWeak('@/pages/' + page + '.svelte')];
+                pageComponent = () => require.resolveWeak('@/pages/' + page + '.html');
             }
             else {
                 pageComponent = () =>
@@ -61,12 +58,13 @@ async function getPage(pathname) {
                         /* webpackMode: "lazy" */
                         /* webpackPrefetch: true */
                         /* webpackPreload: -1 */
-                        '@/pages/' + page + '.svelte'
+                        '@/pages/' + page + '.html'
                     );
             }
-
             pageComponent = await pageComponent();
-            //console.log('pageComponent ' + typeof pageComponent, pageComponent);
+        // }
+
+        // console.log(pageComponent);
 
         return pageComponent;
     } catch (e) {

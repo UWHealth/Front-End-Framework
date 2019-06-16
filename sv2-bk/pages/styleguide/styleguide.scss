@@ -1,0 +1,588 @@
+//Settings
+@import 'CWD/config/sass.config';
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-image: url('../static/img/dev/logo.svg');
+    background-attachment: fixed;
+    background-size: 100% auto;
+    min-height: 90vh;
+    color: #fff;
+}
+
+/* SG
+# Color Palette
+
+```html_example
+<div class="color-blocks">
+    <div class="color-block"></div>
+    <div class="color-block"></div>
+    <div class="color-block"></div>
+    <div class="color-block"></div>
+    <div class="color-block"></div>
+</div>
+```
+*/
+
+@mixin output-colors($color-map, $height-multiple: 1, $base-name: 'base') {
+    $gradient: ();
+    $length: length(map-keys($color-map));
+    $i: 0;
+    $names: ();
+    @each $name, $color in $color-map {
+        $percent-1: percentage($i / $length);
+        $percent-2: percentage(($i + 1) / $length);
+        @if ($name == 'base') {
+            $name: $base-name;
+        }
+        $gradient: append(
+            $gradient,
+            '#{$color} #{$percent-1} #{$percent-2}',
+            'comma'
+        );
+        $names: append($names, $name + '     ', 'space');
+        $i: $i + 1;
+    }
+
+    background-image: linear-gradient(to bottom, #{$gradient});
+    min-height: type-space($length * $height-multiple);
+
+    &:before {
+        content: #{"\""}#{$names}#{"\""}; // stylelint-disable-line
+    }
+}
+
+@mixin output-color-map($color-map, $height-multiple: 1) {
+    $i: 1;
+    @each $color, $map in $color-map {
+        &:nth-child(#{$i}) {
+            @include output-colors($map, $height-multiple, $color);
+        }
+
+        $i: $i + 1; // stylelint-disable-line
+    }
+}
+
+.color-blocks {
+    display: flex;
+    justify-content: stretch;
+    align-items: flex-start;
+}
+
+.color-block {
+    display: block;
+    flex: 1 1 50%;
+
+    @include output-color-map($base-colors, 2);
+}
+
+.color-block:before {
+    display: block;
+    margin-left: 3ch;
+    width: 3ch;
+    text-transform: capitalize;
+    text-shadow: -1px 1px rgba(black, 0.7);
+    line-height: type-space(2);
+    color: white;
+}
+
+.color-block:after {
+    letter-spacing: 0.1em;
+}
+
+/* SG
+# Grid/Basics
+
+@priority 1
+
+This is an example of a flex-box-based grid system with an inline-block fallback.
+
+All grids start with a `grid` or `row` element, with nested `grid__item` or `column` element(s). All columns start at 100% width, so adding width classes to columns is required to make them to sit next to each other.
+
+_NOTE: The following width classes are out of the box. If you'd like to use your own classes for widths and grid items, then set `$grid-silent-classes` is set to true and use extends for style inheritence._
+
+```html_example
+<div class="grid">
+    <div class="grid__item">Column (100% width)</div>
+
+    <div class="grid__item width-one-half">1/2 Column</div>
+    <div class="grid__item width-one-half">1/2 Column</div>
+
+    <div class="grid__item width-one-third">1/3 Column</div>
+    <div class="grid__item width-one-third">1/3 Column</div>
+    <div class="grid__item width-one-third">1/3 Column</div>
+
+    <div class="grid__item width-one-quarter"> 1/4 Column</div>
+    <div class="grid__item width-one-quarter">1/4 Column</div>
+    <div class="grid__item width-one-quarter"> 1/4 Column</div>
+    <div class="grid__item width-one-quarter"> 1/4 Column</div>
+</div>
+```
+*/
+
+/* SG
+# Grid/Automatic columns
+
+@priority 2
+
+Grids/rows set with a `grid_auto` class will create columns that have automatic widths based on their content.
+
+You can also combine automatic columns with width-based one. The automatic columns with fill the space around the set-width column.
+
+_Note: Flexbox handles this a little differently than inline-block, so check older browsers before using this style of grid to be sure you're getting a similar result._
+
+```html_example
+<div class="grid grid--auto">
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item width-one-third">Set Width (1/3)</div>
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item width-one-half">Set Width (1/2)</div>
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item">Auto Column</div>
+    <div class="grid__item">Auto Column</div>
+</div>
+```
+*/
+
+/* SG
+# Grid/Gutter Control
+
+@priority 3
+
+Gutters (spaces between grid items) default to 1.5rem. However, there are three grid gutter classes to alter this behavior.
+
+* `grid--full` will set gutters to 0.
+* `grid--wide` will double the width of gutters.
+* `grid--narrow` will halve the width of gutters.
+
+```html_example
+<div class="grid grid--full">
+    <div class="grid__item width-one-third">No gutter</div>
+    <div class="grid__item width-one-third">No gutter</div>
+    <div class="grid__item width-one-third">No gutter</div>
+</div>
+<div class="grid grid--wide">
+    <div class="grid__item width-one-third">Wide gutter</div>
+    <div class="grid__item width-one-third">Wide gutter</div>
+    <div class="grid__item width-one-third">Wide gutter</div>
+</div>
+<div class="grid grid--narrow">
+    <div class="grid__item width-one-third">Narrow gutter</div>
+    <div class="grid__item width-one-third">Narrow gutter</div>
+    <div class="grid__item width-one-third">Narrow gutter</div>
+</div>
+```
+*/
+
+@include grid-init($silent: false, $important: true);
+
+$grid-gutter-rems: rems($grid-gutter); //Required so
+
+/* Style-guide-specific grid styling */
+
+.sg-body .column,
+.sg-body .grid__item {
+    @include type-space((padding-top, padding-bottom), 1);
+    @include type-space(margin-top margin-bottom, 0.5);
+    position: relative;
+    text-align: center;
+    @include font-size($type-small-size, false);
+
+    &:before {
+        //Adds gray background to grid items
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: $grid-gutter-rems;
+        background-color: rgba(color(links), 0.1);
+        width: calc(100% - #{$grid-gutter-rems});
+    }
+}
+
+.grid--full .grid__item:before {
+    left: 0;
+    width: 100%;
+}
+
+.grid--wide .grid__item:before {
+    left: #{$grid-gutter-rems * 2};
+    width: calc(100% - #{$grid-gutter-rems * 2});
+}
+
+.grid--narrow .grid__item:before {
+    left: #{$grid-gutter-rems/2};
+    width: calc(100% - #{$grid-gutter-rems/2});
+}
+
+/******Base Layout******/
+
+.sg-body {
+    margin: 0;
+}
+
+.sg-wrap {
+    display: block;
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    overflow: auto;
+}
+
+.sg-menu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: color(styleguide, darkest);
+    width: 18rem;
+    vertical-align: top;
+    font-size: 0.9em;
+}
+
+.sg-main {
+    padding-left: 18rem;
+    transition: padding 0.15s ease-out;
+}
+
+.sg-category {
+    padding-right: 5%;
+    padding-left: 5%;
+    overflow: auto;
+}
+
+.sg-category_wrap {
+    margin: auto;
+    max-width: 58em; /* Should be wider for universal box-sizing: border-box */
+}
+
+.sg-example {
+    margin-left: -5%;
+    width: 110%;
+}
+
+@media only screen and (max-width: 1100px) {
+    .sg-menu {
+        width: 10rem;
+    }
+
+    .sg-main {
+        padding-left: 10rem;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .sg-menu {
+        width: 0;
+    }
+
+    .sg-main {
+        padding-left: 0;
+    }
+}
+
+/******Menu******/
+.sg-menu {
+    overflow: auto;
+    transition: all 0.2s ease-out;
+}
+
+.sg_menu_list,
+.sg-menu_item {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.sg-menu_list {
+    padding: 0;
+    list-style: none;
+    color: rgba(color(styleguide, lighter), 0.1); /* Used for border colors */
+}
+
+.sg-menu_section {
+    border-top: 1px solid;
+}
+
+.sg-menu_article > .sg-menu_link {
+    color: rgba(color(styleguide, light), 0.65);
+}
+
+.sg-category-active {
+    background: rgba(color(styleguide), 0.04);
+}
+
+/* Menu links */
+.sg-menu_link {
+    display: block;
+    padding: 0.75rem 1.65rem 0.65rem;
+    text-decoration: none;
+    color: color(styleguide, light);
+}
+
+.sg-menu_link:hover,
+.sg-menu_link:focus {
+    background-color: rgba(color(styleguide, light), 0.05);
+    color: color(styleguide, light);
+}
+
+.sg-toc-active > .sg-menu_link {
+    background-color: rgba(color(styleguide, lighter), 0.1);
+}
+
+.sg-menu_section > .sg-menu_link {
+    color: color(styleguide, highlight);
+}
+
+.sg-menu_article .sg-menu_link {
+    padding-right: 2rem;
+    padding-left: 2.5rem;
+}
+
+@media only screen and (max-width: 1100px) {
+    .sg-menu_link {
+        padding-left: 0.5rem;
+    }
+
+    .sg-menu_article .sg-menu_link {
+        padding-left: 0.75rem;
+    }
+}
+
+.sg-menu_article {
+    display: none;
+}
+
+.sg-category-active .sg-menu_article,
+.sg-menu_article.sg-toc-active {
+    display: block;
+}
+
+.sg-category-active > .sg-menu_link {
+    border-left: 2px solid color(styleguide, highlight);
+    text-indent: -2px;
+}
+
+/******Project Logo******/
+
+.sg-logo {
+    margin: 0;
+    background-attachment: fixed;
+    background-color: color(styleguide, highlight);
+    background-image: url('../static/img/dev/logo.svg');
+    background-size: 100vw;
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: normal;
+}
+
+.sg-logo:hover,
+.sg-logo:focus {
+    background-color: lighten(color(styleguide, highlight), 8%);
+}
+
+.sg-logo .sg-menu_link {
+    opacity: 0;
+    padding-top: 1em;
+    padding-bottom: 0.75em;
+    color: inherit;
+    transition: opacity 0.3s ease-out;
+}
+
+.sg-menu[style*='fixed'] .sg-logo .sg-menu_link {
+    opacity: 1;
+}
+
+/******Headings******/
+
+.sg-heading-section {
+    line-height: 1.57414;
+    color: color(styleguide);
+    font-size: 2.8587rem;
+    font-weight: normal;
+}
+
+.sg-heading-category {
+    color: color(styleguide, dark);
+    font-size: 1.6em;
+    font-weight: normal;
+}
+
+.sg-heading-category-article,
+.sg-heading-article {
+    @include font-size($type-h3-size, $type-h3-lh);
+}
+
+.sg-heading-article {
+    color: color(styleguide, dark);
+    font-weight: normal;
+}
+
+.sg-heading .sg-code {
+    color: #435270;
+}
+
+.sg-heading-6 {
+    font-weight: normal;
+}
+
+.sg-heading-5 + .sg-heading-6 {
+    margin-top: -1rem;
+    padding-bottom: 0.25rem;
+}
+
+/******Section, Category & Article Layout******/
+
+.sg-section:nth-child(even) {
+    padding-bottom: 1.5em;
+}
+
+.sg-section:first-child {
+    padding-top: 10rem;
+}
+
+.sg-section:first-child .sg-category {
+    border-top: 0;
+}
+
+/* Article spacing */
+
+.sg-article_comment,
+.sg-example {
+    margin-bottom: 1.5rem;
+}
+
+.sg-section {
+    padding-bottom: 3rem;
+}
+
+.sg-section:nth-child(odd) {
+    background-color: rgba(224, 229, 235, 0.3);
+}
+
+.sg-category:nth-child(odd):last-child {
+    @include type-space(margin-bottom, -2);
+    @include type-space(padding-bottom, 3);
+}
+
+.sg-category + .sg-category {
+    border-top: 1px solid rgb(224, 229, 235);
+    background-color: transparent;
+}
+
+.sg-article {
+    margin-bottom: 3em;
+}
+
+.sg-category,
+.sg-article {
+    padding-top: 3em;
+}
+
+.sg-article_comment {
+    margin-top: -1.5rem;
+}
+
+.sg-article_head {
+    padding-bottom: 1.5em;
+}
+
+.sg-example {
+    border-top: 1px solid #fff;
+    background-color: rgba(#fff, 0.8);
+}
+
+.sg-example:before {
+    content: 'Example';
+    display: inline-block;
+    clear: both;
+    margin-bottom: 0.5em;
+    margin-left: 1px;
+    background-color: #edf0f2;
+    padding: 0.45em 0.5em;
+    color: #647582;
+    font-size: 0.9em;
+}
+
+.sg-example_wrap {
+    position: relative;
+    padding: 0.75em 1.25em;
+}
+
+/* Clearfix */
+.sg-example_wrap:after {
+    content: ' ';
+    display: table;
+    width: 100%;
+    height: 0;
+}
+
+.sg-example_wrap:after {
+    clear: both;
+}
+
+.sg-markup_wrap {
+    margin: 0;
+}
+
+.sg-markup-block {
+    border-top: 1px solid color(styleguide, lightest);
+}
+
+.sg-codespan {
+    color: color(styleguide);
+}
+
+.sg-file {
+    color: color(styleguide);
+}
+
+.sg-codeblock {
+    margin-bottom: 1.5rem;
+}
+
+.sg-code-meta + .sg-code-meta {
+    margin-top: -1.5rem;
+}
+
+.sg-code-meta:before {
+    content: attr(data-code-meta) ': ';
+    text-transform: capitalize;
+}
+
+/* Highlight.js Code Blocks */
+#styleguide .sg-markup_wrap,
+#styleguide .sg-markup code {
+    overflow: auto;
+}
+#styleguide .sg-markup_wrap {
+    max-height: 30em;
+}
+
+#styleguide .sg-markup code {
+    display: block;
+    padding: 1em;
+    white-space: pre;
+    word-wrap: normal;
+}
+
+/* Custom background color to match nav. Overwrites highlight.js default */
+#styleguide .hljs {
+    background-color: #40476b;
+    font-size: 0.9em;
+}
+#styleguide .hljs-comment {
+    color: #8aaeb7;
+}
+
+code {
+    font-family: 'Roboto Mono', monospace;
+}

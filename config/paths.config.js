@@ -98,10 +98,7 @@ const PATHS = {
             demos: `${_.src}/pages/demos/`,
         },
         entry: {
-            src: [
-                `${_.pages}/[!_]**/[!_]*.(html|svelte)`,
-                `${_.pages}/[!_]*.(html|svelte)`,
-            ],
+            src: [`${_.pages}/[!_]**/[!_]*.svelte`, `${_.pages}/[!_]*.svelte`],
             server: `${_.src}/server.js`,
             exclude: [`!${_.src}/pages/**/_*.*`, `!${_.src}/pages/_**/*`],
         },

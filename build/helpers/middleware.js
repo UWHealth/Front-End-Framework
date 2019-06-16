@@ -31,7 +31,7 @@ module.exports = function(client, server, LOG) {
                     .map((asset) => asset.name)
                     .find((name) => name === assetName);
             },
-            memoryFs: true,
+            memoryFs: false,
             watchDelay: 300,
             report: {
                 stats: 'once',

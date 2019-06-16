@@ -1,0 +1,82 @@
+/* SG
+# Buttons
+Applying the `btn` class to anything will make it look like a button. Always declare `type="button"` on `<button>` elements for proper accessibility.
+
+```html_example
+<button type="button" class="btn">Button</button>
+
+<a href="" class="btn">Faux Button</a>
+```
+
+*/
+
+//Useful placeholder selector for button creation
+
+%button {
+    border-radius: type-space(0.85) / type-space(1);
+    box-shadow: 0 3px 4px -2px rgba(black, 0);
+    background-color: color('links');
+    padding: type-space(0.5 0.375);
+    text-decoration: none;
+    user-select: none;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.1s ease-in-out, box-shadow 0.2s ease-out,
+        color 0.1s ease-in-out;
+
+    &:focus,
+    &:hover {
+        outline: none;
+        box-shadow: 0 3px 12px -2px rgba(colors('links', 'light'), 0.9);
+        background-color: color('links', 'light');
+        color: rgba(white, 0.95);
+    }
+
+    &:active {
+        outline: none;
+        box-shadow: 0 0 4px 1px rgba(colors('links', 'lighter'), 0.5);
+        background-color: color('links', 'lighter');
+        color: color('links', 'lightest');
+    }
+}
+
+.btn {
+    @extend %button;
+    display: inline-flex;
+    justify-content: space-between;
+    align-content: flex-start;
+    align-items: center;
+}
+
+.btn--wide {
+    width: 100%;
+}
+
+.btn--compact {
+    padding: type-space(0.125);
+}
+
+.btn__icon {
+    display: inline-block;
+    flex: 0 1 auto;
+    margin: type-space(0 0.25 0 0.25);
+
+    .btn--reversed & {
+        order: -1;
+    }
+}
+
+.btn__svg,
+.btn__icon--image {
+    display: block;
+    width: type-space(1);
+    height: auto;
+    min-height: 1px;
+    fill: currentColor;
+}
+
+.btn__body {
+    display: inline-block;
+    flex: 1 1 auto;
+    padding: type-space(0 0.5);
+}

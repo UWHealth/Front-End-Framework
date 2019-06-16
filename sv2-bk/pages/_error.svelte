@@ -1,7 +1,8 @@
 <script>
-import * as escapeHtml from 'escape-html';
+import escapeHtml from 'escape-html';
 export let message = '';
 export let stack = '';
+
 </script>
 
 <main class="wrap">

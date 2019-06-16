@@ -1,12 +1,13 @@
 const path = require('path');
 const Template = require('@/layouts/template.svelte');
-const { createMemoryHistory } = require('svelte-routing');
 const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
 const Router = require('@/pages/_router.svelte');
+const findExport = require('@/helpers/find-export.js').default;
 const Url = require('url');
 
-// Start up history recording
-const HISTORY = createMemoryHistory();
+let CURRENT_URL = '';
+// Bundle pages so we can resolveWeak later
+const context = require.context('@/pages/', true, /\.svelte/, 'sync');
 
 /**
  * Takes in http requests and returns a rendered svelte page
@@ -23,16 +24,14 @@ function middleware({ req = {}, res = {}, compilation, route }) {
     compilation = compilation || res.locals.isomorphic.compilation;
     route = route || req.url || req.originalUrl;
 
-    // Change history's route path
-    HISTORY.replace(route);
+    console.log(context.keys());
 
     // Gather information about route
     const url = Url.parse(route);
     const basename = baseNames(url.pathname, ['.html', '.svelte']);
 
     // Add new route url to history
-    // Bundle pages so we can resolveWeak later
-    require.context('@/pages/', true, /\.(html|svelte)$/);
+    CURRENT_URL = url.pathname;
 
     // Return webpack stuff for this particular path
     if (url.pathname.indexOf('webpack') === 1 && res.setHeader) {
@@ -71,8 +70,8 @@ function renderComponent({ baseName, clientStats }) {
     try {
         // Gather component from router,
         // based on current request stored in history
-        const routerComponent = Router.render({
-            history: HISTORY,
+        const routerComponent = Router.default.render({
+            url: CURRENT_URL,
         });
 
         headHtmlSnippet = routerComponent.head;
@@ -92,7 +91,7 @@ function renderComponent({ baseName, clientStats }) {
         data = formatData({
             data: {
                 title: 'Error',
-                appHtmlSnippet: require('@/pages/_error.svelte').render({
+                appHtmlSnippet: require('@/pages/_error.svelte').default.render({
                     message: e.message,
                     stack: e.stack,
                 }).html,
@@ -102,7 +101,8 @@ function renderComponent({ baseName, clientStats }) {
         console.error(new Error(e));
     }
 
-    return Template.render(data);
+    console.log()
+    return Template.default.render(data);
 }
 
 /**

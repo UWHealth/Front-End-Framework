@@ -1,0 +1,72 @@
+//Useful for sticky footers and floats
+html,
+body {
+    min-height: 100%;
+}
+
+abbr[title],
+dfn[title] {
+    cursor: help;
+}
+
+u,
+ins {
+    text-decoration: none;
+}
+
+ins {
+    border-bottom: 1px solid;
+}
+
+mark {
+    background-color: mix(color('links'), color('bg'), 20%);
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary,
+hr {
+    display: block;
+}
+
+a {
+    background-color: transparent;
+    cursor: pointer;
+    text-decoration: underline;
+    color: color('links');
+
+    &:hover,
+    &:focus {
+        color: color('links', light);
+    }
+
+    &:active {
+        color: color('links', darker);
+    }
+
+    &:focus {
+        outline: thin dotted; //normalize browser outlines
+    }
+
+    // Improve readability when focused and also mouse hovered in all browsers.
+
+    &:active,
+    &:hover {
+        outline: 0;
+    }
+}
+
+hr {
+    outline: 1px solid color('bg', darker);
+    height: 0.01px;
+    @include type-space(margin, 0 0 1);
+}

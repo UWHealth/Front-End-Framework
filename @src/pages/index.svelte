@@ -54,20 +54,6 @@ li:before {
 </style>
 
 <script>
-const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
-
-export default {
-    data: () => ({
-        htmlWebpackPlugin: false,
-        pages,
-    }),
-    computed: {
-        props: (state) => {
-            if (state.htmlWebpackPlugin) {
-                return state.htmlWebpackPlugin.options;
-            }
-            return state;
-        },
-    },
-};
+export let pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
+export let htmlWebpackPlugin = false;
 </script>

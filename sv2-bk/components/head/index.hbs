@@ -1,0 +1,63 @@
+{{!-------------------------------------------
+    ================================
+    Meta Tags
+    ================================
+    Best practice (as of 1-17-2019) head tags
+    See https://github.com/h5bp/html5-boilerplate/blob/6.1.0/dist/doc/html.md
+
+   --------------------------------------------}}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    {{#if title}}
+        <title>{{{title}}}</title>
+    {{/if}}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{!-- Basic Favicon --}}
+    <link rel="shortcut icon" href="/public/assets/favicons/favicon.ico">
+    {{!-- Apple icons: mobile safari, desktop safari --}}
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/assets/favicons/favicon-180x180.png">
+    <link rel="mask-icon" href="/public/assets/favicons/icon.svg" color="#d40943">
+
+    {{!-- Optional meta tags  --}}
+    {{> ./head.seo.hbs}}
+    {{> ./head.app.hbs}}
+    {{> ./head.social.hbs}}
+
+    {{!-- Feeds --}}
+    <!--<link rel="alternate" href="https://feeds2.feedburner.com/uwsmph/news" type="application/rss+xml" title="RSS 2.0">-->
+    <!--<link rel="alternate" href="http://example.com/feed.atom" type="application/atom+xml" title="Atom 0.3">-->
+
+    {{#if scripts}}
+    <!-- scripts provided by server -->
+    {{#each scripts~}}
+        <script {{#unless @first}}async defer{{/unless}} src="{{{@root.publicPath}}}{{{this}}}"></script>
+    {{/each}}
+    {{else}}
+        <!--
+            defaults, not from server -->
+        <script id="_js-runtime" src="/public/js/runtime.bundle.js"></script>
+        <script id="_js-main" defer async src="/public/js/main.js"></script>
+    {{/if}}
+    {{#if inlineStyle}}
+        <style>{{{inlineStyle}}}</style>
+    {{/if}}
+    {{#if css}}
+        {{#each css~}}
+            <link{{#each this}} {{{@key}}}="{{{this}}}"{{/each}}>
+            <noscript><link{{#each this}} {{{@key}}}="{{{this}}}"{{/each}}></noscript>
+        {{/each}}
+    {{else}}
+        <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="screen" href="{{{@root.publicPath}}}public/css/main.css">
+        <link rel="preload" onload="this.onload=null;this.rel='stylesheet'" as="style" media="print" href="{{{@root.publicPath}}}public/css/print.css">
+        <noscript>
+            <link rel="stylesheet" media="screen" href="/public/css/main.css">
+            <link rel="stylesheet" media="print" href="/public/css/print.css">
+        </noscript>
+    {{/if}}
+    {{#if headHtmlSnippet}}
+        {{{headHtmlSnippet}}}
+    {{/if}}
+
+    {{> ./head.async.hbs}}
+</head>
