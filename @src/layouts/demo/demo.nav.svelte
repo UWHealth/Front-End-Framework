@@ -63,7 +63,7 @@ img {
 <script>
 import { onMount } from 'svelte';
 import icon from '@/assets/favicons/icon.svg';
-import links from 'svelte-routing';
+import { links } from 'svelte-routing';
 
 const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
 

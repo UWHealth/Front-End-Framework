@@ -21,8 +21,9 @@
 import findExport from '@/helpers/find-export.js';
 import checkRoute from '@/helpers/check-route.js';
 import Errors from '@/pages/_error.svelte';
-import { Route } from 'svelte-routing';
-import * as Router from 'svelte-routing/src/Router.svelte';
+import { Route, Router } from 'svelte-routing';
+
+//import Router from './_router-2.svelte';
 
 export let error = '';
 export let pathname = null;
@@ -33,7 +34,7 @@ let router;
 let errors = '';
 
 
-$: innerComponent = getPage(url).then(c => findExport(c));
+$: innerComponent = getPage(url);
 
 async function getPage(pathname) {
     let page = checkRoute(pathname);
@@ -52,7 +53,9 @@ async function getPage(pathname) {
         // }
         // else {
             if (typeof window === 'undefined') {
-                pageComponent = () => __webpack_modules__[require.resolveWeak('@/pages/' + page + '.svelte')];
+
+                return require('@/pages/index.svelte').default;
+                // pageComponent = () => __webpack_modules__[require.resolveWeak('@/pages/' + page + '.svelte')];
             }
             else {
                 pageComponent = () =>
@@ -71,7 +74,7 @@ async function getPage(pathname) {
         return pageComponent;
     } catch (e) {
         console.error(e);
-        errors = new Error(e);
+        errors = e;
         return false;
     }
 }

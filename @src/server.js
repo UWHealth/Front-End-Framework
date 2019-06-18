@@ -1,7 +1,7 @@
 const path = require('path');
 const Template = require('@/layouts/template.svelte');
 const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
-const Router = require('@/pages/_router.svelte');
+const ServerRouter = require('@/pages/_router.svelte?ssr');
 const findExport = require('@/helpers/find-export.js').default;
 const Url = require('url');
 
@@ -21,10 +21,15 @@ const context = require.context('@/pages/', true, /\.svelte/, 'sync');
  */
 // eslint-disable-next-line complexity
 function middleware({ req = {}, res = {}, compilation, route }) {
-    compilation = compilation || res.locals.isomorphic.compilation;
+    compilation =
+        compilation ||
+        (res.locals &&
+            res.locals.isomorphic &&
+            res.locals.isomorphic.compilation);
     route = route || req.url || req.originalUrl;
 
-    console.log(context.keys());
+    console.log('CONTEXT KEYS', context.keys());
+    //console.log(compilation);
 
     // Gather information about route
     const url = Url.parse(route);
@@ -70,7 +75,7 @@ function renderComponent({ baseName, clientStats }) {
     try {
         // Gather component from router,
         // based on current request stored in history
-        const routerComponent = Router.default.render({
+        const routerComponent = findExport(ServerRouter).render({
             url: CURRENT_URL,
         });
 
@@ -91,17 +96,18 @@ function renderComponent({ baseName, clientStats }) {
         data = formatData({
             data: {
                 title: 'Error',
-                appHtmlSnippet: require('@/pages/_error.svelte').default.render({
+                appHtmlSnippet: findExport(
+                    require('@/pages/_error.svelte')
+                ).render({
                     message: e.message,
                     stack: e.stack,
                 }).html,
             },
             stats: clientStats,
         });
-        console.error(new Error(e));
+        console.error(e);
     }
 
-    console.log()
     return Template.default.render(data);
 }
 

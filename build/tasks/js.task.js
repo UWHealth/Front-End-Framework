@@ -28,14 +28,14 @@ function runImmediately(done) {
 function startWebpack(done) {
     // Allow for immediate run (essentially, non-watch mode)
     // Primarily used for --production mode
-    if (!MODE.local && MODE.production) {
+    if (MODE.production && !MODE.local) {
         runImmediately(done);
     } else {
         return () => {
             // let firstRun = true;
             const middleware = customMiddleware(
-                webpack(webpackConfigs[0]),
-                webpack(webpackConfigs[1]),
+                webpackConfigs[0],
+                webpackConfigs[1],
                 LOG
             );
 

@@ -1,5 +1,6 @@
 const PATHS = require('./paths.config.js');
 const SG = PATHS.styleGuide.entry;
+const path = require('path');
 
 module.exports = {
     sgComment: 'SG',
@@ -15,7 +16,10 @@ module.exports = {
     templateFile: SG.templateFile,
     themeFile: SG.themeFile,
     htmlOutput: false,
-    jsonOutput: PATHS.styleGuide.folders.root + '/dist/styleguide.json',
+    jsonOutput: path.resolve(
+        PATHS.styleGuide.folders.root,
+        'dist/styleguide.json'
+    ),
     handlebarsPartials: {
         jquery: SG.jquery,
         toc: SG.toc,
@@ -27,7 +31,10 @@ module.exports = {
         development: 'DEV:',
     },
     highlightStyle: 'rainbow',
-    highlightFolder: process.cwd() + '/node_modules/highlight.js/styles/',
+    highlightFolder: path.resolve(
+        process.cwd(),
+        'node_modules/highlight.js/styles/'
+    ),
     customVariables: {
         tocMenu: true,
         pageTitle: PATHS.folders.project + ' Styleguide',

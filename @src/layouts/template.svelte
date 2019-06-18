@@ -40,8 +40,8 @@ export let appHtmlSnippet = '';
 export let bodyHtmlSnippet = '';
 export let fromServer = {};
 export let request;
-console.log(HeadTemplate)
 let header = HeadTemplate($$props);
+let exportedState;
 
 const renderComponent = (appComponent, props) => {
     if (!appComponent) return '';
@@ -50,23 +50,24 @@ const renderComponent = (appComponent, props) => {
         : appComponent.html;
 }
 
-$: exportedState = ( fromServer, fileManifest ) => {
-    return '';
+$: {
     let { pathname, componentPath, request } = fromServer;
-    request = request
-        ? {
-                url: request.url,
-                headers: request.headers,
-                method: request.method,
-            }
-        : '""';
-    return (
-        `console.log('Manifest', ${JSON.stringify(fileManifest)});` +
-        `window.__APP_STATE__ = { ` +
-        `  initialRoute: "${pathname}",` +
-        `  componentPath: "${componentPath}",` +
-        `  request: ${JSON.stringify(request)}` +
-        `};`
-    );
+    exportedState = '';
+    // let { pathname, componentPath, request } = fromServer;
+    // request = request
+    //     ? {
+    //             url: request.url,
+    //             headers: request.headers,
+    //             method: request.method,
+    //         }
+    //     : '""';
+    // return (
+    //     `console.log('Manifest', ${JSON.stringify(fileManifest)});` +
+    //     `window.__APP_STATE__ = { ` +
+    //     `  initialRoute: "${pathname}",` +
+    //     `  componentPath: "${componentPath}",` +
+    //     `  request: ${JSON.stringify(request)}` +
+    //     `};`
+    // );
 }
 </script>

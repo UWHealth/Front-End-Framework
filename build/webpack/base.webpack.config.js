@@ -20,7 +20,10 @@ const MiniCssExtractPlugin = require('extract-css-chunks-webpack-plugin');
 
 const isProd = !!MODE.production;
 
+
+
 module.exports = ({ target, name }) => {
+    const cache = {};
     // Set the threshold for base64/inlined file size
     const inlineFileSizeLimit = 4096;
 
@@ -31,7 +34,8 @@ module.exports = ({ target, name }) => {
     const config = {
         name,
         target,
-        context: __dirname,
+        cache,
+        context: process.cwd(),
         mode: process.env.NODE_ENV || 'development',
         stats: STATS(),
         devtool: isProd ? 'source-map' : 'cheap-source-map',
@@ -56,7 +60,7 @@ module.exports = ({ target, name }) => {
         },
         output: {
             hotUpdateChunkFilename: '[id].hot-update.js',
-            hotUpdateMainFilename: '[id].hot-update.js',
+            hotUpdateMainFilename: 'main.hot-update.js',
         },
         optimization: {
             nodeEnv: process.env.NODE_ENV,
@@ -67,6 +71,9 @@ module.exports = ({ target, name }) => {
                     automaticNameDelimiter: '+',
                     chunks: 'all',
                 },
+        },
+        watchOptions: {
+            poll: 1000,
         },
         plugins: [],
         module: {},
@@ -92,16 +99,24 @@ module.exports = ({ target, name }) => {
         }),
 
         //
-        new WebpackBar({
-            name: name || target,
-            color: target === 'node' ? 'green' : 'orange',
-            reporters: ['fancy'],
-        }),
+        // new WebpackBar({
+        //     name: name || target,
+        //     color: target === 'node' ? 'green' : 'orange',
+        //     reporters: ['fancy'],
+        // }),
+        !isProd && new webpack.HashedModuleIdsPlugin(),
+
+        // Ensure chunk order stays consistent
+        new webpack.optimize.OccurrenceOrderPlugin(),
+
+        !isProd && new webpack.HotModuleReplacementPlugin(),
 
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         })
     );
+
+    config.plugins.filter(Boolean);
 
     /*
      * Base Loaders
@@ -117,6 +132,11 @@ module.exports = ({ target, name }) => {
     );
 
     config.module.rules = [
+        {
+            test: /\.mjs$/,
+            type: 'javascript/auto',
+        },
+
         /* Plain CSS */
         {
             test: /\.(s?[ca]ss)(\?.*)?$/,
@@ -125,11 +145,6 @@ module.exports = ({ target, name }) => {
                 {
                     resourceQuery: /\?inline/,
                     use: 'raw-loader',
-                },
-
-                {
-                    issuer: /server\.js/,
-                    use: cssLoaders('node'),
                 },
 
                 // Normal (s)CSS
@@ -254,11 +269,6 @@ module.exports = ({ target, name }) => {
                     },
                 },
             ],
-        },
-
-        {
-            test: /\.mjs$/,
-            type: 'javascript/auto',
         },
     ];
 

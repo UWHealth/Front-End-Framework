@@ -1,7 +1,7 @@
 const glob = require('fast-glob');
 const path = require('path');
+const { task, series, parallel, on } = require('gulp');
 const gulp = require('gulp');
-const series = gulp.series;
 
 const MODE = require('./helpers/mode.js');
 const Logger = require('./helpers/logger.js');
@@ -9,7 +9,11 @@ const LOG = new Logger('Gulp');
 
 function getTasks() {
     const tasks = {};
-    glob.sync(`${process.cwd()}/build/tasks/*.task.js`).forEach((task) => {
+    const cwd = process.cwd().replace(/\\/g, '/'); // globs must use '/'
+    const taskPaths = glob.sync(`${cwd}/build/tasks/*.task.js`);
+
+    // Add tasks to task object as { taskName: taskPath }
+    taskPaths.forEach((task) => {
         tasks[path.basename(task, '.task.js')] = require.resolve(
             path.resolve(task)
         );
@@ -18,7 +22,7 @@ function getTasks() {
 }
 
 function defaultTaskOrder() {
-    const p = gulp.parallel;
+    const p = parallel;
 
     // Clear console, then show mode message
     LOG.clear();
@@ -55,35 +59,35 @@ const TASKS = getTasks();
  * --------------------------------*/
 
 // Watch file paths for changes (as defined in the paths letiable)
-gulp.task('watch', require(TASKS.watch));
+task('watch', require(TASKS.watch));
 
 // Delete contents of compilation folders
-gulp.task('clean', require(TASKS.clean));
+task('clean', require(TASKS.clean));
 
 // Copy static files to dist/public
-gulp.task('copy', require(TASKS.copy));
+task('copy', require(TASKS.copy));
 
 // Report file sizes
-gulp.task('size', require(TASKS.size));
+task('size', require(TASKS.size));
 
 // Local Server
-gulp.task('browserSync', require(TASKS.browserSync));
+task('browserSync', require(TASKS.browserSync));
 
 /* ---------------------------------
  * Compilation Tasks
  * --------------------------------*/
 
 // Image copying and compilation
-gulp.task('images', require(TASKS.images));
+task('images', require(TASKS.images));
 
 // Sass processing
-gulp.task('style', require(TASKS.style));
+task('style', require(TASKS.style));
 
 // Compile style guide
-gulp.task('styleGuide', require(TASKS.styleguide));
+task('styleGuide', require(TASKS.styleguide));
 
 // Javascript concatenating, bundling, and webpack-ifying
-gulp.task('js', (done) => {
+task('js', (done) => {
     require(TASKS.js).run(done);
 });
 
@@ -92,7 +96,7 @@ gulp.task('js', (done) => {
  * --------------------------------*/
 
 // First task called when gulp is invoked
-gulp.task('default', (done) => {
+task('default', (done) => {
     return series(defaultTaskOrder())(done);
 });
 

@@ -19,6 +19,7 @@ const babelOpts = {
 };
 
 module.exports.svelte = function(target) {
+    const isSSR = target !== 'web';
     // eslint-disable-next-line complexity
     function svelteLoader(target) {
         const isSSR = target !== 'web';
@@ -28,9 +29,9 @@ module.exports.svelte = function(target) {
             loader: 'svelte-loader',
             options: {
                 accessors: true,
-                css: true,
+                css: !isSSR,
                 dev: isDev && !isSSR,
-                format: isSSR ? 'cjs' : 'esm',
+                format: 'esm',
                 generate: isSSR ? 'ssr' : 'dom',
                 hydratable: true,
                 legacy: !isDev && !isSSR,
@@ -39,7 +40,7 @@ module.exports.svelte = function(target) {
 
                 // loader-specific options
                 hotReload: false, //isDev,
-                emitCss: !isSSR && !isDev,
+                emitCss: !isDev && !isSSR,
                 externalDependencies: [PATHS.style.entry.config],
                 preprocess: sveltePreprocess({
                     transformers: {
@@ -84,13 +85,13 @@ module.exports.svelte = function(target) {
             // Forced SSR loading using ?ssr
             {
                 resourceQuery: /\?ssr/,
-                use: [babelLoader('node'), svelteLoader('node')],
+                use: [svelteLoader('node')],
             },
             {
                 use: [
                     // Cache svelte-babel transforms during development
-                    isDev && cacheLoader,
-                    babelLoader(target),
+                    //isDev && cacheLoader,
+                    !isSSR && babelLoader(target),
                     svelteLoader(target),
                 ].filter(Boolean),
             },
@@ -116,17 +117,17 @@ module.exports.babel = (target = 'web') => {
                 loader: 'val-loader',
             },
             // Use cache-loader to speed up babel recompilations
-            isDev && {
-                loader: 'cache-loader',
-                options: {
-                    cacheDirectory: path.resolve(
-                        PATHS.folders.cache,
-                        target,
-                        `babel-loader`
-                    ),
-                    cacheIdentifier: cacheIdentifier(),
-                },
-            },
+            // isDev && {
+            //     loader: 'cache-loader',
+            //     options: {
+            //         cacheDirectory: path.resolve(
+            //             PATHS.folders.cache,
+            //             target,
+            //             `babel-loader`
+            //         ),
+            //         cacheIdentifier: cacheIdentifier(),
+            //     },
+            // },
             {
                 loader: 'babel-loader',
                 options: {
@@ -164,13 +165,13 @@ module.exports.style = (target) => {
     const extractLoader = {
         loader: MiniCssExtractPlugin.loader,
         options: {
-            hmr: isDev,
-            reloadAll: isDev,
+            hmr: !!isDev,
+            reloadAll: !!isDev,
         },
     };
 
     return isSSR
-        ? [cssLoader, postcssLoader, sassLoader]
+        ? [extractLoader, cssLoader, postcssLoader, sassLoader]
         : [
               //!isDev &&
               //'file-loader',

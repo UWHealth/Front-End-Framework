@@ -26,7 +26,7 @@ config.entry = {
     main: addHMR(path.resolve(PATHS.js.entry.main)),
 };
 
-config.output = {
+config.output = Object.assign(config.output, {
     library: 'uwhealth',
     libraryTarget: 'umd',
 
@@ -40,7 +40,7 @@ config.output = {
         : `${jsPath}/[name].js`,
     hotUpdateChunkFilename: '[id].hot-update.js',
     hotUpdateMainFilename: 'main.hot-update.js',
-};
+});
 
 // Add "svelte" key to the front of package resolution
 config.resolve.mainFields.unshift('svelte', 'browser');
@@ -51,7 +51,7 @@ config.resolve.mainFields.unshift('svelte', 'browser');
 config.plugins = config.plugins.concat(
     [
         // Hot module replacement
-        isDev && new webpack.HotModuleReplacementPlugin(),
+        // isDev && new webpack.HotModuleReplacementPlugin(),
 
         // Keep module.id stable when vendor modules do not change
         isDev && new webpack.HashedModuleIdsPlugin(),

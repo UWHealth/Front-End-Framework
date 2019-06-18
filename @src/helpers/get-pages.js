@@ -33,7 +33,11 @@ function getPages({
             pages['index.html'] = {
                 basename: 'index',
                 path: '/index.html',
-                file: `${PATHS.pages.folders.root}/index.html`,
+                file: `${PATHS.pages.folders.root}/index.svelte`,
+                route: 'button',
+                folder: 'button',
+                is_index: true,
+                ext: '.svelte'
             };
         }
         let ext = path.extname(file);

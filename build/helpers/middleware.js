@@ -1,14 +1,18 @@
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
+const webpack = require('webpack');
 const webpackIsoMiddleware = require('webpack-isomorphic-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const watchOptions =
-    MODE.dev || MODE.localProduction
-        ? { poll: 1000, ignored: /(node_modules|dist|public)/ }
+    MODE.development || MODE.localProduction
+        ? { poll: 1000, ignored: /(node_modules|dist)/ }
         : null;
 
 module.exports = function(client, server, LOG) {
+    const compiler = webpack([client, server]);
+    compiler.purgeInputFileSystem();
+    //console.log(compiler);
     return [
         // Force express-like res.locals
         // webpackIsoMiddleware depends on it
@@ -17,8 +21,9 @@ module.exports = function(client, server, LOG) {
             next();
         },
 
-        webpackIsoMiddleware(client, server, {
+        webpackIsoMiddleware(compiler, {
             watchOptions,
+            watch: true,
             notify: true,
             findServerAssetName: (stats) => {
                 let assetName =
@@ -32,24 +37,27 @@ module.exports = function(client, server, LOG) {
                     .find((name) => name === assetName);
             },
             memoryFs: false,
-            watchDelay: 300,
             report: {
                 stats: 'once',
                 write: (str) => {
-                    if (!str || typeof str !== 'string') return false;
+                    if (!str) return false;
                     process.stdout.write(str);
                 },
-                printStart: () => false, // Handled by webpackbar
+                printStart: () => 'Started', // Handled by webpackbar
                 printSuccess: (/*{ duration }*/) => false,
-                printFailure: (err) => false, //LOG.error(err),
-                printStats: ({ stats }) => false, //LOG.info(stats)
+                printFailure: (err) => err.message, //LOG.error(err),
+                // printStats: (output) => {
+                //     //console.log(output);
+                //     const keys = Object.keys(output.stats.compilation);
+                //     console.log(keys);
+                //         return keys.map(stat => output[stat].toString()); //LOG.info(stats)
+                // }
             },
         }),
 
-        webpackHotMiddleware(client, {
-            noInfo: true,
-            log: false,
-            silent: true,
+        webpackHotMiddleware(compiler, {
+            noInfo: false,
+            silent: false,
         }),
 
         pageMiddleware,
@@ -57,12 +65,11 @@ module.exports = function(client, server, LOG) {
 };
 
 async function pageMiddleware(req, res, next) {
-    const { /*compilation,*/ exports } = res.locals.isomorphic;
+    const { compilation, exports } = res.locals.isomorphic;
 
     let render = '';
     try {
         const renderer = findExport(exports);
-        const compilation = res.locals.isomorphic.compilation;
         render = await renderer({ req, res, next, compilation });
     } catch (e) {
         console.error(e);
