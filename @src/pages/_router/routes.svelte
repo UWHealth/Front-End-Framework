@@ -1,8 +1,3 @@
-
-{#if innerComponent}
-    <svelte:component this={innerComponent} {...$$props} />
-{/if}
-
 <script>
 import Errors from '@/pages/_error.svelte';
 
@@ -37,18 +32,15 @@ $: {
 
 $: {
     if (typeof window !== 'undefined') {
-        pageComponent = () =>
-            import(
+        pageComponent = () => import(
                 /* webpackChunkName: "page-[request]" */
                 /* webpackMode: "lazy" */
                 /* webpackPrefetch: true */
                 /* webpackPreload: -1 */
                 '@/pages/' + page + '.svelte'
-            )
-            .then(c => {
+            ).then(c => {
                 innerComponent = c.default;
-            })
-            .catch(e => {
+            }).catch(e => {
                 innerComponent = Errors;
             });
 
@@ -64,3 +56,5 @@ $: {
     }
 }
 </script>
+
+<svelte:component this={innerComponent} {...$$props} />
