@@ -15,7 +15,7 @@ module.exports = ({ publicPath = '/', filePath = '' }) => {
             .sync(PATHS.pages.entry.array)
             .concat([
                 `${CWD}/config/paths.config.js`,
-                `${CWD}/build/helpers/get-pages.js`,
+                `${CWD}/@src/helpers/get-pages.js`,
             ]),
     };
 };

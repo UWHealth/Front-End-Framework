@@ -21,7 +21,7 @@ const outPath = '';
  * Demo-specific output
  * Making stuff consumable by Node
  */
-config.devtool = false;
+config.devtool = 'source-map';
 config.mode = 'development';
 config.output = Object.assign(
     {

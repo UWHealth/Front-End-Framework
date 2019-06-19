@@ -1,3 +1,12 @@
+/**
+ * ****This file is unused right now****
+ * -------------------------------------
+ * The intention is that we can hopefully abstract projects to a
+ * single config file that gets consumed by our build tools.
+ * The hope is that this would simplify webpack and gulp configuration.
+ * Ideally, it would allow us to package our gulp and webpack configs
+ * to a single repo.
+ */
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 

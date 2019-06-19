@@ -32,7 +32,7 @@ Moving from lowest-level to highest, each folder represents a layer of abstracti
     1. `/pages/index.html` will create a `dist/index.html`.
     2. `/pages/foo.html` will create a `dist/foo/index.html`
     3. Anything with a leading underscore will be ignored and not output.
-    4. `_errors.svelte` and `_router.svelte` are used by `server.js`. Although this can be changed in `server.js` if needed.
+    4. `_errors.svelte` and `_router/index.svelte` are used by `server.js`. Although this can be changed in `server.js` if needed.
 
     _These rules are contigent on the default functionality of `/@src/server.js`._
 

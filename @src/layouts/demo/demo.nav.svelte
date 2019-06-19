@@ -1,11 +1,30 @@
+<script>
+import { getContext } from 'svelte';
+import { Router, links } from 'svelte-routing';
+import { LOCATION } from 'svelte-routing/src/contexts';
+import icon from '@/assets/favicons/icon.svg';
+let location = getContext(LOCATION);
+
+$: currPath = $location.pathname;
+
+const activePath = function(path) {
+    console.log(path);
+    return path
+        && (path === currPath || path.replace('index.html', '') === currPath);
+}
+
+const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
+</script>
+
 <nav use:links class="demo-navigation">
-    <img src="{icon}" alt="">
+<Router>
+    <a href="/"><img src="{icon}" alt=""></a>
     {#each Object.keys(pages).reverse() as url (url)}
-        {#if url.indexOf('demos/') > -1}
+        {#if url.indexOf('demos') > -1}
         <a
             href="/{ url.replace('index.html', '') }"
             class="demo-navigation__link {
-                activePath(currentPath, '/' + url)
+                activePath('/' + url)
                 ? 'demo-navigation__link--active'
                 : ''
             }">{
@@ -15,6 +34,7 @@
             }</a>
         {/if}
     {/each}
+</Router>
 </nav>
 
 <style lang="scss">
@@ -60,22 +80,4 @@ img {
 }
 </style>
 
-<script>
-import { onMount } from 'svelte';
-import icon from '@/assets/favicons/icon.svg';
-import { links } from 'svelte-routing';
 
-const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
-
-export let history;
-export let currentPath = history.location.pathname;
-
-const activePath = (path, url) => {
-    //console.info('PATH', path, 'ITEM URL', url);
-    return url === path || url.replace('index.html', '') === path;
-}
-
-onMount(() => {
-    history = getHistory();
-});
-</script>

@@ -1,6 +1,6 @@
 <div class="media-object"
-    in:slide="{duration: 300, easing: cubicOut}"
-    out:fade="{duration: 100}"
+    in:slide="{{duration: 300, easing: cubicOut}}"
+    out:fade="{{duration: 100}}"
     >
     <div class="media-object__media">
         {@html parseDesc(description).image &&
@@ -13,40 +13,59 @@
 </div>
 
 <script>
-    import { slide, fade } from 'svelte-transitions';
-    import { cubicOut } from 'eases-jsnext';
-    import decodeEntities from '@/helpers/decode-html.js';
+import { slide, fade } from 'svelte/transition';
+import { cubicOut } from 'svelte/easing';
+import decodeEntities from '@/helpers/decode-html.js';
 
-    export default {
-        transitions: { slide, fade },
-        data() {
-            return {
-                page: 1,
-                MAX_PER_PAGE: 10,
-            };
-        },
-        computed: {},
-        helpers: {
-            cubicOut,
-            parseDesc: (description) => {
-                let text = Array.isArray(description)
-                    ? description[2]
-                    : description;
-                let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);
-                image = image
-                    ? image[0]
-                    : Array.isArray(description) && description[1]
-                    ? '&lt;img src="https://uconnect.wisc.edu' +
-                      description[1] +
-                      '"/&gt;'
-                    : '';
-                text = text && text.replace(image, '');
+export let description = '',
+    title = '';
 
-                return { text: decodeEntities(text), image: decodeEntities(image) };
-            },
-        },
-        oncreate() {},
-    };
+const parseDesc = (description) => {
+    let text = Array.isArray(description)
+        ? description[2]
+        : description;
+    let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);
+    image = image
+        ? image[0]
+        : Array.isArray(description) && description[1]
+        ? '&lt;img src="https://uconnect.wisc.edu' +
+            description[1] +
+            '"/&gt;'
+        : '';
+    text = text && text.replace(image, '');
+
+    return {
+        text: decodeEntities(text), image: decodeEntities(image)
+    }
+}
+    // export default {
+    //     data() {
+    //         return {
+
+    //         };
+    //     },
+    //     computed: {},
+    //     helpers: {
+    //         cubicOut,
+    //         parseDesc: (description) => {
+    //             let text = Array.isArray(description)
+    //                 ? description[2]
+    //                 : description;
+    //             let image = /(&lt;img[\s].*\/&gt;)/gi.exec(text);
+    //             image = image
+    //                 ? image[0]
+    //                 : Array.isArray(description) && description[1]
+    //                 ? '&lt;img src="https://uconnect.wisc.edu' +
+    //                   description[1] +
+    //                   '"/&gt;'
+    //                 : '';
+    //             text = text && text.replace(image, '');
+
+    //             return { text: decodeEntities(text), image: decodeEntities(image) };
+    //         },
+    //     },
+    //     oncreate() {},
+    // };
 </script>
 
 <style>

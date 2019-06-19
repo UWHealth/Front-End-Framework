@@ -84,6 +84,10 @@ glob.sync(PATHS.js.entry.components).forEach((component) => {
  * Client loaders
  */
 config.module.rules.push(
+    {
+        test: /\.mjs$/,
+        type: 'javascript/auto',
+    },
     // Svelte Loader
     svelteLoader(config.target),
 

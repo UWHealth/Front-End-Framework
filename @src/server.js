@@ -1,13 +1,13 @@
 const path = require('path');
 const Template = require('@/layouts/template.svelte');
 const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
-const ServerRouter = require('@/pages/_router.svelte?ssr');
+const ServerRouter = require('@/pages/_router');
 const findExport = require('@/helpers/find-export.js').default;
 const Url = require('url');
 
 let CURRENT_URL = '';
 // Bundle pages so we can resolveWeak later
-const context = require.context('@/pages/', true, /\.svelte/, 'sync');
+require.context('@/pages/', true, /\.svelte/, 'sync');
 
 /**
  * Takes in http requests and returns a rendered svelte page
@@ -28,7 +28,7 @@ function middleware({ req = {}, res = {}, compilation, route }) {
             res.locals.isomorphic.compilation);
     route = route || req.url || req.originalUrl;
 
-    console.log('CONTEXT KEYS', context.keys());
+    //console.log('CONTEXT KEYS', context.keys());
     //console.log(compilation);
 
     // Gather information about route

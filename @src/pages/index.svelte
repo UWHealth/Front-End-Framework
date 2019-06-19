@@ -1,3 +1,10 @@
+<script>
+import { link } from 'svelte-routing';
+const pages =
+    require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
+export let htmlWebpackPlugin = false;
+</script>
+
 <svelte:head>
     <title>Front-End Framework</title>
 </svelte:head>
@@ -8,11 +15,13 @@
     <p><strong>Page index</strong></p>
     <ul>
     {#each Object.keys(pages) as url, i (url) }
+    {#if pages[url].folder}
         <li>
-            <a href="/{ url.replace('index.html', '') }">
-                {pages[url].folder + '/' + pages[url].basename}
+            <a use:link href="/{ url.replace('index.html', '') }">
+                {pages[url].folder}
             </a>
         </li>
+    {/if}
     {/each}
     </ul>
 </main>
@@ -52,8 +61,3 @@ li:before {
     height: 1.5rem;
 }
 </style>
-
-<script>
-export let pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
-export let htmlWebpackPlugin = false;
-</script>

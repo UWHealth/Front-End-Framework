@@ -26,29 +26,43 @@ function getPages({
     context = PATHS.pages.folders.root,
 }) {
     const pages = {};
+    // eslint-disable-next-line complexity
     glob.sync(files).forEach((file) => {
         let is_index = true; // Assume index
         let folder = path.posix.dirname(path.relative(context, file)) || '';
+        let ext = path.extname(file);
+        let basename = path.basename(file, ext);
+
+        // Create root index.html file
         if (folder === '.' || folder === '') {
             pages['index.html'] = {
                 basename: 'index',
                 path: '/index.html',
-                file: `${PATHS.pages.folders.root}/index.svelte`,
+                file: `${PATHS.pages.folders.root}/${file}`,
                 route: 'button',
                 folder: 'button',
                 is_index: true,
-                ext: '.svelte'
+                ext,
             };
         }
-        let ext = path.extname(file);
-        let basename = path.basename(file, ext);
 
+        // File normalization: Remove index.html
         if (basename !== 'index') {
             folder = path.posix.join(folder, basename);
             is_index = false;
         }
-        if (folder === '.') folder = '';
+
+        folder = folder === '.' ? '' : folder;
+
         const pagePath = path.posix.join(folder, 'index.html');
+
+        if (pages[pagePath]) {
+            console.warn(
+                `Warning: Duplicate pages named "${pagePath}". This is likely caused by having both a folder named "${folder}" and a file named "${folder}.svelte."\n` +
+                    `Only one of the files will be generated.`
+            );
+        }
+
         pages[pagePath] = {
             basename,
             path: pagePath,

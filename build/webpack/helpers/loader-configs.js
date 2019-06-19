@@ -30,7 +30,7 @@ module.exports.svelte = function(target) {
             options: {
                 accessors: true,
                 css: !isSSR,
-                dev: isDev && !isSSR,
+                dev: isDev,
                 format: 'esm',
                 generate: isSSR ? 'ssr' : 'dom',
                 hydratable: true,

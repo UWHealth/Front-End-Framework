@@ -2,7 +2,7 @@
     <title>→ { demoTitle } demo</title>
 </svelte:head>
 
-<Nav/>
+<Nav />
 
 <div class="demo">
     <header class="demo-header">
@@ -37,11 +37,8 @@
 <script>
 import Nav from '@/layouts/demo/demo.nav.svelte';
 
-export let demoTitle = 'Demo';
-export let variantTitle = false;
-export let variants = false;
-export let stylesheet = true;
-export let currentRoute = 'demo';
-
-$: lowercaseRoute = currentRoute.toLowerCase();
+export let demoTitle = 'Demo',
+    variantTitle = false,
+    variants = false,
+    stylesheet = true;
 </script>

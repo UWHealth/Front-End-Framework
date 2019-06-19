@@ -48,11 +48,11 @@ module.exports = ({ target, name }) => {
             mainFields: ['svelte', 'module', 'main'],
             alias: PATHS.aliases,
             extensions: [
+                '.mjs',
                 '.js',
                 '.json',
-                '.mjs',
-                '.jsx',
                 '.svelte',
+                '.jsx',
                 '.html',
                 '.hbs',
                 '.handlebars',
@@ -132,10 +132,6 @@ module.exports = ({ target, name }) => {
     );
 
     config.module.rules = [
-        {
-            test: /\.mjs$/,
-            type: 'javascript/auto',
-        },
 
         /* Plain CSS */
         {

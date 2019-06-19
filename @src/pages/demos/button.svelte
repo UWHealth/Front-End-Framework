@@ -1,4 +1,12 @@
-<Demo demoTitle="Buttons" variants="{true}" currentRoute="Button">
+<script>
+import Buttons from '@/components/button';
+import Demo from '@/layouts/demo';
+import capitalize from '@/helpers/title-case';
+
+const widths = ['normal', 'wide', 'compact'];
+</script>
+
+<Demo demoTitle="Buttons" variants="{true}">
     <div slot="header">
         <Buttons>Whatup, I'm a button!</Buttons>
     </div>
@@ -10,14 +18,6 @@
         {/each}
     </div>
 </Demo>
-
-<script>
-import Buttons from '@/components/button';
-import Demo from '@/layouts/demo';
-import capitalize from '@/helpers/title-case';
-
-const widths = ['normal', 'wide', 'compact'];
-</script>
 
 <style lang="scss">
 @import '>/config/sass.config.scss';

@@ -1,13 +1,10 @@
 import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
-//import store from '@/layouts/demo/demo.store.js';
-import Router from '@/pages/_router.svelte';
-// import { createBrowserHistory } from 'svelte-routing';
+import Router from '@/pages/_router';
 import 'core-js/stable';
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
-//OfflinePluginRuntime.install();
-// const history = createBrowserHistory();
+// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+// OfflinePluginRuntime.install();
 
 let application;
 
@@ -15,14 +12,11 @@ async function init() {
     const appElement = document.getElementById('app');
 
     if (appElement) {
-        const currentRoute = window.location.pathname;
-
         application = new Router({
             hydrate: true,
             target: appElement,
             props: {
-                pathname: currentRoute,
-                // innerComponent: currentComponent,
+                url: window.location.pathname,
             },
         });
 
@@ -43,6 +37,9 @@ async function init() {
 domReady(init);
 
 if (module.hot) {
+    // module.hot.accept('@/pages/_router', (data) => {
+    //     console.log('HOT DATA', data);
+    // })
     module.hot.accept(function(err) {
         console.log(err);
     });
