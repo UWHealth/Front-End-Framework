@@ -29,7 +29,9 @@ function modifiers(types, prefix) {
             </slot>
         </span>
     {:else if iconUrl}
-        <img class="btn__icon btn__icon--image {modifiers(type, 'btn__icon--')}" src="{{iconUrl}}" alt="">
+        <img
+        class="btn__icon btn__icon--image {modifiers(type, 'btn__icon--')}" src="{{iconUrl}}"
+        alt="">
     {/if}
 </button>
 

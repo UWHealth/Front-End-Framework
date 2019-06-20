@@ -1,8 +1,17 @@
+<script>
+import Nav from '@/layouts/demo/demo.nav.svelte';
+
+export let demoTitle = 'Demo',
+    variantTitle = false,
+    variants = false,
+    stylesheet = true;
+</script>
+
 <svelte:head>
     <title>→ { demoTitle } demo</title>
 </svelte:head>
 
-<Nav />
+<Nav/>
 
 <div class="demo">
     <header class="demo-header">
@@ -33,12 +42,3 @@
 <style lang="scss">
     @import '@/layouts/demo/demo.scss';
 </style>
-
-<script>
-import Nav from '@/layouts/demo/demo.nav.svelte';
-
-export let demoTitle = 'Demo',
-    variantTitle = false,
-    variants = false,
-    stylesheet = true;
-</script>

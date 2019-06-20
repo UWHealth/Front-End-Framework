@@ -1,6 +1,6 @@
 import 'promise-polyfill/src/polyfill';
 import domReady from '@/helpers/dom-ready';
-import Router from '@/pages/_router';
+import Router from '@/pages/_router/index.svelte';
 import 'core-js/stable';
 
 // import * as OfflinePluginRuntime from 'offline-plugin/runtime';

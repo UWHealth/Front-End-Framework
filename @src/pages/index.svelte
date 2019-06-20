@@ -1,7 +1,7 @@
 <script>
 import { link } from 'svelte-routing';
 const pages =
-    require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
+    require(`val-loader!@/helpers/get-pages.val.js`);
 export let htmlWebpackPlugin = false;
 </script>
 

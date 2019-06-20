@@ -1,3 +1,43 @@
+<script>
+import * as HeadTemplate from '@/components/head/index.hbs';
+import Footer from '@/components/footer/index.svelte?ssr';
+import manifest from '@/static/manifest.webmanifest';
+import browserConfigXML from '@/static/browserconfig.xml';
+import findExport from '@/helpers/find-export.js';
+
+// Props
+export let appComponent = null,
+    fileManifest = {},
+    googleAnalytics = null,
+    meta = [],
+    links = [],
+    inlineStyle = '',
+    scripts = [],
+    webmanifest = manifest,
+    browserConfig = browserConfigXML,
+    title = 'Front-End-Framework',
+    headHtmlSnippet = '',
+    appHtmlSnippet = '',
+    bodyHtmlSnippet = '',
+    request;
+
+let header = HeadTemplate($$props);
+let exportedState;
+let renderedAppComponent;
+
+$: {
+    if (!appComponent) {
+        renderedAppComponent = '';
+    }
+    else {
+        renderedComponent =
+            findExport(appComponent).render
+            ? findExport(appComponent).render(props).html
+            : appComponent.html;
+    }
+}
+</script>
+
 { @html
     `<!DOCTYPE html>
     <html lang="en" itemscope itemtype="https://schema.org/Article">`
@@ -9,65 +49,10 @@
     { @html bodyHtmlSnippet }
     <div id="app" class="application">
         { @html appHtmlSnippet }
-        {#if appComponent}
-            { @html renderComponent(appComponent, $$props) }
-        {/if}
+        { @html renderedAppComponent }
     </div>
     <Footer></Footer>
     { @html '<script>' + exportedState + '</script>' }
 { @html `
     </body></html>
 ` }
-
-<script>
-import * as HeadTemplate from '@/components/head/index.hbs';
-import Footer from '@/components/footer/index.svelte?ssr';
-import manifest from '@/static/manifest.webmanifest';
-import browserConfigXML from '@/static/browserconfig.xml';
-
-export let appComponent = null;
-export let fileManifest = {};
-export let googleAnalytics = null;
-export let meta = [];
-export let links = [];
-export let inlineStyle = '';
-export let scripts = [];
-export let webmanifest = manifest;
-export let browserConfig = browserConfigXML;
-export let title = 'Front-End-Framework';
-export let headHtmlSnippet = '';
-export let appHtmlSnippet = '';
-export let bodyHtmlSnippet = '';
-export let fromServer = {};
-export let request;
-let header = HeadTemplate($$props);
-let exportedState;
-
-const renderComponent = (appComponent, props) => {
-    if (!appComponent) return '';
-    return appComponent.render
-        ? appComponent.render(props)
-        : appComponent.html;
-}
-
-$: {
-    let { pathname, componentPath, request } = fromServer;
-    exportedState = '';
-    // let { pathname, componentPath, request } = fromServer;
-    // request = request
-    //     ? {
-    //             url: request.url,
-    //             headers: request.headers,
-    //             method: request.method,
-    //         }
-    //     : '""';
-    // return (
-    //     `console.log('Manifest', ${JSON.stringify(fileManifest)});` +
-    //     `window.__APP_STATE__ = { ` +
-    //     `  initialRoute: "${pathname}",` +
-    //     `  componentPath: "${componentPath}",` +
-    //     `  request: ${JSON.stringify(request)}` +
-    //     `};`
-    // );
-}
-</script>

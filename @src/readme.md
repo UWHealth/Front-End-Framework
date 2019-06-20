@@ -29,10 +29,12 @@ Moving from lowest-level to highest, each folder represents a layer of abstracti
     > Pages import layouts, often passing down content
 
     Pages can be thought of as the physical representation of the application (a.k.a "routes" in standard MVC terms). If the project is a static site, then the output from this folder can _actually be the site_. If not, pages can also be used as a place for development and documentation. There are a few rules to how these pages are output:
-    1. `/pages/index.html` will create a `dist/index.html`.
-    2. `/pages/foo.html` will create a `dist/foo/index.html`
+    1. `/pages/index.svelte` will create a `dist/index.html`.
+    2. `/pages/foo.svelte` will create a `dist/foo/index.html`
     3. Anything with a leading underscore will be ignored and not output.
-    4. `_errors.svelte` and `_router/index.svelte` are used by `server.js`. Although this can be changed in `server.js` if needed.
+      * This includes folders and anything nested in those folders.
+    4. `_errors.svelte` and the `_router` folder are used by `server.js`.
+      * This can easily be changed in `server.js` if needed.
 
     _These rules are contigent on the default functionality of `/@src/server.js`._
 

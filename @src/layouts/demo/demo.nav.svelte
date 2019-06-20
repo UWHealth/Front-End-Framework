@@ -8,12 +8,11 @@ let location = getContext(LOCATION);
 $: currPath = $location.pathname;
 
 const activePath = function(path) {
-    console.log(path);
-    return path
-        && (path === currPath || path.replace('index.html', '') === currPath);
+    return path &&
+        (path === currPath || path.replace('index.html', '') === currPath);
 }
 
-const pages = require(`val-loader?{"filePath":"","publicPath":"/"}!@/helpers/create-nav.js`);
+const pages = require(`val-loader!@/helpers/get-pages.val.js`);
 </script>
 
 <nav use:links class="demo-navigation">

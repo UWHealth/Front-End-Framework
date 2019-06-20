@@ -190,4 +190,10 @@ function baseNames(p = '', exts = []) {
     return p;
 }
 
+if (module.hot) {
+    module.hot.accept(function(err) {
+        console.log(err);
+    });
+}
+
 module.exports = middleware;
