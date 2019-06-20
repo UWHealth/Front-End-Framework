@@ -3,70 +3,53 @@
  * Written in CommonJS (require/module).
  */
 
-const CWD = process.cwd();
-const PATHS = require(`${CWD}/config/paths.config.js`);
-const MODE = require(`${CWD}/build/helpers/mode.js`);
-
 const webpack = require('webpack');
-const OfflinePlugin = require('offline-plugin');
 const glob = require('fast-glob');
 const path = require('path');
 
-const baseConfig = require(`./base.webpack.config.js`);
-const babelLoader = require(`./helpers/loader-configs.js`).babel;
-const svelteLoader = require(`./helpers/loader-configs.js`).svelte;
-const config = baseConfig({ target: 'web', name: 'Client' });
-const jsPath = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
+// const OfflinePlugin = require('offline-plugin');
+const { babelLoader, svelteLoader } = require(`./helpers/loader-configs.js`);
+const config = require('./base.webpack.config.js')({
+    name: 'Client',
+    target: 'web',
+});
+
+const CWD = process.cwd();
+const PATHS = require(`${CWD}/config/paths.config.js`);
+const MODE = require(`${CWD}/build/helpers/mode.js`);
+const JS_PATH = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
 
 const isDev = MODE.development;
 
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
-
 config.entry = {
     main: addHMR(path.resolve(PATHS.js.entry.main)),
 };
 
 config.output = Object.assign(config.output, {
-    library: 'uwhealth',
     libraryTarget: 'umd',
 
     publicPath: '/',
     pathinfo: isDev,
     path: path.resolve(PATHS.folders.dist),
 
-    filename: `${jsPath}/[name].bundle.js`,
+    filename: `${JS_PATH}/[name].bundle.js`,
     chunkFilename: !isDev
-        ? `${jsPath}/[name].[chunkhash:3].js`
-        : `${jsPath}/[name].js`,
+        ? `${JS_PATH}/[name].[chunkhash:3].js`
+        : `${JS_PATH}/[name].js`,
     hotUpdateChunkFilename: '[id].hot-update.js',
     hotUpdateMainFilename: 'main.hot-update.js',
 });
 
 // Add "svelte" key to the front of package resolution
+// While also adding browser
 config.resolve.mainFields.unshift('svelte', 'browser');
 
 /*
  * Client Plugins
  */
-config.plugins = config.plugins.concat(
-    [
-        // Hot module replacement
-        // isDev && new webpack.HotModuleReplacementPlugin(),
-
-        // Keep module.id stable when vendor modules do not change
-        isDev && new webpack.HashedModuleIdsPlugin(),
-
-        // Ensure chunk order stays consistent
-        new webpack.optimize.OccurrenceOrderPlugin(),
-
-        // Allow fenced developer code to be tree-shaken
-        !isDev &&
-            new webpack.DefinePlugin({
-                'typeof window': '"object"',
-                'process.env.NODE_ENV': "'production'",
-                'module.hot': 'false',
-            }),
-
+config.plugins.concat([
+        isDev && new webpack.HotModuleReplacementPlugin(),
         // new OfflinePlugin({
         //     excludes: ['**/.*', '**/*.map', '**/*.gz', '**/*.hot-update*'],
         //     externals: ['/public/css/main.css', '/demo/button.demo.js'],
@@ -84,6 +67,7 @@ glob.sync(PATHS.js.entry.components).forEach((component) => {
  * Client loaders
  */
 config.module.rules.push(
+    // Less strict mjs parsing
     {
         test: /\.mjs$/,
         type: 'javascript/auto',
@@ -120,7 +104,7 @@ config.optimization.splitChunks.cacheGroups = {
 };
 
 // Allow/disallow output of errored files
-config.optimization.noEmitOnErrors = false;
+// config.optimization.noEmitOnErrors = false;
 
 if (!isDev) {
     // [3] Remove unecessary Node faking
@@ -135,22 +119,13 @@ if (!isDev) {
     };
 
     // [4] Uglification options
-    // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-    //config.optimization.minimize = false;
-    // config.optimization.minimizer = [
-    //     new UglifyJsPlugin({
-    //         uglifyOptions: {
-    //             ecma: 6,
-    //             ie8: false,
-    //             beautify: true,
-    //             mangle: true,
-    //             compress: true,
-    //             comments: false,
-    //         },
-    //         parallel: true,
-    //         sourceMap: true,
-    //     }),
-    // ];
+    const TerserPlugin = require('terser-webpack-plugin');
+    config.optimization.minimizer = [
+        new TerserPlugin({
+            parallel: true,
+            sourceMap: true,
+        }),
+    ];
 
     // [5] Split chunks optimally
     // Probably needs to be tweaked based on project needs
@@ -209,7 +184,7 @@ function addHMR(entry) {
     }
     entry.unshift(
         require.resolve(`webpack-hot-middleware/client`) +
-            `?name=${config.name}&reload=false`
+            `?name=${config.name}&reload=false&noInfo=true`
     );
 
     return entry;

@@ -33,42 +33,39 @@ function getPages({
         let ext = path.extname(file);
         let basename = path.basename(file, ext);
 
-        // Create root index.html file
-        if (folder === '.' || folder === '') {
-            pages['index.html'] = {
-                basename: 'index',
-                path: '/index.html',
-                file: `${PATHS.pages.folders.root}/${file}`,
-                route: 'button',
-                folder: 'button',
-                is_index: true,
-                ext,
-            };
-        }
-
-        // File normalization: Remove index.html
+        // File normalization:
+        // Add non-index file names to the end of the folder path
+        // path/button.html => path/button/
         if (basename !== 'index') {
             folder = path.posix.join(folder, basename);
             is_index = false;
         }
 
+        // Folders returning as '.' mean it's a root file
+        // We remove the '.' in that case
         folder = folder === '.' ? '' : folder;
 
+        // Append index.html to the normalized folder path
         const pagePath = path.posix.join(folder, 'index.html');
 
+        // Error check
         if (pages[pagePath]) {
+            const pageFolder = folder || pagePath;
             console.warn(
-                `Warning: Duplicate pages named "${pagePath}". This is likely caused by having both a folder named "${folder}" and a file named "${folder}.svelte."\n` +
-                    `Only one of the files will be generated.`
+                new Error(
+                    `Warning: Duplicate pages named "${pagePath}". This is likely caused by having both a folder named "${pageFolder}" and a file named "${pageFolder}.svelte."\n` +
+                        `Only one of the files will be generated.`
+                )
             );
         }
 
+        // Return page details
         pages[pagePath] = {
-            basename,
             path: pagePath,
+            basename,
             file: path.posix.relative(context, file),
-            route: folder,
             folder,
+            route: folder,
             is_index,
             ext,
         };

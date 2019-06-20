@@ -35,8 +35,8 @@ yargs.options({
         },
         group: 'Environment:',
     },
-    stats: {
-        alias: 'debug',
+    debug: {
+        alias: 'stats',
         describe: 'Show full Webpack stats and errors',
         type: 'boolean',
         default: false,
@@ -47,7 +47,7 @@ yargs.options({
         describe: 'Clear cache folder before starting',
         type: 'boolean',
         default: false,
-        group: 'Environment: '
+        group: 'Environment: ',
     },
     open: {
         alias: 'newtab',

@@ -4,11 +4,8 @@
 
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
-const path = require('path');
 
-const webpack = require('webpack');
-const babelLoader = require(`./helpers/loader-configs.js`).babel;
-const svelteLoader = require(`./helpers/loader-configs.js`).svelte;
+const { babelLoader, svelteLoader } = require(`./helpers/loader-configs.js`);
 
 const config = require(`./base.webpack.config.js`)({
     target: 'node',
@@ -18,7 +15,7 @@ const config = require(`./base.webpack.config.js`)({
 const outPath = '';
 
 /*
- * Demo-specific output
+ * Dev-server-specific output
  * Making stuff consumable by Node
  */
 config.devtool = 'source-map';
@@ -34,34 +31,20 @@ config.output = Object.assign(
     config.output
 );
 
-config.entry = {
-    server: [
-        require.resolve(`webpack-hot-middleware/client`) +
-            `?name=${config.name}&reload=false`,
-        PATHS.pages.entry.server,
-    ],
-};
+config.entry = () => ({
+    server: PATHS.pages.entry.server,
+});
 
-// config.entry = () => {
-//     const entries = {};
-//     entries['server'] = PATHS.pages.entry.server;
-
-//     return entries;
-// };
+// We don't care about how big files are for the dev server
+config.performance.hints = false;
 
 /*
- * Demo plugins
+ * Dev server plugins
  */
-config.plugins.push(
-    // Ensure window is undefined
-    new webpack.DefinePlugin({
-        'typeof window': '"undefined"',
-        'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
-    })
-);
+//config.plugins.push();
 
 /*
- * Demo loaders
+ * Dev server loaders
  */
 config.module.rules.push(
     // Svelte as server-side renderer
@@ -71,6 +54,7 @@ config.module.rules.push(
     babelLoader(config.target)
 );
 
+// Stuff we don't need in a server environment
 config.optimization.concatenateModules = false;
 config.optimization.mergeDuplicateChunks = false;
 config.optimization.splitChunks = false;

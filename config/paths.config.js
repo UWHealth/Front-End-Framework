@@ -46,15 +46,14 @@ const _ = {
     build: path.resolve(root, 'build'),
     // Config files
     config: path.resolve(root, 'config'),
+    // Documentation
+    docs: path.resolve(root, 'docs'),
     // Base Distribution folder
     dist: path.resolve(root, 'dist'),
     // Public folder (usually nested in dist)
     pub: path.resolve(root, 'dist', 'public'),
     // Base Cache location
     cache: path.resolve(root, 'node_modules', '.cache'),
-    // Documentation
-    docs: path.resolve(root, 'docs'),
-    dirArray: root.split(path.delimiter),
 };
 
 const PATHS = {
@@ -64,8 +63,8 @@ const PATHS = {
         '@': _.src,
         '>': root,
         CWD: root,
-        '~': path.resolve(root, 'node_modules') + '/',
-        '@sassConfig': `${_.config}/sass.config.scss`,
+        '~': path.resolve(root, 'node_modules'),
+        '@sassConfig': path.resolve(_.config, 'sass.config.scss'),
     },
     // Folders/files that should be cleaned before build
     clean: {
@@ -95,10 +94,12 @@ const PATHS = {
     pages: {
         folders: {
             root: `${_.pages}`,
-            demos: `${_.src}/pages/demos/`,
         },
         entry: {
-            src: [`${_.pages}/[!_]**/[!_]*.svelte`, `${_.pages}/[!_]*.svelte`],
+            all: [
+                `${_.pages}/[!_]**/[!_]*.(html|svelte)`,
+                `${_.pages}/[!_]*.(html|svelte)`,
+            ],
             server: `${_.src}/server.js`,
             exclude: [`!${_.src}/pages/**/_*.*`, `!${_.src}/pages/_**/*`],
         },

@@ -29,6 +29,7 @@ module.exports = {
     production: isProd,
     localProduction: isLocal,
     local: isLocal,
+    debug: args.stats,
     mode: devLocalProd('Development', 'Local Production', 'Production'),
     color: devLocalProd('blue', 'yellow', 'green'),
     icon: devLocalProd(`⚙️`, ' ▶︎', '📦'),

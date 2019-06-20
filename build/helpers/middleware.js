@@ -9,7 +9,7 @@ const watchOptions =
         ? { poll: 1000, ignored: /(node_modules|dist)/ }
         : null;
 
-module.exports = function(client, server, LOG) {
+module.exports = function(client, server) {
     const compiler = webpack([client, server]);
     compiler.purgeInputFileSystem();
     //console.log(compiler);
@@ -36,28 +36,22 @@ module.exports = function(client, server, LOG) {
                     .map((asset) => asset.name)
                     .find((name) => name === assetName);
             },
-            memoryFs: false,
+            memoryFs: MODE.debug,
             report: {
-                stats: 'once',
+                stats: MODE.debug ? 'once' : false,
                 write: (str) => {
-                    if (!str) return false;
-                    process.stdout.write(str);
+                    if (MODE.debug) {
+                        return str && process.stdout.write(str);
+                    }
+                    return false;
                 },
-                printStart: () => 'Started', // Handled by webpackbar
-                printSuccess: (/*{ duration }*/) => false,
-                printFailure: (err) => err.message, //LOG.error(err),
-                // printStats: (output) => {
-                //     //console.log(output);
-                //     const keys = Object.keys(output.stats.compilation);
-                //     console.log(keys);
-                //         return keys.map(stat => output[stat].toString()); //LOG.info(stats)
-                // }
             },
         }),
 
         webpackHotMiddleware(compiler, {
-            noInfo: false,
-            silent: false,
+            noInfo: !MODE.debug,
+            quiet: !MODE.debug,
+            log: false,
         }),
 
         pageMiddleware,
@@ -89,7 +83,7 @@ function findExport(mod) {
         : mod;
 }
 
-
+/* Unused at the moment
 function requireFromString(
     code,
     filename = '',
@@ -118,4 +112,4 @@ function requireFromString(
         parent.children.splice(parent.children.indexOf(m), 1);
 
     return exports;
-}
+}*/

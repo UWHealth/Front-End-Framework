@@ -1,4 +1,4 @@
-const pages = require(`val-loader?{"returnPages": true}!@/helpers/create-nav.js`);
+const pages = require(`val-loader!@/helpers/get-pages.val.js`);
 
 export default function(path) {
     //console.log('PAGES\n', pages, '\nPATH\n', path);

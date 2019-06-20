@@ -8,33 +8,37 @@
 
 const path = require('path');
 
+const { styleLoader } = require('./helpers/loader-configs.js');
+
+const webpack = require('webpack');
+const WebpackBar = require('webpackbar'); // Webpack progress bars
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const STATS = require(`./helpers/stats-config.js`);
-const cssLoaders = require('./helpers/loader-configs.js').style;
 
-const webpack = require('webpack');
-const WebpackBar = require('webpackbar'); // Webpack progress bars
-const MiniCssExtractPlugin = require('extract-css-chunks-webpack-plugin');
+// Re-usable, relative output paths
+const CSS_PUB_PATH = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
+const REL_PUB_PATH = path.posix.relative(PATHS.folders.dist, PATHS.folders.pub);
+const STATIC_PUB_PATH = path.posix.join(
+    REL_PUB_PATH,
+    path.posix.relative(PATHS.folders.src, PATHS.folders.assets)
+);
 
 const isProd = !!MODE.production;
 
-
+// Set the threshold for base64/inlined file size
+const inlineFileSizeLimit = 4096;
 
 module.exports = ({ target, name }) => {
-    const cache = {};
-    // Set the threshold for base64/inlined file size
-    const inlineFileSizeLimit = 4096;
-
     /*
      * Base settings
      */
-
     const config = {
         name,
         target,
-        cache,
         context: process.cwd(),
         mode: process.env.NODE_ENV || 'development',
         stats: STATS(),
@@ -75,6 +79,7 @@ module.exports = ({ target, name }) => {
         watchOptions: {
             poll: 1000,
         },
+        performance: {},
         plugins: [],
         module: {},
         entry: {},
@@ -84,55 +89,49 @@ module.exports = ({ target, name }) => {
      * Base plugins
      */
 
-    // Re-usable CSS output path
-    const cssPath = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
-
-    // Extract CSS to its own file (depends upon the existence of its loader)
     config.plugins.push(
-        new MiniCssExtractPlugin({
-            filename: `${cssPath}/[name]${
+        // Extract CSS to its own file
+        // (depends upon the existence of its cooresponding loader)
+        new ExtractCssChunks({
+            filename: `${CSS_PUB_PATH}/[name]${
                 isProd ? '.[contenthash:4]' : '.bundle'
             }.css`,
-            chunkFilename: `${cssPath}/[name]${
+            chunkFilename: `${CSS_PUB_PATH}/[name]${
                 isProd ? '.[contenthash:4]' : '.chunk'
             }.css`,
         }),
 
-        //
-        // new WebpackBar({
-        //     name: name || target,
-        //     color: target === 'node' ? 'green' : 'orange',
-        //     reporters: ['fancy'],
-        // }),
-        !isProd && new webpack.HashedModuleIdsPlugin(),
+        // Show progress bars during compilation
+        !MODE.debug &&
+            new WebpackBar({
+                name: name || target,
+                color: target === 'node' ? 'green' : 'magenta',
+                reporters: ['fancy', isProd && 'stats'].filter(Boolean),
+            }),
 
-        // Ensure chunk order stays consistent
-        new webpack.optimize.OccurrenceOrderPlugin(),
+        // https://webpack.js.org/plugins/hashed-module-ids-plugin/
+        isProd && new webpack.HashedModuleIdsPlugin(),
 
-        !isProd && new webpack.HotModuleReplacementPlugin(),
-
+        // Inject environment variables into files
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+            'typeof window': target === 'web' ? 'Object' : '"undefined"',
+            'module.hot': JSON.stringify(isProd),
+            'process.env': {
+                PRODUCTION: JSON.stringify(isProd),
+                MODE: JSON.stringify(MODE.mode),
+                WEBPACK: JSON.stringify(true),
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+                DEBUG: JSON.stringify(MODE.debug),
+            },
         })
     );
 
-    config.plugins.filter(Boolean);
+    config.plugins = config.plugins.filter(Boolean);
 
     /*
      * Base Loaders
      */
-
-    const relativePubPath = path.posix.relative(
-        PATHS.folders.dist,
-        PATHS.folders.pub
-    );
-    const staticAssetPath = path.posix.join(
-        relativePubPath,
-        path.posix.relative(PATHS.folders.src, PATHS.folders.assets)
-    );
-
     config.module.rules = [
-
         /* Plain CSS */
         {
             test: /\.(s?[ca]ss)(\?.*)?$/,
@@ -145,29 +144,7 @@ module.exports = ({ target, name }) => {
 
                 // Normal (s)CSS
                 {
-                    use: cssLoaders(target),
-                },
-            ],
-        },
-
-        /* Text files */
-        {
-            test: /\.txt(\?.*)?$/,
-            use: 'raw-loader',
-        },
-
-        /* App Manifests */
-        {
-            test: /(manifest\.(webmanifest|json)|browserconfig\.xml)$/,
-            use: [
-                {
-                    loader: 'file-loader',
-                    options: {
-                        name: `[name].[ext]`,
-                    },
-                },
-                {
-                    loader: 'app-manifest-loader',
+                    use: styleLoader(target),
                 },
             ],
         },
@@ -203,8 +180,8 @@ module.exports = ({ target, name }) => {
                             loader: 'file-loader',
                             options: {
                                 name: MODE.production
-                                    ? `${staticAssetPath}/[folder]/[name].[hash:8].[ext]`
-                                    : `${staticAssetPath}/[folder]/[name].[ext]`,
+                                    ? `${STATIC_PUB_PATH}/[folder]/[name].[hash:8].[ext]`
+                                    : `${STATIC_PUB_PATH}/[folder]/[name].[ext]`,
                             },
                         },
                     },
@@ -223,10 +200,16 @@ module.exports = ({ target, name }) => {
                 {
                     loader: 'file-loader',
                     options: {
-                        name: `${staticAssetPath}/[folder]/[name].[hash:3].[ext]`,
+                        name: `${STATIC_PUB_PATH}/[folder]/[name].[hash:3].[ext]`,
                     },
                 },
             ],
+        },
+
+        /* Text files */
+        {
+            test: /\.txt(\?.*)?$/,
+            use: 'raw-loader',
         },
 
         /* various media */
@@ -240,7 +223,7 @@ module.exports = ({ target, name }) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${staticAssetPath}/[folder]/[name].[hash:3].[ext]`,
+                                name: `${STATIC_PUB_PATH}/[folder]/[name].[hash:3].[ext]`,
                             },
                         },
                     },
@@ -259,10 +242,26 @@ module.exports = ({ target, name }) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${staticAssetPath}/[folder]/[name].[hash:3].[ext]`,
+                                name: `${STATIC_PUB_PATH}/[folder]/[name].[hash:3].[ext]`,
                             },
                         },
                     },
+                },
+            ],
+        },
+
+        /* App Manifests */
+        {
+            test: /(manifest\.(webmanifest|json)|browserconfig\.xml)$/,
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        name: `[name].[ext]`,
+                    },
+                },
+                {
+                    loader: 'app-manifest-loader',
                 },
             ],
         },

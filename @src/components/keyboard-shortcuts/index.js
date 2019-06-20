@@ -7,7 +7,7 @@ export function init() {
         document.body.classList.toggle('baseline-on');
     });
 
-    Mousetrap.bind(["ctrl+;", "command+;"], function() {
+    Mousetrap.bind(['ctrl+;', 'command+;'], function() {
         document.body.classList.toggle('grid-on');
     });
 
