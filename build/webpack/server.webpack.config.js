@@ -2,17 +2,15 @@
  * @fileoverview - Webpack configuration for generating demo pages. Uses base.webpack.config.js as a base. Saves all files to dist/demos/
  **/
 
-const CWD = process.cwd();
-const PATHS = require(`${CWD}/config/paths.config.js`);
-
 const { babelLoader, svelteLoader } = require(`./helpers/loader-configs.js`);
-
 const config = require(`./base.webpack.config.js`)({
     target: 'node',
     name: 'Dev Server',
 });
 
-const outPath = '';
+const CWD = process.cwd();
+const PATHS = require(`${CWD}/config/paths.config.js`);
+const OUT_PATH = '';
 
 /*
  * Dev-server-specific output
@@ -26,7 +24,7 @@ config.output = Object.assign(
         publicPath: '/',
         library: 'uwhealth',
         libraryTarget: 'commonjs-module',
-        filename: `${outPath}[name].js`,
+        filename: `${OUT_PATH}[name].js`,
     },
     config.output
 );

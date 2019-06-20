@@ -22,6 +22,7 @@ config.output = {
     libraryTarget: 'global',
     filename: `${PUB_PATH}/t4/[name].t4.js`,
 };
+
 config.devtool = false;
 
 // Add all components as separate entry points

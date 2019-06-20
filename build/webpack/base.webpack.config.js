@@ -6,19 +6,16 @@
  */
 /* eslint-disable complexity */
 
-const path = require('path');
-
-const { styleLoader } = require('./helpers/loader-configs.js');
-
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar'); // Webpack progress bars
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const path = require('path');
+const { styleLoader } = require('./helpers/loader-configs.js');
+const statOpts = require(`./helpers/stats-config.js`);
 
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
-const STATS = require(`./helpers/stats-config.js`);
-
 // Re-usable, relative output paths
 const CSS_PUB_PATH = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
 const REL_PUB_PATH = path.posix.relative(PATHS.folders.dist, PATHS.folders.pub);
@@ -41,7 +38,7 @@ module.exports = ({ target, name }) => {
         target,
         context: process.cwd(),
         mode: process.env.NODE_ENV || 'development',
-        stats: STATS(),
+        stats: statOpts(),
         devtool: isProd ? 'source-map' : 'cheap-source-map',
         resolve: {
             symlinks: false,

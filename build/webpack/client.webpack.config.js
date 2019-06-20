@@ -7,7 +7,6 @@ const webpack = require('webpack');
 const glob = require('fast-glob');
 const path = require('path');
 
-// const OfflinePlugin = require('offline-plugin');
 const { babelLoader, svelteLoader } = require(`./helpers/loader-configs.js`);
 const config = require('./base.webpack.config.js')({
     name: 'Client',
@@ -22,9 +21,9 @@ const JS_PATH = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
 const isDev = MODE.development;
 
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
-config.entry = {
+config.entry = () => ({
     main: addHMR(path.resolve(PATHS.js.entry.main)),
-};
+});
 
 config.output = Object.assign(config.output, {
     libraryTarget: 'umd',
@@ -48,8 +47,11 @@ config.resolve.mainFields.unshift('svelte', 'browser');
 /*
  * Client Plugins
  */
+
+// const OfflinePlugin = require('offline-plugin');
 config.plugins.concat([
         isDev && new webpack.HotModuleReplacementPlugin(),
+
         // new OfflinePlugin({
         //     excludes: ['**/.*', '**/*.map', '**/*.gz', '**/*.hot-update*'],
         //     externals: ['/public/css/main.css', '/demo/button.demo.js'],
