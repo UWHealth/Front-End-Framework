@@ -96,7 +96,7 @@
         "html-loader": "^0.5.5",
         "imagemin-pngquant": "^8.0.0",
         "lodash.uniq": "^4.5.0",
-        "markdown-documentation-generator": "^3.0.1",
+        "markdown-documentation-generator": "^3.1.0",
         "null-loader": "^3.0.0",
         "offline-plugin": "^5.0.7",
         "ora": "^3.4.0",
