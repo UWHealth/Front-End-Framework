@@ -1,6 +1,6 @@
 const glob = require('fast-glob');
 const path = require('path');
-const { task, series, parallel, on } = require('gulp');
+const { series, parallel } = require('gulp');
 const gulp = require('gulp');
 
 const MODE = require('./helpers/mode.js');
@@ -54,52 +54,53 @@ function defaultTaskOrder() {
 
 const TASKS = getTasks();
 
+// Error collection
+gulp.on('error', function(err) {
+    new Logger('General').error(err.error);
+});
+
 /* ---------------------------------
  * Utility Tasks
  * --------------------------------*/
 
 // Watch file paths for changes (as defined in the paths letiable)
-task('watch', require(TASKS.watch));
+module.exports.watch = require(TASKS.watch);
 
 // Delete contents of compilation folders
-task('clean', require(TASKS.clean));
+module.exports.clean = require(TASKS.clean);
 
 // Copy static files to dist/public
-task('copy', require(TASKS.copy));
+module.exports.copy = require(TASKS.copy);
 
 // Report file sizes
-task('size', require(TASKS.size));
+module.exports.size = require(TASKS.size);
 
 // Local Server
-task('browserSync', require(TASKS.browserSync));
+module.exports.browserSync = require(TASKS.browserSync);
 
 /* ---------------------------------
  * Compilation Tasks
  * --------------------------------*/
 
 // Image copying and compilation
-task('images', require(TASKS.images));
+module.exports.images = require(TASKS.images);
 
 // Sass processing
-task('style', require(TASKS.style));
+module.exports.style = require(TASKS.style);
 
 // Compile style guide
-task('styleGuide', require(TASKS.styleguide));
+module.exports.styleGuide = require(TASKS.styleguide);
 
 // Javascript concatenating, bundling, and webpack-ifying
-task('js', (done) => {
+module.exports.js = (done) => {
     require(TASKS.js).run(done);
-});
+};
 
 /* ---------------------------------
  * Base Tasks
  * --------------------------------*/
 
 // First task called when gulp is invoked
-task('default', (done) => {
+module.exports.default = (done) => {
     return series(defaultTaskOrder())(done);
-});
-
-gulp.on('error', function(err) {
-    new Logger('General').error(err.error);
-});
+};

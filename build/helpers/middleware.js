@@ -1,8 +1,11 @@
 const CWD = process.cwd();
 const MODE = require(`${CWD}/build/helpers/mode.js`);
+const Logger = require(`./logger.js`);
 const webpack = require('webpack');
 const webpackIsoMiddleware = require('webpack-isomorphic-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+
+const LOG = new Logger('Middleware');
 
 const watchOptions =
     MODE.development || MODE.localProduction
@@ -11,8 +14,9 @@ const watchOptions =
 
 module.exports = function(client, server) {
     const compiler = webpack([client, server]);
+    // Clear compiler cache
     compiler.purgeInputFileSystem();
-    //console.log(compiler);
+
     return [
         // Force express-like res.locals
         // webpackIsoMiddleware depends on it
@@ -36,15 +40,18 @@ module.exports = function(client, server) {
                     .map((asset) => asset.name)
                     .find((name) => name === assetName);
             },
-            memoryFs: MODE.debug,
+            memoryFs: !MODE.debug,
             report: {
                 stats: MODE.debug ? 'once' : false,
                 write: (str) => {
-                    if (MODE.debug) {
-                        return str && process.stdout.write(str);
-                    }
-                    return false;
+                    //if (MODE.debug) {
+                    return str && process.stdout.write(str);
+                    //}
+                   // return false;
                 },
+                printSuccess: () => false,
+                printInvalidate: () => false,
+                printStart: () => false,
             },
         }),
 
@@ -59,14 +66,14 @@ module.exports = function(client, server) {
 };
 
 async function pageMiddleware(req, res, next) {
-    const { compilation, exports } = res.locals.isomorphic;
-
     let render = '';
     try {
+        const { compilation, exports } = res.locals.isomorphic;
         const renderer = findExport(exports);
         render = await renderer({ req, res, next, compilation });
     } catch (e) {
-        console.error(e);
+        console.log('middleware error');
+        LOG.error(e);
     }
     if (!render) {
         return next();

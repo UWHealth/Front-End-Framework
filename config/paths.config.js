@@ -185,6 +185,7 @@ const PATHS = {
             imports: `${_.src}/pages/styleguide/**/*.*`,
             style: `${_.pub}/css/styleguide/styleguide.css`,
             config: `${_.config}/styleguide.config.js`,
+            exclude: [`!${_.src}/pages/styleguide/**/*.json`]
         },
         dest: `${_.pub}/styleguide/index.html`,
     },

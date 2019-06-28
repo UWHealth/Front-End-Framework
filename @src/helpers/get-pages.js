@@ -41,8 +41,8 @@ function getPages({
             is_index = false;
         }
 
-        // Folders returning as '.' mean it's a root file
-        // We remove the '.' in that case
+        // Folders identified as '.' mean root
+        // We don't need a folder name in that case
         folder = folder === '.' ? '' : folder;
 
         // Append index.html to the normalized folder path
@@ -59,12 +59,12 @@ function getPages({
             );
         }
 
-        // Return page details
+        // Add details to pages object
         pages[pagePath] = {
             path: pagePath,
-            basename,
             file: path.posix.relative(context, file),
             folder,
+            basename,
             route: folder,
             is_index,
             ext,

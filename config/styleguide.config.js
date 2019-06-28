@@ -3,6 +3,7 @@ const SG = PATHS.styleGuide.entry;
 const path = require('path');
 
 module.exports = {
+    rootFolder: PATHS.folders.src,
     sgComment: 'SG',
     exampleIdentifier: 'html_example',
     sortCategories: true,
@@ -15,7 +16,7 @@ module.exports = {
     },
     templateFile: SG.templateFile,
     themeFile: SG.themeFile,
-    htmlOutput: false,
+    htmlOutput: path.resolve(PATHS.styleGuide.dest),
     jsonOutput: path.resolve(
         PATHS.styleGuide.folders.root,
         'dist/styleguide.json'
