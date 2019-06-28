@@ -16,15 +16,20 @@ const statOpts = require(`./helpers/stats-config.js`);
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
-// Re-usable, relative output paths
-const CSS_PUB_PATH = path.posix.relative(PATHS.folders.dist, PATHS.style.dest);
-const REL_PUB_PATH = path.posix.relative(PATHS.folders.dist, PATHS.folders.pub);
+
+// Re-usable path constants
+const SRC_PATH = PATHS.folders.src;
+const DIST_PATH = PATHS.folders.dist;
+const CSS_PUB_PATH = path.posix.relative(DIST_PATH, PATHS.style.dest);
+const REL_PUB_PATH = path.posix.relative(DIST_PATH, PATHS.folders.pub);
 const STATIC_PUB_PATH = path.posix.join(
     REL_PUB_PATH,
-    path.posix.relative(PATHS.folders.src, PATHS.folders.assets)
+    path.posix.relative(SRC_PATH, PATHS.folders.assets)
 );
 
-const isProd = !!MODE.production;
+// Re-usable Environment variables
+const IS_PROD = !!MODE.production;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Set the threshold for base64/inlined file size
 const inlineFileSizeLimit = 4096;
@@ -37,9 +42,9 @@ module.exports = ({ target, name }) => {
         name,
         target,
         context: process.cwd(),
-        mode: process.env.NODE_ENV || 'development',
-        stats: statOpts(),
-        devtool: isProd ? 'source-map' : 'cheap-source-map',
+        mode: NODE_ENV,
+        stats: statOpts ? statOpts() : {},
+        devtool: IS_PROD ? 'source-map' : 'cheap-source-map',
         resolve: {
             symlinks: false,
             modules: [
@@ -64,10 +69,10 @@ module.exports = ({ target, name }) => {
             hotUpdateMainFilename: 'main.hot-update.js',
         },
         optimization: {
-            nodeEnv: process.env.NODE_ENV,
-            removeAvailableModules: isProd,
-            removeEmptyChunks: isProd,
-            splitChunks: isProd &&
+            nodeEnv: NODE_ENV,
+            removeAvailableModules: IS_PROD,
+            removeEmptyChunks: IS_PROD,
+            splitChunks: IS_PROD &&
                 target === 'web' && {
                     automaticNameDelimiter: '+',
                     chunks: 'all',
@@ -91,11 +96,11 @@ module.exports = ({ target, name }) => {
         // (depends upon the existence of its cooresponding loader)
         new ExtractCssChunks({
             filename: `${CSS_PUB_PATH}/[name]${
-                isProd ? '.[contenthash:4]' : '.bundle'
-            }.css`,
+                IS_PROD ? '.[contenthash:4]' : ''
+            }.bundle.css`,
             chunkFilename: `${CSS_PUB_PATH}/[name]${
-                isProd ? '.[contenthash:4]' : '.chunk'
-            }.css`,
+                IS_PROD ? '.[contenthash:4]' : ''
+            }.chunk.css`,
         }),
 
         // Show progress bars during compilation
@@ -103,21 +108,20 @@ module.exports = ({ target, name }) => {
             new WebpackBar({
                 name: name || target,
                 color: target === 'node' ? 'green' : 'magenta',
-                reporters: ['fancy', isProd && 'stats'].filter(Boolean),
+                reporters: ['fancy', IS_PROD && 'stats'].filter(Boolean),
             }),
 
         // https://webpack.js.org/plugins/hashed-module-ids-plugin/
-        isProd && new webpack.HashedModuleIdsPlugin(),
+        IS_PROD && new webpack.HashedModuleIdsPlugin(),
 
         // Inject environment variables into files
         new webpack.DefinePlugin({
             'typeof window': target === 'web' ? 'Object' : '"undefined"',
-            'module.hot': JSON.stringify(isProd),
+            'module.hot': IS_PROD ? 'falst' : 'module.hot',
             'process.env': {
-                PRODUCTION: JSON.stringify(isProd),
-                MODE: JSON.stringify(MODE.mode),
+                PRODUCTION: JSON.stringify(IS_PROD),
                 WEBPACK: JSON.stringify(true),
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+                NODE_ENV: JSON.stringify(NODE_ENV),
                 DEBUG: JSON.stringify(MODE.debug),
             },
         })
@@ -149,7 +153,7 @@ module.exports = ({ target, name }) => {
         /* handlebars */
         {
             test: /\.(hbs|handlebars|hbs\.svg)(\?.*)?$/,
-            include: PATHS.folders.src,
+            include: SRC_PATH,
             use: [
                 {
                     loader: 'handlebars-loader',
@@ -176,9 +180,9 @@ module.exports = ({ target, name }) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: MODE.production
-                                    ? `${STATIC_PUB_PATH}/[folder]/[name].[hash:8].[ext]`
-                                    : `${STATIC_PUB_PATH}/[folder]/[name].[ext]`,
+                                name: `${STATIC_PUB_PATH}/[folder]/[name]${
+                                    IS_PROD ? '.[hash:4]' : ''
+                                }.[ext]`,
                             },
                         },
                     },
@@ -197,7 +201,9 @@ module.exports = ({ target, name }) => {
                 {
                     loader: 'file-loader',
                     options: {
-                        name: `${STATIC_PUB_PATH}/[folder]/[name].[hash:3].[ext]`,
+                        name: `${STATIC_PUB_PATH}/[folder]/[name]${
+                            IS_PROD ? '.[hash:4]' : ''
+                        }.[ext]`,
                     },
                 },
             ],
@@ -220,7 +226,9 @@ module.exports = ({ target, name }) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${STATIC_PUB_PATH}/[folder]/[name].[hash:3].[ext]`,
+                                name: `${STATIC_PUB_PATH}/[folder]/[name]${
+                                    IS_PROD ? '.[hash:4]' : ''
+                                }.[ext]`,
                             },
                         },
                     },
@@ -239,7 +247,9 @@ module.exports = ({ target, name }) => {
                         fallback: {
                             loader: 'file-loader',
                             options: {
-                                name: `${STATIC_PUB_PATH}/[folder]/[name].[hash:3].[ext]`,
+                                name: `${STATIC_PUB_PATH}/[folder]/[name]${
+                                    IS_PROD ? '.[hash:4]' : ''
+                                }.[ext]`,
                             },
                         },
                     },

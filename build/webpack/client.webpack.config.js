@@ -48,16 +48,8 @@ config.resolve.mainFields.unshift('svelte', 'browser');
  * Client Plugins
  */
 
-// const OfflinePlugin = require('offline-plugin');
-config.plugins.concat([
-        isDev && new webpack.HotModuleReplacementPlugin(),
-
-        // new OfflinePlugin({
-        //     excludes: ['**/.*', '**/*.map', '**/*.gz', '**/*.hot-update*'],
-        //     externals: ['/public/css/main.css', '/demo/button.demo.js'],
-        //     rewrites: (asset) => asset,
-        // }),
-    ].filter(Boolean)
+config.plugins.concat(
+    [isDev && new webpack.HotModuleReplacementPlugin()].filter(Boolean)
 );
 
 // Prefetch components, for quicker compile times
