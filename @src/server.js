@@ -1,5 +1,5 @@
 const path = require('path');
-const Template = require('@/layouts/template.svelte');
+let Template = require('@/layouts/template.svelte');
 const getInitialFiles = require('>/build/helpers/get-initial-webpack-files.js');
 const ServerRouter = require('@/pages/_router');
 const findExport = require('@/helpers/find-export.js').default;
@@ -191,6 +191,12 @@ function baseNames(p = '', exts = []) {
 }
 
 if (module.hot) {
+    module.hot.accept('./layouts/template.svelte', function() {
+        console.log('template changed');
+        delete require.cache[require.resolve('@/layouts/template.svelte')];
+        Template = require('@/layouts/template.svelte');
+    });
+
     module.hot.accept(function(err) {
         console.log(err);
     });

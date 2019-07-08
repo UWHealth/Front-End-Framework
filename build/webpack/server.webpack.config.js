@@ -10,6 +10,7 @@ const config = require(`./base.webpack.config.js`)({
 
 const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
+const DIST_PATH = PATHS.folders.dist;
 const OUT_PATH = '';
 
 /*
@@ -17,10 +18,9 @@ const OUT_PATH = '';
  * Making stuff consumable by Node
  */
 config.devtool = 'source-map';
-config.mode = 'development';
 config.output = Object.assign(
     {
-        path: PATHS.folders.dist,
+        path: DIST_PATH,
         publicPath: '/',
         library: 'uwhealth',
         libraryTarget: 'commonjs-module',
@@ -30,7 +30,7 @@ config.output = Object.assign(
 );
 
 config.entry = () => ({
-    server: PATHS.pages.entry.server,
+    server: [PATHS.pages.entry.server],
 });
 
 // We don't care about how big files are for the dev server

@@ -15,7 +15,6 @@
 <link rel="manifest" href="/manifest.webmanifest">
 {{/unless}}
 {{#each meta }}
-    <!-- from meta -->
     {{#if @key}}<meta name="{{{@key}}}" content="{{{this}}}">
     {{else}}<meta{{#each this}} {{{@key}}}="{{{this}}}"{{/each}}>
     {{/if}}

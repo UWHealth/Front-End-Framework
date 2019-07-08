@@ -116,15 +116,16 @@ module.exports = ({ target, name }) => {
 
         // Inject environment variables into files
         new webpack.DefinePlugin({
-            'typeof window': target === 'web' ? 'Object' : '"undefined"',
-            'module.hot': IS_PROD ? 'falst' : 'module.hot',
+            'typeof window': target === 'web' ? 'object' : '"undefined"',
             'process.env': {
                 PRODUCTION: JSON.stringify(IS_PROD),
                 WEBPACK: JSON.stringify(true),
                 NODE_ENV: JSON.stringify(NODE_ENV),
                 DEBUG: JSON.stringify(MODE.debug),
             },
-        })
+        }),
+
+        !IS_PROD && new webpack.HotModuleReplacementPlugin()
     );
 
     config.plugins = config.plugins.filter(Boolean);

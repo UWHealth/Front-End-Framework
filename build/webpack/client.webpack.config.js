@@ -17,8 +17,9 @@ const CWD = process.cwd();
 const PATHS = require(`${CWD}/config/paths.config.js`);
 const MODE = require(`${CWD}/build/helpers/mode.js`);
 const JS_PATH = path.posix.relative(PATHS.folders.dist, PATHS.js.dest);
+const PRELOAD_PATHS = PATHS.js.entry.components;
 
-const isDev = MODE.development;
+const IS_DEV = MODE.development;
 
 config.recordsPath = `${PATHS.folders.pub}/js-records.json`;
 config.entry = () => ({
@@ -29,11 +30,11 @@ config.output = Object.assign(config.output, {
     libraryTarget: 'umd',
 
     publicPath: '/',
-    pathinfo: isDev,
+    pathinfo: IS_DEV,
     path: path.resolve(PATHS.folders.dist),
 
     filename: `${JS_PATH}/[name].bundle.js`,
-    chunkFilename: !isDev
+    chunkFilename: !IS_DEV
         ? `${JS_PATH}/[name].[chunkhash:3].js`
         : `${JS_PATH}/[name].js`,
     hotUpdateChunkFilename: '[id].hot-update.js',
@@ -48,12 +49,10 @@ config.resolve.mainFields.unshift('svelte', 'browser');
  * Client Plugins
  */
 
-config.plugins.concat(
-    [isDev && new webpack.HotModuleReplacementPlugin()].filter(Boolean)
-);
+config.plugins.concat([]);
 
 // Prefetch components, for quicker compile times
-glob.sync(PATHS.js.entry.components).forEach((component) => {
+glob.sync(PRELOAD_PATHS).forEach((component) => {
     config.plugins.push(new webpack.PrefetchPlugin(path.resolve(component)));
 });
 
@@ -100,7 +99,7 @@ config.optimization.splitChunks.cacheGroups = {
 // Allow/disallow output of errored files
 // config.optimization.noEmitOnErrors = false;
 
-if (!isDev) {
+if (!IS_DEV) {
     // [3] Remove unecessary Node faking
     config.node = {
         setImmediate: false,
@@ -168,7 +167,7 @@ if (!isDev) {
  */
 function addHMR(entry) {
     // Never add HMR to production code
-    if (MODE.production || MODE.localProduction) {
+    if (!IS_DEV) {
         return entry;
     }
 
@@ -176,6 +175,7 @@ function addHMR(entry) {
     if (!Array.isArray(entry)) {
         entry = [entry];
     }
+    // Add middleware client script to the front of the entrypoint
     entry.unshift(
         require.resolve(`webpack-hot-middleware/client`) +
             `?name=${config.name}&reload=false&noInfo=true`
