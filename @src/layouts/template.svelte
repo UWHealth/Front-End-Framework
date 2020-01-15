@@ -1,8 +1,8 @@
 <script>
 import * as HeadTemplate from '@/components/head/index.hbs';
 import Footer from '@/components/footer/index.svelte?ssr';
-import webManifest from '@/static/manifest.webmanifest';
-import browserConfigXML from '@/static/browserconfig.xml';
+import manifest from '@/static/manifest.webmanifest';
+import browserconfig from '@/static/browserconfig.xml';
 import findExport from '@/helpers/find-export.js';
 
 // Props ($$props)
@@ -13,8 +13,8 @@ export let appComponent = null,
     links = [],
     inlineStyle = '',
     scripts = [],
-    webmanifest = webManifest,
-    browserConfig = browserConfigXML,
+    webmanifest = manifest,
+    browserConfig = browserconfig,
     title = 'Front-End-Framework',
     headHtmlSnippet = '',
     appHtmlSnippet = '',

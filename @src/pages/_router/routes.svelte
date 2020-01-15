@@ -11,6 +11,7 @@ let page, pageComponent, message, stack, innerComponent = false;
 
 const { activeRoute } = getContext(ROUTER);
 const location = getContext(LOCATION);
+const IS_CLIENT = typeof window !== 'undefined';
 
 onMount(() => {
     console.log('LOCATION', $location);
@@ -31,7 +32,7 @@ $: {
 }
 
 $: {
-    if (typeof window !== 'undefined') {
+    if (IS_CLIENT) {
         pageComponent = () => import(
                 /* webpackChunkName: "page-[request]" */
                 /* webpackMode: "lazy" */

@@ -119,9 +119,9 @@ module.exports = ({ target, name }) => {
             'typeof window': target === 'web' ? 'object' : '"undefined"',
             'process.env': {
                 PRODUCTION: JSON.stringify(IS_PROD),
-                WEBPACK: JSON.stringify(true),
+                //WEBPACK: JSON.stringify(true),
                 NODE_ENV: JSON.stringify(NODE_ENV),
-                DEBUG: JSON.stringify(MODE.debug),
+                //DEBUG: JSON.stringify(MODE.debug),
             },
         }),
 
@@ -184,6 +184,7 @@ module.exports = ({ target, name }) => {
                                 name: `${STATIC_PUB_PATH}/[folder]/[name]${
                                     IS_PROD ? '.[hash:4]' : ''
                                 }.[ext]`,
+                                esModule: target !== 'node',
                             },
                         },
                     },
@@ -205,6 +206,7 @@ module.exports = ({ target, name }) => {
                         name: `${STATIC_PUB_PATH}/[folder]/[name]${
                             IS_PROD ? '.[hash:4]' : ''
                         }.[ext]`,
+                        esModule: target !== 'node',
                     },
                 },
             ],
@@ -230,6 +232,7 @@ module.exports = ({ target, name }) => {
                                 name: `${STATIC_PUB_PATH}/[folder]/[name]${
                                     IS_PROD ? '.[hash:4]' : ''
                                 }.[ext]`,
+                                esModule: target !== 'node',
                             },
                         },
                     },
@@ -251,6 +254,7 @@ module.exports = ({ target, name }) => {
                                 name: `${STATIC_PUB_PATH}/[folder]/[name]${
                                     IS_PROD ? '.[hash:4]' : ''
                                 }.[ext]`,
+                                esModule: target !== 'node',
                             },
                         },
                     },
@@ -266,6 +270,7 @@ module.exports = ({ target, name }) => {
                     loader: 'file-loader',
                     options: {
                         name: `[name].[ext]`,
+                        esModule: target !== 'node',
                     },
                 },
                 {
