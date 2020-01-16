@@ -31,7 +31,7 @@ client
                 {:else}
                     <p>
                     <strong>{@html field}:</strong>
-                    {#if (item.fields[field].indexOf("http") > -1)}
+                    {#if (item.fields[field].indexOf("http:") > -1)}
                         <a href="{item.fields[field]}">{@html item.fields[field]}</a>
                     {:else}
                         {@html item.fields[field]}

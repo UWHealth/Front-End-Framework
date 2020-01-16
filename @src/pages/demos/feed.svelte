@@ -13,7 +13,7 @@ const IS_CLIENT = typeof window !== "undefined";
 let feedUrl =
         'https://uconnect.wisc.edu/feeds/30m/json/homepage/index.json';
 
-const fetchFeed = function() {
+const fetchFeed = () => {
     return IS_CLIENT ? fetch(feedUrl).then((r) => r.json()) : new Promise(res => res({results: []}));
 }
 
