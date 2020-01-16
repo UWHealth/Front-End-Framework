@@ -1,7 +1,7 @@
 <script>
 import * as escapeHtml from 'escape-html';
-export let message = '';
-export let stack = '';
+export let message = '',
+    stack = '';
 </script>
 
 <main class="wrap">

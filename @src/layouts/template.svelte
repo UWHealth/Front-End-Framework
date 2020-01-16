@@ -7,7 +7,10 @@ import findExport from '@/helpers/find-export.js';
 
 // Props ($$props)
 export let appComponent = null,
-    fileManifest = {},
+    appHtmlSnippet = '',
+    bodyHtmlSnippet = '';
+
+export const fileManifest = {},
     googleAnalytics = null,
     meta = [],
     links = [],
@@ -17,9 +20,7 @@ export let appComponent = null,
     browserConfig = browserconfig,
     title = 'Front-End-Framework',
     headHtmlSnippet = '',
-    appHtmlSnippet = '',
-    bodyHtmlSnippet = '',
-    request;
+    request = {};
 
 let header = HeadTemplate($$props);
 let exportedState = '';

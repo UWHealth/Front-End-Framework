@@ -5,7 +5,7 @@ import checkRoute from './check-route.js';
 import { getContext, onMount } from 'svelte';
 import { ROUTER, LOCATION } from 'svelte-routing/src/contexts';
 
-export let router, errors, url, pathname, file = '';
+export const router = {}, errors = {}, url = '', pathname = '', file = '';
 
 let page, pageComponent, message, stack, innerComponent = false;
 

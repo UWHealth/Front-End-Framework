@@ -26,20 +26,6 @@ const parseDesc = (description) => {
 }
 </script>
 
-<div class="media-object"
-    in:slide="{{duration: 300, easing: cubicOut}}"
-    out:fade="{{duration: 100}}"
-    >
-    <div class="media-object__media">
-        {@html parseDesc(description).image &&
-            parseDesc(description).image}
-    </div>
-    <div class="media-object__body">
-        <strong>{title}</strong>
-        <p>{@html parseDesc(description).text}</p>
-    </div>
-</div>
-
 <style>
 .media-object__media {
     display: flex;
@@ -57,3 +43,17 @@ const parseDesc = (description) => {
     height: auto !important;
 }
 </style>
+
+<div class="media-object"
+    in:slide="{{duration: 300, easing: cubicOut}}"
+    out:fade="{{duration: 100}}"
+    >
+    <div class="media-object__media">
+        {@html parseDesc(description).image &&
+            parseDesc(description).image}
+    </div>
+    <div class="media-object__body">
+        <strong>{title}</strong>
+        <p>{@html parseDesc(description).text}</p>
+    </div>
+</div>

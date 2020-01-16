@@ -17,7 +17,6 @@ const fetchFeed = function() {
     return IS_CLIENT ? fetch(feedUrl).then((r) => r.json()) : new Promise(res => res({results: []}));
 }
 
-
 fetchFeed()
 .then((feed) => {
     IS_CLIENT && console.log(feed);

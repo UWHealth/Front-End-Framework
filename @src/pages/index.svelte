@@ -1,30 +1,11 @@
 <script>
 import { link } from 'svelte-routing';
+
+export const htmlWebpackPlugin = false;
+
 const pages =
     require(`val-loader!@/helpers/get-pages.val.js`);
-export let htmlWebpackPlugin = false;
 </script>
-
-<svelte:head>
-    <title>Front-End Framework</title>
-</svelte:head>
-
-<h1 class="wrap">Front-End Framework</h1>
-
-<main class="wrap">
-    <p><strong>Page index</strong></p>
-    <ul>
-    {#each Object.keys(pages) as url, i (url) }
-    {#if pages[url].folder}
-        <li>
-            <a use:link href="/{ url.replace('index.html', '') }">
-                {pages[url].folder}
-            </a>
-        </li>
-    {/if}
-    {/each}
-    </ul>
-</main>
 
 <style>
 h1 {
@@ -61,3 +42,24 @@ li:before {
     height: 1.5rem;
 }
 </style>
+
+<svelte:head>
+    <title>Front-End Framework</title>
+</svelte:head>
+
+<h1 class="wrap">Front-End Framework</h1>
+
+<main class="wrap">
+    <p><strong>Page index</strong></p>
+    <ul>
+    {#each Object.keys(pages) as url, i (url) }
+    {#if pages[url].folder}
+        <li>
+            <a use:link href="/{ url.replace('index.html', '') }">
+                {pages[url].folder}
+            </a>
+        </li>
+    {/if}
+    {/each}
+    </ul>
+</main>
