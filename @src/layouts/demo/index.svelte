@@ -3,8 +3,9 @@ import Nav from '@/layouts/demo/demo.nav.svelte';
 
 export let demoTitle = 'Demo',
     variantTitle = false,
-    variants = false,
-    stylesheet = true;
+    variants = false;
+
+export const stylesheet = true;
 </script>
 
 <svelte:head>
@@ -35,6 +36,7 @@ export let demoTitle = 'Demo',
             </h2>
             <slot name="variants"></slot>
             {/if}
+            <slot></slot>
         </div>
     </main>
 </div>
